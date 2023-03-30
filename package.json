@@ -1,0 +1,86 @@
+{
+  "name": "remit-assure-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@progress/kendo-licensing": "^1.3.0",
+    "@progress/kendo-react-buttons": "^5.11.0",
+    "@progress/kendo-react-form": "^5.11.0",
+    "@progress/kendo-react-layout": "^5.11.0",
+    "@progress/kendo-react-treeview": "^5.11.0",
+    "@progress/kendo-svg-icons": "^1.4.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.24.0",
+    "babel-preset-react": "^6.24.1",
+    "bootstrap": "^5.2.3",
+    "country-dropdown-with-flags-for-react": "^1.1.4",
+    "mdb-react-ui-kit": "^5.1.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "otp-input-react": "^0.3.0",
+    "pure-react-carousel": "^1.30.1",
+    "react": "^18.2.0",
+    "react-axios": "^2.0.6",
+    "react-bootstrap": "^2.7.0",
+    "react-country-dropdown": "^1.0.4",
+    "react-currency-flags": "^0.1.2",
+    "react-dom": "^18.2.0",
+    "react-dropdown": "^1.11.0",
+    "react-flag-currency": "^1.0.5",
+    "react-flags-select": "^2.2.3",
+    "react-helmet": "^6.1.0",
+    "react-icons": "^4.7.1",
+    "react-image": "^4.0.3",
+    "react-multi-carousel": "^2.8.2",
+    "react-multistep": "^5.5.8",
+    "react-phone-input-2": "^2.15.1",
+    "react-responsive-carousel": "^3.2.23",
+    "react-router": "^6.8.0",
+    "react-router-dom": "^6.8.0",
+    "react-scripts": "5.0.1",
+    "react-select": "^5.7.2",
+    "react-select-country-list": "^2.2.3",
+    "react-slideshow-image": "^4.2.0",
+    "react-square-web-payments-sdk": "^3.2.1",
+    "react-step-progress-bar": "^1.0.3",
+    "react-toastify": "^9.1.1",
+    "react-verification-input": "^3.3.0",
+    "react18-input-otp": "^1.1.3",
+    "sass-loader": "^13.2.0",
+    "styled-components": "^5.3.8",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "css-loader": "^6.7.3",
+    "sass": "^1.58.3",
+    "style-loader": "^3.3.1"
+  }
+}

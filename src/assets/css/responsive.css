@@ -1,0 +1,74 @@
+
+/*************************** responsive start *****************/
+@media screen and (max-width: 1199px)and (min-width: 1199px) {
+    .container, .container-sm {
+        max-width: 100%;
+        width:100%;
+    }
+}
+
+@media screen and (max-width: 1199px) {
+    .banner-content {
+        width: 50% !important;
+    }
+    .right_sections {
+        width: 50% !important;
+    }
+    .inline.select-currency input {
+        width: inherit !important;
+
+    }
+    .card-flag01{
+      width: 100% !important;
+    }  
+    img.arrow_icons {
+        padding-top: 40px;
+        padding-left: 0;
+    }
+    .bank_transfer li:nth-child(odd) {
+        margin-right: 12px;
+    }
+    .bank_transfer li {
+        width: 228px;
+    }
+    .new_card .col-3-1 {
+        width: 33.333%;
+    }
+    .new_card .col-3-2 {
+        width: 100%;
+    }
+    li.bank_lists {
+        width: 50%;
+        margin: 0 !important;
+    }
+    #footer .footer-top .social-links a {
+        margin-right: 7px;
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    #footer .footer-top .footer-links ,#footer .footer-top .footer-info {
+        width: 100% !important;
+    }
+
+    .Money_section .row {
+        flex-direction: column-reverse;
+    }
+    .chose-content {
+        margin-bottom: 25px;
+    }
+    .customers-heading ,.customers-paragraph{
+        text-align: left;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .new_card .col-3-1 {
+        width: 100%;
+    }
+
+    .banner-content ,  .right_sections {
+        width: 100% !important;
+    }
+    
+  }
