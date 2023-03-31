@@ -5404,3 +5404,7 @@ img.send-money-img {
 /* .fade.modal-backdrop.show {
   background: rgb(0 0 0 / 37%);
 } */
+
+.addsingle_recepient svg {
+  margin-right: 7px;
+}
