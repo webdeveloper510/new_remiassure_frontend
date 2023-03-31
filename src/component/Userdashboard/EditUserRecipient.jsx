@@ -38,21 +38,37 @@ const Editrecipientuser = () => {
         const [RecepientsData, setRecepientsData] = React.useState('');
         
         /************ Start -Recipient Bank Details state***************/
-      
-        const [formValue, setFormValue] = React.useState ({
-          bankName:'',accountName:'', accountNumber:'',firstName:'', middleName:'',
-        lastName:'',email:'',mobile:'',flat:'',building:'',sreet:'',postcode:'',
-        city:'',state:'',country_code:'',country:'',reasonMoney:''});
+        const [bank_name, setBank_name] = useState('');
+        const [account_name, setAccount_name] = useState('');
+        const [account_number, setAccount_number] = useState('');
+        const [firstName, setFirstName] = useState('');
+        const [middleName, setMiddleName] = useState('');
+        const [lastName, setLastName] = useState('');
+        const [email, setEmail] = useState('');
+        const [mobile, setMobile] = useState('');
+        const [flat, setFlat] = useState('');
+        const [gender, setGender] = useState('');
+        const [building, setBuilding] = useState('');
+        const [street, setStreet] = useState('');
+        const [postcode, setPostcode] = useState('');
+        const [city, setCity] = useState('');
+        const [state, setState] = useState('');
+        const [country_code, setCountry_code] = useState('');
+        const [country, setCountry] = useState('');
+        const [Date_of_birth, setDate_of_birth] = useState('');
+        const [Countrybirth, setCountrybirth] = useState('');
+        const [reasonMoney, setReasonMoney] = useState('');
+        const [customer_id, setCustomer_id] = useState('');
       
         /************ Start -Recipient Bank Details function***************/
-          const handleStep2InputChange =(e,key) =>{
-            console.log(e.target.value)
-            console.log(key)
-            let valueForm = formValue
-            valueForm[key] = e.target.value
-            setFormValue(valueForm)
-            console.log(formValue)
-          }
+          // const handleStep2InputChange =(e,key) =>{
+          //   console.log(e.target.value)
+          //   console.log(key)
+          //   let valueForm = formValue
+          //   valueForm[key] = e.target.value
+          //   setFormValue(valueForm)
+          //   console.log(formValue)
+          // }
         /************ Start - Cancel Recipient Bank Details function***************/
           const handlRecipientBankDetails =(e) => {
             e.preventDefault();
@@ -124,7 +140,23 @@ const Editrecipientuser = () => {
               })
               .then(function(response) {
                   console.log(response);
-                  setRecepientsData(response.data.data);
+                  setBank_name(response.data.data.bank_name);
+                  setAccount_name(response.data.data.account_name);
+                  setAccount_number(response.data.data.account_number);
+                  setFirstName(response.data.data.first_name);
+                  setMiddleName(response.data.data.middle_name);
+                  setLastName(response.data.data.last_name);
+                  setEmail(response.data.data.email);
+                  setMobile(response.data.data.mobile);
+                  setFlat(response.data.data.flate);
+                  setBuilding(response.data.data.building);
+                  setStreet(response.data.data.street);
+                  setPostcode(response.data.data.postcode);
+                  setCity(response.data.data.city);
+                  setState(response.data.data.state);
+                  setCountry_code(response.data.data.country_code);
+                  setCountry(response.data.data.country);
+                  setReasonMoney(response.data.data.reasonMoney);
                  //  setLoading(false); // Stop loading   
               })
               .catch(function(error, message) {
@@ -152,23 +184,23 @@ const Editrecipientuser = () => {
             // event.preventDefault();
             setLoading(true); // Set loading before sending API requestssss
             axios.post(API.BASE_URL + `payment/recipient-update/${value}`, {
-              bank_name: formValue.bankName,
-              account_name: formValue.accountName,
-              account_number: formValue.accountNumber,
-              first_name: formValue.firstName,
-              middle_name: formValue.middleName,
-              last_name: formValue.lastName,
-              email: formValue.email,
-              mobile:formValue.mobile,
-              flat: formValue.flat,
-              building: formValue.building,
-              sreet: formValue.sreet,
-              postcode: formValue.postcode,
-              city: formValue.city,  
-              state: formValue.state,  
-              country_code: formValue.country_code,
-              country: formValue.country,
-              reasonMoney: formValue.reasonMoney
+              bank_name:bank_name,
+              account_name:account_name,
+              account_number:account_number,
+              first_name: firstName,
+              middle_name: middleName,
+              last_name: lastName,
+              email: email,
+              mobile:mobile,
+              flat: flat,
+              building: building,
+              sreet: street,
+              postcode: postcode,
+              city: city,  
+              state: state,  
+              country_code: country_code,
+              country: country,
+              reasonMoney: reasonMoney
               
             },{
                 headers: {
@@ -199,7 +231,7 @@ const Editrecipientuser = () => {
     return(
         <>
           {  
-           token || verification_otp != undefined || '' ? (
+           token != undefined || '' ? (
   
 
         <div  className="margin-set">
@@ -241,9 +273,9 @@ const Editrecipientuser = () => {
                           type="text" 
                           className="rate_input form-control"
                           name="bankName"
-                          Value={formValue.bankName}
-                          onChange={(e)=>handleStep2InputChange(e,'bankName')}
-                         placeholder={RecepientsData.bank_name}
+                          Value={bank_name}
+                          onChange={(e)=>setBank_name(e.target.value)}
+                        //  placeholder={RecepientsData.bank_name}
                          
                           />   
                           <span style={myStyle}>{BankNameText.Enterbankname? BankNameText.Enterbankname: ''}</span>
@@ -256,10 +288,10 @@ const Editrecipientuser = () => {
                       <input 
                       type="text"
                       // ref={input_recipientAccountName}
-                      defaultValue={formValue.accountName}
-                      onChange={(e)=>handleStep2InputChange(e,'accountName')}
+                      defaultValue={account_name}
+                       onChange={(e)=>setAccount_name(e.target.value)}
                         className='rate_input form-control'
-                        placeholder={RecepientsData.account_name}
+                        // placeholder={RecepientsData.account_name}
                         />
                           {/* {error&&formValue.accountName.length<=0?
                             <span style={myStyle}>Please Enter the Account Name </span>:""} */}
@@ -275,9 +307,9 @@ const Editrecipientuser = () => {
                       name="accountNumber"
                       // ref={input_recipientAccountNumber}
                       className='rate_input form-control'
-                      defaultValue={formValue.accountNumber}
-                      onChange={(e)=> handleStep2InputChange(e,'accountNumber')}
-                      placeholder={RecepientsData.account_number}
+                      defaultValue={account_number}
+                      onChange={(e)=>setAccount_number(e.target.value)}
+                      // placeholder={RecepientsData.account_number}
                         />
                         {/* {error&&formValue.accountNumber.length<=0?
                             <span style={myStyle}>Please Enter the Account number </span>:""} */}
@@ -296,9 +328,9 @@ const Editrecipientuser = () => {
                         // ref={input_recipientFirstName}
                         className='rate_input form-control'
                         name="firstName"
-                        defaultValue={formValue.firstName}
-                        onChange={(e)=> handleStep2InputChange(e,'firstName')}
-                        placeholder={RecepientsData.first_name}
+                        defaultValue={firstName}
+                        onChange={(e)=>setFirstName(e.target.value)}
+                        // placeholder={RecepientsData.first_name}
                         />
                           {/* {error&&formValue.firstName.length<=0?
                             <span style={myStyle}>Please Enter the First Name </span>:""} */}
@@ -313,9 +345,9 @@ const Editrecipientuser = () => {
                         // ref={input_recipientMiddleName}
                         className='rate_input form-control' 
                         name="middleName"
-                        defaultValue={formValue.middleName}
-                        onChange={(e)=> handleStep2InputChange(e,'middleName')}
-                        placeholder={RecepientsData.middle_name}
+                        defaultValue={middleName}
+                        onChange={(e)=>setMiddleName(e.target.value)}
+                        // placeholder={RecepientsData.middle_name}
                         />
                           <span style={myStyle}>{BankNameText.middle_name? BankNameText.middle_name: ''}</span>
                     </div>
@@ -328,9 +360,9 @@ const Editrecipientuser = () => {
                       // ref={input_recipientLastName}
                       className='rate_input form-control'
                       name="lastName"
-                      defaultValue={formValue.lastName}
-                      onChange={(e)=> handleStep2InputChange(e,'lastName')}
-                      placeholder={RecepientsData.last_name}
+                      defaultValue={lastName}
+                      onChange={(e)=>setLastName(e.target.value)}
+                      // placeholder={RecepientsData.last_name}
                         />
                         <span style={myStyle}>{BankNameText.last_name? BankNameText.last_name: ''}</span>
                     </div>
@@ -345,9 +377,9 @@ const Editrecipientuser = () => {
                         // ref={input_recipientEmail}
                         className='rate_input form-control'
                         name="email"
-                        defaultValue={formValue.email}
-                        onChange={(e)=> handleStep2InputChange(e,'email')}
-                        placeholder={RecepientsData.email}
+                        defaultValue={email}
+                        onChange={(e)=>setEmail(e.target.value)}
+                        // placeholder={RecepientsData.email}
                         />
                           <span style={myStyle}>{BankNameText.email? BankNameText.email: ''}</span>
                         
@@ -361,9 +393,9 @@ const Editrecipientuser = () => {
                       // ref={input_recipientMobile}
                       className='rate_input form-control'
                       name="mobile"
-                      defaultValue={formValue.mobile}
-                      onChange={(e)=> handleStep2InputChange(e,'mobile')}
-                      placeholder={RecepientsData.mobile}
+                      defaultValue={mobile}
+                      onChange={(e)=>setMobile(e.target.value)}
+                      // placeholder={RecepientsData.mobile}
                         />
                         <span style={myStyle}>{BankNameText.mobile? BankNameText.mobile: ''}</span>
                         <span style={myStyle}>{BankNameText.Entervalidmobile? BankNameText.Entervalidmobile: ''}</span>
@@ -382,9 +414,9 @@ const Editrecipientuser = () => {
                           type="text" 
                           className='rate_input form-control' 
                           name="flat"
-                          defaultValue={formValue.flat}
-                          onChange={(e)=> handleStep2InputChange(e,'flat')}
-                          placeholder={RecepientsData.flast}
+                          defaultValue={flat}
+                          onChange={(e)=>setFlat(e.target.value)}
+                          // placeholder={RecepientsData.flast}
                            />
                         </Form.Group>
                       </div>
@@ -395,8 +427,8 @@ const Editrecipientuser = () => {
                             type="text" 
                             className='rate_input form-control' 
                             name="Building"
-                            defaultValue={formValue.Building}
-                            onChange={(e)=> handleStep2InputChange(e,'Building')}
+                            defaultValue={building}
+                            onChange={(e)=>setBuilding(e.target.value)}
                             placeholder={RecepientsData.building}
                             />
                         </Form.Group>
@@ -408,9 +440,9 @@ const Editrecipientuser = () => {
                             type="text" 
                             className='rate_input form-control' 
                             name="flat"
-                            defaultValue={formValue.flat}
-                            onChange={(e)=> handleStep2InputChange(e,'flat')}
-                            placeholder={RecepientsData.street}
+                            defaultValue={street}
+                            onChange={(e)=>setStreet(e.target.value)}
+                            // placeholder={RecepientsData.street}
                             />
                         </Form.Group>
                       </div>
@@ -423,9 +455,9 @@ const Editrecipientuser = () => {
                             type="text" 
                             className='rate_input form-control' 
                             name="postcode"
-                            defaultValue={formValue.postcode}
-                            onChange={(e)=> handleStep2InputChange(e,'postcode')}
-                            placeholder={RecepientsData.postcode}
+                            defaultValue={postcode}
+                            onChange={(e)=>setPostcode(e.target.value)}
+                            // placeholder={RecepientsData.postcode}
                             />
                         </Form.Group>
                     </div>
@@ -436,9 +468,9 @@ const Editrecipientuser = () => {
                             type="text" 
                             className='rate_input form-control' 
                             name="city"
-                            defaultValue={formValue.city}
-                            onChange={(e)=> handleStep2InputChange(e,'city')}
-                            placeholder={RecepientsData.city}
+                            defaultValue={city}
+                            onChange={(e)=>setCity(e.target.value)}
+                            // placeholder={RecepientsData.city}
                             />
                       </Form.Group>
                     </div>
@@ -449,9 +481,9 @@ const Editrecipientuser = () => {
                             type="text" 
                             className='rate_input form-control' 
                             name="state"
-                            defaultValue={formValue.state}
-                            onChange={(e)=> handleStep2InputChange(e,'state')}
-                            placeholder={RecepientsData.state}
+                            defaultValue={state}
+                            onChange={(e)=>setState(e.target.value)}
+                            // placeholder={RecepientsData.state}
                             />
                           </Form.Group>
                       </div>
@@ -464,9 +496,9 @@ const Editrecipientuser = () => {
                             type="text" 
                             className='rate_input form-control' 
                             name="country_code"
-                            defaultValue={formValue.country_code}
-                            onChange={(e)=> handleStep2InputChange(e,'country_code')}
-                            placeholder={RecepientsData.country_code}
+                            defaultValue={country_code}
+                            onChange={(e)=>setCountry_code(e.target.value)}
+                            // placeholder={RecepientsData.country_code}
                             />
                       </Form.Group>
                     </div>
@@ -479,9 +511,9 @@ const Editrecipientuser = () => {
                         preferredCountries={['gb', 'us' ]} 
                         value="" handleChange={e=> console.log(e.target.value)}
                         name="country"
-                        defaultValue={formValue.country}
-                        onChange={(e)=> handleStep2InputChange(e,'country')}
-                        placeholder={RecepientsData.country}
+                        defaultValue={country}
+                        onChange={(e)=>setCountry(e.target.value)}
+                        // placeholder={RecepientsData.country}
                         ></CountryDropdown>
                     </Form.Group>
                   </div>
@@ -495,8 +527,8 @@ const Editrecipientuser = () => {
                         aria-label="Select a reason"
                         // ref={input_recipientReasoMoney}
                         name="reasonMoney"
-                        defaultValue={formValue.reasonMoney}
-                        onChange={(e)=> handleStep2InputChange(e,'reasonMoney')}
+                        defaultValue={reasonMoney}
+                        onChange={(e)=>setReasonMoney(e.target.value)}
                         > 
                         <option selected>Select a reason</option>
                         <option value="Family Support">Family Support</option>

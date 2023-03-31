@@ -35,7 +35,7 @@ const UserDashboard = () => {
         <>
           {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
           {  
-           token || verification_otp != undefined || '' ? (
+           token != undefined || '' ? (
 
           <div className="margin-set">
          

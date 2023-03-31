@@ -169,7 +169,7 @@ const handleRemoveRecipientBankDetails =(value) =>{
 
 
     {  
-        RecipientUserName || token || verification_otp != undefined || '' ? (
+        RecipientUserName || token  != undefined || '' ? (
 
             <div  className="margin-set">
             <div  className="tabs-page">
@@ -219,7 +219,8 @@ const handleRemoveRecipientBankDetails =(value) =>{
                             <th>account_number</th> */}
                             <th>Destination</th>
                             <th>Transfer Now Link</th>
-                            <th>Update Detail Link</th>
+                            {/* <th>Update Detail Link</th> */}
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
