@@ -1,5 +1,6 @@
 
 import React, { useState, useContext, useEffect,useRef } from "react";
+import Table from 'react-bootstrap/Table';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -9,14 +10,17 @@ import { toast } from "react-toastify";
 import { API } from "../../config/API";
 import axios from "axios";
 import UserRecipient from "../Userdashboard/UserRecipient";
-import norecipients from '../../assets/img/userdashboard/hidden.avif';
+import profileimage from '../../assets/img/userdashboard/images.png';
+
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { BsFillPencilFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
-
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 // start css
 const myStyle ={
   color: "red",
+  fontSize: "14px",
+  textTransform: "capitalize"
 }
 
 const SingleRecipientProfile = () => {
@@ -129,24 +133,33 @@ const SingleRecipientProfile = () => {
 
             <div className="form-head mb-4">
               <h2 className="text-black font-w600 mb-0"><b>Profile</b>
+              <NavLink to="/userrecipients">
+                            <button className="start-form-button back-btn" >
+                                <MdOutlineKeyboardBackspace/>
+                                Back
+                            </button>
+                          </NavLink>
               </h2>
             </div>
-         <div className="row">
+         {/* <div className="row">
          <NavLink to="/userrecipients">
                   <button className="form-button addsingle_recepient" ><BsFillPersonPlusFill /> Recipients Lists</button>
               </NavLink>
-         </div>
+         </div> */}
 
             <div className="row">
-            <div className="col-lg-8">
+            <div className="col-lg-12">
                 <div className="profile card card-body px-3 pt-3 pb-0">
+                         
+                            {/* <button className="form-button addsingle_recepient" ><NavLink to="/userrecipients"><BsFillPersonPlusFill /> Recipients Lists</NavLink></button>  */}
+                     
                     <div className="profile-head">
                         <div className="photo-content">
                           {/* <h1>{senderDetailData.first_name}</h1> */}
                         </div>
                         <div className="profile-info">
                             <div className="profile-photo">
-                            <BsFillPersonPlusFill />
+                             <img src={profileimage} alt="images"/>
                             </div>
                             <div className="profile-details">
                                 <div className="profile-name">
@@ -157,7 +170,80 @@ const SingleRecipientProfile = () => {
 
                  <form className="single-recipient">
                  <div className="view-profile-section">
-                 <ul>
+                  <Table stripped bordered hover size="sm" className="profile-table">
+                    <tr><th colspan={2}>Bank information</th></tr>
+                    <tr>
+                      <td>Bank Name: </td>
+                      <td>{senderDetailData.bank_name}</td>
+                    </tr>
+                    <tr>
+                      <td>Account Name: </td>
+                      <td>{senderDetailData.account_name}</td>
+                    </tr>
+                    <tr>
+                      <td>Account Number: </td>
+                      <td>{senderDetailData.account_number}</td>
+                    </tr>
+                    <tr><th colspan={2}>Personal information</th></tr>
+                    <tr>
+                      <td>First Name: </td>
+                      <td>{senderDetailData.account_number}</td>
+                    </tr>
+                    <tr>
+                      <td>Middle Name: </td>
+                      <td>{senderDetailData.middle_name}</td>
+                    </tr>
+                    <tr>
+                      <td>Last Name: </td>
+                      <td>{senderDetailData.last_name}</td>
+                    </tr>
+                    <tr>
+                      <td>Email: </td>
+                      <td>{senderDetailData.last_name}</td>
+                    </tr>
+                    <tr>
+                      <td>Mobile Number: </td>
+                      <td>{senderDetailData.mobile}</td>
+                    </tr>
+                    <tr><th colspan={2}>Address</th></tr>
+                    <tr>
+                      <td>Flat: </td>
+                      <td>{senderDetailData.flast}</td>
+                    </tr>
+                    <tr>
+                      <td>Building: </td>
+                      <td>{senderDetailData.building}</td>
+                    </tr>
+                    <tr>
+                      <td>Street: </td>
+                      <td>{senderDetailData.street}</td>
+                    </tr>
+                    <tr>
+                      <td>Postcode: </td>
+                      <td>{senderDetailData.postcode}</td>
+                    </tr>
+                    <tr>
+                      <td>City: </td>
+                      <td>{senderDetailData.city}</td>
+                    </tr>
+                    <tr>
+                      <td>State: </td>
+                      <td>{senderDetailData.state}</td>
+                    </tr>
+                    <tr>
+                      <td>Country code: </td>
+                      <td>{senderDetailData.country_code}</td>
+                    </tr>
+                    <tr>
+                      <td>Country: </td>
+                      <td>{senderDetailData.country}</td>
+                    </tr>
+                    <tr>
+                      <td>Reason for sending Money: </td>
+                      <td>{senderDetailData.reasonMoney}</td>
+                    </tr>
+                  </Table>
+                 {/* <ul>
                     <li><b>Bank Name: </b>{senderDetailData.bank_name}</li>
                     <li><b>Account Name: </b>{senderDetailData.account_name}</li>
                     <li><b>Account Number: </b>{senderDetailData.account_number}</li>
@@ -175,7 +261,7 @@ const SingleRecipientProfile = () => {
                     <li><b>Country code : </b>{senderDetailData.country_code}</li>
                     <li><b>Country : </b>{senderDetailData.country}</li>
                     <li><b>Country code : </b>{senderDetailData.reasonMoney}</li>
-                    </ul>
+                    </ul> */}
                        </div>
              
             

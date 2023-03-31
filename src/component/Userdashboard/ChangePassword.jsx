@@ -12,6 +12,8 @@ import Modal from 'react-bootstrap/Modal';
 {/* start -- css*/}
 const myStyle= {
   color: "red",
+  fontSize: "14px",
+  textTransform: "capitalize"
 }
 {/* End -- css*/}
 

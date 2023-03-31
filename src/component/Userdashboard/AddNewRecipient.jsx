@@ -13,9 +13,12 @@ import norecipients from '../../assets/img/userdashboard/hidden.avif';
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { BsFillPencilFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 // start css
 const myStyle ={
   color: "red",
+  fontSize: "14px",
+  textTransform: "capitalize"
 }
 
 const Addnewrecipient = () => {
@@ -177,16 +180,22 @@ const Addnewrecipient = () => {
                     <div className="content-body">
     <section  className="showrecepient">   
     <div class="form-head mb-4">
-   
             <h2 class="text-black font-w600 mb-0"><b>Add Recipient</b>
             <NavLink to="/userrecipients">
-                            <button className="form-button addsingle_recepient" ><BsFillPersonPlusFill /> Recipients Lists</button>
-                            </NavLink>
+                            <button className="start-form-button back-btn" >
+                                <MdOutlineKeyboardBackspace/>
+                                Back
+                            </button>
+                          </NavLink>
             </h2>
             </div>
             <form className="single-recipient">
             <div className="card">
             <div className="card-body">
+            
+                          
+                            {/* <button className="form-button addsingle_recepient" ><NavLink to="/userrecipients"><BsFillPersonPlusFill /> Recipients Lists</NavLink></button>  */}
+                     
               <div className="row">
               <h5>Bank Information</h5>
                   <div className="col-md-4">

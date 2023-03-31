@@ -3136,8 +3136,10 @@ margin-top: 15px;
 .summary tr td, .summary tr th , .summary1 tr td, .summary1 tr th {
   padding: 6px;
   width: 145px;
-  /* border-bottom: 1px solid #ced4da !important; */
   font-size: 14px;
+}
+.summary tr td ,.summary1 tr td{
+  font-weight: 500;
 }
 
 .header.exchangemoney-header h1 {
@@ -3169,6 +3171,8 @@ th.popup-heading {
 .modal-content table tr td {
   border-left: 1px solid #ced4da;
   font-size: 15px;
+  font-weight: 500;
+  text-transform: capitalize;
 }
 
 .modal-content table tr th {
@@ -5116,8 +5120,7 @@ button.form-button.addsingle_recepient {
   width: auto;
   padding-left: 15px;
   padding-right: 15px;
-  margin: 0;
-  margin-left: 10px;
+  margin: -4px 0px 0px;
 }
 .previous-transaction tr td:last-child {
   border-right: none;
@@ -5253,20 +5256,38 @@ button.form-button.addsingle_recepient {
 }
 .profile-info {
   display: flex;
-  justify-content: start;
-}
-.profile-info {
+  justify-content: center;
   padding: 15px 20px;
 }
+
 .profile .profile-photo {
   position: relative;
   z-index: 1;
   margin-top: -40px;
   margin-right: 10px;
   background: #fff;
-  padding: 23px;
+  padding: 7px;
   border-radius: 100%;
   box-shadow: 0rem 0.3125rem 0.3125rem 0rem rgba(82, 63, 105, 0.05);
+}
+.profile-photo img {
+  width: 100px;
+}
+table.profile-table tr th {
+  text-align: center;
+  background: #E7F0FF;
+  font-weight: 700;
+  padding: 12px 9px;
+  text-transform: uppercase;
+}
+table.profile-table tr td{
+  padding: 12px 9px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+table.profile-table {
+  width: 70%;
+  margin: 0 auto;
 }
 .profile-photo svg {
   font-size: 35px;
@@ -5276,8 +5297,10 @@ button.form-button.addsingle_recepient {
   margin-top: 0;
 }
 .profile-details h4 {
-  font-size: 17px;
+  font-size: 20px;
   color: #000 !important;
+  text-transform: capitalize;
+  font-weight: 600;
 }
 form.single-recipient {
   margin-top: 20px;
@@ -5364,6 +5387,8 @@ button.start-form-button.back-btn a {
 button.start-form-button.back-btn {
   width: auto !important;
   padding: 10px;
+  float:right;
+  height:auto;
 }
 .previous-transaction tr td button {
   margin: 0px 5px;
@@ -5376,3 +5401,6 @@ img.send-money-img {
   margin-top: 140px;
   width:100%;
 }
+/* .fade.modal-backdrop.show {
+  background: rgb(0 0 0 / 37%);
+} */

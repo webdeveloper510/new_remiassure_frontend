@@ -228,10 +228,10 @@ const Profile = () => {
         <form className="single-recipient">
             <div className="card">
             <div className="card-body">
-            <div className="row">
+            {/* <div className="row">
             <NavLink to="/userrecipients">
                   <button className="form-button addsingle_recepient" ><BsFillPersonPlusFill /> Recipients Lists</button>
-              </NavLink></div>
+              </NavLink></div> */}
               <div className="row">
               <h5>Bank Information</h5>
                   <div className="col-md-4">
@@ -287,7 +287,7 @@ const Profile = () => {
                   </div>
                   </div>
                 <div className="row each-row">
-                  <h5>Recipient Details</h5>
+                  <h5>Personal Details</h5>
                   <div className="col-md-4">
                     <div className="input_field">
                       <p className="get-text">First Name<span style={{color: 'red'}} >*</span></p>
@@ -504,7 +504,7 @@ const Profile = () => {
                     </Form.Group>
                   </div>
               </div>
-                <div className="row each-row">
+                 <div className="row each-row">
                   <div className="col-md-12">
                     <div className="input_field">
                       <p className="get-text">Reason For Sending Money</p>
@@ -526,9 +526,9 @@ const Profile = () => {
                       </select>
                       {/* {error&&formValue.reasonMoney.length<=0?
                             <span style={myStyle}>Please Select the Reason For Sending Money </span>:""} */}
-                    </div>
+                     </div>
                   </div>
-                </div>
+                </div> 
                 <div className="row">
                   <div className="col-md-4">
                     <button 
@@ -545,7 +545,7 @@ const Profile = () => {
                     className="form-button"
                      onClick={handleUserProfileUpdate}
                     >
-                      Update Recipient
+                      Update
                       
                     {loading ? <>
                         <div class="loader-overly"> 

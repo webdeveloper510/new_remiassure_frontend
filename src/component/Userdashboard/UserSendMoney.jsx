@@ -1246,12 +1246,11 @@ const handlRecipientBankDetails =(e) => {
      {  
           verification_otp || token != undefined || '' ? (
             <>
-    <section>
-      
+    <div class="form-head mb-4">
+        <h2 class="text-black font-w600 mb-0"><b>Payment details</b>
+        </h2>
+        </div>
   <div className="form_body">
-      <div className="header">
-        <h1>Payment details</h1>
-      </div>
       <div className="row each-row">
         <h5>Payment type</h5>
         <div className="col-md-12">
@@ -1313,7 +1312,7 @@ const handlRecipientBankDetails =(e) => {
         </div>
       </div>
     </div>
-  </section> 
+
 
 
 <Modal className="modal-card" show={showCards} onHide={handleCloseDetails}>
@@ -1489,7 +1488,7 @@ const handlRecipientBankDetails =(e) => {
 
           <div className="content-body">
      <section className="why-us section-bgba user_dashboard_banner">
-           <div className="col-md-8">{
+           <div className="col-md-10">{
              <Form />}
            </div>
            {/* {shows &&

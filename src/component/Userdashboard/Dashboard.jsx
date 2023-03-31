@@ -106,7 +106,7 @@ const Dashboard = () => {
             <div className="d-flex justify-content-between">
                 <div className="">
                     <div className="top-content">
-                        <h3>View Profile</h3>
+                        <h3>Profile</h3>
                     </div>
                     <div class="user-count">
                                                             <span class="text-uppercase-edit">Check your profile</span>

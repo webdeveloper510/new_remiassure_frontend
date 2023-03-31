@@ -1,4 +1,5 @@
 import React, {useState ,useEffect, useContext, useRef} from "react";
+import {Links, NavLink} from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import CountryDropdown from 'country-dropdown-with-flags-for-react';
@@ -1652,7 +1653,7 @@ const handlSenderDetails =(e) => {
         </div>
         <div className="form_body">
             <div className="header">
-              <h1>Verifiyed Payment</h1>
+              <h1>Payment Summary</h1>
             </div>
             <div className="row">
             <Table className="final-summary">
@@ -1755,7 +1756,7 @@ const handlSenderDetails =(e) => {
             <div className="col-md-12 align-center">
             <img className="verifies-img" src={verified} alt="verified"/>
             <p>Thanks for choosing RemitAssure</p>
-            <button type="submit" class="form-button" style={{"width":'100%'}}>Go back to Dashboard</button>
+            <NavLink to="/sendMoney"> <button type="submit" class="form-button" style={{"width":'100%'}}>Go back to Dashboard</button></NavLink>
             </div>
 
           </div>

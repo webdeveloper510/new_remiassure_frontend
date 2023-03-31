@@ -178,7 +178,14 @@ const handleRemoveRecipientBankDetails =(value) =>{
             <section className="user_recipients_section">
             <div class="form-head mb-4">
             <h2 class="text-black font-w600 mb-0"><b>Recipients Lists</b>
+            <NavLink to="/addnewrecipient">
+                                <button className="form-button addsingle_recepient" >
+                                    <BsFillPersonPlusFill />
+                                    Add New Recepients
+                                </button>
+                            </NavLink>
             </h2>
+           
             </div>
                 <div className="col-lg-12">
                     {/* loader start */}
@@ -195,11 +202,12 @@ const handleRemoveRecipientBankDetails =(value) =>{
              {/* <h1 className="recipients_lists">Recipients Lists</h1> */}
              <div className="card">
             <div className="card-body">
-            <div className="col-md-12 align-center">
+           
+            {/* <div className="col-md-12 align-center">
                 <NavLink to="/addnewrecipient">
                             <button className="form-button addsingle_recepient" ><BsFillPersonPlusFill /> Add New Recepients</button>
                             </NavLink>
-                        </div>
+                        </div> */}
                 <Table  className="table table-responsive-md card-table previous-transaction">
                  <thead>
                         <tr>
@@ -211,7 +219,6 @@ const handleRemoveRecipientBankDetails =(value) =>{
                             <th>account_number</th> */}
                             <th>Destination</th>
                             <th>Transfer Now Link</th>
-                            <th>Transfer Progress</th>
                             <th>Update Detail Link</th>
                         </tr>
                     </thead>
@@ -232,23 +239,22 @@ const handleRemoveRecipientBankDetails =(value) =>{
                                     <td>{res.destination}</td>
                                     {/* <td>{res.update_profile}</td> */}
                                     <td>{res.transfer_now}</td>
-                                    <td> </td>
                                     <td>
-                                     <span className="btn btn primary" onClick={handleShow} >Delete</span> 
-                                     <span className="btn btn primary" onClick={() =>{LoadEdit(res.id)}}>Edit</span>
-                                     <span className="btn btn primary" onClick={() =>{LoadSinglProfile(res.id)}} >ViewProfile</span>
+                                    <button className="btn btn-danger" onClick={handleShow}><i class="fa fa-trash"></i> Delete</button> 
+                                     <button className="btn btn-primary" onClick={() =>{LoadEdit(res.id)}}><i class="fa fa-pencil color-muted"></i> Edit</button>
+                                     <button className="btn btn-secondary" onClick={() =>{LoadSinglProfile(res.id)}} ><i class="fa fa-eye color-muted"></i> View</button>
                                     </td>
                                        
                                        <Modal show={show} onHide={handleClose}>
                                             <Modal.Header closeButton>
-                                            <Modal.Title>Delete Recipient Data</Modal.Title>
+                                            <Modal.Title>Delete Recipient</Modal.Title>
                                             </Modal.Header>
-                                            <Modal.Body>Are you sure you want to delete this data!</Modal.Body>
+                                            <Modal.Body>Are you sure you want to delete ?</Modal.Body>
                                             <Modal.Footer>
                                             <Button variant="secondary" onClick={handleClose}>
                                                 Close
                                             </Button>
-                                            <Button className="delete_recipient" variant="primary" onClick={() => {handleRemoveRecipientBankDetails(res.id)}} >
+                                            <Button className="delete_recipient" variant="danger" onClick={() => {handleRemoveRecipientBankDetails(res.id)}} >
                                                 Delete
                                             </Button>
                                             </Modal.Footer>
