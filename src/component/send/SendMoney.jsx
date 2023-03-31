@@ -1,4 +1,4 @@
-import React, {useState ,useEffect, useContext, useRef} from "react";
+import React, {useState ,useEffect, useContext, useRef,useMemo} from "react";
 import {Links, NavLink} from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -16,6 +16,8 @@ import { Navigate, useNavigate } from "react-router";
 import ReactFlagsSelect from "react-flags-select";
 import verified from '../../assets/img/userdashboard/3.png';
 import { BsCheckCircleFill } from "react-icons/bs";
+import Select from "react-select";
+import countryList from 'react-select-country-list'
 
 import sendmoney from "../../assets/img/userdashboard/money3.webp";
 // start css
@@ -299,7 +301,17 @@ const handlSenderDetails =(e) => {
 }
 
 
+/****************** select country *******************/
 
+const [countryValue, setcountryValue] = React.useState('')
+    const countryoptions = useMemo(() => countryList().getData(), [])
+
+    const changeHandler = countryValue => {
+        setcountryValue(countryValue)
+    }
+
+    /* start-- useRef is used for focusing on inputbox */
+   const input_location = useRef(null);
 
   // const navigate = useNavigate();
   // // const notify = () => toast.success("Amount & Delivery Successfully!!");
@@ -1041,7 +1053,7 @@ const handlSenderDetails =(e) => {
                   onChange={(e)=> handleStep2InputChange(e,'accountNumber')}
                 />          
                 <span style={myStyle}>{BankNameText.Anteraccountnumber? BankNameText.Anteraccountnumber: ''}</span>
-                <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span>
+                <span style={myStyle}>{BankNameText.Accountexist? BankNameText.Accountexist: ''}</span>
                 
               </div>
             </div>
@@ -1120,17 +1132,19 @@ const handlSenderDetails =(e) => {
                   onChange={(e)=> handleStep2InputChange(e,'mobile')}
                 />
                   <span style={myStyle}>{BankNameText.mobile? BankNameText.mobile: ''}</span>
-                  <span style={myStyle}>{BankNameText.Entervalidmobile? BankNameText.Entervalidmobile: ''}</span>
+                  <span style={myStyle}>{BankNameText.Validmobile? BankNameText.Validmobile: ''}</span>
                   <span style={myStyle}>{BankNameText.Mobileexist? BankNameText.Mobileexist: ''}</span>
                   <span style={myStyle}>{BankNameText.Invalidmobile? BankNameText.Invalidmobile: ''}</span>
                 
               </div>
             </div>
           </div>
+
           <div className="row each-row">
-            <div className="col-md-12">
+          <h5>Address</h5>
+            <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Address</p>
+                <p className="get-text">Flat/Unit No.</p>
                 <input
                   type="text" 
               
@@ -1142,9 +1156,115 @@ const handlSenderDetails =(e) => {
                   
               </div>
             </div>
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">Building/Unit No.</p>
+                <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  />
+                  
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">Street</p>
+                <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  />
+                  
+              </div>
+            </div>
+
           </div>
+      
+
           <div className="row each-row">
-            <div className="col-md-12">
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">Postcode</p>
+                <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  />
+                  
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">City/Town</p>
+                <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  />
+                  
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">State</p>
+                <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  />
+                  
+              </div>
+            </div>
+
+          </div>
+
+         
+          <div className="row each-row">
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">Country Code</p>
+                <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  />
+                  
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">Country</p>
+                <Select
+                                     ref={input_location}
+                                     options={countryoptions} 
+                                     value={countryValue} 
+                                     onChange={changeHandler}
+                                      />
+                  
+              </div>
+            </div>
+            <div className="col-md-4">
               <div className="input_field">
                 <p className="get-text">Reason For Sending Money</p>
                 <select
@@ -1167,6 +1287,8 @@ const handlSenderDetails =(e) => {
               </div>
             </div>
           </div>
+
+          
           <div className="row">
             <div className="col-md-4">
               <button type="submit" className="start-form-button" onClick={handlRecipientBankDetails}>Cancel</button>
@@ -1598,14 +1720,20 @@ const handlSenderDetails =(e) => {
             <div className="col-md-4">
               <div className="input_field">
                 <p className="get-text">Country Name<span style={{color: 'red'}} >*</span></p>
-                <CountryDropdown 
+                {/* <CountryDropdown 
                 id="UNIQUE_ID"
                   className='YOUR_CSS_CLASS rate_input form-control' 
                   preferredCountries={['gb', 'us' ]}
                   value={senderDetailData.location}
                   //  value="" handleChange={e=> console.log(e.target.value)}
                   >
-                  </CountryDropdown>
+                  </CountryDropdown> */}
+                   <Select
+                                     ref={input_location}
+                                     options={countryoptions} 
+                                     value={countryValue} 
+                                     onChange={changeHandler}
+                                      />
 
               </div>
             </div>
@@ -1771,7 +1899,7 @@ const handlSenderDetails =(e) => {
             <div className="col-md-12 align-center">
             <img className="verifies-img" src={verified} alt="verified"/>
             <p>Thanks for choosing RemitAssure</p>
-            <NavLink to="/sendMoney"> <button type="submit" class="form-button" style={{"width":'100%'}}>Go back to Dashboard</button></NavLink>
+            <NavLink to="/dashboard"> <button type="submit" class="form-button" style={{"width":'100%'}}>Go back to Dashboard</button></NavLink>
             </div>
 
           </div>
@@ -1791,7 +1919,7 @@ const handlSenderDetails =(e) => {
   {  
          token || verification_otp != undefined || '' ? (
     <div class="form">
-      <div className="card">
+      
         <section className="why-us section-bgba user_dashboard_banner">
           <div className="container">
             <div className="row">
@@ -1912,7 +2040,7 @@ const handlSenderDetails =(e) => {
             </div>
           </div>
         </section>
-      </div>
+     
     </div>
       ):(
         <></>

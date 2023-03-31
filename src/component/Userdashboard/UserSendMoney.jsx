@@ -1,4 +1,4 @@
-import React, { useState ,useEffect, useContext,useRef} from "react";
+import React, { useState ,useEffect, useContext,useRef,useMemo} from "react";
 import InputGroup from 'react-bootstrap/InputGroup';
 import CountryDropdown from 'country-dropdown-with-flags-for-react';
 import Table from 'react-bootstrap/Table';
@@ -17,7 +17,8 @@ import norecipients from '../../assets/img/userdashboard/hidden.avif';
 import Accordion from 'react-bootstrap/Accordion';
 import creditcards from '../../assets/img/userdashboard/mastercard.png';
 import Sidebar from './Sidebar';
-
+import Select from "react-select";
+import countryList from 'react-select-country-list'
 
 // start css
 const myStyle ={
@@ -299,6 +300,18 @@ const handlRecipientBankDetails =(e) => {
   console.log("handle request ");
 }
 
+
+/****************** select country *******************/
+
+const [countryValue, setcountryValue] = React.useState('')
+    const countryoptions = useMemo(() => countryList().getData(), [])
+
+    const changeHandler = countryValue => {
+        setcountryValue(countryValue)
+    }
+
+   /* start-- useRef is used for focusing on inputbox */
+   const input_location = useRef(null);
 
   const navigate = useNavigate();
   // const notify = () => toast.success("Amount & Delivery Successfully!!");
@@ -1082,6 +1095,7 @@ const handlRecipientBankDetails =(e) => {
                 />
                         
                 <span style={myStyle}>{BankNameText.Enteraccountname? BankNameText.Enteraccountname: ''}</span>
+                <span style={myStyle}>{BankNameText.message? BankNameText.message: ''}</span>
               </div>
             </div>
             <div className="col-md-4">
@@ -1180,9 +1194,10 @@ const handlRecipientBankDetails =(e) => {
             </div>
           </div>
           <div className="row each-row">
-            <div className="col-md-12">
+          <h5>Address</h5>
+            <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Address<span style={{color: 'red'}} >*</span></p>
+                <p className="get-text">Flat/Unit No.</p>
                 <input
                   type="text" 
               
@@ -1194,9 +1209,123 @@ const handlRecipientBankDetails =(e) => {
                   
               </div>
             </div>
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">Building/Unit No.</p>
+                <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  />
+                  
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">Street</p>
+                <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  />
+                  
+              </div>
+            </div>
+
           </div>
+
           <div className="row each-row">
-            <div className="col-md-12">
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">Postcode</p>
+                <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  />
+                  
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">City/Town</p>
+                <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  />
+                  
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">State</p>
+                <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  />
+                  
+              </div>
+            </div>
+
+          </div>
+  
+
+          <div className="row each-row">
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">Country Code</p>
+                <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  />
+                  
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">Country</p>
+                <Select
+                                     ref={input_location}
+                                     options={countryoptions} 
+                                     value={countryValue} 
+                                     onChange={changeHandler}
+                                      />
+                {/* <input
+                  type="text" 
+              
+                  className='rate_input form-control'
+                  name="address"
+                  defaultValue={formValue.address}
+                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  /> */}
+                  
+              </div>
+            </div>
+
+            <div className="col-md-4">
               <div className="input_field">
                 <p className="get-text">Reason For Sending Money<span style={{color: 'red'}} >*</span></p>
                 <select
@@ -1218,7 +1347,9 @@ const handlRecipientBankDetails =(e) => {
             
               </div>
             </div>
+
           </div>
+
           <div className="row">
             <div className="col-md-4">
               <button type="submit" className="start-form-button" onClick={handlRecipientBankDetails}>Clear</button>

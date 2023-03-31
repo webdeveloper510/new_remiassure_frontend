@@ -5,8 +5,6 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import CountryDropdown from 'country-dropdown-with-flags-for-react';
 import {useLocation} from "react-router-dom";
 import Select from "react-select";
-
-
 import countryList from 'react-select-country-list'
 
 
@@ -19,6 +17,8 @@ import { toast } from 'react-toastify';
 {/* start -- css*/}
 const myStyle= {
     color: "red",
+  fontSize:"14px",
+  textTransform: "capitalize"
  }
  {/* End -- css*/}
 

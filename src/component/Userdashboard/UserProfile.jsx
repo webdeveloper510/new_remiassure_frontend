@@ -1,5 +1,5 @@
 
-import React, { useState, useContext, useEffect,useRef } from "react";
+import React, { useState, useContext, useEffect,useRef ,useMemo} from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -13,10 +13,13 @@ import norecipients from '../../assets/img/userdashboard/hidden.avif';
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { BsFillPencilFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
-
+import Select from "react-select";
+import countryList from 'react-select-country-list'
 // start css
 const myStyle ={
   color: "red",
+  fontSize: "14px",
+  textTransform: "capitalize"
 }
 
 const Profile = () => {
@@ -93,6 +96,17 @@ const Profile = () => {
 
           //Get data of update value 
        
+/****************** select country *******************/
+
+const [countryValue, setcountryValue] = React.useState('')
+    const countryoptions = useMemo(() => countryList().getData(), [])
+
+    const changeHandler = countryValue => {
+        setcountryValue(countryValue)
+    }
+
+   /* start-- useRef is used for focusing on inputbox */
+   const input_location = useRef(null);
 
 
       // Start page show hide condtion page
@@ -429,20 +443,25 @@ const Profile = () => {
                   <div className="col-md-4">
                     <Form.Group className="form_label" controlId="Firstname">
                     <p className="get-text">Country</p>
-                      <CountryDropdown
+                    <Select
+                                     ref={input_location}
+                                     options={countryoptions} 
+                                     value={countryValue} 
+                                     onChange={changeHandler}
+                                      />
+                      {/* <CountryDropdown
                        id="UNIQUE_ID" 
                        className='YOUR_CSS_CLASS rate_input form-control'
                         preferredCountries={['gb', 'us' ]} 
                         value="" handleChange={e=> console.log(e.target.value)}
                         name="country"
-                         defaultValue={country}
-                        onChange={(e)=> (e,'country')}
-                        ></CountryDropdown>
+                        defaultValue={formValue.country}
+                        onChange={(e)=> handleStep2InputChange(e,'country')}
+                        placeholder={senderDetailData.location}
+                        ></CountryDropdown> */}
                     </Form.Group>
                   </div>
-              </div>
-                 <div className="row each-row">
-                  <div className="col-md-12">
+                  <div className="col-md-4">
                     <div className="input_field">
                       <p className="get-text">Reason For Sending Money</p>
                       <select
@@ -464,7 +483,8 @@ const Profile = () => {
                             <span style={myStyle}>Please Select the Reason For Sending Money </span>:""} */}
                      </div>
                   </div>
-                </div> 
+              </div>
+
                 <div className="row">
                   <div className="col-md-4">
                     <button 

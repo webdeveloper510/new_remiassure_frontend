@@ -11,6 +11,8 @@ import UserContext from '../context/UserContext';
 {/* start -- css*/}
 const myStyle= {
     color: "red",
+    fontSize: "13px",
+  textTransform: "capitalize"
  }
  {/* End -- css*/}
 
