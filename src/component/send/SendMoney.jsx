@@ -91,7 +91,8 @@ const [amountValue, setAmountValue] = React.useState({
  /****************************  sender details data *******************/
  const [senderDetailData, setSenderDetailData] = React.useState('');
 
- /************** Start - Recipient Bank Details************ **********/
+ /************ Start -Recipient card Error***************/
+ const [currencyerrorText, setCurrencyerrorText] = React.useState('');
 
  
 
@@ -422,10 +423,8 @@ const [countryValue, setcountryValue] = React.useState('')
       .catch(function(error, message) {
           console.log(error.response)
           setLoading(false); // Stop loading in case of error
-          // if(error.response.data.status){
-          //     toast.error(error.response.data.message);
-          // } 
-          // console.log(error, "klnklnklnknnnnnnnnnnnn");   
+        
+          setCurrencyerrorText(error.response.data.error)  
       })
 
    }
@@ -438,6 +437,19 @@ const [countryValue, setcountryValue] = React.useState('')
    const myTotalAmountFromTo =(value)=> {   
     // event.preventDefault();
     console.log("====================>",amount)
+     //useRef is used for focusing on inputbox
+     if (from.length==0){
+      input_From.current.focus();
+          setError(true);
+      } else if (to.length==0){
+        input_To.current.focus();
+          setError(true);
+      } else if (amountValue.amountInput.length==0){
+        input_AmountSend.current.focus();
+          setError(true);
+      } 
+       
+      else{
    setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'exchange-rate/', {
       from: from,
@@ -466,10 +478,12 @@ const [countryValue, setcountryValue] = React.useState('')
         // if(error.response.data.status){
         //     toast.error(error.response.data.message);
         // } 
-        // console.log(error, "klnklnklnknnnnnnnnnnnn");   
+        // console.log(error, "klnklnklnknnnnnnnnnnnn"); 
+        setCurrencyerrorText(error.response.data.error)  
     })
 
  }
+}
  // End Total Amount Api call 
 
 
@@ -731,6 +745,7 @@ const [countryValue, setcountryValue] = React.useState('')
               </div>
               </div>
             <div className="row  each-row">
+            <span style={myStyle}>{currencyerrorText}</span>
             <div className="col-md-6">
                 <div className="input_field">
                   <p className="get-text">From<span style={{color: 'red'}} >*</span></p>
@@ -745,7 +760,7 @@ const [countryValue, setcountryValue] = React.useState('')
                     >
                       {/* <option value="">--- Select Currency ---</option> */}
                       <option value="USD" selected="selected">USD</option>
-                      <option value="USD">USD</option> 
+                      {/* <option value="USD">USD</option>  */}
                       <option value="EUR">EUR</option>
                       <option value="INR">INR</option> 
                       <option value="BRL">BRL</option>
@@ -929,7 +944,7 @@ const [countryValue, setcountryValue] = React.useState('')
                 <button 
                 className="start-form-button"
                 onClick={handleEntailmentRequest}
-                >Cancel</button>
+                >Clear</button>
               </div>
               <div className="col-md-8">
               <button
@@ -1729,7 +1744,7 @@ const [countryValue, setcountryValue] = React.useState('')
           </div>
           <div className="col-md-10 new_buttons">
           
-            <button className="form-button" onClick={()=>{setStep(step+1)}}>Previous</button>
+            <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button>
            
             {/* { verificationValue == false ? ( */}
                 {/* <button className="form-button" onClick={handleISDigitalVerified}> Continue</button>  */}

@@ -37,7 +37,7 @@ console.log("Verification Message", verification_otp)
 
     <>
     {  
-           token || verification_otp != undefined || '' ? (
+           token  != undefined || '' ? (
     
     <div  className="sidebar">
         <nav>

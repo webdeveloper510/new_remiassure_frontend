@@ -23,7 +23,7 @@ import countryList from 'react-select-country-list'
 // start css
 const myStyle ={
   color: "red",
-  fontSize:"14px",
+  fontSize:"13px",
   textTransform: "capitalize"
 }
 
@@ -54,6 +54,8 @@ const UserSendMoney = () => {
   const [output, setOutput] = React.useState(0);
   const [info, setInfo] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+
+  const [currencyerrorText, setCurrencyerrorText] = React.useState('');
 
    /************** Start - Recipient Bank Details************ **********/
  const [error, setError] = React.useState(false);
@@ -88,7 +90,7 @@ const [showCards, setshowCards] = React.useState("");
 /************ Start -Recipient List Bank Details***************/
   const [data, setData] = React.useState([]);
 
-/************ Start -Recipient Bank Crad Details***************/
+/************ Start -Recipient card Error***************/
   const [CardErrorText, setCardErrorText] = React.useState('');
 
  const [formCardValue, setformCardValue] = React.useState ({
@@ -368,9 +370,10 @@ const [countryValue, setcountryValue] = React.useState('')
         .catch(function(error, message) {
             console.log(error.response);
             setLoading(false); // Stop loading in case of error
-            if(error.response.data.status){
-                toast.error(error.response.data.message);
-            } 
+            // if(error.response.data.status){
+            //     toast.error(error.response.data.message);
+            // } 
+            // setCurrencyerrorText(error.response.data.error)
             console.log(error, "klnklnklnknnnnnnnnnnnn");   
         })
     }
@@ -424,10 +427,7 @@ const [countryValue, setcountryValue] = React.useState('')
       .catch(function(error, message) {
           console.log(error.response)
           setLoading(false); // Stop loading in case of error
-          // if(error.response.data.status){
-          //     toast.error(error.response.data.message);
-          // } 
-          // console.log(error, "klnklnklnknnnnnnnnnnnn");   
+          setCurrencyerrorText(error.response.data.error);
       })
 
     }
@@ -440,6 +440,19 @@ const [countryValue, setcountryValue] = React.useState('')
     const myTotalAmountFromTo =(value)=> {   
     // event.preventDefault();
     console.log("====================>",amount)
+      //useRef is used for focusing on inputbox
+      if (from.length==0){
+        input_From.current.focus();
+            setError(true);
+        } else if (to.length==0){
+          input_To.current.focus();
+            setError(true);
+        } else if (amountValue.amountInput.length==0){
+          input_AmountSend.current.focus();
+            setError(true);
+        } 
+         
+        else{
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'exchange-rate/', {
       from: from,
@@ -465,13 +478,11 @@ const [countryValue, setcountryValue] = React.useState('')
     .catch(function(error, message) {
         console.log(error.response)
         setLoading(false); // Stop loading in case of error
-        // if(error.response.data.status){
-        //     toast.error(error.response.data.message);
-        // } 
-        // console.log(error, "klnklnklnknnnnnnnnnnnn");   
+        setCurrencyerrorText(error.response.data.error) 
     })
 
     }
+  }
     // End Total Amount Api call 
 
 
@@ -722,7 +733,7 @@ const [countryValue, setcountryValue] = React.useState('')
     <>
     
     {  
-          verification_otp || token != undefined || '' ? (
+           token != undefined || '' ? (
 
             <>
      <div class="form-head mb-4">
@@ -744,6 +755,7 @@ const [countryValue, setcountryValue] = React.useState('')
           </div>
           </div>
         <div className="row each-row">
+        <span style={myStyle}>{currencyerrorText}</span>
         <div className="col-md-6">
             <div className="input_field">
               <p className="get-text">From<span style={{color: 'red'}} >*</span></p>
@@ -758,7 +770,7 @@ const [countryValue, setcountryValue] = React.useState('')
                  >
                   {/* <option value="">--- Select Currency ---</option> */}
                   <option value="USD" selected="selected">USD</option>
-                  <option value="USD">USD</option> 
+                  {/* <option value="USD">USD</option>  */}
                   <option value="EUR">EUR</option>
                   <option value="INR">INR</option> 
                   <option value="BRL">BRL</option>
@@ -991,7 +1003,7 @@ const [countryValue, setcountryValue] = React.useState('')
     return (
     <>
      {  
-          verification_otp || token != undefined || '' ? (
+          token != undefined || '' ? (
         <>
   
   
@@ -1007,14 +1019,16 @@ const [countryValue, setcountryValue] = React.useState('')
         <div className="card">
             <div className="card-body">
             {  
-              token || verification_otp != undefined || '' ? (
+              token  != undefined || '' ? (
               <div>
                   {
                     data.data?.map((res, index) => {           
                     return(
 
                     <ul key={res.id}>
+                      <a  onClick={()=>{setStep(step+1)}}>
                       <li><a>{res.name} <BsChevronDoubleRight /></a></li>
+                      </a>
                     
                     </ul>
 
@@ -1172,9 +1186,9 @@ const [countryValue, setcountryValue] = React.useState('')
                   onChange={(e)=> handleStep2InputChange(e,'mobile')}
                 />
                   <span style={myStyle}>{BankNameText.mobile? BankNameText.mobile: ''}</span>
-                  <span style={myStyle}>{BankNameText.Entervalidmobile? BankNameText.Entervalidmobile: ''}</span>
+                  <span style={myStyle}>{BankNameText.Entermobile? BankNameText.Entermobile: ''}</span>
                   <span style={myStyle}>{BankNameText.Mobileexist? BankNameText.Mobileexist: ''}</span>
-                  <span style={myStyle}>{BankNameText.Invalidmobile? BankNameText.Invalidmobile: ''}</span>
+                  <span style={myStyle}>{BankNameText.Validmobile? BankNameText.Validmobile: ''}</span>
               </div>
             </div>
           </div>
@@ -1374,7 +1388,7 @@ const [countryValue, setcountryValue] = React.useState('')
     return (
     <>
      {  
-          verification_otp || token != undefined || '' ? (
+          token != undefined || '' ? (
             <>
     <div class="form-head mb-4">
         <h2 class="text-black font-w600 mb-0"><b>Payment details</b>
@@ -1610,7 +1624,7 @@ const [countryValue, setcountryValue] = React.useState('')
 
 
           {  
-            verification_otp || token != undefined || '' ? (
+              token != undefined || '' ? (
           <>
           <div  className="margin-set">
              <div  className="tabs-page">

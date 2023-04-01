@@ -18,7 +18,7 @@ import countryList from 'react-select-country-list'
 // start css
 const myStyle ={
   color: "red",
-  fontSize: "14px",
+  fontSize: "13px",
   textTransform: "capitalize"
 }
 
@@ -42,21 +42,37 @@ const Profile = () => {
          const [senderDetailData, setSenderDetailData] = React.useState('');
         
         /************ Start -Recipient Bank Details state***************/
+        // const [bankName, setBankName] = useState('')
+        const [firstName, setFirstName] = useState('');
+        const [middleName, setMiddleName] = useState('');
+        const [lastName, setLastName] = useState('');
+        const [email, setEmail] = useState('');
+        const [mobile, setMobile] = useState('');
+        const [flat, setFlat] = useState('');
+        const [gender, setGender] = useState('');
+        const [building, setBuilding] = useState('');
+        const [street, setStreet] = useState('');
+        const [postcode, setPostcode] = useState('');
+        const [city, setCity] = useState('');
+        const [state, setState] = useState('');
+        const [country_code, setCountry_code] = useState('');
+        const [country, setcountry] = useState('');
+        const [Date_of_birth, setDate_of_birth] = useState('');
+        const [Countrybirth, setCountrybirth] = useState('');
+        const [reasonMoney, setReasonMoney] = useState('');
+        const [customer_id, setCustomer_id] = useState('');
+
       
-        const [formValue, setFormValue] = React.useState ({
-          bankName:'',accountName:'', accountNumber:'',firstName:'', middleName:'',
-        lastName:'',email:'',mobile:'',flat:'',building:'',sreet:'',postcode:'',
-        city:'',state:'',country_code:'',country:'',reasonMoney:'', customer_id:'',});
-      
+
         /************ Start -Recipient Bank Details function***************/
-          const handleStep2InputChange =(e,key) =>{
-            console.log(e.target.value)
-            console.log(key)
-            let valueForm = formValue
-            valueForm[key] = e.target.value
-            setFormValue(valueForm)
-            console.log(formValue)
-          }
+          // const  =(e,key) =>{
+          //   console.log(e.target.value)
+          //   console.log(key)
+          //   let valueForm = formValue
+          //   valueForm[key] = e.target.value
+          //   setFormValue(valueForm)
+          //   console.log(formValue)
+          // }
         /************ Start - Cancel Recipient Bank Details function***************/
           const handlRecipientBankDetails =(e) => {
             e.preventDefault();
@@ -137,11 +153,25 @@ const [countryValue, setcountryValue] = React.useState('')
             })
             .then(function(response) {
                 console.log("Recipients APIIIII", response.data);
-                setSenderDetailData(response.data.data);
-                console.log(senderDetailData, "senderDetailData")
+                setFirstName(response.data.data.First_name);
+                setMiddleName(response.data.data.Middle_name);
+                setLastName(response.data.data.Last_name);
+                setEmail(response.data.data.email);
+                setMobile(response.data.data.mobile);
+                setFlat(response.data.data.flate);
+                setBuilding(response.data.data.building);
+                setStreet(response.data.data.street);
+                setPostcode(response.data.data.postcode);
+                setCity(response.data.data.city);
+                setState(response.data.data.state);
+                setCountry_code(response.data.data.country_code);
+                setcountry(response.data.data.country);
+                setReasonMoney(response.data.data.reasonMoney);
+                setCustomer_id(response.data.data.customer_id);
+
+            
+              
                 setLoading(false); // Stop loading
-          
-          
               //   if (response.status)
               // // notify();
             })
@@ -164,29 +194,31 @@ const [countryValue, setcountryValue] = React.useState('')
       
          /* start-- useRef is used for focusing on inputbox */
          const handleUserProfileUpdate =(event) =>{
+          // alert("hii")
           // console.log("============>token", token)
         
              event.preventDefault();
             setLoading(true); // Set loading before sending API requestssss
             axios.patch(API.BASE_URL + 'update-profile/', {
-              bank_name: formValue.bankName,
-              account_name: formValue.accountName,
-              account_number: formValue.accountNumber,
-              first_name: formValue.firstName,
-              middle_name: formValue.middleName,
-              last_name: formValue.lastName,
-              email: formValue.email,
-              mobile:formValue.mobile,
-              flat: formValue.flat,
-              building: formValue.building,
-              sreet: formValue.sreet,
-              postcode: formValue.postcode,
-              city: formValue.city,  
-              state: formValue.state,  
-              country_code: formValue.country_code,
-              country: formValue.country,
-              reasonMoney: formValue.reasonMoney,
-              customer_id: formValue.customer_id
+              First_name: firstName,
+              Middle_name: middleName,
+              Last_name: lastName,
+              email: email,
+              mobile: mobile,
+              flat: flat,
+              building: building,
+              street: street,
+              postcode: postcode,
+              city: city,
+              state: state,
+              country_code: country_code,
+              country: country,
+            
+             
+              // Gender: gender,
+              // Date_of_birth: Date_of_birth ,
+             
+            
               
             },{
                 headers: {
@@ -196,14 +228,13 @@ const [countryValue, setcountryValue] = React.useState('')
             .then(function(response) {
                 console.log(response);
                 setLoading(false); // Stop loading 
-                setProfileText(error.response.data.error)
-                navigate('/dashboard');   
-      
+                navigate('/dashboard');  
             })
             .catch(function(error, message) {
                 console.log(error.response);
                 setLoading(false); // Stop loading in case of error
-                // setBankNameText(error.response.data); 
+                setBankNameText(error.response.data.error)
+               
                
                  
             })
@@ -216,10 +247,10 @@ const [countryValue, setcountryValue] = React.useState('')
 
       
 
-    return(
+      return(
         <>
           {  
-           token || verification_otp != undefined || '' ? (
+           token != undefined || '' ? (
   
 
         <div  className="margin-set">
@@ -246,60 +277,6 @@ const [countryValue, setcountryValue] = React.useState('')
             <NavLink to="/userrecipients">
                   <button className="form-button addsingle_recepient" ><BsFillPersonPlusFill /> Recipients Lists</button>
               </NavLink></div> */}
-              <div className="row">
-              <h5>Bank Information</h5>
-                  <div className="col-md-4">
-                      <div className="input_field">
-                        <p className="get-text">Bank Name<span style={{color: 'red'}} >*</span></p>
-                          <input
-                          type="text" 
-                          className="rate_input form-control"
-                          name="bankName"
-                          Value={formValue.bankName}
-                          onChange={(e)=>handleStep2InputChange(e,'bankName')}
-                         placeholder={senderDetailData.bank_name}
-                         
-                          />   
-                          <span style={myStyle}>{profileText.email? profileText.email: ''}</span>
-
-                      </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="input_field">
-                      <p className="get-text">Account Name<span style={{color: 'red'}} >*</span></p>
-                      <input 
-                      type="text"
-                      // ref={input_recipientAccountName}
-                      defaultValue={formValue.accountName}
-                      onChange={(e)=>handleStep2InputChange(e,'accountName')}
-                        className='rate_input form-control'
-                        placeholder={senderDetailData.account_name}
-                        />
-                          {/* {error&&formValue.accountName.length<=0?
-                            <span style={myStyle}>Please Enter the Account Name </span>:""} */}
-                        <span style={myStyle}>{BankNameText.Enteraccountname? BankNameText.Enteraccountname: ''}</span>
-
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="input_field">
-                      <p className="get-text">Account number<span style={{color: 'red'}} >*</span></p>
-                      <input 
-                      type="text"
-                      name="accountNumber"
-                      // ref={input_recipientAccountNumber}
-                      className='rate_input form-control'
-                      defaultValue={formValue.accountNumber}
-                      onChange={(e)=> handleStep2InputChange(e,'accountNumber')}
-                      placeholder={senderDetailData.account_number}
-                        />
-                        {/* {error&&formValue.accountNumber.length<=0?
-                            <span style={myStyle}>Please Enter the Account number </span>:""} */}
-                            <span style={myStyle}>{BankNameText.Enteraccountnumber? BankNameText.Enteraccountnumber: ''}</span>
-                            <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span>
-                    </div>
-                  </div>
-                  </div>
                 <div className="row each-row">
                   <h5>Personal Details</h5>
                   <div className="col-md-4">
@@ -307,16 +284,13 @@ const [countryValue, setcountryValue] = React.useState('')
                       <p className="get-text">First Name<span style={{color: 'red'}} >*</span></p>
                       <input
                         type="text" 
-                        // ref={input_recipientFirstName}
                         className='rate_input form-control'
-                        name="firstName"
-                        defaultValue={formValue.firstName}
-                        onChange={(e)=> handleStep2InputChange(e,'firstName')}
-                        placeholder={senderDetailData.First_name}
+                        Value={firstName}
+                        onChange={(e)=>setFirstName(e.target.value)}
                         />
                           {/* {error&&formValue.firstName.length<=0?
                             <span style={myStyle}>Please Enter the First Name </span>:""} */}
-                          <span style={myStyle}>{BankNameText.first_name? BankNameText.first_name: ''}</span>
+                          <span style={myStyle}>{BankNameText? BankNameText: ''}</span>
                     </div>
                   </div>
                   <div className="col-md-4">
@@ -326,10 +300,8 @@ const [countryValue, setcountryValue] = React.useState('')
                         type="text"
                         // ref={input_recipientMiddleName}
                         className='rate_input form-control' 
-                        name="middleName"
-                        defaultValue={formValue.middleName}
-                        onChange={(e)=> handleStep2InputChange(e,'middleName')}
-                        placeholder={senderDetailData.middle_name}
+                        Value={middleName}
+                        onChange={(e)=>setMiddleName(e.target.value)}
                         />
                           <span style={myStyle}>{BankNameText.middle_name? BankNameText.middle_name: ''}</span>
                     </div>
@@ -341,17 +313,15 @@ const [countryValue, setcountryValue] = React.useState('')
                       type="text" 
                       // ref={input_recipientLastName}
                       className='rate_input form-control'
-                      name="lastName"
-                      defaultValue={formValue.lastName}
-                      onChange={(e)=> handleStep2InputChange(e,'lastName')}
-                      placeholder={senderDetailData.Last_name}
+                      Value={lastName}
+                      onChange={(e)=>setLastName(e.target.value)}
                         />
                         <span style={myStyle}>{BankNameText.last_name? BankNameText.last_name: ''}</span>
                     </div>
                   </div>
                 </div>
                 <div className="row each-row">
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <div className="input_field">
                       <p className="get-text">Email<span style={{color: 'red'}} >*</span></p>
                       <input
@@ -359,46 +329,28 @@ const [countryValue, setcountryValue] = React.useState('')
                         // ref={input_recipientEmail}
                         className='rate_input form-control'
                         name="email"
-                        defaultValue={formValue.email}
-                        onChange={(e)=> handleStep2InputChange(e,'email')}
-                        placeholder={senderDetailData.email}
+                        Value={email}
+                        onChange={(e)=>setEmail(e.target.value)}
                         />
                           <span style={myStyle}>{BankNameText.email? BankNameText.email: ''}</span>
                         
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <div className="input_field">
                       <p className="get-text">Mobile<span style={{color: 'red'}} >*</span></p>
                       <input 
                       type="text" 
                       // ref={input_recipientMobile}
-                      className='rate_input form-control'
-                      name="mobile"
-                      defaultValue={formValue.mobile}
-                      onChange={(e)=> handleStep2InputChange(e,'mobile')}
-                      placeholder={senderDetailData.mobile}
+                        className='rate_input form-control'
+                        name="mobile"
+                        Value={mobile}
+                        onChange={(e)=>setMobile(e.target.value)}
                         />
                         <span style={myStyle}>{BankNameText.mobile? BankNameText.mobile: ''}</span>
                         <span style={myStyle}>{BankNameText.Entervalidmobile? BankNameText.Entervalidmobile: ''}</span>
                         <span style={myStyle}>{BankNameText.Mobileexist? BankNameText.Mobileexist: ''}</span>
                         <span style={myStyle}>{BankNameText.Invalidmobile? BankNameText.Invalidmobile: ''}</span>
-                    </div>
-                  </div>
-
-                  <div className="col-md-4">
-                    <div className="input_field">
-                      <p className="get-text">customer id<span style={{color: 'red'}} >*</span></p>
-                      <input 
-                      type="text" 
-                      // ref={input_recipientMobile}
-                      className='rate_input form-control'
-                      name="customer_id"
-                      defaultValue={formValue.customer_id}
-                      onChange={(e)=> handleStep2InputChange(e,'customer_id')}
-                      placeholder={senderDetailData.customer_id}
-                        />
-                        
                     </div>
                   </div>
                 </div>
@@ -411,10 +363,8 @@ const [countryValue, setcountryValue] = React.useState('')
                           <Form.Control 
                           type="text" 
                           className='rate_input form-control' 
-                          name="flat"
-                          defaultValue={formValue.flat}
-                          onChange={(e)=> handleStep2InputChange(e,'flat')}
-                          placeholder={senderDetailData.flast}
+                          Value={flat}
+                          onChange={(e)=>setFlat(e.target.value)}
                            />
                         </Form.Group>
                       </div>
@@ -424,10 +374,8 @@ const [countryValue, setcountryValue] = React.useState('')
                             <Form.Control 
                             type="text" 
                             className='rate_input form-control' 
-                            name="Building"
-                            defaultValue={formValue.Building}
-                            onChange={(e)=> handleStep2InputChange(e,'Building')}
-                            placeholder={senderDetailData.building}
+                            Value={building}
+                            onChange={(e)=>setBuilding(e.target.value)}
                             />
                         </Form.Group>
                     </div>
@@ -437,10 +385,8 @@ const [countryValue, setcountryValue] = React.useState('')
                           <Form.Control 
                             type="text" 
                             className='rate_input form-control' 
-                            name="flat"
-                            defaultValue={formValue.flat}
-                            onChange={(e)=> handleStep2InputChange(e,'flat')}
-                            placeholder={senderDetailData.street}
+                            Value={street}
+                            onChange={(e)=>setStreet(e.target.value)}
                             />
                         </Form.Group>
                       </div>
@@ -452,10 +398,8 @@ const [countryValue, setcountryValue] = React.useState('')
                           <Form.Control 
                             type="text" 
                             className='rate_input form-control' 
-                            name="postcode"
-                            defaultValue={formValue.postcode}
-                            onChange={(e)=> handleStep2InputChange(e,'postcode')}
-                            placeholder={senderDetailData.postcode}
+                            Value={postcode}
+                            onChange={(e)=>setPostcode(e.target.value)}
                             />
                         </Form.Group>
                     </div>
@@ -465,10 +409,8 @@ const [countryValue, setcountryValue] = React.useState('')
                           <Form.Control 
                             type="text" 
                             className='rate_input form-control' 
-                            name="city"
-                            defaultValue={formValue.city}
-                            onChange={(e)=> handleStep2InputChange(e,'city')}
-                            placeholder={senderDetailData.city}
+                            Value={city}
+                            onChange={(e)=>setCity(e.target.value)}
                             />
                       </Form.Group>
                     </div>
@@ -478,10 +420,8 @@ const [countryValue, setcountryValue] = React.useState('')
                           <Form.Control 
                             type="text" 
                             className='rate_input form-control' 
-                            name="state"
-                            defaultValue={formValue.state}
-                            onChange={(e)=> handleStep2InputChange(e,'state')}
-                            placeholder={senderDetailData.state}
+                            Value={state}
+                            onChange={(e)=>setState(e.target.value)}
                             />
                           </Form.Group>
                       </div>
@@ -495,10 +435,8 @@ const [countryValue, setcountryValue] = React.useState('')
                           <Form.Control 
                             type="text" 
                             className='rate_input form-control' 
-                            name="country_code"
-                            defaultValue={formValue.country_code}
-                            onChange={(e)=> handleStep2InputChange(e,'country_code')}
-                            placeholder={senderDetailData.country_code}
+                            Value={country_code}
+                            onChange={(e)=>setCountry_code(e.target.value)}
                             />
                       </Form.Group>
                     </div>
@@ -520,7 +458,10 @@ const [countryValue, setcountryValue] = React.useState('')
                         defaultValue={formValue.country}
                         onChange={(e)=> handleStep2InputChange(e,'country')}
                         placeholder={senderDetailData.location}
-                        ></CountryDropdown> */}
+                        ></CountryDropdown> 
+                         defaultValue={country}
+                        onChange={(e)=> (e,'country')}
+                        ></CountryDropdown>*/}
                     </Form.Group>
                   </div>
                   <div className="col-md-4">
@@ -530,9 +471,8 @@ const [countryValue, setcountryValue] = React.useState('')
                         className="form-select rate_input form-control"
                         aria-label="Select a reason"
                         // ref={input_recipientReasoMoney}
-                        name="reasonMoney"
-                        defaultValue={formValue.reasonMoney}
-                        onChange={(e)=> handleStep2InputChange(e,'reasonMoney')}
+                        Value={reasonMoney}
+                        onChange={(e)=>setReasonMoney(e.target.value)}
                         > 
                         <option selected>Select a reason</option>
                         <option value="Family Support">Family Support</option>

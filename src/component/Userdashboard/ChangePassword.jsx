@@ -12,7 +12,7 @@ import Modal from 'react-bootstrap/Modal';
 {/* start -- css*/}
 const myStyle= {
   color: "red",
-  fontSize: "14px",
+  fontSize: "13px",
   textTransform: "capitalize"
 }
 {/* End -- css*/}
@@ -38,6 +38,7 @@ const Profile = () => {
 
     /*********************Start Validation state Text************** */
     const [old_passwordText, setold_passwordText] = useState('');
+    const [wrongold_passwordText, seWrongold_passwordText] = useState('');
     const [new_passwordText, setnew_passwordText] = useState('');
     const [successText, setsuccessText] = useState('');
     
@@ -98,7 +99,7 @@ const Profile = () => {
             setActive(true)
         } else {
           setActive(false)
-        setLoading(true); // Set loading before sending API request
+          setLoading(true); // Set loading before sending API request
             axios.post(API.BASE_URL + `change-password/`, {
               old_password: old_password,
               new_password:  new_password,
@@ -122,11 +123,9 @@ const Profile = () => {
                 // if(error.response.status){
                 //     toast.error(error.response.data.message || error.response.data.non_field_errors);
                 // }
+                seWrongold_passwordText(error.response.data.Enteroldpassword)
                 setold_passwordText(error.response.data.old_password);
-                setnew_passwordText(error.response.data.new_password);
-              
-                
-             
+                setnew_passwordText(error.response.data.Enternewpassword);
             })
         }
       }
@@ -138,7 +137,7 @@ const Profile = () => {
           {/* <!-- ======= help Remitassure Change password -Section  start======= --> */}
 
           {  
-           token ||verification_otp != undefined || '' ? (
+           token != undefined || '' ? (
 
             <div  className="margin-set">
     <div  className="tabs-page">
@@ -171,6 +170,8 @@ const Profile = () => {
                          {/* {error&&currentPassword.length<=0?
 				                          <span style={myStyle}>Please Enter the Current Password </span>:""}  */}
                           <span  style={myStyle}>{old_passwordText? old_passwordText: ""}</span> 
+                          <span  style={myStyle}>{wrongold_passwordText? wrongold_passwordText: ""}</span> 
+                          
                         </Form.Group>
                       </div>
                       <div className="col-md-4">

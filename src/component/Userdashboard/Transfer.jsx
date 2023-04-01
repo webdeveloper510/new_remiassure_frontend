@@ -31,7 +31,7 @@ const Transaction = () => {
     return(
         <>
          {  
-           token || verification_otp != undefined || '' ? (
+           token  != undefined || '' ? (
 
           <div className="margin-set">
               <div className="tabs-page">

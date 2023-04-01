@@ -19,7 +19,7 @@ import countryList from 'react-select-country-list'
 // start css
 const myStyle ={
   color: "red",
-  fontSize: "14px",
+  fontSize: "13px",
   textTransform: "capitalize"
 }
 
@@ -150,7 +150,7 @@ const [countryValue, setcountryValue] = React.useState('')
           mobile:formValue.mobile,
           flat: formValue.flat,
           building: formValue.building,
-          street: formValue.street,
+          sreet: formValue.street,
           postcode: formValue.postcode,
           city: formValue.city,  
           state: formValue.state,  
@@ -188,7 +188,7 @@ const [countryValue, setcountryValue] = React.useState('')
         {/* <Recipients /> */}
       
         {  
-           token || verification_otp != undefined || '' ? (
+           token != undefined || '' ? (
 
         <div  className="margin-set">
             <div  className="tabs-page">
@@ -224,7 +224,7 @@ const [countryValue, setcountryValue] = React.useState('')
                           defaultValue={formValue.bankName}
                           onChange={(e)=>handleStep2InputChange(e,'bankName')}
                           />   
-                          <span style={myStyle}>{BankNameText.Enterbankname? BankNameText.Enterbankname: ''}</span>
+                          <span style={myStyle}>{BankNameText.Enterbank? BankNameText.Enterbank: ''}</span>
 
                       </div>
                   </div>
@@ -258,7 +258,7 @@ const [countryValue, setcountryValue] = React.useState('')
                         />
                         {/* {error&&formValue.accountNumber.length<=0?
                             <span style={myStyle}>Please Enter the Account number </span>:""} */}
-                            <span style={myStyle}>{BankNameText.Enteraccountnumber? BankNameText.Enteraccountnumber: ''}</span>
+                            <span style={myStyle}>{BankNameText.Anteraccountnumber? BankNameText.Anteraccountnumber: ''}</span>
                             <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span>
                     </div>
                   </div>
@@ -338,7 +338,7 @@ const [countryValue, setcountryValue] = React.useState('')
                       onChange={(e)=> handleStep2InputChange(e,'mobile')}
                         />
                         <span style={myStyle}>{BankNameText.mobile? BankNameText.mobile: ''}</span>
-                        <span style={myStyle}>{BankNameText.Entervalidmobile? BankNameText.Entervalidmobile: ''}</span>
+                        <span style={myStyle}>{BankNameText.Validmobile? BankNameText.Validmobile: ''}</span>
                         <span style={myStyle}>{BankNameText.Mobileexist? BankNameText.Mobileexist: ''}</span>
                         <span style={myStyle}>{BankNameText.Invalidmobile? BankNameText.Invalidmobile: ''}</span>
                     </div>
@@ -353,9 +353,9 @@ const [countryValue, setcountryValue] = React.useState('')
                           <Form.Control 
                           type="text" 
                           className='rate_input form-control'
-                          name="Flat"
-                          defaultValue={formValue.Flat}
-                          onChange={(e)=> handleStep2InputChange(e,'Flat')}
+                          name="flat"
+                          defaultValue={formValue.flat}
+                          onChange={(e)=> handleStep2InputChange(e,'flat')}
                          />
                         </Form.Group>
                       </div>
@@ -365,9 +365,9 @@ const [countryValue, setcountryValue] = React.useState('')
                             <Form.Control 
                             type="text" 
                             className='rate_input form-control'
-                            name="Building"
-                            defaultValue={formValue.Building}
-                            onChange={(e)=> handleStep2InputChange(e,'Building')}
+                            name="building"
+                            defaultValue={formValue.building}
+                            onChange={(e)=> handleStep2InputChange(e,'building')}
                               />
                         </Form.Group>
                     </div>
