@@ -1053,7 +1053,7 @@ const [countryValue, setcountryValue] = React.useState('')
                   onChange={(e)=> handleStep2InputChange(e,'accountNumber')}
                 />          
                 <span style={myStyle}>{BankNameText.Anteraccountnumber? BankNameText.Anteraccountnumber: ''}</span>
-                <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span>
+                <span style={myStyle}>{BankNameText.Accountexist? BankNameText.Accountexist: ''}</span>
                 
               </div>
             </div>
@@ -1132,7 +1132,7 @@ const [countryValue, setcountryValue] = React.useState('')
                   onChange={(e)=> handleStep2InputChange(e,'mobile')}
                 />
                   <span style={myStyle}>{BankNameText.mobile? BankNameText.mobile: ''}</span>
-                  <span style={myStyle}>{BankNameText.Entervalidmobile? BankNameText.Entervalidmobile: ''}</span>
+                  <span style={myStyle}>{BankNameText.Validmobile? BankNameText.Validmobile: ''}</span>
                   <span style={myStyle}>{BankNameText.Mobileexist? BankNameText.Mobileexist: ''}</span>
                   <span style={myStyle}>{BankNameText.Invalidmobile? BankNameText.Invalidmobile: ''}</span>
                 

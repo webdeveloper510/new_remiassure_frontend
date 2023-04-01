@@ -258,7 +258,7 @@ const [countryValue, setcountryValue] = React.useState('')
                         />
                         {/* {error&&formValue.accountNumber.length<=0?
                             <span style={myStyle}>Please Enter the Account number </span>:""} */}
-                            <span style={myStyle}>{BankNameText.Anteraccountnumber? BankNameText.Anteraccountnumber: ''}</span>
+                            <span style={myStyle}>{BankNameText.Enteraccountnumber? BankNameText.Enteraccountnumber: ''}</span>
                             <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span>
                     </div>
                   </div>

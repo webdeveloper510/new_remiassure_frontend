@@ -1095,6 +1095,7 @@ const [countryValue, setcountryValue] = React.useState('')
                 />
                         
                 <span style={myStyle}>{BankNameText.Enteraccountname? BankNameText.Enteraccountname: ''}</span>
+                <span style={myStyle}>{BankNameText.message? BankNameText.message: ''}</span>
               </div>
             </div>
             <div className="col-md-4">
