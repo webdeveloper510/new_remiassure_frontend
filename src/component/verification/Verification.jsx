@@ -23,6 +23,7 @@ const myStyle= {
 
 
 const Verification = () => {
+    
 
     const [loading, setLoading] = useState(false);
     const [otp, setOtp] = useState("");
@@ -33,7 +34,8 @@ const Verification = () => {
     const [AlreadyverifiedText, setAlreadyverifiedText] = useState('');
  
 
-   
+    const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token" ,signup_token);
 
     //multiple store data in one variable
     // const Allvalue = email_otp + firstnumber +secondnumber +thirednumber +fournumber  +fivenumber +sixnumber ;
@@ -62,6 +64,7 @@ const Verification = () => {
             }, {
                 headers: {
                     'Content-Type': 'application/json',
+                    "Authorization" : `Bearer ${signup_token}`,
                 },
             })
             .then(function(response) {

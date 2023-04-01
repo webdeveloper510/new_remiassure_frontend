@@ -28,7 +28,7 @@ console.log("RecipientUserName", RecipientUserName);
 // Start page show hide condtion page
 
 
-const [data, setData] = useState([]);
+const [transactionData, setTransactionData] = useState([]);
 const [RecepientsData, setRecepientsData] = useState('');
 const [loading, setLoading] = useState(false);
 
@@ -79,7 +79,7 @@ const navigate = useNavigate();
           })
           .then(function(response) {
               console.log("Recipients APIIIII", response.data);
-              setData(response.data);
+              setTransactionData(response.data);
               localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
               setLoading(false); // Stop loading
         
@@ -95,7 +95,7 @@ const navigate = useNavigate();
           })
     }, [])
 
-console.log(data," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
 
 
@@ -117,41 +117,49 @@ console.log(data," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
          </div>
            <div className="card-body">
         <div className="tabs-recipent-new">
+
           <Table className="table table-responsive-md card-table previous-transactions">
             <thead>
               <tr>
                 <th>Date</th>
                 <th>Amount</th>
+                <th>customer_id</th>
+                <th>reason</th>
+                {/* <th>send_currency</th>
+                <th>recieve_currency</th> */}
+                {/* <th>send_method</th> */}
+                <th>transaction_id</th>
                 <th>Recipient</th>
                 <th>Status</th>
+                
               </tr>
             </thead>
+
             <tbody>
+            {
+               transactionData.data?.map((res, index) => {
+                 //console.log(items, "itemnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+             return(
               <tr>
-                <td>June 4, 2020</td>
-                <td>200 AUD</td>
-                <td>neha</td>
-                <td><span className="btn btn-outline-success btn-rounded" onClick={handleShow}>Delivered</span></td>
+                <td>{res.date}</td>
+                <td>{res.amount + res.send_currency}</td>
+                <td>{res.customer_id}</td>
+                <td>{res.reason}</td>
+                {/* <td>{res.send_currency}</td>
+                <td>{res.recieve_currency}</td> */}
+                {/* <td>{res.send_method}</td> */}
+                <td>{res.transaction_id}</td>
+                <td>{res.Recipient}</td>
+
+                <td><span className="btn btn-outline-success btn-rounded" onClick={handleShow}>{res.status}</span></td>
               </tr>
-              <tr>
-              <td>June 4, 2020</td>
-                <td>200 AUD</td>
-                <td>neha</td>
-                <td><span className="btn btn-outline-warning btn-rounded" onClick={handleShow}>InProgress</span></td>
-              </tr>
-              <tr>
-              <td>June 4, 2020</td>
-                <td>200 AUD</td>
-                <td>neha</td>
-                <td><span className="btn btn-outline-danger btn-rounded" onClick={handleShow}>Cancelled</span></td>
-              </tr>
-              <tr>
-              <td>June 4, 2020</td>
-                <td>200 AUD</td>
-                <td>neha</td>
-                <td><span className="btn btn-outline-success btn-rounded" onClick={handleShow}>Delivered</span></td>
-              </tr>
+                          
+              )    
+            })}
             </tbody>
+
+
+
           </Table>
 
           <Modal show={show} onHide={handleClose}

@@ -34,13 +34,9 @@ const UserSendMoney = () => {
 /************ Start page show hide condtion page ***************/
    const token = localStorage.getItem("token");
    console.log("TOKEN", token);
-
-
-
    const verification_otp = localStorage.getItem("verification_otp");
    console.log("Verification Message", verification_otp)
-
-
+   
   /******************* Start Api call Amount & Delivery State  *******/
   const [from, setFrom] =React.useState('USD');
   const [shows, setShows] = React.useState(false);
@@ -70,9 +66,11 @@ const UserSendMoney = () => {
  
 
   /************ Start -Recipient Bank Details***************/
+  const [id, setId] = React.useState('');
  const [formValue, setFormValue] = React.useState ({
   bankName:'',accountName:'', accountNumber:'',firstName:'', middleName:'',
- lastName:'',email:'',mobile:'',address:'',reasonMoney:''});
+ lastName:'',email:'',mobile:'',flat:'',building:'',street:'',postcode:'',city:'',state:'',
+ country_code:'',country:'',reasonMoney:''});
 
   /************ Start -messageText state***************/
   const [BankNameText, setBankNameText] = React.useState('');
@@ -300,6 +298,30 @@ const handlRecipientBankDetails =(e) => {
   console.log("handle request ");
 }
 
+/**********Get data to localstoarge ***************/
+const FromValue = localStorage.getItem("FromValue")
+console.log(FromValue, "FromValue");
+
+const ToValue = localStorage.getItem("ToValue")
+console.log(ToValue, "ToValue");
+
+const AmountValue = localStorage.getItem("AmountValue")
+console.log(AmountValue, "AmountValue");
+
+const recipient_id = localStorage.getItem("recipient_id")
+console.log(recipient_id, "recipient_id");
+
+const recipientMoneyReason = localStorage.getItem("recipientMoneyReason")
+console.log(recipientMoneyReason, "recipientMoneyReason");
+
+const recipientDestination = localStorage.getItem("recipientDestination")
+console.log(recipientDestination, "recipientDestination");
+
+const recipientName = localStorage.getItem("recipientName")
+console.log(recipientName, "recipientName");
+
+
+
 
 /****************** select country *******************/
 
@@ -365,6 +387,9 @@ const [countryValue, setcountryValue] = React.useState('')
             setStep(step+1) //next step call
             setShows(!shows) //show hide summery function call
             setLoading(false); // Stop loading 
+            localStorage.setItem("FromValue", from);
+            localStorage.setItem("ToValue", to);
+            localStorage.setItem("AmountValue", amountValue.amountInput);
 
         })
         .catch(function(error, message) {
@@ -423,6 +448,9 @@ const [countryValue, setcountryValue] = React.useState('')
           setExchange_amount(response.data.amount);
           setTotal_rate( response.data.rate);
           setLoading(false); // Stop loading
+          localStorage.setItem("FromValue", from);
+          localStorage.setItem("ToValue", to);
+          localStorage.setItem("AmountValue", amountValue.amountInput);
       })
       .catch(function(error, message) {
           console.log(error.response)
@@ -474,6 +502,9 @@ const [countryValue, setcountryValue] = React.useState('')
         setExchange_amount(response.data.amount);
         setTotal_rate( response.data.rate);
         setLoading(false); // Stop loading
+        localStorage.setItem("FromValue", from);
+        localStorage.setItem("ToValue", to);
+        localStorage.setItem("AmountValue", amountValue.amountInput);
     })
     .catch(function(error, message) {
         console.log(error.response)
@@ -526,14 +557,15 @@ const [countryValue, setcountryValue] = React.useState('')
           last_name: formValue.lastName,
           email: formValue.email,
           mobile:formValue.mobile,
-          flat: formValue.firstName,
-          building: formValue.firstName,
-          sreet: formValue.firstName,
-          postcode: formValue.firstName,
-          city: formValue.firstName,  
-          state: formValue.firstName,  
-          country_code: formValue.firstName,
-          country: formValue.firstName,
+          flat: formValue.flat,
+          building: formValue.building,
+          street: formValue.street,
+          postcode: formValue.postcode,
+          city: formValue.city,  
+          state: formValue.state,  
+          country_code: formValue.country_code,
+          country: countryValue.label,
+          reasonMoney:formValue.reasonMoney,
          
         }, {
             headers: {
@@ -543,10 +575,15 @@ const [countryValue, setcountryValue] = React.useState('')
         })
         .then(function(response) {
             console.log(response);
+            console.log(response.data.recipient_data.id)
             handleShow(); //show view page
             setStep(step+1)
-
             setLoading(false); // Stop loading 
+            setId(response.data.recipient_data.id)
+            
+            localStorage.setItem("recipientMoneyReason", formValue.reasonMoney);
+            localStorage.setItem("recipientDestination", countryValue.label);
+            localStorage.setItem("recipientName", formValue.firstName);
         })
         .catch(function(error, message) {
             console.log(error.response);
@@ -556,6 +593,9 @@ const [countryValue, setcountryValue] = React.useState('')
         })
     }
   // }
+  
+  console.log(id,'============> id');
+  localStorage.setItem("recipient_id", id);
 
 
    /**************************************************************************
@@ -588,23 +628,9 @@ const [countryValue, setcountryValue] = React.useState('')
       console.log(data," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
 
-       /**************************************************************************
+    /**************************************************************************
    * ************** Start  Create Card Bank Details ****************************
    * ***********************************************************************/
-  
-     /* start-- useRef is used for focusing on inputbox */
-    //  const input_grant_type = useRef(null);
-    //  const input_recipientAccountName = useRef(null);
-    //  const input_recipientAccountNumber = useRef(null);
-    //  const input_recipientFirstName = useRef(null);
-    //  const input_recipientMiddleName = useRef(null);
-    //  const input_recipientLastName = useRef(null);
-    //  const input_recipientEmail = useRef(null);
-    //  const input_recipientMobile = useRef(null);
-    //  const input_recipientReasoMoney = useRef(null);
-    //  const input_recipientAddress = useRef(null);
-  
-  
      const handleCradBankDetails =(event) =>{
         event.preventDefault();
 
@@ -634,7 +660,8 @@ const [countryValue, setcountryValue] = React.useState('')
             handleCloseDetails();
             // window.location.reload();
             setLoading(false); // Stop loading 
-            navigate('/dashboard'); 
+            // navigate('/dashboard'); 
+          
             
         })
         .catch(function(error, message) {
@@ -644,6 +671,51 @@ const [countryValue, setcountryValue] = React.useState('')
              
         })
     }
+  // }
+
+
+   /**************************************************************************
+   * ************** Start  Paymet Card Bank Details ****************************
+   * ***********************************************************************/
+      const handlePaymentCard =(event) =>{
+        event.preventDefault();
+
+        setLoading(true); // Set loading before sending API request
+        axios.post(API.BASE_URL + 'payment/stripe/card/', {
+            send_currency: FromValue,
+            recieve_currency: ToValue,
+            amount: AmountValue,
+            recipient_id: recipient_id,
+            reason: recipientMoneyReason,
+            destination: recipientDestination,
+            name: formCardValue.cardName,
+            number: formCardValue.cardNumber,
+            exp_month: '1',
+            exp_year: '26',
+            exp_month: '1',
+            cvc: formCardValue.securityCode,
+          
+          }, {
+              headers: {
+                "Authorization" : `Bearer ${token}`,
+              },
+            
+          })
+          .then(function(response) {
+              console.log(response);
+              handleCloseDetails();
+              // window.location.reload();
+              setLoading(false); // Stop loading 
+              navigate('/transfer'); 
+              
+          })
+          .catch(function(error, message) {
+              console.log(error.response);
+              setLoading(false); // Stop loading in case of error
+              setCardErrorText(error.response.data); 
+              
+          })
+      }
   // }
 
     /**************************************************************************
@@ -1308,11 +1380,11 @@ const [countryValue, setcountryValue] = React.useState('')
               <div className="input_field">
                 <p className="get-text">Country</p>
                 <Select
-                                     ref={input_location}
-                                     options={countryoptions} 
-                                     value={countryValue} 
-                                     onChange={changeHandler}
-                                      />
+                 ref={input_location}
+                 options={countryoptions} 
+                 value={countryValue} 
+                 onChange={changeHandler}
+               />
                 {/* <input
                   type="text" 
               
@@ -1427,6 +1499,7 @@ const [countryValue, setcountryValue] = React.useState('')
              checked={moneyTransiction.paymentType== "Debit/Credit Card"}
              value="Debit/Credit Card" 
              onChange={e => onInputChange(e)}
+             onClick={ShowCardDetails}
               />
             <span className="checkmark"></span>
           </label>
@@ -1452,7 +1525,7 @@ const [countryValue, setcountryValue] = React.useState('')
           <button className="start-form-button">Clear</button>
         </div>
         <div className="col-md-8">
-          <button className="form-button" onClick={ShowCardDetails}>Continue</button>
+          <button className="form-button">Continue</button>
           <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button>
         </div>
       </div>
@@ -1538,7 +1611,7 @@ const [countryValue, setcountryValue] = React.useState('')
            defaultValue={formCardValue.cardNumber}
            onChange={(e)=>handleCardInputChange(e,'cardNumber')}
           />
-            <span style={myStyle}>{CardErrorText.card_number? CardErrorText.card_number: ''}</span>
+            <span style={myStyle}>{CardErrorText.Entercard? CardErrorText.Entercard: ''}</span>
         </div>
     </div>
   </div>
@@ -1560,7 +1633,7 @@ const [countryValue, setcountryValue] = React.useState('')
 
    <div className="col-md-6">
       <div className="input_field">
-        <p className="get-text">Security Code<span style={{color: 'red'}} >*</span> </p>
+        <p className="get-text">CVV<span style={{color: 'red'}} >*</span> </p>
           <input
           type="text" 
           className='rate_input form-control'
@@ -1568,7 +1641,7 @@ const [countryValue, setcountryValue] = React.useState('')
           defaultValue={formCardValue.securityCode}
           onChange={(e)=>handleCardInputChange(e,'securityCode')}
           />
-                <span style={myStyle}>{CardErrorText.expiry_year? CardErrorText.expiry_year: ''}</span>
+                <span style={myStyle}>{CardErrorText.Entercvc? CardErrorText.Entercvc: ''}</span>
         </div>
        </div>
    </div>
@@ -1583,29 +1656,31 @@ const [countryValue, setcountryValue] = React.useState('')
           defaultValue={formCardValue.cardName}
           onChange={(e)=>handleCardInputChange(e,'cardName')}
         />
-           <span style={myStyle}>{CardErrorText.name? CardErrorText.name: ''}</span>
+           <span style={myStyle}>{CardErrorText.Name? CardErrorText.Name: ''}</span>
        </div>
      </div>
   </div>
 
   <div className="col-md-12">
-     <div className="saved-label"> <input type="checkbox"/><label>Save Card Details</label></div>
+     <div className="saved-label"> <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
+    Save
+    </Button><label>Save Card Details</label></div>
   </div>
    </form>
   </div>
 
    {/* End add card */}
 
- </Modal.Body>
-    <Modal.Footer>
- <Button variant="secondary" onClick={handleCloseDetails}>
-    Close
-  </Button>
-    <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
-    Save
+  </Modal.Body>
+      <Modal.Footer>
+  <Button variant="secondary" onClick={handleCloseDetails}>
+      Close
     </Button>
-  </Modal.Footer>
-</Modal>
+      <Button type="submit" variant="primary" onClick={handlePaymentCard}>
+      Payment
+      </Button>
+    </Modal.Footer>
+  </Modal>
   
     
    </>
