@@ -3853,7 +3853,6 @@ p.send-text {
 }
 
 p.get-text {
-  background: #fff;
   text-align: left;
   width: max-content;
   z-index: 11;
@@ -3865,7 +3864,6 @@ p.get-text {
 }
 
 p.recived-text {
-  background: #fff;
   text-align: left;
   width: max-content;
   margin-bottom: -8px;
@@ -4611,6 +4609,9 @@ button.start-form-button.full-width {
   width: 70%;
   margin: 0 auto;
   text-align: center;
+}
+.add-rec-new img {
+  width: 50%;
 }
 .add-rec-new button {
   width: 100%;
@@ -5404,7 +5405,37 @@ img.send-money-img {
 /* .fade.modal-backdrop.show {
   background: rgb(0 0 0 / 37%);
 } */
-
+.modal-backdrop{
+  background: rgb(0 0 0 / 26%) !important;
+}
 .addsingle_recepient svg {
   margin-right: 7px;
+}
+.exchange-errors {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.add-recipent-section ul li {
+  cursor: pointer;
+}
+.card-fields input {
+  padding-left: 44px;
+  background: #F5F7F9;
+}
+.card-fields i {
+  position: absolute;
+  top: 11px;
+  left: 15px;
+}
+.card-fields {
+  display: block;
+  position: relative;
+  margin-right: 10px;
+}
+.card-date {
+  display: flex;
+}
+.card-date span {
+  margin-right: 10px;
+  margin-top: 8px;
 }

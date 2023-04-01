@@ -255,9 +255,6 @@ console.log(courses,"coursescourses");
 
 
 
-
-
-
  
   
   // console.log(from, "fromfromfromfromfromfromfromfrom")
@@ -606,6 +603,7 @@ const [countryValue, setcountryValue] = React.useState('')
   
   
      const handleCradBankDetails =(event) =>{
+    
         event.preventDefault();
 
           //useRef is used for focusing on inputbox
@@ -1018,8 +1016,9 @@ const [countryValue, setcountryValue] = React.useState('')
        
         <div className="card">
             <div className="card-body">
-            {  
-              token  != undefined || '' ? (
+              
+           
+                { data?.length != 0 ? (
               <div>
                   {
                     data.data?.map((res, index) => {           
@@ -1036,15 +1035,26 @@ const [countryValue, setcountryValue] = React.useState('')
                       })}
 
               </div>
+              ):(
+                <>
+                </>
+            )
+              }   
 
-               ) : (
+
+{ data?.length == 0 ? (
                 <>
                 <div class="no-recipt">
                   <h5>No Recipient</h5>
                   <img src={norecipients} alt="no-recipeint"/>
                 </div>
                 </>
-                     )
+                    
+                     ):(
+                 <>
+                    
+                 </>
+                  )
                      }
                       
                   <div className="add-rec">
@@ -1109,7 +1119,7 @@ const [countryValue, setcountryValue] = React.useState('')
                   defaultValue={formValue.accountNumber}
                   onChange={(e)=> handleStep2InputChange(e,'accountNumber')}
                 />          
-                <span style={myStyle}>{BankNameText.Anteraccountnumber? BankNameText.Anteraccountnumber: ''}</span>
+                <span style={myStyle}>{BankNameText.Enteraccountnumber? BankNameText.Enteraccountnumber: ''}</span>
                 <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span>
               </div>
             </div>
@@ -1427,6 +1437,7 @@ const [countryValue, setcountryValue] = React.useState('')
              checked={moneyTransiction.paymentType== "Debit/Credit Card"}
              value="Debit/Credit Card" 
              onChange={e => onInputChange(e)}
+             onClick={ShowCardDetails}
               />
             <span className="checkmark"></span>
           </label>
@@ -1452,7 +1463,7 @@ const [countryValue, setcountryValue] = React.useState('')
           <button className="start-form-button">Clear</button>
         </div>
         <div className="col-md-8">
-          <button className="form-button" onClick={ShowCardDetails}>Continue</button>
+          <button className="form-button">Continue</button>
           <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button>
         </div>
       </div>
@@ -1488,7 +1499,7 @@ const [countryValue, setcountryValue] = React.useState('')
         <td>
           <Accordion>
       <Accordion.Item eventKey="0">
-     <Accordion.Header><img src={creditcards}  alt="credit cards" /><span>Master card</span> </Accordion.Header>
+     <Accordion.Header><img src={creditcards}  alt="credit cards" /><span>{res.number}</span> </Accordion.Header>
           <Accordion.Body>
            <ul>
             <li>
@@ -1525,49 +1536,77 @@ const [countryValue, setcountryValue] = React.useState('')
  {/* start add card */}
   <div className="addnewcard">
     <p>Please add your card details</p>
+   
   <form>
-    <div className="row each-row">
+    <div className="row">
         <div className="col-md-12">
           <div className="input_field">
-            <img src={creditcards}  alt="credit cards" />
+            {/* <img src={creditcards}  alt="credit cards" /> */}
             <p className="get-text">Card Number<span style={{color: 'red'}} >*</span> </p>
+            <div className="card-fields">
           <input
            type="text"
            className='rate_input form-control'
            name="cardNumber"
+           placeholder="XXXX-XXXX-XXXX-XXXX"
            defaultValue={formCardValue.cardNumber}
            onChange={(e)=>handleCardInputChange(e,'cardNumber')}
           />
+          <i class="fa fa-credit-card" id="cardtype"></i>
+          </div>
             <span style={myStyle}>{CardErrorText.card_number? CardErrorText.card_number: ''}</span>
         </div>
     </div>
   </div>
 
   <div className="row each-row">
-    <div className="col-md-6">
+    <div className="col-md-8">
       <div className="input_field">
          <p className="get-text">Expiration Date<span style={{color: 'red'}} >*</span></p>
+         <div className="card-date">
+         <div className="card-fields">
         <input
           type="text" 
           className='rate_input form-control'
           name="expirationDate"
+          placeholder="Month"
            defaultValue={formCardValue.expirationDate}
            onChange={(e)=>handleCardInputChange(e,'expirationDate')}
        />
-            <span style={myStyle}>{CardErrorText.expiry_month? CardErrorText.expiry_month: ''}</span>
+       <i class="fa fa-calendar"></i>
+       <span style={myStyle}>{CardErrorText.expiry_month? CardErrorText.expiry_month: ''}</span>
+       </div>
+       <span>/</span>
+       <div className="card-fields">
+        <input
+          type="text" 
+          className='rate_input form-control'
+          name="expirationDate"
+          placeholder="Year"
+           defaultValue={formCardValue.expirationDate}
+           onChange={(e)=>handleCardInputChange(e,'expirationDate')}
+       />
+       <i class="fa fa-calendar"></i>
+       <span style={myStyle}>{CardErrorText.expiry_month? CardErrorText.expiry_month: ''}</span>
+       </div>
+         </div>
       </div>
     </div>
 
-   <div className="col-md-6">
+   <div className="col-md-4">
       <div className="input_field">
-        <p className="get-text">Security Code<span style={{color: 'red'}} >*</span> </p>
+        <p className="get-text">CVV<span style={{color: 'red'}} >*</span> </p>
+        <div className="card-fields">
           <input
-          type="text" 
+          type="password" 
           className='rate_input form-control'
           name="securityCode"
+          placeholder="000"
           defaultValue={formCardValue.securityCode}
           onChange={(e)=>handleCardInputChange(e,'securityCode')}
           />
+          <i class="fa fa-lock"></i>
+          </div>
                 <span style={myStyle}>{CardErrorText.expiry_year? CardErrorText.expiry_year: ''}</span>
         </div>
        </div>
@@ -1576,6 +1615,7 @@ const [countryValue, setcountryValue] = React.useState('')
       <div className="col-md-12">
         <div className="input_field">
            <p className="get-text">Your name as it appears on card<span style={{color: 'red'}} >*</span> </p>
+           <div className="card-fields">
          <input
           type="text" 
           className='rate_input form-control'
@@ -1583,6 +1623,8 @@ const [countryValue, setcountryValue] = React.useState('')
           defaultValue={formCardValue.cardName}
           onChange={(e)=>handleCardInputChange(e,'cardName')}
         />
+        <i class="fa fa-user"></i>
+        </div>
            <span style={myStyle}>{CardErrorText.name? CardErrorText.name: ''}</span>
        </div>
      </div>

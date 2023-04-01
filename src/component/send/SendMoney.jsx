@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import UserContext from "../context/UserContext";
 import { HiSwitchHorizontal } from 'react-icons/hi';
-
+import Accordion from 'react-bootstrap/Accordion';
 import { toast } from "react-toastify";
 import { API } from "../../config/API";
 import axios from "axios";
@@ -18,12 +18,12 @@ import verified from '../../assets/img/userdashboard/3.png';
 import { BsCheckCircleFill } from "react-icons/bs";
 import Select from "react-select";
 import countryList from 'react-select-country-list'
-
+import creditcards from '../../assets/img/userdashboard/mastercard.png';
 import sendmoney from "../../assets/img/userdashboard/money3.webp";
 // start css
 const myStyle ={
   color: "red",
-  fontSize:"14px",
+  fontSize:"13px",
   textTransform: "capitalize"
 }
 
@@ -61,6 +61,57 @@ const [amountValue, setAmountValue] = React.useState({
   // summaryList: false,
 })
 
+// Start -Recipient Crad Details 
+const handleCardInputChange =(e,key) =>{
+  console.log(e.target.value)
+  console.log(key)
+  let CardForm = formCardValue
+  CardForm[key] = e.target.value
+  setFormValue(CardForm)
+  console.log(formCardValue)
+}
+
+const handleCradBankDetails =(event) =>{
+    
+  event.preventDefault();
+
+    //useRef is used for focusing on inputbox
+//     if(errorBankName.length==0){
+//   		input_grant_type.current.focus();
+//   		setError(true);
+//       console.log(error, "error")
+//   	} 
+
+//  else{
+
+  setLoading(true); // Set loading before sending API request
+  axios.post(API.BASE_URL + 'payment/create-card/', {
+    card_number: formCardValue.cardNumber,
+    expiry_month: formCardValue.expirationDate,
+    expiry_year: formCardValue.securityCode,
+    name: formCardValue.cardName, 
+  }, {
+      headers: {
+        "Authorization" : `Bearer ${token}`,
+      },
+    
+  })
+  .then(function(response) {
+      console.log(response);
+      handleCloseDetails();
+      // window.location.reload();
+      setLoading(false); // Stop loading 
+      navigate('/dashboard'); 
+      
+  })
+  .catch(function(error, message) {
+      console.log(error.response);
+      setLoading(false); // Stop loading in case of error
+      setCardErrorText(error.response.data); 
+       
+  })
+}
+// }
  /******************* Start IS Digital Id get State Data   *******/
  const [verificationValue, setverificationValue] = React.useState(false);
  /******************* End IS Digital Id get State Data    *******/
@@ -94,7 +145,19 @@ const [amountValue, setAmountValue] = React.useState({
  /************ Start -Recipient card Error***************/
  const [currencyerrorText, setCurrencyerrorText] = React.useState('');
 
- 
+ /******************* start card show  state   *******/
+const [showCards, setshowCards] = React.useState("");
+
+/************ Start -Recipient card Error***************/
+  const [CardErrorText, setCardErrorText] = React.useState('');
+
+ const [formCardValue, setformCardValue] = React.useState ({
+  cardNumber:'',expirationDate:'', securityCode:'',cardName:'',});
+
+  /************ Start -Card List State***************/
+  const [bankCardData, setBankCardData] =React.useState('');
+ const handleCloseDetails = () => setshowCards(false);
+const ShowCardDetails = () => setshowCards(true);
 
 const navigate = useNavigate();
 const notify = () => toast.success("Sign Up Successfully!");
@@ -203,6 +266,7 @@ const handleAmountSummary = () => {
   handleAmountDelivery();
   setAmountSummary(!amountSummary);
 }
+
 
 
 console.log(amountSummary, "amountSummaryamountSummary")
@@ -745,7 +809,7 @@ const [countryValue, setcountryValue] = React.useState('')
               </div>
               </div>
             <div className="row  each-row">
-            <span style={myStyle}>{currencyerrorText}</span>
+            <div className="exchange-errors"><span style={myStyle}>{currencyerrorText}</span></div>
             <div className="col-md-6">
                 <div className="input_field">
                   <p className="get-text">From<span style={{color: 'red'}} >*</span></p>
@@ -1408,6 +1472,7 @@ const [countryValue, setcountryValue] = React.useState('')
     <div>
     {  
       token || verification_otp != undefined || '' ? (
+        <>
       <section>
         <div className="progressBar">
       <div className="progress">
@@ -1450,6 +1515,7 @@ const [countryValue, setcountryValue] = React.useState('')
               checked={moneyTransiction.paymentType== "Debit/Credit Card"}
               value="Debit/Credit Card" 
               onChange={e => onInputChange(e)}
+              onClick={ShowCardDetails}
                 />
               <span className="checkmark"></span>
             </label>
@@ -1484,6 +1550,185 @@ const [countryValue, setcountryValue] = React.useState('')
       </div>
       </section> 
 
+<Modal className="modal-card" show={showCards} onHide={handleCloseDetails}>
+<Modal.Header closeButton>
+  <Modal.Title>Your cards</Modal.Title>
+</Modal.Header>
+<Modal.Body>
+
+   {/* start List card */}
+  
+  <Table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Cards Details</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+    {
+      bankCardData.data?.map((res, index) => {
+      console.log(res, "resresresresresresresresresres")
+     return(
+
+      <tr key={res.id}>
+        <td><input type="checkbox" /></td>
+        <td>
+          <Accordion>
+      <Accordion.Item eventKey="0">
+     <Accordion.Header><img src={creditcards}  alt="credit cards" /><span>Master card</span> </Accordion.Header>
+          <Accordion.Body>
+           <ul>
+            <li>
+              <label>Name on Card</label>
+              <p>{res.name}</p>
+            </li>
+            <li>
+              <label>Card Number</label>
+              <p>{res.number}</p>
+            </li>
+            <li>
+              <label>Expiry on</label>
+              <p>{res.exp_year}/{res.exp_month}</p>
+            </li>
+            <li>
+              <label>CVV</label>
+              <p><input type="password" value={res.number} /></p>
+            </li>
+          </ul>
+          <div className="card-delete"><Button className="btn btn-danger">Delete</Button></div>
+          </Accordion.Body>
+      </Accordion.Item> 
+    </Accordion>
+    </td>
+      </tr>
+
+          )    
+        })}
+    </tbody>
+  </Table>
+   {/* End List card */}
+
+ 
+ {/* start add card */}
+  <div className="addnewcard">
+    <p>Please add your card details</p>
+   
+  <form>
+    <div className="row">
+        <div className="col-md-12">
+          <div className="input_field">
+            {/* <img src={creditcards}  alt="credit cards" /> */}
+            <p className="get-text">Card Number<span style={{color: 'red'}} >*</span> </p>
+            <div className="card-fields">
+          <input
+           type="text"
+           className='rate_input form-control'
+           name="cardNumber"
+           placeholder="XXXX-XXXX-XXXX-XXXX"
+           defaultValue={formCardValue.cardNumber}
+           onChange={(e)=>handleCardInputChange(e,'cardNumber')}
+          />
+          <i class="fa fa-credit-card" id="cardtype"></i>
+          </div>
+            <span style={myStyle}>{CardErrorText.card_number? CardErrorText.card_number: ''}</span>
+        </div>
+    </div>
+  </div>
+
+  <div className="row each-row">
+    <div className="col-md-8">
+      <div className="input_field">
+         <p className="get-text">Expiration Date<span style={{color: 'red'}} >*</span></p>
+         <div className="card-date">
+         <div className="card-fields">
+        <input
+          type="text" 
+          className='rate_input form-control'
+          name="expirationDate"
+          placeholder="Month"
+           defaultValue={formCardValue.expirationDate}
+           onChange={(e)=>handleCardInputChange(e,'expirationDate')}
+       />
+       <i class="fa fa-calendar"></i>
+       <span style={myStyle}>{CardErrorText.expiry_month? CardErrorText.expiry_month: ''}</span>
+       </div>
+       <span>/</span>
+       <div className="card-fields">
+        <input
+          type="text" 
+          className='rate_input form-control'
+          name="expirationDate"
+          placeholder="Year"
+           defaultValue={formCardValue.expirationDate}
+           onChange={(e)=>handleCardInputChange(e,'expirationDate')}
+       />
+       <i class="fa fa-calendar"></i>
+       <span style={myStyle}>{CardErrorText.expiry_month? CardErrorText.expiry_month: ''}</span>
+       </div>
+         </div>
+      </div>
+    </div>
+
+   <div className="col-md-4">
+      <div className="input_field">
+        <p className="get-text">CVV<span style={{color: 'red'}} >*</span> </p>
+        <div className="card-fields">
+          <input
+          type="password" 
+          className='rate_input form-control'
+          name="securityCode"
+          placeholder="000"
+          defaultValue={formCardValue.securityCode}
+          onChange={(e)=>handleCardInputChange(e,'securityCode')}
+          />
+          <i class="fa fa-lock"></i>
+          </div>
+                <span style={myStyle}>{CardErrorText.expiry_year? CardErrorText.expiry_year: ''}</span>
+        </div>
+       </div>
+   </div>
+   <div className="row each-row">
+      <div className="col-md-12">
+        <div className="input_field">
+           <p className="get-text">Your name as it appears on card<span style={{color: 'red'}} >*</span> </p>
+           <div className="card-fields">
+         <input
+          type="text" 
+          className='rate_input form-control'
+          name="cardName"
+          defaultValue={formCardValue.cardName}
+          onChange={(e)=>handleCardInputChange(e,'cardName')}
+        />
+        <i class="fa fa-user"></i>
+        </div>
+           <span style={myStyle}>{CardErrorText.name? CardErrorText.name: ''}</span>
+       </div>
+     </div>
+  </div>
+
+  <div className="col-md-12">
+     <div className="saved-label"> <input type="checkbox"/><label>Save Card Details</label></div>
+  </div>
+   </form>
+  </div>
+
+   {/* End add card */}
+
+ </Modal.Body>
+    <Modal.Footer>
+ <Button variant="secondary" onClick={handleCloseDetails}>
+    Close
+  </Button>
+    <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
+    Save
+    </Button>
+  </Modal.Footer>
+</Modal>
+  
+</>
         ):(
           <></>
         
@@ -1673,39 +1918,19 @@ const [countryValue, setcountryValue] = React.useState('')
             <h5>Address</h5>
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Flat/Unit No.<span style={{color: 'red'}} >*</span></p>
+                <p className="get-text">Flat/Unit No.</p>
                 <input type="text" className='rate_input form-control' />
               </div>
             </div>
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Building No./Name<span style={{color: 'red'}} >*</span></p>
+                <p className="get-text">Building No./Name</p>
                 <input type="text" className='rate_input form-control' />
               </div>
             </div>
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Street<span style={{color: 'red'}} >*</span></p>
-                <input type="text" className='rate_input form-control' />
-              </div>
-            </div>
-          </div>
-          <div className="row each-row">
-            <div className="col-md-4">
-              <div className="input_field">
-                <p className="get-text">Postcode<span style={{color: 'red'}} >*</span></p>
-                <input type="text" className='rate_input form-control' />
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="input_field">
-                <p className="get-text">City/Town<span style={{color: 'red'}} >*</span></p>
-                <input type="text" className='rate_input form-control' />
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="input_field">
-                <p className="get-text">State<span style={{color: 'red'}} >*</span></p>
+                <p className="get-text">Street</p>
                 <input type="text" className='rate_input form-control' />
               </div>
             </div>
@@ -1713,13 +1938,33 @@ const [countryValue, setcountryValue] = React.useState('')
           <div className="row each-row">
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Country Code<span style={{color: 'red'}} >*</span></p>
+                <p className="get-text">Postcode</p>
                 <input type="text" className='rate_input form-control' />
               </div>
             </div>
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Country Name<span style={{color: 'red'}} >*</span></p>
+                <p className="get-text">City/Town</p>
+                <input type="text" className='rate_input form-control' />
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">State</p>
+                <input type="text" className='rate_input form-control' />
+              </div>
+            </div>
+          </div>
+          <div className="row each-row">
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">Country Code</p>
+                <input type="text" className='rate_input form-control' />
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">Country Name</p>
                 {/* <CountryDropdown 
                 id="UNIQUE_ID"
                   className='YOUR_CSS_CLASS rate_input form-control' 

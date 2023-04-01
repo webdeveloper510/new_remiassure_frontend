@@ -136,7 +136,7 @@ const handleRemoveRecipientBankDetails =(value) =>{
         window.location.reload(false);
         // alert('Remove Successfully.')
         // setLoading(false); // Stop loading 
-        navigate('/userrecipients');   
+       // navigate('/userrecipients');   
        
 
     })
@@ -273,6 +273,7 @@ const handleRemoveRecipientBankDetails =(value) =>{
                                             
                                     )    
                                 })}
+                                
                             
                             </tbody>
                             </Table> 
@@ -291,10 +292,7 @@ const handleRemoveRecipientBankDetails =(value) =>{
                     }
 
             
-               </div>
                
-            </div>
-            </div>
             { data?.length == 0 ? (
                 <>
                 <section>
@@ -304,7 +302,7 @@ const handleRemoveRecipientBankDetails =(value) =>{
                 <div className="card">
                     <div className="card-body">
                         <div className="add-rec-new">
-                            <img src="{norecipients}" alt="empty" />
+                            <img src={norecipients} alt="empty" />
                         </div>
                     </div>
                 </div>
@@ -320,6 +318,8 @@ const handleRemoveRecipientBankDetails =(value) =>{
                     </div>
                     </div> 
                 </section>
+
+
                 </>
                 ):(
             <>
@@ -327,6 +327,11 @@ const handleRemoveRecipientBankDetails =(value) =>{
             </>
              )
             }
+               
+     
+               </div>
+               </div>
+               </div>
             
          {/* )
 } */}

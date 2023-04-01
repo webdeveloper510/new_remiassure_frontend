@@ -96,6 +96,7 @@ const Routerpage =()=>{
     <Route exact path='/sidebar' element={<Sidebar /> } />
     <Route exact path='/Editrecipientuser/:id' element={<Editrecipientuser /> } />
     <Route exact path='/profilesingledata/:id' element={<SingleRecipientProfile /> } />
+  
     </Routes>
     <ToastContainer />
      
