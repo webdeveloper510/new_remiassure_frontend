@@ -215,7 +215,7 @@ const [countryValue, setcountryValue] = React.useState('')
               city: city,  
               state: state,  
               country_code: country_code,
-              country: country,
+              country: countryValue.label,
               reasonMoney: reasonMoney
               
             },{
@@ -276,6 +276,8 @@ const [countryValue, setcountryValue] = React.useState('')
                             {/* <button className="form-button addsingle_recepient" ><NavLink to="/userrecipients"><BsFillPersonPlusFill /> Recipients Lists</NavLink></button>  */}
                      
         </h2></div>
+        <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span>
+        <span style={myStyle}>{BankNameText.userrecipient? BankNameText.userrecipient: ''}</span>
         <form className="single-recipient">
             <div className="card">
             <div className="card-body">
@@ -522,10 +524,10 @@ const [countryValue, setcountryValue] = React.useState('')
                     <Form.Group className="form_label" controlId="Firstname">
                     <p className="get-text">Country</p>
                     <Select
-                                     ref={input_location}
-                                     options={countryoptions} 
-                                     value={countryValue} 
-                                     onChange={changeHandler}
+                      ref={input_location}
+                      options={countryoptions} 
+                      value={countryValue} 
+                      onChange={changeHandler}
                                       />
                       {/* <CountryDropdown
                        id="UNIQUE_ID" 

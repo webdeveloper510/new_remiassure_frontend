@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import UserContext from "../context/UserContext";
 import { HiSwitchHorizontal } from 'react-icons/hi';
-import Accordion from 'react-bootstrap/Accordion';
+
 import { toast } from "react-toastify";
 import { API } from "../../config/API";
 import axios from "axios";
@@ -46,10 +46,11 @@ const [summaryList, setSummaryList] = React.useState(false);
 const [amountSummary, setAmountSummary] = React.useState(false);
 
 // const [bank_data, setBank_data] = React.useState([]);
-
+const [id, setId] = React.useState('');
 const [formValue, setFormValue] = React.useState ({
   bankName:'',accountName:'', accountNumber:'',firstName:'', middleName:'',
- lastName:'',email:'',mobile:'',address:'',reasonMoney:''});
+ lastName:'',email:'',mobile:'',flat:'',building:'',street:'',postcode:'',city:'',state:'',
+ country_code:'',country:'',reasonMoney:''});
 
  /************ Start -messageText state***************/
  const [BankNameText, setBankNameText] = React.useState('');
@@ -145,19 +146,7 @@ const handleCradBankDetails =(event) =>{
  /************ Start -Recipient card Error***************/
  const [currencyerrorText, setCurrencyerrorText] = React.useState('');
 
- /******************* start card show  state   *******/
-const [showCards, setshowCards] = React.useState("");
-
-/************ Start -Recipient card Error***************/
-  const [CardErrorText, setCardErrorText] = React.useState('');
-
- const [formCardValue, setformCardValue] = React.useState ({
-  cardNumber:'',expirationDate:'', securityCode:'',cardName:'',});
-
-  /************ Start -Card List State***************/
-  const [bankCardData, setBankCardData] =React.useState('');
- const handleCloseDetails = () => setshowCards(false);
-const ShowCardDetails = () => setshowCards(true);
+ 
 
 const navigate = useNavigate();
 const notify = () => toast.success("Sign Up Successfully!");
@@ -365,6 +354,30 @@ const handlSenderDetails =(e) => {
 }
 
 
+/**********Get data to localstoarge ***************/
+const FromValue = localStorage.getItem("FromValue")
+console.log(FromValue, "FromValue");
+
+const ToValue = localStorage.getItem("ToValue")
+console.log(ToValue, "ToValue");
+
+const AmountValue = localStorage.getItem("AmountValue")
+console.log(AmountValue, "AmountValue");
+
+const recipient_id = localStorage.getItem("recipient_id")
+console.log(recipient_id, "recipient_id");
+
+const recipientMoneyReason = localStorage.getItem("recipientMoneyReason")
+console.log(recipientMoneyReason, "recipientMoneyReason");
+
+const recipientDestination = localStorage.getItem("recipientDestination")
+console.log(recipientDestination, "recipientDestination");
+
+const recipientName = localStorage.getItem("recipientName")
+console.log(recipientName, "recipientName");
+
+
+
 /****************** select country *******************/
 
 const [countryValue, setcountryValue] = React.useState('')
@@ -429,6 +442,9 @@ const [countryValue, setcountryValue] = React.useState('')
             setStep(step+1) //next step call
             setShows(!shows) //show hide summery function call
             setLoading(false); // Stop loading 
+            localStorage.setItem("FromValue", from);
+            localStorage.setItem("ToValue", to);
+            localStorage.setItem("AmountValue", amountValue.amountInput);
 
         })
         .catch(function(error, message) {
@@ -483,6 +499,9 @@ const [countryValue, setcountryValue] = React.useState('')
           setExchange_amount(response.data.amount);
           setTotal_rate( response.data.rate);
           setLoading(false); // Stop loading
+          localStorage.setItem("FromValue", from);
+          localStorage.setItem("ToValue", to);
+          localStorage.setItem("AmountValue", amountValue.amountInput);
       })
       .catch(function(error, message) {
           console.log(error.response)
@@ -535,6 +554,9 @@ const [countryValue, setcountryValue] = React.useState('')
         setExchange_amount(response.data.amount);
         setTotal_rate( response.data.rate);
         setLoading(false); // Stop loading
+        localStorage.setItem("FromValue", from);
+        localStorage.setItem("ToValue", to);
+        localStorage.setItem("AmountValue", amountValue.amountInput);
     })
     .catch(function(error, message) {
         console.log(error.response)
@@ -560,7 +582,7 @@ const [countryValue, setcountryValue] = React.useState('')
         axios.post(API.BASE_URL + 'is-digitalid-verified/',{
         }, {
           headers: {
-              "Authorization" : `Bearer ${signup_token}`,
+              "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
           }
         })
         .then(function(response) {
@@ -600,7 +622,7 @@ const [countryValue, setcountryValue] = React.useState('')
        code: '3WU9IL',
       }, {
           headers: {
-            "Authorization" : `Bearer ${signup_token}`,
+            "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
            
           },
         
@@ -657,32 +679,8 @@ const [countryValue, setcountryValue] = React.useState('')
 /**************************************************************************
    * ************** Start  Recipient Bank Details ****************************
    * ***********************************************************************/
-  
-     /* start-- useRef is used for focusing on inputbox */
-     const input_grant_type = useRef(null);
-     const input_recipientAccountName = useRef(null);
-     const input_recipientAccountNumber = useRef(null);
-     const input_recipientFirstName = useRef(null);
-     const input_recipientMiddleName = useRef(null);
-     const input_recipientLastName = useRef(null);
-     const input_recipientEmail = useRef(null);
-     const input_recipientMobile = useRef(null);
-     const input_recipientReasoMoney = useRef(null);
-     const input_recipientAddress = useRef(null);
-  
-  
      const handleRecipientBankDetails =(event) =>{
         event.preventDefault();
-
-          //useRef is used for focusing on inputbox
-      //     if(errorBankName.length==0){
-	    //   		input_grant_type.current.focus();
-	    //   		setError(true);
-      //       console.log(error, "error")
-	    //   	} 
-
-      //  else{
-      
         setLoading(true); // Set loading before sending API request
         axios.post(API.BASE_URL + 'payment/recipient-create/', {
           bank_name: formValue.bankName,
@@ -704,7 +702,7 @@ const [countryValue, setcountryValue] = React.useState('')
          
         }, {
             headers: {
-              "Authorization" : `Bearer ${token}`,
+              "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
             },
           
         })
@@ -712,6 +710,11 @@ const [countryValue, setcountryValue] = React.useState('')
             console.log(response);
             handleShow(); //show view page
             setLoading(false); // Stop loading 
+            setId(response.data.recipient_data.id)
+            
+            localStorage.setItem("recipientMoneyReason", formValue.reasonMoney);
+            localStorage.setItem("recipientDestination", countryValue.label);
+            localStorage.setItem("recipientName", formValue.firstName);
         })
         .catch(function(error, message) {
             console.log(error.response);
@@ -720,8 +723,150 @@ const [countryValue, setcountryValue] = React.useState('')
              
         })
     }
-  // }
-  
+    console.log(id,'============> id');
+    localStorage.setItem("recipient_id", id);
+
+    /**************************************************************************
+   * ************** Start  Create Card Bank Details ****************************
+   * ***********************************************************************/
+    const handleCradBankDetails =(event) =>{
+      event.preventDefault();
+
+      setLoading(true); // Set loading before sending API request
+      axios.post(API.BASE_URL + 'payment/create-card/', {
+        card_number: formCardValue.cardNumber,
+        expiry_month: formCardValue.expirationDate,
+        expiry_year: formCardValue.securityCode,
+        name: formCardValue.cardName, 
+      }, {
+          headers: {
+            "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
+          },
+        
+      })
+      .then(function(response) {
+          console.log(response);
+          handleCloseDetails();
+          // window.location.reload();
+          // setLoading(false); // Stop loading 
+          // navigate('/dashboard'); 
+        
+          
+      })
+      .catch(function(error, message) {
+          console.log(error.response);
+          setLoading(false); // Stop loading in case of error
+          setCardErrorText(error.response.data); 
+           
+      })
+  }
+// }
+
+    /**************************************************************************
+   * ************** Start  Bank card List ************************************
+   * ***********************************************************************/
+
+    useEffect(() => {
+      setLoading(true); // Set loading before sending API request
+      axios.post(API.BASE_URL + 'payment/card-list/',{}, {
+          headers: {
+              "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
+          }
+        })
+        .then(function(response) {
+            console.log("Recipients APIIIII", response.data);
+            setBankCardData(response.data);
+            console.log(bankCardData, "bankCardDatabankCardData")
+            localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
+            setLoading(false); // Stop loading
+      
+      
+          //   if (response.status)
+          // // notify();
+        })
+        .catch(function(error) {
+            console.log(error);
+            console.log(error.response);
+            setLoading(false); // Stop loading in case of error
+          
+        })
+    }, [])
+
+  console.log(data," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+
+/**************************************************************************
+   * ************** Start Stripe card Paymet****************************
+   * ***********************************************************************/
+const handlePaymentCard =(event) =>{
+  event.preventDefault();
+
+  setLoading(true); // Set loading before sending API request
+  axios.post(API.BASE_URL + 'payment/stripe/card/', {
+      send_currency: FromValue,
+      recieve_currency: ToValue,
+      amount: AmountValue,
+      recipient_id: recipient_id,
+      reason: recipientMoneyReason,
+      destination: recipientDestination,
+      name: formCardValue.cardName,
+      number: formCardValue.cardNumber,
+      exp_month: '1',
+      exp_year: '26',
+      exp_month: '1',
+      cvc: formCardValue.securityCode,
+    
+    }, {
+        headers: {
+          "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
+        },
+      
+    })
+    .then(function(response) {
+        console.log(response);
+        handleCloseDetails();
+        // window.location.reload();
+        setStep(step+1)
+        setLoading(false); // Stop loading 
+        // navigate('/transfer'); 
+        
+    })
+    .catch(function(error, message) {
+        console.log(error.response);
+        setLoading(false); // Stop loading in case of error
+        setCardErrorText(error.response.data); 
+        
+    })
+}
+// }
+
+  /**************************************************************************
+   * ************** Start Paymet Or Pay Api****************************
+   * ***********************************************************************/
+    const handlePay =(event) =>{
+      event.preventDefault();
+      setLoading(true); // Set loading before sending API request
+      axios.post(API.BASE_URL + 'payment/stripe/charge/', { 
+      }, {
+          headers: {
+            "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
+          },
+        
+      })
+      .then(function(response) {
+          console.log(response);
+          setStep(step+1)
+          setLoading(false); // Stop loading 
+      })
+      .catch(function(error, message) {
+          console.log(error.response);
+          setLoading(false); // Stop loading in case of error
+          setBankNameText(error.response.data); 
+           
+      })
+  }
+
+
+
 
 
 
@@ -1116,7 +1261,7 @@ const [countryValue, setcountryValue] = React.useState('')
                   defaultValue={formValue.accountNumber}
                   onChange={(e)=> handleStep2InputChange(e,'accountNumber')}
                 />          
-                <span style={myStyle}>{BankNameText.Anteraccountnumber? BankNameText.Anteraccountnumber: ''}</span>
+                <span style={myStyle}>{BankNameText.Enteraccountnumber? BankNameText.Enteraccountnumber: ''}</span>
                 <span style={myStyle}>{BankNameText.Accountexist? BankNameText.Accountexist: ''}</span>
                 
               </div>
@@ -1198,7 +1343,7 @@ const [countryValue, setcountryValue] = React.useState('')
                   <span style={myStyle}>{BankNameText.mobile? BankNameText.mobile: ''}</span>
                   <span style={myStyle}>{BankNameText.Validmobile? BankNameText.Validmobile: ''}</span>
                   <span style={myStyle}>{BankNameText.Mobileexist? BankNameText.Mobileexist: ''}</span>
-                  <span style={myStyle}>{BankNameText.Invalidmobile? BankNameText.Invalidmobile: ''}</span>
+                  <span style={myStyle}>{BankNameText.Entermobile? BankNameText.Entermobile: ''}</span>
                 
               </div>
             </div>
@@ -1320,11 +1465,11 @@ const [countryValue, setcountryValue] = React.useState('')
               <div className="input_field">
                 <p className="get-text">Country</p>
                 <Select
-                                     ref={input_location}
-                                     options={countryoptions} 
-                                     value={countryValue} 
-                                     onChange={changeHandler}
-                                      />
+                ref={input_location}
+                options={countryoptions} 
+                value={countryValue} 
+                onChange={changeHandler}
+               />
                   
               </div>
             </div>
@@ -1550,185 +1695,6 @@ const [countryValue, setcountryValue] = React.useState('')
       </div>
       </section> 
 
-<Modal className="modal-card" show={showCards} onHide={handleCloseDetails}>
-<Modal.Header closeButton>
-  <Modal.Title>Your cards</Modal.Title>
-</Modal.Header>
-<Modal.Body>
-
-   {/* start List card */}
-  
-  <Table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Cards Details</th>
-      </tr>
-    </thead>
-
-    <tbody>
-
-    {
-      bankCardData.data?.map((res, index) => {
-      console.log(res, "resresresresresresresresresres")
-     return(
-
-      <tr key={res.id}>
-        <td><input type="checkbox" /></td>
-        <td>
-          <Accordion>
-      <Accordion.Item eventKey="0">
-     <Accordion.Header><img src={creditcards}  alt="credit cards" /><span>Master card</span> </Accordion.Header>
-          <Accordion.Body>
-           <ul>
-            <li>
-              <label>Name on Card</label>
-              <p>{res.name}</p>
-            </li>
-            <li>
-              <label>Card Number</label>
-              <p>{res.number}</p>
-            </li>
-            <li>
-              <label>Expiry on</label>
-              <p>{res.exp_year}/{res.exp_month}</p>
-            </li>
-            <li>
-              <label>CVV</label>
-              <p><input type="password" value={res.number} /></p>
-            </li>
-          </ul>
-          <div className="card-delete"><Button className="btn btn-danger">Delete</Button></div>
-          </Accordion.Body>
-      </Accordion.Item> 
-    </Accordion>
-    </td>
-      </tr>
-
-          )    
-        })}
-    </tbody>
-  </Table>
-   {/* End List card */}
-
- 
- {/* start add card */}
-  <div className="addnewcard">
-    <p>Please add your card details</p>
-   
-  <form>
-    <div className="row">
-        <div className="col-md-12">
-          <div className="input_field">
-            {/* <img src={creditcards}  alt="credit cards" /> */}
-            <p className="get-text">Card Number<span style={{color: 'red'}} >*</span> </p>
-            <div className="card-fields">
-          <input
-           type="text"
-           className='rate_input form-control'
-           name="cardNumber"
-           placeholder="XXXX-XXXX-XXXX-XXXX"
-           defaultValue={formCardValue.cardNumber}
-           onChange={(e)=>handleCardInputChange(e,'cardNumber')}
-          />
-          <i class="fa fa-credit-card" id="cardtype"></i>
-          </div>
-            <span style={myStyle}>{CardErrorText.card_number? CardErrorText.card_number: ''}</span>
-        </div>
-    </div>
-  </div>
-
-  <div className="row each-row">
-    <div className="col-md-8">
-      <div className="input_field">
-         <p className="get-text">Expiration Date<span style={{color: 'red'}} >*</span></p>
-         <div className="card-date">
-         <div className="card-fields">
-        <input
-          type="text" 
-          className='rate_input form-control'
-          name="expirationDate"
-          placeholder="Month"
-           defaultValue={formCardValue.expirationDate}
-           onChange={(e)=>handleCardInputChange(e,'expirationDate')}
-       />
-       <i class="fa fa-calendar"></i>
-       <span style={myStyle}>{CardErrorText.expiry_month? CardErrorText.expiry_month: ''}</span>
-       </div>
-       <span>/</span>
-       <div className="card-fields">
-        <input
-          type="text" 
-          className='rate_input form-control'
-          name="expirationDate"
-          placeholder="Year"
-           defaultValue={formCardValue.expirationDate}
-           onChange={(e)=>handleCardInputChange(e,'expirationDate')}
-       />
-       <i class="fa fa-calendar"></i>
-       <span style={myStyle}>{CardErrorText.expiry_month? CardErrorText.expiry_month: ''}</span>
-       </div>
-         </div>
-      </div>
-    </div>
-
-   <div className="col-md-4">
-      <div className="input_field">
-        <p className="get-text">CVV<span style={{color: 'red'}} >*</span> </p>
-        <div className="card-fields">
-          <input
-          type="password" 
-          className='rate_input form-control'
-          name="securityCode"
-          placeholder="000"
-          defaultValue={formCardValue.securityCode}
-          onChange={(e)=>handleCardInputChange(e,'securityCode')}
-          />
-          <i class="fa fa-lock"></i>
-          </div>
-                <span style={myStyle}>{CardErrorText.expiry_year? CardErrorText.expiry_year: ''}</span>
-        </div>
-       </div>
-   </div>
-   <div className="row each-row">
-      <div className="col-md-12">
-        <div className="input_field">
-           <p className="get-text">Your name as it appears on card<span style={{color: 'red'}} >*</span> </p>
-           <div className="card-fields">
-         <input
-          type="text" 
-          className='rate_input form-control'
-          name="cardName"
-          defaultValue={formCardValue.cardName}
-          onChange={(e)=>handleCardInputChange(e,'cardName')}
-        />
-        <i class="fa fa-user"></i>
-        </div>
-           <span style={myStyle}>{CardErrorText.name? CardErrorText.name: ''}</span>
-       </div>
-     </div>
-  </div>
-
-  <div className="col-md-12">
-     <div className="saved-label"> <input type="checkbox"/><label>Save Card Details</label></div>
-  </div>
-   </form>
-  </div>
-
-   {/* End add card */}
-
- </Modal.Body>
-    <Modal.Footer>
- <Button variant="secondary" onClick={handleCloseDetails}>
-    Close
-  </Button>
-    <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
-    Save
-    </Button>
-  </Modal.Footer>
-</Modal>
-  
-</>
         ):(
           <></>
         
@@ -1974,11 +1940,11 @@ const [countryValue, setcountryValue] = React.useState('')
                   >
                   </CountryDropdown> */}
                    <Select
-                                     ref={input_location}
-                                     options={countryoptions} 
-                                     value={countryValue} 
-                                     onChange={changeHandler}
-                                      />
+                    ref={input_location}
+                    options={countryoptions} 
+                    value={countryValue} 
+                    onChange={changeHandler}
+                  />
 
               </div>
             </div>
@@ -1989,7 +1955,7 @@ const [countryValue, setcountryValue] = React.useState('')
           </div>
           <div className="col-md-10 new_buttons">
           
-            <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button>
+            <button className="form-button" onClick={()=>{setStep(step+1)}}>Previous</button>
            
             {/* { verificationValue == false ? ( */}
                 {/* <button className="form-button" onClick={handleISDigitalVerified}> Continue</button>  */}
@@ -2102,7 +2068,7 @@ const [countryValue, setcountryValue] = React.useState('')
               </div> */}
               <div className="col-md-12 verified-section">
             
-             
+              <button className="form-button" onClick={handlePay}>Pay</button>
                 <button className="form-button" onClick={()=>{setStep(step+1)}}>Continue</button>
                 <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button>
               </div>
@@ -2138,6 +2104,7 @@ const [countryValue, setcountryValue] = React.useState('')
           </div>
         </div>
         <div className="form_body">
+        <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button>
             <div className="header">
               <h1>Thank you</h1>
             </div>
