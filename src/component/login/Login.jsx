@@ -12,7 +12,10 @@ import UserContext from '../context/UserContext';
 const myStyle= {
     color: "red",
     fontSize: "13px",
-  textTransform: "capitalize"
+  textTransform: "capitalize",
+  marginTop:"4px",
+    display:"block",
+    textAlign:"center"
  }
  {/* End -- css*/}
 
@@ -121,19 +124,13 @@ const Login = () => {
          <section className="why-us section-bgba login_banner">
     <div className="container">
         <div className="row">
-            {/* <div className="col-lg-6">
-                <div className="support_image">
-                    <img src="assets/img/help/help_img02.png" alt="support_images" />
-                </div>
-            </div> */}
-
             <div className="col-lg-12">
                 {/* start-- card */}
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="card card-login">
                             <div className="card-body">
-                                <span style={myStyle}>{EmailpasswordText? EmailpasswordText: ''}</span>
+                                <span style={myStyle} className="login-error" >{EmailpasswordText? EmailpasswordText: ''}</span>
                                 {/* <span style={myStyle}>{VerifydigtalidText? VerifydigtalidText: ''}</span> */}
                                 <h5 className="Sign-heading">Login</h5>
 

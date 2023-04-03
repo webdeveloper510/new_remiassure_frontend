@@ -708,7 +708,7 @@ const Home = () => {
                    
                    {/* bank first row start */}
                     <div className="row">
-                      <ul class="bank_transfer">
+                      <ul class="bank_transfer custom-list">
                         < BankTransferArrayOfObjects />
                         </ul>
                     </div>

@@ -117,18 +117,18 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
          </div>
            <div className="card-body">
         <div className="tabs-recipent-new">
-
+         
           <Table className="table table-responsive-md card-table previous-transactions">
             <thead>
               <tr>
                 <th>Date</th>
                 <th>Amount</th>
-                <th>customer_id</th>
-                <th>reason</th>
+                <th>Customer Id</th>
+                <th>Reason</th>
                 {/* <th>send_currency</th>
                 <th>recieve_currency</th> */}
                 {/* <th>send_method</th> */}
-                <th>transaction_id</th>
+                <th>Transaction Id</th>
                 <th>Recipient</th>
                 <th>Status</th>
                 
@@ -289,7 +289,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
               <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p>  
               </div>  
               <div className="col-md-12">
-              <a href="#/userdashboard" className="send_money">Send Money</a>
+              <a href="#/dashboard" className="send_money">Send Money</a>
               </div> 
           </div>
         </div>

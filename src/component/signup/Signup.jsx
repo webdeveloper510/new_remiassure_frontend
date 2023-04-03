@@ -17,8 +17,10 @@ import { toast } from 'react-toastify';
 {/* start -- css*/}
 const myStyle= {
     color: "red",
-  fontSize:"14px",
-  textTransform: "capitalize"
+  fontSize:"13px",
+  textTransform: "capitalize",
+  marginTop:"3px",
+  display:"block"
  }
  {/* End -- css*/}
 

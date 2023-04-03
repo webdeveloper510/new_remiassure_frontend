@@ -15,9 +15,19 @@ import { NavLink } from "react-router-dom";
 {/* start -- css*/}
 const myStyle= {
     color: "red",
+    fontSize: "13px",
+    textTransform: "capitalize",
+    marginTop:"4px",
+    display:"block",
+    textAlign:"center"
  }
  const successStyle= {
     color: "green",
+    fontSize: "13px",
+    textTransform: "capitalize",
+    marginTop:"4px",
+    display:"block",
+    textAlign:"center"
  }
  {/* End -- css*/}
 

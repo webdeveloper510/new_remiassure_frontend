@@ -1624,6 +1624,7 @@ const [countryValue, setcountryValue] = React.useState('')
            defaultValue={formCardValue.cardNumber}
            onChange={(e)=>handleCardInputChange(e,'cardNumber')}
           />
+           <i class="fa fa-credit-card" id="cardtype"></i>
             <span style={myStyle}>{CardErrorText.Entercard? CardErrorText.Entercard: ''}</span>
         </div>
     </div>
@@ -1667,6 +1668,7 @@ const [countryValue, setcountryValue] = React.useState('')
    <div className="col-md-4">
       <div className="input_field">
         <p className="get-text">CVV<span style={{color: 'red'}} >*</span> </p>
+        <div className="card-fields">
           <input
           type="password" 
           className='rate_input form-control'
@@ -1675,7 +1677,9 @@ const [countryValue, setcountryValue] = React.useState('')
           defaultValue={formCardValue.securityCode}
           onChange={(e)=>handleCardInputChange(e,'securityCode')}
           />
+          <i class="fa fa-lock"></i>
                 <span style={myStyle}>{CardErrorText.Entercvc? CardErrorText.Entercvc: ''}</span>
+                </div>
         </div>
        </div>
    </div>
@@ -1700,9 +1704,10 @@ const [countryValue, setcountryValue] = React.useState('')
   </div>
 
   <div className="col-md-12">
-     <div className="saved-label"> <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
-    Save
-    </Button><label>Save Card Details</label></div>
+     <div className="saved-label">
+      <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
+     Save Card Details
+    </Button></div>
   </div>
    </form>
   </div>

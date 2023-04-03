@@ -21,16 +21,21 @@ import '../../assets/vendor/boxicons/css/boxicons.min.css';
 import '../../assets/vendor/glightbox/css/glightbox.min.css';
 import '../../assets/vendor/swiper/swiper-bundle.min.css';
 import logo from '../../assets/img/home/logo.svg';
+
+
 // Main CSS File
 import '../../assets/css/style.css';
 // responsive CSS File
 import '../../assets/css/responsive.css';
+
 import { RxHamburgerMenu } from "react-icons/rx";
 import { GoHome } from "react-icons/go";
 import { HiInformationCircle } from "react-icons/hi";
 import { FaHandsHelping } from "react-icons/fa";
 import { HiUserGroup } from "react-icons/hi";
 import { IoIosArrowDown } from "react-icons/io";
+import { AiOutlineLogin } from "react-icons/ai";
+import { FaUserPlus } from "react-icons/fa";
 
 import app from '../../assets/img/home/Group 01.svg';
 
@@ -182,10 +187,10 @@ const Header =() => {
                       ) : (
                         <>
                         <li>
-                        <NavLink to="/signup" onClick={handleClose}>Signup</NavLink>
+                        <NavLink to="/signup" onClick={handleClose}><FaUserPlus/>Signup</NavLink>
                         </li>
                         <li>
-                        <NavLink to="/login" onClick={handleClose}>Login</NavLink>
+                        <NavLink to="/login" onClick={handleClose}><AiOutlineLogin/>Login</NavLink>
                         </li>
                         </>
                       )

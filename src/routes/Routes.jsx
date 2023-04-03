@@ -30,7 +30,7 @@ import Sidebar from '../component/Userdashboard/Sidebar';
 import ReferralData from '../component/referralData/ReferralData';
 import Editrecipientuser from '../component/Userdashboard/EditUserRecipient';
 import SingleRecipientProfile from '../component/Userdashboard/SingleRecipientProfile';
-
+import NotFound from '../component/Notfound/NotFound';
 import GoToTop from '../GoToTop';
 import { AuthProvider } from '../component/context/UserContext';
 
@@ -96,7 +96,7 @@ const Routerpage =()=>{
     <Route exact path='/sidebar' element={<Sidebar /> } />
     <Route exact path='/Editrecipientuser/:id' element={<Editrecipientuser /> } />
     <Route exact path='/profilesingledata/:id' element={<SingleRecipientProfile /> } />
-  
+    <Route exact path='/notfound' element={<NotFound /> } />
     </Routes>
     <ToastContainer />
      
