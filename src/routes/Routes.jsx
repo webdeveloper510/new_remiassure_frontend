@@ -30,6 +30,10 @@ import Sidebar from '../component/Userdashboard/Sidebar';
 import ReferralData from '../component/referralData/ReferralData';
 import Editrecipientuser from '../component/Userdashboard/EditUserRecipient';
 import SingleRecipientProfile from '../component/Userdashboard/SingleRecipientProfile';
+import UserCardLists from '../component/Userdashboard/UserCardLists';
+import Addnewcard from '../component/Userdashboard/AddNewCard';
+import EditCardUser from '../component/Userdashboard/EditUserCard';
+import SingleCardProfile from '../component/Userdashboard/SingleCardProfile';
 
 import GoToTop from '../GoToTop';
 import { AuthProvider } from '../component/context/UserContext';
@@ -96,6 +100,13 @@ const Routerpage =()=>{
     <Route exact path='/sidebar' element={<Sidebar /> } />
     <Route exact path='/Editrecipientuser/:id' element={<Editrecipientuser /> } />
     <Route exact path='/profilesingledata/:id' element={<SingleRecipientProfile /> } />
+    <Route exact path='/userCardLists' element={<UserCardLists /> } />
+    <Route exact path='/addnewcard' element={<Addnewcard /> } />
+    <Route exact path='/EditCardUser/:id' element={<EditCardUser /> } />
+    <Route exact path='/singleCardData/:id' element={<SingleCardProfile /> } />
+   
+    
+    
     </Routes>
     <ToastContainer />
      

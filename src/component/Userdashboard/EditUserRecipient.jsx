@@ -1,5 +1,5 @@
 
-import React, { useState, useContext, useEffect,useRef ,useMemo} from "react";
+import React, { useState, useContext, useEffect,useRef,useMemo } from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -16,13 +16,13 @@ import Sidebar from './Sidebar';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import Select from "react-select";
 import countryList from 'react-select-country-list'
-
 // start css
 const myStyle ={
   color: "red",
-  fontSize: "14px",
+  fontSize: "13px",
   textTransform: "capitalize"
 }
+
 
 const Editrecipientuser = () => {
   /*************data get ************/
@@ -106,6 +106,8 @@ const [countryValue, setcountryValue] = React.useState('')
 
    /* start-- useRef is used for focusing on inputbox */
    const input_location = useRef(null);
+
+
 
 
       // Start page show hide condtion page

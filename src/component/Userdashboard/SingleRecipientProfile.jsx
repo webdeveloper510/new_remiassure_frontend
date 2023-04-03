@@ -19,7 +19,7 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 // start css
 const myStyle ={
   color: "red",
-  fontSize: "14px",
+  fontSize: "13px",
   textTransform: "capitalize"
 }
 

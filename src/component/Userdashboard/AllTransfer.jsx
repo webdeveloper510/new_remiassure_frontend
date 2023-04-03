@@ -142,14 +142,14 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
              return(
               <tr>
                 <td>{res.date}</td>
-                <td>{res.amount + res.send_currency}</td>
+                <td>{res.amount} <span>AUD</span></td>
                 <td>{res.customer_id}</td>
                 <td>{res.reason}</td>
                 {/* <td>{res.send_currency}</td>
                 <td>{res.recieve_currency}</td> */}
                 {/* <td>{res.send_method}</td> */}
                 <td>{res.transaction_id}</td>
-                <td>{res.Recipient}</td>
+                <td>{res.recipient_name}</td>
 
                 <td><span className="btn btn-outline-success btn-rounded" onClick={handleShow}>{res.status}</span></td>
               </tr>
@@ -281,18 +281,26 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                 <Button variant="secondary" onClick={handleClose}>ok</Button>
                 </Modal.Footer>
               </Modal>
-
-          <div className="no-data">
-        <img src={nodata} alt="no-data"/>
-
-        <div className="col-md-12">
-              <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p>  
-              </div>  
+      
+        { transactionData?.length == 0 ? (
+        <div className="no-data">
+            <img src={nodata} alt="no-data"/>
               <div className="col-md-12">
-              <a href="#/userdashboard" className="send_money">Send Money</a>
-              </div> 
+                  <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p>  
+                  </div>  
+                  <div className="col-md-12">
+                    <a href="#/userdashboard" className="send_money">Send Money</a>
+                </div> 
           </div>
-        </div>
+              
+          ):(
+        <>
+                
+        </>
+      )
+      }
+      </div>
+      
 </div>
 </div>
 </>

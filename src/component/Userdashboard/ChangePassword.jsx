@@ -12,7 +12,7 @@ import Modal from 'react-bootstrap/Modal';
 {/* start -- css*/}
 const myStyle= {
   color: "red",
-  fontSize: "14px",
+  fontSize: "13px",
   textTransform: "capitalize"
 }
 {/* End -- css*/}
@@ -76,6 +76,10 @@ const Profile = () => {
     const navigate = useNavigate();
     
 
+
+// const handleInputFocus = (evt) => {
+//   setState((prev) => ({ ...prev, focus: evt.target.name }));
+// }
 
 /**************************************************************************
  * ************** Start Change Password Api *********************************
@@ -155,6 +159,7 @@ const Profile = () => {
             <div className="card">
             <div className="card-body">
                 <div className="update-profile">
+                  
                  <form>
                     <div className="row each-row">
                       <h5>Change Password</h5>

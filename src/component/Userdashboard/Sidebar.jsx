@@ -47,6 +47,7 @@ console.log("Verification Message", verification_otp)
                 <li><NavLink to="/userprofile"><BsFilePersonFill />Profile Information</NavLink></li>
                 <li><NavLink to="/transfer"><BiTransfer />Transfer</NavLink></li>
                 <li><NavLink to="/userrecipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
+                <li><NavLink to="/userCardLists"><BsFillPersonPlusFill />Card</NavLink></li>
                 <li><NavLink to="/changepassword"><RiLockPasswordLine />Password</NavLink></li>
             </ul>
         </nav>

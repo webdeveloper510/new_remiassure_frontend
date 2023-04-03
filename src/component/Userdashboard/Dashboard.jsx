@@ -134,7 +134,7 @@ const Dashboard = () => {
             <div className="card">
                 <div className="card-header d-block d-sm-flex border-0">
                     <div className="me-3">
-                        <h4 className="fs-20 text-black">Previous Transactions</h4>
+                        <h4 className="fs-20 text-black">All Transactions</h4>
                         <p className="mb-0 fs-13">Lorem ipsum dolor sit amet, consectetur</p>
                     </div>
                 </div>
