@@ -48,6 +48,7 @@ const Profile = () => {
         const [lastName, setLastName] = useState('');
         const [email, setEmail] = useState('');
         const [mobile, setMobile] = useState('');
+        const [referralCode, setReferralCode] = useState('');
         const [flat, setFlat] = useState('');
         const [gender, setGender] = useState('');
         const [building, setBuilding] = useState('');
@@ -158,14 +159,13 @@ const [countryValue, setcountryValue] = React.useState('')
                 setLastName(response.data.data.Last_name);
                 setEmail(response.data.data.email);
                 setMobile(response.data.data.mobile);
-                setFlat(response.data.data.flate);
+                setFlat(response.data.data.flat);
                 setBuilding(response.data.data.building);
                 setStreet(response.data.data.street);
                 setPostcode(response.data.data.postcode);
                 setCity(response.data.data.city);
                 setState(response.data.data.state);
-                setCountry_code(response.data.data.country_code);
-                setcountry(response.data.data.country);
+                setcountryValue(response.data.data.location);
                 setReasonMoney(response.data.data.reasonMoney);
                 setCustomer_id(response.data.data.customer_id);
 
@@ -211,8 +211,8 @@ const [countryValue, setcountryValue] = React.useState('')
               postcode: postcode,
               city: city,
               state: state,
-              country_code: country_code,
-              country: country,
+              country: countryValue.label,
+        
             
              
               // Gender: gender,
@@ -233,7 +233,8 @@ const [countryValue, setcountryValue] = React.useState('')
             .catch(function(error, message) {
                 console.log(error.response);
                 setLoading(false); // Stop loading in case of error
-                setBankNameText(error.response.data.error)
+                setBankNameText(error.response.data.error.Middle_name)
+                console.log(BankNameText, "BankNameText")
                
                
                  
@@ -341,7 +342,6 @@ const [countryValue, setcountryValue] = React.useState('')
                       <p className="get-text">Mobile<span style={{color: 'red'}} >*</span></p>
                       <input 
                       type="text" 
-                      // ref={input_recipientMobile}
                         className='rate_input form-control'
                         name="mobile"
                         Value={mobile}
@@ -353,6 +353,22 @@ const [countryValue, setcountryValue] = React.useState('')
                         <span style={myStyle}>{BankNameText.Invalidmobile? BankNameText.Invalidmobile: ''}</span>
                     </div>
                   </div>
+                  {/* <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Referral code<span style={{color: 'red'}} >*</span></p>
+                      <input 
+                      type="text" 
+                        className='rate_input form-control'
+                        name="referralCode"
+                        Value={referralCode}
+                        onChange={(e)=>setReferralCode(e.target.value)}
+                        />
+                        <span style={myStyle}>{BankNameText.mobile? BankNameText.mobile: ''}</span>
+                        <span style={myStyle}>{BankNameText.Entervalidmobile? BankNameText.Entervalidmobile: ''}</span>
+                        <span style={myStyle}>{BankNameText.Mobileexist? BankNameText.Mobileexist: ''}</span>
+                        <span style={myStyle}>{BankNameText.Invalidmobile? BankNameText.Invalidmobile: ''}</span>
+                    </div>
+                  </div> */}
                 </div>
                 
                 <div className="row each-row">
@@ -429,7 +445,7 @@ const [countryValue, setcountryValue] = React.useState('')
                 <div className="row each-row">
                  
                   
-                    <div className="col-md-4">
+                    {/* <div className="col-md-4">
                       <Form.Group className="form_label" controlId="Firstname">
                           <p className="get-text">Country Code</p>
                           <Form.Control 
@@ -439,16 +455,16 @@ const [countryValue, setcountryValue] = React.useState('')
                             onChange={(e)=>setCountry_code(e.target.value)}
                             />
                       </Form.Group>
-                    </div>
+                    </div> */}
                   <div className="col-md-4">
                     <Form.Group className="form_label" controlId="Firstname">
                     <p className="get-text">Country</p>
                     <Select
-                                     ref={input_location}
-                                     options={countryoptions} 
-                                     value={countryValue} 
-                                     onChange={changeHandler}
-                                      />
+                    ref={input_location}
+                    options={countryoptions} 
+                    value={countryValue} 
+                    onChange={changeHandler}
+                    />
                       {/* <CountryDropdown
                        id="UNIQUE_ID" 
                        className='YOUR_CSS_CLASS rate_input form-control'

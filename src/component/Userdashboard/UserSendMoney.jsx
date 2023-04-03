@@ -92,7 +92,7 @@ const [showCards, setshowCards] = React.useState("");
   const [CardErrorText, setCardErrorText] = React.useState('');
 
  const [formCardValue, setformCardValue] = React.useState ({
-  cardNumber:'',expirationDate:'', securityCode:'',cardName:'',});
+  cardNumber:'',expirationDate:'', securityCode:'',cardName:'',exp_month:'',exp_year:'',});
 
   /************ Start -Card List State***************/
   const [bankCardData, setBankCardData] =React.useState('');
@@ -643,10 +643,11 @@ const [countryValue, setcountryValue] = React.useState('')
       
         setLoading(true); // Set loading before sending API request
         axios.post(API.BASE_URL + 'payment/create-card/', {
-          card_number: formCardValue.cardNumber,
-          expiry_month: formCardValue.expirationDate,
-          expiry_year: formCardValue.securityCode,
           name: formCardValue.cardName, 
+          card_number: formCardValue.cardNumber,
+          expiry_month: formCardValue.exp_month,
+          expiry_year: formCardValue.exp_year,
+          
         }, {
             headers: {
               "Authorization" : `Bearer ${token}`,
@@ -655,7 +656,7 @@ const [countryValue, setcountryValue] = React.useState('')
         })
         .then(function(response) {
             console.log(response);
-            handleCloseDetails();
+            // handleCloseDetails();
             // window.location.reload();
             setLoading(false); // Stop loading 
             // navigate('/dashboard'); 
@@ -688,9 +689,8 @@ const [countryValue, setcountryValue] = React.useState('')
             destination: recipientDestination,
             name: formCardValue.cardName,
             number: formCardValue.cardNumber,
-            exp_month: '1',
-            exp_year: '26',
-            exp_month: '1',
+            expiry_month: formCardValue.exp_month,
+            expiry_year: formCardValue.exp_year,
             cvc: formCardValue.securityCode,
           
           }, {
@@ -1608,8 +1608,27 @@ const [countryValue, setcountryValue] = React.useState('')
  {/* start add card */}
   <div className="addnewcard">
     <p>Please add your card details</p>
-   
+    <span style={myStyle}>{CardErrorText.name? CardErrorText.name: ''}</span>
   <form>
+  <div className="row each-row">
+      <div className="col-md-12">
+        <div className="input_field">
+           <p className="get-text">Your name as it appears on card<span style={{color: 'red'}} >*</span> </p>
+           <div className="card-fields">
+         <input
+          type="text" 
+          className='rate_input form-control'
+          name="cardName"
+          defaultValue={formCardValue.cardName}
+          onChange={(e)=>handleCardInputChange(e,'cardName')}
+        />
+         <span style={myStyle}>{CardErrorText.Name? CardErrorText.Name: ''}</span>
+        <i class="fa fa-user"></i>
+        </div>
+           
+       </div>
+     </div>
+  </div>
     <div className="row">
         <div className="col-md-12">
           <div className="input_field">
@@ -1624,48 +1643,16 @@ const [countryValue, setcountryValue] = React.useState('')
            defaultValue={formCardValue.cardNumber}
            onChange={(e)=>handleCardInputChange(e,'cardNumber')}
           />
-           <i class="fa fa-credit-card" id="cardtype"></i>
+          <i class="fa fa-credit-card" id="cardtype"></i>
+          </div>
             <span style={myStyle}>{CardErrorText.Entercard? CardErrorText.Entercard: ''}</span>
         </div>
     </div>
   </div>
-  </div>
+
 
   <div className="row each-row">
-    <div className="col-md-8">
-      <div className="input_field">
-         <p className="get-text">Expiration Date<span style={{color: 'red'}} >*</span></p>
-         <div className="card-date">
-         <div className="card-fields">
-        <input
-          type="text" 
-          className='rate_input form-control'
-          name="expirationDate"
-          placeholder="Month"
-           defaultValue={formCardValue.expirationDate}
-           onChange={(e)=>handleCardInputChange(e,'expirationDate')}
-       />
-       <i class="fa fa-calendar"></i>
-       <span style={myStyle}>{CardErrorText.expiry_month? CardErrorText.expiry_month: ''}</span>
-       </div>
-       <span>/</span>
-       <div className="card-fields">
-        <input
-          type="text" 
-          className='rate_input form-control'
-          name="expirationDate"
-          placeholder="Year"
-           defaultValue={formCardValue.expirationDate}
-           onChange={(e)=>handleCardInputChange(e,'expirationDate')}
-       />
-       <i class="fa fa-calendar"></i>
-       <span style={myStyle}>{CardErrorText.expiry_month? CardErrorText.expiry_month: ''}</span>
-       </div>
-         </div>
-      </div>
-    </div>
-
-   <div className="col-md-4">
+  <div className="col-md-4">
       <div className="input_field">
         <p className="get-text">CVV<span style={{color: 'red'}} >*</span> </p>
         <div className="card-fields">
@@ -1677,31 +1664,51 @@ const [countryValue, setcountryValue] = React.useState('')
           defaultValue={formCardValue.securityCode}
           onChange={(e)=>handleCardInputChange(e,'securityCode')}
           />
+          <span style={myStyle}>{CardErrorText.Entercvc? CardErrorText.Entercvc: ''}</span>
           <i class="fa fa-lock"></i>
-                <span style={myStyle}>{CardErrorText.Entercvc? CardErrorText.Entercvc: ''}</span>
-                </div>
+          </div>
+                
         </div>
-       </div>
-   </div>
-   <div className="row each-row">
-      <div className="col-md-12">
-        <div className="input_field">
-           <p className="get-text">Your name as it appears on card<span style={{color: 'red'}} >*</span> </p>
-           <div className="card-fields">
-         <input
+    </div>
+
+    <div className="col-md-8">
+      <div className="input_field">
+         <p className="get-text">Expiration Date<span style={{color: 'red'}} >*</span></p>
+         <div className="card-date">
+         <div className="card-fields">
+        <input
           type="text" 
           className='rate_input form-control'
-          name="cardName"
-          defaultValue={formCardValue.cardName}
-          onChange={(e)=>handleCardInputChange(e,'cardName')}
-        />
-        <i class="fa fa-user"></i>
-        </div>
-           <span style={myStyle}>{CardErrorText.name? CardErrorText.name: ''}</span>
-           <span style={myStyle}>{CardErrorText.Name? CardErrorText.Name: ''}</span>
+          name="exp_month"
+          placeholder="Month"
+           defaultValue={formCardValue.exp_month}
+           onChange={(e)=>handleCardInputChange(e,'exp_month')}
+       />
+         <span style={myStyle}>{CardErrorText.Entermonth? CardErrorText.Entermonth: ''}</span>
+       <i class="fa fa-calendar"></i>
+     
        </div>
-     </div>
-  </div>
+       <span>/</span>
+       <div className="card-fields">
+        <input
+          type="text" 
+          className='rate_input form-control'
+          name="exp_year"
+          placeholder="Year"
+           defaultValue={formCardValue.exp_year}
+           onChange={(e)=>handleCardInputChange(e,'exp_year')}
+       />
+          <span style={myStyle}>{CardErrorText.Enteryear? CardErrorText.Enteryear: ''}</span>
+       <i class="fa fa-calendar"></i>
+    
+       </div>
+         </div>
+      </div>
+    </div>
+
+  
+   </div>
+  
 
   <div className="col-md-12">
      <div className="saved-label">
