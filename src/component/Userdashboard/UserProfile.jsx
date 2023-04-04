@@ -101,6 +101,7 @@ const Profile = () => {
 
 const [countryValue, setcountryValue] = React.useState('')
     const countryoptions = useMemo(() => countryList().getData(), [])
+    console.log(countryoptions,"countryoptionscountryoptions")
 
     const changeHandler = countryValue => {
         setcountryValue(countryValue)
@@ -166,6 +167,7 @@ const [countryValue, setcountryValue] = React.useState('')
                 setCity(response.data.data.city);
                 setState(response.data.data.state);
                 setcountryValue(response.data.data.location);
+                // console.log(countryValue, "countryValuecountryValuecountryValue")
                 setReasonMoney(response.data.data.reasonMoney);
                 setCustomer_id(response.data.data.customer_id);
 
@@ -211,7 +213,7 @@ const [countryValue, setcountryValue] = React.useState('')
               postcode: postcode,
               city: city,
               state: state,
-              country: countryValue.label,
+              location: countryValue,
         
             
              

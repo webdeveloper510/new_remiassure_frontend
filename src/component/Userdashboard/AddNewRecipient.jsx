@@ -150,13 +150,13 @@ const [countryValue, setcountryValue] = React.useState('')
           mobile:formValue.mobile,
           flat: formValue.flat,
           building: formValue.building,
-          sreet: formValue.street,
+          street: formValue.street,
           postcode: formValue.postcode,
           city: formValue.city,  
           state: formValue.state,  
           country_code: formValue.country_code,
-          country: formValue.country,
-          reasonMoney: formValue.reasonMoney
+          country: countryValue.label,
+          reason: formValue.reasonMoney
          
         }, {
             headers: {
@@ -440,11 +440,11 @@ const [countryValue, setcountryValue] = React.useState('')
                     <Form.Group className="form_label" controlId="Firstname">
                     <p className="get-text">Country</p>
                       <Select
-                                     ref={input_location}
-                                     options={countryoptions} 
-                                     value={countryValue} 
-                                     onChange={changeHandler}
-                                      />
+                        ref={input_location}
+                        options={countryoptions} 
+                         value={countryValue} 
+                        onChange={changeHandler}
+                     />
                       {/* <CountryDropdown 
                       id="UNIQUE_ID"
                       name="country"

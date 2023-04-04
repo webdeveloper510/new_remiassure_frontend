@@ -28,8 +28,7 @@ const myStyle ={
 }
 
 const SendMoney = () => {
-
-
+console.log('send Mondey')
 /************ Start page show hide condtion page ***************/
    const token = localStorage.getItem("token");
    console.log("TOKEN", token);
@@ -77,14 +76,14 @@ const [amountValue, setAmountValue] = React.useState({
   const [total_amount, setTotal_amount] =React.useState('');
   const [total_rate, setTotal_rate] =React.useState('');
 
-  const [options, setOptions] = React.useState([]);
-  const [output, setOutput] = React.useState(0);
-  const [info, setInfo] = React.useState([]);
+  // const [options, setOptions] = React.useState([]);
+  // const [output, setOutput] = React.useState(0);
+  // const [info, setInfo] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [error,setError]=React.useState(false);
 
   /******************* Verify payment state digital Api state  *******/
-  const [code, setConde] =React.useState('');
+  // const [code, setConde] =React.useState('');
   const [data, setData] = React.useState([]);
   /******************* End digital Api state   ***********************/
 
@@ -110,10 +109,15 @@ const [showCards, setshowCards] = React.useState("");
   const [bankCardData, setBankCardData] =React.useState('');
 
 
+/************ Start -Card Delete Function***************/
 
 
-const handleCloseDetails = () => setshowCards(false);
-const ShowCardDetails = () => setshowCards(true);
+ 
+    
+
+
+  const handleCloseDetails = () => setshowCards(false);
+  const ShowCardDetails = () => setshowCards(true);
 
 
 // Start -Recipient Crad Details 
@@ -691,13 +695,13 @@ const [countryValue, setcountryValue] = React.useState('')
         mobile:formValue.mobile,
         flat: formValue.flat,
         building: formValue.building,
-        sreet: formValue.sreet,
+        street: formValue.street,
         postcode: formValue.postcode,
         country_code: formValue.country_code,
         city: formValue.city,  
         state: formValue.state,  
         country: countryValue.label,
-        reasonMoney: formValue.reasonMoney
+        reason: formValue.reasonMoney
       
       }, {
           headers: {
@@ -746,13 +750,13 @@ const [countryValue, setcountryValue] = React.useState('')
           mobile:formValue.mobile,
           flat: formValue.flat,
           building: formValue.building,
-          sreet: formValue.street,
+          street: formValue.street,
           postcode: formValue.postcode,
           city: formValue.city,  
           state: formValue.state,  
           country_code: formValue.country_code,
           country: countryValue.label,
-          reasonMoney: formValue.reasonMoney
+          reason: formValue.reasonMoney
         }, {
             headers: {
               "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
@@ -789,8 +793,8 @@ const [countryValue, setcountryValue] = React.useState('')
       setLoading(true); // Set loading before sending API request
       axios.post(API.BASE_URL + 'payment/create-card/', {
         card_number: formCardValue.cardNumber,
-        exp_month: formCardValue.exp_month,
-        exp_year: formCardValue.exp_year,
+        expiry_month: formCardValue.exp_month,
+        expiry_year: formCardValue.exp_year,
         name: formCardValue.cardName, 
       }, {
           headers: {
@@ -821,6 +825,10 @@ const [countryValue, setcountryValue] = React.useState('')
    * ***********************************************************************/
 
     useEffect(() => {
+      getList();
+    }, [])
+
+    const getList =()=>{
       setLoading(true); // Set loading before sending API request
       axios.post(API.BASE_URL + 'payment/card-list/',{}, {
           headers: {
@@ -844,7 +852,8 @@ const [countryValue, setcountryValue] = React.useState('')
             setLoading(false); // Stop loading in case of error
           
         })
-    }, [])
+
+    }
 
   console.log(data," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
@@ -918,6 +927,42 @@ const handlePaymentCard =(event) =>{
       })
   }
 
+    /**************************************************************************
+   * ************** Start- Card List Delete ****************************
+   * ***********************************************************************/
+
+
+  /**************************************************************************
+   * ************** Start  Recipient List Delete ****************************
+   * ***********************************************************************/
+
+    const handleRemovecardDetails =(value) =>{
+      console.log("========>Delete", value)
+    
+      axios.delete(API.BASE_URL + `payment/card/${value}`, {
+          headers: {
+            "Authorization" : `Bearer ${token}`,
+          },
+        
+      })
+      .then(function(response) {
+          console.log(response);
+          handleClose()
+          getList();
+          // alert('Remove Successfully.')
+          // setLoading(false); // Stop loading 
+        // navigate('/userrecipients');   
+        
+
+      })
+      .catch(function(error, message) {
+          console.log(error.response);
+          // setLoading(false); // Stop loading in case of error
+        
+          
+      })
+    }
+
 
 
 
@@ -936,17 +981,25 @@ const handlePaymentCard =(event) =>{
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const step_form = step+1;
+    
+
+    //  const step = step+1;
     
     const Form = ()=>{
-    
+      // const dataFetchedRef = useRef(true);
+      // console.log(dataFetchedRef)
+      // if (dataFetchedRef.current) {
+      //    dataFetchedRef.current = false;
+      // console.log(dataFetchedRef.current)
+    // console.log('FORMmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm')
       if(step==0){
       
       return (
       <Step1 /> 
        );
       
-      }else if(step==1){
+     }
+      else if(step==1){
       
       return (
       <Step2 /> );
@@ -971,12 +1024,14 @@ const handlePaymentCard =(event) =>{
       <Step6 /> );
   }
       }
+    // }
 
 
      console.log(step, "stepstepstepstepstepstepstep")
 
     const Step1 = () =>{
-    
+      
+     
     return (
     <>
 
@@ -987,7 +1042,7 @@ const handlePaymentCard =(event) =>{
       <section>
           <div className="progressBar">
             <div className="progress">
-              <span className="progress-bar bg-success progress-bar-striped step1">{step_form}</span>
+              <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
             </div>
           </div>
 
@@ -1021,9 +1076,7 @@ const handlePaymentCard =(event) =>{
                     // onBlurCapture={myTotalAmount}
                     >
                       {/* <option value="">--- Select Currency ---</option> */}
-                      <option value="USD" selected="selected">USD</option>
-                      {/* <option value="USD">USD</option>  */}
-                      <option value="EUR">EUR</option>
+                      console.log('Step11111111111111111111111111111111111111')               <option value="EUR">EUR</option>
                       <option value="INR">INR</option> 
                       <option value="BRL">BRL</option>
                       <option value="BGN">BGN</option>
@@ -1260,8 +1313,8 @@ const handlePaymentCard =(event) =>{
       <section>
         <div className="progressBar">
             <div className="progress">
-            <span className="progress-bar bg-success progress-bar-striped step1">{step_form}</span>
-              <span className="progress-bar bg-success progress-bar-striped step2">{step_form}</span>
+            <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
+              <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
             </div>
           </div>
         <form>
@@ -1424,6 +1477,7 @@ const handlePaymentCard =(event) =>{
                   defaultValue={formValue.flat}
                   onChange={(e)=> handleStep2InputChange(e,'flat')}
                   />
+                  <span style={myStyle}>{BankNameText.Enterflat? BankNameText.Enterflat: ''}</span>
                   
               </div>
             </div>
@@ -1438,6 +1492,7 @@ const handlePaymentCard =(event) =>{
                   defaultValue={formValue.building}
                   onChange={(e)=> handleStep2InputChange(e,'building')}
                   />
+                    <span style={myStyle}>{BankNameText.Enterbuilding? BankNameText.Enterbuilding: ''}</span>
                   
               </div>
             </div>
@@ -1453,6 +1508,7 @@ const handlePaymentCard =(event) =>{
                   defaultValue={formValue.street}
                   onChange={(e)=> handleStep2InputChange(e,'street')}
                   />
+                    <span style={myStyle}>{BankNameText.Enterstreet? BankNameText.Enterstreet: ''}</span>
                   
               </div>
             </div>
@@ -1472,6 +1528,7 @@ const handlePaymentCard =(event) =>{
                   defaultValue={formValue.postcode}
                   onChange={(e)=> handleStep2InputChange(e,'postcode')}
                   />
+                    <span style={myStyle}>{BankNameText.Enterpostcode? BankNameText.Enterpostcode: ''}</span>
                   
               </div>
             </div>
@@ -1486,6 +1543,7 @@ const handlePaymentCard =(event) =>{
                   defaultValue={formValue.city}
                   onChange={(e)=> handleStep2InputChange(e,'city')}
                   />
+                    <span style={myStyle}>{BankNameText.Entercity? BankNameText.Entercity: ''}</span>
                   
               </div>
             </div>
@@ -1501,7 +1559,7 @@ const handlePaymentCard =(event) =>{
                   defaultValue={formValue.state}
                   onChange={(e)=> handleStep2InputChange(e,'state')}
                   />
-                  
+                    <span style={myStyle}>{BankNameText.Entercity? BankNameText.Entercity: ''}</span>
               </div>
             </div>
 
@@ -1511,7 +1569,7 @@ const handlePaymentCard =(event) =>{
           <div className="row each-row">
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Country Code</p>
+                <p className="get-text">Country Code <span style={{color: 'red'}} >*</span></p>
                 <input
                   type="text" 
               
@@ -1520,28 +1578,29 @@ const handlePaymentCard =(event) =>{
                   defaultValue={formValue.country_code}
                   onChange={(e)=> handleStep2InputChange(e,'country_code')}
                   />
+                    <span style={myStyle}>{BankNameText.Entercountrycode? BankNameText.Entercountrycode: ''}</span>
                   
               </div>
             </div>
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Country</p>
+                <p className="get-text">Country<span style={{color: 'red'}} >*</span></p>
                 <Select
                 // ref={input_location}
                 options={countryoptions} 
                 value={countryValue} 
                 onChange={changeHandler}
                />
+                  <span style={myStyle}>{BankNameText.Selectcountry? BankNameText.Selectcountry: ''}</span>
                   
               </div>
             </div>
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Reason For Sending Money</p>
+                <p className="get-text">Reason For Sending Money<span style={{color: 'red'}} >*</span></p>
                 <select
                   className="form-select rate_input form-control"
                   aria-label="Select a reason"
-                
                   name="reasonMoney"
                   defaultValue={formValue.reasonMoney}
                   onChange={(e)=> handleStep2InputChange(e,'reasonMoney')}
@@ -1554,6 +1613,7 @@ const handlePaymentCard =(event) =>{
                   <option value="Travel Payment">Travel Payment</option>
                   <option value="Utility Payment">Utility Payment</option>
                 </select>
+                <span style={myStyle}>{BankNameText.Selectreason? BankNameText.Selectreason: ''}</span>
               
               </div>
             </div>
@@ -1629,10 +1689,10 @@ const handlePaymentCard =(event) =>{
       <th>Mobile</th>
       <td>{mobileData}</td>
     </tr>
-    <tr>
+    {/* <tr>
       <th>Address</th>
       <td>{addressData}</td>
-    </tr>
+    </tr> */}
     <tr> 
         <>
         
@@ -1673,6 +1733,18 @@ const handlePaymentCard =(event) =>{
     
     
     const Step3 = () =>{
+
+      const [cardDeleteShow, setCardDeleteShow] = React.useState(false);
+      const handleClose = () => setCardDeleteShow(false);
+      const [delete_id,setDelete_Id] =React.useState('');
+        const handleDeleteShow = (key) =>{
+            console.log("=========>cardDelete",key)
+            setCardDeleteShow(true);
+            setDelete_Id(key)
+
+        }
+     
+        
     
     return (
     <>
@@ -1683,9 +1755,9 @@ const handlePaymentCard =(event) =>{
       <section>
         <div className="progressBar">
       <div className="progress">
-      <span className="progress-bar bg-success progress-bar-striped step1">{step_form}</span>
-      <span className="progress-bar bg-success progress-bar-striped step2">{step_form}</span>
-        <span className="progress-bar bg-success progress-bar-striped step3">{step_form}</span>
+      <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
+      <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
+        <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
       </div>
     </div>
     <div className="form_body">
@@ -1770,6 +1842,7 @@ const handlePaymentCard =(event) =>{
       <tr>
         <th>#</th>
         <th>Cards Details</th>
+        {/* <th>Action</th> */}
       </tr>
     </thead>
 
@@ -1804,19 +1877,44 @@ const handlePaymentCard =(event) =>{
               <label>CVV</label>
               <p><input type="password" value={res.number} /></p>
             </li>
+            <li>
+            <div className="card-delete">
+        <Button className="btn btn-danger" onClick={() =>{handleDeleteShow(res.id)}}>
+          Delete</Button></div>
+            </li>
           </ul>
-          <div className="card-delete"><Button className="btn btn-danger">Delete</Button></div>
           </Accordion.Body>
       </Accordion.Item> 
     </Accordion>
     </td>
+       {/* <td>
+          </td> */}
       </tr>
 
           )    
         })}
+
+<Modal show={cardDeleteShow} onHide={handleClose}>
+    <Modal.Header closeButton>
+    <Modal.Title>Delete Card</Modal.Title>
+        </Modal.Header>
+           <Modal.Body>Are you sure you want to delete ?</Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>Close </Button>
+                  <Button 
+                  className="delete_recipient"
+                   variant="danger" 
+                   onClick={() => {handleRemovecardDetails(delete_id)}}
+                    >
+                    Delete
+                  </Button>
+              </Modal.Footer>
+            </Modal>
     </tbody>
   </Table>
    {/* End List card */}
+
+
 
  
  {/* start add card */}
@@ -1837,6 +1935,7 @@ const handlePaymentCard =(event) =>{
           onChange={(e)=>handleCardInputChange(e,'cardName')}
         />
          <span style={myStyle}>{CardErrorText.Name? CardErrorText.Name: ''}</span>
+         <span style={myStyle}>{CardErrorText.name? CardErrorText.name: ''}</span>
         <i class="fa fa-user"></i>
         </div>
            
@@ -1850,7 +1949,7 @@ const handlePaymentCard =(event) =>{
             <p className="get-text">Card Number<span style={{color: 'red'}} >*</span> </p>
             <div className="card-fields">
           <input
-           type="text"
+           type="number"
            className='rate_input form-control'
            name="cardNumber"
            placeholder="XXXX-XXXX-XXXX-XXXX"
@@ -1860,6 +1959,7 @@ const handlePaymentCard =(event) =>{
           <i class="fa fa-credit-card" id="cardtype"></i>
           </div>
             <span style={myStyle}>{CardErrorText.Entercard? CardErrorText.Entercard: ''}</span>
+            <span style={myStyle}>{CardErrorText.card_number? CardErrorText.card_number: ''}</span>
         </div>
     </div>
   </div>
@@ -1872,28 +1972,32 @@ const handlePaymentCard =(event) =>{
          <div className="card-date">
          <div className="card-fields">
         <input
-          type="text" 
+          type="number" 
           className='rate_input form-control'
           name="exp_month"
           placeholder="Month"
-           defaultValue={formCardValue.exp_month}
-           onChange={(e)=>handleCardInputChange(e,'exp_month')}
+          maxLength={2}
+          defaultValue={formCardValue.exp_month}
+          onChange={(e)=>handleCardInputChange(e,'exp_month')}
        />
          <span style={myStyle}>{CardErrorText.Entermonth? CardErrorText.Entermonth: ''}</span>
+         <span style={myStyle}>{CardErrorText.expiry_month? CardErrorText.expiry_month: ''}</span>
        <i class="fa fa-calendar"></i>
      
        </div>
        <span>/</span>
        <div className="card-fields">
         <input
-          type="text" 
+          type="number" 
           className='rate_input form-control'
           name="exp_year"
+          maxLength={2}
           placeholder="Year"
            defaultValue={formCardValue.exp_year}
            onChange={(e)=>handleCardInputChange(e,'exp_year')}
        />
           <span style={myStyle}>{CardErrorText.Enteryear? CardErrorText.Enteryear: ''}</span>
+          <span style={myStyle}>{CardErrorText.expiry_year? CardErrorText.expiry_year: ''}</span>
        <i class="fa fa-calendar"></i>
     
        </div>
@@ -1909,7 +2013,9 @@ const handlePaymentCard =(event) =>{
           type="password" 
           className='rate_input form-control'
           name="securityCode"
-          placeholder="000"
+          placeholder="xxx"
+          min= "1"
+          max="3"
           defaultValue={formCardValue.securityCode}
           onChange={(e)=>handleCardInputChange(e,'securityCode')}
           />
@@ -1960,8 +2066,10 @@ const handlePaymentCard =(event) =>{
     }
 
     const Step4 = () =>{
-
+     
+ 
       useEffect(() => {
+       
         const script = document.createElement('script');
       
               script.src = 'https://digitalid-sandbox.com/sdk/app.js';
@@ -2016,10 +2124,10 @@ const handlePaymentCard =(event) =>{
         <section>
           <div className="progressBar">
         <div className="progress">
-        <span className="progress-bar bg-success progress-bar-striped step1">{step_form}</span>
-      <span className="progress-bar bg-success progress-bar-striped step2">{step_form}</span>
-        <span className="progress-bar bg-success progress-bar-striped step3">{step_form}</span>
-          <span className="progress-bar bg-success progress-bar-striped step4">{step_form}</span>
+        <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
+      <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
+        <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
+          <span className="progress-bar bg-success progress-bar-striped step4">{step}</span>
         </div>
       </div>
       <div className="form_body">
@@ -2156,7 +2264,7 @@ const handlePaymentCard =(event) =>{
             <div className="col-md-4">
               <div className="input_field">
                 <p className="get-text">Postcode</p>
-                <input type="text" className='rate_input form-control' />
+                <input type="text" className='rate_inpuspant form-control' />
               </div>
             </div>
             <div className="col-md-4">
@@ -2252,11 +2360,11 @@ const handlePaymentCard =(event) =>{
           <section>
             <div className="progressBar">
           <div className="progress">
-          <span className="progress-bar bg-success progress-bar-striped step1">{step_form}</span>
-          <span className="progress-bar bg-success progress-bar-striped step2">{step_form}</span>
-            <span className="progress-bar bg-success progress-bar-striped step3">{step_form}</span>
-            <span className="progress-bar bg-success progress-bar-striped step4">{step_form}</span>
-            <span className="progress-bar bg-success progress-bar-striped step5">{step_form}</span>
+          <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
+          <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
+            <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
+            <span className="progress-bar bg-success progress-bar-striped step4">{step}</span>
+            <span className="progress-bar bg-success progress-bar-striped step5">{step}</span>
           </div>
         </div>
         <div className="form_body">
@@ -2349,12 +2457,12 @@ const handlePaymentCard =(event) =>{
           <section>
             <div className="progressBar">
           <div className="progress">
-          <span className="progress-bar bg-success progress-bar-striped step1">{step_form}</span>
-          <span className="progress-bar bg-success progress-bar-striped step2">{step_form}</span>
-            <span className="progress-bar bg-success progress-bar-striped step3">{step_form}</span>
-            <span className="progress-bar bg-success progress-bar-striped step4">{step_form}</span>
-            <span className="progress-bar bg-success progress-bar-striped step5">{step_form}</span>
-            <span className="progress-bar bg-success progress-bar-striped step6">{step_form}</span>
+          <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
+          <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
+            <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
+            <span className="progress-bar bg-success progress-bar-striped step4">{step}</span>
+            <span className="progress-bar bg-success progress-bar-striped step5">{step}</span>
+            <span className="progress-bar bg-success progress-bar-striped step6">{step}</span>
           </div>
         </div>
         <div className="form_body">
@@ -2377,13 +2485,13 @@ const handlePaymentCard =(event) =>{
           }
     
 
-
+     
     return (
     
     <>
   <div>
   {  
-         token || verification_otp != undefined || '' ? (
+         1 ? (
     <div class="form">
       
         <section className="why-us section-bgba user_dashboard_banner">
@@ -2431,7 +2539,7 @@ const handlePaymentCard =(event) =>{
 
                 {  
                 step > 0 && formValue.bankName != ''  ? (
-                  <div className="summary1">
+                  <div className="summary1">xcxc
                     <BsCheckCircleFill/>
                   <h5>Recipient details Summary</h5>
                     <tbody>

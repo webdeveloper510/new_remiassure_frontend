@@ -536,11 +536,10 @@ const [countryValue, setcountryValue] = React.useState('')
         event.preventDefault();
 
           //useRef is used for focusing on inputbox
-      //     if(errorBankName.length==0){
-	    //   		input_grant_type.current.focus();
-	    //   		setError(true);
-      //       console.log(error, "error")
-	    //   	} 
+      //     if ( formValue.bankName.length==0){
+      //       input_bankName.current.focus();
+      //           setError(true);
+      //      }
 
       //  else{
       
@@ -562,7 +561,7 @@ const [countryValue, setcountryValue] = React.useState('')
           state: formValue.state,  
           country_code: formValue.country_code,
           country: countryValue.label,
-          reasonMoney:formValue.reasonMoney,
+          reason:formValue.reasonMoney,
          
         }, {
             headers: {
@@ -628,6 +627,11 @@ const [countryValue, setcountryValue] = React.useState('')
     /**************************************************************************
    * ************** Start  Create Card Bank Details ****************************
    * ***********************************************************************/
+    const input_bankName = useRef(null);
+    const input_accountName = useRef(null);
+    const input_accountNumber = useRef(null);
+
+
      const handleCradBankDetails =(event) =>{
     
         event.preventDefault();
@@ -670,7 +674,7 @@ const [countryValue, setcountryValue] = React.useState('')
              
         })
     }
-  // }
+  //  }
 
 
    /**************************************************************************
@@ -689,8 +693,8 @@ const [countryValue, setcountryValue] = React.useState('')
             destination: recipientDestination,
             name: formCardValue.cardName,
             number: formCardValue.cardNumber,
-            expiry_month: formCardValue.exp_month,
-            expiry_year: formCardValue.exp_year,
+            exp_month: formCardValue.exp_month,
+            exp_year: formCardValue.exp_year,
             cvc: formCardValue.securityCode,
           
           }, {
@@ -721,6 +725,11 @@ const [countryValue, setcountryValue] = React.useState('')
    * ***********************************************************************/
 
         useEffect(() => {
+          getList();
+         
+        }, [])
+
+        const getList =()=>{
           setLoading(true); // Set loading before sending API request
           axios.post(API.BASE_URL + 'payment/card-list/',{}, {
               headers: {
@@ -744,10 +753,41 @@ const [countryValue, setcountryValue] = React.useState('')
                 setLoading(false); // Stop loading in case of error
               
             })
-        }, [])
+        }
 
       console.log(data," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
+    /**************************************************************************
+   * ************** Start  Recipient List Delete ****************************
+   * ***********************************************************************/
+
+    const handleRemovecardDetails =(value) =>{
+      console.log("========>Delete", value)
+    
+      axios.delete(API.BASE_URL + `payment/card/${value}`, {
+          headers: {
+            "Authorization" : `Bearer ${token}`,
+          },
+        
+      })
+      .then(function(response) {
+          console.log(response);
+          handleClose()
+          getList();
+          // alert('Remove Successfully.')
+          // setLoading(false); // Stop loading 
+        // navigate('/userrecipients');   
+        
+
+      })
+      .catch(function(error, message) {
+          console.log(error.response);
+          // setLoading(false); // Stop loading in case of error
+        
+          
+      })
+    }
+    
 
 
 
@@ -1114,7 +1154,7 @@ const [countryValue, setcountryValue] = React.useState('')
               }   
 
 
-{ data?.length == 0 ? (
+          { data?.length == 0 ? (
                 <>
                 <div class="no-recipt">
                   <h5>No Recipient</h5>
@@ -1160,7 +1200,9 @@ const [countryValue, setcountryValue] = React.useState('')
                     name="bankName"
                     defaultValue={formValue.bankName}
                     onChange={(e)=>handleStep2InputChange(e,'bankName')}
-                  />   
+                  /> 
+                     {/* {error&&formValue.bankName.length<=0?
+                        <span style={myStyle}>Please Enter the Bank Name </span>:""}   */}
                     <span style={myStyle}>{BankNameText.Enterbank? BankNameText.Enterbank: ''}</span>
                 </div>
             </div>
@@ -1284,10 +1326,11 @@ const [countryValue, setcountryValue] = React.useState('')
                   type="text" 
               
                   className='rate_input form-control'
-                  name="address"
-                  defaultValue={formValue.address}
-                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  name="flat"
+                  defaultValue={formValue.flat}
+                  onChange={(e)=> handleStep2InputChange(e,'flat')}
                   />
+                  <span style={myStyle}>{BankNameText.Enterflat? BankNameText.Enterflat: ''}</span>
                   
               </div>
             </div>
@@ -1298,10 +1341,11 @@ const [countryValue, setcountryValue] = React.useState('')
                   type="text" 
               
                   className='rate_input form-control'
-                  name="address"
-                  defaultValue={formValue.address}
-                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  name="building"
+                  defaultValue={formValue.building}
+                  onChange={(e)=> handleStep2InputChange(e,'building')}
                   />
+                    <span style={myStyle}>{BankNameText.Enterbuilding? BankNameText.Enterbuilding: ''}</span>
                   
               </div>
             </div>
@@ -1313,15 +1357,17 @@ const [countryValue, setcountryValue] = React.useState('')
                   type="text" 
               
                   className='rate_input form-control'
-                  name="address"
-                  defaultValue={formValue.address}
-                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  name="street"
+                  defaultValue={formValue.street}
+                  onChange={(e)=> handleStep2InputChange(e,'street')}
                   />
+                    <span style={myStyle}>{BankNameText.Enterstreet? BankNameText.Enterstreet: ''}</span>
                   
               </div>
             </div>
 
           </div>
+      
 
           <div className="row each-row">
             <div className="col-md-4">
@@ -1331,10 +1377,11 @@ const [countryValue, setcountryValue] = React.useState('')
                   type="text" 
               
                   className='rate_input form-control'
-                  name="address"
-                  defaultValue={formValue.address}
-                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  name="postcode"
+                  defaultValue={formValue.postcode}
+                  onChange={(e)=> handleStep2InputChange(e,'postcode')}
                   />
+                    <span style={myStyle}>{BankNameText.Enterpostcode? BankNameText.Enterpostcode: ''}</span>
                   
               </div>
             </div>
@@ -1345,10 +1392,11 @@ const [countryValue, setcountryValue] = React.useState('')
                   type="text" 
               
                   className='rate_input form-control'
-                  name="address"
-                  defaultValue={formValue.address}
-                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  name="city"
+                  defaultValue={formValue.city}
+                  onChange={(e)=> handleStep2InputChange(e,'city')}
                   />
+                    <span style={myStyle}>{BankNameText.Entercity? BankNameText.Entercity: ''}</span>
                   
               </div>
             </div>
@@ -1358,19 +1406,19 @@ const [countryValue, setcountryValue] = React.useState('')
                 <p className="get-text">State</p>
                 <input
                   type="text" 
-              
+    
                   className='rate_input form-control'
-                  name="address"
-                  defaultValue={formValue.address}
-                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  name="state"
+                  defaultValue={formValue.state}
+                  onChange={(e)=> handleStep2InputChange(e,'state')}
                   />
-                  
+                    <span style={myStyle}>{BankNameText.Entercity? BankNameText.Entercity: ''}</span>
               </div>
             </div>
 
           </div>
-  
 
+         
           <div className="row each-row">
             <div className="col-md-4">
               <div className="input_field">
@@ -1379,10 +1427,11 @@ const [countryValue, setcountryValue] = React.useState('')
                   type="text" 
               
                   className='rate_input form-control'
-                  name="address"
-                  defaultValue={formValue.address}
-                  onChange={(e)=> handleStep2InputChange(e,'address')}
+                  name="country_code"
+                  defaultValue={formValue.country_code}
+                  onChange={(e)=> handleStep2InputChange(e,'country_code')}
                   />
+                    <span style={myStyle}>{BankNameText.Entercountrycode? BankNameText.Entercountrycode: ''}</span>
                   
               </div>
             </div>
@@ -1390,23 +1439,15 @@ const [countryValue, setcountryValue] = React.useState('')
               <div className="input_field">
                 <p className="get-text">Country</p>
                 <Select
-                 ref={input_location}
-                 options={countryoptions} 
-                 value={countryValue} 
-                 onChange={changeHandler}
+                // ref={input_location}
+                options={countryoptions} 
+                value={countryValue} 
+                onChange={changeHandler}
                />
-                {/* <input
-                  type="text" 
-              
-                  className='rate_input form-control'
-                  name="address"
-                  defaultValue={formValue.address}
-                  onChange={(e)=> handleStep2InputChange(e,'address')}
-                  /> */}
+                  <span style={myStyle}>{BankNameText.Selectcountry? BankNameText.Selectcountry: ''}</span>
                   
               </div>
             </div>
-
             <div className="col-md-4">
               <div className="input_field">
                 <p className="get-text">Reason For Sending Money<span style={{color: 'red'}} >*</span></p>
@@ -1467,6 +1508,19 @@ const [countryValue, setcountryValue] = React.useState('')
     
     
     const Step3 = () =>{
+
+      const [cardDeleteShow, setCardDeleteShow] = React.useState(false);
+      const handleClose = () => setCardDeleteShow(false);
+      const [delete_id,setDelete_Id] =React.useState('');
+        const handleDeleteShow = (key) =>{
+            console.log("=========>cardDelete",key)
+            setCardDeleteShow(true);
+            setDelete_Id(key)
+
+        }
+     
+        
+
     
     return (
     <>
@@ -1551,7 +1605,7 @@ const [countryValue, setcountryValue] = React.useState('')
 
    {/* start List card */}
   
-  <Table>
+   <Table>
     <thead>
       <tr>
         <th>#</th>
@@ -1571,7 +1625,7 @@ const [countryValue, setcountryValue] = React.useState('')
         <td>
           <Accordion>
       <Accordion.Item eventKey="0">
-     <Accordion.Header><img src={creditcards}  alt="credit cards" /><span>{res.number}</span> </Accordion.Header>
+     <Accordion.Header><img src={creditcards}  alt="credit cards" /><span>Master card</span> </Accordion.Header>
           <Accordion.Body>
            <ul>
             <li>
@@ -1590,16 +1644,38 @@ const [countryValue, setcountryValue] = React.useState('')
               <label>CVV</label>
               <p><input type="password" value={res.number} /></p>
             </li>
+            <li>
+            <div className="card-delete">
+            <Button className="btn btn-danger" onClick={() =>{handleDeleteShow(res.id)}}>
+              Delete</Button></div>
+            </li>
           </ul>
-          <div className="card-delete"><Button className="btn btn-danger">Delete</Button></div>
           </Accordion.Body>
       </Accordion.Item> 
     </Accordion>
     </td>
+     
       </tr>
 
           )    
         })}
+
+<Modal show={cardDeleteShow} onHide={handleClose}>
+    <Modal.Header closeButton>
+    <Modal.Title>Delete Card</Modal.Title>
+        </Modal.Header>
+           <Modal.Body>Are you sure you want to delete ?</Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>Close </Button>
+                  <Button 
+                  className="delete_recipient"
+                   variant="danger" 
+                   onClick={() => {handleRemovecardDetails(delete_id)}}
+                    >
+                    Delete
+                  </Button>
+              </Modal.Footer>
+            </Modal>
     </tbody>
   </Table>
    {/* End List card */}
@@ -1608,7 +1684,6 @@ const [countryValue, setcountryValue] = React.useState('')
  {/* start add card */}
   <div className="addnewcard">
     <p>Please add your card details</p>
-    <span style={myStyle}>{CardErrorText.name? CardErrorText.name: ''}</span>
   <form>
   <div className="row each-row">
       <div className="col-md-12">
@@ -1616,13 +1691,14 @@ const [countryValue, setcountryValue] = React.useState('')
            <p className="get-text">Your name as it appears on card<span style={{color: 'red'}} >*</span> </p>
            <div className="card-fields">
          <input
-          type="text" 
+          type="" 
           className='rate_input form-control'
           name="cardName"
           defaultValue={formCardValue.cardName}
           onChange={(e)=>handleCardInputChange(e,'cardName')}
         />
          <span style={myStyle}>{CardErrorText.Name? CardErrorText.Name: ''}</span>
+         <span style={myStyle}>{CardErrorText.name? CardErrorText.name: ''}</span>
         <i class="fa fa-user"></i>
         </div>
            
@@ -1636,7 +1712,9 @@ const [countryValue, setcountryValue] = React.useState('')
             <p className="get-text">Card Number<span style={{color: 'red'}} >*</span> </p>
             <div className="card-fields">
           <input
-           type="text"
+          min="1"
+          max="5"
+           type="number"
            className='rate_input form-control'
            name="cardNumber"
            placeholder="XXXX-XXXX-XXXX-XXXX"
@@ -1646,6 +1724,7 @@ const [countryValue, setcountryValue] = React.useState('')
           <i class="fa fa-credit-card" id="cardtype"></i>
           </div>
             <span style={myStyle}>{CardErrorText.Entercard? CardErrorText.Entercard: ''}</span>
+            <span style={myStyle}>{CardErrorText.card_number? CardErrorText.card_number: ''}</span>
         </div>
     </div>
   </div>
@@ -1676,7 +1755,7 @@ const [countryValue, setcountryValue] = React.useState('')
          <div className="card-date">
          <div className="card-fields">
         <input
-          type="text" 
+          type="number" 
           className='rate_input form-control'
           name="exp_month"
           placeholder="Month"
@@ -1684,13 +1763,14 @@ const [countryValue, setcountryValue] = React.useState('')
            onChange={(e)=>handleCardInputChange(e,'exp_month')}
        />
          <span style={myStyle}>{CardErrorText.Entermonth? CardErrorText.Entermonth: ''}</span>
+         <span style={myStyle}>{CardErrorText.expiry_month? CardErrorText.expiry_month: ''}</span>
        <i class="fa fa-calendar"></i>
      
        </div>
        <span>/</span>
        <div className="card-fields">
         <input
-          type="text" 
+          type="number" 
           className='rate_input form-control'
           name="exp_year"
           placeholder="Year"
@@ -1698,6 +1778,7 @@ const [countryValue, setcountryValue] = React.useState('')
            onChange={(e)=>handleCardInputChange(e,'exp_year')}
        />
           <span style={myStyle}>{CardErrorText.Enteryear? CardErrorText.Enteryear: ''}</span>
+          <span style={myStyle}>{CardErrorText.expiry_year? CardErrorText.expiry_year: ''}</span>
        <i class="fa fa-calendar"></i>
     
        </div>

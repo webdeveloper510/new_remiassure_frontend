@@ -16,10 +16,15 @@ import Sidebar from './Sidebar';
 const UserRecipients =() =>{
 
     const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+     const [delete_id,setDelete_Id] = useState('');
+    const handleClose = () => setShow(false);
     
+    const handleShow = (key) =>{
+        console.log("******==>",key)
+        setShow(true);
+        setDelete_Id(key)
+    } 
+        
 
     const [isActive, setActive] = useState("false");
 
@@ -87,6 +92,11 @@ const navigate = useNavigate();
 
 useEffect(() => {
     setLoading(true); // Set loading before sending API request
+    getList();
+}, [])
+
+const getList =()=>{
+    setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/recipient-list/',{}, {
         headers: {
             "Authorization" : `Bearer ${token}`,
@@ -109,7 +119,7 @@ useEffect(() => {
           setLoading(false); // Stop loading in case of error
         
       })
-}, [])
+}
 
 console.log(data," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
@@ -120,6 +130,7 @@ console.log(data," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 let id;
 {/* start- delete function */}
 const handleRemoveRecipientBankDetails =(value) =>{
+    console.log("==============>======456768768",value)
    
     // if (window.confirm('Do you wnat to remove?')) {
     // setLoading(true); // Set loading before sending API request
@@ -131,9 +142,10 @@ const handleRemoveRecipientBankDetails =(value) =>{
       
     })
     .then(function(response) {
-        console.log(response);
+        console.log("=======success",response);
         handleClose()
-        window.location.reload(false);
+        getList();
+        // window.location.reload(false);
         // alert('Remove Successfully.')
         // setLoading(false); // Stop loading 
        // navigate('/userrecipients');   
@@ -247,7 +259,7 @@ const handleRemoveRecipientBankDetails =(value) =>{
                                             {/* <td>{res.update_profile}</td> */}
                                             <td>{res.transfer_now}</td>
                                             <td>
-                                            <button className="btn btn-danger" onClick={handleShow}><i class="fa fa-trash"></i> Delete</button> 
+                                            <button className="btn btn-danger" onClick={()=>handleShow(res.id)}><i class="fa fa-trash"></i> Delete</button> 
                                             <button className="btn btn-primary" onClick={() =>{LoadEdit(res.id)}}><i class="fa fa-pencil color-muted"></i> Edit</button>
                                             <button className="btn btn-secondary" onClick={() =>{LoadSinglProfile(res.id)}} ><i class="fa fa-eye color-muted"></i> View</button>
                                             </td>
@@ -261,7 +273,7 @@ const handleRemoveRecipientBankDetails =(value) =>{
                                                     <Button variant="secondary" onClick={handleClose}>
                                                         Close
                                                     </Button>
-                                                    <Button className="delete_recipient" variant="danger" onClick={() => {handleRemoveRecipientBankDetails(res.id)}} >
+                                                    <Button className="delete_recipient" variant="danger" onClick={() => {handleRemoveRecipientBankDetails(delete_id)}} >
                                                         Delete
                                                     </Button>
                                                     </Modal.Footer>
