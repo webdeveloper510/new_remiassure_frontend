@@ -123,12 +123,12 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
               <tr>
                 <th>Date</th>
                 <th>Amount</th>
-                <th>customer_id</th>
-                <th>reason</th>
+                <th>CustomerId</th>
+                <th>Reason</th>
                 {/* <th>send_currency</th>
                 <th>recieve_currency</th> */}
                 {/* <th>send_method</th> */}
-                <th>transaction_id</th>
+                <th>TransactionId</th>
                 <th>Recipient</th>
                 <th>Status</th>
                 

@@ -263,21 +263,7 @@ const handleRemoveRecipientBankDetails =(value) =>{
                                             <button className="btn btn-primary" onClick={() =>{LoadEdit(res.id)}}><i class="fa fa-pencil color-muted"></i> Edit</button>
                                             <button className="btn btn-secondary" onClick={() =>{LoadSinglProfile(res.id)}} ><i class="fa fa-eye color-muted"></i> View</button>
                                             </td>
-                                            
-                                            <Modal show={show} onHide={handleClose}>
-                                                    <Modal.Header closeButton>
-                                                    <Modal.Title>Delete Recipient</Modal.Title>
-                                                    </Modal.Header>
-                                                    <Modal.Body>Are you sure you want to delete ?</Modal.Body>
-                                                    <Modal.Footer>
-                                                    <Button variant="secondary" onClick={handleClose}>
-                                                        Close
-                                                    </Button>
-                                                    <Button className="delete_recipient" variant="danger" onClick={() => {handleRemoveRecipientBankDetails(delete_id)}} >
-                                                        Delete
-                                                    </Button>
-                                                    </Modal.Footer>
-                                                </Modal>
+                                          
                                     </tr>
 
                                     
@@ -289,6 +275,22 @@ const handleRemoveRecipientBankDetails =(value) =>{
                             
                             </tbody>
                             </Table> 
+
+                              
+                            <Modal show={show} onHide={handleClose}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Delete Recipient</Modal.Title>
+                                    </Modal.Header>
+                                     <Modal.Body>Are you sure you want to delete ?</Modal.Body>
+                                <Modal.Footer>
+                                <Button variant="secondary" onClick={handleClose}>
+                                Close
+                                </Button>
+                                <Button className="delete_recipient" variant="danger" onClick={() => {handleRemoveRecipientBankDetails(delete_id)}} >
+                                 Delete
+                                </Button>
+                                </Modal.Footer>
+                             </Modal>
                                 
                         
                         

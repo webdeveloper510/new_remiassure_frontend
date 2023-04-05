@@ -109,8 +109,8 @@ const Dashboard = () => {
                         <h3>Profile</h3>
                     </div>
                     <div class="user-count">
-                                                            <span class="text-uppercase-edit">Check your profile</span>
-                                                        </div>
+                        <span class="text-uppercase-edit">Check your profile</span>
+                     </div>
                 </div>
                 <div className="icon">
                 <MdRemoveRedEye />

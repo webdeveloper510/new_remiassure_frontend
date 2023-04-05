@@ -217,8 +217,8 @@ const handleRemovecardDetails =(value) =>{
                                     <th>Sr.No </th>
                                     <th>Name</th>
                                     <th>Card Number</th>
-                                    <th>exp_month</th>
-                                    <th>exp_year</th>
+                                    <th>Exp-Month</th>
+                                    <th>Exp-Year</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -240,20 +240,6 @@ const handleRemovecardDetails =(value) =>{
                                             <button className="btn btn-secondary" onClick={() =>{LoadSinglCardData(res.id)}} ><i class="fa fa-eye color-muted"></i> View</button>
                                             </td>
                                             
-                                            <Modal show={show} onHide={handleClose}>
-                                                    <Modal.Header closeButton>
-                                                    <Modal.Title>Delete Card</Modal.Title>
-                                                    </Modal.Header>
-                                                    <Modal.Body>Are you sure you want to delete ?</Modal.Body>
-                                                    <Modal.Footer>
-                                                    <Button variant="secondary" onClick={handleClose}>
-                                                        Close
-                                                    </Button>
-                                                    <Button className="delete_recipient" variant="danger" onClick={() => {handleRemovecardDetails(delete_id)}} >
-                                                        Delete
-                                                    </Button>
-                                                    </Modal.Footer>
-                                                </Modal>
                                     </tr>
 
                                     
@@ -265,6 +251,21 @@ const handleRemovecardDetails =(value) =>{
                             
                             </tbody>
                             </Table> 
+
+                            <Modal show={show} onHide={handleClose}>
+                                <Modal.Header closeButton>
+                                 <Modal.Title>Delete Card</Modal.Title>
+                                </Modal.Header>
+                               <Modal.Body>Are you sure you want to delete ?</Modal.Body>
+                                 <Modal.Footer>
+                                <Button variant="secondary" onClick={handleClose}>
+                                 Close
+                                 </Button>
+                              <Button className="delete_recipient" variant="danger" onClick={() => {handleRemovecardDetails(delete_id)}} >
+                                Delete
+                              </Button>
+                              </Modal.Footer>
+                            </Modal>
                                 
                         
                         

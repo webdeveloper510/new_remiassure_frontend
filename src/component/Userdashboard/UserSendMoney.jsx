@@ -319,7 +319,6 @@ console.log(recipientName, "recipientName");
 
 
 
-
 /****************** select country *******************/
 
 const [countryValue, setcountryValue] = React.useState('')
@@ -719,6 +718,51 @@ const [countryValue, setcountryValue] = React.useState('')
           })
       }
   // }
+    
+   /**************************************************************************
+   * ************** Start  Paymet Card Select Bank Details ****************************
+   * ***********************************************************************/
+   const handlePaymentCardSelect =(event) =>{
+    event.preventDefault();
+
+    setLoading(true); // Set loading before sending API request
+    axios.post(API.BASE_URL + 'payment/stripe/card/', {
+        send_currency: FromValue,
+        recieve_currency: ToValue,
+        amount: AmountValue,
+        recipient_id: recipient_id,
+        reason: recipientMoneyReason,
+        destination: recipientDestination,
+        name: formCardValue.cardName,
+        number: formCardValue.cardNumber,
+        exp_month: formCardValue.exp_month,
+        exp_year: formCardValue.exp_year,
+        cvc: formCardValue.securityCode,
+      
+      }, {
+          headers: {
+            "Authorization" : `Bearer ${token}`,
+          },
+        
+      })
+      .then(function(response) {
+          console.log(response);
+          handleCloseDetails();
+          // window.location.reload();
+          setLoading(false); // Stop loading 
+          navigate('/transfer'); 
+          
+      })
+      .catch(function(error, message) {
+          console.log(error.response);
+          setLoading(false); // Stop loading in case of error
+          setCardErrorText(error.response.data); 
+          
+      })
+  }
+// }
+
+
 
     /**************************************************************************
    * ************** Start  Bank card List ************************************
@@ -757,7 +801,7 @@ const [countryValue, setcountryValue] = React.useState('')
 
       console.log(data," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
-    /**************************************************************************
+  /**************************************************************************
    * ************** Start  Recipient List Delete ****************************
    * ***********************************************************************/
 
@@ -788,6 +832,44 @@ const [countryValue, setcountryValue] = React.useState('')
       })
     }
     
+
+   /**************************************************************************
+    * ************** Start  Recipient Bank Details ****************************
+    * ***********************************************************************/
+      
+         /* start-- useRef is used for focusing on inputbox */
+         const handleCardUpdateDetails =(value) =>{
+          console.log("============>token", token)
+        
+            // event.preventDefault();
+            setLoading(true); // Set loading before sending API requestssss
+            axios.patch(API.BASE_URL + `payment/card/${value}`, {
+                // name:name,
+                // card_number:number,
+                // expiry_month:exp_month,
+                // expiry_year: exp_year,
+              
+              
+            },{
+                headers: {
+                  "Authorization" : `Bearer ${token}`,
+                }, 
+            })
+            .then(function(response) {
+                console.log(response);
+                setLoading(false); // Stop loading 
+                navigate('/userCardLists');   
+      
+            })
+            .catch(function(error, message) {
+                console.log(error.response);
+                setLoading(false); // Stop loading in case of error
+                setBankNameText(error.response.data); 
+                 
+            })
+        }
+      // }
+
 
 
 
@@ -1625,7 +1707,7 @@ const [countryValue, setcountryValue] = React.useState('')
         <td>
           <Accordion>
       <Accordion.Item eventKey="0">
-     <Accordion.Header><img src={creditcards}  alt="credit cards" /><span>Master card</span> </Accordion.Header>
+     <Accordion.Header><img src={creditcards}  alt="credit cards" /><span>{res.number}</span> </Accordion.Header>
           <Accordion.Body>
            <ul>
             <li>
@@ -1642,7 +1724,15 @@ const [countryValue, setcountryValue] = React.useState('')
             </li>
             <li>
               <label>CVV</label>
-              <p><input type="password" value={res.number} /></p>
+              <p>
+                <input 
+                // onClick ={}
+                maxlength="3" 
+                type="password"
+                defaultValue={formCardValue.securityCode}
+                onChange={(e)=>handleCardInputChange(e,'securityCode')}
+                 />
+              </p>
             </li>
             <li>
             <div className="card-delete">
@@ -1691,7 +1781,7 @@ const [countryValue, setcountryValue] = React.useState('')
            <p className="get-text">Your name as it appears on card<span style={{color: 'red'}} >*</span> </p>
            <div className="card-fields">
          <input
-          type="" 
+          type="text" 
           className='rate_input form-control'
           name="cardName"
           defaultValue={formCardValue.cardName}
@@ -1712,8 +1802,8 @@ const [countryValue, setcountryValue] = React.useState('')
             <p className="get-text">Card Number<span style={{color: 'red'}} >*</span> </p>
             <div className="card-fields">
           <input
-          min="1"
-          max="5"
+           min="0"
+           maxlength="16"
            type="number"
            className='rate_input form-control'
            name="cardNumber"
@@ -1735,10 +1825,11 @@ const [countryValue, setcountryValue] = React.useState('')
         <p className="get-text">CVV<span style={{color: 'red'}} >*</span> </p>
         <div className="card-fields">
           <input
+          maxlength="3" 
           type="password" 
           className='rate_input form-control'
           name="securityCode"
-          placeholder="000"
+          placeholder="xxx"
           defaultValue={formCardValue.securityCode}
           onChange={(e)=>handleCardInputChange(e,'securityCode')}
           />
@@ -1755,13 +1846,15 @@ const [countryValue, setcountryValue] = React.useState('')
          <div className="card-date">
          <div className="card-fields">
         <input
+          min="0"
+          maxlength="4" 
           type="number" 
           className='rate_input form-control'
           name="exp_month"
           placeholder="Month"
            defaultValue={formCardValue.exp_month}
            onChange={(e)=>handleCardInputChange(e,'exp_month')}
-       />
+         />
          <span style={myStyle}>{CardErrorText.Entermonth? CardErrorText.Entermonth: ''}</span>
          <span style={myStyle}>{CardErrorText.expiry_month? CardErrorText.expiry_month: ''}</span>
        <i class="fa fa-calendar"></i>
@@ -1770,13 +1863,15 @@ const [countryValue, setcountryValue] = React.useState('')
        <span>/</span>
        <div className="card-fields">
         <input
+          min="0"
+          maxlength="4" 
           type="number" 
           className='rate_input form-control'
           name="exp_year"
           placeholder="Year"
            defaultValue={formCardValue.exp_year}
            onChange={(e)=>handleCardInputChange(e,'exp_year')}
-       />
+         />
           <span style={myStyle}>{CardErrorText.Enteryear? CardErrorText.Enteryear: ''}</span>
           <span style={myStyle}>{CardErrorText.expiry_year? CardErrorText.expiry_year: ''}</span>
        <i class="fa fa-calendar"></i>

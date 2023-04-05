@@ -342,6 +342,8 @@ const Signup = () => {
                                         <Form.Group className="mb-3 form_label" controlId="formBasicPassword">
                                             <Form.Label> Your Password<span style={{color: 'red'}} >*</span> </Form.Label>
                                             <Form.Control 
+                                            //    minlength="0" 
+                                            //    maxlength="3" 
                                             type="password"
                                             ref={input_password}
                                             value={password}

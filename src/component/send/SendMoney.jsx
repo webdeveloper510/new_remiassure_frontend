@@ -108,14 +108,12 @@ const [showCards, setshowCards] = React.useState("");
   /************ Start -Card List State***************/
   const [bankCardData, setBankCardData] =React.useState('');
 
-
-/************ Start -Card Delete Function***************/
+/************ Start -Digital id Verify state***************/
+const [code, setCode] = React.useState('')
 
 
  
-    
-
-
+  
   const handleCloseDetails = () => setshowCards(false);
   const ShowCardDetails = () => setshowCards(true);
 
@@ -426,7 +424,7 @@ const [countryValue, setcountryValue] = React.useState('')
         .catch(function(error, message) {
             console.log(error.response);
             setLoading(false); // Stop loading in case of error
-            // if(error.response.data.status){
+            // if(error.responsetverificationValuese.data.status){
             //     toast.error(error.response.data.message);
             // } 
             console.log(error, "klnklnklnknnnnnnnnnnnn");   
@@ -552,8 +550,8 @@ const [countryValue, setcountryValue] = React.useState('')
 /**************************************************************************
  * ************** Start condtion -IS Digital ID Api call ******************************
  * ***********************************************************************/
-      const handleISDigitalVerified =(event) =>{
-        event.preventDefault();
+      const handleISDigitalVerified =() =>{
+        // event.preventDefault();
         setLoading(true); // Set loading before sending API request
         axios.post(API.BASE_URL + 'is-digitalid-verified/',{
         }, {
@@ -567,7 +565,7 @@ const [countryValue, setcountryValue] = React.useState('')
             // setStep(step+1)
             setverificationValue(response.data.verification_status);
             console.log(verificationValue, "setverificationValue")
-            setStep(step+1)
+            // setStep(step+1)
             setLoading(false); // Stop loading
             
             // if (response.data.verification_status == false){
@@ -592,10 +590,10 @@ const [countryValue, setcountryValue] = React.useState('')
  * ************** Start -Digital ID Verifiyed Payment Api call *************
  * ***********************************************************************/
   const handleVerifiedPaymentDigitalId =(event) =>{
-    event.preventDefault();
+     event.preventDefault();
     setLoading(true); // Set loading before sending API request
       axios.post(API.BASE_URL + 'digital-verification/', {
-       code: '3WU9IL',
+       code: '05cZyc',
       }, {
           headers: {
             "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
@@ -606,7 +604,7 @@ const [countryValue, setcountryValue] = React.useState('')
       .then(function(response) {
           console.log(response);
           if (response.status)
-          // setStep(step+1) //next step call
+          setStep(step+1) //next step call
           setData(response.data);
           setLoading(false); // Stop loading 
 
@@ -615,6 +613,7 @@ const [countryValue, setcountryValue] = React.useState('')
           console.log(error.response)
           setLoading(false); // Stop loading in case of error
           if(error.response.data.status){
+            // setStep(step-1) //next step call
               // toast.error(error.response.data.message);
           } 
           console.log(error, "klnklnklnknnnnnnnnnnnn");   
@@ -876,7 +875,7 @@ const handlePaymentCard =(event) =>{
       exp_month: formCardValue.exp_month,
       exp_year: formCardValue.exp_year,
       cvc: formCardValue.securityCode,
-    
+      handleISDigitalVerified
     }, {
         headers: {
           "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
@@ -888,6 +887,8 @@ const handlePaymentCard =(event) =>{
         handleCloseDetails();
         // window.location.reload();
         setStep(step+1)
+        handleISDigitalVerified();
+        // handleVerifiedPaymentDigitalId();
         setLoading(false); // Stop loading 
         // navigate('/transfer'); 
         
@@ -965,13 +966,7 @@ const handlePaymentCard =(event) =>{
 
 
 
-
-
-
-
-
-
- 
+    
  // Start design state
     const {useState} = React;
     const [step,setStep] = useState(0);
@@ -1027,7 +1022,7 @@ const handlePaymentCard =(event) =>{
     // }
 
 
-     console.log(step, "stepstepstepstepstepstepstep")
+    //  console.log(step, "stepstepstepstepstepstepstep")
 
     const Step1 = () =>{
       
@@ -1822,7 +1817,7 @@ const handlePaymentCard =(event) =>{
             <button className="start-form-button">Cancel</button>
           </div>
           <div className="col-md-8">
-            <button className="form-button" onClick={()=>{setStep(step+1)}}>Continue</button>
+            <button className="form-button" onClick={handleVerifiedPaymentDigitalId}>Continue</button>
             <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button>
           </div>
         </div>
@@ -1858,7 +1853,7 @@ const handlePaymentCard =(event) =>{
         <td>
           <Accordion>
       <Accordion.Item eventKey="0">
-     <Accordion.Header><img src={creditcards}  alt="credit cards" /><span>Master card</span> </Accordion.Header>
+     <Accordion.Header><img src={creditcards}  alt="credit cards" /><span>{res.number}</span> </Accordion.Header>
           <Accordion.Body>
            <ul>
             <li>
@@ -1875,7 +1870,7 @@ const handlePaymentCard =(event) =>{
             </li>
             <li>
               <label>CVV</label>
-              <p><input type="password" value={res.number} /></p>
+              <p><input maxlength="3"  type="password"  /></p>
             </li>
             <li>
             <div className="card-delete">
@@ -1933,6 +1928,7 @@ const handlePaymentCard =(event) =>{
           name="cardName"
           defaultValue={formCardValue.cardName}
           onChange={(e)=>handleCardInputChange(e,'cardName')}
+          placeholder="Name"
         />
          <span style={myStyle}>{CardErrorText.Name? CardErrorText.Name: ''}</span>
          <span style={myStyle}>{CardErrorText.name? CardErrorText.name: ''}</span>
@@ -1949,6 +1945,8 @@ const handlePaymentCard =(event) =>{
             <p className="get-text">Card Number<span style={{color: 'red'}} >*</span> </p>
             <div className="card-fields">
           <input
+            min="0"
+            maxlength="4" 
            type="number"
            className='rate_input form-control'
            name="cardNumber"
@@ -1972,6 +1970,8 @@ const handlePaymentCard =(event) =>{
          <div className="card-date">
          <div className="card-fields">
         <input
+          min="0"
+          maxlength="4" 
           type="number" 
           className='rate_input form-control'
           name="exp_month"
@@ -1988,6 +1988,8 @@ const handlePaymentCard =(event) =>{
        <span>/</span>
        <div className="card-fields">
         <input
+          min="0"
+          maxlength="4" 
           type="number" 
           className='rate_input form-control'
           name="exp_year"
@@ -2010,12 +2012,11 @@ const handlePaymentCard =(event) =>{
         <p className="get-text">CVV<span style={{color: 'red'}} >*</span> </p>
         <div className="card-fields">
           <input
+            maxlength="3" 
           type="password" 
           className='rate_input form-control'
           name="securityCode"
           placeholder="xxx"
-          min= "1"
-          max="3"
           defaultValue={formCardValue.securityCode}
           onChange={(e)=>handleCardInputChange(e,'securityCode')}
           />
@@ -2031,9 +2032,12 @@ const handlePaymentCard =(event) =>{
   
 
   <div className="col-md-12">
-     <div className="saved-label"> <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
+     <div className="saved-label"> 
+     <input type="checkbox" onvaluechange={handleCradBankDetails} />
+     {/* <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
     Save
-    </Button><label>Save Card Details</label></div>
+    </Button> */}
+    <label>Save Card Details</label></div>
   </div>
    </form>
   </div>
@@ -2101,7 +2105,7 @@ const handlePaymentCard =(event) =>{
                           //   navigate("/sendMoney")
                           // }
 
-                   
+                        
                       },
                       onClick: function (opts) {
                         console.log(3, "log")
@@ -2319,13 +2323,16 @@ const handlePaymentCard =(event) =>{
           
             <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button>
            
-            {/* { verificationValue == false ? ( */}
-                {/* <button className="form-button" onClick={handleISDigitalVerified}> Continue</button>  */}
+            { verificationValue == false ? (
+                 <button className="form-button" onClick={handleVerifiedPaymentDigitalId}> Continue</button>  
 
-            {/* ):(  */}
-              <div id="digitalid-verify"></div>
-            {/* )
-            }  */}
+            ):( 
+              <>
+                <div id="digitalid-verify"></div>
+              </>
+             
+            )
+            }  
           
             
           
@@ -2466,7 +2473,7 @@ const handlePaymentCard =(event) =>{
           </div>
         </div>
         <div className="form_body">
-        <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button>
+        {/* <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button> */}
             <div className="header">
               <h1>Thank you</h1>
             </div>
@@ -2539,7 +2546,7 @@ const handlePaymentCard =(event) =>{
 
                 {  
                 step > 0 && formValue.bankName != ''  ? (
-                  <div className="summary1">xcxc
+                  <div className="summary1">
                     <BsCheckCircleFill/>
                   <h5>Recipient details Summary</h5>
                     <tbody>
