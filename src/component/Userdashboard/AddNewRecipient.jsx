@@ -78,6 +78,9 @@ const Addnewrecipient = () => {
       const RecipientUserName = localStorage.getItem("RecipientUserName");
       console.log("RecipientUserName", RecipientUserName);
 
+      const DigitalCode = localStorage.getItem("DigitalCode");
+      console.log("DigitalCode", DigitalCode);
+
   
 /****************** select country *******************/
 
@@ -188,7 +191,7 @@ const [countryValue, setcountryValue] = React.useState('')
         {/* <Recipients /> */}
       
         {  
-           token != undefined || '' ? (
+           token || DigitalCode != undefined || '' ? (
 
         <div  className="margin-set">
             <div  className="tabs-page">

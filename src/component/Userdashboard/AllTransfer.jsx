@@ -25,6 +25,10 @@ console.log("Verification Message", verification_otp)
 const RecipientUserName = localStorage.getItem("RecipientUserName");
 console.log("RecipientUserName", RecipientUserName);
 
+
+const DigitalCode = localStorage.getItem("DigitalCode");
+console.log("DigitalCode", DigitalCode);
+
 // Start page show hide condtion page
 
 

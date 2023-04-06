@@ -24,6 +24,9 @@ const sidebar = () => {
   /**************************token ************************ */
      const token = localStorage.getItem("token");
      console.log("TOKEN", token);
+
+     const DigitalCode = localStorage.getItem("DigitalCode");
+     console.log("DigitalCode", DigitalCode);
   
     
 const verification_otp = localStorage.getItem("verification_otp");
@@ -37,7 +40,7 @@ console.log("Verification Message", verification_otp)
 
     <>
     {  
-           token  != undefined || '' ? (
+           token ||DigitalCode  != undefined || '' ? (
     
     <div  className="sidebar">
         <nav>

@@ -24,7 +24,11 @@ const Profile = () => {
     console.log("TOKEN", token);
 
     const verification_otp = localStorage.getItem("verification_otp");
-    console.log("Verification Message", verification_otp)
+    console.log("Verification Message", verification_otp);
+
+
+    const DigitalCode = localStorage.getItem("DigitalCode");
+    console.log("DigitalCode", DigitalCode);
       
 
 /**************************Feild of state ************************ */
@@ -141,7 +145,7 @@ const Profile = () => {
           {/* <!-- ======= help Remitassure Change password -Section  start======= --> */}
 
           {  
-           token != undefined || '' ? (
+           token ||DigitalCode != undefined || '' ? (
 
             <div  className="margin-set">
     <div  className="tabs-page">

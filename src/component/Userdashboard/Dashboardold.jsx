@@ -33,7 +33,7 @@ const Dashboard = () => {
           {/* <!-- ======= help Remitassure Change password -Section  start======= --> */}
 
           {  
-           token != undefined || '' ? (
+           token || verification_otp != undefined || '' ? (
             <>
  <div  className="margin-set">
     <div  className="tabs-page">

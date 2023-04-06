@@ -71,6 +71,9 @@ const SingleCardProfile = () => {
          const RecipientUserName = localStorage.getItem("RecipientUserName");
          console.log("RecipientUserName", RecipientUserName);
 
+         const DigitalCode = localStorage.getItem("DigitalCode");
+         console.log("DigitalCode", DigitalCode);
+
        
      
      // Start page show hide condtion page
@@ -211,23 +214,13 @@ const SingleCardProfile = () => {
                     </button> */}
                   </div>
                   <div className="col-md-8">
-                    <button
+                    {/* <button
                     type="button" 
                     className="form-button single_button"
                     disabled
                     >
                     Save
-                      
-                    {/* {loading ? <>
-                        <div class="loader-overly"> 
-                          <div class="loader" > 
-                                                    
-                        </div>
-                                                    
-                      </div>
-                    </> : <></>} */}
-                     
-                    </button>
+                    </button> */}
                   </div>
                 
                 </div>

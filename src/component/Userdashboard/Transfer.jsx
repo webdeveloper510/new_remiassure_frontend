@@ -24,6 +24,10 @@ const Transaction = () => {
    const verification_otp = localStorage.getItem("verification_otp")
    console.log("verification_otp" ,verification_otp);
 
+   const DigitalCode = localStorage.getItem("DigitalCode");
+   console.log("DigitalCode", DigitalCode);
+
+
 
 /**************************Feild of state ************************ */
 
@@ -31,7 +35,7 @@ const Transaction = () => {
     return(
         <>
          {  
-           token  != undefined || '' ? (
+           token ||DigitalCode  != undefined || '' ? (
 
           <div className="margin-set">
               <div className="tabs-page">
