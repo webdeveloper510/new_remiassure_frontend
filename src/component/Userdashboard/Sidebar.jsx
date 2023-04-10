@@ -17,7 +17,7 @@ import { BiTransfer } from "react-icons/bi";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
-
+import { FaCreditCard } from "react-icons/fa";
 
 const sidebar = () => {
   
@@ -47,7 +47,7 @@ console.log("Verification Message", verification_otp)
                 <li><NavLink to="/userprofile"><BsFilePersonFill />Profile Information</NavLink></li>
                 <li><NavLink to="/transfer"><BiTransfer />Transfer</NavLink></li>
                 <li><NavLink to="/userrecipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
-                <li><NavLink to="/userCardLists"><BsFillPersonPlusFill />Card</NavLink></li>
+                <li><NavLink to="/userCardLists"><FaCreditCard />Card</NavLink></li>
                 <li><NavLink to="/changepassword"><RiLockPasswordLine />Password</NavLink></li>
             </ul>
         </nav>
