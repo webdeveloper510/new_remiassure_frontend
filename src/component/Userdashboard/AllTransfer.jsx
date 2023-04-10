@@ -106,7 +106,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
            <div className="card-body">
         <div className="tabs-recipent-new">
          
-          <Table className="table table-responsive-md card-table previous-transactions">
+          <Table className="table table-responsive-md card-table previous-transaction">
             <thead>
               <tr>
                 <th>Recipient</th>

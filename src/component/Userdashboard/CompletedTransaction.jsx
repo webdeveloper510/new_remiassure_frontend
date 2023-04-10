@@ -27,7 +27,7 @@ const CompletedTransaction = () => {
                         </div>
            <div className="card-body">
 <div className="tabs-recipent-new">
-<Table className="table table-responsive-md card-table previous-transactions">
+<Table className="table table-responsive-md card-table previous-transaction">
     <thead>
       <tr>
         <th>Date</th>
@@ -187,7 +187,7 @@ const CompletedTransaction = () => {
 <img src={nodata} alt="no-data"/>
 
 <div className="col-md-12">
-      <p><b>No transfers in progress</b></p>  
+      <p><b>No transfers is Completed</b></p>  
       </div>  
   </div>
 
