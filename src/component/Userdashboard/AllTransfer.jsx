@@ -7,12 +7,12 @@ import nodata from '../../assets/img/userdashboard/nodata.avif';
 import Modal from 'react-bootstrap/Modal';
 import playicon from '../../assets/img/home/Group 01.svg';
 import playicon2 from '../../assets/img/home/Group 02.svg';
-
+import { BiDollarCircle } from "react-icons/bi";
 import {Links, NavLink, useNavigate} from 'react-router-dom';
 import { toast } from "react-toastify";
 import { API } from "../../config/API";
 import axios from "axios";
-import Page404 from "../pageNotfound/Page404";
+import Page404 from "../pageNotfound/Page404";  
 
 const AllTranfer = () => {
 
@@ -101,24 +101,24 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
         <div className="card-header d-block d-sm-flex border-0">
             <div className="me-3">
                <h4 className="fs-20 text-black">All Transaction</h4>
-                <p className="mb-0 fs-13">Lorem ipsum dolor sit amet, consectetur</p>
             </div>
          </div>
            <div className="card-body">
         <div className="tabs-recipent-new">
          
-          <Table className="table table-responsive-md card-table previous-transactions">
+          <Table className="table table-responsive-md card-table previous-transaction">
             <thead>
               <tr>
-                <th>Date</th>
+                <th>Recipient</th>
+                {/* <th>Date</th> */}
                 <th>Amount</th>
-                <th>Customer Id</th>
+                <th>CustomerId</th>
                 <th>Reason</th>
                 {/* <th>send_currency</th>
                 <th>recieve_currency</th> */}
                 {/* <th>send_method</th> */}
-                <th>Transaction Id</th>
-                <th>Recipient</th>
+                <th>TransactionId</th>
+                
                 <th>Status</th>
                 
               </tr>
@@ -130,15 +130,19 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                  //console.log(items, "itemnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
              return(
               <tr>
-                <td>{res.date}</td>
-                <td>{res.amount} <span>AUD</span></td>
+                <td>
+                  
+                <h6 className="fs-16 font-w600 mb-0">{res.recipient_name}</h6>
+                <span className="fs-14">{res.date}</span> </td>
+                {/* <td>{res.date}</td> */}
+                <td className="transaction-icon"><BiDollarCircle />{res.amount} <span>{res.send_currency}</span></td>
                 <td>{res.customer_id}</td>
                 <td>{res.reason}</td>
                 {/* <td>{res.send_currency}</td>
                 <td>{res.recieve_currency}</td> */}
                 {/* <td>{res.send_method}</td> */}
                 <td>{res.transaction_id}</td>
-                <td>{res.recipient_name}</td>
+                
 
                 <td><span className="btn btn-outline-success btn-rounded" onClick={handleShow}>{res.status}</span></td>
               </tr>
@@ -151,44 +155,41 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
           </Table>
 
+
+       
           <Modal show={show} onHide={handleClose}
         centered
-        >
+           >
                 <Modal.Header closeButton>
                   <Modal.Title>Summary</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                                    <div className="card-text">
-                                                            <div className="d-flex justify-content-between">
-                                                                <div className="d-flex">
+                   <div className="card-text">
+                      <div className="d-flex justify-content-between">
+                          <div className="d-flex">
                                                                     
-                                                                    <div className="trsnsfer-process">
-                                                                        <h4 className="text-capitalize">Jhon Danals</h4>
-                                                                        <span>SENT MAY 20 2022</span>
-                                                                        
-                                                                      
-                                                                    </div>
-                                                                </div>
+                          <div className="trsnsfer-process">
+                             <h4 className="text-capitalize">Jhon Danals</h4>
+                             <span>SENT MAY 20 2022</span>                                                                              
+                              </div>
+                            </div>
                                                                 
-
-                                                                <div className="my-auto transac-text">
-                                                                    <span className="text-white fs-6 pb-2">TRX -
-                                                                        12123213</span>
+                               <div className="my-auto transac-text">
+                                  <span className="text-white fs-6 pb-2">TRX -12123213</span>
                                                                   
-                                                                    <span className="text-white fs-5 pb-2">100.00 USD</span>
-                                                                
-                                                                    <span className="text-white">1400 AUD</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                   <span className="text-white fs-5 pb-2">100.00 USD</span>                        
+                                      <span className="text-white">1400 AUD</span>
+                                         </div>
+                                        </div>
+                                      </div>
 
-                                                        <div className="col-md-12">
-                                                        <span className="fs-6 pt-1 fw-bold statuspopup">Delivered</span>
-                                                        <hr></hr>
-                                                        <p>Your transaction is complete and we hope to see your again.</p>
+                                  <div className="col-md-12">
+                                     <span className="fs-6 pt-1 fw-bold statuspopup">Delivered</span>
+                                     <hr></hr>
+                                  <p>Your transaction is complete and we hope to see your again.</p>
 
-                                                        <MultiStepProgressBar/>
-                                                        </div>
+                                    <MultiStepProgressBar/>
+                                  </div>
           
                                 
                                         <div className="col-md-12 m-top">
@@ -275,8 +276,11 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
         <div className="no-data">
             <img src={nodata} alt="no-data"/>
               <div className="col-md-12">
-              <a href="#/dashboard" className="send_money">Send Money</a>
-              </div> 
+                  <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p>  
+                  </div>  
+                  <div className="col-md-12">
+                    <a href="#/userdashboard" className="send_money">Send Money</a>
+                </div> 
           </div>
               
           ):(

@@ -293,16 +293,17 @@ const handleRemovecardDetails =(value) =>{
                 <>
                 <section>
                 <div class="form-head mb-4">
-                    <h2 class="text-black font-w600 mb-0"><b>Add Recipient</b></h2>
+                    <h2 class="text-black font-w600 mb-0"><b>Cards Lists</b></h2>
                 </div>
                 <div className="card">
                     <div className="card-body">
+                    <h6 style={{"text-align":"center" , "margin-bottom":"20px"}}>No Saved Card</h6>
                         <div className="add-rec-new">
                             <img src={norecipients} alt="empty" />
                         </div>
                     </div>
                 </div>
-                <div className={isActive ? "add-recipent-section" : "remove-add-recipent-section"}>
+                {/* <div className={isActive ? "add-recipent-section" : "remove-add-recipent-section"}>
     
                     <div className="col-md-12 align-center">
                     <NavLink to="/addnewrecipient">
@@ -312,7 +313,7 @@ const handleRemovecardDetails =(value) =>{
                                 </button>
                             </NavLink>
                     </div>
-                    </div> 
+                    </div>  */}
                 </section>
 
 

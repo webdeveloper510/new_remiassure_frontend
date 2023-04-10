@@ -205,7 +205,7 @@ const UserSendMoney = () => {
     console.log(key)
     let CardForm = formCardValue
     CardForm[key] = e.target.value
-    setFormValue(CardForm)
+    setformCardValue(CardForm)
     console.log(formCardValue)
   }
 

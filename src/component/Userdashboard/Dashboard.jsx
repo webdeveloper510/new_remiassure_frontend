@@ -371,7 +371,8 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
                                         <td>
                                             <span class="fs-16 text-black font-w600"><BiDollarCircle />
-                                             ${AmountValue}
+                                             $
+                                             {/* {res.recieve_amount} */}
                                              </span>
                                         </td>
                                     </tr>

@@ -22,12 +22,12 @@ const InprogressTransfer = () => {
         <div className="card-header d-block d-sm-flex border-0">
                             <div className="me-3">
                                 <h4 className="fs-20 text-black">InProgress Transaction</h4>
-                                <p className="mb-0 fs-13">Lorem ipsum dolor sit amet, consectetur</p>
+                              
                             </div>
                         </div>
            <div className="card-body">
 <div className="tabs-recipent-new">
-<Table className="table table-responsive-md card-table previous-transactions">
+<Table className="table table-responsive-md card-table previous-transaction">
     <thead>
       <tr>
         <th>Date</th>
@@ -41,25 +41,25 @@ const InprogressTransfer = () => {
         <td>June 4, 2020</td>
         <td>200 AUD</td>
         <td>neha</td>
-        <td><span className="btn btn-outline-warning btn-rounded" onClick={handleShow}>InProgress</span></td>
+        <td><span className="btn btn-outline-warning btn-rounded" onClick={handleShow}>Pending</span></td>
       </tr>
       <tr>
       <td>June 4, 2020</td>
         <td>200 AUD</td>
         <td>neha</td>
-        <td><span className="btn btn-outline-warning btn-rounded" onClick={handleShow}>InProgress</span></td>
+        <td><span className="btn btn-outline-warning btn-rounded" onClick={handleShow}>Pending</span></td>
       </tr>
       <tr>
       <td>June 4, 2020</td>
         <td>200 AUD</td>
         <td>neha</td>
-        <td><span className="btn btn-outline-warning btn-rounded" onClick={handleShow}>InProgress</span></td>
+        <td><span className="btn btn-outline-warning btn-rounded" onClick={handleShow}>Pending</span></td>
       </tr>
       <tr>
       <td>June 4, 2020</td>
         <td>200 AUD</td>
         <td>neha</td>
-        <td><span className="btn btn-outline-warning btn-rounded" onClick={handleShow}>InProgress</span></td>
+        <td><span className="btn btn-outline-warning btn-rounded" onClick={handleShow}>Pending</span></td>
       </tr>
     </tbody>
   </Table>
@@ -98,7 +98,7 @@ const InprogressTransfer = () => {
                                                 </div>
 
                                                 <div className="col-md-12">
-                                                <span className="fs-6 pt-1 fw-bold statuspopup">Inprogress</span>
+                                                <span className="fs-6 pt-1 fw-bold statuspopup">Pending</span>
                                                 <hr></hr>
                                                 <p>Your transaction is Inprogress and we hope to see your again.</p>
 
@@ -187,7 +187,7 @@ const InprogressTransfer = () => {
 <img src={nodata} alt="no-data"/>
 
 <div className="col-md-12">
-      <p><b>No transfers in progress</b></p>  
+      <p><b>No transfers is Pending</b></p>  
       </div>  
   </div>
 
