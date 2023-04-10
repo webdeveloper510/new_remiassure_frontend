@@ -161,7 +161,7 @@ const Profile = () => {
             <section className="change-password">
           
               <div class="form-head mb-4">
-            <h2 class="text-black font-w600 mb-0"><b>Recipient Bank Details</b>
+            <h2 class="text-black font-w600 mb-0"><b>Change Password</b>
             </h2>
             <span style={myStyle}>{successText}</span>
             </div>

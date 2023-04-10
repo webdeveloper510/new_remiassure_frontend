@@ -4,23 +4,24 @@ import "react-multi-carousel/lib/styles.css";
 
 const responsive = {
   desktop: {
-    breakpoint: { max: 3000, min: 1024 },
+    breakpoint: { max: 3000, min: 992 },
     items: 3
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
+    breakpoint: { max: 992, min: 420 },
     items: 2
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1
+    breakpoint: { max: 420, min: 0 },
+    items: 1,
+
   }
 };
 
 class Scrollbar extends React.Component {
   state = { additionalTransfrom: 0 };
   render() {
-    //const { deviceType } = this.props;
+    const { mobile } = this.props;
     const CustomSlider = ({ carouselState }) => {
       let value = 0;
       let carouselItemWidth = 0;
@@ -85,7 +86,7 @@ class Scrollbar extends React.Component {
         additionalTransfrom={-this.state.additionalTransfrom}
         beforeChange={nextSlide => {
           if (nextSlide !== 0 && this.state.additionalTransfrom !== 150) {
-            this.setState({ additionalTransfrom: 150 });
+            this.setState({ additionalTransfrom: -0 });
           }
           if (nextSlide === 0 && this.state.additionalTransfrom === 150) {
             this.setState({ additionalTransfrom: 0 });
@@ -98,8 +99,8 @@ class Scrollbar extends React.Component {
 
           <div class="image-container-text" draggable={false}>
           <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-       <div className="row">
-         <div className="col-lg-4">
+       <div className="row each-review">
+         <div className="col-4">
          <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons"/>
          <p className="boy_icons_text">Worldtraveler</p>
          </div>
@@ -119,8 +120,8 @@ class Scrollbar extends React.Component {
 
           <div class="image-container-text" draggable={false}>
           <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-       <div className="row">
-         <div className="col-lg-4">
+       <div className="row each-review">
+         <div className="col-4">
          <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons"/>
          <p className="boy_icons_text">Worldtraveler</p>
          </div>
@@ -141,8 +142,8 @@ class Scrollbar extends React.Component {
 
           <div class="image-container-text" draggable={false}>
           <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-       <div className="row">
-         <div className="col-lg-4">
+       <div className="row each-review">
+         <div className="col-4">
          <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons"/>
          <p className="boy_icons_text">Worldtraveler</p>
          </div>
@@ -163,8 +164,8 @@ class Scrollbar extends React.Component {
 
           <div class="image-container-text" draggable={false}>
           <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-       <div className="row">
-         <div className="col-lg-4">
+       <div className="row each-review">
+         <div className="col-4">
          <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons"/>
          <p className="boy_icons_text">Worldtraveler</p>
          </div>
@@ -185,36 +186,14 @@ class Scrollbar extends React.Component {
 
           <div class="image-container-text" draggable={false}>
           <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-       <div className="row">
-         <div className="col-lg-4">
+       <div className="row each-review">
+         <div className="col-4">
          <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons"/>
          <p className="boy_icons_text">Worldtraveler</p>
          </div>
          <div className="col-8">
          <span className="material-icons">Best on the market 5.</span>
           <p className="material-heading">5.B.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...</p>
-          <img src="assets/img/help/star.png" alt="quote-up"/>
- 
-         </div>
-       </div>
-       <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" />
-  
-          </div>
-		 
-        </div>
-
-        <div class="image-container increase-size">
-
-          <div class="image-container-text" draggable={false}>
-          <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-       <div className="row">
-         <div className="col-lg-4">
-         <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons"/>
-         <p className="boy_icons_text">Worldtraveler</p>
-         </div>
-         <div className="col-8">
-         <span className="material-icons">Best on the market 6.</span>
-          <p className="material-heading">6.B.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...</p>
           <img src="assets/img/help/star.png" alt="quote-up"/>
  
          </div>

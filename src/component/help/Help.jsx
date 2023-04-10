@@ -122,7 +122,7 @@ function AccordionArrayOfObjects() {
   ];
   const accordionItems = dataarray.map((value) => {
     return(
-    <Accordion>
+    <Accordion className="help-accordian">
       <Accordion.Item eventKey="0">
         <Accordion.Header>{value.title}</Accordion.Header>
           <Accordion.Body>
@@ -153,8 +153,7 @@ function AccordionArrayOfObjects() {
             <img src="assets/img/help/suport.svg" alt="support_images" />
         </div>
 
-        <div className="row">
-          <div className="col-lg-12">
+       
                {/* start-- card */}
                <div className="row">
                   <div className="col-lg-12">
@@ -181,8 +180,7 @@ function AccordionArrayOfObjects() {
                </div>
               {/* End-- card */}
             
-          </div>
-        </div>
+        
 
       </div>
     </section>
