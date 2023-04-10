@@ -165,12 +165,12 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                                         <span class="text-uppercase-edit"> View the list of Recipients</span>
                                     </div>
                                 </div>
-                               
+                                   
+                                <NavLink to={"/addnewrecipient"} >
                                     <div className="icon">
-                                    <NavLink to={"/addnewrecipient"} >
                                     <BsFillPersonPlusFill />
-                                    </NavLink>
                                     </div>
+                                    </NavLink>
                                
                             </div>
                             <div className="mt-3">
@@ -243,7 +243,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                             <div className="card-header d-block d-sm-flex border-0">
                                 <div className="me-3">
                                     <h4 className="fs-20 text-black">All Transactions</h4>
-                                    <p className="mb-0 fs-13">Lorem ipsum dolor sit amet, consectetur</p>
+                                    {/* <p className="mb-0 fs-13">Lorem ipsum dolor sit amet, consectetur</p> */}
                                 </div>
                             </div>
                             <table className="table table-responsive-md card-table previous-transactions">
@@ -271,7 +271,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                                         </td>
                                         <td><span className="fs-16 text-black font-w500">+${res.amount}</span></td>
                                         <td>
-                                            <span className="text-success fs-16 font-w500 text-end d-block"> <a href="javascript:void(0)" className="btn btn-outline-success btn-rounded">{res.status}</a></span>
+                                            <span className="text-success fs-16 font-w500 d-block"> <a href="javascript:void(0)" className="btn btn-outline-success btn-rounded">{res.status}</a></span>
                                         </td>
                                     </tr>
                                       )    
@@ -344,7 +344,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                             <div className="card-header d-block d-sm-flex border-0">
                                 <div className="me-3">
                                     <h4 className="fs-20 text-black">All Recipients</h4>
-                                    <p className="mb-0 fs-13">Lorem ipsum dolor sit amet, consectetur</p>
+                                    {/* <p className="mb-0 fs-13">Lorem ipsum dolor sit amet, consectetur</p> */}
                                 </div>
                             </div>
                             <table className="table table-responsive-md card-table previous-transactions">

@@ -2263,11 +2263,6 @@ ul.social-media-icons {
   text-align: center;
 }
 /*********banktransfer************/
-span.fs-14 {
-  margin-top: 6px;
-  float: left;
-  font-size: 14px;
-}
 .bank_transfer li {
   float: left;
   width: 50%;
@@ -2602,6 +2597,10 @@ span.progress-step {
 /*--------------------------------------------------------------
 # Verification 
 --------------------------------------------------------------*/
+section.dashboard .card {
+  height: 500px !important;
+  overflow-y: auto !important;
+}
 .verification_banner{
     width: 100%;
     background: linear-gradient(182deg, #A374F2 1.68%, #6414E9 97.64%);
@@ -3015,7 +3014,7 @@ margin-top: 15px;
 }
 
 .user_dashboard_banner p.get-text {
-  z-index: 1;
+  z-index: 0;
   font-weight: 600;
 }
 .row h5 {
@@ -3155,7 +3154,7 @@ margin-top: 15px;
 .summary tr td, .summary tr th , .summary1 tr td, .summary1 tr th {
   padding: 6px;
   width: 145px;
-  font-size: 14px;
+  font-size: 13px;
 }
 .summary tr td ,.summary1 tr td{
   font-weight: 500;
@@ -4917,7 +4916,13 @@ label.container-new.form-gender {
 }
 .modal-card tr td:last-child {
   width: 404px;
-  border-left:none !important;
+  /* border-left:none !important; */
+}
+.addnewcard>p {
+  background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%);
+  padding: 10px;
+  color: #fff;
+  text-align: center;
 }
 .modal-card .modal-content table tr td {
   border-left: 1px solid #ced4da;
@@ -4927,8 +4932,7 @@ label.container-new.form-gender {
   text-align: center;
 }
 .modal-card tr td img {
-  width: 60px;
-  margin-right: 10px;
+  width: 200px;
 }
 .modal-card .accordion-item{
   border:none;
@@ -5068,6 +5072,8 @@ label.container-new.form-gender {
   text-align: center;
   line-height: 50px;
   border-radius: 100%;
+  z-index:99;
+  position: relative;
 }
 a.icon-bottom p {
   background: #fff;
@@ -5120,8 +5126,8 @@ a.icon-bottom p {
 }
 .previous-transactions tr td svg {
   float: left;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 21px;
 }
 span.fs-12 {
   font-size: 13px;
@@ -5376,6 +5382,7 @@ form.single-recipient {
 .final-summary tr td {
   font-weight: 500;
   border-right: 1px solid #dee2e6;
+  width: 50%;
 }
 
 .hide {
@@ -5385,6 +5392,8 @@ form.single-recipient {
 .not_match {
   display: block;
   color: red;
+  font-size: 13px;
+  margin-top: 4px;
 }
 .single_button{
   background-color: gray !important;
@@ -5457,4 +5466,134 @@ img.send-money-img {
 .card-date span {
   margin-right: 10px;
   margin-top: 8px;
+}
+.login-error{
+  text-align: center;
+    width: 100%;
+    display: block;
+    text-transform: inherit !important;
+}
+.notfound-section {
+  height: 100vh;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+td.transaction-icon svg {
+  width: 22px !important;
+  height: 25px !important;
+  margin-right: 4px;
+  color: green;
+}
+span.fs-14 {
+  font-size: 13px;
+  margin-top: 5px;
+  float: left;
+}
+/* .card::-webkit-scrollbar-thumb {
+  width: 5px;
+  background: #e2e1e5;
+  border-radius: 15px;
+} */
+.card::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.card::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+.card::-webkit-scrollbar-thumb {
+  background: #b9b2b2; 
+  border-radius: 10px;
+}
+.modal-card tr td .accordion-header img {
+  width: 60px !important;
+  margin-right: 10px;
+}
+
+
+/******************* pagination css *****************/
+
+
+.table {
+  border-collapse: collapse;
+  border: none;
+  width: 100%;
+}
+
+.tableRowHeader {
+  background-color: transparent;
+  transition: all 0.25s ease;
+  border-radius: 10px;
+}
+
+.tableHeader {
+  background-color: #f1f1f1;
+  padding: 12px;
+  font-weight: 500;
+  text-align: left;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.tableHeader:first-child {
+  border-top-left-radius: 15px;
+}
+
+.tableHeader:last-child {
+  border-top-right-radius: 15px;
+}
+
+.tableRowItems {
+  cursor: auto;
+}
+
+.tableRowItems:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.tableCell {
+  padding: 12px;
+  font-size: 14px;
+  color: grey;
+}
+.tableFooter {
+  background-color: #f1f1f1;
+  padding: 8px 0px;
+  width: 100%;
+  font-weight: 500;
+  text-align: left;
+  font-size: 16px;
+  color: #2c3e50;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  border: none;
+  padding: 7px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
+.activeButton {
+  color: white;
+  background: #185adb;
+}
+
+.inactiveButton {
+  color: #2c3e50;
+  background: #f9f9f9;
 }

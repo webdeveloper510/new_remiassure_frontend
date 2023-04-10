@@ -54,7 +54,7 @@ console.log("Verification Message", verification_otp)
                 <li><NavLink to="/userprofile"><BsFilePersonFill />Profile Information</NavLink></li>
                 <li><NavLink to="/transfer"><BiTransfer />Transaction</NavLink></li>
                 <li><NavLink to="/userrecipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
-                <li><NavLink to="/userCardLists"><FaCreditCard />Card</NavLink></li>
+                <li><NavLink to="/userCardLists"><BsFillPersonPlusFill />Card</NavLink></li>
                 <li><NavLink to="/changepassword"><RiLockPasswordLine />Password</NavLink></li>
             </ul>
         </nav>
@@ -77,7 +77,6 @@ console.log("Verification Message", verification_otp)
       <Nav.Item>
         <NavLink to="/dashboard"><RiLockPasswordLine />Password</NavLink>
       </Nav.Item>
-
     </Nav> */}
     </div>
 

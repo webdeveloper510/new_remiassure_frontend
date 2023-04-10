@@ -9,6 +9,7 @@ import Modal from 'react-bootstrap/Modal';
 import UserContext from "../context/UserContext";
 import { HiSwitchHorizontal } from 'react-icons/hi';
 import Accordion from 'react-bootstrap/Accordion';
+import creditcards from '../../assets/img/userdashboard/mastercard.png';
 import { toast } from "react-toastify";
 import { API } from "../../config/API";
 import axios from "axios";
@@ -18,8 +19,9 @@ import verified from '../../assets/img/userdashboard/3.png';
 import { BsCheckCircleFill } from "react-icons/bs";
 import Select from "react-select";
 import countryList from 'react-select-country-list'
-import creditcards from '../../assets/img/userdashboard/mastercard.png';
 import sendmoney from "../../assets/img/userdashboard/money3.webp";
+import Page404 from "../pageNotfound/Page404";
+import nocard from "../../assets/img/userdashboard/nocard.jpg"; 
 // start css
 const myStyle = {
   color: "red",
@@ -375,8 +377,6 @@ const SendMoney = () => {
   }
 
 
-    /* start-- useRef is used for focusing on inputbox */
-   const input_location = useRef(null);
 
   /*************************** Start- Select Payment Function************************* */
   const getCardDataPayment = (value) => {
@@ -941,9 +941,8 @@ const SendMoney = () => {
       destination: recipientDestination,
       name: formCardValue.cardName,
       number: formCardValue.cardNumber,
-      exp_month: '1',
-      exp_year: '26',
-      exp_month: '1',
+      exp_month: formCardValue.exp_month,
+      exp_year: formCardValue.exp_year,
       cvc: formCardValue.securityCode,
       handleISDigitalVerified
     }, {
@@ -1946,7 +1945,7 @@ const SendMoney = () => {
 
                     {/* start List card */}
 
-                    <Table>
+                    <Table bordered >
                     {bankCardData?.length != 0 ? (
                       <>
                       <thead>
@@ -1968,7 +1967,8 @@ const SendMoney = () => {
                               <tr key={res.id}>
                                 <td>
                                   <input
-                                    type="checkbox"
+                                    type="radio"
+                                    name="radio"
                                     // checked={checked}
                                     onChange={() => getCardDataPayment(res)}
                                   />
@@ -2048,12 +2048,14 @@ const SendMoney = () => {
                           <thead>
                               <tr>
                                 <th>#</th>
-                                <th>Cards ADD</th>
+                                <th style={{"text-align" : "center"}}>Cards Detail</th>
                               </tr>
                             </thead>
                             <tbody>
                               <tr>
-                                <td> No Cards</td>
+                              <td colSpan={2}> No Cards<br></br>
+                              <img src={nocard} alt="nocard" />
+                              </td> 
                                </tr>
                             </tbody>
                            </>
@@ -2096,7 +2098,7 @@ const SendMoney = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="row">
+                        <div className="row each-row">
                           <div className="col-md-12">
                             <div className="input_field">
                               {/* <img src={creditcards}  alt="credit cards" /> */}

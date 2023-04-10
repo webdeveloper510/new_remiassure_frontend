@@ -198,7 +198,7 @@ const [countryValue, setcountryValue] = React.useState('')
           <div className="content-body">
        <section className="edit_recipient_section">
        <div class="form-head mb-4">
-        <h2 class="text-black font-w600 mb-0"><b>Update Card Profile </b>
+        <h2 class="text-black font-w600 mb-0"><b>Update Card Details </b>
                           <NavLink to="/userCardLists">
                             <button className="start-form-button back-btn" >
                                 <MdOutlineKeyboardBackspace/>
@@ -266,6 +266,9 @@ const [countryValue, setcountryValue] = React.useState('')
                             <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span>
                     </div>
                   </div>
+                  </div>
+
+                  <div className="row each-row">
                   <div className="col-md-4">
                     <div className="input_field">
                       <p className="get-text">Card exp_yaer<span style={{color: 'red'}} >*</span></p>
@@ -284,7 +287,7 @@ const [countryValue, setcountryValue] = React.useState('')
                             <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span> */}
                     </div>
                   </div>
-                  </div>
+                    </div>
                 <div className="row">
                   <div className="col-md-4">
                     <button 
@@ -301,7 +304,7 @@ const [countryValue, setcountryValue] = React.useState('')
                     className="form-button"
                      onClick={()=>handleCardUpdateDetails(id)}
                     >
-                      Update Recipient
+                      Update
                       
                     {loading ? <>
                         <div class="loader-overly"> 

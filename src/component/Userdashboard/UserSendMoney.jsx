@@ -20,6 +20,7 @@ import Sidebar from './Sidebar';
 import Select from "react-select";
 import countryList from 'react-select-country-list'
 import Page404 from "../pageNotfound/Page404";
+import nocard from "../../assets/img/userdashboard/nocard.jpg"; 
 // start css
 const myStyle = {
   color: "red",
@@ -1752,7 +1753,7 @@ const UserSendMoney = () => {
 
                   {/* start List card */}
 
-                  <Table>
+                  <Table bordered>
                   {bankCardData?.length != 0 ? (
                     <>
                     <thead>
@@ -1772,7 +1773,8 @@ const UserSendMoney = () => {
                             <tr key={res.id}>
                               <td>
                                 <input
-                                  type="checkbox"
+                                  type="radio"
+                                  name="radio"
                                   // checked={checked}
                                   onChange={() => getCardDataPayment(res)}
                                 />
@@ -1853,12 +1855,14 @@ const UserSendMoney = () => {
                           <thead>
                               <tr>
                                 <th>#</th>
-                                <th>Cards ADD</th>
+                                <th style={{"text-align" : "center"}}>Cards Detail</th>
                               </tr>
                             </thead>
                             <tbody>
                               <tr>
-                                <td> No Cards</td>
+                              <td colSpan={2}> No Cards<br></br>
+                              <img src={nocard} alt="nocard" />
+                              </td>
                                </tr>
                             </tbody>
 
@@ -1899,7 +1903,7 @@ const UserSendMoney = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row each-row">
                         <div className="col-md-12">
                           <div className="input_field">
                             {/* <img src={creditcards}  alt="credit cards" /> */}
@@ -2043,12 +2047,12 @@ const UserSendMoney = () => {
                 <Sidebar />
 
                 <div className="content-body">
-                  <section className="why-us section-bgba user_dashboard_banner">
+                 
                     <div className="col-md-10">{
                       <Form />}
                     </div>
                     
-                  </section>
+                  
                 </div>
               </div>
             </div>
