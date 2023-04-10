@@ -14,6 +14,7 @@ import AddNewRecipient from "./AddNewRecipient";
 import InprogressTransfer from "./InprogressTransfer";
 import AllTransfer from "./AllTransfer";
 import Sidebar from './Sidebar';
+import Page404 from "../pageNotfound/Page404";
 
 
 const Transaction = () => {
@@ -23,6 +24,9 @@ const Transaction = () => {
 
    const verification_otp = localStorage.getItem("verification_otp")
    console.log("verification_otp" ,verification_otp);
+
+   const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token", signup_token);
 
    const DigitalCode = localStorage.getItem("DigitalCode");
    console.log("DigitalCode", DigitalCode);
@@ -62,7 +66,9 @@ const Transaction = () => {
               </div>
           </div>
            ):(
-            <></>
+            <>
+             <Page404 />
+            </>
 
            )
         }

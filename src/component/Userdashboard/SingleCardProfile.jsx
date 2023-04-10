@@ -16,6 +16,7 @@ import { BsFillPersonPlusFill } from "react-icons/bs";
 import { BsFillPencilFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
+import Page404 from "../pageNotfound/Page404";
 // start css
 const myStyle ={
   color: "red",
@@ -71,6 +72,9 @@ const SingleCardProfile = () => {
          const RecipientUserName = localStorage.getItem("RecipientUserName");
          console.log("RecipientUserName", RecipientUserName);
 
+         const signup_token = localStorage.getItem("signup_token")
+        console.log("signup_token", signup_token);
+
          const DigitalCode = localStorage.getItem("DigitalCode");
          console.log("DigitalCode", DigitalCode);
 
@@ -104,7 +108,7 @@ const SingleCardProfile = () => {
             //  setLoading(true); // Set loading before sending API requestssss
              axios.post(API.BASE_URL + `payment/card/${id}`,{},{
                  headers: {
-                   "Authorization" : `Bearer ${token}`,
+                   "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
                  }, 
              })
              .then(function(response) {

@@ -11,6 +11,7 @@ import axios from "axios";
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
+import Page404 from "../pageNotfound/Page404";
 
 
 const UserRecipients =() =>{
@@ -35,6 +36,9 @@ const UserRecipients =() =>{
 // Start page show hide condtion page s
 const token = localStorage.getItem("token");
 console.log("TOKEN", token);
+
+const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token", signup_token);
 
 const verification_otp = localStorage.getItem("verification_otp");
 console.log("Verification Message", verification_otp)
@@ -99,7 +103,7 @@ const getList =()=>{
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/recipient-list/',{}, {
         headers: {
-            "Authorization" : `Bearer ${token}`,
+            "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
         }
       })
       .then(function(response) {
@@ -137,7 +141,7 @@ const handleRemoveRecipientBankDetails =(value) =>{
     axios.delete(API.BASE_URL + `payment/recipient-update/${value}`, {
       
         headers: {
-          "Authorization" : `Bearer ${token}`,
+          "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
         },
       
     })

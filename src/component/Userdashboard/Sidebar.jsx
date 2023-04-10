@@ -17,6 +17,7 @@ import { BiTransfer } from "react-icons/bi";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
+import Page404 from "../pageNotfound/Page404";
 
 
 const sidebar = () => {
@@ -24,6 +25,9 @@ const sidebar = () => {
   /**************************token ************************ */
      const token = localStorage.getItem("token");
      console.log("TOKEN", token);
+
+     const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token", signup_token);
 
      const DigitalCode = localStorage.getItem("DigitalCode");
      console.log("DigitalCode", DigitalCode);
@@ -48,7 +52,7 @@ console.log("Verification Message", verification_otp)
                 <li><NavLink to="/dashboard"><RxDashboard />Dashboard</NavLink></li>
                 <li><NavLink to="/usersendmoney"><BsCurrencyExchange />Send Money</NavLink></li>
                 <li><NavLink to="/userprofile"><BsFilePersonFill />Profile Information</NavLink></li>
-                <li><NavLink to="/transfer"><BiTransfer />Transfer</NavLink></li>
+                <li><NavLink to="/transfer"><BiTransfer />Transaction</NavLink></li>
                 <li><NavLink to="/userrecipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
                 <li><NavLink to="/userCardLists"><BsFillPersonPlusFill />Card</NavLink></li>
                 <li><NavLink to="/changepassword"><RiLockPasswordLine />Password</NavLink></li>
@@ -78,7 +82,9 @@ console.log("Verification Message", verification_otp)
     </div>
 
 ):(
-  <></>
+  <>
+   <Page404 />
+  </>
 
  )
 }

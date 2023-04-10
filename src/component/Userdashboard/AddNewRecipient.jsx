@@ -16,6 +16,7 @@ import Sidebar from './Sidebar';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import Select from "react-select";
 import countryList from 'react-select-country-list'
+import Page404 from "../pageNotfound/Page404";
 // start css
 const myStyle ={
   color: "red",
@@ -80,6 +81,10 @@ const Addnewrecipient = () => {
 
       const DigitalCode = localStorage.getItem("DigitalCode");
       console.log("DigitalCode", DigitalCode);
+
+      const signup_token = localStorage.getItem("signup_token")
+      console.log("signup_token", signup_token);
+
 
   
 /****************** select country *******************/
@@ -163,7 +168,7 @@ const [countryValue, setcountryValue] = React.useState('')
          
         }, {
             headers: {
-              "Authorization" : `Bearer ${token}`,
+              "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
             },
           
         })
@@ -527,7 +532,9 @@ const [countryValue, setcountryValue] = React.useState('')
       </div>
 
       ):(
-        <></>
+        <>
+         <Page404 />
+        </>
 
       )
       }

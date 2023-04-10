@@ -9,7 +9,7 @@ import { HiSwitchHorizontal } from 'react-icons/hi';
 import { toast } from "react-toastify";
 import { API } from "../../config/API";
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router";
+import { Navigate, useNavigate ,useParams} from "react-router";
 import ReactFlagsSelect from "react-flags-select";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { BsChevronDoubleRight } from "react-icons/bs";
@@ -19,7 +19,7 @@ import creditcards from '../../assets/img/userdashboard/mastercard.png';
 import Sidebar from './Sidebar';
 import Select from "react-select";
 import countryList from 'react-select-country-list'
-
+import Page404 from "../pageNotfound/Page404";
 // start css
 const myStyle = {
   color: "red",
@@ -31,9 +31,48 @@ const myStyle = {
 
 const UserSendMoney = () => {
 
+
+   /**********Get data to localstoarge ***************/
+   const FromValue = localStorage.getItem("FromValue")
+   console.log(FromValue, "FromValue");
+ 
+   const ToValue = localStorage.getItem("ToValue")
+   console.log(ToValue, "ToValue");
+ 
+   const AmountValue = localStorage.getItem("AmountValue")
+   console.log(AmountValue, "AmountValue");
+ 
+   const recipient_id = localStorage.getItem("recipient_id")
+   console.log(recipient_id, "recipient_id");
+ 
+   const recipientMoneyReason = localStorage.getItem("recipientMoneyReason")
+   console.log(recipientMoneyReason, "recipientMoneyReason");
+ 
+   const recipientDestination = localStorage.getItem("recipientDestination")
+   console.log(recipientDestination, "recipientDestination");
+ 
+   const recipientName = localStorage.getItem("recipientName")
+   console.log(recipientName, "recipientName");
+ 
+   const DigitalCode = localStorage.getItem("DigitalCode");
+   console.log("DigitalCode", DigitalCode);
+ 
+   const recipentID = localStorage.getItem("recipentID");
+   console.log("recipentID", recipentID);
+ 
+ 
+
+  // let {recipient_id} = useParams();
+  // // alert(id)
+  //   console.log("========================>",recipient_id) ;
+
   /************ Start page show hide condtion page ***************/
   const token = localStorage.getItem("token");
   console.log("TOKEN", token);
+
+  const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token", signup_token);
+
   const verification_otp = localStorage.getItem("verification_otp");
   console.log("Verification Message", verification_otp)
 
@@ -96,14 +135,14 @@ const UserSendMoney = () => {
   const [CardErrorText, setCardErrorText] = React.useState('');
 
   const [formCardValue, setformCardValue] = React.useState({
-    cardNumber: '', securityCode: '', cardName: '', exp_month: '', exp_year: '',
+    recipient_id, cardNumber: '', securityCode: '', cardName: '', exp_month: '', exp_year: '',
   });
-
+  
   /************ Start -Card List State***************/
   const [bankCardData, setBankCardData] = React.useState('');
 
 
-
+  /************ Start -Recpient data ***************/
 
   const handleCloseDetails = () => setshowCards(false);
   const ShowCardDetails = () => setshowCards(true);
@@ -129,12 +168,32 @@ const UserSendMoney = () => {
         CardForm.cardNumber = value.number;
         CardForm.exp_month = value.exp_month;
         CardForm.exp_year = value.exp_year;
+        CardForm.recipient_id =recipentID;
 
         setFormValue(CardForm)
         console.log("value data===========================>123",formCardValue)
         // console.log("value data===========================>123",value)
       }
 /*************************** End - Select Payment Function************************* */
+
+ /*************************** Start- Recipient-Select-Payment Function************************* */
+ const selectRecipientPayemen=(value) => {
+  localStorage.setItem("recipentID", value)
+  setStep(step+1)
+  
+  let CardForm = formCardValue
+  CardForm.cardName = value.name;
+  CardForm.cardNumber = value.number;
+  CardForm.exp_month = value.exp_month;
+  CardForm.exp_year = value.exp_year;
+  CardForm.recipient_id =recipentID;
+  
+
+  setformCardValue(CardForm)
+  console.log("Recipient Payment Data===========================>123",formCardValue)
+  // console.log("value data===========================>123",value)
+
+ }
 
 
 
@@ -317,33 +376,7 @@ const UserSendMoney = () => {
     console.log("handle request ");
   }
 
-  /**********Get data to localstoarge ***************/
-  const FromValue = localStorage.getItem("FromValue")
-  console.log(FromValue, "FromValue");
-
-  const ToValue = localStorage.getItem("ToValue")
-  console.log(ToValue, "ToValue");
-
-  const AmountValue = localStorage.getItem("AmountValue")
-  console.log(AmountValue, "AmountValue");
-
-  const recipient_id = localStorage.getItem("recipient_id")
-  console.log(recipient_id, "recipient_id");
-
-  const recipientMoneyReason = localStorage.getItem("recipientMoneyReason")
-  console.log(recipientMoneyReason, "recipientMoneyReason");
-
-  const recipientDestination = localStorage.getItem("recipientDestination")
-  console.log(recipientDestination, "recipientDestination");
-
-  const recipientName = localStorage.getItem("recipientName")
-  console.log(recipientName, "recipientName");
-
-  const DigitalCode = localStorage.getItem("DigitalCode");
-  console.log("DigitalCode", DigitalCode);
-
-
-
+ 
 
   /****************** select country *******************/
 
@@ -590,7 +623,7 @@ const UserSendMoney = () => {
 
     }, {
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
       },
 
     })
@@ -627,14 +660,14 @@ const UserSendMoney = () => {
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/recipient-list/', {}, {
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
       }
     })
       .then(function (response) {
         console.log("Recipients APIIIII", response.data);
         setData(response.data);
         setLoading(false); // Stop loading
-
+        localStorage.setItem("User_Recipient_id", response.data.id);
 
         //   if (response.status)
         // // notify();
@@ -679,7 +712,7 @@ const UserSendMoney = () => {
 
     }, {
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
       },
 
     })
@@ -725,7 +758,7 @@ const UserSendMoney = () => {
 
     }, {
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
       },
 
     })
@@ -768,7 +801,7 @@ const UserSendMoney = () => {
 
     }, {
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
       },
 
     })
@@ -804,14 +837,16 @@ const UserSendMoney = () => {
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/card-list/', {}, {
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
       }
     })
       .then(function (response) {
         console.log("Recipients APIIIII", response.data);
         setBankCardData(response.data);
         console.log(bankCardData, "bankCardDatabankCardData")
-        localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
+        localStorage.setItem("CardData", JSON.stringify(response.data.data))
+      
+
         setLoading(false); // Stop loading
 
 
@@ -825,6 +860,7 @@ const UserSendMoney = () => {
 
       })
   }
+  
 
   console.log(data, " nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
@@ -837,7 +873,7 @@ const UserSendMoney = () => {
 
     axios.delete(API.BASE_URL + `payment/card/${value}`, {
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
       },
 
     })
@@ -879,7 +915,7 @@ const UserSendMoney = () => {
 
     }, {
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
       },
     })
       .then(function (response) {
@@ -951,10 +987,11 @@ const UserSendMoney = () => {
     return (
       <>
 
-        {
+        {/* {
           token || DigitalCode != undefined || '' ? (
 
-            <>
+            <> */}
+             <section>
               <div class="form-head mb-4">
                 <h2 class="text-black font-w600 mb-0"><b>Amount & Delivery</b>
                 </h2>
@@ -1203,14 +1240,14 @@ const UserSendMoney = () => {
                 </div>
               </form>
 
-
-            </>
+              </section>
+            {/* </>
           ) : (
             <>
-
+              <Page404 />
             </>
           )
-        }
+        } */}
 
       </>
     );
@@ -1221,12 +1258,10 @@ const UserSendMoney = () => {
 
     return (
       <>
-        {
+        {/* {
           token || DigitalCode != undefined || '' ? (
-            <>
-
-
-
+            <> */}
+              <section>
               <div className={isActive ? "col-md-12 add-recipent-section" : "col-md-12 remove-add-recipent-section"}>
                 <div class="form-head mb-4">
                   <h2 class="text-black font-w600 mb-0"><b>Select a recipient to send money</b>
@@ -1242,11 +1277,12 @@ const UserSendMoney = () => {
                     {data?.length != 0 ? (
                       <div>
                         {
-                          data.data?.map((res, index) => {
+                          data.data?.map((res, index) => {                       
                             return (
 
                               <ul key={res.id}>
-                                <a onClick={() => { setStep(step + 1) }}>
+                                <a onClick={() => {selectRecipientPayemen(res.id)}}>
+
                                   <li><a>{res.name} <BsChevronDoubleRight /></a></li>
                                 </a>
 
@@ -1343,7 +1379,7 @@ const UserSendMoney = () => {
                               onChange={(e) => handleStep2InputChange(e, 'accountNumber')}
                             />
                             <span style={myStyle}>{BankNameText.Enteraccountnumber ? BankNameText.Enteraccountnumber : ''}</span>
-                            <span style={myStyle}>{BankNameText.Accountnumberexist ? BankNameText.Accountnumberexist : ''}</span>
+                            <span style={myStyle}>{BankNameText.Accountexist ? BankNameText.Accountexist : ''}</span>
                           </div>
                         </div>
                       </div>
@@ -1406,6 +1442,7 @@ const UserSendMoney = () => {
                               onChange={(e) => handleStep2InputChange(e, 'email')}
                             />
                             <span style={myStyle}>{BankNameText.email ? BankNameText.email : ''}</span>
+                            <span style={myStyle}>{BankNameText.Emailexist ? BankNameText.Emailexist : ''}</span>
                           </div>
                         </div>
                         <div className="col-md-6">
@@ -1601,14 +1638,14 @@ const UserSendMoney = () => {
 
 
               </div>
-
-            </>
+              </section>
+            {/* </>
           ) : (
             <>
-
+            <Page404 />
             </>
           )
-        }
+        } */}
 
 
       </>
@@ -1633,9 +1670,10 @@ const UserSendMoney = () => {
 
     return (
       <>
-        {
+        {/* {
           token ||DigitalCode != undefined || '' ? (
-            <>
+            <> */}
+            <section>
               <div class="form-head mb-4">
                 <h2 class="text-black font-w600 mb-0"><b>Payment details</b>
                 </h2>
@@ -1698,8 +1736,8 @@ const UserSendMoney = () => {
                     <button className="start-form-button">Clear</button>
                   </div>
                   <div className="col-md-8">
-                    <button className="form-button">Continue</button>
-                    <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                    {/* <button className="form-button">Continue</button> */}
+                    <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button>
                   </div>
                 </div>
               </div>
@@ -1715,6 +1753,8 @@ const UserSendMoney = () => {
                   {/* start List card */}
 
                   <Table>
+                  {bankCardData?.length != 0 ? (
+                    <>
                     <thead>
                       <tr>
                         <th>#</th>
@@ -1800,6 +1840,37 @@ const UserSendMoney = () => {
                         </Modal.Footer>
                       </Modal>
                     </tbody>
+                    </>
+                     ) : (
+                      <>
+                      </>
+                    )
+                    }
+
+
+                    {bankCardData?.length == 0 ? (
+                        <>
+                          <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Cards ADD</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td> No Cards</td>
+                               </tr>
+                            </tbody>
+
+                        </>
+
+                      ) : (
+                        <>
+
+                        </>
+                      )
+                      }
+
                   </Table>
                   {/* End List card */}
 
@@ -1860,8 +1931,8 @@ const UserSendMoney = () => {
                               <div className="card-fields">
                                 <input
                                   min="0"
-                                  maxlength="4"
-                                  type="number"
+                                  maxlength="2"
+                                  type="test"
                                   className='rate_input form-control'
                                   name="exp_month"
                                   placeholder="Month"
@@ -1878,7 +1949,7 @@ const UserSendMoney = () => {
                                 <input
                                   min="0"
                                   maxlength="4"
-                                  type="number"
+                                  type="text"
                                   className='rate_input form-control'
                                   name="exp_year"
                                   placeholder="Year"
@@ -1947,14 +2018,14 @@ const UserSendMoney = () => {
                 </Modal.Footer>
               </Modal>
 
-
-            </>
+              </section>
+            {/* </>
           ) : (
             <>
-
+             <Page404 />
             </>
           )
-        }
+        } */}
       </>
     );
   }
@@ -1976,31 +2047,7 @@ const UserSendMoney = () => {
                     <div className="col-md-10">{
                       <Form />}
                     </div>
-                    {/* {shows &&
-           <div className="col-md-4">
-             <div className="summary">
-               <h5>Summary</h5>
-               <Table>
-                 <tbody>
-                   <tr>
-                     <th>Amount</th>
-                     <td>{amount+" "+from +" ⇒ "+total_amount + " " +to }</td>
-                   </tr>
-                   <tr>
-                     <th>Received Method</th>
-                     <td>{recivedMethod}</td>
-                   </tr>
-                   <tr>
-                     <th>Payout Partners</th>
-                     <td>{payOutPartner}</td>  
-                   </tr>
-                 </tbody>
-               </Table>
-             </div>
-           </div>
-
-           } */}
-
+                    
                   </section>
                 </div>
               </div>
@@ -2010,7 +2057,7 @@ const UserSendMoney = () => {
 
         ) : (
           <>
-
+             <Page404 />
           </>
         )
       }

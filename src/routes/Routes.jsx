@@ -34,6 +34,7 @@ import UserCardLists from '../component/Userdashboard/UserCardLists';
 import Addnewcard from '../component/Userdashboard/AddNewCard';
 import EditCardUser from '../component/Userdashboard/EditUserCard';
 import SingleCardProfile from '../component/Userdashboard/SingleCardProfile';
+import Page404 from '../component/pageNotfound/Page404';
 
 import GoToTop from '../GoToTop';
 import { AuthProvider } from '../component/context/UserContext';
@@ -45,8 +46,8 @@ const Routerpage =()=>{
   const token = localStorage.getItem("token");
   console.log("TOKEN", token);
 
-  const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp)
+  const DigitalCode = localStorage.getItem("DigitalCode");
+  console.log("DigitalCode", DigitalCode);
 
 
  /******************* Start Api call Amount & Delivery State  *******/
@@ -74,7 +75,7 @@ const Routerpage =()=>{
     <Route exact path='/resetpassword/:id' element= {< LocalStorage /> } />
 {/* <>
 {  
-       token != undefined || '' ? (
+       token || DigitalCode != undefined || '' ? (
         <Route exact path='/sendMoney' element= {< SendMoney /> } />
 
         
@@ -104,6 +105,7 @@ const Routerpage =()=>{
     <Route exact path='/addnewcard' element={<Addnewcard /> } />
     <Route exact path='/EditCardUser/:id' element={<EditCardUser /> } />
     <Route exact path='/singleCardData/:id' element={<SingleCardProfile /> } />
+    <Route exact path='/*' element={<Page404 />} />
    
     
     

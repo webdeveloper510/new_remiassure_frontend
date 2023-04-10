@@ -10,6 +10,7 @@ import axios from "axios";
 import CountryDropdown from 'country-dropdown-with-flags-for-react';  
 import { Navigate, useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
+import Page404 from "../pageNotfound/Page404";
 
 
 {/* start -- css*/}
@@ -23,6 +24,21 @@ const myStyle= {
 
 
 const Verification = () => {
+
+    /**************************token ************************ */
+  const token = localStorage.getItem("token");
+  console.log("TOKEN", token);
+
+  const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token", signup_token);
+
+  const verification_otp = localStorage.getItem("verification_otp");
+  console.log("Verification Message", verification_otp);
+
+  const DigitalCode = localStorage.getItem("DigitalCode");
+  console.log("DigitalCode", DigitalCode);
+
+/**************************State ************************ */
     
 
     const [loading, setLoading] = useState(false);
@@ -34,8 +50,6 @@ const Verification = () => {
     const [AlreadyverifiedText, setAlreadyverifiedText] = useState('');
  
 
-    const signup_token = localStorage.getItem("signup_token")
-    console.log("signup_token" ,signup_token);
 
     //multiple store data in one variable
     // const Allvalue = email_otp + firstnumber +secondnumber +thirednumber +fournumber  +fivenumber +sixnumber ;
@@ -95,69 +109,79 @@ const Verification = () => {
     return(
         <>
          {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
+         {  
+          token || DigitalCode != undefined || '' ? (
+            <>
+            <Page404 />
+            </>
+            ) : (
+                <>
          <section className="why-us section-bgba verification_banner">
-    <div className="container">
-        <div className="row">
-            
-            <div className="col-lg-12">
-                {/* start-- card */}
+            <div className="container">
                 <div className="row">
+                    
                     <div className="col-lg-12">
-                        <div className="card card-verification">
-                            <div className="card-body">
-                            <span  style={successStyle}>{AlreadyverifiedText? AlreadyverifiedText: ""}</span> 
-                                <h5 className="Sign-heading">Verify your Account</h5>
-                                <p>A verification code sent to your email. Please enter the code to continue.</p>
-                                <div className="form_verification">
-      
-                                    <form>
+                        {/* start-- card */}
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <div className="card card-verification">
+                                    <div className="card-body">
+                                    <span  style={successStyle}>{AlreadyverifiedText? AlreadyverifiedText: ""}</span> 
+                                        <h5 className="Sign-heading">Verify your Account</h5>
+                                        <p>A verification code sent to your email. Please enter the code to continue.</p>
+                                        <div className="form_verification">
+            
+                                            <form>
 
-                                        <OtpInput
-                                            value={otp}
-                                            onChange={handleChange}
-                                            numInputs={6}
-                                            isSuccessed={true}
-                                            successStyle="success"
-                                            separator={<span>-</span>}
-                                            separateAfter={3}
-                                            className="verification_input"
-                                            onSubmit={console.log(otp)}
+                                                <OtpInput
+                                                    value={otp}
+                                                    onChange={handleChange}
+                                                    numInputs={6}
+                                                    isSuccessed={true}
+                                                    successStyle="success"
+                                                    separator={<span></span>}
+                                                    separateAfter={3}
+                                                    className="verification_input"
+                                                    onSubmit={console.log(otp)}
+                                                    
+                                                />
+                                                <span  style={myStyle}>{EnterOtpText? EnterOtpText: ""}</span> 
+                                                <span  style={myStyle}>{InvalidotpText? InvalidotpText: ""}</span> 
+
                                             
-                                        />
-                                         <span  style={myStyle}>{EnterOtpText? EnterOtpText: ""}</span> 
-                                         <span  style={myStyle}>{InvalidotpText? InvalidotpText: ""}</span> 
+                                            <div class="col-md-12 align-center">
+                                                <button variant="primary" 
+                                                type="submit"
+                                                className="continue_button"
+                                                onClick={handleEmailVerification}
+                                                >
+                                                    Continue
+                                                    {
+                                                        loading ?<>
+                                                        <div class="loader-overly"> 
+                                                            <div class="loader" > 
+                                                            </div>
+                                                            </div>
+                                                        </>:<></>
+                                                    }
+                                                </button>
+                                            
 
-                                      
-                                      <div class="col-md-12 align-center">
-                                        <button variant="primary" 
-                                        type="submit"
-                                         className="continue_button"
-                                         onClick={handleEmailVerification}
-                                         >
-                                            Continue
-                                            {
-                                                loading ?<>
-                                                   <div class="loader-overly"> 
-                                                       <div class="loader" > 
-                                                       </div>
-                                                    </div>
-                                                </>:<></>
-                                            }
-                                        </button>
-                                      
-
+                                                </div>
+                                            </form>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        {/* End-- card */}
                     </div>
                 </div>
-                {/* End-- card */}
             </div>
-        </div>
-    </div>
-</section>
+         </section>
+         </>
+            )
+            }
 
         {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
 

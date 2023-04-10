@@ -12,6 +12,7 @@ import {Links, NavLink, useNavigate} from 'react-router-dom';
 import { toast } from "react-toastify";
 import { API } from "../../config/API";
 import axios from "axios";
+import Page404 from "../pageNotfound/Page404";
 
 const AllTranfer = () => {
 
@@ -24,6 +25,9 @@ console.log("Verification Message", verification_otp)
 
 const RecipientUserName = localStorage.getItem("RecipientUserName");
 console.log("RecipientUserName", RecipientUserName);
+
+const signup_token = localStorage.getItem("signup_token")
+console.log("signup_token", signup_token);
 
 
 const DigitalCode = localStorage.getItem("DigitalCode");
@@ -51,25 +55,6 @@ const LoadSinglProfile = (id) => {
 const navigate = useNavigate();
 
 
-
-// function handleDataStore(){
-
-//   var courses =JSON.parse(localStorage.getItem('courses') || "[]")
-//   var course ={
-//     // bank_name:bank_name,
-//     // account_name:account_name
-//   }
-//   courses.push(course)
-
-//   localStorage.setItem('courses', JSON.stringify(courses))
-// }
-
-
-// const notify = () => toast.success("User Data Get Successfully!");
-
-
-
-
     /**************************************************************************
    * ************** Start  Recipient List ************************************
    * ***********************************************************************/
@@ -78,7 +63,7 @@ const navigate = useNavigate();
         setLoading(true); // Set loading before sending API request
         axios.post(API.BASE_URL + 'payment/transaction-history/',{}, {
             headers: {
-                "Authorization" : `Bearer ${token}`,
+                "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
             }
           })
           .then(function(response) {
