@@ -16,6 +16,7 @@ import { BiTransfer } from "react-icons/bi";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
+import Page404 from "../pageNotfound/Page404";
 
 
 const UserDashboard = () => {
@@ -23,7 +24,9 @@ const UserDashboard = () => {
   /**************************token ************************ */
   const token = localStorage.getItem("token");
   console.log("TOKEN", token);
-
+  
+  const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token", signup_token);
 
   const verification_otp = localStorage.getItem("verification_otp");
   console.log("Verification Message", verification_otp)
@@ -101,7 +104,9 @@ const UserDashboard = () => {
    
          </div>
           ):(
-            <></>
+            <>
+             <Page404 />
+            </>
 
            )
         }

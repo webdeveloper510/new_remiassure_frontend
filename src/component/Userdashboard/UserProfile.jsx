@@ -15,6 +15,7 @@ import { BsFillPencilFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
 import Select from "react-select";
 import countryList from 'react-select-country-list'
+import Page404 from "../pageNotfound/Page404";
 // start css
 const myStyle ={
   color: "red",
@@ -152,7 +153,7 @@ const [countryValue, setcountryValue] = React.useState('')
           setLoading(true); // Set loading before sending API request
           axios.post(API.BASE_URL + 'user-profile/',{}, {
               headers: {
-                  "Authorization" : `Bearer ${token}`,
+                  "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
                 
               }
             })
@@ -227,7 +228,7 @@ const [countryValue, setcountryValue] = React.useState('')
               
             },{
                 headers: {
-                  "Authorization" : `Bearer ${token}`,
+                  "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
                 }, 
             })
             .then(function(response) {
@@ -548,7 +549,9 @@ const [countryValue, setcountryValue] = React.useState('')
             </div>
 
           ):(
-            <></>
+            <>
+             <Page404 />
+            </>
 
           )
           }

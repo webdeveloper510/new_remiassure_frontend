@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { API } from "../../config/API";
 import axios from "axios";
 import Modal from 'react-bootstrap/Modal';
+import Page404 from "../pageNotfound/Page404";
 
 {/* start -- css*/}
 const myStyle= {
@@ -22,6 +23,10 @@ const Profile = () => {
  /**************************token ************************ */
     const token = localStorage.getItem("token");
     console.log("TOKEN", token);
+
+    const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token", signup_token);
+
 
     const verification_otp = localStorage.getItem("verification_otp");
     console.log("Verification Message", verification_otp);
@@ -114,7 +119,7 @@ const Profile = () => {
                 confirmPassword: confirmPassword,
             }, {
                 headers: {
-                  "Authorization" : `Bearer ${token}`,
+                  "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
                 }}, {
             })
             .then(function(response) {
@@ -252,7 +257,7 @@ const Profile = () => {
 
          ) : (
             <>
-            
+             <Page404 />
             </>
         )
         }

@@ -20,7 +20,6 @@ import Select from "react-select";
 import countryList from 'react-select-country-list'
 import creditcards from '../../assets/img/userdashboard/mastercard.png';
 import sendmoney from "../../assets/img/userdashboard/money3.webp";
-
 // start css
 const myStyle = {
   color: "red",
@@ -619,7 +618,7 @@ const SendMoney = () => {
   const DigitalCode = localStorage.getItem("DigitalCode");
   console.log("DigitalCode", DigitalCode);
 
-
+/************************Next page digital id verification**************************** */
   const handleVerifiedPaymentDigitalId = (event) => {
     event.preventDefault();
     setLoading(true); // Set loading before sending API request
@@ -635,7 +634,7 @@ const SendMoney = () => {
       .then(function (response) {
         console.log(response);
         if (response.status)
-        // handlePay()
+         handlePay()
         setStep(step + 1) //next step call
         setData(response.data);
         setLoading(false); // Stop loading 
@@ -651,6 +650,46 @@ const SendMoney = () => {
         console.log(error, "klnklnklnknnnnnnnnnnnn");
       })
   }
+
+  /************************Previous page digital id verification**************************** */
+  // const handleVerifiedPaymentDigitalIdPrevious = (event) => {
+  //   event.preventDefault();
+  //   setLoading(true); // Set loading before sending API request
+  //   axios.post(API.BASE_URL + 'digital-verification/', {
+  //     code: DigitalCode,
+  //   }, {
+  //     headers: {
+  //       "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+
+  //     },
+
+  //   })
+  //     .then(function (response) {
+  //       console.log(response);
+  //       if (response.status)
+  //       // handlePay()
+  //       handleISDigitalVerified()
+  //       setStep(step-1) //next step call
+  //       setData(response.data);
+  //       setLoading(false); // Stop loading 
+
+  //     })
+  //     .catch(function (error, message) {
+  //       console.log(error.response)
+  //       setLoading(false); // Stop loading in case of error
+  //       if (error.response.data.status) {
+  //         // setStep(step-1) //next step call
+  //         // toast.error(error.response.data.message);
+  //       }
+  //       console.log(error, "klnklnklnknnnnnnnnnnnn");
+  //     })
+  // }
+
+
+
+
+
+
 
 
   /**************************************************************************
@@ -936,28 +975,28 @@ const SendMoney = () => {
   /**************************************************************************
    * ************** Start Paymet Or Pay Api****************************
    * ***********************************************************************/
-  // const handlePay = () => {
-  //   // event.preventDefault();
-  //   setLoading(true); // Set loading before sending API request
-  //   axios.post(API.BASE_URL + 'payment/stripe/charge/', {
-  //   }, {
-  //     headers: {
-  //       "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-  //     },
+  const handlePay = () => {
+    // event.preventDefault();
+    setLoading(true); // Set loading before sending API request
+    axios.post(API.BASE_URL + 'payment/stripe/charge/', {
+    }, {
+      headers: {
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+      },
 
-  //   })
-  //     .then(function (response) {
-  //       console.log(response);
-  //       setStep(step + 1)
-  //       setLoading(false); // Stop loading 
-  //     })
-  //     .catch(function (error, message) {
-  //       console.log(error.response);
-  //       setLoading(false); // Stop loading in case of error
-  //       setBankNameText(error.response.data);
+    })
+      .then(function (response) {
+        console.log(response);
+        // setStep(step + 1)
+        setLoading(false); // Stop loading 
+      })
+      .catch(function (error, message) {
+        console.log(error.response);
+        setLoading(false); // Stop loading in case of error
+        setBankNameText(error.response.data);
 
-  //     })
-  // }
+      })
+  }
 
   /**************************************************************************
  * ************** Start- Card List Delete ****************************
@@ -1014,8 +1053,8 @@ const SendMoney = () => {
           })
             .then(function(response) {
                 console.log("Recipients APIIIII", response.data);
-                setSummeryData(response.data);
-                console.log(summeryData)
+                setSummeryData(response.data.data);
+                console.log(summeryData, "summeryData==========>")
                 setLoading(false); // Stop loading
           
           
@@ -1032,7 +1071,7 @@ const SendMoney = () => {
         }, [])
 
 
-  console.log(summeryData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+  console.log(summeryData," summeryData==========>")
 
 
 
@@ -1101,8 +1140,8 @@ const SendMoney = () => {
       <>
 
         <div>
-          {
-            token || verification_otp ||DigitalCode != undefined || '' ? (
+          {/* {
+            token || verification_otp ||DigitalCode != undefined || '' ? ( */}
 
               <section>
                 <div className="progressBar">
@@ -1349,11 +1388,13 @@ const SendMoney = () => {
                   </div>
                 </form>
               </section>
-            ) : (
-              <></>
+            {/* ) : (
+              <>
+               <Page404 />
+              </>
 
             )
-          }
+          } */}
 
         </div>
 
@@ -1373,8 +1414,8 @@ const SendMoney = () => {
     return (
       <>
         <div>
-          {
-            token || verification_otp ||DigitalCode != undefined || '' ? (
+          {/* {
+            token || verification_otp ||DigitalCode != undefined || '' ? ( */}
               <section>
                 <div className="progressBar">
                   <div className="progress">
@@ -1505,7 +1546,8 @@ const SendMoney = () => {
                             defaultValue={formValue.email}
                             onChange={(e) => handleStep2InputChange(e, 'email')}
                           />
-                          <span style={myStyle}>{BankNameText.email ? BankNameText.email : ''}</span>
+                          <span style={myStyle}>{BankNameText.Enteremail ? BankNameText.Enteremail : ''}</span>
+                          <span style={myStyle}>{BankNameText.Emailexist ? BankNameText.Emailexist : ''}</span>
 
                         </div>
                       </div>
@@ -1678,7 +1720,7 @@ const SendMoney = () => {
                             <option value="Travel Payment">Travel Payment</option>
                             <option value="Utility Payment">Utility Payment</option>
                           </select>
-                          <span style={myStyle}>{BankNameText.Selectreason ? BankNameText.Selectreason : ''}</span>
+                          <span style={myStyle}>{BankNameText.Reason ? BankNameText.Reason : ''}</span>
 
                         </div>
                       </div>
@@ -1693,7 +1735,7 @@ const SendMoney = () => {
                         {/* <button className="form-button" onClick={handleShow}>Continue</button> */}
                         <button type="submit" className="form-button" onClick={handleCreateRecipientValidation}>Continue</button>
                         {/* <button className="form-button" onClick={handleRecipientBankDetails}>Continue</button> */}
-                        <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                        <button className="form-button" onClick={() => { setStep(step -1) }}>Previous</button>
                       </div>
                     </div>
                   </div>
@@ -1717,15 +1759,15 @@ const SendMoney = () => {
                       <tbody>
                         <tr>
                           <th>Bank Name</th>
-                          <td>{bankName}</td>
+                          <td>{formValue.bankName}</td>
                         </tr>
                         <tr>
                           <th>Account Name</th>
-                          <td>{accountName}</td>
+                          <td>{formValue.accountName}</td>
                         </tr>
                         <tr>
                           <th>Account number</th>
-                          <td>{accountNumber}</td>
+                          <td>{formValue.accountNumber}</td>
                         </tr>
                       </tbody>
                       <thead>
@@ -1736,23 +1778,23 @@ const SendMoney = () => {
                       <tbody>
                         <tr>
                           <th>First Name</th>
-                          <td>{firstName}</td>
-                        </tr>
-                        <tr>
-                          <th>Middle Name</th>
-                          <td>{middleName}</td>
+                          <td>{formValue.firstName}</td>
                         </tr>
                         <tr>
                           <th>Last Name</th>
-                          <td>{lastName}</td>
+                          <td>{formValue.lastName}</td>
                         </tr>
                         <tr>
                           <th>Email</th>
-                          <td>{emailData}</td>
+                          <td>{formValue.email}</td>
                         </tr>
                         <tr>
                           <th>Mobile</th>
-                          <td>{mobileData}</td>
+                          <td>{formValue.mobile}</td>
+                        </tr>
+                        <tr>
+                          <th>Country Code</th>
+                          <td>{formValue.country_code}</td>
                         </tr>
                         {/* <tr>
       <th>Address</th>
@@ -1764,7 +1806,7 @@ const SendMoney = () => {
                           </>
 
                           <th>Reason For Sending Money</th>
-                          <td>{reasonMoney}</td>
+                          <td>{formValue.reasonMoney}</td>
                         </tr>
                       </tbody>
                     </Table>
@@ -1784,11 +1826,13 @@ const SendMoney = () => {
                 </Modal>
 
               </section>
-            ) : (
-              <></>
+            {/* ) : (
+              <>
+               <Page404 />
+              </>
 
             )
-          }
+          } */}
         </div>
 
 
@@ -1814,9 +1858,9 @@ const SendMoney = () => {
     return (
       <>
         <div>
-          {
+          {/* {
             token || verification_otp ||DigitalCode != undefined || '' ? (
-              <>
+              <> */}
                 <section>
                   <div className="progressBar">
                     <div className="progress">
@@ -1887,8 +1931,8 @@ const SendMoney = () => {
                         <button className="start-form-button">Cancel</button>
                       </div>
                       <div className="col-md-8">
-                        <button className="form-button">Continue</button>
-                        <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                        {/* <button className="form-button">Continue</button> */}
+                        <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button>
                       </div>
                     </div>
                   </div>
@@ -1903,6 +1947,8 @@ const SendMoney = () => {
                     {/* start List card */}
 
                     <Table>
+                    {bankCardData?.length != 0 ? (
+                      <>
                       <thead>
                         <tr>
                           <th>#</th>
@@ -1910,7 +1956,8 @@ const SendMoney = () => {
                           {/* <th>Action</th> */}
                         </tr>
                       </thead>
-
+                    
+                     
                       <tbody>
 
                         {
@@ -1988,6 +2035,35 @@ const SendMoney = () => {
                           </Modal.Footer>
                         </Modal>
                       </tbody>
+                      </>
+                       ) : (
+                        <>
+                        </>
+                      )
+                      }
+
+
+                      {bankCardData?.length == 0 ? (
+                        <>
+                          <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Cards ADD</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td> No Cards</td>
+                               </tr>
+                            </tbody>
+                           </>
+                          ) : (
+                            <>
+
+                            </>
+                          )
+                          }
+  
                     </Table>
                     {/* End List card */}
 
@@ -2053,8 +2129,8 @@ const SendMoney = () => {
                                 <div className="card-fields">
                                   <input
                                     min="0"
-                                    maxlength="4"
-                                    type="number"
+                                    maxlength="2"
+                                    type="text"
                                     className='rate_input form-control'
                                     name="exp_month"
                                     placeholder="Month"
@@ -2070,12 +2146,10 @@ const SendMoney = () => {
                                 <span>/</span>
                                 <div className="card-fields">
                                   <input
-                                    min="0"
-                                    maxlength="4"
-                                    type="number"
+                                    type="text"
                                     className='rate_input form-control'
                                     name="exp_year"
-                                    maxLength={2}
+                                    maxLength={4}
                                     placeholder="Year"
                                     defaultValue={formCardValue.exp_year}
                                     onChange={(e) => handleCardInputChange(e, 'exp_year')}
@@ -2141,12 +2215,14 @@ const SendMoney = () => {
                   </Modal.Footer>
                 </Modal>
 
-              </>
+              {/* </>
             ) : (
-              <></>
+              <>
+               <Page404 />
+              </>
 
             )
-          }
+          } */}
         </div>
 
 
@@ -2181,7 +2257,7 @@ const SendMoney = () => {
             console.log(2, "log2");
             setStep(step + 1);
             console.log(step, "stepdmskdmklm")
-
+            
             console.log(res, "codes")
             localStorage.setItem("DigitalCode", res.code);
             localStorage.setItem("DigitalTransactionId", res.transaction_id)
@@ -2210,8 +2286,8 @@ const SendMoney = () => {
       <>
 
         <div>
-          {
-            token || verification_otp ||DigitalCode != undefined || '' ? (
+          {/* {
+            token || verification_otp ||DigitalCode != undefined || '' ? ( */}
               <section>
                 <div className="progressBar">
                   <div className="progress">
@@ -2298,7 +2374,12 @@ const SendMoney = () => {
                       <div className="col-md-6">
                         <div className="input_field">
                           <p className="get-text">Country of Birth<span style={{ color: 'red' }} >*</span></p>
-                          <input type="text" className='rate_input form-control' />
+                          <Select
+                            // ref={input_location}
+                            options={countryoptions}
+                            // value={countryValue}
+                            onChange={changeHandler}
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -2433,11 +2514,13 @@ const SendMoney = () => {
 
               </section>
 
-            ) : (
-              <></>
+            {/* ) : (
+              <>
+               <Page404 />
+              </>
 
             )
-          }
+          } */}
         </div>
 
 
@@ -2451,8 +2534,8 @@ const SendMoney = () => {
     return (
       <>
         <div>
-          {
-            token || verification_otp || DigitalCode != undefined || '' ? (
+          {/* {
+            token || verification_otp || DigitalCode != undefined || '' ? ( */}
               <section>
                 <div className="progressBar">
                   <div className="progress">
@@ -2525,21 +2608,25 @@ const SendMoney = () => {
                 <button className="start-form-button">Cancel</button>
               </div> */}
                     <div className="col-md-12 verified-section">
-{/* 
+              {/* 
                       <button className="form-button" onClick={handlePay}>Pay</button> */}
                       {/* <button className="form-button" onClick={()=>{setStep(step+1)}}>Continue</button> */}
 
                       <button className="form-button" onClick={handleVerifiedPaymentDigitalId}>Continue</button>
+                      
                       <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                      {/* <button className="form-button" onClick={handleVerifiedPaymentDigitalIdPrevious}>Previous</button> */}
                     </div>
                   </div>
                 </div>
               </section>
-            ) : (
-              <></>
+            {/* ) : (
+              <>
+               <Page404 />
+              </>
 
             )
-          }
+          } */}
         </div>
 
 
@@ -2570,6 +2657,7 @@ const SendMoney = () => {
             </div>
             <div className="col-md-12 align-center">
               <img className="verifies-img" src={verified} alt="verified" />
+              <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button>
               <p>Thanks for choosing RemitAssure</p>
               <NavLink to="/dashboard">
                  <button type="submit" class="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
@@ -2592,127 +2680,138 @@ const SendMoney = () => {
         {
           1 ? (
             <div class="form">
+               {  
+                  token || verification_otp|| DigitalCode != undefined || '' ? (
+                   <>
 
-              <section className="why-us section-bgba user_dashboard_banner">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-md-8">{
-                      <Form />}
-                    </div>
+                  <section className="why-us section-bgba user_dashboard_banner">
+                    <div className="container">
+                      <div className="row">
 
-                    <div className="col-md-4">
-
-                      {/* <img src={sendmoney} className="send-money-img" /> */}
-
-                      <Table>
-
-                        {
-                          step > 0 && Total_amount != '' ? (
-
-                            <div className="summary">
-                              <BsCheckCircleFill />
-                              <h5>Summary</h5>
-                              <tbody>
-                                <tr>
-                                  <th>Amount</th>
-                                  <td>{amountValue.amountInput + " " + from + " ⇒ " + total_amount + " " + to}</td>
-                                  {/* <td>{total_amount }</td> */}
-                                </tr>
-                                <tr>
-                                  <th>Received Method</th>
-                                  <td>{recivedMethod}</td>
-                                </tr>
-                                <tr>
-                                  <th>Payout Partners</th>
-                                  <td>{payOutPartner}</td>
-                                </tr>
-                              </tbody>
-                            </div>
-                          ) : (
-                            <>
-                            </>
-
-                          )
-
-                        }
-
-                        {
-                          step > 0 && formValue.bankName != '' ? (
-                            <div className="summary1">
-                              <BsCheckCircleFill />
-                              <h5>Recipient details Summary</h5>
-                              <tbody>
-                                <tr>
-                                  <th>First Name</th>
-                                  <td>{firstName}</td>
-                                </tr>
-                                <tr>
-                                  <th>Mobile</th>
-                                  <td>{mobileData}</td>
-                                </tr>
-                                <tr>
-                                  <th>Reason For Sending Money</th>
-                                  <td>{reasonMoney}</td>
-                                </tr>
-                              </tbody>
-
-                            </div>
-
-                          ) : (
-                            <>
-                            </>
-
-                          )
-
-                        }
-
-                      </Table>
-
-
-
-
-                      {/* {  
-                step > 0 && formValue.bankName != ''  ? (
-          
-              
-                <>
-                <div className="summary">
-                  <h5>Recipient details Summary</h5>
-                  <Table>
-                    <tbody>
-                      <tr>
-                        <th>First Name</th>
-                        <td>{firstName}</td>
-                      </tr>
-                      <tr>
-                        <th>Mobile</th>
-                        <td>{mobileData}</td>
-                      </tr>
-                      <tr>
-                        <th>Reason For Sending Money</th>
-                        <td>{reasonMoney}</td>  
-                      </tr>
-                    </tbody>
-                  </Table>
-                </div>
-              </>
-              
-              
+                        <div className="col-md-8">{
+                          <Form />}
+                        </div>
                 
-              ):(
-                <>
-                </>
-              
-              )
-              
-              }  */}
+                        <div className="col-md-4">
 
+                          {/* <img src={sendmoney} className="send-money-img" /> */}
+
+                          <Table>
+
+                            {
+                              step > 0 && Total_amount != '' ? (
+
+                                <div className="summary">
+                                  <BsCheckCircleFill />
+                                  <h5>Summary</h5>
+                                  <tbody>
+                                    <tr>
+                                      <th>Amount</th>
+                                      <td>{amountValue.amountInput + " " + from + " ⇒ " + total_amount + " " + to}</td>
+                                      {/* <td>{total_amount }</td> */}
+                                    </tr>
+                                    <tr>
+                                      <th>Received Method</th>
+                                      <td>{recivedMethod}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Payout Partners</th>
+                                      <td>{payOutPartner}</td>
+                                    </tr>
+                                  </tbody>
+                                </div>
+                              ) : (
+                                <>
+                                </>
+
+                              )
+
+                            }
+
+                            {
+                              step > 0 && formValue.bankName != '' ? (
+                                <div className="summary1">
+                                  <BsCheckCircleFill />
+                                  <h5>Recipient details Summary</h5>
+                                  <tbody>
+                                    <tr>
+                                      <th>Full Name</th>
+                                      <td>{formValue.firstName} <span>{formValue.lastName}</span></td>
+                                    </tr>
+                                    <tr>
+                                      <th>Mobile</th>
+                                      <td>{formValue.mobile}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Reason For Sending Money</th>
+                                      <td>{formValue.reasonMoney}</td>
+                                    </tr>
+                                  </tbody>
+
+                                </div>
+
+                              ) : (
+                                <>
+                                </>
+
+                              )
+
+                            }
+
+                          </Table>
+
+
+
+
+                          {/* {  
+                    step > 0 && formValue.bankName != ''  ? (
+              
+                  
+                    <>
+                    <div className="summary">
+                      <h5>Recipient details Summary</h5>
+                      <Table>
+                        <tbody>
+                          <tr>
+                            <th>First Name</th>
+                            <td>{firstName}</td>
+                          </tr>
+                          <tr>
+                            <th>Mobile</th>
+                            <td>{mobileData}</td>
+                          </tr>
+                          <tr>
+                            <th>Reason For Sending Money</th>
+                            <td>{reasonMoney}</td>  
+                          </tr>
+                        </tbody>
+                      </Table>
                     </div>
+                  </>
+                  
+                  
+                    
+                  ):(
+                    <>
+                    </>
+                  
+                  )
+                  
+                  }  */}
+
+                        </div>
 
 
-                  </div>
-                </div>
-              </section>
+                      </div>
+                    </div>
+                  </section>
+                  </>
+                  ) : (
+                      <>
+                      <Page404 />
+                      </>
+                  )
+                  }
 
             </div>
           ) : (

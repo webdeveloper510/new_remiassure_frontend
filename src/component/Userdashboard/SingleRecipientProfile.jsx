@@ -16,6 +16,7 @@ import { BsFillPersonPlusFill } from "react-icons/bs";
 import { BsFillPencilFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
+import Page404 from "../pageNotfound/Page404";
 // start css
 const myStyle ={
   color: "red",
@@ -64,6 +65,9 @@ const SingleRecipientProfile = () => {
          // Start page show hide condtion page 
          const token = localStorage.getItem("token");
          console.log("TOKEN", token);
+
+         const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token", signup_token);
      
          const verification_otp = localStorage.getItem("verification_otp");
          console.log("Verification Message", verification_otp)
@@ -101,7 +105,7 @@ const SingleRecipientProfile = () => {
             //  setLoading(true); // Set loading before sending API requestssss
              axios.get(API.BASE_URL + `payment/recipient-update/${id}`,{
                  headers: {
-                   "Authorization" : `Bearer ${token}`,
+                   "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
                  }, 
              })
              .then(function(response) {

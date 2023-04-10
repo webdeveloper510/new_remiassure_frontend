@@ -5,7 +5,8 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ReferralScrollbar from '../referralscrollbar/ReferralScrollbar';
 
-
+import { API } from "../../config/API";
+import axios from "axios";
 
 
 
@@ -42,8 +43,39 @@ const Referral = () => {
 const token = localStorage.getItem("token");
 console.log("TOKEN", token);
 
+const signup_token = localStorage.getItem("signup_token")
+console.log("signup_token", signup_token);
+
 const verification_otp = localStorage.getItem("verification_otp");
 console.log("Verification Message", verification_otp)
+
+/**************************Recipient of state ************************ */
+const [dataRefferal, setDataRefferal] = useState([]);
+
+
+    /**************************************************************************
+   * ************** Start  Start Referral Code ********************
+   * ***********************************************************************/
+
+    useEffect(() => {
+        axios.post(API.BASE_URL + 'referral-link/',{}, {
+            headers: {
+                "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
+            }
+          })
+          .then(function(response) {
+              console.log("Recipients APIIIII", response.data);
+              setDataRefferal(response.data);
+          })
+          .catch(function(error) {
+              console.log(error);
+              console.log(error.response);
+            
+          })
+    }, [])
+
+console.log(dataRefferal," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+
 
 
 
@@ -284,7 +316,12 @@ console.log("Verification Message", verification_otp)
                                 <p className="share_referal_code">Share your unique referral code:</p>
     
                                 <InputGroup className="mb-3">
-                                    <Form.Control aria-label="Recipient's username" aria-describedby="basic-addon2" value="275878274565826758367" id="myInput" className="copy_input" />
+                                    <Form.Control 
+                                    aria-label="Recipient's username"
+                                     aria-describedby="basic-addon2" 
+                                     value={dataRefferal.referrallink}
+                                     id="myInput" className="copy_input" 
+                                     />
     
                                     <button variant="outline-secondary" id="button-addon2" className="button_copy">
                                         Copy

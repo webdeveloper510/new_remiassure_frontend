@@ -21,6 +21,9 @@ const Dashboard = () => {
   const token = localStorage.getItem("token");
   console.log("TOKEN", token);
 
+  const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token", signup_token);
+
   const verification_otp = localStorage.getItem("verification_otp");
   console.log("Verification Message", verification_otp)
     

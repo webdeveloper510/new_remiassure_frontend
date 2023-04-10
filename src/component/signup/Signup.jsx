@@ -5,7 +5,8 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import CountryDropdown from 'country-dropdown-with-flags-for-react';
 import {useLocation} from "react-router-dom";
 import Select from "react-select";
-import countryList from 'react-select-country-list'
+import countryList from 'react-select-country-list';
+import Page404 from "../pageNotfound/Page404";
 
 
 
@@ -26,6 +27,21 @@ const myStyle= {
 
 
 const Signup = () => {
+     /**************************token ************************ */
+
+    const token = localStorage.getItem("token");
+    console.log("TOKEN", token);
+  
+    const signup_token = localStorage.getItem("signup_token")
+      console.log("signup_token", signup_token);
+  
+    const verification_otp = localStorage.getItem("verification_otp");
+    console.log("Verification Message", verification_otp);
+  
+    const DigitalCode = localStorage.getItem("DigitalCode");
+    console.log("DigitalCode", DigitalCode);
+  
+  /**************************State ************************ */
 
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -86,11 +102,6 @@ const Signup = () => {
    const input_password = useRef(null);
    const input_refferal_code = useRef(null);
    
-
-
-   //Token get 
-    const token = localStorage.getItem("token");
-    console.log("TOKEN", token);
 
     const navigate = useNavigate();
 
@@ -252,182 +263,192 @@ const Signup = () => {
     return(
         <>
          {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
-         <section className="why-us section-bgba signup_banner">
-    <div className="container">
-        <div className="row">
-            <div className="col-lg-6">
-                <div className="support_image">
-                    <img src="assets/img/help/help_img02.svg" alt="support_images" />
-                </div>
-            </div>
+         {  
+          token || DigitalCode != undefined || '' ? (
+            <>
+            <Page404 />
+            </>
+            ) : (
+                <>
+            <section className="why-us section-bgba signup_banner">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-6">
+                            <div className="support_image">
+                                <img src="assets/img/help/help_img02.svg" alt="support_images" />
+                            </div>
+                        </div>
 
-            <div className="col-lg-6">
-                {/* start-- card */}
-                <div className="row">
-                    <div className="col-lg-12">
-                        <div className="card card-signup">
-                            <div className="card-body">
-                             
-
-                                <h5 className="Sign-heading">Sign Up</h5>
-                                <div className="form_signup">
-
-                                    <form>
-                                    <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
-                                    <Select
-                                     ref={input_location}
-                                     options={options} 
-                                     value={countryValue} 
-                                     onChange={changeHandler}
-                                      />
-                                       {/* {error&&countryValue.length<=0?
-				                          <span style={myStyle}>Please select the Location </span>:""} */}
-                                             <span  style={myStyle}>{locationText? locationText: ""}</span> 
-                                       
-    
-                                        {/* <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
-                                        <CountryDropdown
-                                       
-                                         className='YOUR_CSS_CLASS rate_input form-control'
-                                          preferredCountries={['gb', 'us' ]} 
-                                          ref={input_location}
-                                          value={location}
-                                          handleChange={handeleLocation}
-                                        //   handleChange={e=> console.log(e.target.value)}
-                                          >
-                                             {error&&location.length<=0?
-				                          <span style={myStyle}>Please check the Location </span>:""}
-                                        </CountryDropdown> */}
+                        <div className="col-lg-6">
+                            {/* start-- card */}
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    <div className="card card-signup">
+                                        <div className="card-body">
                                         
-                                        {/* <Form.Select 
-                                         value={location}
-                                         onChange={handeleLocation}
-                                         >   
-                                            <option value="">--- Select Location ---</option>
-                                            <option value="Austria">Austria</option>
-                                            <option value="Canada">Canada</option>
-                                            <option value="China">China</option>
-                                        </Form.Select> */}
-                                        <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
-                                            <Form.Label>Your Email<span style={{color: 'red'}} >*</span> </Form.Label>
-                                            <Form.Control 
-                                            type="email"
-                                            ref={input_email}
-                                            value={email}
-                                            onChange={handleEmail}
-                                            placeholder="Enter email"
-                                             />
-                                            {/* {error&&email.length<=0?
-				                          <span style={myStyle}>Please Enter the Email </span>:""}	 */}
-                                           <span  style={myStyle}>{emailText? emailText: ""}</span> 
-                                           <span  style={myStyle}>{emailExistText? emailExistText: ""}</span> 
-                                           <span  style={myStyle}>{emailvalidAddress? emailvalidAddress: ""}</span> 
+
+                                            <h5 className="Sign-heading">Sign Up</h5>
+                                            <div className="form_signup">
+
+                                                <form>
+                                                <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
+                                                <Select
+                                                ref={input_location}
+                                                options={options} 
+                                                value={countryValue} 
+                                                onChange={changeHandler}
+                                                />
+                                                {/* {error&&countryValue.length<=0?
+                                                    <span style={myStyle}>Please select the Location </span>:""} */}
+                                                        <span  style={myStyle}>{locationText? locationText: ""}</span> 
+                                                
                 
-                                        </Form.Group>
-                                        
-
-                                        <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
-                                            <Form.Label>Your Phone<span style={{color: 'red'}} >*</span> </Form.Label>
-                                            <Form.Control 
-                                            type="mobile"
-                                            ref={input_mobile}
-                                            value={mobile}
-                                            onChange={handleMobile}
-                                            placeholder="Enter Phone"
-                                             />
-                                               {/* {error&&mobile.length<=0?
-				                          <span style={myStyle}>Please Enter the Mobile </span>:""}	 */}
-                                            <span  style={myStyle}>{mobileText? mobileText: ""}</span>  
-                                            <span  style={myStyle}>{mobileValidText? mobileValidText: ""}</span>  
-                                        </Form.Group>
-
-                                        <Form.Group className="mb-3 form_label" controlId="formBasicPassword">
-                                            <Form.Label> Your Password<span style={{color: 'red'}} >*</span> </Form.Label>
-                                            <Form.Control 
-                                            //    minlength="0" 
-                                            //    maxlength="3" 
-                                            type="password"
-                                            ref={input_password}
-                                            value={password}
-                                            onChange={handlePassword}
-                                            placeholder="Password" 
-                                            />
-                                            {/* {error&&password.length<=0?
-				                          <span style={myStyle}>Please Enter the Password </span>:""}	 */}
-                                          <span  style={myStyle}>{passwordText? passwordText: ""}</span>  
-                                           
-                                        </Form.Group>
-
-                                        <Form.Check  className="form_switch"
-                                        type="switch" 
-                                        onClick={() => setShow(!show)}
-                                        // value={referral_code}
-                                        checked={show ? true : false}
-                                        // onChange={(e)=> {myReferalCode(e.target.value);setrReferral_code(e.target.value)}}
-                                        //   onChange={(e)=> {setrReferral_code(e.target.value)}}
-                                        id="custom-switch" 
-                                        label="Referred by a friend? Use the referral code below." 
-                                       
-                                        />
-                                    {show && <div>
-                                        <Form.Group  className="mb-3 form_label" controlId="formBasicEmail">
-                                            <Form.Label>Your Referral Code</Form.Label>
-                                            <Form.Control 
-                                            type="text"
-                                            ref={input_refferal_code}
-                                            value={referral_code}
-                                            onChange={handleReferral_code}
-                                            placeholder="Enter Referral Code" 
-                                            />
-                                              {/* {error&&referral_code.length<=0?
-				                          <span style={myStyle}>Please Enter the Referralcode </span>:""}	 */}
-                                            <span  style={myStyle}>{referralText? referralText: ""}</span> 
-                                            <span  style={myStyle}>{referralInvalidText? referralInvalidText: ""}</span> 
-                                        </Form.Group>
-                                        </div>}
-
-                                        <Form.Group className="mb-3 form_checkbox" controlId="formBasicCheckbox">
-                                           
-                                            <Form.Check className="form_label"
-                                                type="checkbox"
-                                                value={promo_marketing}
-                                                onChange={handlePromo_marketing}
-                                                checked={promo_marketing.Active} // <-- set the checked prop of input\
-
-                                                label="If you DO NOT wish to receive marketing information 
-                                                        about out products and special offers, please check this box"
-                                            />
-                                        </Form.Group>
-
-                                        <button variant="primary"
-                                         type="submit" 
-                                         onClick={handleSignupApi}
-                                         className="signup_button ">
-                                            Signup
-                                          {loading ? <>
-                                                <div class="loader-overly"> 
-                                                <div class="loader" > 
+                                                    {/* <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
+                                                    <CountryDropdown
                                                 
-                                                </div>
-                                                
-                                                </div>
-                                              </> : <></>}
-                                        </button>
-                                        <p className="already_content">Already have an account? 
-                                          <NavLink to="/login">Sign in</NavLink>
-                                        </p>
-                                    </form>
+                                                    className='YOUR_CSS_CLASS rate_input form-control'
+                                                    preferredCountries={['gb', 'us' ]} 
+                                                    ref={input_location}
+                                                    value={location}
+                                                    handleChange={handeleLocation}
+                                                    //   handleChange={e=> console.log(e.target.value)}
+                                                    >
+                                                        {error&&location.length<=0?
+                                                    <span style={myStyle}>Please check the Location </span>:""}
+                                                    </CountryDropdown> */}
+                                                    
+                                                    {/* <Form.Select 
+                                                    value={location}
+                                                    onChange={handeleLocation}
+                                                    >   
+                                                        <option value="">--- Select Location ---</option>
+                                                        <option value="Austria">Austria</option>
+                                                        <option value="Canada">Canada</option>
+                                                        <option value="China">China</option>
+                                                    </Form.Select> */}
+                                                    <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
+                                                        <Form.Label>Your Email<span style={{color: 'red'}} >*</span> </Form.Label>
+                                                        <Form.Control 
+                                                        type="email"
+                                                        ref={input_email}
+                                                        value={email}
+                                                        onChange={handleEmail}
+                                                        placeholder="Enter email"
+                                                        />
+                                                        {/* {error&&email.length<=0?
+                                                    <span style={myStyle}>Please Enter the Email </span>:""}	 */}
+                                                    <span  style={myStyle}>{emailText? emailText: ""}</span> 
+                                                    <span  style={myStyle}>{emailExistText? emailExistText: ""}</span> 
+                                                    <span  style={myStyle}>{emailvalidAddress? emailvalidAddress: ""}</span> 
+                            
+                                                    </Form.Group>
+                                                    
 
+                                                    <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
+                                                        <Form.Label>Your Phone<span style={{color: 'red'}} >*</span> </Form.Label>
+                                                        <Form.Control 
+                                                        type="mobile"
+                                                        ref={input_mobile}
+                                                        value={mobile}
+                                                        onChange={handleMobile}
+                                                        placeholder="Enter Phone"
+                                                        />
+                                                        {/* {error&&mobile.length<=0?
+                                                    <span style={myStyle}>Please Enter the Mobile </span>:""}	 */}
+                                                        <span  style={myStyle}>{mobileText? mobileText: ""}</span>  
+                                                        <span  style={myStyle}>{mobileValidText? mobileValidText: ""}</span>  
+                                                    </Form.Group>
+
+                                                    <Form.Group className="mb-3 form_label" controlId="formBasicPassword">
+                                                        <Form.Label> Your Password<span style={{color: 'red'}} >*</span> </Form.Label>
+                                                        <Form.Control 
+                                                        //    minlength="0" 
+                                                        //    maxlength="3" 
+                                                        type="password"
+                                                        ref={input_password}
+                                                        value={password}
+                                                        onChange={handlePassword}
+                                                        placeholder="Password" 
+                                                        />
+                                                        {/* {error&&password.length<=0?
+                                                    <span style={myStyle}>Please Enter the Password </span>:""}	 */}
+                                                    <span  style={myStyle}>{passwordText? passwordText: ""}</span>  
+                                                    
+                                                    </Form.Group>
+
+                                                    <Form.Check  className="form_switch"
+                                                    type="switch" 
+                                                    onClick={() => setShow(!show)}
+                                                    // value={referral_code}
+                                                    checked={show ? true : false}
+                                                    // onChange={(e)=> {myReferalCode(e.target.value);setrReferral_code(e.target.value)}}
+                                                    //   onChange={(e)=> {setrReferral_code(e.target.value)}}
+                                                    id="custom-switch" 
+                                                    label="Referred by a friend? Use the referral code below." 
+                                                
+                                                    />
+                                                {show && <div>
+                                                    <Form.Group  className="mb-3 form_label" controlId="formBasicEmail">
+                                                        <Form.Label>Your Referral Code</Form.Label>
+                                                        <Form.Control 
+                                                        type="text"
+                                                        ref={input_refferal_code}
+                                                        value={referral_code}
+                                                        onChange={handleReferral_code}
+                                                        placeholder="Enter Referral Code" 
+                                                        />
+                                                        {/* {error&&referral_code.length<=0?
+                                                    <span style={myStyle}>Please Enter the Referralcode </span>:""}	 */}
+                                                        <span  style={myStyle}>{referralText? referralText: ""}</span> 
+                                                        <span  style={myStyle}>{referralInvalidText? referralInvalidText: ""}</span> 
+                                                    </Form.Group>
+                                                    </div>}
+
+                                                    <Form.Group className="mb-3 form_checkbox" controlId="formBasicCheckbox">
+                                                    
+                                                        <Form.Check className="form_label"
+                                                            type="checkbox"
+                                                            value={promo_marketing}
+                                                            onChange={handlePromo_marketing}
+                                                            checked={promo_marketing.Active} // <-- set the checked prop of input\
+
+                                                            label="If you DO NOT wish to receive marketing information 
+                                                                    about out products and special offers, please check this box"
+                                                        />
+                                                    </Form.Group>
+
+                                                    <button variant="primary"
+                                                    type="submit" 
+                                                    onClick={handleSignupApi}
+                                                    className="signup_button ">
+                                                        Signup
+                                                    {loading ? <>
+                                                            <div class="loader-overly"> 
+                                                            <div class="loader" > 
+                                                            
+                                                            </div>
+                                                            
+                                                            </div>
+                                                        </> : <></>}
+                                                    </button>
+                                                    <p className="already_content">Already have an account? 
+                                                    <NavLink to="/login">Sign in</NavLink>
+                                                    </p>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            {/* End-- card */}
                         </div>
                     </div>
                 </div>
-                {/* End-- card */}
-            </div>
-        </div>
-    </div>
-</section>
+            </section>
+            </>
+            )
+         }
 
         {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
 

@@ -5458,26 +5458,3 @@ img.send-money-img {
   margin-right: 10px;
   margin-top: 8px;
 }
-.login-error{
-  text-align: center;
-    width: 100%;
-    display: block;
-    text-transform: inherit !important;
-}
-.notfound-section {
-  height: 100vh;
-  text-align: center;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-.transaction-icon svg{
-  float: left;
-   width: 22px !important;
-    height: 23px !important;
-    color: green;
-    margin-right: 2px;
-
-}

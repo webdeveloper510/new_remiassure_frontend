@@ -176,8 +176,10 @@ function LegalArrayObjects(){
                         </li>
                            
                            <li className="suppot_footer">
-                        <img src="assets/img/footer/phone.svg" alt="phone_icons" className="phone_icons" />                  
+                        <img src="assets/img/footer/phone.svg" alt="phone_icons" className="phone_icons" />
+                        <a  href="tel:+66 2399 1145">                
                         <p> +66 2399 1145</p>
+                        </a>  
                         </li>
                     <div className="social-links mt-3">
                     <a href="#" className="twitter"><i className="bx bxl-twitter"></i></a>

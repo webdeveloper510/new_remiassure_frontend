@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import {API} from "../../config/API";
 import axios from 'axios';
 import UserContext from '../context/UserContext';
+import Page404 from "../pageNotfound/Page404";
 
 const myStyle = {
     color: 'red',
@@ -14,10 +15,25 @@ const myStyle = {
 
 const RecentPassword = () => {
 
+ /**************************token ************************ */
+  const token = localStorage.getItem("token");
+  console.log("TOKEN", token);
+
+  const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token", signup_token);
+
+  const verification_otp = localStorage.getItem("verification_otp");
+  console.log("Verification Message", verification_otp);
+
+  const DigitalCode = localStorage.getItem("DigitalCode");
+  console.log("DigitalCode", DigitalCode);
+    
+/**************************transaction of state ************************ */
     const [password, setPassword] = useState('');
     const [reset_password_otp, setReset_password_otp] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [active, setActive] = useState(false);
 
     /*********************Start Validation state Text************** */
     const [EnterotpText, setEnterotpText] = useState('');
@@ -54,6 +70,11 @@ const RecentPassword = () => {
 
     const handleRecent = (event) => {
         event.preventDefault();
+        if(password !==confirmPassword){
+            setActive(true)
+        }
+        else{
+            setActive(false)
         setLoading(true); // Set loading before sending API request
             axios.post(API.BASE_URL + `reset-password/`, {
                 password: password,
@@ -62,6 +83,7 @@ const RecentPassword = () => {
             }, {
                 headers: {
                     'Content-Type': 'application/json',
+                    "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
                 }}, {
             })
             .then(function(response) {
@@ -83,90 +105,105 @@ const RecentPassword = () => {
              
             })
         }
+    }
+
+
     
     return(
         <>
          {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
-         <section className="why-us section-bgba recent_banner">
-    <div className="container">
-        <div className="row">
-            {/* <div className="col-lg-6">
-                <div className="support_image">
-                    <img src="assets/img/help/help_img02.png" alt="support_images" />
-                </div>
-            </div> */}
+         {  
+          token || DigitalCode != undefined || '' ? (
+            <>
+            <Page404 />
+            </>
+            ) : (
+                <>
+            <section className="why-us section-bgba recent_banner">
+            <div className="container">
+                <div className="row">
+                    {/* <div className="col-lg-6">
+                        <div className="support_image">
+                            <img src="assets/img/help/help_img02.png" alt="support_images" />
+                        </div>
+                    </div> */}
 
-            <div className="col-lg-12">
-                 {/* start-- card */}
-                 <div className="row">
                     <div className="col-lg-12">
-                        <div className="card card-recent-password">
-                            <div className="card-body">
-                                <h5 className="Sign-heading">Reset Password </h5>
+                        {/* start-- card */}
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <div className="card card-recent-password">
+                                    <div className="card-body">
+                                        <h5 className="Sign-heading">Reset Password </h5>
 
-                                <div className="form_login">
-                                    <form>
+                                        <div className="form_login">
+                                            <form>
 
-                                    <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
-                                            <Form.Label>Reset Password Otp<span style={{color: 'red'}} >*</span></Form.Label>
-                                            <Form.Control 
-                                            type="number"
-                                            value={reset_password_otp}
-                                            onChange={handleResetpasswordotp}
-                                             placeholder="Enter Reset password otp" 
-                                             />
-                                              <span style={myStyle}>{EnterotpText? EnterotpText: ''}</span>
-                                             <span style={myStyle}>{InvalidotpText? InvalidotpText: ''}</span>
-                                         
-                                        </Form.Group>
-                                        
-                                      <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
-                                            <Form.Label>New Password<span style={{color: 'red'}} >*</span></Form.Label>
-                                            <Form.Control 
-                                            type="password"
-                                            value={password}
-                                            onChange={handlePassword}
-                                             placeholder="Enter New Password" 
-                                             />
-                                            
-                                             <span style={myStyle}>{EnterpasswordText? EnterpasswordText: ''}</span>
-                                        </Form.Group>
-
-                                        <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
-                                            <Form.Label>Confirm Password<span style={{color: 'red'}} >*</span></Form.Label>
-                                            <Form.Control 
-                                            type="password"
-                                            value={confirmPassword}
-                                            onChange={handleConfirmPassword}
-                                             placeholder="Confirm Password" />
-                                        </Form.Group>
-
-                                        <button variant="primary" 
-                                       type="submit" 
-                                       className="login_button"
-                                       onClick={handleRecent}
-                                       >
-                                            Recent Password
-                                            {loading ? <>
-                                                <div class="loader-overly"> 
-                                                <div class="loader" > 
+                                            <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
+                                                    <Form.Label>Reset Password Otp<span style={{color: 'red'}} >*</span></Form.Label>
+                                                    <Form.Control 
+                                                    type="number"
+                                                    value={reset_password_otp}
+                                                    onChange={handleResetpasswordotp}
+                                                    placeholder="Enter Reset password otp" 
+                                                    />
+                                                    <span style={myStyle}>{EnterotpText? EnterotpText: ''}</span>
+                                                    <span style={myStyle}>{InvalidotpText? InvalidotpText: ''}</span>
                                                 
-                                                </div>
+                                                </Form.Group>
                                                 
-                                                </div>
-                                              </> : <></>}
-                                        </button>
-                                    </form>
+                                            <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
+                                                    <Form.Label>New Password<span style={{color: 'red'}} >*</span></Form.Label>
+                                                    <Form.Control 
+                                                    type="password"
+                                                    value={password}
+                                                    onChange={handlePassword}
+                                                    placeholder="Enter New Password" 
+                                                    />
+                                                    
+                                                    <span style={myStyle}>{EnterpasswordText? EnterpasswordText: ''}</span>
+                                                </Form.Group>
+
+                                                <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
+                                                    <Form.Label>Confirm Password<span style={{color: 'red'}} >*</span></Form.Label>
+                                                    <Form.Control 
+                                                    type="password"
+                                                    value={confirmPassword}
+                                                    onChange={handleConfirmPassword}
+                                                    placeholder="Confirm Password" 
+                                                    />
+                                                    <span className={active ==true ? 'not_match' : 'hide'}>Passwords do not match</span>
+                                                </Form.Group>
+
+                                                <button variant="primary" 
+                                            type="submit" 
+                                            className="login_button"
+                                            onClick={handleRecent}
+                                            >
+                                                    Recent Password
+                                                    {loading ? <>
+                                                        <div class="loader-overly"> 
+                                                        <div class="loader" > 
+                                                        
+                                                        </div>
+                                                        
+                                                        </div>
+                                                    </> : <></>}
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        {/* End-- card */}
                     </div>
                 </div>
-                {/* End-- card */}
             </div>
-        </div>
-    </div>
-</section>
+            </section>
+            </>
+            )
+            }
 
         {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
 

@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import {API} from "../../config/API";
 import axios from 'axios';
 import UserContext from '../context/UserContext';
+import Page404 from "../pageNotfound/Page404";
 
 {/* start -- css*/}
 const myStyle= {
@@ -21,6 +22,20 @@ const myStyle= {
 
 const Login = () => {
 
+/**************************token ************************ */
+  const token = localStorage.getItem("token");
+  console.log("TOKEN", token);
+
+  const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token", signup_token);
+
+  const verification_otp = localStorage.getItem("verification_otp");
+  console.log("Verification Message", verification_otp);
+
+  const DigitalCode = localStorage.getItem("DigitalCode");
+  console.log("DigitalCode", DigitalCode);
+
+/**************************State ************************ */
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [promo_marketing, setPromo_marketing] = useState(false);
@@ -121,90 +136,106 @@ const Login = () => {
     return(
         <>
          {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
-         <section className="why-us section-bgba login_banner">
-    <div className="container">
-        <div className="row">
-            <div className="col-lg-12">
-                {/* start-- card */}
-                <div className="row">
-                    <div className="col-lg-12">
-                        <div className="card card-login">
-                            <div className="card-body">
-                                <span style={myStyle} className="login-error" >{EmailpasswordText? EmailpasswordText: ''}</span>
-                                {/* <span style={myStyle}>{VerifydigtalidText? VerifydigtalidText: ''}</span> */}
-                                <h5 className="Sign-heading">Login</h5>
+         {  
+          token || DigitalCode != undefined || '' ? (
+            <>
+            <Page404 />
+            </>
+            ) : (
+                <>
+                 <section className="why-us section-bgba login_banner">
+                    <div className="container">
+                        <div className="row">
+                            {/* <div className="col-lg-6">
+                                <div className="support_image">
+                                    <img src="assets/img/help/help_img02.png" alt="support_images" />
+                                </div>
+                            </div> */}
 
-                                <div className="form_login">
-                                    <form>
-                                        <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
-                                            <Form.Label>Your Email<span style={{color: 'red'}} >*</span></Form.Label>
-                                            <Form.Control type="email" 
-                                            value={email}
-                                            onChange= {handleEmail}
-                                            placeholder="Enter email"
-                                             />
-                                             <span style={myStyle}>{emailText? emailText:""}</span>
-                                             <span style={myStyle}>{UserexistText? UserexistText: ""}</span>
-                                        </Form.Group>
+                            <div className="col-lg-12">
+                                {/* start-- card */}
+                                <div className="row">
+                                    <div className="col-lg-12">
+                                        <div className="card card-login">
+                                            <div className="card-body">
+                                                <span style={myStyle}>{EmailpasswordText? EmailpasswordText: ''}</span>
+                                                {/* <span style={myStyle}>{VerifydigtalidText? VerifydigtalidText: ''}</span> */}
+                                                <h5 className="Sign-heading">Login</h5>
 
-                                        <Form.Group className="mb-3 form_label" controlId="formBasicPassword">
-                                            <Form.Label> Your Password<span style={{color: 'red'}} >*</span></Form.Label>
-                                            <Form.Control type="password" 
-                                             value={password}
-                                             onChange= {handlePassword}
-                                            placeholder="Password"
-                                             />
-                                             <span style={myStyle}>{passwordText? passwordText: ""}</span>
-                                             
-                                        </Form.Group>
-                                      
-                                        <div className="row">
-                                            <div className="col-lg-6">
-                                                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                                    <Form.Check 
-                                                    type="checkbox" 
-                                                    value={promo_marketing}
-                                                    onChange={handlePromo_marketing}
-                                                    checked={promo_marketing.Active} // <-- set the checked prop of input    
-                                                    label="Remember me " />
-                                                </Form.Group>
-                                            </div>
-                                            <div className="col-lg-6">
-                                               <NavLink className="forgot_pass" to="/forgotpassword"> Forgot password?</NavLink>
+                                                <div className="form_login">
+                                                    <form>
+                                                        <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
+                                                            <Form.Label>Your Email<span style={{color: 'red'}} >*</span></Form.Label>
+                                                            <Form.Control type="email" 
+                                                            value={email}
+                                                            onChange= {handleEmail}
+                                                            placeholder="Enter email"
+                                                            />
+                                                            <span style={myStyle}>{emailText? emailText:""}</span>
+                                                            <span style={myStyle}>{UserexistText? UserexistText: ""}</span>
+                                                        </Form.Group>
+
+                                                        <Form.Group className="mb-3 form_label" controlId="formBasicPassword">
+                                                            <Form.Label> Your Password<span style={{color: 'red'}} >*</span></Form.Label>
+                                                            <Form.Control type="password" 
+                                                            value={password}
+                                                            onChange= {handlePassword}
+                                                            placeholder="Password"
+                                                            />
+                                                            <span style={myStyle}>{passwordText? passwordText: ""}</span>
+                                                            
+                                                        </Form.Group>
+                                                    
+                                                        <div className="row">
+                                                            <div className="col-lg-6">
+                                                                <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                                                                    <Form.Check 
+                                                                    type="checkbox" 
+                                                                    value={promo_marketing}
+                                                                    onChange={handlePromo_marketing}
+                                                                    checked={promo_marketing.Active} // <-- set the checked prop of input    
+                                                                    label="Remember me " />
+                                                                </Form.Group>
+                                                            </div>
+                                                            <div className="col-lg-6">
+                                                            <NavLink className="forgot_pass" to="/forgotpassword"> Forgot password?</NavLink>
+                                                            </div>
+                                                        </div>
+
+                                                        <button variant="primary" 
+                                                        type="submit"
+                                                        className="login_button"
+                                                        onClick={handleLogin}
+                                                        >
+                                                            Login
+                                                            
+                                                            {loading ? <>
+                                                                <div class="loader-overly"> 
+                                                                <div class="loader" > 
+                                                                
+                                                                </div>
+                                                                
+                                                                </div>
+                                                            </> : <></>}
+                                                        </button>
+                                                        
+                                                        <p className="already_content">Don't have account? 
+                                                        <NavLink to="/signup">Sign up</NavLink>
+                                                        </p>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <button variant="primary" 
-                                        type="submit"
-                                         className="login_button"
-                                         onClick={handleLogin}
-                                         >
-                                            Login
-                                            
-                                              {loading ? <>
-                                                <div class="loader-overly"> 
-                                                <div class="loader" > 
-                                                
-                                                </div>
-                                                
-                                                </div>
-                                              </> : <></>}
-                                        </button>
-                                        
-                                        <p className="already_content">Don't have account? 
-                                          <NavLink to="/signup">Sign up</NavLink>
-                                        </p>
-                                    </form>
+                                    </div>
                                 </div>
+                                {/* End-- card */}
                             </div>
                         </div>
                     </div>
-                </div>
-                {/* End-- card */}
-            </div>
-        </div>
-    </div>
-</section>
+                </section>
+                </>
+            )
+            }
 
         {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
 
