@@ -512,13 +512,13 @@ const [countryValue, setcountryValue] = React.useState('')
 
                 <div className="row">
                   <div className="col-md-4">
-                    <button 
+                    {/* <button 
                     type="submit" 
                     className="start-form-button"
                     onClick={handlRecipientBankDetails}
                     >
                       Clear
-                    </button>
+                    </button> */}
                   </div>
                   <div className="col-md-8">
                     <button

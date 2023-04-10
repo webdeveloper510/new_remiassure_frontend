@@ -36,6 +36,9 @@ const Dashboard = () => {
 
   const DigitalCode = localStorage.getItem("DigitalCode");
   console.log("DigitalCode", DigitalCode);
+
+  const AmountValue = localStorage.getItem("AmountValue");
+  console.log("AmountValue", AmountValue)
     
 /**************************transaction of state ************************ */
 
@@ -83,7 +86,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
 
     /**************************************************************************
-   * ************** Start  Recipient List ************************************
+   * ************** Start  Recipient complete List ************************************
    * ***********************************************************************/
 
     useEffect(() => {
@@ -93,7 +96,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     
     const getList =()=>{
         setLoading(true); // Set loading before sending API request
-        axios.post(API.BASE_URL + 'payment/recipient-list/',{}, {
+        axios.post(API.BASE_URL + 'payment/completed-transactions/',{}, {
             headers: {
                 "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
             }
@@ -361,13 +364,15 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                                     <tr>
                                         <td>
                                             <div class="me-auto">
-                                                <h6 class="fs-16 font-w600 mb-0">{res.name}</h6>
-                                                <span class="fs-12">June 4, 2020</span>
+                                                <h6 class="fs-16 font-w600 mb-0">{res.recipient_name}</h6>
+                                                <span class="fs-12">{res.date}</span>
                                             </div>
                                         </td>
 
                                         <td>
-                                            <span class="fs-16 text-black font-w600"><BiDollarCircle /> $45</span>
+                                            <span class="fs-16 text-black font-w600"><BiDollarCircle />
+                                             ${AmountValue}
+                                             </span>
                                         </td>
                                     </tr>
 

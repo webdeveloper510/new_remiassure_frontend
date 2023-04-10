@@ -747,7 +747,7 @@ const UserSendMoney = () => {
       send_currency: FromValue,
       recieve_currency: ToValue,
       amount: AmountValue,
-      recipient_id: recipient_id,
+      recipient_id: recipient_id.length > 0 ? recipient_id: recipentID,
       reason: recipientMoneyReason,
       destination: recipientDestination,
       name: formCardValue.cardName,
@@ -765,6 +765,7 @@ const UserSendMoney = () => {
       .then(function (response) {
         console.log(response);
         handleCloseDetails();
+        handlePay();
         // window.location.reload();
         setLoading(false); // Stop loading 
         navigate('/transfer');
@@ -822,6 +823,32 @@ const UserSendMoney = () => {
   }
   // }
 
+    /**************************************************************************
+   * ************** Start Paymet Or Pay Api****************************
+   * ***********************************************************************/
+    const handlePay = () => {
+      // event.preventDefault();
+      setLoading(true); // Set loading before sending API request
+      axios.post(API.BASE_URL + 'payment/stripe/charge/', {
+      }, {
+        headers: {
+          "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+        },
+  
+      })
+        .then(function (response) {
+          console.log(response);
+          // setStep(step + 1)
+          setLoading(false); // Stop loading 
+        })
+        .catch(function (error, message) {
+          console.log(error.response);
+          setLoading(false); // Stop loading in case of error
+          setBankNameText(error.response.data);
+  
+        })
+    }
+  
 
 
   /**************************************************************************
