@@ -92,7 +92,7 @@ const SendMoney = () => {
 
   /**************************** sender details data state *******************/
   const [senderDetailData, setSenderDetailData] = React.useState('');
-  const [senderDetailDataText, setSenderDetailDataText] = React.useState('');
+  const [senderDetailText, setSenderDetailText] = React.useState('');
   const [formSenderValue, setFormSenderValue] = React.useState({
   firstName: '', middleName: '', lastName: '',DateofBirth: '',gender: '',CountryofBirth: '',  email: '', mobile: '',
    flat: '', building: '', street: '', postcode: '', city: '', state: '', country_code: '', countryName: '', 
@@ -895,7 +895,7 @@ const SendMoney = () => {
       .catch(function (error, message) {
         console.log(error.response);
         setLoading(false); // Stop loading in case of error
-        setCardErrorText(error.response.data);
+        setSenderDetailText(error.response.data);
 
       })
   }
@@ -957,7 +957,7 @@ const SendMoney = () => {
       exp_month: formCardValue.exp_month,
       exp_year: formCardValue.exp_year,
       cvc: formCardValue.securityCode,
-      handleISDigitalVerified
+  
     }, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -2329,6 +2329,7 @@ const SendMoney = () => {
                             defaultValue={formSenderValue.firstName}
                             onChange={(e) => hamdleSenderDetailsData(e, 'firstName')}
                              />
+                              <span style={myStyle}>{senderDetailText.Enterfirstname ? senderDetailText.Enterfirstname : ''}</span>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -2351,9 +2352,10 @@ const SendMoney = () => {
                           type="text"
                            className='rate_input form-control'
                            name="lastName"
-                          defaultValue={formSenderValue.lastName}
-                          onChange={(e) => hamdleSenderDetailsData(e, 'lastName')}
+                           defaultValue={formSenderValue.lastName}
+                           onChange={(e) => hamdleSenderDetailsData(e, 'lastName')}
                             />
+                               <span style={myStyle}>{senderDetailText.Enterlastname ? senderDetailText.Enterlastname : ''}</span>
                         </div>
                       </div>
                     </div>
@@ -2378,6 +2380,7 @@ const SendMoney = () => {
                           defaultValue={formSenderValue.DateofBirth}
                           onChange={(e) => hamdleSenderDetailsData(e, 'DateofBirth')}
                            />
+                            <span style={myStyle}>{senderDetailText.Enterdob ? senderDetailText.Enterdob : ''}</span>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -2408,7 +2411,10 @@ const SendMoney = () => {
                               <span className="checkmark"></span>
                             </label>
                           </div>
+                          <span style={myStyle}>{senderDetailText.Entergender ? senderDetailText.Entergender : ''}</span>
                         </div>
+                        
+
                       </div>
                     </div>
                     <div className="row each-row">
