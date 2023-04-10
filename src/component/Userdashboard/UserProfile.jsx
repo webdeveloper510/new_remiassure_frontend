@@ -95,12 +95,16 @@ const Profile = () => {
           const RecipientUserName = localStorage.getItem("RecipientUserName");
           console.log("RecipientUserName", RecipientUserName);
 
+          const DigitalCode = localStorage.getItem("DigitalCode");
+          console.log("DigitalCode", DigitalCode);
+
           //Get data of update value 
        
 /****************** select country *******************/
 
 const [countryValue, setcountryValue] = React.useState('')
     const countryoptions = useMemo(() => countryList().getData(), [])
+    console.log(countryoptions,"countryoptionscountryoptions")
 
     const changeHandler = countryValue => {
         setcountryValue(countryValue)
@@ -166,6 +170,7 @@ const [countryValue, setcountryValue] = React.useState('')
                 setCity(response.data.data.city);
                 setState(response.data.data.state);
                 setcountryValue(response.data.data.location);
+                // console.log(countryValue, "countryValuecountryValuecountryValue")
                 setReasonMoney(response.data.data.reasonMoney);
                 setCustomer_id(response.data.data.customer_id);
 
@@ -211,7 +216,7 @@ const [countryValue, setcountryValue] = React.useState('')
               postcode: postcode,
               city: city,
               state: state,
-              country: countryValue.label,
+              location: countryValue,
         
             
              
@@ -251,7 +256,7 @@ const [countryValue, setcountryValue] = React.useState('')
       return(
         <>
           {  
-           token != undefined || '' ? (
+           token ||DigitalCode != undefined || '' ? (
   
 
         <div  className="margin-set">

@@ -76,6 +76,10 @@ const EditCardUser = () => {
           const RecipientUserName = localStorage.getItem("RecipientUserName");
           console.log("RecipientUserName", RecipientUserName);
 
+          const DigitalCode = localStorage.getItem("DigitalCode");
+          console.log("DigitalCode", DigitalCode);
+            
+
           //Get data of update value 
        
 /****************** select country *******************/
@@ -174,7 +178,7 @@ const [countryValue, setcountryValue] = React.useState('')
     return(
         <>
           {  
-           token != undefined || '' ? (
+           token || DigitalCode != undefined || '' ? (
   
 
         <div  className="margin-set">

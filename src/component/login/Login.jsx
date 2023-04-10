@@ -90,7 +90,7 @@ const Login = () => {
             if(response.data.is_digitalid_verified==false){
                 navigate('/sendMoney');    
             }  else{
-                navigate('/userdashboard');   
+                navigate('/dashboard');   
             }
             
             if (response.status){

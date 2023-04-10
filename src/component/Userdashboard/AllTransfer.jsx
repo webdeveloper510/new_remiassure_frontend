@@ -7,7 +7,7 @@ import nodata from '../../assets/img/userdashboard/nodata.avif';
 import Modal from 'react-bootstrap/Modal';
 import playicon from '../../assets/img/home/Group 01.svg';
 import playicon2 from '../../assets/img/home/Group 02.svg';
-
+import { BiDollarCircle } from "react-icons/bi";
 import {Links, NavLink, useNavigate} from 'react-router-dom';
 import { toast } from "react-toastify";
 import { API } from "../../config/API";
@@ -24,6 +24,10 @@ console.log("Verification Message", verification_otp)
 
 const RecipientUserName = localStorage.getItem("RecipientUserName");
 console.log("RecipientUserName", RecipientUserName);
+
+
+const DigitalCode = localStorage.getItem("DigitalCode");
+console.log("DigitalCode", DigitalCode);
 
 // Start page show hide condtion page
 
@@ -121,15 +125,16 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
           <Table className="table table-responsive-md card-table previous-transactions">
             <thead>
               <tr>
-                <th>Date</th>
+                <th>Recipient</th>
+                {/* <th>Date</th> */}
                 <th>Amount</th>
-                <th>Customer Id</th>
+                <th>CustomerId</th>
                 <th>Reason</th>
                 {/* <th>send_currency</th>
                 <th>recieve_currency</th> */}
                 {/* <th>send_method</th> */}
-                <th>Transaction Id</th>
-                <th>Recipient</th>
+                <th>TransactionId</th>
+                
                 <th>Status</th>
                 
               </tr>
@@ -141,15 +146,19 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                  //console.log(items, "itemnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
              return(
               <tr>
-                <td>{res.date}</td>
-                <td>{res.amount} <span>AUD</span></td>
+                <td>
+                  
+                <h6 className="fs-16 font-w600 mb-0">{res.recipient_name}</h6>
+                <span className="fs-14">{res.date}</span> </td>
+                {/* <td>{res.date}</td> */}
+                <td className="transaction-icon"><BiDollarCircle />{res.amount} <span>AUD</span></td>
                 <td>{res.customer_id}</td>
                 <td>{res.reason}</td>
                 {/* <td>{res.send_currency}</td>
                 <td>{res.recieve_currency}</td> */}
                 {/* <td>{res.send_method}</td> */}
                 <td>{res.transaction_id}</td>
-                <td>{res.recipient_name}</td>
+                
 
                 <td><span className="btn btn-outline-success btn-rounded" onClick={handleShow}>{res.status}</span></td>
               </tr>

@@ -15,14 +15,21 @@ import Sidebar from './Sidebar';
 
 const UserCardLists =() =>{
 
-    let { id } = useParams();
+    // let { id } = useParams();
     // alert(id)
-      console.log("========================>",id) ;
+    //   console.log("========================>",id) ;
 
     const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose =() => setShow(false);
+  const [delete_id,setDelete_Id] = useState('');
+
+    const handleShow = (key) =>{
+        console.log("=========>cardDelete",key)
+        setShow(true);
+        setDelete_Id(key)
+ 
+    } 
     
 
     const [isActive, setActive] = useState("false");
@@ -40,6 +47,10 @@ console.log("Verification Message", verification_otp)
 
 const RecipientUserName = localStorage.getItem("RecipientUserName");
 console.log("RecipientUserName", RecipientUserName);
+
+const DigitalCode = localStorage.getItem("DigitalCode");
+console.log("DigitalCode", DigitalCode);
+
 
 
 // Start page show hide condtion page
@@ -73,6 +84,11 @@ const navigate = useNavigate();
    * ***********************************************************************/
 
 useEffect(() => {
+    getList();
+    
+}, [])
+
+const getList =()=>{
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/card-list/',{}, {
         headers: {
@@ -96,19 +112,20 @@ useEffect(() => {
           setLoading(false); // Stop loading in case of error
         
       })
-}, [])
+
+}
 
 console.log(carddata," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
   /**************************************************************************
-   * ************** Start  Recipient List Delete ****************************
+   * ************** Start  Card List Delete ********************************
    * ***********************************************************************/
 
 {/* start- delete function */}
-const handleRemovecardDetails =(id) =>{
-    console.log("========>Delete", id)
+const handleRemovecardDetails =(value) =>{
+    console.log("========>Delete", value)
    
-    axios.delete(API.BASE_URL + `payment/card/${id}`, {
+    axios.delete(API.BASE_URL + `payment/card/${value}`, {
         headers: {
           "Authorization" : `Bearer ${token}`,
         },
@@ -117,7 +134,7 @@ const handleRemovecardDetails =(id) =>{
     .then(function(response) {
         console.log(response);
         handleClose()
-        window.location.reload(false);
+        getList();
         // alert('Remove Successfully.')
         // setLoading(false); // Stop loading 
        // navigate('/userrecipients');   
@@ -204,8 +221,8 @@ const handleRemovecardDetails =(id) =>{
                                     <th>Sr.No </th>
                                     <th>Name</th>
                                     <th>Card Number</th>
-                                    <th>exp_month</th>
-                                    <th>exp_year</th>
+                                    <th>Exp-Month</th>
+                                    <th>Exp-Year</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -222,25 +239,11 @@ const handleRemovecardDetails =(id) =>{
                                             <td>{res.exp_month}</td>
                                             <td>{res.exp_year}</td>
                                             <td>
-                                            <button className="btn btn-danger" onClick={handleShow}><i class="fa fa-trash"></i> Delete</button> 
+                                            <button className="btn btn-danger" onClick={() =>{handleShow(res.id)}}><i class="fa fa-trash"></i> Delete</button> 
                                             <button className="btn btn-primary" onClick={() =>{LoadEditCard(res.id)}}><i class="fa fa-pencil color-muted"></i> Edit</button>
                                             <button className="btn btn-secondary" onClick={() =>{LoadSinglCardData(res.id)}} ><i class="fa fa-eye color-muted"></i> View</button>
                                             </td>
                                             
-                                            <Modal show={show} onHide={handleClose}>
-                                                    <Modal.Header closeButton>
-                                                    <Modal.Title>Delete Recipient</Modal.Title>
-                                                    </Modal.Header>
-                                                    <Modal.Body>Are you sure you want to delete ?</Modal.Body>
-                                                    <Modal.Footer>
-                                                    <Button variant="secondary" onClick={handleClose}>
-                                                        Close
-                                                    </Button>
-                                                    <Button className="delete_recipient" variant="danger" onClick={() => {handleRemovecardDetails(res.id)}} >
-                                                        Delete
-                                                    </Button>
-                                                    </Modal.Footer>
-                                                </Modal>
                                     </tr>
 
                                     
@@ -252,6 +255,21 @@ const handleRemovecardDetails =(id) =>{
                             
                             </tbody>
                             </Table> 
+
+                            <Modal show={show} onHide={handleClose}>
+                                <Modal.Header closeButton>
+                                 <Modal.Title>Delete Card</Modal.Title>
+                                </Modal.Header>
+                               <Modal.Body>Are you sure you want to delete ?</Modal.Body>
+                                 <Modal.Footer>
+                                <Button variant="secondary" onClick={handleClose}>
+                                 Close
+                                 </Button>
+                              <Button className="delete_recipient" variant="danger" onClick={() => {handleRemovecardDetails(delete_id)}} >
+                                Delete
+                              </Button>
+                              </Modal.Footer>
+                            </Modal>
                                 
                         
                         

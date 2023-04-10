@@ -27,7 +27,11 @@ const Dashboard = () => {
   console.log("TOKEN", token);
 
   const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp)
+  console.log("Verification Message", verification_otp);
+
+  const DigitalCode = localStorage.getItem("DigitalCode");
+  console.log("DigitalCode", DigitalCode);
+    
     
 
 /**************************Feild of state ************************ */
@@ -38,7 +42,7 @@ const Dashboard = () => {
           {/* <!-- ======= help Remitassure Change password -Section  start======= --> */}
 
           {  
-          token != undefined || '' ? (
+          token || DigitalCode != undefined || '' ? (
             <>
  <div  className="margin-set">
     <div  className="tabs-page">
@@ -111,8 +115,8 @@ const Dashboard = () => {
                         <h3>Profile</h3>
                     </div>
                     <div class="user-count">
-                                                            <span class="text-uppercase-edit">Check your profile</span>
-                                                        </div>
+                        <span class="text-uppercase-edit">Check your profile</span>
+                     </div>
                 </div>
                 <div className="icon">
                 <MdRemoveRedEye />
