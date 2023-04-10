@@ -330,7 +330,7 @@ const handleRemoveRecipientBankDetails =(value) =>{
                     <NavLink to="/addnewrecipient">
                                 <button className="form-button addsingle_recepient" >
                                     <BsFillPersonPlusFill />
-                                    Add New Recepients
+                                    Add New Recepient
                                 </button>
                             </NavLink>
                     </div>

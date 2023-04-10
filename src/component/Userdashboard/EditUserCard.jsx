@@ -250,7 +250,7 @@ const [countryValue, setcountryValue] = React.useState('')
                   </div>
                   <div className="col-md-4">
                     <div className="input_field">
-                      <p className="get-text">Card exp_month<span style={{color: 'red'}} >*</span></p>
+                      <p className="get-text">Card Expiry Month<span style={{color: 'red'}} >*</span></p>
                       <input 
                       type="text"
                       name="exp_month"
@@ -271,7 +271,7 @@ const [countryValue, setcountryValue] = React.useState('')
                   <div className="row each-row">
                   <div className="col-md-4">
                     <div className="input_field">
-                      <p className="get-text">Card exp_yaer<span style={{color: 'red'}} >*</span></p>
+                      <p className="get-text">Card Expiry year<span style={{color: 'red'}} >*</span></p>
                       <input 
                       type="text"
                       name="exp_year"

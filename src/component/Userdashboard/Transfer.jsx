@@ -13,6 +13,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import AddNewRecipient from "./AddNewRecipient";
 import InprogressTransfer from "./InprogressTransfer";
 import AllTransfer from "./AllTransfer";
+import CompletedTransaction from "./CompletedTransaction";
 import Sidebar from './Sidebar';
 import Page404 from "../pageNotfound/Page404";
 
@@ -56,8 +57,11 @@ const Transaction = () => {
                                       <AllTransfer />
                                   </Tab>
 
-                                  <Tab eventKey="InProgress" title="InProgress">
+                                  <Tab eventKey="Pending" title="Pending">
                                       <InprogressTransfer />
+                                  </Tab>
+                                  <Tab eventKey="Completed" title="Completed">
+                                      <CompletedTransaction />
                                   </Tab>
                               </Tabs>
                           </div>

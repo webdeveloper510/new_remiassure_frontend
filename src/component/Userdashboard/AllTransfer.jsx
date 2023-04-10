@@ -101,7 +101,6 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
         <div className="card-header d-block d-sm-flex border-0">
             <div className="me-3">
                <h4 className="fs-20 text-black">All Transaction</h4>
-                <p className="mb-0 fs-13">Lorem ipsum dolor sit amet, consectetur</p>
             </div>
          </div>
            <div className="card-body">
