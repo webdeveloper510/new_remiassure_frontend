@@ -24,6 +24,25 @@ const myStyle ={
 }
 
 const Profile = () => {
+
+
+    // Start page show hide condtion page 
+    const token = localStorage.getItem("token");
+    console.log("TOKEN", token);
+
+    const signup_token = localStorage.getItem("signup_token")
+    console.log("signup_token" ,signup_token);
+
+    const verification_otp = localStorage.getItem("verification_otp");
+    console.log("Verification Message", verification_otp)
+
+    const RecipientUserName = localStorage.getItem("RecipientUserName");
+    console.log("RecipientUserName", RecipientUserName);
+
+    const DigitalCode = localStorage.getItem("DigitalCode");
+    console.log("DigitalCode", DigitalCode);
+
+    //Get data of update value 
   /*************data get ************/
   let { id } = useParams();
   // alert(id)
@@ -83,23 +102,7 @@ const Profile = () => {
             console.log("handle request ");
           }
       
-          // Start page show hide condtion page 
-          const token = localStorage.getItem("token");
-          console.log("TOKEN", token);
-
-          const signup_token = localStorage.getItem("signup_token")
-          console.log("signup_token" ,signup_token);
-      
-          const verification_otp = localStorage.getItem("verification_otp");
-          console.log("Verification Message", verification_otp)
-    
-          const RecipientUserName = localStorage.getItem("RecipientUserName");
-          console.log("RecipientUserName", RecipientUserName);
-
-          const DigitalCode = localStorage.getItem("DigitalCode");
-          console.log("DigitalCode", DigitalCode);
-
-          //Get data of update value 
+        
        
 /****************** select country *******************/
 
@@ -164,16 +167,16 @@ const [countryValue, setcountryValue] = React.useState('')
                 setLastName(response.data.data.Last_name);
                 setEmail(response.data.data.email);
                 setMobile(response.data.data.mobile);
-                setFlat(response.data.data.flat);
-                setBuilding(response.data.data.building);
-                setStreet(response.data.data.street);
-                setPostcode(response.data.data.postcode);
-                setCity(response.data.data.city);
-                setState(response.data.data.state);
+                setFlat(response.data.address.flat);
+                setBuilding(response.data.address.building);
+                setStreet(response.data.address.street);
+                setPostcode(response.data.address.postcode);
+                setCity(response.data.address.city);
+                setState(response.data.address.state);
                 setcountryValue(response.data.data.location);
                 // console.log(countryValue, "countryValuecountryValuecountryValue")
-                setReasonMoney(response.data.data.reasonMoney);
-                setCustomer_id(response.data.data.customer_id);
+                setReasonMoney(response.data.address.reasonMoney);
+                setCustomer_id(response.data.address.customer_id);
 
             
               
@@ -205,7 +208,7 @@ const [countryValue, setcountryValue] = React.useState('')
         
              event.preventDefault();
             setLoading(true); // Set loading before sending API requestssss
-            axios.patch(API.BASE_URL + 'update-profile/', {
+            axios.post(API.BASE_URL + 'update-profile/', {
               First_name: firstName,
               Middle_name: middleName,
               Last_name: lastName,
@@ -217,15 +220,7 @@ const [countryValue, setcountryValue] = React.useState('')
               postcode: postcode,
               city: city,
               state: state,
-              location: countryValue,
-        
-            
-             
-              // Gender: gender,
-              // Date_of_birth: Date_of_birth ,
-             
-            
-              
+              location:countryValue.label,
             },{
                 headers: {
                   "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
@@ -234,12 +229,12 @@ const [countryValue, setcountryValue] = React.useState('')
             .then(function(response) {
                 console.log(response);
                 setLoading(false); // Stop loading 
-                navigate('/dashboard');  
+                // navigate('/dashboard');  
             })
             .catch(function(error, message) {
                 console.log(error.response);
                 setLoading(false); // Stop loading in case of error
-                setBankNameText(error.response.data.error.Middle_name)
+                setBankNameText(error.response.data.error)
                 console.log(BankNameText, "BankNameText")
                
                
@@ -297,7 +292,7 @@ const [countryValue, setcountryValue] = React.useState('')
                         />
                           {/* {error&&formValue.firstName.length<=0?
                             <span style={myStyle}>Please Enter the First Name </span>:""} */}
-                          <span style={myStyle}>{BankNameText? BankNameText: ''}</span>
+                          <span style={myStyle}>{BankNameText.First_name? BankNameText.First_name: ''}</span>
                     </div>
                   </div>
                   <div className="col-md-4">
@@ -471,43 +466,9 @@ const [countryValue, setcountryValue] = React.useState('')
                     value={countryValue} 
                     onChange={changeHandler}
                     />
-                      {/* <CountryDropdown
-                       id="UNIQUE_ID" 
-                       className='YOUR_CSS_CLASS rate_input form-control'
-                        preferredCountries={['gb', 'us' ]} 
-                        value="" handleChange={e=> console.log(e.target.value)}
-                        name="country"
-                        defaultValue={formValue.country}
-                        onChange={(e)=> handleStep2InputChange(e,'country')}
-                        placeholder={senderDetailData.location}
-                        ></CountryDropdown> 
-                         defaultValue={country}
-                        onChange={(e)=> (e,'country')}
-                        ></CountryDropdown>*/}
                     </Form.Group>
                   </div>
-                  <div className="col-md-4">
-                    <div className="input_field">
-                      <p className="get-text">Reason For Sending Money</p>
-                      <select
-                        className="form-select rate_input form-control"
-                        aria-label="Select a reason"
-                        // ref={input_recipientReasoMoney}
-                        Value={reasonMoney}
-                        onChange={(e)=>setReasonMoney(e.target.value)}
-                        > 
-                        <option selected>Select a reason</option>
-                        <option value="Family Support">Family Support</option>
-                        <option value="Education">Education</option>
-                        <option value="Tax Payment">Tax Payment</option>
-                        <option value="Loan Payment">Loan Payment</option>
-                        <option value="Travel Payment">Travel Payment</option>
-                        <option value="Utility Payment">Utility Payment</option>
-                      </select>
-                      {/* {error&&formValue.reasonMoney.length<=0?
-                            <span style={myStyle}>Please Select the Reason For Sending Money </span>:""} */}
-                     </div>
-                  </div>
+                 
               </div>
 
                 <div className="row">

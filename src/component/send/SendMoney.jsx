@@ -703,7 +703,7 @@ const SendMoney = () => {
         Last_name: formSenderValue.lastName,
         Date_of_birth: formSenderValue.DateofBirth,
         Gender: formSenderValue.gender,
-        country_of_birth: formSenderValue.CountryofBirth,
+        country_of_birth: countryValue.label,
         email: formSenderValue.email,
         mobile: formSenderValue.mobile,
         flat: formSenderValue.flat,
@@ -971,6 +971,7 @@ const SendMoney = () => {
       
 
         handleISDigitalVerified();
+        SummerySingleData()
         setLoading(false); // Stop loading 
         // navigate('/transfer'); 
 
@@ -1046,16 +1047,21 @@ const SendMoney = () => {
       })
   }
 
-     /**************************************************************************
-   * ************** Start  Get DataSummery Lists ************************************
+  /**************************************************************************
+   * ************** Start  Get DataSummery Lists ****************************
    * ***********************************************************************/
      const paymetTransactionId = localStorage.getItem("paymetTransactionId");
      console.log("paymetTransactionId ====================>", paymetTransactionId);
 
         useEffect(() => {
+    
+          SummerySingleData();
+        }, [])
+
+        const SummerySingleData = () =>{
           setLoading(true); // Set loading before sending API request
           axios.post(API.BASE_URL + 'payment/summary/', {
-            transaction_id:paymetTransactionId
+            transaction_id: paymetTransactionId
           }, {
             headers: {
               "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -1079,8 +1085,8 @@ const SendMoney = () => {
                 setLoading(false); // Stop loading in case of error
               
             })
-          
-        }, [])
+
+        }
 
 
   console.log(summeryData," summeryData==========>")
@@ -2395,6 +2401,7 @@ const SendMoney = () => {
                                 name="gender"
                                 defaultValue={'Male'}
                                 onChange={(e) => hamdleSenderDetailsData(e, 'gender')}
+                                defaultChecked
                               />
                               <span className="checkmark"></span>
                             </label>
@@ -2426,18 +2433,18 @@ const SendMoney = () => {
                             options={countryoptions}
                             // value={countryValue}
                             onChange={changeHandler}
-                          //   name="middleName"
-                          // defaultValue={formSenderValue.}
-                          // onChange={(e) => hamdleSenderDetailsData(e, 'middleName')}
                           />
                         </div>
                       </div>
-                      {/* <div className="col-md-6">
+                      <div className="col-md-6">
                         <div className="input_field">
                           <p className="get-text">ID Type<span style={{ color: 'red' }} >*</span></p>
-                          <input type="text" className='rate_input form-control' />
+                          <input 
+                          type="text"
+                          className='rate_input form-control'
+                           />
                         </div>
-                      </div> */}
+                      </div>
                     </div>
                     <div className="row each-row">
                       <div className="col-md-6">
@@ -2738,7 +2745,7 @@ const SendMoney = () => {
             </div>
             <div className="col-md-12 align-center">
               <img className="verifies-img" src={verified} alt="verified" />
-              <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button>
+              {/* <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button> */}
               <p>Thanks for choosing RemitAssure</p>
               <NavLink to="/dashboard">
                  <button type="submit" class="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
@@ -2762,10 +2769,9 @@ const SendMoney = () => {
           1 ? (
             <div class="form">
                {  
-                  token || verification_otp|| DigitalCode != undefined || '' ? (
+                  token || verification_otp || DigitalCode != undefined || '' ? (
                    <>
-
-                  <section className="why-us section-bgba user_dashboard_banner">
+                       <section className="why-us section-bgba user_dashboard_banner">
                     <div className="container">
                       <div className="row">
 
@@ -2885,22 +2891,23 @@ const SendMoney = () => {
 
                       </div>
                     </div>
-                  </section>
-                  </>
-                  ) : (
-                      <>
-                      <Page404 />
+                       </section>
                       </>
+                      ) : (
+                      <>
+                        <Page404 />
+                  
+                      </>
+                      )
+                      }
+
+                    </div>
+                  ) : (
+                    <></>
+
                   )
-                  }
-
-            </div>
-          ) : (
-            <></>
-
-          )
-        }
-      </div>
+                }
+              </div>
 
 
 

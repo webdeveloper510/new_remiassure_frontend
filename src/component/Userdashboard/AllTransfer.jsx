@@ -35,10 +35,19 @@ console.log("DigitalCode", DigitalCode);
 
 // Start page show hide condtion page
 
+const Total_amount = localStorage.getItem("Total_amount");
+console.log("Amonut", Total_amount);
 
+const TransactionHistoryStatus = localStorage.getItem("TransactionHistoryStatus");
+console.log("TransactionHistoryStatus", TransactionHistoryStatus);
+
+  /*************************transactionData State************************ */
 const [transactionData, setTransactionData] = useState([]);
 const [RecepientsData, setRecepientsData] = useState('');
 const [loading, setLoading] = useState(false);
+
+  /*************************SummeryData State************************ */
+  const [summeryData, setSummeryData] = useState([]);
 
 //let { id } = useParams();
 // console.log(id, "idvalue")
@@ -51,16 +60,28 @@ const LoadSinglProfile = (id) => {
     navigate(`/profilesingledata/${id}`);
 }
 
+const getStatusDataSummary=(value) => {
+  localStorage.setItem("TransactionHistoryStatus", value)
+  console.log('getSummeryDataID=================>', value)
+
+  handleShow();
+} 
+
 
 const navigate = useNavigate();
 
 
     /**************************************************************************
-   * ************** Start  Recipient List ************************************
-   * ***********************************************************************/
+    * ************** Start  transaction-history List *************************
+    * ***********************************************************************/
 
     useEffect(() => {
-        setLoading(true); // Set loading before sending API request
+      PaymentTransactionHostpory();
+      SummrySingleData();
+    }, [])
+
+    const PaymentTransactionHostpory = () =>{
+      setLoading(true); // Set loading before sending API request
         axios.post(API.BASE_URL + 'payment/transaction-history/',{}, {
             headers: {
                 "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
@@ -69,7 +90,7 @@ const navigate = useNavigate();
           .then(function(response) {
               console.log("Recipients APIIIII", response.data);
               setTransactionData(response.data);
-              localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
+              // localStorage.setItem("paymetTransactionHistoryId",response.data);
               setLoading(false); // Stop loading
         
         
@@ -82,9 +103,54 @@ const navigate = useNavigate();
               setLoading(false); // Stop loading in case of error
             
           })
-    }, [])
+    }
 
 console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+
+
+
+  /**************************************************************************
+   * ************** Start  Get DataSummery Lists ****************************
+   * ***********************************************************************/
+ const paymetTransactionId = localStorage.getItem("paymetTransactionId");
+ console.log("paymetTransactionId ====================>", paymetTransactionId);
+
+    useEffect(() => {
+      SummrySingleData();
+    }, [])
+
+    const SummrySingleData = () =>{
+      setLoading(true); // Set loading before sending API request
+      axios.post(API.BASE_URL + 'payment/summary/', {
+        transaction_id:paymetTransactionId
+      }, {
+        headers: {
+          "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+  
+        },
+  
+      })
+        .then(function(response) {
+            console.log("Recipients APIIIII", response.data);
+            setSummeryData(response.data.data);
+            console.log(summeryData, "summeryData==========>")
+            setLoading(false); // Stop loading
+      
+      
+          //   if (response.status)
+          // // notify();
+        })
+        .catch(function(error) {
+            console.log(error);
+            console.log(error.response);
+            setLoading(false); // Stop loading in case of error
+          
+        })
+    }
+
+
+console.log(summeryData," summeryData==========>")
+
 
 
 
@@ -104,7 +170,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
             </div>
          </div>
            <div className="card-body">
-        <div className="tabs-recipent-new">
+           <div className="tabs-recipent-new">
          
           <Table className="table table-responsive-md card-table previous-transaction">
             <thead>
@@ -144,7 +210,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                 <td>{res.transaction_id}</td>
                 
 
-                <td><span className="btn btn-outline-success btn-rounded" onClick={handleShow}>{res.status}</span></td>
+                <td><span className="btn btn-outline-success btn-rounded" onClick={() =>{getStatusDataSummary(res.status)}}>{res.status}</span></td>
               </tr>
                           
               )    
@@ -158,7 +224,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
        
           <Modal show={show} onHide={handleClose}
-        centered
+           centered
            >
                 <Modal.Header closeButton>
                   <Modal.Title>Summary</Modal.Title>
@@ -169,22 +235,27 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                           <div className="d-flex">
                                                                     
                           <div className="trsnsfer-process">
-                             <h4 className="text-capitalize">Jhon Danals</h4>
-                             <span>SENT MAY 20 2022</span>                                                                              
+                             <h4 className="text-capitalize">{summeryData.recipient_name}</h4>
+                             <span>SENT- {summeryData.date}</span>                                                                              
                               </div>
                             </div>
                                                                 
                                <div className="my-auto transac-text">
                                   <span className="text-white fs-6 pb-2">TRX -12123213</span>
                                                                   
-                                   <span className="text-white fs-5 pb-2">100.00 USD</span>                        
-                                      <span className="text-white">1400 AUD</span>
+                                   <span className="text-white fs-5 pb-2">
+                                   {summeryData.send_amount} <span>{summeryData.send_currency}</span>
+                                    </span>                        
+                                      <span className="text-white">
+                                      {Total_amount}<span>{summeryData.recieve_currency}</span>
+                                        </span>
                                          </div>
                                         </div>
                                       </div>
 
                                   <div className="col-md-12">
-                                     <span className="fs-6 pt-1 fw-bold statuspopup">Delivered</span>
+                                  <span className="fs-6 pt-1 fw-bold statuspopup">Status</span>
+                                     <span className="fs-6 pt-1 fw-bold statuspopup">{TransactionHistoryStatus}</span>
                                      <hr></hr>
                                   <p>Your transaction is complete and we hope to see your again.</p>
 
@@ -208,15 +279,15 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                                               <ul>
                                               <li>
                                                 <label>Recipient Name</label>
-                                                <p>Thomas Flumm</p>
+                                                <p>{summeryData.recipient_name}</p>
                                               </li>
                                               <li>
                                                 <label>Recipient Phone</label>
-                                                <p>+234 234 233 9994</p>
+                                                <p>{summeryData.recipient_mobile}</p>
                                               </li>
                                               <li>
                                                 <label>Reason For Sending</label>
-                                                <p>Tax payment</p>
+                                                <p>{summeryData.reason}</p>
                                               </li>
                                               </ul>
                                             </div>
@@ -229,19 +300,19 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                                               <ul>
                                               <li>
                                                 <label>Amount</label>
-                                                <p>500 AUD</p>
+                                                <p>{summeryData.send_amount} <span>{summeryData.send_currency}</span></p>
                                               </li>
                                               <li>
                                                 <label>They Receive</label>
-                                                <p>340 USD</p>
+                                                <p>{Total_amount}<span>{summeryData.recieve_currency}</span></p>
                                               </li>
                                               <li>
                                                 <label>Sent on</label>
-                                                <p>Feb 02 2013</p>
+                                                <p>{summeryData.date}</p>
                                               </li>
                                               <li>
                                                 <label>Received Method</label>
-                                                <p>Bank Transfer</p>
+                                                <p>{summeryData.send_method}</p>
                                               </li>
                                               </ul>
                                             </div>
@@ -254,11 +325,11 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                                               <ul>
                                               <li>
                                                 <label>Payment type</label>
-                                                <p>OSLO</p>
+                                                <p>{summeryData.send_method}</p>
                                               </li>
                                               <li>
                                                 <label>Name on your account</label>
-                                                <p>John</p>
+                                                <p>{summeryData.account_name}</p>
                                               </li>
                                               </ul>
                                             </div>
@@ -270,7 +341,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                   
                 <Button variant="secondary" onClick={handleClose}>ok</Button>
                 </Modal.Footer>
-              </Modal>
+          </Modal>
       
         { transactionData?.length == 0 ? (
         <div className="no-data">
@@ -292,10 +363,10 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
       </div>
       
 </div>
-</div>
-</>
-)
-}
+        </div>
+        </>
+        )
+        }
 
 
 

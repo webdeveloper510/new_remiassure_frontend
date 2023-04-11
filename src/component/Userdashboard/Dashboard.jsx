@@ -39,6 +39,10 @@ const Dashboard = () => {
 
   const AmountValue = localStorage.getItem("AmountValue");
   console.log("AmountValue", AmountValue)
+
+  const Total_amount = localStorage.getItem("Total_amount");
+  console.log("Amonut", Total_amount);
+
     
 /**************************transaction of state ************************ */
 
@@ -278,62 +282,6 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                                       )    
                                     })}
 
-                                    {/* <tr>
-                                        <td>
-                                            <h6 className="fs-16 text-black font-w400 mb-0">June 5, 2020</h6>
-                                        </td>
-                                        <td>
-                                            <h6 className="fs-16 font-w600 mb-0"><a href="/transactions-details/" className="text-black">Chef Renata</a></h6>
-                                            <span className="fs-14">Transfer</span>
-                                        </td>
-
-                                        <td><span className="fs-16 text-black font-w500">-$167</span></td>
-                                        <td>
-                                            <span className="text-warning fs-16 font-w500 text-end d-block"> <a href="javascript:void(0)" className="btn btn-outline-warning btn-rounded">Pending</a></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 className="fs-16 text-black font-w400 mb-0">June 5, 2020</h6>
-                                        </td>
-                                        <td>
-                                            <h6 className="fs-16 font-w600 mb-0"><a href="/transactions-details/" className="text-black">Cindy Alexandro</a></h6>
-                                            <span className="fs-14">Transfer</span>
-                                        </td>
-
-                                        <td><span className="fs-16 text-black font-w500">+$5,553</span></td>
-                                        <td>
-                                            <span className="text-dark fs-16 font-w500 text-end d-block"> <a href="javascript:void(0)" className="btn btn-outline-danger btn-rounded">Canceled</a></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 className="fs-16 text-black font-w400 mb-0">June 5, 2020</h6>
-                                        </td>
-                                        <td>
-                                            <h6 className="fs-16 font-w600 mb-0"><a href="/transactions-details/" className="text-black">Paipal</a></h6>
-                                            <span className="fs-14">Transfer</span>
-                                        </td>
-
-                                        <td><span className="fs-16 text-black font-w500">+$5,553</span></td>
-                                        <td>
-                                            <span className="text-success fs-16 font-w500 text-end d-block"> <a href="javascript:void(0)" className="btn btn-outline-success btn-rounded">Completed</a></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 className="fs-16 text-black font-w400 mb-0">June 4, 2020</h6>
-                                        </td>
-                                        <td>
-                                            <h6 className="fs-16 font-w600 mb-0"><a href="/transactions-details/" className="text-black">Hawkins Jr.</a></h6>
-                                            <span className="fs-14">Transfer</span>
-                                        </td>
-
-                                        <td><span className="fs-16 text-black font-w500">-$167</span></td>
-                                        <td>
-                                            <span className="text-dark fs-16 font-w500 text-end d-block"> <a href="javascript:void(0)" className="btn btn-outline-danger btn-rounded">Canceled</a></span>
-                                        </td>
-                                    </tr> */}
                                 </tbody>
 
                             </table>
@@ -372,7 +320,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                                         <td>
                                             <span class="fs-16 text-black font-w600"><BiDollarCircle />
                                              $
-                                             {/* {res.recieve_amount} */}
+                                             {Total_amount}
                                              </span>
                                         </td>
                                     </tr>
