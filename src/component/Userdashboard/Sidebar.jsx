@@ -17,6 +17,8 @@ import { BiTransfer } from "react-icons/bi";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
+import { FaRegCreditCard } from "react-icons/fa";
+
 import Page404 from "../pageNotfound/Page404";
 
 
@@ -54,7 +56,7 @@ console.log("Verification Message", verification_otp)
                 <li><NavLink to="/userprofile"><BsFilePersonFill />Profile Information</NavLink></li>
                 <li><NavLink to="/transfer"><BiTransfer />Transaction</NavLink></li>
                 <li><NavLink to="/userrecipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
-                <li><NavLink to="/userCardLists"><BsFillPersonPlusFill />Card</NavLink></li>
+                <li><NavLink to="/userCardLists"><FaRegCreditCard />Card</NavLink></li>
                 <li><NavLink to="/changepassword"><RiLockPasswordLine />Password</NavLink></li>
             </ul>
         </nav>

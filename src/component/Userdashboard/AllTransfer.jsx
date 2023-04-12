@@ -7,7 +7,6 @@ import nodata from '../../assets/img/userdashboard/nodata.avif';
 import Modal from 'react-bootstrap/Modal';
 import playicon from '../../assets/img/home/Group 01.svg';
 import playicon2 from '../../assets/img/home/Group 02.svg';
-import { BiDollarCircle } from "react-icons/bi";
 import {Links, NavLink, useNavigate} from 'react-router-dom';
 import { toast } from "react-toastify";
 import { API } from "../../config/API";
@@ -135,7 +134,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                 <h6 className="fs-16 font-w600 mb-0">{res.recipient_name}</h6>
                 <span className="fs-14">{res.date}</span> </td>
                 {/* <td>{res.date}</td> */}
-                <td className="transaction-icon"><BiDollarCircle />{res.amount} <span>AUD</span></td>
+                <td className="transaction-icon">{res.amount} <span>AUD</span></td>
                 <td>{res.customer_id}</td>
                 <td>{res.reason}</td>
                 {/* <td>{res.send_currency}</td>

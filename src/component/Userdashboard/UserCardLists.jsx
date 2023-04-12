@@ -12,7 +12,7 @@ import norecipients from '../../assets/img/userdashboard/hidden.avif';
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
 import Page404 from "../pageNotfound/Page404";
-
+import nocard from "../../assets/img/userdashboard/nocard.jpg"; 
 const UserCardLists =() =>{
 
     // let { id } = useParams();
@@ -297,9 +297,10 @@ const handleRemovecardDetails =(value) =>{
                 </div>
                 <div className="card">
                     <div className="card-body">
-                        <h6 style={{"text-align":"center" , "margin-bottom":"20px"}}>No Saved Card</h6>
+                        <h6 style={{"text-align":"center" , "margin-bottom":"20px"}}>No Saved Cards</h6>
                         <div className="add-rec-new">
-                            <img src={norecipients} alt="empty" />
+                        <img src={nocard} alt="credit cards" />
+
                         </div>
                     </div>
                 </div>

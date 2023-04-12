@@ -242,7 +242,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                         <div className="card">
                             <div className="card-header d-block d-sm-flex border-0">
                                 <div className="me-3">
-                                    <h4 className="fs-20 text-black">All Transactions</h4>
+                                    <h4 className="fs-20 text-black">Latest Transactions</h4>
                                     {/* <p className="mb-0 fs-13">Lorem ipsum dolor sit amet, consectetur</p> */}
                                 </div>
                             </div>
@@ -269,7 +269,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                                             <h6 className="fs-16 font-w600 mb-0"><a href="/transactions-details/" className="text-black">{res.recipient_name}</a></h6>
                                             <span className="fs-14">Transfer</span>
                                         </td>
-                                        <td><span className="fs-16 text-black font-w500">+${res.amount}</span></td>
+                                        <td><span className="fs-16 text-black font-w500"> {res.amount} </span></td>
                                         <td>
                                             <span className="text-success fs-16 font-w500 d-block"> <a href="javascript:void(0)" className="btn btn-outline-success btn-rounded">{res.status}</a></span>
                                         </td>
@@ -343,7 +343,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                         <div className="card">
                             <div className="card-header d-block d-sm-flex border-0">
                                 <div className="me-3">
-                                    <h4 className="fs-20 text-black">All Recipients</h4>
+                                    <h4 className="fs-20 text-black">Recent Recipients</h4>
                                     {/* <p className="mb-0 fs-13">Lorem ipsum dolor sit amet, consectetur</p> */}
                                 </div>
                             </div>
@@ -369,7 +369,7 @@ console.log(transactionData," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
                                         </td>
 
                                         <td>
-                                            <span class="fs-16 text-black font-w600"><BiDollarCircle /> $45</span>
+                                            <span class="fs-16 text-black font-w600"> $45</span>
                                         </td>
                                     </tr>
 
