@@ -20,7 +20,7 @@ import Sidebar from './Sidebar';
 import Select from "react-select";
 import countryList from 'react-select-country-list'
 import Page404 from "../pageNotfound/Page404";
-import nocard from "../../assets/img/userdashboard/nocard.jpg"; 
+import nocard from "../../assets/img/userdashboard/nocard.jpg";
 // start css
 const myStyle = {
   color: "red",
@@ -92,7 +92,7 @@ const UserSendMoney = () => {
   const [loading, setLoading] = React.useState(false);
 
  /*************************** Start- SelectPayment State************************* */
-  const [checked, setChecked] = React.useState(false);
+  const [checkedValueCard, setCheckedValueCard] = React.useState(false);
 
   const [currencyerrorText, setCurrencyerrorText] = React.useState('');
 
@@ -197,18 +197,15 @@ const UserSendMoney = () => {
  }
 
 
-
-
   // Start -Recipient Crad Details 
   const handleCardInputChange = (e, key) => {
     console.log(e.target.value)
     console.log(key)
     let CardForm = formCardValue
     CardForm[key] = e.target.value
-    setFormValue(CardForm)
+    setformCardValue(CardForm)
     console.log(formCardValue)
   }
-
 
   // Start Amount Api
   // Start -Recipient Bank Details 
@@ -221,56 +218,10 @@ const UserSendMoney = () => {
     console.log(amountValue)
   }
 
-
-  //store localstorage
-  // localStorage.setItem("bank_name", (bank_name));
-  localStorage.setItem("bankName", (formValue.bankName));
-  localStorage.setItem("accountName", (formValue.accountName));
-  localStorage.setItem("accountNumber", (formValue.accountNumber));
-  localStorage.setItem("firstName", (formValue.firstName));
-  localStorage.setItem("middleName", (formValue.middleName));
-  localStorage.setItem("lastName", (formValue.lastName));
-  localStorage.setItem("email", (formValue.email));
-  localStorage.setItem("mobile", (formValue.mobile));
-  localStorage.setItem("address", (formValue.address));
-  localStorage.setItem("reasonMoney", (formValue.reasonMoney));
-
-
-  //get localstorage
-
-
-  const bankName = localStorage.getItem("bankName")
-  console.log(bankName, "bankName");
-
-  const accountName = localStorage.getItem("accountName")
-  console.log(accountName, "accountName");
-
-  const accountNumber = localStorage.getItem("accountNumber")
-  console.log(accountNumber, "accountNumber");
-
-  const firstName = localStorage.getItem("firstName")
-  console.log(firstName, "firstName");
-
-  const middleName = localStorage.getItem("middleName")
-  console.log(middleName, "middleName");
-
-  const lastName = localStorage.getItem("lastName")
-  console.log(lastName, "lastName");
-
-  const emailData = localStorage.getItem("email")
-  console.log(emailData, "emailData");
-
-  const mobileData = localStorage.getItem("mobile")
-  console.log(mobileData, "mobileData");
-
-  const addressData = localStorage.getItem("address")
-  console.log(addressData, "addressData");
-
-  const reasonMoney = localStorage.getItem("reasonMoney")
-  console.log(reasonMoney, "reasonMoney");
-
-
-
+  /************************saveCardChecked function ******************/
+  const handleCheckboxChange = () => {
+    setCheckedValueCard(!checkedValueCard);
+  };
 
   //multiple function call
   function someFunc() {
@@ -330,7 +281,7 @@ const UserSendMoney = () => {
     console.log(e.target.value)
     // console.log(defaultCountryData.length)
     setMoneyTransiction(item1 => ({ ...item1, [e.target.name]: e.target.value }));
-  }
+  } 
   // End Recive Radio button
 
 
@@ -394,9 +345,7 @@ const UserSendMoney = () => {
   const navigate = useNavigate();
   // const notify = () => toast.success("Amount & Delivery Successfully!!");
 
-  //localstorage of get data 
-  // const Total_amount= localStorage.getItem(Total_amount);
-  // console.log(Total_amount, "Total_amount money")
+
 
   /**************************************************************************
    * ************** Start  All Amount & Delivery  ******************************
@@ -692,7 +641,7 @@ const UserSendMoney = () => {
 
 
   const handleCradBankDetails = (event) => {
-    setChecked(true)
+    setCheckedValueCard(!checkedValueCard)
     event.preventDefault();
 
     //useRef is used for focusing on inputbox
@@ -748,7 +697,7 @@ const UserSendMoney = () => {
       send_currency: FromValue,
       recieve_currency: ToValue,
       amount: AmountValue,
-      recipient_id: recipient_id,
+      recipient_id: recipient_id.length > 0 ? recipient_id: recipentID,
       reason: recipientMoneyReason,
       destination: recipientDestination,
       name: formCardValue.cardName,
@@ -766,9 +715,17 @@ const UserSendMoney = () => {
       .then(function (response) {
         console.log(response);
         handleCloseDetails();
+        handlePay();
         // window.location.reload();
         setLoading(false); // Stop loading 
-        navigate('/transfer');
+        localStorage.setItem("paymetTransactionId",response.data.transaction_id);
+
+        // if(!checkedValueCard){
+        //   handleCradBankDetails();
+        //   console.log(checkedValueCard, "checkedValueCard")
+        // }
+        
+        navigate('/dashboard');
 
       })
       .catch(function (error, message) {
@@ -811,7 +768,7 @@ const UserSendMoney = () => {
         handleCloseDetails();
         // window.location.reload();
         setLoading(false); // Stop loading 
-        navigate('/transfer');
+        navigate('/dashboard');
 
       })
       .catch(function (error, message) {
@@ -823,6 +780,32 @@ const UserSendMoney = () => {
   }
   // }
 
+    /**************************************************************************
+   * ************** Start Paymet Or Pay Api****************************
+   * ***********************************************************************/
+    const handlePay = () => {
+      // event.preventDefault();
+      setLoading(true); // Set loading before sending API request
+      axios.post(API.BASE_URL + 'payment/stripe/charge/', {
+      }, {
+        headers: {
+          "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+        },
+  
+      })
+        .then(function (response) {
+          console.log(response);
+          // setStep(step + 1)
+          setLoading(false); // Stop loading 
+        })
+        .catch(function (error, message) {
+          console.log(error.response);
+          setLoading(false); // Stop loading in case of error
+          setBankNameText(error.response.data);
+  
+        })
+    }
+  
 
 
   /**************************************************************************
@@ -1855,11 +1838,11 @@ const UserSendMoney = () => {
                           <thead>
                               <tr>
                                 <th>#</th>
-                                <th style={{"text-align" : "center"}}>Cards Detail</th>
+                                <th>Cards Details</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
+                            <tr>
                               <td colSpan={2}> No Cards<br></br>
                               <img src={nocard} alt="nocard" />
                               </td>
@@ -1996,9 +1979,17 @@ const UserSendMoney = () => {
 
                       <div className="col-md-12">
                         <div className="saved-label">
+                        {/* <input
+                        inline
+                        label="1"
+                        name="group1"
+                        type= "checkbox"
+                        
+                      
+                      /> */}
                         <input
                           type="checkbox"
-                           checked={checked}
+                          checked={checkedValueCard}
                           onChange={handleCradBankDetails}
                          />
                         {/* <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
@@ -2047,12 +2038,12 @@ const UserSendMoney = () => {
                 <Sidebar />
 
                 <div className="content-body">
-                 
+                  
                     <div className="col-md-10">{
                       <Form />}
                     </div>
                     
-                  
+                
                 </div>
               </div>
             </div>

@@ -40,6 +40,7 @@ const ForgotPassword = () => {
     //
     const [EnteremailText, setEnteremailText] = useState('');
     const [ValidemailText, setValidemailText] = useState('');
+    const [Notegistered, setNotegistered] = useState('');
 
     const notify = () =>toast.success("Check your email to Reset Password");
     const wrongData = () =>toast.warm("This E-mail is not our records, please try again");
@@ -76,10 +77,11 @@ const ForgotPassword = () => {
                 console.log("Forget API" ,response);
                 setLoading(false); // Stop loading
                 localStorage.setItem("token_forgot", response.data.token);
+                localStorage.setItem("customerId_forgot", response.data.customer_id);
                 // localStorage.setItem("token_forgot_url", `http://localhost:3000/resetpassword/${token_forgot}`);
                 // navigate(`/resetpassword/${token_forgot}`);
                 // window.location.reload(false);
-               navigate('/resetpasswords')
+                navigate('/resetpasswords')
                 // notify();
             })
             .catch(function(error) {
@@ -90,6 +92,7 @@ const ForgotPassword = () => {
                 // }
                 setEnteremailText(error.response.data.Enteremail);
                 setValidemailText(error.response.data.Validemail);
+                setNotegistered(error.response.data.Notegistered);
               
 
             })
@@ -121,6 +124,7 @@ const ForgotPassword = () => {
                             <div className="col-lg-12">
                                 <div className="card card-forgot-password">
                                     <div className="card-body">
+                
                                         <h5 className="Sign-heading">Forgot Password ?</h5>
 
                                         <div className="form_login">
@@ -135,6 +139,7 @@ const ForgotPassword = () => {
                                                     />
                                                     <span style={myStyle}>{EnteremailText? EnteremailText: ''}</span>
                                                     <span style={myStyle}>{ValidemailText? ValidemailText: ''}</span>
+                                                    <span style={myStyle}>{Notegistered? Notegistered: ''}</span>
                                                 </Form.Group>
 
                                     

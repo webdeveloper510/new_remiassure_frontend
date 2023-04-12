@@ -32,6 +32,9 @@ const RecentPassword = () => {
 
   const DigitalCode = localStorage.getItem("DigitalCode");
   console.log("DigitalCode", DigitalCode);
+
+  const customerId_forgot = localStorage.getItem("customerId_forgot");
+  console.log("customerId_forgot", customerId_forgot);
     
 /**************************transaction of state ************************ */
     const [password, setPassword] = useState('');
@@ -82,13 +85,14 @@ const RecentPassword = () => {
             setActive(false)
         setLoading(true); // Set loading before sending API request
             axios.post(API.BASE_URL + `reset-password/`, {
+                customer_id:customerId_forgot,
                 password: password,
                 reset_password_otp:  reset_password_otp,
                 confirmPassword: confirmPassword,
             }, {
                 headers: {
                     'Content-Type': 'application/json',
-                    "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
+                    // "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
                 }}, {
             })
             .then(function(response) {

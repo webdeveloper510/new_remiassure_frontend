@@ -21,7 +21,7 @@ import Select from "react-select";
 import countryList from 'react-select-country-list'
 import sendmoney from "../../assets/img/userdashboard/money3.webp";
 import Page404 from "../pageNotfound/Page404";
-import nocard from "../../assets/img/userdashboard/nocard.jpg"; 
+import nocard from "../../assets/img/userdashboard/nocard.jpg";
 // start css
 const myStyle = {
   color: "red",
@@ -90,8 +90,13 @@ const SendMoney = () => {
   const [data, setData] = React.useState([]);
   /******************* End digital Api state   ***********************/
 
-  /****************************  sender details data *******************/
+  /**************************** sender details data state *******************/
   const [senderDetailData, setSenderDetailData] = React.useState('');
+  const [senderDetailText, setSenderDetailText] = React.useState('');
+  const [formSenderValue, setFormSenderValue] = React.useState({
+  firstName: '', middleName: '', lastName: '',DateofBirth: '',gender: '',CountryofBirth: '',  email: '', mobile: '',
+   flat: '', building: '', street: '', postcode: '', city: '', state: '', country_code: '', countryName: '', 
+  });
 
   /************ Start -Recipient card Error***************/
   const [currencyerrorText, setCurrencyerrorText] = React.useState('');
@@ -133,7 +138,7 @@ const SendMoney = () => {
     console.log(key)
     let CardForm = formCardValue
     CardForm[key] = e.target.value
-    setFormValue(CardForm)
+    setformCardValue(CardForm)
     console.log(formCardValue)
   }
 
@@ -165,52 +170,15 @@ const SendMoney = () => {
     console.log(amountValue)
   }
 
-  //store localstorage
-  // localStorage.setItem("bank_name", (bank_name));
-  localStorage.setItem("bankName", (formValue.bankName));
-  localStorage.setItem("accountName", (formValue.accountName));
-  localStorage.setItem("accountNumber", (formValue.accountNumber));
-  localStorage.setItem("firstName", (formValue.firstName));
-  localStorage.setItem("middleName", (formValue.middleName));
-  localStorage.setItem("lastName", (formValue.lastName));
-  localStorage.setItem("email", (formValue.email));
-  localStorage.setItem("mobile", (formValue.mobile));
-  localStorage.setItem("address", (formValue.address));
-  localStorage.setItem("reasonMoney", (formValue.reasonMoney));
-
-
-  //get localstorage
-  const bankName = localStorage.getItem("bankName")
-  console.log(bankName, "bankName");
-
-  const accountName = localStorage.getItem("accountName")
-  console.log(accountName, "accountName");
-
-  const accountNumber = localStorage.getItem("accountNumber")
-  console.log(accountNumber, "accountNumber");
-
-  const firstName = localStorage.getItem("firstName")
-  console.log(firstName, "firstName");
-
-  const middleName = localStorage.getItem("middleName")
-  console.log(middleName, "middleName");
-
-  const lastName = localStorage.getItem("lastName")
-  console.log(lastName, "lastName");
-
-  const emailData = localStorage.getItem("email")
-  console.log(emailData, "emailData");
-
-  const mobileData = localStorage.getItem("mobile")
-  console.log(mobileData, "mobileData");
-
-  const addressData = localStorage.getItem("address")
-  console.log(addressData, "addressData");
-
-  const reasonMoney = localStorage.getItem("reasonMoney")
-  console.log(reasonMoney, "reasonMoney");
-
-  // End -Recipient Bank Details 
+  /************* sender details data function *******/
+  const hamdleSenderDetailsData = (e, key) =>{
+    console.log(e.target.value)
+    console.log(key)
+    let SenderData = formSenderValue
+    SenderData[key] = e.target.value
+    setFormSenderValue(SenderData)
+    console.log(formSenderValue)
+  }
 
 
   // function handleDataStore(){
@@ -386,7 +354,7 @@ const SendMoney = () => {
     CardForm.exp_month = value.exp_month;
     CardForm.exp_year = value.exp_year;
 
-    setFormValue(CardForm)
+    setformCardValue(CardForm)
     console.log("value data===========================>123", formCardValue)
     // console.log("value data===========================>123",value)
   }
@@ -693,8 +661,9 @@ const SendMoney = () => {
 
 
   /**************************************************************************
-   * ************** Start Sender details Api *********************************
+   * ************** Start Sender-details-Lists Api *********************************
    * ***********************************************************************/
+
   useEffect(() => {
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'user-profile/', {}, {
@@ -719,6 +688,50 @@ const SendMoney = () => {
 
       })
   }, [])
+
+
+  /**************************************************************************
+   * ************** Start Sender-details-Create Api *********************************
+   * ***********************************************************************/
+
+    const handleCreateSenderDetails = (event) => {
+      event.preventDefault();
+
+      axios.post(API.BASE_URL +'/create-sender/', {
+        First_name: formSenderValue.firstName,
+        Middle_name: formSenderValue.middleName,
+        Last_name: formSenderValue.lastName,
+        Date_of_birth: formSenderValue.DateofBirth,
+        Gender: formSenderValue.gender,
+        country_of_birth: countryValue.label,
+        email: formSenderValue.email,
+        mobile: formSenderValue.mobile,
+        flat: formSenderValue.flat,
+        building: formSenderValue.building,
+        street: formSenderValue.street,
+        postcode: formSenderValue.postcode,
+        city: formSenderValue.city,
+        state: formSenderValue.state,
+        country_code: formSenderValue.country_code,
+        country: countryValue.label,
+      }, {
+        headers:{
+          "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+
+        }
+      })
+      .then(function(response){
+        console.log(response)
+        setStep(step+1);
+      })
+
+      .catch(function(error){
+        console.log(error.response)
+      })
+
+    }
+
+
 
 
   /**************************************************************************
@@ -882,7 +895,7 @@ const SendMoney = () => {
       .catch(function (error, message) {
         console.log(error.response);
         setLoading(false); // Stop loading in case of error
-        setCardErrorText(error.response.data);
+        setSenderDetailText(error.response.data);
 
       })
   }
@@ -944,7 +957,7 @@ const SendMoney = () => {
       exp_month: formCardValue.exp_month,
       exp_year: formCardValue.exp_year,
       cvc: formCardValue.securityCode,
-      handleISDigitalVerified
+  
     }, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -958,6 +971,7 @@ const SendMoney = () => {
       
 
         handleISDigitalVerified();
+        SummerySingleData()
         setLoading(false); // Stop loading 
         // navigate('/transfer'); 
 
@@ -1033,16 +1047,21 @@ const SendMoney = () => {
       })
   }
 
-     /**************************************************************************
-   * ************** Start  Get DataSummery Lists ************************************
+  /**************************************************************************
+   * ************** Start  Get DataSummery Lists ****************************
    * ***********************************************************************/
      const paymetTransactionId = localStorage.getItem("paymetTransactionId");
      console.log("paymetTransactionId ====================>", paymetTransactionId);
 
         useEffect(() => {
+    
+          SummerySingleData();
+        }, [])
+
+        const SummerySingleData = () =>{
           setLoading(true); // Set loading before sending API request
           axios.post(API.BASE_URL + 'payment/summary/', {
-            transaction_id:paymetTransactionId
+            transaction_id: paymetTransactionId
           }, {
             headers: {
               "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -1066,8 +1085,8 @@ const SendMoney = () => {
                 setLoading(false); // Stop loading in case of error
               
             })
-          
-        }, [])
+
+        }
 
 
   console.log(summeryData," summeryData==========>")
@@ -1796,9 +1815,9 @@ const SendMoney = () => {
                           <td>{formValue.country_code}</td>
                         </tr>
                         {/* <tr>
-      <th>Address</th>
-      <td>{addressData}</td>
-    </tr> */}
+                          <th>Address</th>
+                          <td>{addressData}</td>
+                        </tr> */}
                         <tr>
                           <>
 
@@ -1964,7 +1983,7 @@ const SendMoney = () => {
                             console.log(res, "resresresresresresresresresres")
                             return (
 
-                              <tr key={res.id}>
+                              <tr key={res.iddashboard}>
                                 <td>
                                   <input
                                     type="radio"
@@ -2012,7 +2031,7 @@ const SendMoney = () => {
                                   </Accordion>
                                 </td>
                                 {/* <td>
-          </td> */}
+                                </td> */}
                               </tr>
 
                             )
@@ -2048,14 +2067,14 @@ const SendMoney = () => {
                           <thead>
                               <tr>
                                 <th>#</th>
-                                <th style={{"text-align" : "center"}}>Cards Detail</th>
+                                <th>Cards Detail</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
+                            <tr>
                               <td colSpan={2}> No Cards<br></br>
                               <img src={nocard} alt="nocard" />
-                              </td> 
+                              </td>
                                </tr>
                             </tbody>
                            </>
@@ -2197,8 +2216,8 @@ const SendMoney = () => {
                               onChange={handleCradBankDetails}
                             />
                             {/* <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
-    Save
-    </Button>  */}
+                              Save
+                              </Button>  */}
                             <label>Save Card Details</label></div>
                         </div>
                       </form>
@@ -2311,19 +2330,38 @@ const SendMoney = () => {
                           <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
                           <input
                             type="text"
-                            className='rate_input form-control' />
+                            className='rate_input form-control'
+                            name="firstName"
+                            defaultValue={formSenderValue.firstName}
+                            onChange={(e) => hamdleSenderDetailsData(e, 'firstName')}
+                             />
+                              <span style={myStyle}>{senderDetailText.Enterfirstname ? senderDetailText.Enterfirstname : ''}</span>
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Middle Name</p>
-                          <input type="text" className='rate_input form-control' />
+                          <input 
+                          type="text" 
+                          className='rate_input form-control'
+                          name="middleName"
+                          defaultValue={formSenderValue.middleName}
+                          onChange={(e) => hamdleSenderDetailsData(e, 'middleName')}
+
+                           />
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
-                          <input type="text" className='rate_input form-control' />
+                          <input 
+                          type="text"
+                           className='rate_input form-control'
+                           name="lastName"
+                           defaultValue={formSenderValue.lastName}
+                           onChange={(e) => hamdleSenderDetailsData(e, 'lastName')}
+                            />
+                               <span style={myStyle}>{senderDetailText.Enterlastname ? senderDetailText.Enterlastname : ''}</span>
                         </div>
                       </div>
                     </div>
@@ -2341,7 +2379,14 @@ const SendMoney = () => {
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Date of birth<span style={{ color: 'red' }} >*</span></p>
-                          <input type="date" className='rate_input form-control' />
+                          <input 
+                          type="date" 
+                          className='rate_input form-control'
+                          name="DateofBirth"
+                          defaultValue={formSenderValue.DateofBirth}
+                          onChange={(e) => hamdleSenderDetailsData(e, 'DateofBirth')}
+                           />
+                            <span style={myStyle}>{senderDetailText.Enterdob ? senderDetailText.Enterdob : ''}</span>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -2354,7 +2399,9 @@ const SendMoney = () => {
                                 className="form-check-input"
                                 type="radio"
                                 name="gender"
-                                value=" Male"
+                                defaultValue={'Male'}
+                                onChange={(e) => hamdleSenderDetailsData(e, 'gender')}
+                                defaultChecked
                               />
                               <span className="checkmark"></span>
                             </label>
@@ -2365,11 +2412,16 @@ const SendMoney = () => {
                                 type="radio"
                                 name="gender"
                                 value=" Female"
+                                defaultValue={'Female'}
+                                onChange={(e) => hamdleSenderDetailsData(e, 'gender')}
                               />
                               <span className="checkmark"></span>
                             </label>
                           </div>
+                          <span style={myStyle}>{senderDetailText.Entergender ? senderDetailText.Entergender : ''}</span>
                         </div>
+                        
+
                       </div>
                     </div>
                     <div className="row each-row">
@@ -2387,7 +2439,10 @@ const SendMoney = () => {
                       <div className="col-md-6">
                         <div className="input_field">
                           <p className="get-text">ID Type<span style={{ color: 'red' }} >*</span></p>
-                          <input type="text" className='rate_input form-control' />
+                          <input 
+                          type="text"
+                          className='rate_input form-control'
+                           />
                         </div>
                       </div>
                     </div>
@@ -2396,9 +2451,9 @@ const SendMoney = () => {
                         <div className="input_field">
                           <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
                           <input
-                            type="email"
-                            value={senderDetailData.email}
-                            className='rate_input form-control'
+                              type="email"
+                              value={senderDetailData.email}
+                              className='rate_input form-control'
                           />
                         </div>
                       </div>
@@ -2406,9 +2461,9 @@ const SendMoney = () => {
                         <div className="input_field">
                           <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                           <input
-                            type="text"
-                            className='rate_input form-control'
-                            value={senderDetailData.mobile}
+                             type="text"
+                             className='rate_input form-control'
+                             value={senderDetailData.mobile}
                           />
 
                         </div>
@@ -2419,19 +2474,37 @@ const SendMoney = () => {
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Flat/Unit No.</p>
-                          <input type="text" className='rate_input form-control' />
+                          <input 
+                          type="text"
+                           className='rate_input form-control'
+                           name="flat"
+                          defaultValue={formSenderValue.flat}
+                          onChange={(e) => hamdleSenderDetailsData(e, 'flat')}
+                            />
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Building No./Name</p>
-                          <input type="text" className='rate_input form-control' />
+                          <input
+                           type="text" 
+                           className='rate_input form-control'
+                           name="building"
+                          defaultValue={formSenderValue.building}
+                          onChange={(e) => hamdleSenderDetailsData(e, 'building')}
+                            />
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Street</p>
-                          <input type="text" className='rate_input form-control' />
+                          <input
+                           type="text"
+                            className='rate_input form-control'
+                            name="street"
+                          defaultValue={formSenderValue.street}
+                          onChange={(e) => hamdleSenderDetailsData(e, 'street')}
+                             />
                         </div>
                       </div>
                     </div>
@@ -2439,19 +2512,37 @@ const SendMoney = () => {
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Postcode</p>
-                          <input type="text" className='rate_inpuspant form-control' />
+                          <input 
+                          type="text"
+                           className='rate_inpuspant form-control' 
+                           name="postcode"
+                          defaultValue={formSenderValue.postcode}
+                          onChange={(e) => hamdleSenderDetailsData(e, 'postcode')}
+                           />
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">City/Town</p>
-                          <input type="text" className='rate_input form-control' />
+                          <input 
+                          type="text" 
+                          className='rate_input form-control'
+                          name="city"
+                          defaultValue={formSenderValue.city}
+                          onChange={(e) => hamdleSenderDetailsData(e, 'city')}
+                           />
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">State</p>
-                          <input type="text" className='rate_input form-control' />
+                          <input
+                           type="text"
+                            className='rate_input form-control'
+                            name="state"
+                          defaultValue={formSenderValue.state}
+                          onChange={(e) => hamdleSenderDetailsData(e, 'state')}
+                             />
                         </div>
                       </div>
                     </div>
@@ -2462,20 +2553,15 @@ const SendMoney = () => {
                           <input
                             type="text"
                             className='rate_input form-control'
+                            name="country_code"
+                          defaultValue={formSenderValue.country_code}
+                          onChange={(e) => hamdleSenderDetailsData(e, 'country_code')}
                           />
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Country Name</p>
-                          {/* <CountryDropdown 
-                id="UNIQUE_ID"
-                  className='YOUR_CSS_CLASS rate_input form-control' 
-                  preferredCountries={['gb', 'us' ]}
-                  value={senderDetailData.location}
-                  //  value="" handleChange={e=> console.log(e.target.value)}
-                  >
-                  </CountryDropdown> */}
                           <Select
                             // ref={input_location}
                             options={countryoptions}
@@ -2502,7 +2588,7 @@ const SendMoney = () => {
                           <div id="digitalid-verify"></div>
                         ) : (
                           <>
-                             <button className="form-button" onClick={() => {setStep(step+1)}}> Continue</button>
+                             <button className="form-button" onClick={handleCreateSenderDetails}> Continue</button>
                           </>
                         )
                         } 
@@ -2659,7 +2745,7 @@ const SendMoney = () => {
             </div>
             <div className="col-md-12 align-center">
               <img className="verifies-img" src={verified} alt="verified" />
-              <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button>
+              {/* <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button> */}
               <p>Thanks for choosing RemitAssure</p>
               <NavLink to="/dashboard">
                  <button type="submit" class="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
@@ -2683,10 +2769,9 @@ const SendMoney = () => {
           1 ? (
             <div class="form">
                {  
-                  token || verification_otp|| DigitalCode != undefined || '' ? (
+                  token || verification_otp || DigitalCode != undefined || '' ? (
                    <>
-
-                  <section className="why-us section-bgba user_dashboard_banner">
+                       <section className="why-us section-bgba user_dashboard_banner">
                     <div className="container">
                       <div className="row">
 
@@ -2806,22 +2891,23 @@ const SendMoney = () => {
 
                       </div>
                     </div>
-                  </section>
-                  </>
-                  ) : (
-                      <>
-                      <Page404 />
+                       </section>
                       </>
+                      ) : (
+                      <>
+                        <Page404 />
+                  
+                      </>
+                      )
+                      }
+
+                    </div>
+                  ) : (
+                    <></>
+
                   )
-                  }
-
-            </div>
-          ) : (
-            <></>
-
-          )
-        }
-      </div>
+                }
+              </div>
 
 
 
