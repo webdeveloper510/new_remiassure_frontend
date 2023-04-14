@@ -35,6 +35,9 @@ const SendMoney = () => {
   const token = localStorage.getItem("token");
   console.log("TOKEN", token);
 
+  const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
+  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
+
   const verification_otp = localStorage.getItem("verification_otp");
   console.log("Verification Message", verification_otp)
 
@@ -94,8 +97,8 @@ const SendMoney = () => {
   const [senderDetailData, setSenderDetailData] = React.useState('');
   const [senderDetailText, setSenderDetailText] = React.useState('');
   const [formSenderValue, setFormSenderValue] = React.useState({
-  firstName: '', middleName: '', lastName: '',DateofBirth: '',gender: '',CountryofBirth: '',  email: '', mobile: '',
-   flat: '', building: '', street: '', postcode: '', city: '', state: '', country_code: '', countryName: '', 
+    firstName: '', middleName: '', lastName: '', DateofBirth: '', gender: '', CountryofBirth: '', email: '', mobile: '',
+    flat: '', building: '', street: '', postcode: '', city: '', state: '', country_code: '', countryName: '',
   });
 
   /************ Start -Recipient card Error***************/
@@ -124,12 +127,19 @@ const SendMoney = () => {
 
   /*************************SummeryData State************************ */
   const [summeryData, setSummeryData] = React.useState([]);
+  /*************************** Start- SelectPayment State************************* */
+  const [checkedValueCard, setCheckedValueCard] = React.useState(false);
 
 
 
 
   const handleCloseDetails = () => setshowCards(false);
   const ShowCardDetails = () => setshowCards(true);
+
+  /************************saveCardChecked function ******************/
+  const handleCheckboxChange = () => {
+    setCheckedValueCard(!checkedValueCard);
+  };
 
 
   // Start -Recipient Crad Details 
@@ -171,7 +181,7 @@ const SendMoney = () => {
   }
 
   /************* sender details data function *******/
-  const hamdleSenderDetailsData = (e, key) =>{
+  const hamdleSenderDetailsData = (e, key) => {
     console.log(e.target.value)
     console.log(key)
     let SenderData = formSenderValue
@@ -586,7 +596,7 @@ const SendMoney = () => {
   const DigitalCode = localStorage.getItem("DigitalCode");
   console.log("DigitalCode", DigitalCode);
 
-/************************Next page digital id verification**************************** */
+  /************************Next page digital id verification**************************** */
   const handleVerifiedPaymentDigitalId = (event) => {
     event.preventDefault();
     setLoading(true); // Set loading before sending API request
@@ -602,7 +612,7 @@ const SendMoney = () => {
       .then(function (response) {
         console.log(response);
         if (response.status)
-         handlePay()
+          handlePay()
         setStep(step + 1) //next step call
         setData(response.data);
         setLoading(false); // Stop loading 
@@ -694,42 +704,42 @@ const SendMoney = () => {
    * ************** Start Sender-details-Create Api *********************************
    * ***********************************************************************/
 
-    const handleCreateSenderDetails = (event) => {
-      event.preventDefault();
+  const handleCreateSenderDetails = (event) => {
+    event.preventDefault();
 
-      axios.post(API.BASE_URL +'/create-sender/', {
-        First_name: formSenderValue.firstName,
-        Middle_name: formSenderValue.middleName,
-        Last_name: formSenderValue.lastName,
-        Date_of_birth: formSenderValue.DateofBirth,
-        Gender: formSenderValue.gender,
-        country_of_birth: countryValue.label,
-        email: formSenderValue.email,
-        mobile: formSenderValue.mobile,
-        flat: formSenderValue.flat,
-        building: formSenderValue.building,
-        street: formSenderValue.street,
-        postcode: formSenderValue.postcode,
-        city: formSenderValue.city,
-        state: formSenderValue.state,
-        country_code: formSenderValue.country_code,
-        country: countryValue.label,
-      }, {
-        headers:{
-          "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+    axios.post(API.BASE_URL + '/create-sender/', {
+      First_name: formSenderValue.firstName,
+      Middle_name: formSenderValue.middleName,
+      Last_name: formSenderValue.lastName,
+      Date_of_birth: formSenderValue.DateofBirth,
+      Gender: formSenderValue.gender,
+      country_of_birth: countryValue.label,
+      email: formSenderValue.email,
+      mobile: formSenderValue.mobile,
+      flat: formSenderValue.flat,
+      building: formSenderValue.building,
+      street: formSenderValue.street,
+      postcode: formSenderValue.postcode,
+      city: formSenderValue.city,
+      state: formSenderValue.state,
+      country_code: formSenderValue.country_code,
+      country: countryValue.label,
+    }, {
+      headers: {
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
 
-        }
-      })
-      .then(function(response){
+      }
+    })
+      .then(function (response) {
         console.log(response)
-        setStep(step+1);
+        setStep(step + 1);
       })
 
-      .catch(function(error){
+      .catch(function (error) {
         console.log(error.response)
       })
 
-    }
+  }
 
 
 
@@ -868,10 +878,9 @@ const SendMoney = () => {
  * ************** Start  Create Card Bank Details ****************************
  * ***********************************************************************/
   const handleCradBankDetails = (event) => {
-    setChecked(true)
+    setCheckedValueCard(!checkedValueCard)
     event.preventDefault();
 
-    setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/create-card/', {
       card_number: formCardValue.cardNumber,
       expiry_month: formCardValue.exp_month,
@@ -894,9 +903,6 @@ const SendMoney = () => {
       })
       .catch(function (error, message) {
         console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-        setSenderDetailText(error.response.data);
-
       })
   }
   // }
@@ -957,7 +963,7 @@ const SendMoney = () => {
       exp_month: formCardValue.exp_month,
       exp_year: formCardValue.exp_year,
       cvc: formCardValue.securityCode,
-  
+
     }, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -967,8 +973,8 @@ const SendMoney = () => {
       .then(function (response) {
         console.log(response);
         setStep(step + 1);
-        localStorage.setItem("paymetTransactionId",response.data.transaction_id);
-      
+        localStorage.setItem("paymetTransactionId", response.data.transaction_id);
+
 
         handleISDigitalVerified();
         SummerySingleData()
@@ -1050,46 +1056,46 @@ const SendMoney = () => {
   /**************************************************************************
    * ************** Start  Get DataSummery Lists ****************************
    * ***********************************************************************/
-     const paymetTransactionId = localStorage.getItem("paymetTransactionId");
-     console.log("paymetTransactionId ====================>", paymetTransactionId);
+  const paymetTransactionId = localStorage.getItem("paymetTransactionId");
+  console.log("paymetTransactionId ====================>", paymetTransactionId);
 
-        useEffect(() => {
-    
-          SummerySingleData();
-        }, [])
+  useEffect(() => {
 
-        const SummerySingleData = () =>{
-          setLoading(true); // Set loading before sending API request
-          axios.post(API.BASE_URL + 'payment/summary/', {
-            transaction_id: paymetTransactionId
-          }, {
-            headers: {
-              "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+    SummerySingleData();
+  }, [])
+
+  const SummerySingleData = () => {
+    setLoading(true); // Set loading before sending API request
+    axios.post(API.BASE_URL + 'payment/summary/', {
+      transaction_id: paymetTransactionId
+    }, {
+      headers: {
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+
+      },
+
+    })
+      .then(function (response) {
+        console.log("Recipients APIIIII", response.data);
+        setSummeryData(response.data.data);
+        console.log(summeryData, "summeryData==========>")
       
-            },
-      
-          })
-            .then(function(response) {
-                console.log("Recipients APIIIII", response.data);
-                setSummeryData(response.data.data);
-                console.log(summeryData, "summeryData==========>")
-                setLoading(false); // Stop loading
-          
-          
-              //   if (response.status)
-              // // notify();
-            })
-            .catch(function(error) {
-                console.log(error);
-                console.log(error.response);
-                setLoading(false); // Stop loading in case of error
-              
-            })
-
-        }
 
 
-  console.log(summeryData," summeryData==========>")
+        //   if (response.status)
+        // // notify();
+      })
+      .catch(function (error) {
+        console.log(error);
+        console.log(error.response);
+        setLoading(false); // Stop loading in case of error
+
+      })
+
+  }
+
+
+  console.log(summeryData, " summeryData==========>")
 
 
 
@@ -1161,238 +1167,238 @@ const SendMoney = () => {
           {/* {
             token || verification_otp ||DigitalCode != undefined || '' ? ( */}
 
-              <section>
-                <div className="progressBar">
-                  <div className="progress">
-                    <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
+          <section>
+            <div className="progressBar">
+              <div className="progress">
+                <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
+              </div>
+            </div>
+
+
+            <form>
+              <div className="form_body">
+                <div className="header exchangemoney-header">
+                  <h1>Amount & delivery</h1>
+                </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="input_field rate-value">
+                      <p className="get-text Exchange_rate">Exchange Rate</p>
+                      <p className="exchange-rate exchange_value" >1 <span>{from}</span> = {total_rate} <span>{to}</span> </p>
+                      {/* <input type="text" className='rate_input form-control' /> */}
+                    </div>
                   </div>
                 </div>
+                <div className="row  each-row">
+                  <div className="exchange-errors"><span style={myStyle}>{currencyerrorText}</span></div>
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">From<span style={{ color: 'red' }} >*</span></p>
+                      <select
+                        className="form-select rate_input form-control"
+                        aria-label="Select a reason"
+                        value={from}
+                        ref={input_From}
+                        //  onChange={handleFrom}
+                        onChange={(e) => { myTotalAmountFromTo(e.target.value); setFrom(e.target.value) }}
+                      // onBlurCapture={myTotalAmount}
+                      >
+                        {/* <option value="">--- Select Currency ---</option> */}
+                        console.log('Step11111111111111111111111111111111111111')               <option value="EUR">EUR</option>
+                        <option value="INR">INR</option>
+                        <option value="BRL">BRL</option>
+                        <option value="BGN">BGN</option>
+                        <option value="XAF">XAF</option>
+                        <option value="CAD">CAD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="CZK">CZK</option>
+                        <option value="DKK">DKK</option>
+                        <option value="GHS">GHS</option>
+                        <option value="ISK">ISK</option>
+                        <option value="JOD">JPD</option>
+                        <option value="KWD">KWD</option>
+                        <option value="NZD">NZD</option>
+                        <option value="PHP">PHP</option>
+                        <option value="ZAR">ZAR</option>
+                        <option value="CHF">CHF</option>
+                        <option value="GBP">GBP</option>
 
-
-                <form>
-                  <div className="form_body">
-                    <div className="header exchangemoney-header">
-                      <h1>Amount & delivery</h1>
+                      </select>
+                      {error && from.length <= 0 ?
+                        <span style={myStyle}>Please Select the Location </span> : ""}
                     </div>
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="input_field rate-value">
-                          <p className="get-text Exchange_rate">Exchange Rate</p>
-                          <p className="exchange-rate exchange_value" >1 <span>{from}</span> = {total_rate} <span>{to}</span> </p>
-                          {/* <input type="text" className='rate_input form-control' /> */}
-                        </div>
-                      </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">To<span style={{ color: 'red' }} >*</span></p>
+                      <select
+                        className="form-select rate_input form-control"
+                        aria-label="Select a reason"
+                        value={to}
+                        ref={input_To}
+                        //  onChange={handleTo}
+                        onChange={(e) => { myTotalAmountFromTo(e.target.value); setTo(e.target.value) }}
+                      >
+
+
+                        <option value="">--- Select Currency ---</option>
+
+                        {/* <option value="INR" selected="selected">INR</option> */}
+                        <option value="INR">INR</option>
+                        <option value="EUR">EUR</option>
+                        <option value="BRL">BRL</option>
+                        <option value="USD">USD</option>
+                        <option value="BGN">BGN</option>
+                        <option value="XAF">XAF</option>
+                        <option value="CAD">CAD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="CZK">CZK</option>
+                        <option value="DKK">DKK</option>
+                        <option value="GHS">GHS</option>
+                        <option value="ISK">ISK</option>
+                        <option value="JOD">JPD</option>
+                        <option value="KWD">KWD</option>
+                        <option value="NZD">NZD</option>
+                        <option value="PHP">PHP</option>
+                        <option value="ZAR">ZAR</option>
+                        <option value="CHF">CHF</option>
+                        <option value="GBP">GBP</option>
+                      </select>
+                      {error && to.length <= 0 ?
+                        <span style={myStyle}>Please Select the Location </span> : ""}
                     </div>
-                    <div className="row  each-row">
-                      <div className="exchange-errors"><span style={myStyle}>{currencyerrorText}</span></div>
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">From<span style={{ color: 'red' }} >*</span></p>
-                          <select
-                            className="form-select rate_input form-control"
-                            aria-label="Select a reason"
-                            value={from}
-                            ref={input_From}
-                            //  onChange={handleFrom}
-                            onChange={(e) => { myTotalAmountFromTo(e.target.value); setFrom(e.target.value) }}
-                          // onBlurCapture={myTotalAmount}
-                          >
-                            {/* <option value="">--- Select Currency ---</option> */}
-                            console.log('Step11111111111111111111111111111111111111')               <option value="EUR">EUR</option>
-                            <option value="INR">INR</option>
-                            <option value="BRL">BRL</option>
-                            <option value="BGN">BGN</option>
-                            <option value="XAF">XAF</option>
-                            <option value="CAD">CAD</option>
-                            <option value="EUR">EUR</option>
-                            <option value="CZK">CZK</option>
-                            <option value="DKK">DKK</option>
-                            <option value="GHS">GHS</option>
-                            <option value="ISK">ISK</option>
-                            <option value="JOD">JPD</option>
-                            <option value="KWD">KWD</option>
-                            <option value="NZD">NZD</option>
-                            <option value="PHP">PHP</option>
-                            <option value="ZAR">ZAR</option>
-                            <option value="CHF">CHF</option>
-                            <option value="GBP">GBP</option>
+                  </div>
 
-                          </select>
-                          {error && from.length <= 0 ?
-                            <span style={myStyle}>Please Select the Location </span> : ""}
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">To<span style={{ color: 'red' }} >*</span></p>
-                          <select
-                            className="form-select rate_input form-control"
-                            aria-label="Select a reason"
-                            value={to}
-                            ref={input_To}
-                            //  onChange={handleTo}
-                            onChange={(e) => { myTotalAmountFromTo(e.target.value); setTo(e.target.value) }}
-                          >
+                </div>
+                <div className="row each-row">
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">Amount Send<span style={{ color: 'red' }} >*</span></p>
 
-
-                            <option value="">--- Select Currency ---</option>
-
-                            {/* <option value="INR" selected="selected">INR</option> */}
-                            <option value="INR">INR</option>
-                            <option value="EUR">EUR</option>
-                            <option value="BRL">BRL</option>
-                            <option value="USD">USD</option>
-                            <option value="BGN">BGN</option>
-                            <option value="XAF">XAF</option>
-                            <option value="CAD">CAD</option>
-                            <option value="EUR">EUR</option>
-                            <option value="CZK">CZK</option>
-                            <option value="DKK">DKK</option>
-                            <option value="GHS">GHS</option>
-                            <option value="ISK">ISK</option>
-                            <option value="JOD">JPD</option>
-                            <option value="KWD">KWD</option>
-                            <option value="NZD">NZD</option>
-                            <option value="PHP">PHP</option>
-                            <option value="ZAR">ZAR</option>
-                            <option value="CHF">CHF</option>
-                            <option value="GBP">GBP</option>
-                          </select>
-                          {error && to.length <= 0 ?
-                            <span style={myStyle}>Please Select the Location </span> : ""}
-                        </div>
-                      </div>
+                      <input
+                        type="text"
+                        // autoFocus="autofocus"
+                        ref={input_AmountSend}
+                        className='rate_input form-control'
+                        // onChange={(e)=> {myTotalAmount(e.target.value); setAmount(e.target.value)}}
+                        name="amountInput"
+                        defaultValue={amountValue.amountInput}
+                        onChange={(e) => handleAmountCahngeValue(e, 'amountInput')}
+                        onBlurCapture={myTotalAmount}
+                      // onkeyup={(text)=> myTotalAmount(text)}
+                      // onChange={e => onInputChangeDealType(e)}
+                      />
+                      {error && amountValue.amountInput.length <= 0 ?
+                        <span style={myStyle}>Please Enter the Amount </span> : ""}
 
                     </div>
-                    <div className="row each-row">
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">Amount Send<span style={{ color: 'red' }} >*</span></p>
+                  </div>
 
-                          <input
-                            type="text"
-                            // autoFocus="autofocus"
-                            ref={input_AmountSend}
-                            className='rate_input form-control'
-                            // onChange={(e)=> {myTotalAmount(e.target.value); setAmount(e.target.value)}}
-                            name="amountInput"
-                            defaultValue={amountValue.amountInput}
-                            onChange={(e) => handleAmountCahngeValue(e, 'amountInput')}
-                            onBlurCapture={myTotalAmount}
-                          // onkeyup={(text)=> myTotalAmount(text)}
-                          // onChange={e => onInputChangeDealType(e)}
-                          />
-                          {error && amountValue.amountInput.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Amount </span> : ""}
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">
+                        Exchange Amount
+                      </p>
+                      <input
+                        type="text"
+                        defaultValue={exchange_amount && amountValue.amountInput != 0 || "" ? exchange_amount : ""}
+                        className='rate_input form-control'
 
-                        </div>
-                      </div>
+                      />
 
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">
-                            Exchange Amount
-                          </p>
-                          <input
-                            type="text"
-                            defaultValue={exchange_amount && amountValue.amountInput != 0 || "" ? exchange_amount : ""}
-                            className='rate_input form-control'
-
-                          />
-
-                        </div>
-                      </div>
                     </div>
-                    <div className="row each-row">
-                      <h5>Receive Method</h5>
-                      <div className="col-md-12">
-                        <label className="container-new">
-                          <span className="radio-tick">BankTransfer</span>
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="recivedMethod"
-                            value="bankTransfer"
-                            checked={moneyTransiction.recivedMethod == "bankTransfer"}
-                            onChange={e => onInputChange(e)}
-                          // id="flexRadioDefault1" 
+                  </div>
+                </div>
+                <div className="row each-row">
+                  <h5>Receive Method</h5>
+                  <div className="col-md-12">
+                    <label className="container-new">
+                      <span className="radio-tick">BankTransfer</span>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="recivedMethod"
+                        value="bankTransfer"
+                        checked={moneyTransiction.recivedMethod == "bankTransfer"}
+                        onChange={e => onInputChange(e)}
+                      // id="flexRadioDefault1" 
 
-                          />
-                          <span className="checkmark"></span>
-                        </label>
+                      />
+                      <span className="checkmark"></span>
+                    </label>
 
-                      </div>
-                      <div className="col-md-12">
+                  </div>
+                  <div className="col-md-12">
 
-                        <label className="container-new">
-                          <span className="radio-tick">MobileWallet</span>
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="recivedMethod"
-                            value="mobileWallet"
-                            checked={moneyTransiction.recivedMethod == "mobileWallet"}
-                            onChange={e => onInputChange(e)}
-                          // id="flexRadioDefault2"
-                          />
-                          <span className="checkmark"></span>
-                        </label>
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <h5>Payout Partners</h5>
-                      <div className="col-md-12">
+                    <label className="container-new">
+                      <span className="radio-tick">MobileWallet</span>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="recivedMethod"
+                        value="mobileWallet"
+                        checked={moneyTransiction.recivedMethod == "mobileWallet"}
+                        onChange={e => onInputChange(e)}
+                      // id="flexRadioDefault2"
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+                <div className="row each-row">
+                  <h5>Payout Partners</h5>
+                  <div className="col-md-12">
 
-                        <label className="container-new">
-                          <span className="radio-tick">Bank</span>
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="payOutPartner"
-                            // id="flexRadioDefault3" 
-                            checked={moneyTransiction.payOutPartner == "bank"}
-                            value="bank"
-                            onChange={e => onInputChange(e)}
+                    <label className="container-new">
+                      <span className="radio-tick">Bank</span>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="payOutPartner"
+                        // id="flexRadioDefault3" 
+                        checked={moneyTransiction.payOutPartner == "bank"}
+                        value="bank"
+                        onChange={e => onInputChange(e)}
 
-                          />
-                          <span className="checkmark"></span>
-                        </label>
+                      />
+                      <span className="checkmark"></span>
+                    </label>
 
-                      </div>
-                      <div className="col-md-12">
+                  </div>
+                  <div className="col-md-12">
 
-                        <label className="container-new">
-                          <span className="radio-tick">Services</span>
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="payOutPartner"
-                            // id="flexRadioDefault4"
-                            checked={moneyTransiction.payOutPartner == "services"}
-                            value="services"
-                            onChange={e => onInputChange(e)}
-                          />
-                          <span className="checkmark"></span>
-                        </label>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-4">
-                        <button
-                          className="start-form-button"
-                          onClick={handleEntailmentRequest}
-                        >Clear</button>
-                      </div>
-                      <div className="col-md-8">
-                        <button
-                          type="submit"
-                          className="form-button"
-                          //  onChange={() => setShows(!shows)}
-                          onClick={handleAmountSummary}
-                        // onClick={()=>{setStep(step+1)}}
-                        >
-                          Continue
-                          {/* {loading ? <>
+                    <label className="container-new">
+                      <span className="radio-tick">Services</span>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="payOutPartner"
+                        // id="flexRadioDefault4"
+                        checked={moneyTransiction.payOutPartner == "services"}
+                        value="services"
+                        onChange={e => onInputChange(e)}
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-4">
+                    <button
+                      className="start-form-button"
+                      onClick={handleEntailmentRequest}
+                    >Clear</button>
+                  </div>
+                  <div className="col-md-8">
+                    <button
+                      type="submit"
+                      className="form-button"
+                      //  onChange={() => setShows(!shows)}
+                      onClick={handleAmountSummary}
+                    // onClick={()=>{setStep(step+1)}}
+                    >
+                      Continue
+                      {/* {loading ? <>
                     <div class="loader-overly"> 
                         <div class="loader" > 
                                                       
@@ -1400,13 +1406,13 @@ const SendMoney = () => {
                                                       
                     </div>
               </> : <></>} */}
-                        </button>
-                      </div>
-                    </div>
+                    </button>
                   </div>
-                </form>
-              </section>
-            {/* ) : (
+                </div>
+              </div>
+            </form>
+          </section>
+          {/* ) : (
               <>
                <Page404 />
               </>
@@ -1434,417 +1440,417 @@ const SendMoney = () => {
         <div>
           {/* {
             token || verification_otp ||DigitalCode != undefined || '' ? ( */}
-              <section>
-                <div className="progressBar">
-                  <div className="progress">
-                    <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
-                    <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
+          <section>
+            <div className="progressBar">
+              <div className="progress">
+                <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
+                <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
+              </div>
+            </div>
+            <form>
+
+              <div className="form_body">
+                <div className="header">
+                  <h1>Recipient Bank Details</h1>
+                </div>
+                <div className="col-md-12">
+                  <div className="input_field">
+                    <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      ref={input_bankName}
+                      className="rate_input form-control"
+                      name="bankName"
+                      defaultValue={formValue.bankName}
+                      onChange={(e) => handleStep2InputChange(e, 'bankName')}
+                    />
+                    {/* {error&&formValue.bankName.length<=0?
+                        <span style={myStyle}>Please Enter the Bank Name </span>:""} */}
+
+                    <span style={myStyle}>{BankNameText.Enterbank ? BankNameText.Enterbank : ''}</span>
+
                   </div>
                 </div>
-                <form>
-
-                  <div className="form_body">
-                    <div className="header">
-                      <h1>Recipient Bank Details</h1>
-                    </div>
-                    <div className="col-md-12">
-                      <div className="input_field">
-                        <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
-                        <input
-                          type="text"
-                          ref={input_bankName}
-                          className="rate_input form-control"
-                          name="bankName"
-                          defaultValue={formValue.bankName}
-                          onChange={(e) => handleStep2InputChange(e, 'bankName')}
-                        />
-                        {/* {error&&formValue.bankName.length<=0?
+                <div className="row each-row">
+                  <div className="col-md-12">
+                    <div className="input_field">
+                      <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="text"
+                        ref={input_accountName}
+                        defaultValue={formValue.accountName}
+                        onChange={(e) => handleStep2InputChange(e, 'accountName')}
+                        className='rate_input form-control'
+                      // autoFocus="autofocus"
+                      />
+                      {/* {error&&formValue.accountName.length<=0?
                         <span style={myStyle}>Please Enter the Bank Name </span>:""} */}
 
-                        <span style={myStyle}>{BankNameText.Enterbank ? BankNameText.Enterbank : ''}</span>
+                      <span style={myStyle}>{BankNameText.Enteraccountname ? BankNameText.Enteraccountname : ''}</span>
 
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <div className="col-md-12">
-                        <div className="input_field">
-                          <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            ref={input_accountName}
-                            defaultValue={formValue.accountName}
-                            onChange={(e) => handleStep2InputChange(e, 'accountName')}
-                            className='rate_input form-control'
-                          // autoFocus="autofocus"
-                          />
-                          {/* {error&&formValue.accountName.length<=0?
-                        <span style={myStyle}>Please Enter the Bank Name </span>:""} */}
-
-                          <span style={myStyle}>{BankNameText.Enteraccountname ? BankNameText.Enteraccountname : ''}</span>
-
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <div className="col-md-12">
-                        <div className="input_field">
-                          <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            name="accountNumber"
-                            // ref={input_recipientAccountNumber}
-                            className='rate_input form-control'
-                            defaultValue={formValue.accountNumber}
-                            onChange={(e) => handleStep2InputChange(e, 'accountNumber')}
-                          />
-                          {/* {error&&formValue.bankName.length<=0?
-                        <span style={myStyle}>Please Enter the Bank Name </span>:""} */}
-
-                          <span style={myStyle}>{BankNameText.Enteraccountnumber ? BankNameText.Enteraccountnumber : ''}</span>
-                          <span style={myStyle}>{BankNameText.Accountexist ? BankNameText.Accountexist : ''}</span>
-
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <h5>Recipient Details</h5>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            // ref={input_recipientFirstName}
-                            className='rate_input form-control'
-                            name="firstName"
-                            defaultValue={formValue.firstName}
-                            onChange={(e) => handleStep2InputChange(e, 'firstName')}
-                          />
-                          <span style={myStyle}>{BankNameText.Enterfirstname ? BankNameText.Enterfirstname : ''}</span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Middle Name</p>
-                          <input
-                            type="text"
-                            // ref={input_recipientMiddleName}
-                            className='rate_input form-control'
-                            name="middleName"
-                            defaultValue={formValue.middleName}
-                            onChange={(e) => handleStep2InputChange(e, 'middleName')}
-                          />
-                          <span style={myStyle}>{BankNameText.middle_name ? BankNameText.middle_name : ''}</span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            // ref={input_recipientLastName}
-                            className='rate_input form-control'
-                            name="lastName"
-                            defaultValue={formValue.lastName}
-                            onChange={(e) => handleStep2InputChange(e, 'lastName')}
-                          />
-                          <span style={myStyle}>{BankNameText.Enterlastname ? BankNameText.Enterlastname : ''}</span>
-
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="email"
-                            // ref={input_recipientEmail}
-                            className='rate_input form-control'
-                            name="email"
-                            defaultValue={formValue.email}
-                            onChange={(e) => handleStep2InputChange(e, 'email')}
-                          />
-                          <span style={myStyle}>{BankNameText.Enteremail ? BankNameText.Enteremail : ''}</span>
-                          <span style={myStyle}>{BankNameText.Emailexist ? BankNameText.Emailexist : ''}</span>
-
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            // ref={input_recipientMobile}
-                            className='rate_input form-control'
-                            name="mobile"
-                            defaultValue={formValue.mobile}
-                            onChange={(e) => handleStep2InputChange(e, 'mobile')}
-                          />
-                          <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
-                          <span style={myStyle}>{BankNameText.Validmobile ? BankNameText.Validmobile : ''}</span>
-                          <span style={myStyle}>{BankNameText.Mobileexist ? BankNameText.Mobileexist : ''}</span>
-                          <span style={myStyle}>{BankNameText.Entermobile ? BankNameText.Entermobile : ''}</span>
-
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row each-row">
-                      <h5>Address</h5>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Flat/Unit No.</p>
-                          <input
-                            type="text"
-
-                            className='rate_input form-control'
-                            name="flat"
-                            defaultValue={formValue.flat}
-                            onChange={(e) => handleStep2InputChange(e, 'flat')}
-                          />
-                          <span style={myStyle}>{BankNameText.Enterflat ? BankNameText.Enterflat : ''}</span>
-
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Building/Unit No.</p>
-                          <input
-                            type="text"
-
-                            className='rate_input form-control'
-                            name="building"
-                            defaultValue={formValue.building}
-                            onChange={(e) => handleStep2InputChange(e, 'building')}
-                          />
-                          <span style={myStyle}>{BankNameText.Enterbuilding ? BankNameText.Enterbuilding : ''}</span>
-
-                        </div>
-                      </div>
-
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Street</p>
-                          <input
-                            type="text"
-
-                            className='rate_input form-control'
-                            name="street"
-                            defaultValue={formValue.street}
-                            onChange={(e) => handleStep2InputChange(e, 'street')}
-                          />
-                          <span style={myStyle}>{BankNameText.Enterstreet ? BankNameText.Enterstreet : ''}</span>
-
-                        </div>
-                      </div>
-
-                    </div>
-
-
-                    <div className="row each-row">
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Postcode</p>
-                          <input
-                            type="text"
-
-                            className='rate_input form-control'
-                            name="postcode"
-                            defaultValue={formValue.postcode}
-                            onChange={(e) => handleStep2InputChange(e, 'postcode')}
-                          />
-                          <span style={myStyle}>{BankNameText.Enterpostcode ? BankNameText.Enterpostcode : ''}</span>
-
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">City/Town</p>
-                          <input
-                            type="text"
-
-                            className='rate_input form-control'
-                            name="city"
-                            defaultValue={formValue.city}
-                            onChange={(e) => handleStep2InputChange(e, 'city')}
-                          />
-                          <span style={myStyle}>{BankNameText.Entercity ? BankNameText.Entercity : ''}</span>
-
-                        </div>
-                      </div>
-
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">State</p>
-                          <input
-                            type="text"
-
-                            className='rate_input form-control'
-                            name="state"
-                            defaultValue={formValue.state}
-                            onChange={(e) => handleStep2InputChange(e, 'state')}
-                          />
-                          <span style={myStyle}>{BankNameText.Entercity ? BankNameText.Entercity : ''}</span>
-                        </div>
-                      </div>
-
-                    </div>
-
-
-                    <div className="row each-row">
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Country Code <span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-
-                            className='rate_input form-control'
-                            name="country_code"
-                            defaultValue={formValue.country_code}
-                            onChange={(e) => handleStep2InputChange(e, 'country_code')}
-                          />
-                          <span style={myStyle}>{BankNameText.Entercountrycode ? BankNameText.Entercountrycode : ''}</span>
-
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
-                          <Select
-                            // ref={input_location}
-                            options={countryoptions}
-                            value={countryValue}
-                            onChange={changeHandler}
-                          />
-                          <span style={myStyle}>{BankNameText.Selectcountry ? BankNameText.Selectcountry : ''}</span>
-
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Reason For Sending Money<span style={{ color: 'red' }} >*</span></p>
-                          <select
-                            className="form-select rate_input form-control"
-                            aria-label="Select a reason"
-                            name="reasonMoney"
-                            defaultValue={formValue.reasonMoney}
-                            onChange={(e) => handleStep2InputChange(e, 'reasonMoney')}
-                          >
-                            <option selected>Select a reason</option>
-                            <option value="Family Support">Family Support</option>
-                            <option value="Education">Education</option>
-                            <option value="Tax Payment">Tax Payment</option>
-                            <option value="Loan Payment">Loan Payment</option>
-                            <option value="Travel Payment">Travel Payment</option>
-                            <option value="Utility Payment">Utility Payment</option>
-                          </select>
-                          <span style={myStyle}>{BankNameText.Reason ? BankNameText.Reason : ''}</span>
-
-                        </div>
-                      </div>
-                    </div>
-
-
-                    <div className="row">
-                      <div className="col-md-4">
-                        <button type="submit" className="start-form-button" onClick={handlRecipientBankDetails}>Cancel</button>
-                      </div>
-                      <div className="col-md-8">
-                        {/* <button className="form-button" onClick={handleShow}>Continue</button> */}
-                        <button type="submit" className="form-button" onClick={handleCreateRecipientValidation}>Continue</button>
-                        {/* <button className="form-button" onClick={handleRecipientBankDetails}>Continue</button> */}
-                        <button className="form-button" onClick={() => { setStep(step -1) }}>Previous</button>
-                      </div>
                     </div>
                   </div>
-                </form>
+                </div>
+                <div className="row each-row">
+                  <div className="col-md-12">
+                    <div className="input_field">
+                      <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="text"
+                        name="accountNumber"
+                        // ref={input_recipientAccountNumber}
+                        className='rate_input form-control'
+                        defaultValue={formValue.accountNumber}
+                        onChange={(e) => handleStep2InputChange(e, 'accountNumber')}
+                      />
+                      {/* {error&&formValue.bankName.length<=0?
+                        <span style={myStyle}>Please Enter the Bank Name </span>:""} */}
+
+                      <span style={myStyle}>{BankNameText.Enteraccountnumber ? BankNameText.Enteraccountnumber : ''}</span>
+                      <span style={myStyle}>{BankNameText.Accountexist ? BankNameText.Accountexist : ''}</span>
+
+                    </div>
+                  </div>
+                </div>
+                <div className="row each-row">
+                  <h5>Recipient Details</h5>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="text"
+                        // ref={input_recipientFirstName}
+                        className='rate_input form-control'
+                        name="firstName"
+                        defaultValue={formValue.firstName}
+                        onChange={(e) => handleStep2InputChange(e, 'firstName')}
+                      />
+                      <span style={myStyle}>{BankNameText.Enterfirstname ? BankNameText.Enterfirstname : ''}</span>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Middle Name</p>
+                      <input
+                        type="text"
+                        // ref={input_recipientMiddleName}
+                        className='rate_input form-control'
+                        name="middleName"
+                        defaultValue={formValue.middleName}
+                        onChange={(e) => handleStep2InputChange(e, 'middleName')}
+                      />
+                      <span style={myStyle}>{BankNameText.middle_name ? BankNameText.middle_name : ''}</span>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="text"
+                        // ref={input_recipientLastName}
+                        className='rate_input form-control'
+                        name="lastName"
+                        defaultValue={formValue.lastName}
+                        onChange={(e) => handleStep2InputChange(e, 'lastName')}
+                      />
+                      <span style={myStyle}>{BankNameText.Enterlastname ? BankNameText.Enterlastname : ''}</span>
+
+                    </div>
+                  </div>
+                </div>
+                <div className="row each-row">
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="email"
+                        // ref={input_recipientEmail}
+                        className='rate_input form-control'
+                        name="email"
+                        defaultValue={formValue.email}
+                        onChange={(e) => handleStep2InputChange(e, 'email')}
+                      />
+                      <span style={myStyle}>{BankNameText.Enteremail ? BankNameText.Enteremail : ''}</span>
+                      <span style={myStyle}>{BankNameText.Emailexist ? BankNameText.Emailexist : ''}</span>
+
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="text"
+                        // ref={input_recipientMobile}
+                        className='rate_input form-control'
+                        name="mobile"
+                        defaultValue={formValue.mobile}
+                        onChange={(e) => handleStep2InputChange(e, 'mobile')}
+                      />
+                      <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
+                      <span style={myStyle}>{BankNameText.Validmobile ? BankNameText.Validmobile : ''}</span>
+                      <span style={myStyle}>{BankNameText.Mobileexist ? BankNameText.Mobileexist : ''}</span>
+                      <span style={myStyle}>{BankNameText.Entermobile ? BankNameText.Entermobile : ''}</span>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row each-row">
+                  <h5>Address</h5>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Flat/Unit No.</p>
+                      <input
+                        type="text"
+
+                        className='rate_input form-control'
+                        name="flat"
+                        defaultValue={formValue.flat}
+                        onChange={(e) => handleStep2InputChange(e, 'flat')}
+                      />
+                      <span style={myStyle}>{BankNameText.Enterflat ? BankNameText.Enterflat : ''}</span>
+
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Building/Unit No.</p>
+                      <input
+                        type="text"
+
+                        className='rate_input form-control'
+                        name="building"
+                        defaultValue={formValue.building}
+                        onChange={(e) => handleStep2InputChange(e, 'building')}
+                      />
+                      <span style={myStyle}>{BankNameText.Enterbuilding ? BankNameText.Enterbuilding : ''}</span>
+
+                    </div>
+                  </div>
+
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Street</p>
+                      <input
+                        type="text"
+
+                        className='rate_input form-control'
+                        name="street"
+                        defaultValue={formValue.street}
+                        onChange={(e) => handleStep2InputChange(e, 'street')}
+                      />
+                      <span style={myStyle}>{BankNameText.Enterstreet ? BankNameText.Enterstreet : ''}</span>
+
+                    </div>
+                  </div>
+
+                </div>
 
 
-                <Modal show={show} onHide={handleClose}
-                  centereds
-                >
-                  <Modal.Header closeButton>
-                    <Modal.Title>Recipient details Summary</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
+                <div className="row each-row">
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Postcode</p>
+                      <input
+                        type="text"
 
-                    <Table>
-                      <thead>
-                        <tr>
-                          <th colSpan={2} className="popup-heading">Bank Details</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th>Bank Name</th>
-                          <td>{formValue.bankName}</td>
-                        </tr>
-                        <tr>
-                          <th>Account Name</th>
-                          <td>{formValue.accountName}</td>
-                        </tr>
-                        <tr>
-                          <th>Account number</th>
-                          <td>{formValue.accountNumber}</td>
-                        </tr>
-                      </tbody>
-                      <thead>
-                        <tr>
-                          <th colSpan={2} className="popup-heading">Recipient Details</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th>First Name</th>
-                          <td>{formValue.firstName}</td>
-                        </tr>
-                        <tr>
-                          <th>Last Name</th>
-                          <td>{formValue.lastName}</td>
-                        </tr>
-                        <tr>
-                          <th>Email</th>
-                          <td>{formValue.email}</td>
-                        </tr>
-                        <tr>
-                          <th>Mobile</th>
-                          <td>{formValue.mobile}</td>
-                        </tr>
-                        <tr>
-                          <th>Country Code</th>
-                          <td>{formValue.country_code}</td>
-                        </tr>
-                        {/* <tr>
+                        className='rate_input form-control'
+                        name="postcode"
+                        defaultValue={formValue.postcode}
+                        onChange={(e) => handleStep2InputChange(e, 'postcode')}
+                      />
+                      <span style={myStyle}>{BankNameText.Enterpostcode ? BankNameText.Enterpostcode : ''}</span>
+
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">City/Town</p>
+                      <input
+                        type="text"
+
+                        className='rate_input form-control'
+                        name="city"
+                        defaultValue={formValue.city}
+                        onChange={(e) => handleStep2InputChange(e, 'city')}
+                      />
+                      <span style={myStyle}>{BankNameText.Entercity ? BankNameText.Entercity : ''}</span>
+
+                    </div>
+                  </div>
+
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">State</p>
+                      <input
+                        type="text"
+
+                        className='rate_input form-control'
+                        name="state"
+                        defaultValue={formValue.state}
+                        onChange={(e) => handleStep2InputChange(e, 'state')}
+                      />
+                      <span style={myStyle}>{BankNameText.Entercity ? BankNameText.Entercity : ''}</span>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div className="row each-row">
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Country Code <span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="text"
+
+                        className='rate_input form-control'
+                        name="country_code"
+                        defaultValue={formValue.country_code}
+                        onChange={(e) => handleStep2InputChange(e, 'country_code')}
+                      />
+                      <span style={myStyle}>{BankNameText.Entercountrycode ? BankNameText.Entercountrycode : ''}</span>
+
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
+                      <Select
+                        // ref={input_location}
+                        options={countryoptions}
+                        value={countryValue}
+                        onChange={changeHandler}
+                      />
+                      <span style={myStyle}>{BankNameText.Selectcountry ? BankNameText.Selectcountry : ''}</span>
+
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Reason For Sending Money<span style={{ color: 'red' }} >*</span></p>
+                      <select
+                        className="form-select rate_input form-control"
+                        aria-label="Select a reason"
+                        name="reasonMoney"
+                        defaultValue={formValue.reasonMoney}
+                        onChange={(e) => handleStep2InputChange(e, 'reasonMoney')}
+                      >
+                        <option selected>Select a reason</option>
+                        <option value="Family Support">Family Support</option>
+                        <option value="Education">Education</option>
+                        <option value="Tax Payment">Tax Payment</option>
+                        <option value="Loan Payment">Loan Payment</option>
+                        <option value="Travel Payment">Travel Payment</option>
+                        <option value="Utility Payment">Utility Payment</option>
+                      </select>
+                      <span style={myStyle}>{BankNameText.Reason ? BankNameText.Reason : ''}</span>
+
+                    </div>
+                  </div>
+                </div>
+
+
+                <div className="row">
+                  <div className="col-md-4">
+                    <button type="submit" className="start-form-button" onClick={handlRecipientBankDetails}>Cancel</button>
+                  </div>
+                  <div className="col-md-8">
+                    {/* <button className="form-button" onClick={handleShow}>Continue</button> */}
+                    <button type="submit" className="form-button" onClick={handleCreateRecipientValidation}>Continue</button>
+                    {/* <button className="form-button" onClick={handleRecipientBankDetails}>Continue</button> */}
+                    <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+
+            <Modal show={show} onHide={handleClose}
+              centereds
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Recipient details Summary</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+
+                <Table>
+                  <thead>
+                    <tr>
+                      <th colSpan={2} className="popup-heading">Bank Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Bank Name</th>
+                      <td>{formValue.bankName}</td>
+                    </tr>
+                    <tr>
+                      <th>Account Name</th>
+                      <td>{formValue.accountName}</td>
+                    </tr>
+                    <tr>
+                      <th>Account number</th>
+                      <td>{formValue.accountNumber}</td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <th colSpan={2} className="popup-heading">Recipient Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>First Name</th>
+                      <td>{formValue.firstName}</td>
+                    </tr>
+                    <tr>
+                      <th>Last Name</th>
+                      <td>{formValue.lastName}</td>
+                    </tr>
+                    <tr>
+                      <th>Email</th>
+                      <td>{formValue.email}</td>
+                    </tr>
+                    <tr>
+                      <th>Mobile</th>
+                      <td>{formValue.mobile}</td>
+                    </tr>
+                    <tr>
+                      <th>Country Code</th>
+                      <td>{formValue.country_code}</td>
+                    </tr>
+                    {/* <tr>
                           <th>Address</th>
                           <td>{addressData}</td>
                         </tr> */}
-                        <tr>
-                          <>
+                    <tr>
+                      <>
 
-                          </>
+                      </>
 
-                          <th>Reason For Sending Money</th>
-                          <td>{formValue.reasonMoney}</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </Modal.Body>
-                  <Modal.Footer>
+                      <th>Reason For Sending Money</th>
+                      <td>{formValue.reasonMoney}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </Modal.Body>
+              <Modal.Footer>
 
-                    <button className="start-form-button" variant="secondary" onClick={handleClose}>
-                      Go back to Edit
-                    </button>
-                    {/* <button className="form-button" onClick={()=>{setStep(step+1)}}>Continue</button> */}
-                    <button className="form-button" variant="primary" onClick={handleRecipientBankDetails}>Continue</button>
+                <button className="start-form-button" variant="secondary" onClick={handleClose}>
+                  Go back to Edit
+                </button>
+                {/* <button className="form-button" onClick={()=>{setStep(step+1)}}>Continue</button> */}
+                <button className="form-button" variant="primary" onClick={handleRecipientBankDetails}>Continue</button>
 
-                    {/* onClick={() => setShow(!show)} */}
-                    {/* <Button variant="primary" onClick={handleDigitalValue}>Continue</Button>  */}
+                {/* onClick={() => setShow(!show)} */}
+                {/* <Button variant="primary" onClick={handleDigitalValue}>Continue</Button>  */}
 
-                  </Modal.Footer>
-                </Modal>
+              </Modal.Footer>
+            </Modal>
 
-              </section>
-            {/* ) : (
+          </section>
+          {/* ) : (
               <>
                <Page404 />
               </>
@@ -1879,364 +1885,364 @@ const SendMoney = () => {
           {/* {
             token || verification_otp ||DigitalCode != undefined || '' ? (
               <> */}
-                <section>
-                  <div className="progressBar">
-                    <div className="progress">
-                      <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
-                      <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
-                      <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
-                    </div>
-                  </div>
-                  <div className="form_body">
-                    <div className="header">
-                      <h1>Payment details</h1>
-                    </div>
-                    <div className="row each-row">
-                      <h5>Payment type</h5>
+          <section>
+            <div className="progressBar">
+              <div className="progress">
+                <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
+                <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
+                <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
+              </div>
+            </div>
+            <div className="form_body">
+              <div className="header">
+                <h1>Payment details</h1>
+              </div>
+              <div className="row each-row">
+                <h5>Payment type</h5>
 
-                      <div className="col-md-12">
-                        <label className="container-new">
-                          <span className="radio-tick">Osko</span>
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="paymentType"
-                            // id="flexRadioDefault3" 
-                            checked={moneyTransiction.paymentType == "Oslo"}
-                            value="Oslo"
-                            onChange={e => onInputChange(e)}
-                          />
-                          <span className="checkmark"></span>
-                        </label>
-                      </div>
+                <div className="col-md-12">
+                  <label className="container-new">
+                    <span className="radio-tick">Osko</span>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="paymentType"
+                      // id="flexRadioDefault3" 
+                      checked={moneyTransiction.paymentType == "Oslo"}
+                      value="Oslo"
+                      onChange={e => onInputChange(e)}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                </div>
 
-                      <div className="col-md-12">
-                        <label className="container-new">
-                          <span className="radio-tick">Debit/Credit Card</span>
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="paymentType"
-                            // id="flexRadioDefault3" 
-                            checked={moneyTransiction.paymentType == "Debit/Credit Card"}
-                            value="Debit/Credit Card"
-                            onChange={e => onInputChange(e)}
-                            onClick={ShowCardDetails}
-                          />
-                          <span className="checkmark"></span>
-                        </label>
-                      </div>
+                <div className="col-md-12">
+                  <label className="container-new">
+                    <span className="radio-tick">Debit/Credit Card</span>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="paymentType"
+                      // id="flexRadioDefault3" 
+                      checked={moneyTransiction.paymentType == "Debit/Credit Card"}
+                      value="Debit/Credit Card"
+                      onChange={e => onInputChange(e)}
+                      onClick={ShowCardDetails}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                </div>
 
-                      <div className="col-md-12">
-                        <label className="container-new">
-                          <span className="radio-tick">PoLI Internet Banking</span>
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="paymentType"
-                            // id="flexRadioDefault3" 
-                            checked={moneyTransiction.paymentType == " PoLI Internet Banking"}
-                            value=" PoLI Internet Banking"
-                            onChange={e => onInputChange(e)}
-                          />
-                          <span className="checkmark"></span>
-                        </label>
-                      </div>
+                <div className="col-md-12">
+                  <label className="container-new">
+                    <span className="radio-tick">PoLI Internet Banking</span>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="paymentType"
+                      // id="flexRadioDefault3" 
+                      checked={moneyTransiction.paymentType == " PoLI Internet Banking"}
+                      value=" PoLI Internet Banking"
+                      onChange={e => onInputChange(e)}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                </div>
 
-                    </div>
-                    <div className="row">
-                      <div className="col-md-4">
-                        <button className="start-form-button">Cancel</button>
-                      </div>
-                      <div className="col-md-8">
-                        {/* <button className="form-button">Continue</button> */}
-                        <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button>
-                      </div>
-                    </div>
-                  </div>
-                </section>
+              </div>
+              <div className="row">
+                <div className="col-md-4">
+                  <button className="start-form-button">Cancel</button>
+                </div>
+                <div className="col-md-8">
+                  {/* <button className="form-button">Continue</button> */}
+                  <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                </div>
+              </div>
+            </div>
+          </section>
 
-                <Modal className="modal-card" show={showCards} onHide={handleCloseDetails}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Your cards</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
+          <Modal className="modal-card" show={showCards} onHide={handleCloseDetails}>
+            <Modal.Header closeButton>
+              <Modal.Title>Your cards</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
 
-                    {/* start List card */}
+              {/* start List card */}
 
-                    <Table>
-                    {bankCardData?.length != 0 ? (
-                      <>
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Cards Details</th>
-                          {/* <th>Action</th> */}
-                        </tr>
-                      </thead>
-                    
-                     
-                      <tbody>
-
-                        {
-                          bankCardData.data?.map((res, index) => {
-                            console.log(res, "resresresresresresresresresres")
-                            return (
-
-                              <tr key={res.iddashboard}>
-                                <td>
-                                  <input
-                                    type="radio"
-                                    name="radio"
-                                    // checked={checked}
-                                    onChange={() => getCardDataPayment(res)}
-                                  />
-                                </td>
-                                <td>
-                                  <Accordion>
-                                    <Accordion.Item eventKey="0">
-                                      <Accordion.Header><img src={creditcards} alt="credit cards" /><span>{res.number}</span> </Accordion.Header>
-                                      <Accordion.Body>
-                                        <ul>
-                                          <li>
-                                            <label>Name on Card</label>
-                                            <p>{res.name}</p>
-                                          </li>
-                                          <li>
-                                            <label>Card Number</label>
-                                            <p>{res.number}</p>
-                                          </li>
-                                          <li>
-                                            <label>Expiry on</label>
-                                            <p>{res.exp_year}/{res.exp_month}</p>
-                                          </li>
-                                          <li>
-                                            <label>CVV</label>
-                                            <input
-                                              // onClick ={}
-                                              maxlength="3"
-                                              type="password"
-                                              defaultValue={formCardValue.securityCode}
-                                              onChange={(e) => handleCardInputChange(e, 'securityCode')}
-                                            />
-                                          </li>
-                                          <li>
-                                            <div className="card-delete">
-                                              <Button className="btn btn-danger" onClick={() => { handleDeleteShow(res.id) }}>
-                                                Delete</Button></div>
-                                          </li>
-                                        </ul>
-                                      </Accordion.Body>
-                                    </Accordion.Item>
-                                  </Accordion>
-                                </td>
-                                {/* <td>
-                                </td> */}
-                              </tr>
-
-                            )
-                          })}
-
-                        <Modal show={cardDeleteShow} onHide={handleClose}>
-                          <Modal.Header closeButton>
-                            <Modal.Title>Delete Card</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>Are you sure you want to delete ?</Modal.Body>
-                          <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>Close </Button>
-                            <Button
-                              className="delete_recipient"
-                              variant="danger"
-                              onClick={() => { handleRemovecardDetails(delete_id) }}
-                            >
-                              Delete
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
-                      </tbody>
-                      </>
-                       ) : (
-                        <>
-                        </>
-                      )
-                      }
+              <Table>
+                {bankCardData?.length != 0 ? (
+                  <>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Cards Details</th>
+                        {/* <th>Action</th> */}
+                      </tr>
+                    </thead>
 
 
-                      {bankCardData?.length == 0 ? (
-                        <>
-                          <thead>
-                              <tr>
-                                <th>#</th>
-                                <th>Cards Detail</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                              <td colSpan={2}> No Cards<br></br>
-                              <img src={nocard} alt="nocard" />
+                    <tbody>
+
+                      {
+                        bankCardData.data?.map((res, index) => {
+                          console.log(res, "resresresresresresresresresres")
+                          return (
+
+                            <tr key={res.iddashboard}>
+                              <td>
+                                <input
+                                  type="radio"
+                                  name="radio"
+                                  // checked={checked}
+                                  onChange={() => getCardDataPayment(res)}
+                                />
                               </td>
-                               </tr>
-                            </tbody>
-                           </>
-                          ) : (
-                            <>
+                              <td>
+                                <Accordion>
+                                  <Accordion.Item eventKey="0">
+                                    <Accordion.Header><img src={creditcards} alt="credit cards" /><span>{res.number}</span> </Accordion.Header>
+                                    <Accordion.Body>
+                                      <ul>
+                                        <li>
+                                          <label>Name on Card</label>
+                                          <p>{res.name}</p>
+                                        </li>
+                                        <li>
+                                          <label>Card Number</label>
+                                          <p>{res.number}</p>
+                                        </li>
+                                        <li>
+                                          <label>Expiry on</label>
+                                          <p>{res.exp_year}/{res.exp_month}</p>
+                                        </li>
+                                        <li>
+                                          <label>CVV</label>
+                                          <input
+                                            // onClick ={}
+                                            maxlength="3"
+                                            type="password"
+                                            defaultValue={formCardValue.securityCode}
+                                            onChange={(e) => handleCardInputChange(e, 'securityCode')}
+                                          />
+                                        </li>
+                                        <li>
+                                          <div className="card-delete">
+                                            <Button className="btn btn-danger" onClick={() => { handleDeleteShow(res.id) }}>
+                                              Delete</Button></div>
+                                        </li>
+                                      </ul>
+                                    </Accordion.Body>
+                                  </Accordion.Item>
+                                </Accordion>
+                              </td>
+                              {/* <td>
+                                </td> */}
+                            </tr>
 
-                            </>
                           )
-                          }
-  
-                    </Table>
-                    {/* End List card */}
+                        })}
+
+                      <Modal show={cardDeleteShow} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Delete Card</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Are you sure you want to delete ?</Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="secondary" onClick={handleClose}>Close </Button>
+                          <Button
+                            className="delete_recipient"
+                            variant="danger"
+                            onClick={() => { handleRemovecardDetails(delete_id) }}
+                          >
+                            Delete
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </tbody>
+                  </>
+                ) : (
+                  <>
+                  </>
+                )
+                }
+
+
+                {bankCardData?.length == 0 ? (
+                  <>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Cards Detail</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colSpan={2}> No Cards<br></br>
+                          <img src={nocard} alt="nocard" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </>
+                ) : (
+                  <>
+
+                  </>
+                )
+                }
+
+              </Table>
+              {/* End List card */}
 
 
 
 
-                    {/* start add card */}
-                    <div className="addnewcard">
-                      <p>Please add your card details</p>
+              {/* start add card */}
+              <div className="addnewcard">
+                <p>Please add your card details</p>
 
-                      <form>
-                        <div className="row each-row">
-                          <div className="col-md-12">
-                            <div className="input_field">
-                              <p className="get-text">Your name as it appears on card<span style={{ color: 'red' }} >*</span> </p>
-                              <div className="card-fields">
-                                <input
-                                  type="text"
-                                  className='rate_input form-control'
-                                  name="cardName"
-                                  defaultValue={formCardValue.cardName}
-                                  onChange={(e) => handleCardInputChange(e, 'cardName')}
-                                  placeholder="Name"
-                                />
-                                <span style={myStyle}>{CardErrorText.Name ? CardErrorText.Name : ''}</span>
-                                <span style={myStyle}>{CardErrorText.name ? CardErrorText.name : ''}</span>
-                                <i class="fa fa-user"></i>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row each-row">
-                          <div className="col-md-12">
-                            <div className="input_field">
-                              {/* <img src={creditcards}  alt="credit cards" /> */}
-                              <p className="get-text">Card Number<span style={{ color: 'red' }} >*</span> </p>
-                              <div className="card-fields">
-                                <input
-                                  min="0"
-                                  maxlength="4"
-                                  type="number"
-                                  className='rate_input form-control'
-                                  name="cardNumber"
-                                  placeholder="XXXX-XXXX-XXXX-XXXX"
-                                  defaultValue={formCardValue.cardNumber}
-                                  onChange={(e) => handleCardInputChange(e, 'cardNumber')}
-                                />
-                                <i class="fa fa-credit-card" id="cardtype"></i>
-                              </div>
-                              <span style={myStyle}>{CardErrorText.Entercard ? CardErrorText.Entercard : ''}</span>
-                              <span style={myStyle}>{CardErrorText.card_number ? CardErrorText.card_number : ''}</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row each-row">
-
-                          <div className="col-md-8">
-                            <div className="input_field">
-                              <p className="get-text">Expiration Date<span style={{ color: 'red' }} >*</span></p>
-                              <div className="card-date">
-                                <div className="card-fields">
-                                  <input
-                                    min="0"
-                                    maxlength="2"
-                                    type="text"
-                                    className='rate_input form-control'
-                                    name="exp_month"
-                                    placeholder="Month"
-                                    maxLength={2}
-                                    defaultValue={formCardValue.exp_month}
-                                    onChange={(e) => handleCardInputChange(e, 'exp_month')}
-                                  />
-                                  <span style={myStyle}>{CardErrorText.Entermonth ? CardErrorText.Entermonth : ''}</span>
-                                  <span style={myStyle}>{CardErrorText.expiry_month ? CardErrorText.expiry_month : ''}</span>
-                                  <i class="fa fa-calendar"></i>
-
-                                </div>
-                                <span>/</span>
-                                <div className="card-fields">
-                                  <input
-                                    type="text"
-                                    className='rate_input form-control'
-                                    name="exp_year"
-                                    maxLength={4}
-                                    placeholder="Year"
-                                    defaultValue={formCardValue.exp_year}
-                                    onChange={(e) => handleCardInputChange(e, 'exp_year')}
-                                  />
-                                  <span style={myStyle}>{CardErrorText.Enteryear ? CardErrorText.Enteryear : ''}</span>
-                                  <span style={myStyle}>{CardErrorText.expiry_year ? CardErrorText.expiry_year : ''}</span>
-                                  <i class="fa fa-calendar"></i>
-
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="col-md-4">
-                            <div className="input_field">
-                              <p className="get-text">CVV<span style={{ color: 'red' }} >*</span> </p>
-                              <div className="card-fields">
-                                <input
-                                  maxlength="3"
-                                  type="password"
-                                  className='rate_input form-control'
-                                  name="securityCode"
-                                  placeholder="xxx"
-                                  defaultValue={formCardValue.securityCode}
-                                  onChange={(e) => handleCardInputChange(e, 'securityCode')}
-                                />
-                                <span style={myStyle}>{CardErrorText.Entercvc ? CardErrorText.Entercvc : ''}</span>
-                                <i class="fa fa-lock"></i>
-                              </div>
-
-                            </div>
-                          </div>
-
-
+                <form>
+                  <div className="row each-row">
+                    <div className="col-md-12">
+                      <div className="input_field">
+                        <p className="get-text">Your name as it appears on card<span style={{ color: 'red' }} >*</span> </p>
+                        <div className="card-fields">
+                          <input
+                            type="text"
+                            className='rate_input form-control'
+                            name="cardName"
+                            defaultValue={formCardValue.cardName}
+                            onChange={(e) => handleCardInputChange(e, 'cardName')}
+                            placeholder="Name"
+                          />
+                          <span style={myStyle}>{CardErrorText.Name ? CardErrorText.Name : ''}</span>
+                          <span style={myStyle}>{CardErrorText.name ? CardErrorText.name : ''}</span>
+                          <i class="fa fa-user"></i>
                         </div>
 
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row each-row">
+                    <div className="col-md-12">
+                      <div className="input_field">
+                        {/* <img src={creditcards}  alt="credit cards" /> */}
+                        <p className="get-text">Card Number<span style={{ color: 'red' }} >*</span> </p>
+                        <div className="card-fields">
+                          <input
+                            min="0"
+                            maxlength="4"
+                            type="number"
+                            className='rate_input form-control'
+                            name="cardNumber"
+                            placeholder="XXXX-XXXX-XXXX-XXXX"
+                            defaultValue={formCardValue.cardNumber}
+                            onChange={(e) => handleCardInputChange(e, 'cardNumber')}
+                          />
+                          <i class="fa fa-credit-card" id="cardtype"></i>
+                        </div>
+                        <span style={myStyle}>{CardErrorText.Entercard ? CardErrorText.Entercard : ''}</span>
+                        <span style={myStyle}>{CardErrorText.card_number ? CardErrorText.card_number : ''}</span>
+                      </div>
+                    </div>
+                  </div>
 
-                        <div className="col-md-12">
-                          <div className="saved-label">
+                  <div className="row each-row">
+
+                    <div className="col-md-8">
+                      <div className="input_field">
+                        <p className="get-text">Expiration Date<span style={{ color: 'red' }} >*</span></p>
+                        <div className="card-date">
+                          <div className="card-fields">
                             <input
-                              type="checkbox"
-                              checked={checked}
-                              onChange={handleCradBankDetails}
+                              min="0"
+                              maxlength="2"
+                              type="text"
+                              className='rate_input form-control'
+                              name="exp_month"
+                              placeholder="Month"
+                              maxLength={2}
+                              defaultValue={formCardValue.exp_month}
+                              onChange={(e) => handleCardInputChange(e, 'exp_month')}
                             />
-                            {/* <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
+                            <span style={myStyle}>{CardErrorText.Entermonth ? CardErrorText.Entermonth : ''}</span>
+                            <span style={myStyle}>{CardErrorText.expiry_month ? CardErrorText.expiry_month : ''}</span>
+                            <i class="fa fa-calendar"></i>
+
+                          </div>
+                          <span>/</span>
+                          <div className="card-fields">
+                            <input
+                              type="text"
+                              className='rate_input form-control'
+                              name="exp_year"
+                              maxLength={4}
+                              placeholder="Year"
+                              defaultValue={formCardValue.exp_year}
+                              onChange={(e) => handleCardInputChange(e, 'exp_year')}
+                            />
+                            <span style={myStyle}>{CardErrorText.Enteryear ? CardErrorText.Enteryear : ''}</span>
+                            <span style={myStyle}>{CardErrorText.expiry_year ? CardErrorText.expiry_year : ''}</span>
+                            <i class="fa fa-calendar"></i>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">CVV<span style={{ color: 'red' }} >*</span> </p>
+                        <div className="card-fields">
+                          <input
+                            maxlength="3"
+                            type="password"
+                            className='rate_input form-control'
+                            name="securityCode"
+                            placeholder="xxx"
+                            defaultValue={formCardValue.securityCode}
+                            onChange={(e) => handleCardInputChange(e, 'securityCode')}
+                          />
+                          <span style={myStyle}>{CardErrorText.Entercvc ? CardErrorText.Entercvc : ''}</span>
+                          <i class="fa fa-lock"></i>
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+
+
+                  <div className="col-md-12">
+                    <div className="saved-label">
+                      <input
+                        type="checkbox"
+                        checked={checkedValueCard}
+                        onChange={handleCradBankDetails}
+                      />
+                      {/* <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
                               Save
                               </Button>  */}
-                            <label>Save Card Details</label></div>
-                        </div>
-                      </form>
-                    </div>
+                      <label>Save Card Details</label></div>
+                  </div>
+                </form>
+              </div>
 
-                    {/* End add card */}
+              {/* End add card */}
 
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseDetails}>
-                      Close
-                    </Button>
-                    <Button type="submit" variant="primary" onClick={handlePaymentCard}>
-                      Payment
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseDetails}>
+                Close
+              </Button>
+              <Button type="submit" variant="primary" onClick={handlePaymentCard}>
+                Payment
+              </Button>
+            </Modal.Footer>
+          </Modal>
 
-              {/* </>
+          {/* </>
             ) : (
               <>
                <Page404 />
@@ -2278,7 +2284,7 @@ const SendMoney = () => {
             console.log(2, "log2");
             setStep(step + 1);
             console.log(step, "stepdmskdmklm")
-            
+
             console.log(res, "codes")
             localStorage.setItem("DigitalCode", res.code);
             localStorage.setItem("DigitalTransactionId", res.transaction_id)
@@ -2309,300 +2315,300 @@ const SendMoney = () => {
         <div>
           {/* {
             token || verification_otp ||DigitalCode != undefined || '' ? ( */}
-              <section>
-                <div className="progressBar">
-                  <div className="progress">
-                    <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
-                    <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
-                    <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
-                    <span className="progress-bar bg-success progress-bar-striped step4">{step}</span>
+          <section>
+            <div className="progressBar">
+              <div className="progress">
+                <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
+                <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
+                <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
+                <span className="progress-bar bg-success progress-bar-striped step4">{step}</span>
+              </div>
+            </div>
+            <div className="form_body">
+              <div className="header">
+                <h1>Sender Details </h1>
+              </div>
+
+              <form>
+                <div className="row each-row">
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="text"
+                        className='rate_input form-control'
+                        name="firstName"
+                        defaultValue={formSenderValue.firstName}
+                        onChange={(e) => hamdleSenderDetailsData(e, 'firstName')}
+                      />
+                      <span style={myStyle}>{senderDetailText.Enterfirstname ? senderDetailText.Enterfirstname : ''}</span>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Middle Name</p>
+                      <input
+                        type="text"
+                        className='rate_input form-control'
+                        name="middleName"
+                        defaultValue={formSenderValue.middleName}
+                        onChange={(e) => hamdleSenderDetailsData(e, 'middleName')}
+
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="text"
+                        className='rate_input form-control'
+                        name="lastName"
+                        defaultValue={formSenderValue.lastName}
+                        onChange={(e) => hamdleSenderDetailsData(e, 'lastName')}
+                      />
+                      <span style={myStyle}>{senderDetailText.Enterlastname ? senderDetailText.Enterlastname : ''}</span>
+                    </div>
                   </div>
                 </div>
-                <div className="form_body">
-                  <div className="header">
-                    <h1>Sender Details </h1>
+                <div className="row each-row">
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Customer ID<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="text"
+                        className='rate_input form-control'
+                        value={senderDetailData.customer_id}
+                      />
+                    </div>
                   </div>
-                  
-                  <form>
-                    <div className="row each-row">
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            className='rate_input form-control'
-                            name="firstName"
-                            defaultValue={formSenderValue.firstName}
-                            onChange={(e) => hamdleSenderDetailsData(e, 'firstName')}
-                             />
-                              <span style={myStyle}>{senderDetailText.Enterfirstname ? senderDetailText.Enterfirstname : ''}</span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Middle Name</p>
-                          <input 
-                          type="text" 
-                          className='rate_input form-control'
-                          name="middleName"
-                          defaultValue={formSenderValue.middleName}
-                          onChange={(e) => hamdleSenderDetailsData(e, 'middleName')}
-
-                           />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
-                          <input 
-                          type="text"
-                           className='rate_input form-control'
-                           name="lastName"
-                           defaultValue={formSenderValue.lastName}
-                           onChange={(e) => hamdleSenderDetailsData(e, 'lastName')}
-                            />
-                               <span style={myStyle}>{senderDetailText.Enterlastname ? senderDetailText.Enterlastname : ''}</span>
-                        </div>
-                      </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Date of birth<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="date"
+                        className='rate_input form-control'
+                        name="DateofBirth"
+                        defaultValue={formSenderValue.DateofBirth}
+                        onChange={(e) => hamdleSenderDetailsData(e, 'DateofBirth')}
+                      />
+                      <span style={myStyle}>{senderDetailText.Enterdob ? senderDetailText.Enterdob : ''}</span>
                     </div>
-                    <div className="row each-row">
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Customer ID<span style={{ color: 'red' }} >*</span></p>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Gender<span style={{ color: 'red' }} >*</span></p>
+                      <div className="inline-flex">
+                        <label className="container-new form-gender">
+                          <span className="radio-tick">Male</span>
                           <input
-                            type="text"
-                            className='rate_input form-control'
-                            value={senderDetailData.customer_id}
+                            className="form-check-input"
+                            type="radio"
+                            name="gender"
+                            defaultValue={'Male'}
+                            onChange={(e) => hamdleSenderDetailsData(e, 'gender')}
+                            defaultChecked
                           />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Date of birth<span style={{ color: 'red' }} >*</span></p>
-                          <input 
-                          type="date" 
-                          className='rate_input form-control'
-                          name="DateofBirth"
-                          defaultValue={formSenderValue.DateofBirth}
-                          onChange={(e) => hamdleSenderDetailsData(e, 'DateofBirth')}
-                           />
-                            <span style={myStyle}>{senderDetailText.Enterdob ? senderDetailText.Enterdob : ''}</span>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Gender<span style={{ color: 'red' }} >*</span></p>
-                          <div className="inline-flex">
-                            <label className="container-new form-gender">
-                              <span className="radio-tick">Male</span>
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="gender"
-                                defaultValue={'Male'}
-                                onChange={(e) => hamdleSenderDetailsData(e, 'gender')}
-                                defaultChecked
-                              />
-                              <span className="checkmark"></span>
-                            </label>
-                            <label class="container-new form-gender">
-                              <span className="radio-tick">Female</span>
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="gender"
-                                value=" Female"
-                                defaultValue={'Female'}
-                                onChange={(e) => hamdleSenderDetailsData(e, 'gender')}
-                              />
-                              <span className="checkmark"></span>
-                            </label>
-                          </div>
-                          <span style={myStyle}>{senderDetailText.Entergender ? senderDetailText.Entergender : ''}</span>
-                        </div>
-                        
-
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">Country of Birth<span style={{ color: 'red' }} >*</span></p>
-                          <Select
-                            // ref={input_location}
-                            options={countryoptions}
-                            // value={countryValue}
-                            onChange={changeHandler}
+                          <span className="checkmark"></span>
+                        </label>
+                        <label class="container-new form-gender">
+                          <span className="radio-tick">Female</span>
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="gender"
+                            value=" Female"
+                            defaultValue={'Female'}
+                            onChange={(e) => hamdleSenderDetailsData(e, 'gender')}
                           />
-                        </div>
+                          <span className="checkmark"></span>
+                        </label>
                       </div>
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">ID Type<span style={{ color: 'red' }} >*</span></p>
-                          <input 
-                          type="text"
-                          className='rate_input form-control'
-                           />
-                        </div>
-                      </div>
+                      <span style={myStyle}>{senderDetailText.Entergender ? senderDetailText.Entergender : ''}</span>
                     </div>
-                    <div className="row each-row">
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                              type="email"
-                              value={senderDetailData.email}
-                              className='rate_input form-control'
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                             type="text"
-                             className='rate_input form-control'
-                             value={senderDetailData.mobile}
-                          />
 
-                        </div>
-                      </div>
+
+                  </div>
+                </div>
+                <div className="row each-row">
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">Country of Birth<span style={{ color: 'red' }} >*</span></p>
+                      <Select
+                        // ref={input_location}
+                        options={countryoptions}
+                        value={countryValue}
+                        onChange={changeHandler}
+                      />
                     </div>
-                    <div className="row each-row">
-                      <h5>Address</h5>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Flat/Unit No.</p>
-                          <input 
-                          type="text"
-                           className='rate_input form-control'
-                           name="flat"
-                          defaultValue={formSenderValue.flat}
-                          onChange={(e) => hamdleSenderDetailsData(e, 'flat')}
-                            />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Building No./Name</p>
-                          <input
-                           type="text" 
-                           className='rate_input form-control'
-                           name="building"
-                          defaultValue={formSenderValue.building}
-                          onChange={(e) => hamdleSenderDetailsData(e, 'building')}
-                            />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Street</p>
-                          <input
-                           type="text"
-                            className='rate_input form-control'
-                            name="street"
-                          defaultValue={formSenderValue.street}
-                          onChange={(e) => hamdleSenderDetailsData(e, 'street')}
-                             />
-                        </div>
-                      </div>
+                  </div>
+                  {/* <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">ID Type<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="text"
+                        className='rate_input form-control'
+                      />
                     </div>
-                    <div className="row each-row">
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Postcode</p>
-                          <input 
-                          type="text"
-                           className='rate_inpuspant form-control' 
-                           name="postcode"
-                          defaultValue={formSenderValue.postcode}
-                          onChange={(e) => hamdleSenderDetailsData(e, 'postcode')}
-                           />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">City/Town</p>
-                          <input 
-                          type="text" 
-                          className='rate_input form-control'
-                          name="city"
-                          defaultValue={formSenderValue.city}
-                          onChange={(e) => hamdleSenderDetailsData(e, 'city')}
-                           />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">State</p>
-                          <input
-                           type="text"
-                            className='rate_input form-control'
-                            name="state"
-                          defaultValue={formSenderValue.state}
-                          onChange={(e) => hamdleSenderDetailsData(e, 'state')}
-                             />
-                        </div>
-                      </div>
+                  </div> */}
+                </div>
+                <div className="row each-row">
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="email"
+                        value={senderDetailData.email}
+                        className='rate_input form-control'
+                      />
                     </div>
-                    <div className="row each-row">
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Country Code</p>
-                          <input
-                            type="text"
-                            className='rate_input form-control'
-                            name="country_code"
-                          defaultValue={formSenderValue.country_code}
-                          onChange={(e) => hamdleSenderDetailsData(e, 'country_code')}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Country Name</p>
-                          <Select
-                            // ref={input_location}
-                            options={countryoptions}
-                            value={countryValue}
-                            onChange={changeHandler}
-                          />
+                  </div>
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
+                      <input
+                        type="text"
+                        className='rate_input form-control'
+                        value={senderDetailData.mobile}
+                      />
 
-                        </div>
-                      </div>
                     </div>
-                   
-                  </form>
-
-                  <div className="row each-row">
-                      <div className="col-md-2 new_buttonss">
-                        <button className="start-form-button" onClick={handlSenderDetails}>Clear</button>
-                      </div>
-                      <div className="col-md-10 new_buttons">
-
-                        <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button>
-
-
-                        {verificationValue == false ? (
-                          <div id="digitalid-verify"></div>
-                        ) : (
-                          <>
-                             <button className="form-button" onClick={handleCreateSenderDetails}> Continue</button>
-                          </>
-                        )
-                        } 
-
-
-
-
-                      </div>
+                  </div>
+                </div>
+                <div className="row each-row">
+                  <h5>Address</h5>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Flat/Unit No.</p>
+                      <input
+                        type="text"
+                        className='rate_input form-control'
+                        name="flat"
+                        defaultValue={formSenderValue.flat}
+                        onChange={(e) => hamdleSenderDetailsData(e, 'flat')}
+                      />
                     </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Building No./Name</p>
+                      <input
+                        type="text"
+                        className='rate_input form-control'
+                        name="building"
+                        defaultValue={formSenderValue.building}
+                        onChange={(e) => hamdleSenderDetailsData(e, 'building')}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Street</p>
+                      <input
+                        type="text"
+                        className='rate_input form-control'
+                        name="street"
+                        defaultValue={formSenderValue.street}
+                        onChange={(e) => hamdleSenderDetailsData(e, 'street')}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row each-row">
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Postcode</p>
+                      <input
+                        type="text"
+                        className='rate_inpuspant form-control'
+                        name="postcode"
+                        defaultValue={formSenderValue.postcode}
+                        onChange={(e) => hamdleSenderDetailsData(e, 'postcode')}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">City/Town</p>
+                      <input
+                        type="text"
+                        className='rate_input form-control'
+                        name="city"
+                        defaultValue={formSenderValue.city}
+                        onChange={(e) => hamdleSenderDetailsData(e, 'city')}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">State</p>
+                      <input
+                        type="text"
+                        className='rate_input form-control'
+                        name="state"
+                        defaultValue={formSenderValue.state}
+                        onChange={(e) => hamdleSenderDetailsData(e, 'state')}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row each-row">
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Country Code</p>
+                      <input
+                        type="text"
+                        className='rate_input form-control'
+                        name="country_code"
+                        defaultValue={formSenderValue.country_code}
+                        onChange={(e) => hamdleSenderDetailsData(e, 'country_code')}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="input_field">
+                      <p className="get-text">Country Name</p>
+                      <Select
+                        // ref={input_location}
+                        options={countryoptions}
+                        value={countryValue}
+                        onChange={changeHandler}
+                      />
+
+                    </div>
+                  </div>
                 </div>
 
-              </section>
+              </form>
 
-            {/* ) : (
+              <div className="row each-row">
+                <div className="col-md-2 new_buttonss">
+                  <button className="start-form-button" onClick={handlSenderDetails}>Clear</button>
+                </div>
+                <div className="col-md-10 new_buttons">
+
+                  <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+
+
+                  {verificationValue == false ? (
+                    <div id="digitalid-verify"></div>
+                  ) : (
+                    <>
+                      <button className="form-button" onClick={handleCreateSenderDetails}> Continue</button>
+                    </>
+                  )
+                  }
+
+
+
+
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+          {/* ) : (
               <>
                <Page404 />
               </>
@@ -2624,91 +2630,95 @@ const SendMoney = () => {
         <div>
           {/* {
             token || verification_otp || DigitalCode != undefined || '' ? ( */}
-              <section>
-                <div className="progressBar">
-                  <div className="progress">
-                    <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
-                    <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
-                    <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
-                    <span className="progress-bar bg-success progress-bar-striped step4">{step}</span>
-                    <span className="progress-bar bg-success progress-bar-striped step5">{step}</span>
-                  </div>
-                </div>
-                <div className="form_body">
-                  <div className="header">
-                    <h1>Payment Summary</h1>
-                  </div>
-                  <div className="row">
-                    <Table className="final-summary">
-                      <thead>
-                        <tr>
-                          <th colSpan={2} className="popup-heading">Transaction Details </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Amount to Send</td>
-                          <td>{summeryData.send_amount}</td>
-                        </tr>
-                        <tr>
-                          <td>Fees</td>
-                          <td>{summeryData.recieve_amount}</td>
-                        </tr>
-                        <tr>
-                          <td>Total Cost</td>
-                          <td>{summeryData.send_amount}</td>
-                        </tr>
-                      </tbody>
-                      <thead>
-                        <tr>
-                          <th colSpan={2} className="popup-heading">Transfer to </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Account No.</td>
-                          <td>{summeryData.account_number}</td>
-                        </tr>
-                        <tr>
-                          <td>Account Name</td>
-                          <td>{summeryData.account_name}</td>
-                        </tr>
-                        <tr>
-                          <td>Bank Name</td>
-                          <td>{summeryData.bank_name}</td>
-                        </tr>
-                        <tr>
-                          <td>Total Recipient Received</td>
-                          <td>{summeryData.recieve_amount}</td>
-                        </tr>
-                        <tr>
-                          <td>Received Method</td>
-                          <td>{summeryData.send_method}</td>
-                        </tr>
-                      </tbody>
+          <section>
+            <div className="progressBar">
+              <div className="progress">
+                <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
+                <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
+                <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
+                <span className="progress-bar bg-success progress-bar-striped step4">{step}</span>
+                <span className="progress-bar bg-success progress-bar-striped step5">{step}</span>
+              </div>
+            </div>
+            <div className="form_body">
+              <div className="header">
+                <h1>Payment Summary</h1>
+              </div>
+              <div className="row">
+                <Table className="final-summary">
+                  <thead>
+                    <tr>
+                      <th colSpan={2} className="popup-heading">Transaction Details </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Amount to Send</td>
+                      <td>{summeryData.send_amount}
+                      <span>{to}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Fees</td>
+                      <td>{summeryData.recieve_amount}</td>
+                    </tr>
+                    <tr>
+                      <td>Total Cost</td>
+                      <td>{summeryData.send_amount}</td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <th colSpan={2} className="popup-heading">Transfer to </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Account No.</td>
+                      <td>{summeryData.account_number}</td>
+                    </tr>
+                    <tr>
+                      <td>Account Name</td>
+                      <td>{summeryData.account_name}</td>
+                    </tr>
+                    <tr>
+                      <td>Bank Name</td>
+                      <td>{summeryData.bank_name}</td>
+                    </tr>
+                    <tr>
+                      <td>Total Recipient Received</td>
+                      <td>{total_amount }
+                      <span>{from}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Received Method</td>
+                      <td>{summeryData.send_method}</td>
+                    </tr>
+                  </tbody>
 
-                    </Table>
-                  </div>
+                </Table>
+              </div>
 
 
-                  <div class="row">
-                    {/* <div className="col-md-4">
+              <div class="row">
+                {/* <div className="col-md-4">
                 <button className="start-form-button">Cancel</button>
               </div> */}
-                    <div className="col-md-12 verified-section">
-              {/* 
+                <div className="col-md-12 verified-section">
+                  {/* 
                       <button className="form-button" onClick={handlePay}>Pay</button> */}
-                      {/* <button className="form-button" onClick={()=>{setStep(step+1)}}>Continue</button> */}
+                  {/* <button className="form-button" onClick={()=>{setStep(step+1)}}>Continue</button> */}
 
-                      <button className="form-button" onClick={handleVerifiedPaymentDigitalId}>Continue</button>
-                      
-                      <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
-                      {/* <button className="form-button" onClick={handleVerifiedPaymentDigitalIdPrevious}>Previous</button> */}
-                    </div>
-                  </div>
+                  <button className="form-button" onClick={handleVerifiedPaymentDigitalId}>Continue</button>
+
+                  <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                  {/* <button className="form-button" onClick={handleVerifiedPaymentDigitalIdPrevious}>Previous</button> */}
                 </div>
-              </section>
-            {/* ) : (
+              </div>
+            </div>
+          </section>
+          {/* ) : (
               <>
                <Page404 />
               </>
@@ -2748,7 +2758,7 @@ const SendMoney = () => {
               {/* <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button> */}
               <p>Thanks for choosing RemitAssure</p>
               <NavLink to="/dashboard">
-                 <button type="submit" class="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
+                <button type="submit" class="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
             </div>
 
           </div>
@@ -2768,89 +2778,89 @@ const SendMoney = () => {
         {
           1 ? (
             <div class="form">
-               {  
-                  token || verification_otp || DigitalCode != undefined || '' ? (
-                   <>
-                       <section className="why-us section-bgba user_dashboard_banner">
-                    <div className="container">
-                      <div className="row">
+              {
+                 LoginDigitalidVerified == 'false'|| verification_otp || DigitalCode != undefined || '' ? (
+                  <>
+                    <section className="why-us section-bgba user_dashboard_banner">
+                      <div className="container">
+                        <div className="row">
 
-                        <div className="col-md-8">{
-                          <Form />}
-                        </div>
-                
-                        <div className="col-md-4">
+                          <div className="col-md-8">{
+                            <Form />}
+                          </div>
 
-                          {/* <img src={sendmoney} className="send-money-img" /> */}
+                          <div className="col-md-4">
 
-                          <Table>
+                            {/* <img src={sendmoney} className="send-money-img" /> */}
 
-                            {
-                              step > 0 && Total_amount != '' ? (
+                            <Table>
 
-                                <div className="summary">
-                                  <BsCheckCircleFill />
-                                  <h5>Summary</h5>
-                                  <tbody>
-                                    <tr>
-                                      <th>Amount</th>
-                                      <td>{amountValue.amountInput + " " + from + " ⇒ " + total_amount + " " + to}</td>
-                                      {/* <td>{total_amount }</td> */}
-                                    </tr>
-                                    <tr>
-                                      <th>Received Method</th>
-                                      <td>{recivedMethod}</td>
-                                    </tr>
-                                    <tr>
-                                      <th>Payout Partners</th>
-                                      <td>{payOutPartner}</td>
-                                    </tr>
-                                  </tbody>
-                                </div>
-                              ) : (
-                                <>
-                                </>
+                              {
+                                step > 0 && Total_amount != '' ? (
 
-                              )
+                                  <div className="summary">
+                                    <BsCheckCircleFill />
+                                    <h5>Summary</h5>
+                                    <tbody>
+                                      <tr>
+                                        <th>Amount</th>
+                                        <td>{amountValue.amountInput + " " + from + " ⇒ " + total_amount + " " + to}</td>
+                                        {/* <td>{total_amount }</td> */}
+                                      </tr>
+                                      <tr>
+                                        <th>Received Method</th>
+                                        <td>{recivedMethod}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Payout Partners</th>
+                                        <td>{payOutPartner}</td>
+                                      </tr>
+                                    </tbody>
+                                  </div>
+                                ) : (
+                                  <>
+                                  </>
 
-                            }
+                                )
 
-                            {
-                              step > 0 && formValue.bankName != '' ? (
-                                <div className="summary1">
-                                  <BsCheckCircleFill />
-                                  <h5>Recipient details Summary</h5>
-                                  <tbody>
-                                    <tr>
-                                      <th>Full Name</th>
-                                      <td>{formValue.firstName} <span>{formValue.lastName}</span></td>
-                                    </tr>
-                                    <tr>
-                                      <th>Mobile</th>
-                                      <td>{formValue.mobile}</td>
-                                    </tr>
-                                    <tr>
-                                      <th>Reason For Sending Money</th>
-                                      <td>{formValue.reasonMoney}</td>
-                                    </tr>
-                                  </tbody>
+                              }
 
-                                </div>
+                              {
+                                step > 0 && formValue.bankName != '' ? (
+                                  <div className="summary1">
+                                    <BsCheckCircleFill />
+                                    <h5>Recipient details Summary</h5>
+                                    <tbody>
+                                      <tr>
+                                        <th>Full Name</th>
+                                        <td>{formValue.firstName} <span>{formValue.lastName}</span></td>
+                                      </tr>
+                                      <tr>
+                                        <th>Mobile</th>
+                                        <td>{formValue.mobile}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Reason For Sending Money</th>
+                                        <td>{formValue.reasonMoney}</td>
+                                      </tr>
+                                    </tbody>
 
-                              ) : (
-                                <>
-                                </>
+                                  </div>
 
-                              )
+                                ) : (
+                                  <>
+                                  </>
 
-                            }
+                                )
 
-                          </Table>
+                              }
 
-
+                            </Table>
 
 
-                          {/* {  
+
+
+                            {/* {  
                     step > 0 && formValue.bankName != ''  ? (
               
                   
@@ -2886,28 +2896,28 @@ const SendMoney = () => {
                   
                   }  */}
 
+                          </div>
+
+
                         </div>
-
-
                       </div>
-                    </div>
-                       </section>
-                      </>
-                      ) : (
-                      <>
-                        <Page404 />
-                  
-                      </>
-                      )
-                      }
+                    </section>
+                  </>
+                ) : (
+                  <>
+                    <Page404 />
 
-                    </div>
-                  ) : (
-                    <></>
+                  </>
+                )
+              }
 
-                  )
-                }
-              </div>
+            </div>
+          ) : (
+            <></>
+
+          )
+        }
+      </div>
 
 
 

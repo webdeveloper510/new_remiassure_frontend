@@ -52,6 +52,13 @@ const Header =() => {
   const token = localStorage.getItem("token");
   console.log("TOKEN", token);
 
+  const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
+  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
+
+  const DigitalCode = localStorage.getItem("DigitalCode");
+  console.log("DigitalCode", DigitalCode);
+
+
   const verification_otp = localStorage.getItem("verification_otp");
   console.log("Verification Message", verification_otp)
 
@@ -115,8 +122,20 @@ const Header =() => {
                               </span> 
                           </a>
                         <ul>
-                        <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
+                          {      
+                            LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
+                          <li> <NavLink to="/dashboard">Dashboard</NavLink></li> 
+                          ) : (
+                            <>
+                            </>
+                          )
+                        }
+
+
                           <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
+
+
+                          
                         </ul>
                       </li>
                       
@@ -131,6 +150,38 @@ const Header =() => {
                         </>
                       )
                     }
+
+
+                   {/* Start -  Dashboard  */}
+                   {/* {      
+                      LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
+
+                        <li class="dropdown">
+                          <a href="#">
+                            <span>
+                            My account <IoIosArrowDown style={{ color: 'rgb(20, 34, 224);' }}/>
+                              </span> 
+                          </a>
+                        <ul>
+                        <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
+                          <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
+                        </ul>
+                      </li>
+                      
+                      ) : (
+                        <>
+                        </>
+                      )
+                    }
+ */}
+
+
+
+
+
+
+
+
                     {/* </li> */}
 
                   </ul>
