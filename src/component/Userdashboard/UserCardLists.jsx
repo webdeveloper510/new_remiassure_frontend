@@ -297,7 +297,7 @@ const handleRemovecardDetails =(value) =>{
                 </div>
                 <div className="card">
                     <div className="card-body">
-                    <h6 style={{"text-align":"center" , "margin-bottom":"20px"}}>No Saved Card</h6>
+                    <h6 style={{"text-align":"center" , "margin-bottom":"20px"}}>No Saved Cards</h6>
                         <div className="add-rec-new">
                         <img src={nocard} alt="credit cards" />
 
