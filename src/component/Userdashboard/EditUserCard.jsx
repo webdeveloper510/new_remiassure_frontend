@@ -206,7 +206,7 @@ const EditCardUser = () => {
                 <div className="content-body">
                   <section className="edit_recipient_section">
                     <div class="form-head mb-4">
-                      <h2 class="text-black font-w600 mb-0"><b>Update Card Profile </b>
+                      <h2 class="text-black font-w600 mb-0"><b>Update Card </b>
                         <NavLink to="/userCardLists">
                           <button className="start-form-button back-btn" >
                             <MdOutlineKeyboardBackspace />
@@ -223,7 +223,7 @@ const EditCardUser = () => {
                         <div className="card-body">
 
                           <div className="row">
-                            <h5>Bank Information</h5>
+                            {/* <h5>Bank Information</h5> */}
                             <div className="col-md-4">
                               <div className="input_field">
                                 <p className="get-text">Card Name<span style={{ color: 'red' }} >*</span></p>
@@ -236,7 +236,7 @@ const EditCardUser = () => {
                                 //  placeholder={RecepientsData.bank_name}
 
                                 />
-                                {/* <span style={myStyle}>{BankNameText.Enterbankname? BankNameText.Enterbankname: ''}</span> */}
+                                <span style={myStyle}>{BankNameText.name? BankNameText.name: ''}</span> 
 
                               </div>
                             </div>
@@ -258,8 +258,9 @@ const EditCardUser = () => {
                             </div>
                             <div className="col-md-4">
                               <div className="input_field">
-                                <p className="get-text">Card exp_month<span style={{ color: 'red' }} >*</span></p>
+                                <p className="get-text">Card expiry month<span style={{ color: 'red' }} >*</span></p>
                                 <input
+                                min={0}
                                   type="number"
                                   name="exp_month"
                                   // ref={input_recipientAccountNumber}
@@ -270,13 +271,13 @@ const EditCardUser = () => {
                                 />
                                 {/* {error&&formValue.accountNumber.length<=0?
                               <span style={myStyle}>Please Enter the Account number </span>:""} */}
-                                <span style={myStyle}>{BankNameText.Enteraccountnumber ? BankNameText.Enteraccountnumber : ''}</span>
+                                <span style={myStyle}>{BankNameText.expiry_month ? BankNameText.expiry_month : ''}</span>
                                 <span style={myStyle}>{BankNameText.Accountnumberexist ? BankNameText.Accountnumberexist : ''}</span>
                               </div>
                             </div>
                             <div className="col-md-4">
                               <div className="input_field">
-                                <p className="get-text">Card exp_yaer<span style={{ color: 'red' }} >*</span></p>
+                                <p className="get-text">Card expiry yaer<span style={{ color: 'red' }} >*</span></p>
                                 <input
                                   type="number"
                                   name="exp_year"
@@ -288,8 +289,8 @@ const EditCardUser = () => {
                                 />
                                 {/* {error&&formValue.accountNumber.length<=0?
                               <span style={myStyle}>Please Enter the Account number </span>:""} */}
-                                {/* <span style={myStyle}>{BankNameText.Enteraccountnumber? BankNameText.Enteraccountnumber: ''}</span>
-                              <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span> */}
+                                <span style={myStyle}>{BankNameText.expiry_year? BankNameText.expiry_year: ''}</span>
+                              <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span> 
                               </div>
                             </div>
                           </div>

@@ -129,6 +129,8 @@ const SendMoney = () => {
   const [summeryData, setSummeryData] = React.useState([]);
   /*************************** Start- SelectPayment State************************* */
   const [checkedValueCard, setCheckedValueCard] = React.useState(false);
+/*******************************Start- cardError State*****************************/
+const [errorCard, seterrorCard] = React.useState(false);
 
 
 
@@ -916,7 +918,6 @@ const SendMoney = () => {
   }, [])
 
   const getList = () => {
-    setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/card-list/', {}, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -927,69 +928,79 @@ const SendMoney = () => {
         setBankCardData(response.data);
         console.log(bankCardData, "bankCardDatabankCardData")
         localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
-        setLoading(false); // Stop loading
-
-
-        //   if (response.status)
-        // // notify();
       })
       .catch(function (error) {
         console.log(error);
         console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-
       })
 
   }
 
   console.log(data, " nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
-  /**************************************************************************
+    /**************************************************************************
      * ************** Start Stripe card Paymet****************************
      * ***********************************************************************/
-  const handlePaymentCard = (event) => {
-    event.preventDefault();
+      const input_cardName = useRef(null);
+      const input_cardNumber = useRef(null);
+      const input_exp_month = useRef(null);
+      const input_exp_year = useRef(null);
+      const input_securityCode = useRef(null);
 
-    setLoading(true); // Set loading before sending API request
-    axios.post(API.BASE_URL + 'payment/stripe/card/', {
-      send_currency: FromValue,
-      recieve_currency: ToValue,
-      amount: AmountValue,
-      recipient_id: recipient_id,
-      reason: recipientMoneyReason,
-      destination: recipientDestination,
-      name: formCardValue.cardName,
-      number: formCardValue.cardNumber,
-      exp_month: formCardValue.exp_month,
-      exp_year: formCardValue.exp_year,
-      cvc: formCardValue.securityCode,
+      const handlePaymentCard = (event) => {
+        event.preventDefault();
+         //useRef is used for focusing on inputbox
+         if (formCardValue.cardName.length==0){
+          input_cardName.current.focus();
+              seterrorCard(true);
+          } else if (formCardValue.cardNumber.length==0){
+            input_cardNumber.current.focus();
+            seterrorCard(true);
+          } else if (formCardValue.exp_month.length==0){
+            input_exp_month.current.focus();
+            seterrorCard(true);
+          } else if (formCardValue.exp_year.length==0){
+            input_exp_year.current.focus();
+            seterrorCard(true);
+          } else if (formCardValue.securityCode.length==0){
+            input_securityCode.current.focus();
+            seterrorCard(true);
+          }
+          else{
+        axios.post(API.BASE_URL + 'payment/stripe/card/', {
+          send_currency: FromValue,
+          recieve_currency: ToValue,
+          amount: AmountValue,
+          recipient_id: recipient_id,
+          reason: recipientMoneyReason,
+          destination: recipientDestination,
+          name: formCardValue.cardName,
+          number: formCardValue.cardNumber,
+          exp_month: formCardValue.exp_month,
+          exp_year: formCardValue.exp_year,
+          cvc: formCardValue.securityCode,
 
-    }, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-      },
+        }, {
+          headers: {
+            "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+          },
 
-    })
-      .then(function (response) {
-        console.log(response);
-        setStep(step + 1);
-        localStorage.setItem("paymetTransactionId", response.data.transaction_id);
+        })
+          .then(function (response) {
+            console.log(response);
+            setStep(step + 1);
+            localStorage.setItem("paymetTransactionId", response.data.transaction_id);
+            handleISDigitalVerified();
+            SummerySingleData()
 
+          })
+          .catch(function (error, message) {
+            console.log(error.response);
+            // setCardErrorText(error.response.data);
 
-        handleISDigitalVerified();
-        SummerySingleData()
-        setLoading(false); // Stop loading 
-        // navigate('/transfer'); 
-
-      })
-      .catch(function (error, message) {
-        console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-        setCardErrorText(error.response.data);
-
-      })
-  }
-  // }
+          })
+      }
+      }
 
   /**************************************************************************
    * ************** Start Paymet Or Pay Api****************************
@@ -1065,7 +1076,6 @@ const SendMoney = () => {
   }, [])
 
   const SummerySingleData = () => {
-    setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/summary/', {
       transaction_id: paymetTransactionId
     }, {
@@ -1079,16 +1089,11 @@ const SendMoney = () => {
         console.log("Recipients APIIIII", response.data);
         setSummeryData(response.data.data);
         console.log(summeryData, "summeryData==========>")
-      
-
-
-        //   if (response.status)
-        // // notify();
       })
       .catch(function (error) {
         console.log(error);
         console.log(error.response);
-        setLoading(false); // Stop loading in case of error
+ 
 
       })
 
@@ -1496,7 +1501,7 @@ const SendMoney = () => {
                     <div className="input_field">
                       <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
                       <input
-                        type="text"
+                        type="number"
                         name="accountNumber"
                         // ref={input_recipientAccountNumber}
                         className='rate_input form-control'
@@ -1572,6 +1577,7 @@ const SendMoney = () => {
                       />
                       <span style={myStyle}>{BankNameText.Enteremail ? BankNameText.Enteremail : ''}</span>
                       <span style={myStyle}>{BankNameText.Emailexist ? BankNameText.Emailexist : ''}</span>
+                      <span style={myStyle}>{BankNameText.Emailinvalid ? BankNameText.Emailinvalid : ''}</span>
 
                     </div>
                   </div>
@@ -1579,7 +1585,7 @@ const SendMoney = () => {
                     <div className="input_field">
                       <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                       <input
-                        type="text"
+                        type="number"
                         // ref={input_recipientMobile}
                         className='rate_input form-control'
                         name="mobile"
@@ -1911,6 +1917,7 @@ const SendMoney = () => {
                       checked={moneyTransiction.paymentType == "Oslo"}
                       value="Oslo"
                       onChange={e => onInputChange(e)}
+                      onClick={ShowCardDetails}
                     />
                     <span className="checkmark"></span>
                   </label>
@@ -1944,6 +1951,7 @@ const SendMoney = () => {
                       checked={moneyTransiction.paymentType == " PoLI Internet Banking"}
                       value=" PoLI Internet Banking"
                       onChange={e => onInputChange(e)}
+                      onClick={ShowCardDetails}
                     />
                     <span className="checkmark"></span>
                   </label>
@@ -2108,6 +2116,7 @@ const SendMoney = () => {
                         <p className="get-text">Your name as it appears on card<span style={{ color: 'red' }} >*</span> </p>
                         <div className="card-fields">
                           <input
+                          ref={input_cardName}
                             type="text"
                             className='rate_input form-control'
                             name="cardName"
@@ -2115,6 +2124,9 @@ const SendMoney = () => {
                             onChange={(e) => handleCardInputChange(e, 'cardName')}
                             placeholder="Name"
                           />
+                            {errorCard&&formCardValue.cardName.length<=0?
+                              <span style={myStyle}>Please select the Card </span>:""} 
+
                           <span style={myStyle}>{CardErrorText.Name ? CardErrorText.Name : ''}</span>
                           <span style={myStyle}>{CardErrorText.name ? CardErrorText.name : ''}</span>
                           <i class="fa fa-user"></i>
@@ -2132,6 +2144,7 @@ const SendMoney = () => {
                           <input
                             min="0"
                             maxlength="4"
+                            ref={input_cardName}
                             type="number"
                             className='rate_input form-control'
                             name="cardNumber"
@@ -2141,6 +2154,9 @@ const SendMoney = () => {
                           />
                           <i class="fa fa-credit-card" id="cardtype"></i>
                         </div>
+                        {errorCard&&formCardValue.cardNumber.length<=0?
+                              <span style={myStyle}>Please select the Card Number </span>:""} 
+
                         <span style={myStyle}>{CardErrorText.Entercard ? CardErrorText.Entercard : ''}</span>
                         <span style={myStyle}>{CardErrorText.card_number ? CardErrorText.card_number : ''}</span>
                       </div>
@@ -2158,6 +2174,7 @@ const SendMoney = () => {
                               min="0"
                               maxlength="2"
                               type="text"
+                              ref={input_exp_month}
                               className='rate_input form-control'
                               name="exp_month"
                               placeholder="Month"
@@ -2165,6 +2182,9 @@ const SendMoney = () => {
                               defaultValue={formCardValue.exp_month}
                               onChange={(e) => handleCardInputChange(e, 'exp_month')}
                             />
+                             {errorCard&&formCardValue.exp_month.length<=0?
+                              <span style={myStyle}>Please select the Card expiry month </span>:""} 
+
                             <span style={myStyle}>{CardErrorText.Entermonth ? CardErrorText.Entermonth : ''}</span>
                             <span style={myStyle}>{CardErrorText.expiry_month ? CardErrorText.expiry_month : ''}</span>
                             <i class="fa fa-calendar"></i>
@@ -2176,11 +2196,15 @@ const SendMoney = () => {
                               type="text"
                               className='rate_input form-control'
                               name="exp_year"
+                              ref={input_exp_year}
                               maxLength={4}
                               placeholder="Year"
                               defaultValue={formCardValue.exp_year}
                               onChange={(e) => handleCardInputChange(e, 'exp_year')}
                             />
+                              {errorCard&&formCardValue.exp_year.length<=0?
+                              <span style={myStyle}>Please select the Card expiry year </span>:""} 
+
                             <span style={myStyle}>{CardErrorText.Enteryear ? CardErrorText.Enteryear : ''}</span>
                             <span style={myStyle}>{CardErrorText.expiry_year ? CardErrorText.expiry_year : ''}</span>
                             <i class="fa fa-calendar"></i>
@@ -2196,6 +2220,7 @@ const SendMoney = () => {
                         <div className="card-fields">
                           <input
                             maxlength="3"
+                            ref={input_securityCode}
                             type="password"
                             className='rate_input form-control'
                             name="securityCode"
@@ -2203,6 +2228,9 @@ const SendMoney = () => {
                             defaultValue={formCardValue.securityCode}
                             onChange={(e) => handleCardInputChange(e, 'securityCode')}
                           />
+                             {errorCard&&formCardValue.securityCode.length<=0?
+                              <span style={myStyle}>Please select the Card CVV </span>:""} 
+
                           <span style={myStyle}>{CardErrorText.Entercvc ? CardErrorText.Entercvc : ''}</span>
                           <i class="fa fa-lock"></i>
                         </div>
@@ -2467,7 +2495,7 @@ const SendMoney = () => {
                     <div className="input_field">
                       <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                       <input
-                        type="text"
+                        type="number"
                         className='rate_input form-control'
                         value={senderDetailData.mobile}
                       />

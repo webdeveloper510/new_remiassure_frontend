@@ -175,6 +175,17 @@ const AllTranfer = () => {
           </div>
           <div className="card-body">
             <div className="tabs-recipent-new">
+
+                {/* Start------- Loader functionalty */}
+                {loading ? <>
+                           <div class="loader-overly">
+                            <div class="loader" >
+
+                            </div>
+
+                            </div>
+                        </> : <></>}
+                     {/* End------- Loader functionalty */}
               
             {transactionData?.length != 0 ? (
               <Table className="table table-responsive-md card-table previous-transaction">

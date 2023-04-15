@@ -15,7 +15,7 @@ import Page404 from "../pageNotfound/Page404";
 
 
 const UserRecipients = () => {
-
+ 
     /********************  Start page show hide condtion page ******** */
     const token = localStorage.getItem("token");
     console.log("TOKEN", token);
@@ -56,13 +56,7 @@ const UserRecipients = () => {
     };
 
 
-
-    // const RecepientsData = localStorage.getItem("RecepientsData");
-    // console.log("RecipientUserName", RecepientsData);
-
     // Start page show hide condtion page
-
-
     const [data, setData] = useState([]);
     const [RecepientsData, setRecepientsData] = useState('');
     const [loading, setLoading] = useState(false);
@@ -77,7 +71,6 @@ const UserRecipients = () => {
     const LoadSinglProfile = (id) => {
         navigate(`/profilesingledata/${id}`);
     }
-
 
     const navigate = useNavigate();
 
@@ -94,12 +87,6 @@ const UserRecipients = () => {
 
     //   localStorage.setItem('courses', JSON.stringify(courses))
     // }
-
-
-    // const notify = () => toast.success("User Data Get Successfully!");
-
-
-
 
     /**************************************************************************
    * ************** Start  Recipient List ************************************
@@ -186,6 +173,17 @@ const UserRecipients = () => {
                     <div className="tabs-page">
                         <Sidebar />
                         <div className="content-body">
+                     {/* Start------- Loader functionalty */}
+                        {loading ? <>
+                           <div class="loader-overly">
+                            <div class="loader" >
+
+                            </div>
+
+                            </div>
+                        </> : <></>}
+                     {/* End------- Loader functionalty */}
+                                        
                             {data?.length != 0 ? (
                                 <section className="user_recipients_section">
                                     <div class="form-head mb-4">
@@ -282,7 +280,7 @@ const UserRecipients = () => {
 
 
 
-                            { data?.length !=undefined && data?.length == 0 ? (
+                            {data?.length == 0 ? (
                                 <>
                                  <section>
                                         <div class="form-head mb-4">

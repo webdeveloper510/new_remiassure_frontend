@@ -289,7 +289,7 @@ const Addnewrecipient = () => {
                               />
                               {/* {error&&formValue.firstName.length<=0?
                             <span style={myStyle}>Please Enter the First Name </span>:""} */}
-                              <span style={myStyle}>{BankNameText.first_name ? BankNameText.first_name : ''}</span>
+                              <span style={myStyle}>{BankNameText.Enterfirstname ? BankNameText.Enterfirstname : ''}</span>
                             </div>
                           </div>
                           <div className="col-md-4">
@@ -317,7 +317,7 @@ const Addnewrecipient = () => {
                                 defaultValue={formValue.lastName}
                                 onChange={(e) => handleStep2InputChange(e, 'lastName')}
                               />
-                              <span style={myStyle}>{BankNameText.last_name ? BankNameText.last_name : ''}</span>
+                              <span style={myStyle}>{BankNameText.Enterlastname ? BankNameText.Enterlastname : ''}</span>
                             </div>
                           </div>
                         </div>
@@ -333,7 +333,8 @@ const Addnewrecipient = () => {
                                 defaultValue={formValue.email}
                                 onChange={(e) => handleStep2InputChange(e, 'email')}
                               />
-                              <span style={myStyle}>{BankNameText.email ? BankNameText.email : ''}</span>
+                              <span style={myStyle}>{BankNameText.Enteremail ? BankNameText.Enteremail : ''}</span>
+                              <span style={myStyle}>{BankNameText.Emailinvalid ? BankNameText.Emailinvalid : ''}</span>
 
                             </div>
                           </div>

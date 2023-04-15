@@ -77,7 +77,7 @@ const Dashboard = () => {
    * ***********************************************************************/
 
     useEffect(() => {
-      
+        setLoading(true); // Set loading before sending API request
         axios.post(API.BASE_URL + 'payment/transaction-history/', {}, {
             headers: {
                 "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -87,12 +87,12 @@ const Dashboard = () => {
                 console.log("Recipients APIIIII", response.data);
                 setTransactionData(response.data);
                 localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
-
+                setLoading(false); // Stop loading
             })
             .catch(function (error) {
                 console.log(error);
                 console.log(error.response);
-            
+                setLoading(false); // Stop loading in case of error
 
             })
     }, [])
@@ -105,12 +105,8 @@ const Dashboard = () => {
    * ************** Start  Recipient complete List ************************************
    * ***********************************************************************/
 
-  
-       
-
-
      useEffect(() => {
-      
+        setLoading(true); // Set loading before sending API request
         axios.post(API.BASE_URL + 'payment/completed-transactions/', {}, {
             headers: {
                 "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -120,11 +116,13 @@ const Dashboard = () => {
                 console.log("Recipients APIIIII", response.data);
                 setData(response.data);
                 console.log(data)
+                setLoading(false); // Stop loading
   
             })
             .catch(function (error) {
                 console.log(error);
                 console.log(error.response);
+                setLoading(false); // Stop loading in case of error
             })
 
         }, [])
@@ -258,8 +256,20 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                         </div>
+                                         {/* loader start */}
+
+                                {loading ? <>
+                                   <div class="loader-overly">
+                                    <div class="loader" >
+
+                                    </div>
+
+                                 </div>
+                               </> : <></>}
+                            {/* loader End */}
 
                                         <div className="row">
+
                                             <div class="col-xl-8">
                                                 <div className="card">
                                                     <div className="card-header d-block d-sm-flex border-0">
@@ -267,7 +277,7 @@ const Dashboard = () => {
                                                             <h4 className="fs-20 text-black">Latest Transactions</h4>
                                                         </div>
                                                     </div>
-                                                    {/* {transactionData?.length != 0 ? ( */}
+                                                    {transactionData?.length != 0 ? (
                                                     <table className="table table-responsive-md card-table previous-transactions">
                                                         <thead>
                                                             <tr>
@@ -302,13 +312,13 @@ const Dashboard = () => {
                                                         </tbody>
 
                                                     </table>
-                                                      {/* ) : (
+                                                      ) : (
                                                         <>
                                                         </>
                                                     )
-                                                    } */}
+                                                    }
                                                     
-                                                        {/* {transactionData?.length == 0 ? (
+                                                        {transactionData?.length == 0 ? (
                                                             <div className="no-data">
                                                             <img src={nodata} alt="no-data" />
                                                             <div className="col-md-12">
@@ -324,7 +334,7 @@ const Dashboard = () => {
 
                                                             </>
                                                         )
-                                                        } */}
+                                                        }
                                                 </div>
                                             </div>
 
@@ -337,8 +347,8 @@ const Dashboard = () => {
                                                             <h4 className="fs-20 text-black">Recent Recipients</h4>
                                                         </div>
                                                     </div>
-{/* 
-                                                    {data?.length != 0 ? ( */}
+
+                                                    {data?.length != 0 ? (
                                                     <table className="table table-responsive-md card-table previous-transactions">
                                                         <thead>
                                                             <tr>
@@ -374,16 +384,16 @@ const Dashboard = () => {
 
                                                         </tbody>
                                                     </table>
-                                                      {/* ) : (
+                                                      ) : (
                                                         <>
                                                         </>
                                                     )
-                                                    } */}
+                                                    }
                         
 
                                                     
-                                                    {/* {data?.length == 0 ? ( */}
-                                                        {/* <>
+                                                    {data?.length == 0 ? (
+                                                        <>
                                                             <section>
                                                                 <div className="card">
                                                                     <div className="card-body">
@@ -392,7 +402,7 @@ const Dashboard = () => {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                {/* <div className={isActive ? "add-recipent-section" : "remove-add-recipent-section"}>
+                                                                 <div className={isActive ? "add-recipent-section" : "remove-add-recipent-section"}>
 
                                                                     <div className="col-md-12 align-center">
                                                                         <NavLink to="/addnewrecipient">
@@ -402,16 +412,16 @@ const Dashboard = () => {
                                                                             </button>
                                                                         </NavLink>
                                                                     </div>
-                                                                </div> */}
-                                                            {/* </section> */}
+                                                                </div> 
+                                                            </section> 
 
-                                                        {/* </> */} 
-                                                    {/* ) : (
+                                                        </> 
+                                                     ) : (
                                                         <>
 
                                                         </>
                                                     )
-                                                    } */}
+                                                    } 
                                                     
                                                 </div>
                                             </div>

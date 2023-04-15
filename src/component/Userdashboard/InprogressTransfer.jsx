@@ -159,7 +159,18 @@ const InprogressTransfer = () => {
         </div>
         <div className="card-body">
           <div className="tabs-recipent-new">
-            {transactionPendingData.data?.length != 0 ? (
+             {/* Start------- Loader functionalty */}
+             {loading ? <>
+                    <div class="loader-overly">
+                      <div class="loader" >
+
+                      </div>
+
+                      </div>
+                  </> : <></>}
+              {/* End------- Loader functionalty */}
+
+          {transactionPendingData.data?.length != 0 ? (
               <Table className="table table-responsive-md card-table previous-transaction">
                 <thead>
                   <tr>

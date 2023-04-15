@@ -164,7 +164,18 @@ const CompletedTransaction = () => {
           </div>
           <div className="card-body">
             <div className="tabs-recipent-new">
-              {transactionCompletedData.data?.length != 0 ? (
+              {/* Start------- Loader functionalty */}
+                  {loading ? <>
+                    <div class="loader-overly">
+                      <div class="loader" >
+
+                      </div>
+
+                      </div>
+                  </> : <></>}
+              {/* End------- Loader functionalty */}
+
+            {transactionCompletedData?.length != 0 ? (
                 <Table className="table table-responsive-md card-table previous-transaction">
                   <thead>
                     <tr>
@@ -321,7 +332,7 @@ const CompletedTransaction = () => {
 
 
               
-              {transactionCompletedData.data?.length == 0 ? (
+              {transactionCompletedData?.length == 0 ? (
                 <div className="no-data">
                   <img src={nodata} alt="no-data" />
 

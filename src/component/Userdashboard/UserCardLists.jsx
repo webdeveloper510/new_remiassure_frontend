@@ -39,6 +39,13 @@ const UserCardLists = () => {
 
 
 
+    // Start page show hide condtion page
+    const [carddata, setCarddata] = useState([]);
+    const [RecepientsData, setRecepientsData] = useState('');
+    const [loading, setLoading] = useState(false);
+
+
+
 
     // let { id } = useParams();
     // alert(id)
@@ -62,13 +69,6 @@ const UserCardLists = () => {
     const handleToggle = () => {
         setActive(!isActive);
     };
-
-
-
-    // Start page show hide condtion page
-    const [carddata, setCarddata] = useState([]);
-    const [RecepientsData, setRecepientsData] = useState('');
-    const [loading, setLoading] = useState(false);
 
 
 
@@ -113,6 +113,7 @@ const UserCardLists = () => {
                 console.log(carddata)
                 localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
                 setLoading(false); // Stop loading
+
 
 
                 //   if (response.status)
@@ -172,40 +173,32 @@ const UserCardLists = () => {
                     <div className="tabs-page">
                         <Sidebar />
                         <div className="content-body">
+                            {/* loader start */}
+
+                                {loading ? <>
+                                   <div class="loader-overly">
+                                    <div class="loader" >
+
+                                    </div>
+
+                                 </div>
+                               </> : <></>}
+                            {/* loader End */}
+
                             {carddata?.length != 0 ? (
                                 <section className="user_recipients_section">
                                     <div class="form-head mb-4">
                                         <h2 class="text-black font-w600 mb-0"><b>Card Lists</b>
-                                            {/* <NavLink to="/addnewrecipient">
-                                <button className="form-button addsingle_recepient" >
-                                    <BsFillPersonPlusFill />
-                                    Add New Recepients
-                            </button>
-                            </NavLink> */}
                                         </h2>
 
                                     </div>
                                     <div className="col-lg-12">
-                                        {/* loader start */}
 
-                                        {loading ? <>
-                                            <div class="loader-overly">
-                                                <div class="loader" >
-
-                                                </div>
-
-                                            </div>
-                                        </> : <></>}
-                                        {/* loader End */}
-                                        {/* <h1 className="recipients_lists">Recipients Lists</h1> */}
                                         <div className="card">
                                             <div className="card-body">
+                                              
 
-                                                {/* <div className="col-md-12 align-center">
-                            <NavLink to="/addnewrecipient">
-                                        <button className="form-button addsingle_recepient" ><BsFillPersonPlusFill /> Add New Recepients</button>
-                                        </NavLink>
-                                    </div> */}
+                                        
                                                 <Table className="table table-responsive-md card-table previous-transaction">
                                                     <thead>
                                                         <tr>
@@ -246,6 +239,7 @@ const UserCardLists = () => {
 
                                                     </tbody>
                                                 </Table>
+                                               
 
                                                 <Modal show={show} onHide={handleClose}>
                                                     <Modal.Header closeButton>
