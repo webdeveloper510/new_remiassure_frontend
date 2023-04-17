@@ -63,6 +63,7 @@ const Signup = () => {
     const [emailvalidAddress,setEmailvalidAddress ] = useState('');
     const [mobileText, setMobileText] = useState('');
     const [mobileValidText, setMobileValidText] = useState('');
+    const [mobileExistsValidText, setMobileExistsValidText] = useState('');
     const [passwordText, setPasswordText] = useState('');
     const [referralText, setReferralText] = useState('');
     const [referralInvalidText, setReferralInvalidText] = useState('');
@@ -218,6 +219,7 @@ const Signup = () => {
                     setMobileText(error.response.data.Entermobile);
                     setMobileValidText(error.response.data.Checkmobile);
                     setEmailvalidAddress(error.response.data.email)
+                    setMobileExistsValidText(error.response.data.Mobileexist)
             }
            
         })
@@ -357,6 +359,7 @@ const Signup = () => {
                                                     <span style={myStyle}>Please Enter the Mobile </span>:""}	 */}
                                                         <span  style={myStyle}>{mobileText? mobileText: ""}</span>  
                                                         <span  style={myStyle}>{mobileValidText? mobileValidText: ""}</span>  
+                                                        <span  style={myStyle}>{mobileExistsValidText? mobileExistsValidText: ""}</span>  
                                                     </Form.Group>
 
                                                     <Form.Group className="mb-3 form_label" controlId="formBasicPassword">

@@ -9,7 +9,7 @@ import { HiSwitchHorizontal } from 'react-icons/hi';
 import { toast } from "react-toastify";
 import { API } from "../../config/API";
 import axios from "axios";
-import { Navigate, useNavigate ,useParams} from "react-router";
+import { Navigate, useNavigate, useParams } from "react-router";
 import ReactFlagsSelect from "react-flags-select";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { BsChevronDoubleRight } from "react-icons/bs";
@@ -33,35 +33,38 @@ const myStyle = {
 const UserSendMoney = () => {
 
 
-   /**********Get data to localstoarge ***************/
-   const FromValue = localStorage.getItem("FromValue")
-   console.log(FromValue, "FromValue");
- 
-   const ToValue = localStorage.getItem("ToValue")
-   console.log(ToValue, "ToValue");
- 
-   const AmountValue = localStorage.getItem("AmountValue")
-   console.log(AmountValue, "AmountValue");
- 
-   const recipient_id = localStorage.getItem("recipient_id")
-   console.log(recipient_id, "recipient_id");
- 
-   const recipientMoneyReason = localStorage.getItem("recipientMoneyReason")
-   console.log(recipientMoneyReason, "recipientMoneyReason");
- 
-   const recipientDestination = localStorage.getItem("recipientDestination")
-   console.log(recipientDestination, "recipientDestination");
- 
-   const recipientName = localStorage.getItem("recipientName")
-   console.log(recipientName, "recipientName");
- 
-   const DigitalCode = localStorage.getItem("DigitalCode");
-   console.log("DigitalCode", DigitalCode);
- 
-   const recipentID = localStorage.getItem("recipentID");
-   console.log("recipentID", recipentID);
- 
- 
+  /**********Get data to localstoarge ***************/
+  const FromValue = localStorage.getItem("FromValue")
+  console.log(FromValue, "FromValue");
+
+  const ToValue = localStorage.getItem("ToValue")
+  console.log(ToValue, "ToValue");
+
+  const AmountValue = localStorage.getItem("AmountValue")
+  console.log(AmountValue, "AmountValue");
+
+  const recipient_id = localStorage.getItem("recipient_id")
+  console.log(recipient_id, "recipient_id");
+
+  const recipientMoneyReason = localStorage.getItem("recipientMoneyReason")
+  console.log(recipientMoneyReason, "recipientMoneyReason");
+
+  const recipientDestination = localStorage.getItem("recipientDestination")
+  console.log(recipientDestination, "recipientDestination");
+
+  const recipientName = localStorage.getItem("recipientName")
+  console.log(recipientName, "recipientName");
+
+  const DigitalCode = localStorage.getItem("DigitalCode");
+  console.log("DigitalCode", DigitalCode);
+
+  const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
+  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
+
+  const recipentID = localStorage.getItem("recipentID");
+  console.log("recipentID", recipentID);
+
+
 
   // let {recipient_id} = useParams();
   // // alert(id)
@@ -72,7 +75,7 @@ const UserSendMoney = () => {
   console.log("TOKEN", token);
 
   const signup_token = localStorage.getItem("signup_token")
-    console.log("signup_token", signup_token);
+  console.log("signup_token", signup_token);
 
   const verification_otp = localStorage.getItem("verification_otp");
   console.log("Verification Message", verification_otp)
@@ -91,7 +94,7 @@ const UserSendMoney = () => {
   const [info, setInfo] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
- /*************************** Start- SelectPayment State************************* */
+  /*************************** Start- SelectPayment State************************* */
   const [checkedValueCard, setCheckedValueCard] = React.useState(false);
 
   const [currencyerrorText, setCurrencyerrorText] = React.useState('');
@@ -138,9 +141,19 @@ const UserSendMoney = () => {
   const [formCardValue, setformCardValue] = React.useState({
     recipient_id, cardNumber: '', securityCode: '', cardName: '', exp_month: '', exp_year: '',
   });
-  
+
   /************ Start -Card List State***************/
   const [bankCardData, setBankCardData] = React.useState('');
+/*******************************Start- cardError State*****************************/
+  const [errorCard, seterrorCard] = React.useState(false);
+
+
+
+
+
+
+
+
 
 
   /************ Start -Recpient data ***************/
@@ -163,38 +176,38 @@ const UserSendMoney = () => {
   }
 
   /*************************** Start- Select Payment Function************************* */
-      const getCardDataPayment=(value)=>{
-        let CardForm = formCardValue
-        CardForm.cardName = value.name;
-        CardForm.cardNumber = value.number;
-        CardForm.exp_month = value.exp_month;
-        CardForm.exp_year = value.exp_year;
-        CardForm.recipient_id =recipentID;
+  const getCardDataPayment = (value) => {
+    let CardForm = formCardValue
+    CardForm.cardName = value.name;
+    CardForm.cardNumber = value.number;
+    CardForm.exp_month = value.exp_month;
+    CardForm.exp_year = value.exp_year;
+    CardForm.recipient_id = recipentID;
 
-        setFormValue(CardForm)
-        console.log("value data===========================>123",formCardValue)
-        // console.log("value data===========================>123",value)
-      }
-/*************************** End - Select Payment Function************************* */
+    setFormValue(CardForm)
+    console.log("value data===========================>123", formCardValue)
+    // console.log("value data===========================>123",value)
+  }
+  /*************************** End - Select Payment Function************************* */
 
- /*************************** Start- Recipient-Select-Payment Function************************* */
- const selectRecipientPayemen=(value) => {
-  localStorage.setItem("recipentID", value)
-  setStep(step+1)
-  
-  let CardForm = formCardValue
-  CardForm.cardName = value.name;
-  CardForm.cardNumber = value.number;
-  CardForm.exp_month = value.exp_month;
-  CardForm.exp_year = value.exp_year;
-  CardForm.recipient_id =recipentID;
-  
+  /*************************** Start- Recipient-Select-Payment Function************************* */
+  const selectRecipientPayemen = (value) => {
+    localStorage.setItem("recipentID", value)
+    setStep(step + 1)
 
-  setformCardValue(CardForm)
-  console.log("Recipient Payment Data===========================>123",formCardValue)
-  // console.log("value data===========================>123",value)
+    let CardForm = formCardValue
+    CardForm.cardName = value.name;
+    CardForm.cardNumber = value.number;
+    CardForm.exp_month = value.exp_month;
+    CardForm.exp_year = value.exp_year;
+    CardForm.recipient_id = recipentID;
 
- }
+
+    setformCardValue(CardForm)
+    console.log("Recipient Payment Data===========================>123", formCardValue)
+    // console.log("value data===========================>123",value)
+
+  }
 
 
   // Start -Recipient Crad Details 
@@ -223,6 +236,7 @@ const UserSendMoney = () => {
     setCheckedValueCard(!checkedValueCard);
   };
 
+  
   //multiple function call
   function someFunc() {
     // handleShow();
@@ -281,7 +295,7 @@ const UserSendMoney = () => {
     console.log(e.target.value)
     // console.log(defaultCountryData.length)
     setMoneyTransiction(item1 => ({ ...item1, [e.target.name]: e.target.value }));
-  } 
+  }
   // End Recive Radio button
 
 
@@ -328,7 +342,7 @@ const UserSendMoney = () => {
     console.log("handle request ");
   }
 
- 
+
 
   /****************** select country *******************/
 
@@ -636,24 +650,14 @@ const UserSendMoney = () => {
  * ************** Start  Create Card Bank Details ****************************
  * ***********************************************************************/
   const input_bankName = useRef(null);
-  const input_accountName = useRef(null);
-  const input_accountNumber = useRef(null);
+ 
 
 
   const handleCradBankDetails = (event) => {
     setCheckedValueCard(!checkedValueCard)
+    console.log(checkedValueCard, "checkedValueCardcheckedValueCard")
     event.preventDefault();
 
-    //useRef is used for focusing on inputbox
-    //     if(errorBankName.length==0){
-    //   		input_grant_type.current.focus();
-    //   		setError(true);
-    //       console.log(error, "error")
-    //   	} 
-
-    //  else{
-
-    setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/create-card/', {
       name: formCardValue.cardName,
       card_number: formCardValue.cardNumber,
@@ -667,18 +671,11 @@ const UserSendMoney = () => {
 
     })
       .then(function (response) {
-        console.log(response);
-        // handleCloseDetails();
-        // window.location.reload();
-        setLoading(false); // Stop loading 
-        // navigate('/dashboard'); 
-
+        console.log(response.data);
 
       })
       .catch(function (error, message) {
         console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-        setCardErrorText(error.response.data);
 
       })
   }
@@ -688,16 +685,40 @@ const UserSendMoney = () => {
   /**************************************************************************
   * ************** Start  Paymet Card Bank Details ****************************
   * ***********************************************************************/
+  const input_cardName = useRef(null);
+  const input_cardNumber = useRef(null);
+  const input_exp_month = useRef(null);
+  const input_exp_year = useRef(null);
+  const input_securityCode = useRef(null);
+
   const handlePaymentCard = (event) => {
+
     console.log(formCardValue, "formCardValueformCardValue")
     event.preventDefault();
+         //useRef is used for focusing on inputbox
+       if (formCardValue.cardName.length==0){
+        input_cardName.current.focus();
+            seterrorCard(true);
+        } else if (formCardValue.cardNumber.length==0){
+          input_cardNumber.current.focus();
+          seterrorCard(true);
+        } else if (formCardValue.exp_month.length==0){
+          input_exp_month.current.focus();
+          seterrorCard(true);
+        } else if (formCardValue.exp_year.length==0){
+          input_exp_year.current.focus();
+          seterrorCard(true);
+        } else if (formCardValue.securityCode.length==0){
+          input_securityCode.current.focus();
+          seterrorCard(true);
+        }
+        else{
 
-    setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/stripe/card/', {
       send_currency: FromValue,
       recieve_currency: ToValue,
       amount: AmountValue,
-      recipient_id: recipient_id.length > 0 ? recipient_id: recipentID,
+      recipient_id: recipient_id.length > 0 ? recipient_id : recipentID,
       reason: recipientMoneyReason,
       destination: recipientDestination,
       name: formCardValue.cardName,
@@ -716,26 +737,25 @@ const UserSendMoney = () => {
         console.log(response);
         handleCloseDetails();
         handlePay();
-        // window.location.reload();
-        setLoading(false); // Stop loading 
-        localStorage.setItem("paymetTransactionId",response.data.transaction_id);
+        // window.location.reload()
+  
+        localStorage.setItem("paymetTransactionId", response.data.transaction_id);
 
         // if(!checkedValueCard){
         //   handleCradBankDetails();
         //   console.log(checkedValueCard, "checkedValueCard")
         // }
-        
+
         navigate('/dashboard');
 
       })
       .catch(function (error, message) {
         console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-        setCardErrorText(error.response.data);
+        // setCardErrorText(error.response.data);
 
       })
   }
-  // }
+  }
 
   /**************************************************************************
   * ************** Start  Paymet Card Select Bank Details ****************************
@@ -780,32 +800,32 @@ const UserSendMoney = () => {
   }
   // }
 
-    /**************************************************************************
-   * ************** Start Paymet Or Pay Api****************************
-   * ***********************************************************************/
-    const handlePay = () => {
-      // event.preventDefault();
-      setLoading(true); // Set loading before sending API request
-      axios.post(API.BASE_URL + 'payment/stripe/charge/', {
-      }, {
-        headers: {
-          "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-        },
-  
+  /**************************************************************************
+ * ************** Start Paymet Or Pay Api****************************
+ * ***********************************************************************/
+  const handlePay = () => {
+    // event.preventDefault();
+    setLoading(true); // Set loading before sending API request
+    axios.post(API.BASE_URL + 'payment/stripe/charge/', {
+    }, {
+      headers: {
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+      },
+
+    })
+      .then(function (response) {
+        console.log(response);
+        // setStep(step + 1)
+        setLoading(false); // Stop loading 
       })
-        .then(function (response) {
-          console.log(response);
-          // setStep(step + 1)
-          setLoading(false); // Stop loading 
-        })
-        .catch(function (error, message) {
-          console.log(error.response);
-          setLoading(false); // Stop loading in case of error
-          setBankNameText(error.response.data);
-  
-        })
-    }
-  
+      .catch(function (error, message) {
+        console.log(error.response);
+        setLoading(false); // Stop loading in case of error
+        setBankNameText(error.response.data);
+
+      })
+  }
+
 
 
   /**************************************************************************
@@ -818,7 +838,6 @@ const UserSendMoney = () => {
   }, [])
 
   const getList = () => {
-    setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/card-list/', {}, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -829,22 +848,13 @@ const UserSendMoney = () => {
         setBankCardData(response.data);
         console.log(bankCardData, "bankCardDatabankCardData")
         localStorage.setItem("CardData", JSON.stringify(response.data.data))
-      
-
-        setLoading(false); // Stop loading
-
-
-        //   if (response.status)
-        // // notify();
       })
       .catch(function (error) {
         console.log(error);
         console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-
       })
   }
-  
+
 
   console.log(data, " nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
@@ -975,241 +985,241 @@ const UserSendMoney = () => {
           token || DigitalCode != undefined || '' ? (
 
             <> */}
-             <section>
-              <div class="form-head mb-4">
-                <h2 class="text-black font-w600 mb-0"><b>Amount & Delivery</b>
-                </h2>
-              </div>
+        <section>
+          <div class="form-head mb-4">
+            <h2 class="text-black font-w600 mb-0"><b>Amount & Delivery</b>
+            </h2>
+          </div>
 
 
-              <form>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="input_field rate-value">
-                          <p className="get-text Exchange_rate">Exchange Rate</p>
-                          <p className="exchange-rate exchange_value" >1 <span>{from}</span> = {total_rate} <span>{to}</span> </p>
-                          {/* <input type="text" className='rate_input form-control' /> */}
-                        </div>
-                      </div>
+          <form>
+            <div className="card">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="input_field rate-value">
+                      <p className="get-text Exchange_rate">Exchange Rate</p>
+                      <p className="exchange-rate exchange_value" >1 <span>{from}</span> = {total_rate} <span>{to}</span> </p>
+                      {/* <input type="text" className='rate_input form-control' /> */}
                     </div>
-                    <div className="row each-row">
-                      <span style={myStyle}>{currencyerrorText}</span>
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">From<span style={{ color: 'red' }} >*</span></p>
-                          <select
-                            className="form-select rate_input form-control"
-                            aria-label="Select a reason"
-                            value={from}
-                            ref={input_From}
-                            //  onChange={handleFrom}
-                            onChange={(e) => { myTotalAmountFromTo(e.target.value); setFrom(e.target.value) }}
-                          // onBlurCapture={myTotalAmount}
-                          >
-                            {/* <option value="">--- Select Currency ---</option> */}
-                            <option value="USD" selected="selected">USD</option>
-                            {/* <option value="USD">USD</option>  */}
-                            <option value="EUR">EUR</option>
-                            <option value="INR">INR</option>
-                            <option value="BRL">BRL</option>
-                            <option value="BGN">BGN</option>
-                            <option value="XAF">XAF</option>
-                            <option value="CAD">CAD</option>
-                            <option value="EUR">EUR</option>
-                            <option value="CZK">CZK</option>
-                            <option value="DKK">DKK</option>
-                            <option value="GHS">GHS</option>
-                            <option value="ISK">ISK</option>
-                            <option value="JOD">JPD</option>
-                            <option value="KWD">KWD</option>
-                            <option value="NZD">NZD</option>
-                            <option value="PHP">PHP</option>
-                            <option value="ZAR">ZAR</option>
-                            <option value="CHF">CHF</option>
-                            <option value="GBP">GBP</option>
+                  </div>
+                </div>
+                <div className="row each-row">
+                  <span style={myStyle}>{currencyerrorText}</span>
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">From<span style={{ color: 'red' }} >*</span></p>
+                      <select
+                        className="form-select rate_input form-control"
+                        aria-label="Select a reason"
+                        value={from}
+                        ref={input_From}
+                        //  onChange={handleFrom}
+                        onChange={(e) => { myTotalAmountFromTo(e.target.value); setFrom(e.target.value) }}
+                      // onBlurCapture={myTotalAmount}
+                      >
+                        {/* <option value="">--- Select Currency ---</option> */}
+                        <option value="USD" selected="selected">USD</option>
+                        {/* <option value="USD">USD</option>  */}
+                        <option value="EUR">EUR</option>
+                        <option value="INR">INR</option>
+                        <option value="BRL">BRL</option>
+                        <option value="BGN">BGN</option>
+                        <option value="XAF">XAF</option>
+                        <option value="CAD">CAD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="CZK">CZK</option>
+                        <option value="DKK">DKK</option>
+                        <option value="GHS">GHS</option>
+                        <option value="ISK">ISK</option>
+                        <option value="JOD">JPD</option>
+                        <option value="KWD">KWD</option>
+                        <option value="NZD">NZD</option>
+                        <option value="PHP">PHP</option>
+                        <option value="ZAR">ZAR</option>
+                        <option value="CHF">CHF</option>
+                        <option value="GBP">GBP</option>
 
-                          </select>
-                          {error && from.length <= 0 ?
-                            <span style={myStyle}>Please Select the Location </span> : ""}
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">To<span style={{ color: 'red' }} >*</span></p>
-                          <select
-                            className="form-select rate_input form-control"
-                            aria-label="Select a reason"
-                            value={to}
-                            ref={input_To}
-                            //  onChange={handleTo}
-                            onChange={(e) => { myTotalAmountFromTo(e.target.value); setTo(e.target.value) }}
-                          >
+                      </select>
+                      {error && from.length <= 0 ?
+                        <span style={myStyle}>Please Select the Location </span> : ""}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">To<span style={{ color: 'red' }} >*</span></p>
+                      <select
+                        className="form-select rate_input form-control"
+                        aria-label="Select a reason"
+                        value={to}
+                        ref={input_To}
+                        //  onChange={handleTo}
+                        onChange={(e) => { myTotalAmountFromTo(e.target.value); setTo(e.target.value) }}
+                      >
 
 
-                            <option value="">--- Select Currency ---</option>
+                        <option value="">--- Select Currency ---</option>
 
-                            {/* <option value="INR" selected="selected">INR</option> */}
-                            <option value="INR">INR</option>
-                            <option value="EUR">EUR</option>
-                            <option value="BRL">BRL</option>
-                            <option value="USD">USD</option>
-                            <option value="BGN">BGN</option>
-                            <option value="XAF">XAF</option>
-                            <option value="CAD">CAD</option>
-                            <option value="EUR">EUR</option>
-                            <option value="CZK">CZK</option>
-                            <option value="DKK">DKK</option>
-                            <option value="GHS">GHS</option>
-                            <option value="ISK">ISK</option>
-                            <option value="JOD">JPD</option>
-                            <option value="KWD">KWD</option>
-                            <option value="NZD">NZD</option>
-                            <option value="PHP">PHP</option>
-                            <option value="ZAR">ZAR</option>
-                            <option value="CHF">CHF</option>
-                            <option value="GBP">GBP</option>
-                          </select>
-                          {error && to.length <= 0 ?
-                            <span style={myStyle}>Please Select the Location </span> : ""}
-                        </div>
-                      </div>
+                        {/* <option value="INR" selected="selected">INR</option> */}
+                        <option value="INR">INR</option>
+                        <option value="EUR">EUR</option>
+                        <option value="BRL">BRL</option>
+                        <option value="USD">USD</option>
+                        <option value="BGN">BGN</option>
+                        <option value="XAF">XAF</option>
+                        <option value="CAD">CAD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="CZK">CZK</option>
+                        <option value="DKK">DKK</option>
+                        <option value="GHS">GHS</option>
+                        <option value="ISK">ISK</option>
+                        <option value="JOD">JPD</option>
+                        <option value="KWD">KWD</option>
+                        <option value="NZD">NZD</option>
+                        <option value="PHP">PHP</option>
+                        <option value="ZAR">ZAR</option>
+                        <option value="CHF">CHF</option>
+                        <option value="GBP">GBP</option>
+                      </select>
+                      {error && to.length <= 0 ?
+                        <span style={myStyle}>Please Select the Location </span> : ""}
+                    </div>
+                  </div>
+
+                </div>
+                <div className="row each-row">
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">Amount Send<span style={{ color: 'red' }} >*</span></p>
+
+                      <input
+                        type="text"
+                        // autoFocus="autofocus"
+                        ref={input_AmountSend}
+                        className='rate_input form-control'
+                        // onChange={(e)=> {myTotalAmount(e.target.value); setAmount(e.target.value)}}
+                        name="amountInput"
+                        defaultValue={amountValue.amountInput}
+                        onChange={(e) => handleAmountCahngeValue(e, 'amountInput')}
+                        onBlurCapture={myTotalAmount}
+                      // onkeyup={(text)=> myTotalAmount(text)}
+                      // onChange={e => onInputChangeDealType(e)}
+                      />
+                      {error && amountValue.amountInput.length <= 0 ?
+                        <span style={myStyle}>Please Enter the Amount </span> : ""}
 
                     </div>
-                    <div className="row each-row">
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">Amount Send<span style={{ color: 'red' }} >*</span></p>
+                  </div>
 
-                          <input
-                            type="text"
-                            // autoFocus="autofocus"
-                            ref={input_AmountSend}
-                            className='rate_input form-control'
-                            // onChange={(e)=> {myTotalAmount(e.target.value); setAmount(e.target.value)}}
-                            name="amountInput"
-                            defaultValue={amountValue.amountInput}
-                            onChange={(e) => handleAmountCahngeValue(e, 'amountInput')}
-                            onBlurCapture={myTotalAmount}
-                          // onkeyup={(text)=> myTotalAmount(text)}
-                          // onChange={e => onInputChangeDealType(e)}
-                          />
-                          {error && amountValue.amountInput.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Amount </span> : ""}
+                  <div className="col-md-6">
+                    <div className="input_field">
+                      <p className="get-text">
+                        Exchange Amount
+                      </p>
+                      <input
+                        type="text"
+                        defaultValue={exchange_amount && amountValue.amountInput != 0 || "" ? exchange_amount : ""}
+                        className='rate_input form-control'
 
-                        </div>
-                      </div>
+                      />
 
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">
-                            Exchange Amount
-                          </p>
-                          <input
-                            type="text"
-                            defaultValue={exchange_amount && amountValue.amountInput != 0 || "" ? exchange_amount : ""}
-                            className='rate_input form-control'
-
-                          />
-
-                        </div>
-                      </div>
                     </div>
-                    <div className="row each-row">
-                      <div className="col-md-6">
-                        <h5>Receive Method</h5>
-                        <div className="col-md-12">
-                          <label className="container-new">
-                            <span className="radio-tick">BankTransfer</span>
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="recivedMethod"
-                              value="bankTransfer"
-                              checked={moneyTransiction.recivedMethod == "bankTransfer"}
-                              onChange={e => onInputChange(e)}
-                            // id="flexRadioDefault1" 
+                  </div>
+                </div>
+                <div className="row each-row">
+                  <div className="col-md-6">
+                    <h5>Receive Method</h5>
+                    <div className="col-md-12">
+                      <label className="container-new">
+                        <span className="radio-tick">BankTransfer</span>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="recivedMethod"
+                          value="bankTransfer"
+                          checked={moneyTransiction.recivedMethod == "bankTransfer"}
+                          onChange={e => onInputChange(e)}
+                        // id="flexRadioDefault1" 
 
-                            />
-                            <span className="checkmark"></span>
-                          </label>
+                        />
+                        <span className="checkmark"></span>
+                      </label>
 
-                        </div>
-                        <div className="col-md-12">
-
-                          <label className="container-new">
-                            <span className="radio-tick">MobileWallet</span>
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="recivedMethod"
-                              value="mobileWallet"
-                              checked={moneyTransiction.recivedMethod == "mobileWallet"}
-                              onChange={e => onInputChange(e)}
-                            // id="flexRadioDefault2"
-                            />
-                            <span className="checkmark"></span>
-                          </label>
-                        </div>
-                      </div>
-
-                      <div className="col-md-6">
-                        <h5>Payout Partners</h5>
-                        <div className="col-md-12">
-
-                          <label className="container-new">
-                            <span className="radio-tick">Bank</span>
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="payOutPartner"
-                              // id="flexRadioDefault3" 
-                              checked={moneyTransiction.payOutPartner == "bank"}
-                              value="bank"
-                              onChange={e => onInputChange(e)}
-
-                            />
-                            <span className="checkmark"></span>
-                          </label>
-
-                        </div>
-                        <div className="col-md-12">
-
-                          <label className="container-new">
-                            <span className="radio-tick">Services</span>
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="payOutPartner"
-                              // id="flexRadioDefault4"
-                              checked={moneyTransiction.payOutPartner == "services"}
-                              value="services"
-                              onChange={e => onInputChange(e)}
-                            />
-                            <span className="checkmark"></span>
-                          </label>
-                        </div>
-                      </div>
                     </div>
+                    <div className="col-md-12">
 
-                    <div className="row">
-                      <div className="col-md-4">
-                        <button
-                          className="start-form-button"
-                          onClick={handleEntailmentRequest}
-                        >Clear</button>
-                      </div>
-                      <div className="col-md-8">
-                        <button
-                          type="submit"
-                          className="form-button"
-                          //  onChange={() => setShows(!shows)}
-                          onClick={handleAmountSummary}
-                        // onClick={()=>{setStep(step+1)}}
-                        >
-                          Continue
-                          {/* {loading ? <>
+                      <label className="container-new">
+                        <span className="radio-tick">MobileWallet</span>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="recivedMethod"
+                          value="mobileWallet"
+                          checked={moneyTransiction.recivedMethod == "mobileWallet"}
+                          onChange={e => onInputChange(e)}
+                        // id="flexRadioDefault2"
+                        />
+                        <span className="checkmark"></span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <h5>Payout Partners</h5>
+                    <div className="col-md-12">
+
+                      <label className="container-new">
+                        <span className="radio-tick">Bank</span>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="payOutPartner"
+                          // id="flexRadioDefault3" 
+                          checked={moneyTransiction.payOutPartner == "bank"}
+                          value="bank"
+                          onChange={e => onInputChange(e)}
+
+                        />
+                        <span className="checkmark"></span>
+                      </label>
+
+                    </div>
+                    <div className="col-md-12">
+
+                      <label className="container-new">
+                        <span className="radio-tick">Services</span>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="payOutPartner"
+                          // id="flexRadioDefault4"
+                          checked={moneyTransiction.payOutPartner == "services"}
+                          value="services"
+                          onChange={e => onInputChange(e)}
+                        />
+                        <span className="checkmark"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-4">
+                    <button
+                      className="start-form-button"
+                      onClick={handleEntailmentRequest}
+                    >Clear</button>
+                  </div>
+                  <div className="col-md-8">
+                    <button
+                      type="submit"
+                      className="form-button"
+                      //  onChange={() => setShows(!shows)}
+                      onClick={handleAmountSummary}
+                    // onClick={()=>{setStep(step+1)}}
+                    >
+                      Continue
+                      {/* {loading ? <>
                 <div class="loader-overly"> 
                     <div class="loader" > 
                                                   
@@ -1217,15 +1227,15 @@ const UserSendMoney = () => {
                                                   
                  </div>
            </> : <></>} */}
-                        </button>
-                      </div>
-                    </div>
+                    </button>
                   </div>
                 </div>
-              </form>
+              </div>
+            </div>
+          </form>
 
-              </section>
-            {/* </>
+        </section>
+        {/* </>
           ) : (
             <>
               <Page404 />
@@ -1245,385 +1255,386 @@ const UserSendMoney = () => {
         {/* {
           token || DigitalCode != undefined || '' ? (
             <> */}
-              <section>
-              <div className={isActive ? "col-md-12 add-recipent-section" : "col-md-12 remove-add-recipent-section"}>
-                <div class="form-head mb-4">
-                  <h2 class="text-black font-w600 mb-0"><b>Select a recipient to send money</b>
-                  </h2>
+        <section>
+          <div className={isActive ? "col-md-12 add-recipent-section" : "col-md-12 remove-add-recipent-section"}>
+            <div class="form-head mb-4">
+              <h2 class="text-black font-w600 mb-0"><b>Select a recipient to send money</b>
+              </h2>
 
-                </div>
-
-
-                <div className="card">
-                  <div className="card-body">
+            </div>
 
 
-                    {data?.length != 0 ? (
-                      <div>
-                        {
-                          data.data?.map((res, index) => {                       
-                            return (
-
-                              <ul key={res.id}>
-                                <a onClick={() => {selectRecipientPayemen(res.id)}}>
-
-                                  <li><a>{res.name} <BsChevronDoubleRight /></a></li>
-                                </a>
-
-                              </ul>
-
-                            )
-                          })}
-
-                      </div>
-                    ) : (
-                      <>
-                      </>
-                    )
-                    }
+            <div className="card">
+              <div className="card-body">
 
 
-                    {data?.length == 0 ? (
-                      <>
-                        <div class="no-recipt">
-                          <h5>No Recipient</h5>
-                          <img src={norecipients} alt="no-recipeint" />
-                        </div>
-                      </>
+                {data?.length != 0 ? (
+                  <div>
+                    {
+                      data.data?.map((res, index) => {
+                        return (
 
-                    ) : (
-                      <>
+                          <ul key={res.id}>
+                            <a onClick={() => { selectRecipientPayemen(res.id) }}>
 
-                      </>
-                    )
-                    }
+                              <li><a>{res.name} <BsChevronDoubleRight /></a></li>
+                            </a>
 
-                    <div className="add-rec">
-                      <button className="form-button" onClick={() => { setStep(step - 1) }} style={{ "float": "left" }}>Previous</button>
-                      <button className="form-button" onClick={handleToggle} style={{ "float": "right" }}><BsFillPersonPlusFill /> Add Recepients</button>
-                    </div>
+                          </ul>
 
+                        )
+                      })}
 
                   </div>
+                ) : (
+                  <>
+                  </>
+                )
+                }
+
+
+                {data?.length == 0 ? (
+                  <>
+                    <div class="no-recipt">
+                      <h5>No Recipient</h5>
+                      <img src={norecipients} alt="no-recipeint" />
+                    </div>
+                  </>
+
+                ) : (
+                  <>
+
+                  </>
+                )
+                }
+
+                <div className="add-rec">
+                  <button className="form-button" onClick={() => { setStep(step - 1) }} style={{ "float": "left" }}>Previous</button>
+                  <button className="form-button" onClick={handleToggle} style={{ "float": "right" }}><BsFillPersonPlusFill /> Add Recepients</button>
                 </div>
+
 
               </div>
+            </div>
+
+          </div>
 
 
-              <div className={isActive ? "removerecepient" : "showrecepient"} >
-                <div class="form-head mb-4">
-                  <h2 class="text-black font-w600 mb-0"><b>Recipient Bank Details</b>
-                  </h2>
-                </div>
-                <form>
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="row">
-                        <h5>Bank Information</h5>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
-                            <input
-                              type="text"
-                              className="rate_input form-control"
-                              name="bankName"
-                              defaultValue={formValue.bankName}
-                              onChange={(e) => handleStep2InputChange(e, 'bankName')}
-                            />
-                            {/* {error&&formValue.bankName.length<=0?
+          <div className={isActive ? "removerecepient" : "showrecepient"} >
+            <div class="form-head mb-4">
+              <h2 class="text-black font-w600 mb-0"><b>Recipient Bank Details</b>
+              </h2>
+            </div>
+            <form>
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <h5>Bank Information</h5>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+                          className="rate_input form-control"
+                          name="bankName"
+                          defaultValue={formValue.bankName}
+                          onChange={(e) => handleStep2InputChange(e, 'bankName')}
+                        />
+                        {/* {error&&formValue.bankName.length<=0?
                         <span style={myStyle}>Please Enter the Bank Name </span>:""}   */}
-                            <span style={myStyle}>{BankNameText.Enterbank ? BankNameText.Enterbank : ''}</span>
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
-                            <input
-                              type="text"
-                              // ref={input_recipientAccountName}
-                              defaultValue={formValue.accountName}
-                              onChange={(e) => handleStep2InputChange(e, 'accountName')}
-                              className='rate_input form-control'
-                            // autoFocus="autofocus"
-                            />
-
-                            <span style={myStyle}>{BankNameText.Enteraccountname ? BankNameText.Enteraccountname : ''}</span>
-                            <span style={myStyle}>{BankNameText.message ? BankNameText.message : ''}</span>
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
-                            <input
-                              type="text"
-                              name="accountNumber"
-                              // ref={input_recipientAccountNumber}
-                              className='rate_input form-control'
-                              defaultValue={formValue.accountNumber}
-                              onChange={(e) => handleStep2InputChange(e, 'accountNumber')}
-                            />
-                            <span style={myStyle}>{BankNameText.Enteraccountnumber ? BankNameText.Enteraccountnumber : ''}</span>
-                            <span style={myStyle}>{BankNameText.Accountexist ? BankNameText.Accountexist : ''}</span>
-                          </div>
-                        </div>
+                        <span style={myStyle}>{BankNameText.Enterbank ? BankNameText.Enterbank : ''}</span>
                       </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+                          // ref={input_recipientAccountName}
+                          defaultValue={formValue.accountName}
+                          onChange={(e) => handleStep2InputChange(e, 'accountName')}
+                          className='rate_input form-control'
+                        // autoFocus="autofocus"
+                        />
 
-                      <div className="row each-row">
-                        <h5>Recipient Details</h5>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
-                            <input
-                              type="text"
-                              // ref={input_recipientFirstName}
-                              className='rate_input form-control'
-                              name="firstName"
-                              defaultValue={formValue.firstName}
-                              onChange={(e) => handleStep2InputChange(e, 'firstName')}
-                            />
-                            <span style={myStyle}>{BankNameText.first_name ? BankNameText.first_name : ''}</span>
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Middle Name</p>
-                            <input
-                              type="text"
-                              // ref={input_recipientMiddleName}
-                              className='rate_input form-control'
-                              name="middleName"
-                              defaultValue={formValue.middleName}
-                              onChange={(e) => handleStep2InputChange(e, 'middleName')}
-                            />
-                            <span style={myStyle}>{BankNameText.middle_name ? BankNameText.middle_name : ''}</span>
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
-                            <input
-                              type="text"
-                              // ref={input_recipientLastName}
-                              className='rate_input form-control'
-                              name="lastName"
-                              defaultValue={formValue.lastName}
-                              onChange={(e) => handleStep2InputChange(e, 'lastName')}
-                            />
-                            <span style={myStyle}>{BankNameText.last_name ? BankNameText.last_name : ''}</span>
-                          </div>
-                        </div>
+                        <span style={myStyle}>{BankNameText.Enteraccountname ? BankNameText.Enteraccountname : ''}</span>
+                        <span style={myStyle}>{BankNameText.message ? BankNameText.message : ''}</span>
                       </div>
-                      <div className="row each-row">
-                        <div className="col-md-6">
-                          <div className="input_field">
-                            <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
-                            <input
-                              type="email"
-                              // ref={input_recipientEmail}
-                              className='rate_input form-control'
-                              name="email"
-                              defaultValue={formValue.email}
-                              onChange={(e) => handleStep2InputChange(e, 'email')}
-                            />
-                            <span style={myStyle}>{BankNameText.email ? BankNameText.email : ''}</span>
-                            <span style={myStyle}>{BankNameText.Emailexist ? BankNameText.Emailexist : ''}</span>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="input_field">
-                            <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
-                            <input
-                              type="text"
-                              // ref={input_recipientMobile}
-                              className='rate_input form-control'
-                              name="mobile"
-                              defaultValue={formValue.mobile}
-                              onChange={(e) => handleStep2InputChange(e, 'mobile')}
-                            />
-                            <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
-                            <span style={myStyle}>{BankNameText.Entermobile ? BankNameText.Entermobile : ''}</span>
-                            <span style={myStyle}>{BankNameText.Mobileexist ? BankNameText.Mobileexist : ''}</span>
-                            <span style={myStyle}>{BankNameText.Validmobile ? BankNameText.Validmobile : ''}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row each-row">
-                        <h5>Address</h5>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Flat/Unit No.</p>
-                            <input
-                              type="text"
-
-                              className='rate_input form-control'
-                              name="flat"
-                              defaultValue={formValue.flat}
-                              onChange={(e) => handleStep2InputChange(e, 'flat')}
-                            />
-                            <span style={myStyle}>{BankNameText.Enterflat ? BankNameText.Enterflat : ''}</span>
-
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Building/Unit No.</p>
-                            <input
-                              type="text"
-
-                              className='rate_input form-control'
-                              name="building"
-                              defaultValue={formValue.building}
-                              onChange={(e) => handleStep2InputChange(e, 'building')}
-                            />
-                            <span style={myStyle}>{BankNameText.Enterbuilding ? BankNameText.Enterbuilding : ''}</span>
-
-                          </div>
-                        </div>
-
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Street</p>
-                            <input
-                              type="text"
-
-                              className='rate_input form-control'
-                              name="street"
-                              defaultValue={formValue.street}
-                              onChange={(e) => handleStep2InputChange(e, 'street')}
-                            />
-                            <span style={myStyle}>{BankNameText.Enterstreet ? BankNameText.Enterstreet : ''}</span>
-
-                          </div>
-                        </div>
-
-                      </div>
-
-
-                      <div className="row each-row">
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Postcode</p>
-                            <input
-                              type="text"
-
-                              className='rate_input form-control'
-                              name="postcode"
-                              defaultValue={formValue.postcode}
-                              onChange={(e) => handleStep2InputChange(e, 'postcode')}
-                            />
-                            <span style={myStyle}>{BankNameText.Enterpostcode ? BankNameText.Enterpostcode : ''}</span>
-
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">City/Town</p>
-                            <input
-                              type="text"
-
-                              className='rate_input form-control'
-                              name="city"
-                              defaultValue={formValue.city}
-                              onChange={(e) => handleStep2InputChange(e, 'city')}
-                            />
-                            <span style={myStyle}>{BankNameText.Entercity ? BankNameText.Entercity : ''}</span>
-
-                          </div>
-                        </div>
-
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">State</p>
-                            <input
-                              type="text"
-
-                              className='rate_input form-control'
-                              name="state"
-                              defaultValue={formValue.state}
-                              onChange={(e) => handleStep2InputChange(e, 'state')}
-                            />
-                            <span style={myStyle}>{BankNameText.Entercity ? BankNameText.Entercity : ''}</span>
-                          </div>
-                        </div>
-
-                      </div>
-
-
-                      <div className="row each-row">
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Country Code<span style={{ color: 'red' }} >*</span></p>
-                            <input
-                              type="text"
-
-                              className='rate_input form-control'
-                              name="country_code"
-                              defaultValue={formValue.country_code}
-                              onChange={(e) => handleStep2InputChange(e, 'country_code')}
-                            />
-                            <span style={myStyle}>{BankNameText.Entercountrycode ? BankNameText.Entercountrycode : ''}</span>
-
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
-                            <Select
-                              // ref={input_location}
-                              options={countryoptions}
-                              value={countryValue}
-                              onChange={changeHandler}
-                            />
-                            <span style={myStyle}>{BankNameText.Selectcountry ? BankNameText.Selectcountry : ''}</span>
-
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Reason For Sending Money<span style={{ color: 'red' }} >*</span></p>
-                            <select
-                              className="form-select rate_input form-control"
-                              aria-label="Select a reason"
-
-                              name="reasonMoney"
-                              defaultValue={formValue.reasonMoney}
-                              onChange={(e) => handleStep2InputChange(e, 'reasonMoney')}
-                            >
-                              <option selected>Select a reason</option>
-                              <option value="Family Support">Family Support</option>
-                              <option value="Education">Education</option>
-                              <option value="Tax Payment">Tax Payment</option>
-                              <option value="Loan Payment">Loan Payment</option>
-                              <option value="Travel Payment">Travel Payment</option>
-                              <option value="Utility Payment">Utility Payment</option>
-                            </select>
-
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <div className="row">
-                        <div className="col-md-4">
-                          <button type="submit" className="start-form-button" onClick={handlRecipientBankDetails}>Clear</button>
-                        </div>
-                        <div className="col-md-8">
-                          {/* <button className="form-button" onClick={handleShow}>Continue</button> */}
-                          {/* <button className="form-button" onClick={someFunc}>Continue</button> */}
-                          <button type="" className="form-button" onClick={handleRecipientBankDetails}>Continue</button>
-                          <button type="submit" className="form-button" onClick={HandleRecipientlist}>Previous</button>
-                        </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="number"
+                          name="accountNumber"
+                          // ref={input_recipientAccountNumber}
+                          className='rate_input form-control'
+                          defaultValue={formValue.accountNumber}
+                          onChange={(e) => handleStep2InputChange(e, 'accountNumber')}
+                        />
+                        <span style={myStyle}>{BankNameText.Enteraccountnumber ? BankNameText.Enteraccountnumber : ''}</span>
+                        <span style={myStyle}>{BankNameText.Accountexist ? BankNameText.Accountexist : ''}</span>
                       </div>
                     </div>
                   </div>
-                </form>
+
+                  <div className="row each-row">
+                    <h5>Recipient Details</h5>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+                          // ref={input_recipientFirstName}
+                          className='rate_input form-control'
+                          name="firstName"
+                          defaultValue={formValue.firstName}
+                          onChange={(e) => handleStep2InputChange(e, 'firstName')}
+                        />
+                        <span style={myStyle}>{BankNameText.first_name ? BankNameText.first_name : ''}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Middle Name</p>
+                        <input
+                          type="text"
+                          // ref={input_recipientMiddleName}
+                          className='rate_input form-control'
+                          name="middleName"
+                          defaultValue={formValue.middleName}
+                          onChange={(e) => handleStep2InputChange(e, 'middleName')}
+                        />
+                        <span style={myStyle}>{BankNameText.middle_name ? BankNameText.middle_name : ''}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+                          // ref={input_recipientLastName}
+                          className='rate_input form-control'
+                          name="lastName"
+                          defaultValue={formValue.lastName}
+                          onChange={(e) => handleStep2InputChange(e, 'lastName')}
+                        />
+                        <span style={myStyle}>{BankNameText.last_name ? BankNameText.last_name : ''}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row each-row">
+                    <div className="col-md-6">
+                      <div className="input_field">
+                        <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="email"
+                          // ref={input_recipientEmail}
+                          className='rate_input form-control'
+                          name="email"
+                          defaultValue={formValue.email}
+                          onChange={(e) => handleStep2InputChange(e, 'email')}
+                        />
+                        <span style={myStyle}>{BankNameText.email ? BankNameText.email : ''}</span>
+                        <span style={myStyle}>{BankNameText.Emailexist ? BankNameText.Emailexist : ''}</span>
+                        <span style={myStyle}>{BankNameText.Emailinvalid ? BankNameText.Emailinvalid : ''}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="input_field">
+                        <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="number"
+                          // ref={input_recipientMobile}
+                          className='rate_input form-control'
+                          name="mobile"
+                          defaultValue={formValue.mobile}
+                          onChange={(e) => handleStep2InputChange(e, 'mobile')}
+                        />
+                        <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
+                        <span style={myStyle}>{BankNameText.Entermobile ? BankNameText.Entermobile : ''}</span>
+                        <span style={myStyle}>{BankNameText.Mobileexist ? BankNameText.Mobileexist : ''}</span>
+                        <span style={myStyle}>{BankNameText.Validmobile ? BankNameText.Validmobile : ''}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row each-row">
+                    <h5>Address</h5>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Flat/Unit No.</p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="flat"
+                          defaultValue={formValue.flat}
+                          onChange={(e) => handleStep2InputChange(e, 'flat')}
+                        />
+                        <span style={myStyle}>{BankNameText.Enterflat ? BankNameText.Enterflat : ''}</span>
+
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Building/Unit No.</p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="building"
+                          defaultValue={formValue.building}
+                          onChange={(e) => handleStep2InputChange(e, 'building')}
+                        />
+                        <span style={myStyle}>{BankNameText.Enterbuilding ? BankNameText.Enterbuilding : ''}</span>
+
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Street</p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="street"
+                          defaultValue={formValue.street}
+                          onChange={(e) => handleStep2InputChange(e, 'street')}
+                        />
+                        <span style={myStyle}>{BankNameText.Enterstreet ? BankNameText.Enterstreet : ''}</span>
+
+                      </div>
+                    </div>
+
+                  </div>
 
 
+                  <div className="row each-row">
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Postcode</p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="postcode"
+                          defaultValue={formValue.postcode}
+                          onChange={(e) => handleStep2InputChange(e, 'postcode')}
+                        />
+                        <span style={myStyle}>{BankNameText.Enterpostcode ? BankNameText.Enterpostcode : ''}</span>
+
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">City/Town</p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="city"
+                          defaultValue={formValue.city}
+                          onChange={(e) => handleStep2InputChange(e, 'city')}
+                        />
+                        <span style={myStyle}>{BankNameText.Entercity ? BankNameText.Entercity : ''}</span>
+
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">State</p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="state"
+                          defaultValue={formValue.state}
+                          onChange={(e) => handleStep2InputChange(e, 'state')}
+                        />
+                        <span style={myStyle}>{BankNameText.Entercity ? BankNameText.Entercity : ''}</span>
+                      </div>
+                    </div>
+
+                  </div>
 
 
+                  <div className="row each-row">
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Country Code<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="country_code"
+                          defaultValue={formValue.country_code}
+                          onChange={(e) => handleStep2InputChange(e, 'country_code')}
+                        />
+                        <span style={myStyle}>{BankNameText.Entercountrycode ? BankNameText.Entercountrycode : ''}</span>
+
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
+                        <Select
+                          // ref={input_location}
+                          options={countryoptions}
+                          value={countryValue}
+                          onChange={changeHandler}
+                        />
+                        <span style={myStyle}>{BankNameText.Selectcountry ? BankNameText.Selectcountry : ''}</span>
+
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Reason For Sending Money<span style={{ color: 'red' }} >*</span></p>
+                        <select
+                          className="form-select rate_input form-control"
+                          aria-label="Select a reason"
+                          name="reasonMoney"
+                          defaultValue={formValue.reasonMoney}
+                          onChange={(e) => handleStep2InputChange(e, 'reasonMoney')}
+                        >
+                          <option selected>Select a reason</option>
+                          <option value="Family Support">Family Support</option>
+                          <option value="Education">Education</option>
+                          <option value="Tax Payment">Tax Payment</option>
+                          <option value="Loan Payment">Loan Payment</option>
+                          <option value="Travel Payment">Travel Payment</option>
+                          <option value="Utility Payment">Utility Payment</option>
+                        </select>
+                        <span style={myStyle}>{BankNameText.Reason ? BankNameText.Reason : ''}</span>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-4">
+                      <button type="submit" className="start-form-button" onClick={handlRecipientBankDetails}>Clear</button>
+                    </div>
+                    <div className="col-md-8">
+                      {/* <button className="form-button" onClick={handleShow}>Continue</button> */}
+                      {/* <button className="form-button" onClick={someFunc}>Continue</button> */}
+                      <button type="" className="form-button" onClick={handleRecipientBankDetails}>Continue</button>
+                      <button type="submit" className="form-button" onClick={HandleRecipientlist}>Previous</button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              </section>
-            {/* </>
+            </form>
+
+
+
+
+          </div>
+        </section>
+        {/* </>
           ) : (
             <>
             <Page404 />
@@ -1657,88 +1668,90 @@ const UserSendMoney = () => {
         {/* {
           token ||DigitalCode != undefined || '' ? (
             <> */}
-            <section>
-              <div class="form-head mb-4">
-                <h2 class="text-black font-w600 mb-0"><b>Payment details</b>
-                </h2>
+        <section>
+          <div class="form-head mb-4">
+            <h2 class="text-black font-w600 mb-0"><b>Payment details</b>
+            </h2>
+          </div>
+          <div className="form_body">
+            <div className="row each-row">
+              <h5>Payment type</h5>
+              <div className="col-md-12">
+
+
+                <label class="container-new">
+                  <span className="radio-tick">Osko</span>
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="paymentType"
+                    // id="flexRadioDefault3" 
+                    checked={moneyTransiction.paymentType == "Oslo"}
+                    value="Oslo"
+                    onChange={e => onInputChange(e)}
+                    onClick={ShowCardDetails}
+                  />
+                  <span className="checkmark"></span>
+                </label>
+
               </div>
-              <div className="form_body">
-                <div className="row each-row">
-                  <h5>Payment type</h5>
-                  <div className="col-md-12">
-
-
-                    <label class="container-new">
-                      <span className="radio-tick">Osko</span>
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="paymentType"
-                        // id="flexRadioDefault3" 
-                        checked={moneyTransiction.paymentType == "Oslo"}
-                        value="Oslo"
-                        onChange={e => onInputChange(e)}
-                      />
-                      <span className="checkmark"></span>
-                    </label>
-
-                  </div>
-                  <div className="col-md-12">
-                    <label class="container-new">
-                      <span className="radio-tick">Debit/Credit Card</span>
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="paymentType"
-                        // id="flexRadioDefault3" 
-                        checked={moneyTransiction.paymentType == "Debit/Credit Card"}
-                        value="Debit/Credit Card"
-                        onChange={e => onInputChange(e)}
-                        onClick={ShowCardDetails}
-                      />
-                      <span className="checkmark"></span>
-                    </label>
-                  </div>
-                  <div className="col-md-12">
-                    <label class="container-new">
-                      <span className="radio-tick">PoLI Internet Banking</span>
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="paymentType"
-                        // id="flexRadioDefault3" 
-                        checked={moneyTransiction.paymentType == " PoLI Internet Banking"}
-                        value=" PoLI Internet Banking"
-                        onChange={e => onInputChange(e)}
-                      />
-                      <span className="checkmark"></span>
-                    </label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-4">
-                    <button className="start-form-button">Clear</button>
-                  </div>
-                  <div className="col-md-8">
-                    {/* <button className="form-button">Continue</button> */}
-                    <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button>
-                  </div>
-                </div>
+              <div className="col-md-12">
+                <label class="container-new">
+                  <span className="radio-tick">Debit/Credit Card</span>
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="paymentType"
+                    // id="flexRadioDefault3" 
+                    checked={moneyTransiction.paymentType == "Debit/Credit Card"}
+                    value="Debit/Credit Card"
+                    onChange={e => onInputChange(e)}
+                    onClick={ShowCardDetails}
+                  />
+                  <span className="checkmark"></span>
+                </label>
               </div>
+              <div className="col-md-12">
+                <label class="container-new">
+                  <span className="radio-tick">PoLI Internet Banking</span>
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="paymentType"
+                    // id="flexRadioDefault3" 
+                    checked={moneyTransiction.paymentType == " PoLI Internet Banking"}
+                    value=" PoLI Internet Banking"
+                    onChange={e => onInputChange(e)}
+                    onClick={ShowCardDetails}
+                  />
+                  <span className="checkmark"></span>
+                </label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-4">
+                <button className="start-form-button">Clear</button>
+              </div>
+              <div className="col-md-8">
+                {/* <button className="form-button">Continue</button> */}
+                <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+              </div>
+            </div>
+          </div>
 
 
 
-              <Modal className="modal-card" show={showCards} onHide={handleCloseDetails}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Your cards</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+          <Modal className="modal-card" show={showCards} onHide={handleCloseDetails}>
+            <Modal.Header closeButton>
+              <Modal.Title>Your cards</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
 
-                  {/* start List card */}
+              {/* start List card */}
 
-                  <Table bordered>
-                  {bankCardData?.length != 0 ? (
-                    <>
+              <Table>
+                {bankCardData?.length != 0 ? (
+                  <>
                     <thead>
                       <tr>
                         <th>#</th>
@@ -1825,161 +1838,180 @@ const UserSendMoney = () => {
                         </Modal.Footer>
                       </Modal>
                     </tbody>
-                    </>
-                     ) : (
-                      <>
-                      </>
-                    )
-                    }
+                  </>
+                ) : (
+                  <>
+                  </>
+                )
+                }
 
 
-                    {bankCardData?.length == 0 ? (
-                        <>
-                          <thead>
-                              <tr>
-                                <th>#</th>
-                                <th>Cards Details</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                              <td colSpan={2}> No Cards<br></br>
-                              <img src={nocard} alt="nocard" />
-                              </td>
-                               </tr>
-                            </tbody>
+                {bankCardData?.length == 0 ? (
+                  <>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Cards Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colSpan={2}> No Cards<br></br>
+                          <img src={nocard} alt="nocard" />
+                        </td>
+                      </tr>
+                    </tbody>
 
-                        </>
+                  </>
 
-                      ) : (
-                        <>
+                ) : (
+                  <>
 
-                        </>
-                      )
-                      }
+                  </>
+                )
+                }
 
-                  </Table>
-                  {/* End List card */}
+              </Table>
+              {/* End List card */}
 
 
-                  {/* start add card */}
-                  <div className="addnewcard">
-                    <p>Please add your card details</p>
-                    <form>
-                      <div className="row each-row">
-                        <div className="col-md-12">
-                          <div className="input_field">
-                            <p className="get-text">Your name as it appears on card<span style={{ color: 'red' }} >*</span> </p>
-                            <div className="card-fields">
-                              <input
-                                type="text"
-                                className='rate_input form-control'
-                                name="cardName"
-                                defaultValue={formCardValue.cardName}
-                                onChange={(e) => handleCardInputChange(e, 'cardName')}
-                              />
-                              <span style={myStyle}>{CardErrorText.Name ? CardErrorText.Name : ''}</span>
-                              <span style={myStyle}>{CardErrorText.name ? CardErrorText.name : ''}</span>
-                              <i class="fa fa-user"></i>
-                            </div>
+              {/* start add card */}
+              <div className="addnewcard">
+                <p>Please add your card details</p>
+                <form>
+                  <div className="row each-row">
+                    <div className="col-md-12">
+                      <div className="input_field">
+                        <p className="get-text">Your name as it appears on card<span style={{ color: 'red' }} >*</span> </p>
+                        <div className="card-fields">
+                          <input
+                            ref={input_cardName}
+                            type="text"
+                            className='rate_input form-control'
+                            name="cardName"
+                            defaultValue={formCardValue.cardName}
+                            onChange={(e) => handleCardInputChange(e, 'cardName')}
+                          />
+                           {errorCard&&formCardValue.cardName.length<=0?
+                              <span style={myStyle}>Please select the Card </span>:""} 
+
+                          <span style={myStyle}>{CardErrorText.Name ? CardErrorText.Name : ''}</span>
+                          <span style={myStyle}>{CardErrorText.name ? CardErrorText.name : ''}</span>
+                          <i class="fa fa-user"></i>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row each-row">
+                    <div className="col-md-12">
+                      <div className="input_field">
+                        {/* <img src={creditcards}  alt="credit cards" /> */}
+                        <p className="get-text">Card Number<span style={{ color: 'red' }} >*</span> </p>
+                        <div className="card-fields">
+                          <input
+                           ref={input_cardName}
+                            min="1" 
+                            max="9" 
+                            type="number"
+                            className='rate_input form-control'
+                            name="cardNumber"
+                            placeholder="XXXX-XXXX-XXXX-XXXX"
+                            defaultValue={formCardValue.cardNumber}
+                            onChange={(e) => handleCardInputChange(e, 'cardNumber')}
+                          />
+                           
+                          <i class="fa fa-credit-card" id="cardtype"></i>
+                        </div>
+                        {errorCard&&formCardValue.cardNumber.length<=0?
+                              <span style={myStyle}>Please select the Card Number </span>:""} 
+                        <span style={myStyle}>{CardErrorText.Entercard ? CardErrorText.Entercard : ''}</span>
+                        <span style={myStyle}>{CardErrorText.card_number ? CardErrorText.card_number : ''}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row each-row">
+                    <div className="col-md-8">
+                      <div className="input_field">
+                        <p className="get-text">Expiration Date<span style={{ color: 'red' }} >*</span></p>
+                        <div className="card-date">
+                          <div className="card-fields">
+                            <input
+                              min="0"
+                              maxlength="2"
+                              type="test"
+                              ref={input_exp_month}
+                              className='rate_input form-control'
+                              name="exp_month"
+                              placeholder="Month"
+                              defaultValue={formCardValue.exp_month}
+                              onChange={(e) => handleCardInputChange(e, 'exp_month')}
+                            />
+                             {errorCard&&formCardValue.exp_month.length<=0?
+                              <span style={myStyle}>Please select the Card expiry month </span>:""} 
+                            <span style={myStyle}>{CardErrorText.Entermonth ? CardErrorText.Entermonth : ''}</span>
+                            <span style={myStyle}>{CardErrorText.expiry_month ? CardErrorText.expiry_month : ''}</span>
+                            <i class="fa fa-calendar"></i>
+
+                          </div>
+                          <span>/</span>
+                          <div className="card-fields">
+                            <input
+                              min="0"
+                              maxlength="4"
+                              type="text"
+                              ref={input_exp_year}
+                              className='rate_input form-control'
+                              name="exp_year"
+                              placeholder="Year"
+                              defaultValue={formCardValue.exp_year}
+                              onChange={(e) => handleCardInputChange(e, 'exp_year')}
+                            />
+                            {errorCard&&formCardValue.exp_year.length<=0?
+                              <span style={myStyle}>Please select the Card expiry year </span>:""} 
+                            <span style={myStyle}>{CardErrorText.Enteryear ? CardErrorText.Enteryear : ''}</span>
+                            <span style={myStyle}>{CardErrorText.expiry_year ? CardErrorText.expiry_year : ''}</span>
+                            <i class="fa fa-calendar"></i>
 
                           </div>
                         </div>
                       </div>
-                      <div className="row each-row">
-                        <div className="col-md-12">
-                          <div className="input_field">
-                            {/* <img src={creditcards}  alt="credit cards" /> */}
-                            <p className="get-text">Card Number<span style={{ color: 'red' }} >*</span> </p>
-                            <div className="card-fields">
-                              <input
-                                min="0"
-                                maxlength="16"
-                                type="number"
-                                className='rate_input form-control'
-                                name="cardNumber"
-                                placeholder="XXXX-XXXX-XXXX-XXXX"
-                                defaultValue={formCardValue.cardNumber}
-                                onChange={(e) => handleCardInputChange(e, 'cardNumber')}
-                              />
-                              <i class="fa fa-credit-card" id="cardtype"></i>
-                            </div>
-                            <span style={myStyle}>{CardErrorText.Entercard ? CardErrorText.Entercard : ''}</span>
-                            <span style={myStyle}>{CardErrorText.card_number ? CardErrorText.card_number : ''}</span>
-                          </div>
+                    </div>
+
+
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">CVV<span style={{ color: 'red' }} >*</span> </p>
+                        <div className="card-fields">
+                          <input
+                            maxlength="3"
+                            type="password"
+                            ref={input_securityCode}
+                            className='rate_input form-control'
+                            name="securityCode"
+                            placeholder="xxx"
+                            defaultValue={formCardValue.securityCode}
+                            onChange={(e) => handleCardInputChange(e, 'securityCode')}
+                          />
+                          {errorCard&&formCardValue.securityCode.length<=0?
+                              <span style={myStyle}>Please select the Card CVV </span>:""} 
+
+
+                          <span style={myStyle}>{CardErrorText.Entercvc ? CardErrorText.Entercvc : ''}</span>
+                          <i class="fa fa-lock"></i>
                         </div>
-                      </div>
-
-                      <div className="row each-row">
-                        <div className="col-md-8">
-                          <div className="input_field">
-                            <p className="get-text">Expiration Date<span style={{ color: 'red' }} >*</span></p>
-                            <div className="card-date">
-                              <div className="card-fields">
-                                <input
-                                  min="0"
-                                  maxlength="2"
-                                  type="test"
-                                  className='rate_input form-control'
-                                  name="exp_month"
-                                  placeholder="Month"
-                                  defaultValue={formCardValue.exp_month}
-                                  onChange={(e) => handleCardInputChange(e, 'exp_month')}
-                                />
-                                <span style={myStyle}>{CardErrorText.Entermonth ? CardErrorText.Entermonth : ''}</span>
-                                <span style={myStyle}>{CardErrorText.expiry_month ? CardErrorText.expiry_month : ''}</span>
-                                <i class="fa fa-calendar"></i>
-
-                              </div>
-                              <span>/</span>
-                              <div className="card-fields">
-                                <input
-                                  min="0"
-                                  maxlength="4"
-                                  type="text"
-                                  className='rate_input form-control'
-                                  name="exp_year"
-                                  placeholder="Year"
-                                  defaultValue={formCardValue.exp_year}
-                                  onChange={(e) => handleCardInputChange(e, 'exp_year')}
-                                />
-                                <span style={myStyle}>{CardErrorText.Enteryear ? CardErrorText.Enteryear : ''}</span>
-                                <span style={myStyle}>{CardErrorText.expiry_year ? CardErrorText.expiry_year : ''}</span>
-                                <i class="fa fa-calendar"></i>
-
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">CVV<span style={{ color: 'red' }} >*</span> </p>
-                            <div className="card-fields">
-                              <input
-                                maxlength="3"
-                                type="password"
-                                className='rate_input form-control'
-                                name="securityCode"
-                                placeholder="xxx"
-                                defaultValue={formCardValue.securityCode}
-                                onChange={(e) => handleCardInputChange(e, 'securityCode')}
-                              />
-                              <span style={myStyle}>{CardErrorText.Entercvc ? CardErrorText.Entercvc : ''}</span>
-                              <i class="fa fa-lock"></i>
-                            </div>
-
-                          </div>
-                        </div>
-
 
                       </div>
+                    </div>
 
 
-                      <div className="col-md-12">
-                        <div className="saved-label">
-                        {/* <input
+                  </div>
+
+
+                  <div className="col-md-12">
+                    <div className="saved-label">
+                      {/* <input
                         inline
                         label="1"
                         name="group1"
@@ -1987,34 +2019,34 @@ const UserSendMoney = () => {
                         
                       
                       /> */}
-                        <input
-                          type="checkbox"
-                          checked={checkedValueCard}
-                          onChange={handleCradBankDetails}
-                         />
-                        {/* <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
+                      <input
+                        type="checkbox"
+                        checked={checkedValueCard}
+                        onChange={handleCradBankDetails}
+                      />
+                      {/* <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
                           Save
                         </Button> */}
-                        <label>Save Card Details</label></div>
-                      </div>
-                    </form>
+                      <label>Save Card Details</label></div>
                   </div>
+                </form>
+              </div>
 
-                  {/* End add card */}
+              {/* End add card */}
 
-                </Modal.Body>
-                <Modal.Footer>  
-                  <Button variant="secondary" onClick={handleCloseDetails}>
-                    Close
-                  </Button>
-                  <Button type="submit" variant="primary" onClick={handlePaymentCard}>
-                    Payment
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseDetails}>
+                Close
+              </Button>
+              <Button type="submit" variant="primary" onClick={handlePaymentCard}>
+                Payment
+              </Button>
+            </Modal.Footer>
+          </Modal>
 
-              </section>
-            {/* </>
+        </section>
+        {/* </>
           ) : (
             <>
              <Page404 />
@@ -2031,19 +2063,19 @@ const UserSendMoney = () => {
 
 
       {
-        token ||DigitalCode != undefined || '' ? (
+        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
           <>
             <div className="margin-set">
               <div className="tabs-page">
                 <Sidebar />
 
                 <div className="content-body">
-                  
-                    <div className="col-md-10">{
-                      <Form />}
-                    </div>
-                    
-                
+
+                  <div className="col-md-10">{
+                    <Form />}
+                  </div>
+
+
                 </div>
               </div>
             </div>
@@ -2052,7 +2084,7 @@ const UserSendMoney = () => {
 
         ) : (
           <>
-             <Page404 />
+            <Page404 />
           </>
         )
       }

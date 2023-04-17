@@ -4216,7 +4216,22 @@ input#myInput {
   100% { transform: rotate(360deg); }
 }
 
-/* loader css strat */
+/* loader css End */
+.loader-overlycardList {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgb(0 0 0 / 85%);
+  height: 100%;
+  z-index: 99999999;
+}
+
+/* loader Card-List css strat */
+
+
+/* loader Card-List css End */
+
 
 
 
