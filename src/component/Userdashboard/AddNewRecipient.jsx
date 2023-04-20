@@ -17,6 +17,10 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import Select from "react-select";
 import countryList from 'react-select-country-list'
 import Page404 from "../pageNotfound/Page404";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/bootstrap.css";
+
+
 // start css
 const myStyle = {
   color: "red",
@@ -55,21 +59,23 @@ const Addnewrecipient = () => {
   const [AccountNameText, setAccountNameText] = useState('');
   const [AccountNumberText, setAccountNumberText] = useState('');
 
-
-
   const [emailRecipientText, setEmailRecipientText] = useState('');
   const [first_nameRecipientText, setFirst_nameRecipientText] = useState('');
   const [last_nameRecipientText, setLast_nameRecipientText] = useState('');
   const [middle_nameRecipientText, setMiddle_nameRecipientText] = useState('');
   const [mobileRecipientText, setMobileRecipientText] = useState('');
+/************************Counrt Mobile code ************************ */
 
 
 
   /************ Start -Recipient Bank Details state***************/
-
+  const [bankNameValue, setBankNameValue] = useState('');
+  const [accountName, setAccountName] = useState('');
+  const [mobile, setMobile] = useState("");
+  
   const [formValue, setFormValue] = React.useState({
-    bankName: '', accountName: '', accountNumber: '', firstName: '', middleName: '',
-    lastName: '', email: '', mobile: '', flat: '', building: '', street: '', postcode: '', city: '',
+    accountNumber: '', firstName: '', middleName: '',
+    lastName: '', email: '', flat: '', building: '', street: '', postcode: '', city: '',
     state: '', country_code: '', country: '', reasonMoney: ''
   });
 
@@ -91,7 +97,6 @@ const Addnewrecipient = () => {
   }
 
   /****************** select country *******************/
-
   const [countryValue, setcountryValue] = React.useState('')
   const countryoptions = useMemo(() => countryList().getData(), [])
 
@@ -102,11 +107,24 @@ const Addnewrecipient = () => {
   /* start-- useRef is used for focusing on inputbox */
   const input_location = useRef(null);
 
-
-
   // Start page show hide condtion page
-
   const navigate = useNavigate('');
+
+/*************************Character pass value in Bank Name ************************ */
+  const handleChange = (event) => {
+    const regex = /^[a-zA-Z]+$/; // regex pattern to allow only alphabets
+    if (event.target.value === '' || regex.test(event.target.value)) {
+      setBankNameValue(event.target.value);
+    }
+  };
+
+
+  const handleAccountNameValue = (event) => {
+    const regex = /^[a-zA-Z]+$/; // regex pattern to allow only alphabets
+    if (event.target.value === '' || regex.test(event.target.value)) {
+      setAccountName(event.target.value);
+    }
+  };
 
 
 
@@ -151,21 +169,21 @@ const Addnewrecipient = () => {
 
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/recipient-create/', {
-      bank_name: formValue.bankName,
-      account_name: formValue.accountName,
+      bank_name: bankNameValue,
+      account_name: accountName,
       account_number: formValue.accountNumber,
       first_name: formValue.firstName,
       middle_name: formValue.middleName,
       last_name: formValue.lastName,
       email: formValue.email,
-      mobile: formValue.mobile,
+      mobile: mobile,
       flat: formValue.flat,
       building: formValue.building,
       street: formValue.street,
       postcode: formValue.postcode,
       city: formValue.city,
       state: formValue.state,
-      country_code: formValue.country_code,
+      // country_code: formValue.country_code,
       country: countryValue.label,
       reason: formValue.reasonMoney
 
@@ -231,9 +249,8 @@ const Addnewrecipient = () => {
                               <input
                                 type="text"
                                 className="rate_input form-control"
-                                name="bankName"
-                                defaultValue={formValue.bankName}
-                                onChange={(e) => handleStep2InputChange(e, 'bankName')}
+                                value={bankNameValue} 
+                                onChange={handleChange}
                               />
                               <span style={myStyle}>{BankNameText.Enterbank ? BankNameText.Enterbank : ''}</span>
 
@@ -244,11 +261,10 @@ const Addnewrecipient = () => {
                               <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
                               <input
                                 type="text"
-                                // ref={input_recipientAccountName}
-                                defaultValue={formValue.accountName}
-                                onChange={(e) => handleStep2InputChange(e, 'accountName')}
                                 className='rate_input form-control'
-                              // autoFocus="autofocus"
+                                value={accountName}
+                                onChange={handleAccountNameValue}
+
                               />
                               {/* {error&&formValue.accountName.length<=0?
                             <span style={myStyle}>Please Enter the Account Name </span>:""} */}
@@ -335,20 +351,26 @@ const Addnewrecipient = () => {
                               />
                               <span style={myStyle}>{BankNameText.Enteremail ? BankNameText.Enteremail : ''}</span>
                               <span style={myStyle}>{BankNameText.Emailinvalid ? BankNameText.Emailinvalid : ''}</span>
-
+                              <span style={myStyle}>{BankNameText.Emailexist ? BankNameText.Emailexist : ''}</span>
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="input_field">
                               <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
-                              <input
+                              <PhoneInput
+                                country={"eg"}
+                                enableSearch={true}
+                                value={mobile}
+                                onChange={(mobile) => setMobile(mobile)}
+                              />
+                              {/* <input
                                 type="number"
                                 // ref={input_recipientMobile}
                                 className='rate_input form-control'
                                 name="mobile"
                                 defaultValue={formValue.mobile}
                                 onChange={(e) => handleStep2InputChange(e, 'mobile')}
-                              />
+                              /> */}
                               <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
                               <span style={myStyle}>{BankNameText.Entermobile ? BankNameText.Entermobile : ''}</span>
                               <span style={myStyle}>{BankNameText.Validmobile ? BankNameText.Validmobile : ''}</span>
@@ -436,8 +458,8 @@ const Addnewrecipient = () => {
                           </div>
                         </div>
                         <div className="row each-row">
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
+                          {/* <div className="col-md-4">
+                             <Form.Group className="form_label" controlId="Firstname">
                               <p className="get-text">Country Code<span style={{ color: 'red' }} >*</span></p>
                               <Form.Control
                                 type="text"
@@ -447,8 +469,8 @@ const Addnewrecipient = () => {
                                 onChange={(e) => handleStep2InputChange(e, 'country_code')}
                               />
                                 <span style={myStyle}>{BankNameText.Entercountrycode ? BankNameText.Entercountrycode : ''}</span>
-                            </Form.Group>
-                          </div>
+                            </Form.Group> 
+                          </div> */}
                           <div className="col-md-4">
                             <Form.Group className="form_label" controlId="Firstname">
                               <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>

@@ -7,6 +7,8 @@ import {useLocation} from "react-router-dom";
 import Select from "react-select";
 import countryList from 'react-select-country-list';
 import Page404 from "../pageNotfound/Page404";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/bootstrap.css";
 
 
 
@@ -62,6 +64,7 @@ const Signup = () => {
     const [emailExistText, setEmailExistText] = useState('');
     const [emailvalidAddress,setEmailvalidAddress ] = useState('');
     const [mobileText, setMobileText] = useState('');
+    const [mobileSpecialCharacter, setMobileSpecialCharacter] = useState();
     const [mobileValidText, setMobileValidText] = useState('');
     const [mobileExistsValidText, setMobileExistsValidText] = useState('');
     const [passwordText, setPasswordText] = useState('');
@@ -220,6 +223,7 @@ const Signup = () => {
                     setMobileValidText(error.response.data.Checkmobile);
                     setEmailvalidAddress(error.response.data.email)
                     setMobileExistsValidText(error.response.data.Mobileexist)
+                    setMobileSpecialCharacter(error.response.data.password)
             }
            
         })
@@ -348,18 +352,22 @@ const Signup = () => {
 
                                                     <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
                                                         <Form.Label>Your Phone<span style={{color: 'red'}} >*</span> </Form.Label>
-                                                        <Form.Control 
+                                                        <PhoneInput 
                                                         type="mobile"
                                                         ref={input_mobile}
+                                                        country={"eg"}
+                                                        enableSearch={true}
                                                         value={mobile}
-                                                        onChange={handleMobile}
+                                                        onChange={(mobile) => setMobile(mobile)}
                                                         placeholder="Enter Phone"
                                                         />
+                                                       
                                                         {/* {error&&mobile.length<=0?
                                                     <span style={myStyle}>Please Enter the Mobile </span>:""}	 */}
                                                         <span  style={myStyle}>{mobileText? mobileText: ""}</span>  
                                                         <span  style={myStyle}>{mobileValidText? mobileValidText: ""}</span>  
                                                         <span  style={myStyle}>{mobileExistsValidText? mobileExistsValidText: ""}</span>  
+                                                     
                                                     </Form.Group>
 
                                                     <Form.Group className="mb-3 form_label" controlId="formBasicPassword">
@@ -376,6 +384,7 @@ const Signup = () => {
                                                         {/* {error&&password.length<=0?
                                                     <span style={myStyle}>Please Enter the Password </span>:""}	 */}
                                                     <span  style={myStyle}>{passwordText? passwordText: ""}</span>  
+                                                    <span  style={myStyle}>{mobileSpecialCharacter? mobileSpecialCharacter: ""}</span>  
                                                     
                                                     </Form.Group>
 

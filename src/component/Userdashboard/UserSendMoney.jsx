@@ -21,6 +21,11 @@ import Select from "react-select";
 import countryList from 'react-select-country-list'
 import Page404 from "../pageNotfound/Page404";
 import nocard from "../../assets/img/userdashboard/nocard.jpg";
+
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/bootstrap.css";
+
+
 // start css
 const myStyle = {
   color: "red",
@@ -81,15 +86,15 @@ const UserSendMoney = () => {
   console.log("Verification Message", verification_otp)
 
   /******************* Start Api call Amount & Delivery State  *******/
-  const [from, setFrom] = React.useState('USD');
+  const [from, setFrom] = React.useState('AUD');
   const [shows, setShows] = React.useState(false);
-  const [to, setTo] = React.useState('');
+  const [to, setTo] = React.useState('NZD');
   const [amount, setAmount] = React.useState();
   const [exchange_amount, setExchange_amount] = React.useState();
   const [total_amount, setTotal_amount] = React.useState('');
-  const [total_rate, setTotal_rate] = React.useState('');
+  const [total_rate, setTotal_rate] = React.useState('1.0998');
 
-  const [options, setOptions] = React.useState([]);
+  // const [options, setOptions] = React.useState([]);
   const [output, setOutput] = React.useState(0);
   const [info, setInfo] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -113,6 +118,7 @@ const UserSendMoney = () => {
 
   /************ Start -Recipient Bank Details***************/
   const [id, setId] = React.useState('');
+
   const [formValue, setFormValue] = React.useState({
     bankName: '', accountName: '', accountNumber: '', firstName: '', middleName: '',
     lastName: '', email: '', mobile: '', flat: '', building: '', street: '', postcode: '', city: '', state: '',
@@ -174,6 +180,7 @@ const UserSendMoney = () => {
     setFormValue(valueForm)
     console.log(formValue)
   }
+  
 
   /*************************** Start- Select Payment Function************************* */
   const getCardDataPayment = (value) => {
@@ -230,6 +237,7 @@ const UserSendMoney = () => {
     setAmountValue(AmountData)
     console.log(amountValue)
   }
+
 
   /************************saveCardChecked function ******************/
   const handleCheckboxChange = () => {
@@ -346,12 +354,14 @@ const UserSendMoney = () => {
 
   /****************** select country *******************/
 
-  const [countryValue, setcountryValue] = React.useState('')
-  const countryoptions = useMemo(() => countryList().getData(), [])
+    
+  const [countryValue, setcountryValue] =React.useState('')
+  const options = useMemo(() => countryList().getData(), [])
 
   const changeHandler = countryValue => {
-    setcountryValue(countryValue)
+      setcountryValue(countryValue)
   }
+
 
   /* start-- useRef is used for focusing on inputbox */
   const input_location = useRef(null);
@@ -485,6 +495,8 @@ const UserSendMoney = () => {
   * ************** Start  Total Amount Api call  ******************************
   * ***********************************************************************/
   const myTotalAmountFromTo = (value) => {
+    setFrom(value);
+    setTo(value)
     // event.preventDefault();
     console.log("====================>", amount)
     //useRef is used for focusing on inputbox
@@ -502,8 +514,8 @@ const UserSendMoney = () => {
     else {
       setLoading(true); // Set loading before sending API request
       axios.post(API.BASE_URL + 'exchange-rate/', {
-        from: from,
-        to: to,
+        from: value,
+        to: value,
         amount: amountValue.amountInput
 
       }, {
@@ -556,15 +568,6 @@ const UserSendMoney = () => {
 
   const handleRecipientBankDetails = (event) => {
     event.preventDefault();
-
-    //useRef is used for focusing on inputbox
-    //     if ( formValue.bankName.length==0){
-    //       input_bankName.current.focus();
-    //           setError(true);
-    //      }
-
-    //  else{
-
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/recipient-create/', {
       bank_name: formValue.bankName,
@@ -676,6 +679,7 @@ const UserSendMoney = () => {
       })
       .catch(function (error, message) {
         console.log(error.response);
+        setCardErrorText(error.response.data);
 
       })
   }
@@ -692,6 +696,7 @@ const UserSendMoney = () => {
   const input_securityCode = useRef(null);
 
   const handlePaymentCard = (event) => {
+    
 
     console.log(formCardValue, "formCardValueformCardValue")
     event.preventDefault();
@@ -741,10 +746,11 @@ const UserSendMoney = () => {
   
         localStorage.setItem("paymetTransactionId", response.data.transaction_id);
 
-        // if(!checkedValueCard){
-        //   handleCradBankDetails();
-        //   console.log(checkedValueCard, "checkedValueCard")
-        // }
+        if(!checkedValueCard){
+          setCheckedValueCard(!checkedValueCard)
+          handleCradBankDetails();
+          console.log(checkedValueCard, "checkedValueCard")
+        }
 
         navigate('/dashboard');
 
@@ -974,7 +980,8 @@ const UserSendMoney = () => {
     }
   }
 
-
+console.log("To", to)
+console.log("From", from)
 
   const Step1 = () => {
 
@@ -1015,12 +1022,12 @@ const UserSendMoney = () => {
                         value={from}
                         ref={input_From}
                         //  onChange={handleFrom}
-                        onChange={(e) => { myTotalAmountFromTo(e.target.value); setFrom(e.target.value) }}
+                        onChange={(e) => { myTotalAmountFromTo(e.target.value)}}
                       // onBlurCapture={myTotalAmount}
                       >
                         {/* <option value="">--- Select Currency ---</option> */}
-                        <option value="USD" selected="selected">USD</option>
-                        {/* <option value="USD">USD</option>  */}
+                        <option value="AUD" selected="selected">AUD</option>
+                        <option value="USD">USD</option>  
                         <option value="EUR">EUR</option>
                         <option value="INR">INR</option>
                         <option value="BRL">BRL</option>
@@ -1054,13 +1061,14 @@ const UserSendMoney = () => {
                         value={to}
                         ref={input_To}
                         //  onChange={handleTo}
-                        onChange={(e) => { myTotalAmountFromTo(e.target.value); setTo(e.target.value) }}
+                        onChange={(e) => { myTotalAmountFromTo(e.target.value) }}
                       >
 
 
-                        <option value="">--- Select Currency ---</option>
+                        {/* <option value="">--- Select Currency ---</option> */}
 
                         {/* <option value="INR" selected="selected">INR</option> */}
+                        <option value="NZD" selected="selected">NZD</option>
                         <option value="INR">INR</option>
                         <option value="EUR">EUR</option>
                         <option value="BRL">BRL</option>
@@ -1075,7 +1083,6 @@ const UserSendMoney = () => {
                         <option value="ISK">ISK</option>
                         <option value="JOD">JPD</option>
                         <option value="KWD">KWD</option>
-                        <option value="NZD">NZD</option>
                         <option value="PHP">PHP</option>
                         <option value="ZAR">ZAR</option>
                         <option value="CHF">CHF</option>
@@ -1093,7 +1100,8 @@ const UserSendMoney = () => {
                       <p className="get-text">Amount Send<span style={{ color: 'red' }} >*</span></p>
 
                       <input
-                        type="text"
+                      min={0}
+                        type="number"
                         // autoFocus="autofocus"
                         ref={input_AmountSend}
                         className='rate_input form-control'
@@ -1451,6 +1459,15 @@ const UserSendMoney = () => {
                           defaultValue={formValue.mobile}
                           onChange={(e) => handleStep2InputChange(e, 'mobile')}
                         />
+
+                         {/* <PhoneInput
+                          country={"eg"}
+                          enableSearch={true}
+                          name="mobile"
+                          defaultValue={formValue.mobile}
+                          onChange={(e) => handleStep2InputChange(e, 'mobile')}
+                              /> */}
+
                         <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
                         <span style={myStyle}>{BankNameText.Entermobile ? BankNameText.Entermobile : ''}</span>
                         <span style={myStyle}>{BankNameText.Mobileexist ? BankNameText.Mobileexist : ''}</span>
@@ -1581,8 +1598,8 @@ const UserSendMoney = () => {
                         <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                         <Select
                           // ref={input_location}
-                          options={countryoptions}
-                          value={countryValue}
+                          options={options} 
+                          value={countryValue} 
                           onChange={changeHandler}
                         />
                         <span style={myStyle}>{BankNameText.Selectcountry ? BankNameText.Selectcountry : ''}</span>
@@ -1659,9 +1676,6 @@ const UserSendMoney = () => {
       setDelete_Id(key)
 
     }
-
-
-
 
     return (
       <>
@@ -1952,6 +1966,7 @@ const UserSendMoney = () => {
                               <span style={myStyle}>Please select the Card expiry month </span>:""} 
                             <span style={myStyle}>{CardErrorText.Entermonth ? CardErrorText.Entermonth : ''}</span>
                             <span style={myStyle}>{CardErrorText.expiry_month ? CardErrorText.expiry_month : ''}</span>
+                            <span style={myStyle}>{CardErrorText.invalidmonth ? CardErrorText.invalidmonth : ''}</span>
                             <i class="fa fa-calendar"></i>
 
                           </div>

@@ -74,13 +74,13 @@ const SendMoney = () => {
   const { location } = useContext(UserContext);
 
   /******************* Start Api call Amount & Delivery State  *******/
-  const [from, setFrom] = React.useState('USD');
+  const [from, setFrom] = React.useState('AUD');
   const [shows, setShows] = React.useState(false);
-  const [to, setTo] = React.useState('');
+  const [to, setTo] = React.useState('NZD');
   const [amount, setAmount] = React.useState();
   const [exchange_amount, setExchange_amount] = React.useState();
   const [total_amount, setTotal_amount] = React.useState('');
-  const [total_rate, setTotal_rate] = React.useState('');
+  const [total_rate, setTotal_rate] = React.useState('1.0998');
 
   // const [options, setOptions] = React.useState([]);
   // const [output, setOutput] = React.useState(0);
@@ -496,6 +496,8 @@ const [errorCard, seterrorCard] = React.useState(false);
 * ************** Start  Total Amount Api call  ******************************
 * ***********************************************************************/
   const myTotalAmountFromTo = (value) => {
+    setFrom(value);
+    setTo(value)
     // event.preventDefault();
     console.log("====================>", amount)
     //useRef is used for focusing on inputbox
@@ -513,8 +515,8 @@ const [errorCard, seterrorCard] = React.useState(false);
     else {
       setLoading(true); // Set loading before sending API request
       axios.post(API.BASE_URL + 'exchange-rate/', {
-        from: from,
-        to: to,
+        from: value,
+        to: value,
         amount: amountValue.amountInput
 
       }, {
@@ -1205,11 +1207,12 @@ const [errorCard, seterrorCard] = React.useState(false);
                         value={from}
                         ref={input_From}
                         //  onChange={handleFrom}
-                        onChange={(e) => { myTotalAmountFromTo(e.target.value); setFrom(e.target.value) }}
+                        onChange={(e) => { myTotalAmountFromTo(e.target.value)}}
                       // onBlurCapture={myTotalAmount}
                       >
                         {/* <option value="">--- Select Currency ---</option> */}
-                        console.log('Step11111111111111111111111111111111111111')               <option value="EUR">EUR</option>
+                        <option value="AUD" selected="selected">AUD</option>
+                        <option value="USD">USD</option>
                         <option value="INR">INR</option>
                         <option value="BRL">BRL</option>
                         <option value="BGN">BGN</option>
@@ -1242,13 +1245,14 @@ const [errorCard, seterrorCard] = React.useState(false);
                         value={to}
                         ref={input_To}
                         //  onChange={handleTo}
-                        onChange={(e) => { myTotalAmountFromTo(e.target.value); setTo(e.target.value) }}
+                        onChange={(e) => { myTotalAmountFromTo(e.target.value)}}
                       >
 
 
                         <option value="">--- Select Currency ---</option>
 
                         {/* <option value="INR" selected="selected">INR</option> */}
+                        <option value="NZD" selected="selected">NZD</option>
                         <option value="INR">INR</option>
                         <option value="EUR">EUR</option>
                         <option value="BRL">BRL</option>
@@ -1263,7 +1267,6 @@ const [errorCard, seterrorCard] = React.useState(false);
                         <option value="ISK">ISK</option>
                         <option value="JOD">JPD</option>
                         <option value="KWD">KWD</option>
-                        <option value="NZD">NZD</option>
                         <option value="PHP">PHP</option>
                         <option value="ZAR">ZAR</option>
                         <option value="CHF">CHF</option>
