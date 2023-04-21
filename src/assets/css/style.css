@@ -5540,3 +5540,10 @@ span.fs-14 {
 .previous-transactions td h6 {
   font-size: 14px;
 }
+span.pass_icons {
+  float: right;
+  margin-right: 10px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+}

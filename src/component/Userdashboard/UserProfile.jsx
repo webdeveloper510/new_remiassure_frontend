@@ -111,7 +111,6 @@ const Profile = () => {
 
 
   /****************** Start select country *******************/
-
   const [countryValue, setcountryValue] = useState('')
   
   const countryoptions = useMemo(() => countryList().getData(), [])
@@ -122,7 +121,7 @@ const Profile = () => {
   
   }
 
-  /* start-- useRef is used for focusing on inputbox */
+/****************** start-- useRef is used for focusing on inputbox *******************/
   const input_firstName = useRef(null);
   const input_middleName = useRef(null);
   const input_lastName = useRef(null);
@@ -170,131 +169,130 @@ const Profile = () => {
     * ***********************************************************************/
 
   /* start-- useRef is used for focusing on inputbox */
-  useEffect(() => {
-    setLoading(true); // Set loading before sending API request
-    axios.post(API.BASE_URL + 'user-profile/', {}, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+      useEffect(() => {
+        setLoading(true); // Set loading before sending API request
+        axios.post(API.BASE_URL + 'user-profile/', {}, {
+          headers: {
+            "Authorization": `Bearer ${signup_token ? signup_token : token}`,
 
-      }
-    })
-      .then(function (response) {
-        console.log("Recipients APIIIII", response.data);
-        setFirstName(response.data.data.First_name);
-        setMiddleName(response.data.data.Middle_name);
-        setLastName(response.data.data.Last_name);
-        setEmail(response.data.data.email);
-        setMobile(response.data.data.mobile);
-        // setcountryValue(response.data.data.location);
-        setcountryValue(response.data.address.country);
-        console.log(countryValue, "setcountryValuesetcountryValue");
-        setFlat(response.data.address.flat);
-        setBuilding(response.data.address.building);
-        setStreet(response.data.address.street);
-        setPostcode(response.data.address.postcode);
-        setCity(response.data.address.city);
-        setState(response.data.address.state);
+          }
+        })
+          .then(function (response) {
+            console.log("Recipients APIIIII", response.data);
+            setFirstName(response.data.data.First_name);
+            setMiddleName(response.data.data.Middle_name);
+            setLastName(response.data.data.Last_name);
+            setEmail(response.data.data.email);
+            setMobile(response.data.data.mobile);
+            setcountryValue(response.data.data.location);
+            // setcountryValue(response.data.address.country);
+            console.log(countryValue, "setcountryValuesetcountryValue");
+            // alert(countryValue)
+            setFlat(response.data.address.flat);
+            setBuilding(response.data.address.building);
+            setStreet(response.data.address.street);
+            setPostcode(response.data.address.postcode);
+            setCity(response.data.address.city);
+            setState(response.data.address.state);
 
-      
-        setReasonMoney(response.data.address.reasonMoney);
-        setCustomer_id(response.data.address.customer_id);
-
-
-
-        setLoading(false); // Stop loading
-        //   if (response.status)
-        // // notify();
-      })
-      .catch(function (error) {
-        console.log(error);
-        console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-
-      })
-  }, [])
+          
+            setReasonMoney(response.data.address.reasonMoney);
+            setCustomer_id(response.data.address.customer_id);
 
 
 
+            setLoading(false); // Stop loading
+            //   if (response.status)
+            // // notify();
+          })
+          .catch(function (error) {
+            console.log(error);
+            console.log(error.response);
+            setLoading(false); // Stop loading in case of error
+
+          })
+      }, [])
 
 
-
-  /**************************************************************************
+   /**************************************************************************
     * ************** Start  Recipient Bank Details ****************************
     * ***********************************************************************/
 
-  /* start-- useRef is used for focusing on inputbox */
-  const handleUserProfileUpdate = (event) => {
-    // alert("hii")
-    // console.log("============>token", token)
-    event.preventDefault();
-      if (firstName.length==0){
-        input_firstName.current.focus();
-        setErrorUserRecipient(true);
-      }else if (middleName.length==0){
-        input_middleName.current.focus();
-        setErrorUserRecipient(true);
-      }else if (lastName.length==0){
-        input_lastName.current.focus();
-        setErrorUserRecipient(true);
-      }else if (email.length==0){
-        input_email.current.focus();
-        setErrorUserRecipient(true);
-      }else if (mobile.length==0){
-        input_mobile.current.focus();
-        setErrorUserRecipient(true);
-      }else if (flat.length==0){
-        input_flat.current.focus();
-        setErrorUserRecipient(true);
-      }else if (building.length==0){
-        input_building.current.focus();
-        setErrorUserRecipient(true);
-      }else if (street.length==0){
-        input_street.current.focus();
-        setErrorUserRecipient(true);
-      }else if (city.length==0){
-        input_city.current.focus();
-        setErrorUserRecipient(true);
-      }else if (state.length==0){
-        input_state.current.focus();
-        setErrorUserRecipient(true);
+      /* start-- useRef is used for focusing on inputbox */
+      const handleUserProfileUpdate = (event) => {
+        console.log(countryValue,"countryValue==========================>");
+        alert(countryValue)
+        // alert("hii")
+        // console.log("============>token", token)
+        event.preventDefault();
+          if (firstName.length==0){
+            input_firstName.current.focus();
+            setErrorUserRecipient(true);
+          }else if (middleName.length==0){
+            input_middleName.current.focus();
+            setErrorUserRecipient(true);
+          }else if (lastName.length==0){
+            input_lastName.current.focus();
+            setErrorUserRecipient(true);
+          }else if (email.length==0){
+            input_email.current.focus();
+            setErrorUserRecipient(true);
+          }else if (mobile.length==0){
+            input_mobile.current.focus();
+            setErrorUserRecipient(true);
+          }else if (flat.length==0){
+            input_flat.current.focus();
+            setErrorUserRecipient(true);
+          }else if (building.length==0){
+            input_building.current.focus();
+            setErrorUserRecipient(true);
+          }else if (street.length==0){
+            input_street.current.focus();
+            setErrorUserRecipient(true);
+          }else if (city.length==0){
+            input_city.current.focus();
+            setErrorUserRecipient(true);
+          }else if (state.length==0){
+            input_state.current.focus();
+            setErrorUserRecipient(true);
+          }
+          // }else if (country.length==0){
+          //   input_country.current.focus();
+          //   setErrorUserRecipient(true);
+          // }
+        else{
+        setLoading(true); // Set loading before sending API requestssss
+        axios.post(API.BASE_URL + 'update-profile/', {
+          First_name: firstName,
+          Middle_name: middleName,
+          Last_name: lastName,
+          email: email,
+          mobile: mobile,
+          flat: flat,
+          building: building,
+          street: street,
+          postcode: postcode,
+          city: city,
+          state: state,
+          location: countryValue.label,
+        }, {
+          headers: {
+            "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+          },
+        })
+          .then(function (response) {
+            console.log(response);
+            setLoading(false); // Stop loading 
+            navigate('/dashboard');  
+          })
+          .catch(function (error, message) {
+            console.log(error.response);
+            setLoading(false); // Stop loading in case of error
+            setBankNameText(error.response.data)
+            console.log(BankNameText, "BankNameText")
+          })
       }
-      // }else if (country.length==0){
-      //   input_country.current.focus();
-      //   setErrorUserRecipient(true);
-      // }
-    else{
-    setLoading(true); // Set loading before sending API requestssss
-    axios.post(API.BASE_URL + 'update-profile/', {
-      First_name: firstName,
-      Middle_name: middleName,
-      Last_name: lastName,
-      email: email,
-      mobile: mobile,
-      flat: flat,
-      building: building,
-      street: street,
-      postcode: postcode,
-      city: city,
-      state: state,
-      country: countryValue.label,
-    }, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-      },
-    })
-      .then(function (response) {
-        console.log(response);
-        setLoading(false); // Stop loading 
-        navigate('/dashboard');  
-      })
-      .catch(function (error, message) {
-        console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-        setBankNameText(error.response.data)
-        console.log(BankNameText, "BankNameText")
-      })
-  }
-}
+    }
 
 
 
@@ -311,16 +309,6 @@ const Profile = () => {
             <div className="margin-set">
               <div className="tabs-page">
                 <Sidebar />
-
-                {/* <div class="form-head mb-4">
-                <h2 ><b>Profile</b>
-                </h2>
-                <NavLink to="/userrecipients">
-                    <button className="form-button addsingle_recepient" ><BsFillPersonPlusFill /> Recipients Lists</button>
-                </NavLink>
-              </div> */}
-
-
                 <div className="content-body">
                   <section className="edit_recipient_section">
                     <div class="form-head mb-4">
@@ -328,10 +316,6 @@ const Profile = () => {
                     <form className="single-recipient">
                       <div className="card">
                         <div className="card-body">
-                          {/* <div className="row">
-              <NavLink to="/userrecipients">
-                    <button className="form-button addsingle_recepient" ><BsFillPersonPlusFill /> Recipients Lists</button>
-                </NavLink></div> */}
                           <div className="row each-row">
                             <h5>Personal Details</h5>
                             <div className="col-md-4">
@@ -540,7 +524,7 @@ const Profile = () => {
                                 <Select
                                 //  ref={input_country}
                                   options={countryoptions}
-                                  value={countryValue}
+                                  defaultValue={countryValue}
                                   onChange={changeHandler}
                                 />
                                  {/* {errorUserRecipient&&country.length<=0?

@@ -8,6 +8,7 @@ import { API } from "../../config/API";
 import axios from 'axios';
 import UserContext from '../context/UserContext';
 import Page404 from "../pageNotfound/Page404";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 {/* start -- css*/ }
 const myStyle = {
@@ -49,13 +50,16 @@ const Login = () => {
     const [passwordText, setPasswordText] = useState('');
     const [EmailpasswordText, setEmailpasswordText] = useState('');
     const [UserexistText, setUserexistText] = useState('');
+    /****************Show hide password state********************** */
+    const [showPassword, setShowPassword] = useState(false);
 
 
 
 
+    /****************Show hide password functionality********************** */
+    const toggleShowPassword = () => setShowPassword(prevState => !prevState);
 
     const navigate = useNavigate();
-
     const notify = () => toast.success("Logged In Successfully!");
     const wrongData = () => toast.warn("Login or Password is Wrong!");
     const emailExits = () => toast.error("Please fill out all the fields");
@@ -182,11 +186,17 @@ const Login = () => {
 
                                                                 <Form.Group className="mb-3 form_label" controlId="formBasicPassword">
                                                                     <Form.Label> Your Password<span style={{ color: 'red' }} >*</span></Form.Label>
-                                                                    <Form.Control type="password"
+                                                                    <Form.Control
+                                                                        type={showPassword ? 'text' : 'password'}
+                                                                        id="password"
+                                                                        name="password"
                                                                         value={password}
                                                                         onChange={handlePassword}
                                                                         placeholder="Password"
                                                                     />
+                                                                    <span className="pass_icons" type="button" onClick={toggleShowPassword}>
+                                                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                                                    </span>
                                                                     <span style={myStyle}>{passwordText ? passwordText : ""}</span>
 
                                                                 </Form.Group>

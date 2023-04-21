@@ -92,7 +92,7 @@ const UserSendMoney = () => {
   const [amount, setAmount] = React.useState();
   const [exchange_amount, setExchange_amount] = React.useState();
   const [total_amount, setTotal_amount] = React.useState('');
-  const [total_rate, setTotal_rate] = React.useState('1.0998');
+  const [total_rate, setTotal_rate] = React.useState('0');
 
   // const [options, setOptions] = React.useState([]);
   const [output, setOutput] = React.useState(0);
@@ -120,10 +120,22 @@ const UserSendMoney = () => {
   const [id, setId] = React.useState('');
 
   const [formValue, setFormValue] = React.useState({
-    bankName: '', accountName: '', accountNumber: '', firstName: '', middleName: '',
+     accountName: '', accountNumber: '', firstName: '', middleName: '',
     lastName: '', email: '', mobile: '', flat: '', building: '', street: '', postcode: '', city: '', state: '',
     country_code: '', country: '', reasonMoney: ''
   });
+
+  const [inputPhoneValue, setInputPhoneValue] = React.useState({
+   mobile: '',
+  });
+
+
+  const [bankNameValue, setBankNameValue] = React.useState({
+    bankName: '',
+   });
+
+   const bankNameRef = React.useRef(null);
+ 
 
   /************ Start -messageText state***************/
   const [BankNameText, setBankNameText] = React.useState('');
@@ -155,13 +167,6 @@ const UserSendMoney = () => {
 
 
 
-
-
-
-
-
-
-
   /************ Start -Recpient data ***************/
 
   const handleCloseDetails = () => setshowCards(false);
@@ -181,6 +186,32 @@ const UserSendMoney = () => {
     console.log(formValue)
   }
   
+
+    // Start - Phone Bank value
+    const handleInputPhoneValue = (e, key) => {
+      console.log(e.target.value)
+      console.log(key)
+      let valueFormData = inputPhoneValue
+      valueFormData[key] = e.target.value
+      setInputPhoneValue(valueFormData)
+      console.log(inputPhoneValue)
+    }
+
+     // Start - BankValue Bank value
+     const handleBankValue = React.useCallback((e, key) => {
+      const regex = /^[a-zA-Z]+$/;
+      const value = e.target.value;
+      if (value === '' || regex.test(value)) {
+        setBankNameValue(prevState => ({
+          ...prevState,
+          [key]: value
+        }));
+        setTimeout(() => {
+          bankNameRef.current.focus();
+        }, 10);
+      }
+    }, []);
+    
 
   /*************************** Start- Select Payment Function************************* */
   const getCardDataPayment = (value) => {
@@ -1345,8 +1376,9 @@ console.log("From", from)
                           type="text"
                           className="rate_input form-control"
                           name="bankName"
-                          defaultValue={formValue.bankName}
-                          onChange={(e) => handleStep2InputChange(e, 'bankName')}
+                          value={bankNameValue.bankName}
+                          onChange={(e) => handleBankValue(e, 'bankName')}
+                          ref={bankNameRef}
                         />
                         {/* {error&&formValue.bankName.length<=0?
                         <span style={myStyle}>Please Enter the Bank Name </span>:""}   */}
@@ -1460,13 +1492,13 @@ console.log("From", from)
                           onChange={(e) => handleStep2InputChange(e, 'mobile')}
                         />
 
-                         {/* <PhoneInput
+                         <PhoneInput
                           country={"eg"}
                           enableSearch={true}
                           name="mobile"
-                          defaultValue={formValue.mobile}
-                          onChange={(e) => handleStep2InputChange(e, 'mobile')}
-                              /> */}
+                          defaultValue={inputPhoneValue.mobile}
+                          onChange={(e) => handleInputPhoneValue(e, 'mobile')}
+                          />
 
                         <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
                         <span style={myStyle}>{BankNameText.Entermobile ? BankNameText.Entermobile : ''}</span>

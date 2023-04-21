@@ -285,7 +285,7 @@ const Home = () => {
 
    const [loading, setLoading] = useState(false);
    const [total_amounts, setTotal_amounts] =useState('');
-   const [total_rates, setTotal_rates] = useState('1.0998');
+   const [total_rates, setTotal_rates] = useState('0');
   //  alert(total_amounts)
 
 
