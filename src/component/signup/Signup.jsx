@@ -7,6 +7,9 @@ import {useLocation} from "react-router-dom";
 import Select from "react-select";
 import countryList from 'react-select-country-list';
 import Page404 from "../pageNotfound/Page404";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/bootstrap.css";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 
 
@@ -46,14 +49,19 @@ const Signup = () => {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error,setError]=useState(false);
+     /****************Show hide password state********************** */
+     const [showPassword, setShowPassword] = useState(false);
+     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [location, setLocation] = useState('');
     const [referral_code, setrReferral_code] = useState('');
     const [referral_value, setrReferral_value] = useState('');
     const [promo_marketing, setPromo_marketing] = useState(false);
     const [mobile, setMobile] = useState('');
+    const [active, setActive] = useState(false);
 
     const [sucessText, setSucessText] = useState('');
 
@@ -62,6 +70,7 @@ const Signup = () => {
     const [emailExistText, setEmailExistText] = useState('');
     const [emailvalidAddress,setEmailvalidAddress ] = useState('');
     const [mobileText, setMobileText] = useState('');
+    const [mobileSpecialCharacter, setMobileSpecialCharacter] = useState();
     const [mobileValidText, setMobileValidText] = useState('');
     const [mobileExistsValidText, setMobileExistsValidText] = useState('');
     const [passwordText, setPasswordText] = useState('');
@@ -70,6 +79,8 @@ const Signup = () => {
    
  
     
+
+
 
     const search = useLocation()
     const [checkBoxValue, setCheckBoxvalue] = useState(false);
@@ -105,11 +116,19 @@ const Signup = () => {
    
 
     const navigate = useNavigate();
-
     // const notify = () => toast.success("Sign Up Successfully!");
     // const emptyData = () => toast.warn("Please fill out all the fields");
     // const emailExits = () => toast.error("User with this Email already exists!");
 
+  /****************Show hide password functionality********************** */
+      const toggleShowPassword = () => setShowPassword(prevState => !prevState);
+
+/****************Show hide password functionality********************** */
+      const toggleShowConfirmPassword = () => setShowConfirmPassword (prevState => !prevState)
+
+
+
+  /****************input feild functionality********************** */
     const handleEmail =(e) => {
         setEmail(e.target.value);
     }
@@ -118,6 +137,10 @@ const Signup = () => {
     }
     const handlePassword =(e) => {
         setPassword(e.target.value);
+
+    }
+    const handleConfirmPassword =(e) => {
+        setConfirmPassword(e.target.value);
 
     }
     const handeleLocation =(e) => {
@@ -139,7 +162,6 @@ const Signup = () => {
           Active: checked // <-- set new Active checked value
         }));
       };
-
 
 
 
@@ -166,12 +188,17 @@ const Signup = () => {
         // } 
 
         // else{
-
+         if (password !== confirmPassword) {
+                // alert("Passwords don't match");
+             setActive(true)
+           } else {
+           setActive(false)
         setLoading(true); // Set loading before sending API request
         let data = {
             email: email,
             mobile: mobile,
             password: password,
+            confirmPassword: confirmPassword,
             // location: location,
             location: countryValue.label,
             referral_code: referral_code,
@@ -220,11 +247,12 @@ const Signup = () => {
                     setMobileValidText(error.response.data.Checkmobile);
                     setEmailvalidAddress(error.response.data.email)
                     setMobileExistsValidText(error.response.data.Mobileexist)
+                    setMobileSpecialCharacter(error.response.data.password)
             }
            
         })
     }
-// }
+ }
     
 
 /**************************************************************************
@@ -348,36 +376,62 @@ const Signup = () => {
 
                                                     <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
                                                         <Form.Label>Your Phone<span style={{color: 'red'}} >*</span> </Form.Label>
-                                                        <Form.Control 
+                                                        <PhoneInput 
                                                         type="mobile"
                                                         ref={input_mobile}
+                                                        country={"eg"}
+                                                        enableSearch={true}
                                                         value={mobile}
-                                                        onChange={handleMobile}
+                                                        onChange={(mobile) => setMobile(mobile)}
                                                         placeholder="Enter Phone"
-                                                        />
+                                                        /> 
                                                         {/* {error&&mobile.length<=0?
                                                     <span style={myStyle}>Please Enter the Mobile </span>:""}	 */}
                                                         <span  style={myStyle}>{mobileText? mobileText: ""}</span>  
                                                         <span  style={myStyle}>{mobileValidText? mobileValidText: ""}</span>  
                                                         <span  style={myStyle}>{mobileExistsValidText? mobileExistsValidText: ""}</span>  
+                                                     
                                                     </Form.Group>
 
                                                     <Form.Group className="mb-3 form_label" controlId="formBasicPassword">
                                                         <Form.Label> Your Password<span style={{color: 'red'}} >*</span> </Form.Label>
                                                         <Form.Control 
-                                                        //    minlength="0" 
-                                                        //    maxlength="3" 
-                                                        type="password"
+                                                        type={showPassword ? 'text' : 'password'}
+                                                        id="password"
+                                                        name="password"
                                                         ref={input_password}
                                                         value={password}
                                                         onChange={handlePassword}
                                                         placeholder="Password" 
                                                         />
+                                                         <span onClick={toggleShowPassword} className="pass_icons">
+                                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                                         </span>
                                                         {/* {error&&password.length<=0?
                                                     <span style={myStyle}>Please Enter the Password </span>:""}	 */}
                                                     <span  style={myStyle}>{passwordText? passwordText: ""}</span>  
+                                                    <span  style={myStyle}>{mobileSpecialCharacter? mobileSpecialCharacter: ""}</span>  
                                                     
                                                     </Form.Group>
+
+                                                    <Form.Group className="mb-3 form_label" controlId="formBasicPassword">
+                                                    <Form.Label> Confirm Password<span style={{color: 'red'}} >*</span> </Form.Label>
+                                                    <Form.Control
+                                                        type={showConfirmPassword ? 'text' : 'password'}
+                                                        name="password"
+                                                        value={confirmPassword}
+                                                        placeholder="Confirm Password" 
+                                                        onChange={handleConfirmPassword}
+                                                        className='rate_input form-control'
+                                                    />
+                                                     <span onClick={toggleShowConfirmPassword} className="pass_icons">
+                                                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                                    </span>
+
+                                                    <span className={active == true ? 'not_match' : 'hide'}>Passwords do not match</span>
+                                                    </Form.Group>
+
+
 
                                                     <Form.Check  className="form_switch"
                                                     type="switch" 

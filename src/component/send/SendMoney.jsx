@@ -74,13 +74,13 @@ const SendMoney = () => {
   const { location } = useContext(UserContext);
 
   /******************* Start Api call Amount & Delivery State  *******/
-  const [from, setFrom] = React.useState('USD');
+  const [from, setFrom] = React.useState('AUD');
   const [shows, setShows] = React.useState(false);
-  const [to, setTo] = React.useState('');
+  const [to, setTo] = React.useState('NZD');
   const [amount, setAmount] = React.useState();
   const [exchange_amount, setExchange_amount] = React.useState();
   const [total_amount, setTotal_amount] = React.useState('');
-  const [total_rate, setTotal_rate] = React.useState('');
+  const [total_rate, setTotal_rate] = React.useState('0');
 
   // const [options, setOptions] = React.useState([]);
   // const [output, setOutput] = React.useState(0);
@@ -493,9 +493,12 @@ const [errorCard, seterrorCard] = React.useState(false);
   // End Total Amount Api call 
 
   /**************************************************************************
-* ************** Start  Total Amount Api call  ******************************
-* ***********************************************************************/
-  const myTotalAmountFromTo = (value) => {
+  * ************** Start  Total Amount From Api call  ******************************
+  * ***********************************************************************/
+
+  const myTotalAmountFrom = (value) => {
+    setFrom(value);
+    // setTo(value)
     // event.preventDefault();
     console.log("====================>", amount)
     //useRef is used for focusing on inputbox
@@ -513,7 +516,7 @@ const [errorCard, seterrorCard] = React.useState(false);
     else {
       setLoading(true); // Set loading before sending API request
       axios.post(API.BASE_URL + 'exchange-rate/', {
-        from: from,
+        from: value,
         to: to,
         amount: amountValue.amountInput
 
@@ -549,6 +552,66 @@ const [errorCard, seterrorCard] = React.useState(false);
     }
   }
   // End Total Amount Api call 
+
+    /**************************************************************************
+  * ************** Start  Total Amount To Api call  ******************************
+  * ***********************************************************************/
+
+    const myTotalAmountTo = (value) => {
+      setTo(value)
+      // event.preventDefault();
+      console.log("====================>", amount)
+      //useRef is used for focusing on inputbox
+      if (from.length == 0) {
+        input_From.current.focus();
+        setError(true);
+      } else if (to.length == 0) {
+        input_To.current.focus();
+        setError(true);
+      } else if (amountValue.amountInput.length == 0) {
+        input_AmountSend.current.focus();
+        setError(true);
+      }
+  
+      else {
+        setLoading(true); // Set loading before sending API request
+        axios.post(API.BASE_URL + 'exchange-rate/', {
+          from: from,
+          to: value,
+          amount: amountValue.amountInput
+  
+        }, {
+          headers: {
+            // 'Content-Type': 'application/json',
+          },
+  
+        })
+          .then(function (response) {
+            console.log(response);
+            if (response.status)
+              localStorage.setItem("Total_amount", response.data.amount);
+            console.log(total_amount, "total_amounttotal_amount")
+            setTotal_amount(response.data.amount);
+            setExchange_amount(response.data.amount);
+            setTotal_rate(response.data.rate);
+            setLoading(false); // Stop loading
+            localStorage.setItem("FromValue", from);
+            localStorage.setItem("ToValue", to);
+            localStorage.setItem("AmountValue", amountValue.amountInput);
+          })
+          .catch(function (error, message) {
+            console.log(error.response)
+            setLoading(false); // Stop loading in case of error
+            // if(error.response.data.status){
+            //     toast.error(error.response.data.message);
+            // } 
+            // console.log(error, "klnklnklnknnnnnnnnnnnn"); 
+            setCurrencyerrorText(error.response.data.error)
+          })
+  
+      }
+    }
+    // End Total Amount Api call 
 
 
   /**************************************************************************
@@ -1205,11 +1268,12 @@ const [errorCard, seterrorCard] = React.useState(false);
                         value={from}
                         ref={input_From}
                         //  onChange={handleFrom}
-                        onChange={(e) => { myTotalAmountFromTo(e.target.value); setFrom(e.target.value) }}
+                        onChange={(e) => { myTotalAmountFrom(e.target.value)}}
                       // onBlurCapture={myTotalAmount}
                       >
                         {/* <option value="">--- Select Currency ---</option> */}
-                        console.log('Step11111111111111111111111111111111111111')               <option value="EUR">EUR</option>
+                        <option value="AUD" selected="selected">AUD</option>
+                        <option value="USD">USD</option>
                         <option value="INR">INR</option>
                         <option value="BRL">BRL</option>
                         <option value="BGN">BGN</option>
@@ -1242,13 +1306,14 @@ const [errorCard, seterrorCard] = React.useState(false);
                         value={to}
                         ref={input_To}
                         //  onChange={handleTo}
-                        onChange={(e) => { myTotalAmountFromTo(e.target.value); setTo(e.target.value) }}
+                        onChange={(e) => { myTotalAmountTo(e.target.value)}}
                       >
 
 
-                        <option value="">--- Select Currency ---</option>
+                        {/* <option value="">--- Select Currency ---</option> */}
 
                         {/* <option value="INR" selected="selected">INR</option> */}
+                        <option value="NZD" selected="selected">NZD</option>
                         <option value="INR">INR</option>
                         <option value="EUR">EUR</option>
                         <option value="BRL">BRL</option>
@@ -1263,7 +1328,6 @@ const [errorCard, seterrorCard] = React.useState(false);
                         <option value="ISK">ISK</option>
                         <option value="JOD">JPD</option>
                         <option value="KWD">KWD</option>
-                        <option value="NZD">NZD</option>
                         <option value="PHP">PHP</option>
                         <option value="ZAR">ZAR</option>
                         <option value="CHF">CHF</option>

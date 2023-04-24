@@ -17,6 +17,9 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import Select from "react-select";
 import countryList from 'react-select-country-list'
 import Page404 from "../pageNotfound/Page404";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/bootstrap.css";
+
 // start css
 const myStyle = {
   color: "red",
@@ -68,13 +71,13 @@ const Editrecipientuser = () => {
 
 
   /************ Start -Recipient Bank Details state***************/
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [errorUserRecipient, setErrorUserRecipient] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   /************ Start -messageText state***************/
-  const [BankNameText, setBankNameText] = React.useState('');
+  const [BankNameText, setBankNameText] = useState('');
   // const [userRecipientData, setUserRecipientData] = useState('');
-  const [RecepientsData, setRecepientsData] = React.useState('');
+  const [RecepientsData, setRecepientsData] = useState('');
 
   /************ Start -Recipient Bank Details state***************/
   const [bank_name, setBank_name] = useState('');
@@ -116,10 +119,8 @@ const Editrecipientuser = () => {
     console.log("handle request ");
   }
 
-
   /****************** select country *******************/
-
-  const [countryValue, setcountryValue] = React.useState('')
+  const [countryValue, setcountryValue] = useState('')
   const countryoptions = useMemo(() => countryList().getData(), [])
 
   const changeHandler = countryValue => {
@@ -129,25 +130,34 @@ const Editrecipientuser = () => {
   /* start-- useRef is used for focusing on inputbox */
   const input_location = useRef(null);
 
-
-
-
-  // Start page show hide condtion page
-
+ // Start page show hide condtion page
   const navigate = useNavigate('');
 
-
-  // const search = useLocation()
-
-
-  /**********************Design function************ */
+/**********************Design function************ */
   const [isActive, setActive] = useState("false");
 
   const handleToggle = () => {
     setActive(!isActive);
   };
 
-  /**********************Localstorage getting data*********** */
+/********************** Start- form-validation ***********************/
+const input_bankName = useRef(null);
+const input_accountName = useRef(null);
+const input_accountNumber = useRef(null);
+const input_firstName = useRef(null);
+const input_middleName = useRef(null);
+const input_lastName = useRef(null);
+const input_email = useRef(null);
+const input_mobile = useRef(null);
+const input_flat = useRef(null);
+const input_building = useRef(null);
+const input_street = useRef(null);
+const input_city = useRef(null);
+const input_state = useRef(null);
+const input_country = useRef(null);
+
+
+/**********************Localstorage getting data*********** */
 
   // function handleDataStore(){
 
@@ -186,7 +196,7 @@ const Editrecipientuser = () => {
         setLastName(response.data.data.last_name);
         setEmail(response.data.data.email);
         setMobile(response.data.data.mobile);
-        setFlat(response.data.data.flate);
+        setFlat(response.data.data.flast);
         setBuilding(response.data.data.building);
         setStreet(response.data.data.street);
         setPostcode(response.data.data.postcode);
@@ -213,8 +223,54 @@ const Editrecipientuser = () => {
 
   /* start-- useRef is used for focusing on inputbox */
   const handleRecipientBankDetails = (value) => {
+
+    if (bank_name.length==0){
+      input_bankName.current.focus();
+      setErrorUserRecipient(true);
+    } else if (account_name.length==0){
+      input_accountName.current.focus();
+      setErrorUserRecipient(true);
+    }else if (account_number.length==0){
+      input_accountNumber.current.focus();
+      setErrorUserRecipient(true);
+    }else if (firstName.length==0){
+      input_firstName.current.focus();
+      setErrorUserRecipient(true);
+    }else if (middleName.length==0){
+      input_middleName.current.focus();
+      setErrorUserRecipient(true);
+    }else if (lastName.length==0){
+      input_lastName.current.focus();
+      setErrorUserRecipient(true);
+    }else if (email.length==0){
+      input_firstName.current.focus();
+      setErrorUserRecipient(true);
+    }else if (mobile.length==0){
+      input_mobile.current.focus();
+      setErrorUserRecipient(true);
+    }else if (flat.length==0){
+      input_flat.current.focus();
+      setErrorUserRecipient(true);
+    }else if (building.length==0){
+      input_building.current.focus();
+      setErrorUserRecipient(true);
+    }else if (street.length==0){
+      input_street.current.focus();
+      setErrorUserRecipient(true);
+    }else if (city.length==0){
+      input_city.current.focus();
+      setErrorUserRecipient(true);
+    }else if (state.length==0){
+      input_state.current.focus();
+      setErrorUserRecipient(true);
+    }else if (country.length==0){
+      input_country.current.focus();
+      setErrorUserRecipient(true);
+    }
+   else{
     console.log("============>token", token)
 
+    //useRef is used for focusing on inputbox
     // event.preventDefault();
     setLoading(true); // Set loading before sending API requestssss
     axios.post(API.BASE_URL + `payment/recipient-update/${value}`, {
@@ -228,14 +284,11 @@ const Editrecipientuser = () => {
       mobile: mobile,
       flat: flat,
       building: building,
-      sreet: street,
-      postcode: postcode,
+      street: street,
       city: city,
       state: state,
-      country_code: country_code,
       country: countryValue.label,
-      reasonMoney: reasonMoney
-
+   
     }, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -250,11 +303,11 @@ const Editrecipientuser = () => {
       .catch(function (error, message) {
         console.log(error.response);
         setLoading(false); // Stop loading in case of error
-        setBankNameText(error.response.data);
+        // setBankNameText(error.response.data);
 
       })
   }
-  // }
+  }
 
 
 
@@ -280,7 +333,7 @@ const Editrecipientuser = () => {
               <div className="content-body">
                 <section className="edit_recipient_section">
                   <div class="form-head mb-4">
-                    <h2 class="text-black font-w600 mb-0"><b>Update Recipient Profile </b>
+                    <h2 class="text-black font-w600 mb-0"><b>Update Recipient </b>
                       <NavLink to="/userrecipients">
                         <button className="start-form-button back-btn" >
                           <MdOutlineKeyboardBackspace />
@@ -303,6 +356,7 @@ const Editrecipientuser = () => {
                               <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
                               <input
                                 type="text"
+                                ref={input_bankName}
                                 className="rate_input form-control"
                                 name="bankName"
                                 Value={bank_name}
@@ -310,6 +364,9 @@ const Editrecipientuser = () => {
                               //  placeholder={RecepientsData.bank_name}
 
                               />
+                             {errorUserRecipient && bank_name.length<=0?
+                            <span style={myStyle}>Please Enter the Bank Name </span>:""} 
+
                               <span style={myStyle}>{BankNameText.Enterbankname ? BankNameText.Enterbankname : ''}</span>
 
                             </div>
@@ -319,14 +376,15 @@ const Editrecipientuser = () => {
                               <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
                               <input
                                 type="text"
-                                // ref={input_recipientAccountName}
+                                ref={input_accountName}
                                 defaultValue={account_name}
                                 onChange={(e) => setAccount_name(e.target.value)}
                                 className='rate_input form-control'
                               // placeholder={RecepientsData.account_name}
                               />
-                              {/* {error&&formValue.accountName.length<=0?
-                            <span style={myStyle}>Please Enter the Account Name </span>:""} */}
+                               {errorUserRecipient&&account_name.length<=0?
+                            <span style={myStyle}>Please Enter the Account Name </span>:""} 
+
                               <span style={myStyle}>{BankNameText.Enteraccountname ? BankNameText.Enteraccountname : ''}</span>
 
                             </div>
@@ -335,16 +393,18 @@ const Editrecipientuser = () => {
                             <div className="input_field">
                               <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
                               <input
+                                min={0}
                                 type="number"
                                 name="accountNumber"
-                                // ref={input_recipientAccountNumber}
+                                ref={input_accountNumber}
                                 className='rate_input form-control'
                                 defaultValue={account_number}
                                 onChange={(e) => setAccount_number(e.target.value)}
                               // placeholder={RecepientsData.account_number}
                               />
-                              {/* {error&&formValue.accountNumber.length<=0?
-                            <span style={myStyle}>Please Enter the Account number </span>:""} */}
+                              {errorUserRecipient&&account_number.length<=0?
+                            <span style={myStyle}>Please Enter the Account number </span>:""}
+
                               <span style={myStyle}>{BankNameText.Enteraccountnumber ? BankNameText.Enteraccountnumber : ''}</span>
                               <span style={myStyle}>{BankNameText.Accountnumberexist ? BankNameText.Accountnumberexist : ''}</span>
                             </div>
@@ -357,15 +417,16 @@ const Editrecipientuser = () => {
                               <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
                               <input
                                 type="text"
-                                // ref={input_recipientFirstName}
+                                ref={input_firstName}
                                 className='rate_input form-control'
                                 name="firstName"
                                 defaultValue={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
                               // placeholder={RecepientsData.first_name}
                               />
-                              {/* {error&&formValue.firstName.length<=0?
-                            <span style={myStyle}>Please Enter the First Name </span>:""} */}
+                             {errorUserRecipient&&firstName.length<=0?
+                            <span style={myStyle}>Please Enter the First Name </span>:""} 
+
                               <span style={myStyle}>{BankNameText.first_name ? BankNameText.first_name : ''}</span>
                             </div>
                           </div>
@@ -374,13 +435,16 @@ const Editrecipientuser = () => {
                               <p className="get-text">Middle Name</p>
                               <input
                                 type="text"
-                                // ref={input_recipientMiddleName}
+                                ref={input_middleName}
                                 className='rate_input form-control'
                                 name="middleName"
                                 defaultValue={middleName}
                                 onChange={(e) => setMiddleName(e.target.value)}
                               // placeholder={RecepientsData.middle_name}
                               />
+                              {errorUserRecipient&&middleName.length<=0?
+                              <span style={myStyle}>Please Enter the Middle Name </span>:""} 
+
                               <span style={myStyle}>{BankNameText.middle_name ? BankNameText.middle_name : ''}</span>
                             </div>
                           </div>
@@ -389,13 +453,16 @@ const Editrecipientuser = () => {
                               <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
                               <input
                                 type="text"
-                                // ref={input_recipientLastName}
+                                ref={input_lastName}
                                 className='rate_input form-control'
                                 name="lastName"
                                 defaultValue={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
                               // placeholder={RecepientsData.last_name}
                               />
+                               {errorUserRecipient&&lastName.length<=0?
+                              <span style={myStyle}>Please Enter the Last Name </span>:""} 
+
                               <span style={myStyle}>{BankNameText.last_name ? BankNameText.last_name : ''}</span>
                             </div>
                           </div>
@@ -406,13 +473,16 @@ const Editrecipientuser = () => {
                               <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
                               <input
                                 type="email"
-                                // ref={input_recipientEmail}
+                                ref={input_email}
                                 className='rate_input form-control'
                                 name="email"
                                 defaultValue={email}
                                 onChange={(e) => setEmail(e.target.value)}
                               // placeholder={RecepientsData.email}
                               />
+                                {errorUserRecipient&&email.length<=0?
+                              <span style={myStyle}>Please Enter the Email Address </span>:""} 
+
                               <span style={myStyle}>{BankNameText.email ? BankNameText.email : ''}</span>
                               <span style={myStyle}>{BankNameText.Emailinvalid ? BankNameText.Emailinvalid : ''}</span>
 
@@ -421,17 +491,27 @@ const Editrecipientuser = () => {
                           <div className="col-md-6">
                             <div className="input_field">
                               <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
-                              <input
-                                type="number"
-                                min={1}
-                                max={10}
+                              {/* <PhoneInput
+                               
                                 // ref={input_recipientMobile}
                                 className='rate_input form-control'
+                                country={"eg"}
+                                enableSearch={true}
                                 name="mobile"
                                 defaultValue={mobile}
                                 onChange={(e) => setMobile(e.target.value)}
                               // placeholder={RecepientsData.mobile}
+                              /> */}
+                              <PhoneInput
+                               ref={input_mobile}
+                                country={"eg"}
+                                enableSearch={true}
+                                value={mobile}
+                                onChange={(mobile) => setMobile(mobile)}
                               />
+                                  {errorUserRecipient&&mobile.length<=0?
+                                  <span style={myStyle}>Please Enter the Mobile Number </span>:""} 
+
                               <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
                               <span style={myStyle}>{BankNameText.Entervalidmobile ? BankNameText.Entervalidmobile : ''}</span>
                               <span style={myStyle}>{BankNameText.Mobileexist ? BankNameText.Mobileexist : ''}</span>
@@ -447,12 +527,16 @@ const Editrecipientuser = () => {
                               <p className="get-text">Flat/Unit No.</p>
                               <Form.Control
                                 type="text"
+                                ref={input_flat}
                                 className='rate_input form-control'
                                 name="flat"
                                 defaultValue={flat}
                                 onChange={(e) => setFlat(e.target.value)}
                               // placeholder={RecepientsData.flast}
                               />
+                                {errorUserRecipient&&flat.length<=0?
+                                  <span style={myStyle}>Please Enter the Flat Name</span>:""} 
+
                             </Form.Group>
                           </div>
                           <div className="col-md-4">
@@ -460,12 +544,15 @@ const Editrecipientuser = () => {
                               <p className="get-text">Building/Unit No.</p>
                               <Form.Control
                                 type="text"
+                                ref={input_building}
                                 className='rate_input form-control'
                                 name="Building"
                                 defaultValue={building}
                                 onChange={(e) => setBuilding(e.target.value)}
                                 placeholder={RecepientsData.building}
                               />
+                              {errorUserRecipient&&building.length<=0?
+                                  <span style={myStyle}>Please Enter the Building Name</span>:""} 
                             </Form.Group>
                           </div>
                           <div className="col-md-4">
@@ -473,17 +560,20 @@ const Editrecipientuser = () => {
                               <p className="get-text">Street</p>
                               <Form.Control
                                 type="text"
+                                ref={input_street}
                                 className='rate_input form-control'
                                 name="flat"
                                 defaultValue={street}
                                 onChange={(e) => setStreet(e.target.value)}
                               // placeholder={RecepientsData.street}
                               />
+                               {errorUserRecipient&&street.length<=0?
+                                  <span style={myStyle}>Please Enter the Street Name</span>:""} 
                             </Form.Group>
                           </div>
                         </div>
                         <div className="row each-row">
-                          <div className="col-md-4">
+                          {/* <div className="col-md-4">
                             <Form.Group className="form_label" controlId="Firstname">
                               <p className="get-text">Postcode</p>
                               <Form.Control
@@ -495,18 +585,21 @@ const Editrecipientuser = () => {
                               // placeholder={RecepientsData.postcode}
                               />
                             </Form.Group>
-                          </div>
+                          </div> */}
                           <div className="col-md-4">
                             <Form.Group className="form_label" controlId="Firstname">
                               <p className="get-text">City/Town</p>
                               <Form.Control
                                 type="text"
+                                ref={input_city}
                                 className='rate_input form-control'
                                 name="city"
                                 defaultValue={city}
                                 onChange={(e) => setCity(e.target.value)}
                               // placeholder={RecepientsData.city}
                               />
+                               {errorUserRecipient&&city.length<=0?
+                                  <span style={myStyle}>Please Enter the City Name</span>:""} 
                             </Form.Group>
                           </div>
                           <div className="col-md-4">
@@ -514,38 +607,30 @@ const Editrecipientuser = () => {
                               <p className="get-text">State</p>
                               <Form.Control
                                 type="text"
+                                ref={input_state}
                                 className='rate_input form-control'
                                 name="state"
                                 defaultValue={state}
                                 onChange={(e) => setState(e.target.value)}
                               // placeholder={RecepientsData.state}
                               />
-                            </Form.Group>
-                          </div>
-                        </div>
-                        <div className="row each-row">
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">Country Code</p>
-                              <Form.Control
-                                type="text"
-                                className='rate_input form-control'
-                                name="country_code"
-                                defaultValue={country_code}
-                                onChange={(e) => setCountry_code(e.target.value)}
-                              // placeholder={RecepientsData.country_code}
-                              />
+                                {errorUserRecipient&&state.length<=0?
+                                  <span style={myStyle}>Please Enter the State Name</span>:""} 
                             </Form.Group>
                           </div>
                           <div className="col-md-4">
                             <Form.Group className="form_label" controlId="Firstname">
                               <p className="get-text">Country</p>
                               <Select
-                                ref={input_location}
+                                ref={input_country}
                                 options={countryoptions}
                                 value={countryValue}
                                 onChange={changeHandler}
                               />
+                                 {errorUserRecipient&&country.length<=0?
+                                  <span style={myStyle}>Please Enter the Country Name</span>:""} 
+
+
                               {/* <CountryDropdown
                        id="UNIQUE_ID" 
                        className='YOUR_CSS_CLASS rate_input form-control'
@@ -558,7 +643,23 @@ const Editrecipientuser = () => {
                         ></CountryDropdown> */}
                             </Form.Group>
                           </div>
-                          <div className="col-md-4">
+                        </div>
+                        <div className="row each-row">
+                          {/* <div className="col-md-4">
+                            <Form.Group className="form_label" controlId="Firstname">
+                              <p className="get-text">Country Code</p>
+                              <Form.Control
+                                type="text"
+                                className='rate_input form-control'
+                                name="country_code"
+                                defaultValue={country_code}
+                                onChange={(e) => setCountry_code(e.target.value)}
+                              // placeholder={RecepientsData.country_code}
+                              />
+                            </Form.Group>
+                          </div> */}
+                         
+                          {/* <div className="col-md-4">
                             <div className="input_field">
                               <p className="get-text">Reason For Sending Money</p>
                               <select
@@ -577,10 +678,9 @@ const Editrecipientuser = () => {
                                 <option value="Travel Payment">Travel Payment</option>
                                 <option value="Utility Payment">Utility Payment</option>
                               </select>
-                              {/* {error&&formValue.reasonMoney.length<=0?
-                            <span style={myStyle}>Please Select the Reason For Sending Money </span>:""} */}
+                        
                             </div>
-                          </div>
+                          </div> */}
                         </div>
 
                         <div className="row">

@@ -55,7 +55,7 @@ const EditCardUser = () => {
 
 
   /************ Start -Recipient Bank Details state***************/
-  const [error, setError] = useState(false);
+  const [error, setError] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
   /************ Start -messageText state***************/
@@ -64,10 +64,20 @@ const EditCardUser = () => {
   const [RecepientsData, setRecepientsData] = React.useState('');
 
   /************ Start -Card Bank Details state***************/
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [name, setName] = React.useState('');
+  const [number, setNumber] = React.useState('');
   const [exp_month, setExp_month] = useState('');
   const [exp_year, setExp_year] = useState('');
+
+
+
+  const handleName =(e) => {
+    setName(e.target.value)
+  }
+console.log(name, "nameeeeeeeeeeeeeeee")
+  const handleNumber =(e) => {
+    setNumber(e.target.value)
+  }
 
   /************ Start -Recipient Bank Details function***************/
   // const handleStep2InputChange =(e,key) =>{
@@ -86,9 +96,6 @@ const EditCardUser = () => {
     console.log("handle request ");
   }
 
-
-
-
   //Get data of update value 
 
   /****************** select country *******************/
@@ -101,7 +108,11 @@ const EditCardUser = () => {
   }
 
   /* start-- useRef is used for focusing on inputbox */
-  const input_location = useRef(null);
+  const input_name= useRef(null);
+  const input_card_number = useRef(null);
+  const input_expiry_month = useRef(null);
+  const input_expiry_year = useRef(null);
+  
 
   // Start page show hide condtion page
 
@@ -147,8 +158,22 @@ const EditCardUser = () => {
 
   /* start-- useRef is used for focusing on inputbox */
   const handleCardUpdateDetails = (value) => {
+     if(name.length==0){
+      input_name.current.focus();
+      setError(true);
+    } else if (number.length==0){
+      input_card_number.current.focus();
+      setError(true);
+    }else if (exp_month.length==0){
+      input_expiry_month.current.focus();
+      setError(true);
+    }else if (exp_year.length==0){
+      input_expiry_year.current.focus();
+      setError(true);
+    }
+    else{
     console.log("============>token", token)
-
+   
     // event.preventDefault();
     setLoading(true); // Set loading before sending API requestssss
     axios.patch(API.BASE_URL + `payment/card/${value}`, {
@@ -172,11 +197,11 @@ const EditCardUser = () => {
       .catch(function (error, message) {
         console.log(error.response);
         setLoading(false); // Stop loading in case of error
-        setBankNameText(error.response.data);
+        // setBankNameText(error.response.data);
 
       })
   }
-  // }
+}
 
 
 
@@ -228,14 +253,18 @@ const EditCardUser = () => {
                               <div className="input_field">
                                 <p className="get-text">Card Name<span style={{ color: 'red' }} >*</span></p>
                                 <input
+                                  ref={input_name}
                                   type="text"
                                   className="rate_input form-control"
                                   name="name"
-                                  Value={name}
-                                  onChange={(e) => setName(e.target.value)}
+                                  value={name}
+                                  onChange={(e) => {handleName(e)}}
                                 //  placeholder={RecepientsData.bank_name}
-
                                 />
+                                 {error&& name.length<=0?
+				                         <span style={myStyle}>Please Enter the Card Name </span>:""}
+
+
                                 <span style={myStyle}>{BankNameText.name? BankNameText.name: ''}</span> 
 
                               </div>
@@ -245,14 +274,16 @@ const EditCardUser = () => {
                                 <p className="get-text">Card Number<span style={{ color: 'red' }} >*</span></p>
                                 <input
                                   type="number"
+                                  ref={input_card_number}
                                   name="number"
                                   Value={number}
-                                  onChange={(e) => setNumber(e.target.value)}
+                                  onChange={handleNumber}
                                   className='rate_input form-control'
                                 />
-                                {/* {error&&formValue.accountName.length<=0?
-                              <span style={myStyle}>Please Enter the Account Name </span>:""} */}
-                                {/* <span style={myStyle}>{BankNameText.Enteraccountname? BankNameText.Enteraccountname: ''}</span> */}
+                                 {error&& number.length<=0?
+				                         <span style={myStyle}>Please Enter the Card Number </span>:""}
+
+                                <span style={myStyle}>{BankNameText.card_number? BankNameText.card_number: ''}</span>
 
                               </div>
                             </div>
@@ -263,14 +294,15 @@ const EditCardUser = () => {
                                 min={0}
                                   type="number"
                                   name="exp_month"
-                                  // ref={input_recipientAccountNumber}
+                                  ref={input_expiry_month}
                                   className='rate_input form-control'
                                   defaultValue={exp_month}
                                   onChange={(e) => setExp_month(e.target.value)}
                                 // placeholder={RecepientsData.account_number}
                                 />
-                                {/* {error&&formValue.accountNumber.length<=0?
-                              <span style={myStyle}>Please Enter the Account number </span>:""} */}
+                                 {error&& exp_month.length<=0?
+				                         <span style={myStyle}>Please Enter the Card Expiry Month </span>:""}
+
                                 <span style={myStyle}>{BankNameText.expiry_month ? BankNameText.expiry_month : ''}</span>
                                 <span style={myStyle}>{BankNameText.Accountnumberexist ? BankNameText.Accountnumberexist : ''}</span>
                               </div>
@@ -281,14 +313,15 @@ const EditCardUser = () => {
                                 <input
                                   type="number"
                                   name="exp_year"
-                                  // ref={input_recipientAccountNumber}
+                                  ref={input_expiry_year}
                                   className='rate_input form-control'
                                   defaultValue={exp_year}
                                   onChange={(e) => setExp_year(e.target.value)}
                                 // placeholder={RecepientsData.account_number}
                                 />
-                                {/* {error&&formValue.accountNumber.length<=0?
-                              <span style={myStyle}>Please Enter the Account number </span>:""} */}
+                               {error&& exp_year.length<=0?
+				                         <span style={myStyle}>Please Enter the Card Expiry Year </span>:""}
+
                                 <span style={myStyle}>{BankNameText.expiry_year? BankNameText.expiry_year: ''}</span>
                               <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span> 
                               </div>
@@ -310,7 +343,7 @@ const EditCardUser = () => {
                                 className="form-button"
                                 onClick={() => handleCardUpdateDetails(id)}
                               >
-                                Update Recipient
+                                Update Card
 
                                 {loading ? <>
                                   <div class="loader-overly">

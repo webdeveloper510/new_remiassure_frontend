@@ -280,12 +280,12 @@ const Home = () => {
   //*********** */ Start Main EXCHANGE RATE Api call *********************\\
    const [amount, setAmount] = useState('');
   //  alert(amount)
-   const [from, setFrom] = useState('USD');
-   const [to, setTo] = useState('INR');
+   const [from, setFrom] = useState('AUD');
+   const [to, setTo] = useState('NZD');
 
    const [loading, setLoading] = useState(false);
    const [total_amounts, setTotal_amounts] =useState('');
-   const [total_rates, setTotal_rates] = useState('');
+   const [total_rates, setTotal_rates] = useState('0');
   //  alert(total_amounts)
 
 
@@ -325,7 +325,7 @@ const Home = () => {
          setLoading(false); // Stop loading
          if(response.status){
           // notify();
-          navigate('/login');
+          // navigate('/login');
 
          }
        })
@@ -482,7 +482,8 @@ const Home = () => {
                                   onBlurCapture={myExchangeTotalAmount}
                                   >         
                                   {/* <option className="option-custom" value="">Select</option> */}
-                                  <option className="option-custom" value="USD" selected="selected">USD</option>
+                                  <option  className="option-custom" value="AUD" selected="selected">AUD</option>
+                                  <option className="option-custom" value="USD">USD</option>
                                   <option className="option-custom" value="EUR">EUR</option>
                                   <option className="option-custom" value="BRL">BRL</option>
                                   <option className="option-custom" value="INR">INR</option>
@@ -535,7 +536,8 @@ const Home = () => {
 
                                  >
                                        {/* <option value="">Select</option> */}
-                                        <option value="INR" selected="selected">INR</option>
+                                       <option value="NZD" selected="selected">NZD</option>
+                                        <option value="INR">INR</option>
                                         <option value="EUR">EUR</option>
                                         <option value="BRL">BRL</option>
                                         <option value="BGN">BGN</option>

@@ -16,6 +16,10 @@ import Sidebar from './Sidebar';
 import Select from "react-select";
 import countryList from 'react-select-country-list'
 import Page404 from "../pageNotfound/Page404";
+
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/bootstrap.css";
+
 // start css
 const myStyle = {
   color: "red",
@@ -53,6 +57,7 @@ const Profile = () => {
   /************ Start -Recipient Bank Details state***************/
   const [error, setError] = useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [errorUserRecipient, setErrorUserRecipient] = useState(false);
 
   /************ Start -messageText state***************/
   const [profileText, setProfileText] = React.useState('');
@@ -106,21 +111,32 @@ const Profile = () => {
 
 
   /****************** Start select country *******************/
-
-  const [countryValue, setcountryValue] = React.useState('')
+  const [countryValue, setcountryValue] = useState('')
+  
   const countryoptions = useMemo(() => countryList().getData(), [])
   console.log(countryoptions, "countryoptionscountryoptions")
 
   const changeHandler = countryValue => {
     setcountryValue(countryValue)
+  
   }
 
-  /* start-- useRef is used for focusing on inputbox */
-  const input_location = useRef(null);
+/****************** start-- useRef is used for focusing on inputbox *******************/
+  const input_firstName = useRef(null);
+  const input_middleName = useRef(null);
+  const input_lastName = useRef(null);
+  const input_email = useRef(null);
+  const input_mobile = useRef(null);
+  const input_flat = useRef(null);
+  const input_building = useRef(null);
+  const input_street = useRef(null);
+  const input_city = useRef(null);
+  const input_state = useRef(null);
+  // const input_country = useRef(null);
+  
 
 
   // Start page show hide condtion page
-
   const navigate = useNavigate('');
 
 
@@ -153,97 +169,130 @@ const Profile = () => {
     * ***********************************************************************/
 
   /* start-- useRef is used for focusing on inputbox */
-  useEffect(() => {
-    setLoading(true); // Set loading before sending API request
-    axios.post(API.BASE_URL + 'user-profile/', {}, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+      useEffect(() => {
+        setLoading(true); // Set loading before sending API request
+        axios.post(API.BASE_URL + 'user-profile/', {}, {
+          headers: {
+            "Authorization": `Bearer ${signup_token ? signup_token : token}`,
 
-      }
-    })
-      .then(function (response) {
-        console.log("Recipients APIIIII", response.data);
-        setFirstName(response.data.data.First_name);
-        setMiddleName(response.data.data.Middle_name);
-        setLastName(response.data.data.Last_name);
-        setEmail(response.data.data.email);
-        setMobile(response.data.data.mobile);
-        setFlat(response.data.address.flat);
-        setBuilding(response.data.address.building);
-        setStreet(response.data.address.street);
-        setPostcode(response.data.address.postcode);
-        setCity(response.data.address.city);
-        setState(response.data.address.state);
-        setcountryValue(response.data.location);
-        // console.log(countryValue, "countryValuecountryValuecountryValue")
-        // alert(countryValue)
-        setReasonMoney(response.data.address.reasonMoney);
-        setCustomer_id(response.data.address.customer_id);
+          }
+        })
+          .then(function (response) {
+            console.log("Recipients APIIIII", response.data);
+            setFirstName(response.data.data.First_name);
+            setMiddleName(response.data.data.Middle_name);
+            setLastName(response.data.data.Last_name);
+            setEmail(response.data.data.email);
+            setMobile(response.data.data.mobile);
+            setcountryValue(response.data.data.location);
+            // setcountryValue(response.data.address.country);
+            console.log(countryValue, "setcountryValuesetcountryValue");
+            // alert(countryValue)
+            setFlat(response.data.address.flat);
+            setBuilding(response.data.address.building);
+            setStreet(response.data.address.street);
+            setPostcode(response.data.address.postcode);
+            setCity(response.data.address.city);
+            setState(response.data.address.state);
 
-
-
-        setLoading(false); // Stop loading
-        //   if (response.status)
-        // // notify();
-      })
-      .catch(function (error) {
-        console.log(error);
-        console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-
-      })
-  }, [])
+          
+            setReasonMoney(response.data.address.reasonMoney);
+            setCustomer_id(response.data.address.customer_id);
 
 
 
+            setLoading(false); // Stop loading
+            //   if (response.status)
+            // // notify();
+          })
+          .catch(function (error) {
+            console.log(error);
+            console.log(error.response);
+            setLoading(false); // Stop loading in case of error
+
+          })
+      }, [])
 
 
-
-  /**************************************************************************
+   /**************************************************************************
     * ************** Start  Recipient Bank Details ****************************
     * ***********************************************************************/
 
-  /* start-- useRef is used for focusing on inputbox */
-  const handleUserProfileUpdate = (event) => {
-    // alert("hii")
-    // console.log("============>token", token)
-
-    event.preventDefault();
-    setLoading(true); // Set loading before sending API requestssss
-    axios.post(API.BASE_URL + 'update-profile/', {
-      First_name: firstName,
-      Middle_name: middleName,
-      Last_name: lastName,
-      email: email,
-      mobile: mobile,
-      flat: flat,
-      building: building,
-      street: street,
-      postcode: postcode,
-      city: city,
-      state: state,
-      // location: countryValue.label,
-    }, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-      },
-    })
-      .then(function (response) {
-        console.log(response);
-        setLoading(false); // Stop loading 
-        // navigate('/dashboard');  
-      })
-      .catch(function (error, message) {
-        console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-        setBankNameText(error.response.data.error)
-        console.log(BankNameText, "BankNameText")
-
-
-
-      })
-  }
-  // }
+      /* start-- useRef is used for focusing on inputbox */
+      const handleUserProfileUpdate = (event) => {
+        console.log(countryValue,"countryValue==========================>");
+        alert(countryValue)
+        // alert("hii")
+        // console.log("============>token", token)
+        event.preventDefault();
+          if (firstName.length==0){
+            input_firstName.current.focus();
+            setErrorUserRecipient(true);
+          }else if (middleName.length==0){
+            input_middleName.current.focus();
+            setErrorUserRecipient(true);
+          }else if (lastName.length==0){
+            input_lastName.current.focus();
+            setErrorUserRecipient(true);
+          }else if (email.length==0){
+            input_email.current.focus();
+            setErrorUserRecipient(true);
+          }else if (mobile.length==0){
+            input_mobile.current.focus();
+            setErrorUserRecipient(true);
+          }else if (flat.length==0){
+            input_flat.current.focus();
+            setErrorUserRecipient(true);
+          }else if (building.length==0){
+            input_building.current.focus();
+            setErrorUserRecipient(true);
+          }else if (street.length==0){
+            input_street.current.focus();
+            setErrorUserRecipient(true);
+          }else if (city.length==0){
+            input_city.current.focus();
+            setErrorUserRecipient(true);
+          }else if (state.length==0){
+            input_state.current.focus();
+            setErrorUserRecipient(true);
+          }
+          // }else if (country.length==0){
+          //   input_country.current.focus();
+          //   setErrorUserRecipient(true);
+          // }
+        else{
+        setLoading(true); // Set loading before sending API requestssss
+        axios.post(API.BASE_URL + 'update-profile/', {
+          First_name: firstName,
+          Middle_name: middleName,
+          Last_name: lastName,
+          email: email,
+          mobile: mobile,
+          flat: flat,
+          building: building,
+          street: street,
+          postcode: postcode,
+          city: city,
+          state: state,
+          location: countryValue.label,
+        }, {
+          headers: {
+            "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+          },
+        })
+          .then(function (response) {
+            console.log(response);
+            setLoading(false); // Stop loading 
+            navigate('/dashboard');  
+          })
+          .catch(function (error, message) {
+            console.log(error.response);
+            setLoading(false); // Stop loading in case of error
+            setBankNameText(error.response.data)
+            console.log(BankNameText, "BankNameText")
+          })
+      }
+    }
 
 
 
@@ -260,16 +309,6 @@ const Profile = () => {
             <div className="margin-set">
               <div className="tabs-page">
                 <Sidebar />
-
-                {/* <div class="form-head mb-4">
-                <h2 ><b>Profile</b>
-                </h2>
-                <NavLink to="/userrecipients">
-                    <button className="form-button addsingle_recepient" ><BsFillPersonPlusFill /> Recipients Lists</button>
-                </NavLink>
-              </div> */}
-
-
                 <div className="content-body">
                   <section className="edit_recipient_section">
                     <div class="form-head mb-4">
@@ -277,10 +316,6 @@ const Profile = () => {
                     <form className="single-recipient">
                       <div className="card">
                         <div className="card-body">
-                          {/* <div className="row">
-              <NavLink to="/userrecipients">
-                    <button className="form-button addsingle_recepient" ><BsFillPersonPlusFill /> Recipients Lists</button>
-                </NavLink></div> */}
                           <div className="row each-row">
                             <h5>Personal Details</h5>
                             <div className="col-md-4">
@@ -288,13 +323,15 @@ const Profile = () => {
                                 <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
                                 <input
                                   type="text"
+                                  ref={input_firstName}
                                   className='rate_input form-control'
                                   Value={firstName}
                                   onChange={(e) => setFirstName(e.target.value)}
                                 />
-                                {/* {error&&formValue.firstName.length<=0?
-                              <span style={myStyle}>Please Enter the First Name </span>:""} */}
-                                <span style={myStyle}>{BankNameText?.First_name ? BankNameText?.First_name : ''}</span>
+                               {errorUserRecipient&&firstName.length<=0?
+                            <span style={myStyle}>Please Enter the First Name </span>:""} 
+
+                                <span style={myStyle}>{BankNameText?.Enterfirstname ? BankNameText?.Enterfirstname : ''}</span>
                               </div>
                             </div>
                             <div className="col-md-4">
@@ -302,11 +339,15 @@ const Profile = () => {
                                 <p className="get-text">Middle Name</p>
                                 <input
                                   type="text"
-                                  // ref={input_recipientMiddleName}
+                                  ref={input_middleName}
                                   className='rate_input form-control'
                                   Value={middleName}
                                   onChange={(e) => setMiddleName(e.target.value)}
                                 />
+
+                                {errorUserRecipient&&middleName.length<=0?
+                              <span style={myStyle}>Please Enter the Middle Name </span>:""} 
+
                                 <span style={myStyle}>{BankNameText?.middle_name ? BankNameText?.middle_name : ''}</span>
                               </div>
                             </div>
@@ -315,11 +356,14 @@ const Profile = () => {
                                 <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
                                 <input
                                   type="text"
-                                  // ref={input_recipientLastName}
+                                   ref={input_lastName}
                                   className='rate_input form-control'
                                   Value={lastName}
                                   onChange={(e) => setLastName(e.target.value)}
                                 />
+                                {errorUserRecipient&&lastName.length<=0?
+                              <span style={myStyle}>Please Enter the Last Name </span>:""} 
+
                                 <span style={myStyle}>{BankNameText?.last_name ? BankNameText?.last_name : ''}</span>
                               </div>
                             </div>
@@ -330,26 +374,40 @@ const Profile = () => {
                                 <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
                                 <input
                                   type="email"
-                                  // ref={input_recipientEmail}
+                                   ref={input_email}
                                   className='rate_input form-control'
                                   name="email"
                                   Value={email}
                                   onChange={(e) => setEmail(e.target.value)}
                                 />
+                                   {errorUserRecipient&&email.length<=0?
+                              <span style={myStyle}>Please Enter the Email Address </span>:""} 
+
                                 <span style={myStyle}>{BankNameText?.email ? BankNameText?.email : ''}</span>
 
                               </div>
                             </div>
+
                             <div className="col-md-6">
                               <div className="input_field">
                                 <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
-                                <input
+                                {/* <input
                                   type="number"
-                                  className='rate_input form-control'
+                              
                                   name="mobile"
                                   Value={mobile}
                                   onChange={(e) => setMobile(e.target.value)}
-                                />
+                                /> */}
+                                <PhoneInput
+                                ref={input_mobile}
+                                country={"eg"}
+                                enableSearch={true}
+                                value={mobile}
+                                onChange={(mobile) => setMobile(mobile)}
+                              />
+                               {errorUserRecipient&& mobile.length<=0?
+                                  <span style={myStyle}>Please Enter the Mobile Number </span>:""} 
+
                                 <span style={myStyle}>{BankNameText?.mobile ? BankNameText?.mobile : ''}</span>
                                 <span style={myStyle}>{BankNameText?.Entervalidmobile ? BankNameText?.Entervalidmobile : ''}</span>
                                 <span style={myStyle}>{BankNameText?.Mobileexist ? BankNameText?.Mobileexist : ''}</span>
@@ -362,7 +420,7 @@ const Profile = () => {
                         <input 
                         type="text" 
                           className='rate_input form-control'
-                          name="referralCode"
+                          name="referralCode"`
                           Value={referralCode}
                           onChange={(e)=>setReferralCode(e.target.value)}
                           />
@@ -381,10 +439,13 @@ const Profile = () => {
                                 <p className="get-text">Flat/Unit No.</p>
                                 <Form.Control
                                   type="text"
+                                  ref={input_flat}
                                   className='rate_input form-control'
                                   Value={flat}
                                   onChange={(e) => setFlat(e.target.value)}
                                 />
+                                 {errorUserRecipient&&flat.length<=0?
+                                  <span style={myStyle}>Please Enter the Flat Name</span>:""} 
                               </Form.Group>
                             </div>
                             <div className="col-md-4">
@@ -392,10 +453,13 @@ const Profile = () => {
                                 <p className="get-text">Building/Unit No.</p>
                                 <Form.Control
                                   type="text"
+                                  ref={input_building}
                                   className='rate_input form-control'
                                   Value={building}
                                   onChange={(e) => setBuilding(e.target.value)}
                                 />
+                                  {errorUserRecipient&&building.length<=0?
+                                  <span style={myStyle}>Please Enter the Building Name</span>:""} 
                               </Form.Group>
                             </div>
                             <div className="col-md-4">
@@ -403,15 +467,19 @@ const Profile = () => {
                                 <p className="get-text">Street</p>
                                 <Form.Control
                                   type="text"
+                                  ref={input_street}
                                   className='rate_input form-control'
                                   Value={street}
                                   onChange={(e) => setStreet(e.target.value)}
                                 />
+                                  {errorUserRecipient&&street.length<=0?
+                                  <span style={myStyle}>Please Enter the Street Name</span>:""} 
+                                
                               </Form.Group>
                             </div>
                           </div>
                           <div className="row each-row">
-                            <div className="col-md-4">
+                            {/* <div className="col-md-4">
                               <Form.Group className="form_label" controlId="Firstname">
                                 <p className="get-text">Postcode</p>
                                 <Form.Control
@@ -421,16 +489,19 @@ const Profile = () => {
                                   onChange={(e) => setPostcode(e.target.value)}
                                 />
                               </Form.Group>
-                            </div>
+                            </div> */}
                             <div className="col-md-4">
                               <Form.Group className="form_label" controlId="Firstname">
                                 <p className="get-text">City/Town</p>
                                 <Form.Control
                                   type="text"
+                                  ref={input_city}
                                   className='rate_input form-control'
                                   Value={city}
                                   onChange={(e) => setCity(e.target.value)}
                                 />
+                                     {errorUserRecipient&&city.length<=0?
+                                  <span style={myStyle}>Please Enter the City Name</span>:""} 
                               </Form.Group>
                             </div>
                             <div className="col-md-4">
@@ -438,10 +509,27 @@ const Profile = () => {
                                 <p className="get-text">State</p>
                                 <Form.Control
                                   type="text"
+                                  ref={input_state}
                                   className='rate_input form-control'
                                   Value={state}
                                   onChange={(e) => setState(e.target.value)}
                                 />
+                                  {errorUserRecipient&&state.length<=0?
+                                  <span style={myStyle}>Please Enter the State Name</span>:""} 
+                              </Form.Group>
+                            </div>
+                            <div className="col-md-4">
+                              <Form.Group className="form_label" controlId="Firstname">
+                                <p className="get-text">Country</p>
+                                <Select
+                                //  ref={input_country}
+                                  options={countryoptions}
+                                  defaultValue={countryValue}
+                                  onChange={changeHandler}
+                                />
+                                 {/* {errorUserRecipient&&country.length<=0?
+                                  <span style={myStyle}>Please Enter the Country Name</span>:""}  */}
+
                               </Form.Group>
                             </div>
                           </div>
@@ -459,17 +547,7 @@ const Profile = () => {
                               />
                         </Form.Group>
                       </div> */}
-                            <div className="col-md-4">
-                              <Form.Group className="form_label" controlId="Firstname">
-                                <p className="get-text">Country</p>
-                                <Select
-                                  ref={input_location}
-                                  options={countryoptions}
-                                  value={countryValue}
-                                  onChange={changeHandler}
-                                />
-                              </Form.Group>
-                            </div>
+                            
 
                           </div>
 
