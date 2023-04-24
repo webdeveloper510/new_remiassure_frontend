@@ -327,7 +327,7 @@ const Dashboard = () => {
                                                                 <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p>
                                                             </div>
                                                             <div className="col-md-12">
-                                                                <a href="#/userdashboard" className="send_money">Send Money</a>
+                                                                <a href="#/usersendmoney" className="send_money">Send Money</a>
                                                             </div>
                                                             </div>
 

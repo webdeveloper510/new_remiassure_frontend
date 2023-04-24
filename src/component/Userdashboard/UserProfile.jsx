@@ -256,7 +256,7 @@ const Profile = () => {
       {
         LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
 
-         <section>
+      
             <div className="margin-set">
               <div className="tabs-page">
                 <Sidebar />
@@ -510,7 +510,7 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-          </section>
+     
 
         ) : (
           <>
