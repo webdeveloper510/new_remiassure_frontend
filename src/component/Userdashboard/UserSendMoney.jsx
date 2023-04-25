@@ -120,7 +120,7 @@ const UserSendMoney = () => {
   const [id, setId] = React.useState('');
 
   const [formValue, setFormValue] = React.useState({
-     accountName: '', accountNumber: '', firstName: '', middleName: '',
+    accountNumber: '', firstName: '', middleName: '',
     lastName: '', email: '', mobile: '', flat: '', building: '', street: '', postcode: '', city: '', state: '',
     country_code: '', country: '', reasonMoney: ''
   });
@@ -133,8 +133,17 @@ const UserSendMoney = () => {
   const [bankNameValue, setBankNameValue] = React.useState({
     bankName: '',
    });
+   const [accountNameValue, setAccountNameValue] = React.useState({
+    accountName: '',
+   });
+   const [accountNumberValue, setAccountNumberValue] = React.useState({
+    accountNumber: '',
+   });
 
    const bankNameRef = React.useRef(null);
+   const accountNameRef = React.useRef(null);
+   const accountNumberRef = React.useRef(null);
+ 
  
 
   /************ Start -messageText state***************/
@@ -211,7 +220,34 @@ const UserSendMoney = () => {
         }, 10);
       }
     }, []);
+
+
+ // Start - AccountName value Bank value
+    const handleAccountValue = React.useCallback((e, key) => {
+      const regex = /^[a-zA-Z]+$/;
+      const value = e.target.value;
+      if (value === '' || regex.test(value)) {
+        setAccountNameValue(prevState => ({
+          ...prevState,
+          [key]: value
+        }));
+        setTimeout(() => {
+          accountNameRef.current.focus();
+        }, 10);
+      }
+    }, []);
     
+     // Start - AccountNumber value Bank value
+     const handleAccountNumberValue = React.useCallback((e, key) => {
+      const newValue = e.target.value.trim().replace(/[^0-9]/g, ''); // remove non-numeric characters and leading/trailing whitespace
+      setAccountNumberValue(prevState => ({
+        ...prevState,
+        [key]: newValue
+      }));
+      setTimeout(() => {
+        accountNumberRef.current.focus();
+      }, 10);
+    }, []);
 
   /*************************** Start- Select Payment Function************************* */
   const getCardDataPayment = (value) => {
@@ -523,11 +559,11 @@ const UserSendMoney = () => {
   // End Total Amount Api call 
 
   /**************************************************************************
-  * ************** Start  Total Amount Api call  ******************************
+  * ************** Start  Total Amount From Api call  ******************************
   * ***********************************************************************/
-  const myTotalAmountFromTo = (value) => {
+  const myTotalAmountFrom = (value) => {
     setFrom(value);
-    setTo(value)
+    // setTo(value)
     // event.preventDefault();
     console.log("====================>", amount)
     //useRef is used for focusing on inputbox
@@ -546,6 +582,60 @@ const UserSendMoney = () => {
       setLoading(true); // Set loading before sending API request
       axios.post(API.BASE_URL + 'exchange-rate/', {
         from: value,
+        to: to,
+        amount: amountValue.amountInput
+
+      }, {
+        headers: {
+          // 'Content-Type': 'application/json',
+        },
+
+      })
+        .then(function (response) {
+          console.log(response);
+          if (response.status)
+            localStorage.setItem("Total_amount", response.data.amount);
+          console.log(total_amount, "total_amounttotal_amount")
+          setTotal_amount(response.data.amount);
+          setExchange_amount(response.data.amount);
+          setTotal_rate(response.data.rate);
+          setLoading(false); // Stop loading
+          localStorage.setItem("FromValue", from);
+          localStorage.setItem("ToValue", to);
+          localStorage.setItem("AmountValue", amountValue.amountInput);
+        })
+        .catch(function (error, message) {
+          console.log(error.response)
+          setLoading(false); // Stop loading in case of error
+          setCurrencyerrorText(error.response.data.error)
+        })
+
+    }
+  }
+  // End Total Amount Api call 
+  /**************************************************************************
+  * ************** Start  Total Amount To Api call  ******************************
+  * ***********************************************************************/
+  const myTotalAmountTo = (value) => {
+    setTo(value)
+    // event.preventDefault();
+    console.log("====================>", amount)
+    //useRef is used for focusing on inputbox
+    if (from.length == 0) {
+      input_From.current.focus();
+      setError(true);
+    } else if (to.length == 0) {
+      input_To.current.focus();
+      setError(true);
+    } else if (amountValue.amountInput.length == 0) {
+      input_AmountSend.current.focus();
+      setError(true);
+    }
+
+    else {
+      setLoading(true); // Set loading before sending API request
+      axios.post(API.BASE_URL + 'exchange-rate/', {
+        from: from,
         to: value,
         amount: amountValue.amountInput
 
@@ -601,9 +691,9 @@ const UserSendMoney = () => {
     event.preventDefault();
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/recipient-create/', {
-      bank_name: formValue.bankName,
-      account_name: formValue.accountName,
-      account_number: formValue.accountNumber,
+      bank_name: bankNameValue.bankName,
+      account_name: accountNameValue.accountName,
+      account_number: accountNumberValue.accountNumber,
       first_name: formValue.firstName,
       middle_name: formValue.middleName,
       last_name: formValue.lastName,
@@ -753,15 +843,19 @@ const UserSendMoney = () => {
     axios.post(API.BASE_URL + 'payment/stripe/card/', {
       send_currency: FromValue,
       recieve_currency: ToValue,
-      amount: AmountValue,
+      send_amount: AmountValue,
+      recieve_amount: Total_amount ,
       recipient_id: recipient_id.length > 0 ? recipient_id : recipentID,
       reason: recipientMoneyReason,
       destination: recipientDestination,
       name: formCardValue.cardName,
-      number: formCardValue.cardNumber,
-      exp_month: formCardValue.exp_month,
-      exp_year: formCardValue.exp_year,
+      card_number: formCardValue.cardNumber,
+      expiry_month: formCardValue.exp_month,
+      expiry_year: formCardValue.exp_year,
       cvc: formCardValue.securityCode,
+      save_card: "0",
+      type: "1"
+
 
     }, {
       headers: {
@@ -775,14 +869,7 @@ const UserSendMoney = () => {
         handlePay();
         // window.location.reload()
   
-        localStorage.setItem("paymetTransactionId", response.data.transaction_id);
-
-        if(!checkedValueCard){
-          setCheckedValueCard(!checkedValueCard)
-          handleCradBankDetails();
-          console.log(checkedValueCard, "checkedValueCard")
-        }
-
+        localStorage.setItem("paymetTransactionId", response.data.data.transaction_id);
         navigate('/dashboard');
 
       })
@@ -1053,30 +1140,13 @@ console.log("From", from)
                         value={from}
                         ref={input_From}
                         //  onChange={handleFrom}
-                        onChange={(e) => { myTotalAmountFromTo(e.target.value)}}
+                        onChange={(e) => { myTotalAmountFrom(e.target.value)}}
                       // onBlurCapture={myTotalAmount}
                       >
                         {/* <option value="">--- Select Currency ---</option> */}
                         <option value="AUD" selected="selected">AUD</option>
-                        <option value="USD">USD</option>  
-                        <option value="EUR">EUR</option>
-                        <option value="INR">INR</option>
-                        <option value="BRL">BRL</option>
-                        <option value="BGN">BGN</option>
-                        <option value="XAF">XAF</option>
-                        <option value="CAD">CAD</option>
-                        <option value="EUR">EUR</option>
-                        <option value="CZK">CZK</option>
-                        <option value="DKK">DKK</option>
-                        <option value="GHS">GHS</option>
-                        <option value="ISK">ISK</option>
-                        <option value="JOD">JPD</option>
-                        <option value="KWD">KWD</option>
                         <option value="NZD">NZD</option>
-                        <option value="PHP">PHP</option>
-                        <option value="ZAR">ZAR</option>
-                        <option value="CHF">CHF</option>
-                        <option value="GBP">GBP</option>
+                     
 
                       </select>
                       {error && from.length <= 0 ?
@@ -1092,7 +1162,7 @@ console.log("From", from)
                         value={to}
                         ref={input_To}
                         //  onChange={handleTo}
-                        onChange={(e) => { myTotalAmountFromTo(e.target.value) }}
+                        onChange={(e) => { myTotalAmountTo(e.target.value) }}
                       >
 
 
@@ -1100,24 +1170,8 @@ console.log("From", from)
 
                         {/* <option value="INR" selected="selected">INR</option> */}
                         <option value="NZD" selected="selected">NZD</option>
-                        <option value="INR">INR</option>
-                        <option value="EUR">EUR</option>
-                        <option value="BRL">BRL</option>
-                        <option value="USD">USD</option>
-                        <option value="BGN">BGN</option>
-                        <option value="XAF">XAF</option>
-                        <option value="CAD">CAD</option>
-                        <option value="EUR">EUR</option>
-                        <option value="CZK">CZK</option>
-                        <option value="DKK">DKK</option>
-                        <option value="GHS">GHS</option>
-                        <option value="ISK">ISK</option>
-                        <option value="JOD">JPD</option>
-                        <option value="KWD">KWD</option>
-                        <option value="PHP">PHP</option>
-                        <option value="ZAR">ZAR</option>
-                        <option value="CHF">CHF</option>
-                        <option value="GBP">GBP</option>
+                        <option value="AUD">AUD</option>
+
                       </select>
                       {error && to.length <= 0 ?
                         <span style={myStyle}>Please Select the Location </span> : ""}
@@ -1131,8 +1185,7 @@ console.log("From", from)
                       <p className="get-text">Amount Send<span style={{ color: 'red' }} >*</span></p>
 
                       <input
-                      min={0}
-                        type="number"
+                        type="text"
                         // autoFocus="autofocus"
                         ref={input_AmountSend}
                         className='rate_input form-control'
@@ -1389,28 +1442,28 @@ console.log("From", from)
                       <div className="input_field">
                         <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
                         <input
-                          type="text"
-                          // ref={input_recipientAccountName}
-                          defaultValue={formValue.accountName}
-                          onChange={(e) => handleStep2InputChange(e, 'accountName')}
-                          className='rate_input form-control'
-                        // autoFocus="autofocus"
+                        type="text"
+                        className="rate_input form-control"
+                        name="accountName"
+                        value={accountNameValue.accountName}
+                        onChange={(e) => handleAccountValue(e, 'accountName')}
+                        ref={accountNameRef}
                         />
 
                         <span style={myStyle}>{BankNameText.Enteraccountname ? BankNameText.Enteraccountname : ''}</span>
-                        <span style={myStyle}>{BankNameText.message ? BankNameText.message : ''}</span>
+                        {/* <span style={myStyle}>{BankNameText.message ? BankNameText.message : ''}</span> */}
                       </div>
                     </div>
                     <div className="col-md-4">
                       <div className="input_field">
                         <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
                         <input
-                          type="number"
-                          name="accountNumber"
-                          // ref={input_recipientAccountNumber}
-                          className='rate_input form-control'
-                          defaultValue={formValue.accountNumber}
-                          onChange={(e) => handleStep2InputChange(e, 'accountNumber')}
+                         type="text"
+                         className="rate_input form-control"
+                         name="accountNumber"
+                         value={accountNumberValue.accountNumber}
+                         onChange={(e) => handleAccountNumberValue(e, 'accountNumber')}
+                         ref={accountNumberRef}
                         />
                         <span style={myStyle}>{BankNameText.Enteraccountnumber ? BankNameText.Enteraccountnumber : ''}</span>
                         <span style={myStyle}>{BankNameText.Accountexist ? BankNameText.Accountexist : ''}</span>
@@ -1475,7 +1528,7 @@ console.log("From", from)
                           defaultValue={formValue.email}
                           onChange={(e) => handleStep2InputChange(e, 'email')}
                         />
-                        <span style={myStyle}>{BankNameText.email ? BankNameText.email : ''}</span>
+                        <span style={myStyle}>{BankNameText.Enteremail ? BankNameText.Enteremail : ''}</span>
                         <span style={myStyle}>{BankNameText.Emailexist ? BankNameText.Emailexist : ''}</span>
                         <span style={myStyle}>{BankNameText.Emailinvalid ? BankNameText.Emailinvalid : ''}</span>
                       </div>
@@ -1484,7 +1537,7 @@ console.log("From", from)
                       <div className="input_field">
                         <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                         <input
-                          type="number"
+                          type="text"
                           // ref={input_recipientMobile}
                           className='rate_input form-control'
                           name="mobile"
@@ -1492,13 +1545,13 @@ console.log("From", from)
                           onChange={(e) => handleStep2InputChange(e, 'mobile')}
                         />
 
-                         <PhoneInput
+                         {/* <PhoneInput
                           country={"eg"}
                           enableSearch={true}
                           name="mobile"
                           defaultValue={inputPhoneValue.mobile}
                           onChange={(e) => handleInputPhoneValue(e, 'mobile')}
-                          />
+                          /> */}
 
                         <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
                         <span style={myStyle}>{BankNameText.Entermobile ? BankNameText.Entermobile : ''}</span>
@@ -1799,10 +1852,10 @@ console.log("From", from)
                 {bankCardData?.length != 0 ? (
                   <>
                     <thead>
-                      <tr>
+                      {/* <tr>
                         <th>#</th>
                         <th>Cards Details</th>
-                      </tr>
+                      </tr> */}
                     </thead>
 
                     <tbody>
@@ -1895,10 +1948,10 @@ console.log("From", from)
                 {bankCardData?.length == 0 ? (
                   <>
                     <thead>
-                      <tr>
+                      {/* <tr>
                         <th>#</th>
                         <th>Cards Details</th>
-                      </tr>
+                      </tr> */}
                     </thead>
                     <tbody>
                       <tr>

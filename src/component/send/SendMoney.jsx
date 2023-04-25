@@ -1010,6 +1010,8 @@ const [errorCard, seterrorCard] = React.useState(false);
       const input_exp_year = useRef(null);
       const input_securityCode = useRef(null);
 
+      let timer;
+
       const handlePaymentCard = (event) => {
         event.preventDefault();
          //useRef is used for focusing on inputbox
@@ -1030,23 +1032,29 @@ const [errorCard, seterrorCard] = React.useState(false);
             seterrorCard(true);
           }
           else{
-        axios.post(API.BASE_URL + 'payment/stripe/card/', {
+          setLoading(true); // Set loading before sending API request
+          // setTimeout(() => {
+         axios.post(API.BASE_URL + 'payment/stripe/card/', {
           send_currency: FromValue,
           recieve_currency: ToValue,
-          amount: AmountValue,
+          send_amount: AmountValue,
+          recieve_amount: Total_amount ,
           recipient_id: recipient_id,
           reason: recipientMoneyReason,
           destination: recipientDestination,
           name: formCardValue.cardName,
-          number: formCardValue.cardNumber,
-          exp_month: formCardValue.exp_month,
-          exp_year: formCardValue.exp_year,
+          card_number: formCardValue.cardNumber,
+          expiry_month: formCardValue.exp_month,
+          expiry_year: formCardValue.exp_year,
           cvc: formCardValue.securityCode,
+          save_card: "0",
+          type: "1"
 
         }, {
           headers: {
             "Authorization": `Bearer ${signup_token ? signup_token : token}`,
           },
+          // timeout: 600000 // Set the timeout to 10 minutes
 
         })
           .then(function (response) {
@@ -1054,15 +1062,20 @@ const [errorCard, seterrorCard] = React.useState(false);
             setStep(step + 1);
             localStorage.setItem("paymetTransactionId", response.data.transaction_id);
             handleISDigitalVerified();
-            SummerySingleData()
+           SummerySingleData()
+            setLoading(false); // Stop loading
 
           })
           .catch(function (error, message) {
             console.log(error.response);
             // setCardErrorText(error.response.data);
+            setLoading(false); // Stop loading
 
           })
+
+        // }, 600000); // Set the timeout to 5 seconds
       }
+      
       }
 
   /**************************************************************************
@@ -1127,43 +1140,45 @@ const [errorCard, seterrorCard] = React.useState(false);
       })
   }
 
-  /**************************************************************************
+       /**************************************************************************
    * ************** Start  Get DataSummery Lists ****************************
    * ***********************************************************************/
-  const paymetTransactionId = localStorage.getItem("paymetTransactionId");
-  console.log("paymetTransactionId ====================>", paymetTransactionId);
+       const paymetTransactionId = localStorage.getItem("paymetTransactionId");
+       console.log("paymetTransactionId ====================>", paymetTransactionId);
+     
+       useEffect(() => {
+     
+         SummerySingleData();
+       }, [])
+     
+       const SummerySingleData = () => {
+         axios.post(API.BASE_URL + 'payment/summary/', {
+           transaction_id: paymetTransactionId
+         }, {
+           headers: {
+             "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+     
+           },
+     
+         })
+           .then(function (response) {
+             console.log("Recipients APIIIII", response.data);
+             setSummeryData(response.data.data);
+             console.log(summeryData, "summeryData==========>")
+           })
+           .catch(function (error) {
+             console.log(error);
+             console.log(error.response);
+      
+     
+           })
+     
+       }
+     
+     
+       console.log(summeryData, " summeryData==========>")
 
-  useEffect(() => {
-
-    SummerySingleData();
-  }, [])
-
-  const SummerySingleData = () => {
-    axios.post(API.BASE_URL + 'payment/summary/', {
-      transaction_id: paymetTransactionId
-    }, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-
-      },
-
-    })
-      .then(function (response) {
-        console.log("Recipients APIIIII", response.data);
-        setSummeryData(response.data.data);
-        console.log(summeryData, "summeryData==========>")
-      })
-      .catch(function (error) {
-        console.log(error);
-        console.log(error.response);
  
-
-      })
-
-  }
-
-
-  console.log(summeryData, " summeryData==========>")
 
 
 
@@ -1273,24 +1288,8 @@ const [errorCard, seterrorCard] = React.useState(false);
                       >
                         {/* <option value="">--- Select Currency ---</option> */}
                         <option value="AUD" selected="selected">AUD</option>
-                        <option value="USD">USD</option>
-                        <option value="INR">INR</option>
-                        <option value="BRL">BRL</option>
-                        <option value="BGN">BGN</option>
-                        <option value="XAF">XAF</option>
-                        <option value="CAD">CAD</option>
-                        <option value="EUR">EUR</option>
-                        <option value="CZK">CZK</option>
-                        <option value="DKK">DKK</option>
-                        <option value="GHS">GHS</option>
-                        <option value="ISK">ISK</option>
-                        <option value="JOD">JPD</option>
-                        <option value="KWD">KWD</option>
                         <option value="NZD">NZD</option>
-                        <option value="PHP">PHP</option>
-                        <option value="ZAR">ZAR</option>
-                        <option value="CHF">CHF</option>
-                        <option value="GBP">GBP</option>
+                      
 
                       </select>
                       {error && from.length <= 0 ?
@@ -1314,24 +1313,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
                         {/* <option value="INR" selected="selected">INR</option> */}
                         <option value="NZD" selected="selected">NZD</option>
-                        <option value="INR">INR</option>
-                        <option value="EUR">EUR</option>
-                        <option value="BRL">BRL</option>
-                        <option value="USD">USD</option>
-                        <option value="BGN">BGN</option>
-                        <option value="XAF">XAF</option>
-                        <option value="CAD">CAD</option>
-                        <option value="EUR">EUR</option>
-                        <option value="CZK">CZK</option>
-                        <option value="DKK">DKK</option>
-                        <option value="GHS">GHS</option>
-                        <option value="ISK">ISK</option>
-                        <option value="JOD">JPD</option>
-                        <option value="KWD">KWD</option>
-                        <option value="PHP">PHP</option>
-                        <option value="ZAR">ZAR</option>
-                        <option value="CHF">CHF</option>
-                        <option value="GBP">GBP</option>
+                        <option value="AUD">AUD</option>
                       </select>
                       {error && to.length <= 0 ?
                         <span style={myStyle}>Please Select the Location </span> : ""}
@@ -1565,7 +1547,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                     <div className="input_field">
                       <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
                       <input
-                        type="number"
+                        type="text"
                         name="accountNumber"
                         // ref={input_recipientAccountNumber}
                         className='rate_input form-control'
@@ -1649,7 +1631,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                     <div className="input_field">
                       <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                       <input
-                        type="number"
+                        type="text"
                         // ref={input_recipientMobile}
                         className='rate_input form-control'
                         name="mobile"
@@ -2047,8 +2029,8 @@ const [errorCard, seterrorCard] = React.useState(false);
                   <>
                     <thead>
                       <tr>
-                        <th>#</th>
-                        <th>Cards Details</th>
+                        {/* <th>#</th>
+                        <th>Cards Details</th> */}
                         {/* <th>Action</th> */}
                       </tr>
                     </thead>
@@ -2144,8 +2126,8 @@ const [errorCard, seterrorCard] = React.useState(false);
                   <>
                     <thead>
                       <tr>
-                        <th>#</th>
-                        <th>Cards Detail</th>
+                        {/* <th>#</th>
+                        <th>Cards Detail</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -2206,10 +2188,9 @@ const [errorCard, seterrorCard] = React.useState(false);
                         <p className="get-text">Card Number<span style={{ color: 'red' }} >*</span> </p>
                         <div className="card-fields">
                           <input
-                            min="0"
-                            maxlength="4"
+                          
                             ref={input_cardName}
-                            type="number"
+                            type="text"
                             className='rate_input form-control'
                             name="cardNumber"
                             placeholder="XXXX-XXXX-XXXX-XXXX"
@@ -2261,7 +2242,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                               className='rate_input form-control'
                               name="exp_year"
                               ref={input_exp_year}
-                              maxLength={4}
+                              maxLength={2}
                               placeholder="Year"
                               defaultValue={formCardValue.exp_year}
                               onChange={(e) => handleCardInputChange(e, 'exp_year')}
@@ -2330,6 +2311,14 @@ const [errorCard, seterrorCard] = React.useState(false);
               </Button>
               <Button type="submit" variant="primary" onClick={handlePaymentCard}>
                 Payment
+                {loading ? <>
+                    <div class="loader-overly"> 
+                      <div class="loader" > 
+                                                            
+                      </div>
+                                                            
+                      </div>
+                  </> : <></>}
               </Button>
             </Modal.Footer>
           </Modal>
@@ -2716,6 +2705,7 @@ const [errorCard, seterrorCard] = React.useState(false);
   }
 
   const Step5 = () => {
+
 
     return (
       <>

@@ -163,7 +163,18 @@ const Signup = () => {
         }));
       };
 
-
+      const getCountryCode = (country) => {
+        // Map country names to country codes
+        switch (country) {
+          case "New Zealand":
+            return "nz";
+          case "Australia":
+            return "au";
+          // Add more countries here
+          default:
+            return "";
+        }
+      };
 
 /**************************************************************************
  * ************** Start -Signup Api call **********************************
@@ -200,7 +211,7 @@ const Signup = () => {
             password: password,
             confirmPassword: confirmPassword,
             // location: location,
-            location: countryValue.label,
+            location: location,
             referral_code: referral_code,
             promo_marketing: promo_marketing.Active,
         }
@@ -321,16 +332,16 @@ const Signup = () => {
                                             <div className="form_signup">
 
                                                 <form>
-                                                <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
+                                                {/* <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
                                                 <Select
                                                 ref={input_location}
                                                 options={options} 
                                                 value={countryValue} 
                                                 onChange={changeHandler}
-                                                />
+                                                /> */}
                                                 {/* {error&&countryValue.length<=0?
                                                     <span style={myStyle}>Please select the Location </span>:""} */}
-                                                        <span  style={myStyle}>{locationText? locationText: ""}</span> 
+                                                        {/* <span  style={myStyle}>{locationText? locationText: ""}</span>  */}
                                                 
                 
                                                     {/* <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
@@ -346,16 +357,30 @@ const Signup = () => {
                                                         {error&&location.length<=0?
                                                     <span style={myStyle}>Please check the Location </span>:""}
                                                     </CountryDropdown> */}
-                                                    
-                                                    {/* <Form.Select 
+                                                    <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
+                                                    <Form.Label>Location<span style={{color: 'red'}} >*</span> </Form.Label>
+                                                    <Form.Select 
                                                     value={location}
                                                     onChange={handeleLocation}
                                                     >   
                                                         <option value="">--- Select Location ---</option>
-                                                        <option value="Austria">Austria</option>
-                                                        <option value="Canada">Canada</option>
-                                                        <option value="China">China</option>
-                                                    </Form.Select> */}
+                                                        <option value="Australia">Australia</option>
+                                                        <option value="New Zealand">New Zealand</option>
+                                                
+                                                    </Form.Select>
+                                                    <span  style={myStyle}>{locationText? locationText: ""}</span> 
+                                                    </Form.Group>
+
+
+                                                    {/* <PhoneInput
+                                                                country={getCountryCode(location) || "au"}
+                                                                value={location}
+                                                                defaultCountry={"au"}
+                                                                onlyCountries={["au", "nz"]}
+                                                                onChange={(location) => setMobile(location)}
+                                                            /> */}
+
+ 
                                                     <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
                                                         <Form.Label>Your Email<span style={{color: 'red'}} >*</span> </Form.Label>
                                                         <Form.Control 
@@ -376,15 +401,25 @@ const Signup = () => {
 
                                                     <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
                                                         <Form.Label>Your Phone<span style={{color: 'red'}} >*</span> </Form.Label>
-                                                        <PhoneInput 
+
+                                                        <PhoneInput
+                                                                country={getCountryCode(location) || "au"}
+                                                                value={mobile}
+                                                                defaultCountry={"au"}
+                                                                onlyCountries={["au", "nz"]}
+                                                                onChange={(mobile) => setMobile(mobile)}
+                                                            />
+                                                        {/* <PhoneInput 
                                                         type="mobile"
                                                         ref={input_mobile}
-                                                        country={"eg"}
-                                                        enableSearch={true}
+                                                        country={"au"}
+                                                        onlyCountries={["au", "nz"]}
+                                                       // country={"eg"}
+                                                        enableSearch={false}
                                                         value={mobile}
                                                         onChange={(mobile) => setMobile(mobile)}
                                                         placeholder="Enter Phone"
-                                                        /> 
+                                                        />  */}
                                                         {/* {error&&mobile.length<=0?
                                                     <span style={myStyle}>Please Enter the Mobile </span>:""}	 */}
                                                         <span  style={myStyle}>{mobileText? mobileText: ""}</span>  

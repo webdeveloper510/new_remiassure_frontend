@@ -71,10 +71,11 @@ const Addnewrecipient = () => {
   /************ Start -Recipient Bank Details state***************/
   const [bankNameValue, setBankNameValue] = useState('');
   const [accountName, setAccountName] = useState('');
+  const [accountNumber, setAccountNumber] = useState(''); 
   const [mobile, setMobile] = useState("");
   
   const [formValue, setFormValue] = React.useState({
-    accountNumber: '', firstName: '', middleName: '',
+    firstName: '', middleName: '',
     lastName: '', email: '', flat: '', building: '', street: '', postcode: '', city: '',
     state: '', country_code: '', country: '', reasonMoney: ''
   });
@@ -126,7 +127,11 @@ const Addnewrecipient = () => {
     }
   };
 
-
+   const handleAccountNumberValue = (event) => {
+    const newValue = event.target.value.replace(/\D/, ""); // remove non-numeric characters
+    setAccountNumber(newValue);
+      console.log(accountNumber, "accountNumberaccountNumber") 
+  };
 
 
 
@@ -171,7 +176,7 @@ const Addnewrecipient = () => {
     axios.post(API.BASE_URL + 'payment/recipient-create/', {
       bank_name: bankNameValue,
       account_name: accountName,
-      account_number: formValue.accountNumber,
+      account_number:accountNumber,
       first_name: formValue.firstName,
       middle_name: formValue.middleName,
       last_name: formValue.lastName,
@@ -183,7 +188,7 @@ const Addnewrecipient = () => {
       postcode: formValue.postcode,
       city: formValue.city,
       state: formValue.state,
-      // country_code: formValue.country_code,
+     country_code: formValue.country_code,
       country: countryValue.label,
       reason: formValue.reasonMoney
 
@@ -276,12 +281,12 @@ const Addnewrecipient = () => {
                             <div className="input_field">
                               <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
                               <input
-                                type="number"
+                                type="text"
                                 name="accountNumber"
                                 // ref={input_recipientAccountNumber}
                                 className='rate_input form-control'
-                                defaultValue={formValue.accountNumber}
-                                onChange={(e) => handleStep2InputChange(e, 'accountNumber')}
+                                value={accountNumber}
+                                onChange={handleAccountNumberValue}
                               />
                               {/* {error&&formValue.accountNumber.length<=0?
                             <span style={myStyle}>Please Enter the Account number </span>:""} */}
@@ -458,7 +463,7 @@ const Addnewrecipient = () => {
                           </div>
                         </div>
                         <div className="row each-row">
-                          {/* <div className="col-md-4">
+                          <div className="col-md-4">
                              <Form.Group className="form_label" controlId="Firstname">
                               <p className="get-text">Country Code<span style={{ color: 'red' }} >*</span></p>
                               <Form.Control
@@ -470,7 +475,7 @@ const Addnewrecipient = () => {
                               />
                                 <span style={myStyle}>{BankNameText.Entercountrycode ? BankNameText.Entercountrycode : ''}</span>
                             </Form.Group> 
-                          </div> */}
+                          </div>
                           <div className="col-md-4">
                             <Form.Group className="form_label" controlId="Firstname">
                               <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>

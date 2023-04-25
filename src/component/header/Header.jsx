@@ -124,7 +124,10 @@ const Header =() => {
                         <ul>
                           {      
                             LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
-                          <li> <NavLink to="/dashboard">Dashboard</NavLink></li> 
+                              <>
+                             <li> <NavLink to="/dashboard">Dashboard</NavLink></li> 
+                             {/* <li> <NavLink to="#">Settings</NavLink></li>  */}
+                             </>
                           ) : (
                             <>
                             </>

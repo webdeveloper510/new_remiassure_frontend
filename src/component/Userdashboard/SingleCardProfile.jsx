@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { API } from "../../config/API";
 import axios from "axios";
 import UserRecipient from "../Userdashboard/UserRecipient";
-import profileimage from '../../assets/img/userdashboard/images.png';
+import profileimage from '../../assets/img/userdashboard/card_bg.png';
 
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { BsFillPencilFill } from "react-icons/bs";

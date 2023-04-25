@@ -483,25 +483,8 @@ const Home = () => {
                                   >         
                                   {/* <option className="option-custom" value="">Select</option> */}
                                   <option  className="option-custom" value="AUD" selected="selected">AUD</option>
-                                  <option className="option-custom" value="USD">USD</option>
-                                  <option className="option-custom" value="EUR">EUR</option>
-                                  <option className="option-custom" value="BRL">BRL</option>
-                                  <option className="option-custom" value="INR">INR</option>
-                                  <option className="option-custom" value="BGN">BGN</option>
-                                  <option className="option-custom" value="XAF">XAF</option>
-                                  <option className="option-custom" value="CAD">CAD</option>
-                                  <option className="option-custom" value="EUR">EUR</option>
-                                  <option className="option-custom" value="CZK">CZK</option>
-                                  <option className="option-custom" value="DKK">DKK</option>
-                                  <option className="option-custom" value="GHS">GHS</option>
-                                  <option className="option-custom" value="ISK">ISK</option>
-                                  <option className="option-custom" value="JOD">JPD</option>
-                                  <option className="option-custom" value="KWD">KWD</option>
                                   <option className="option-custom" value="NZD">NZD</option>
-                                  <option className="option-custom" value="PHP">PHP</option>
-                                  <option className="option-custom" value="ZAR">ZAR</option> 
-                                  <option className="option-custom" value="CHF">CHF</option>
-                                  <option className="option-custom" value="GBP">GBP</option>
+                              
                                </select> 
                                </div>
                             </div>
@@ -537,25 +520,8 @@ const Home = () => {
                                  >
                                        {/* <option value="">Select</option> */}
                                        <option value="NZD" selected="selected">NZD</option>
-                                        <option value="INR">INR</option>
-                                        <option value="EUR">EUR</option>
-                                        <option value="BRL">BRL</option>
-                                        <option value="BGN">BGN</option>
-                                        <option value="XAF">XAF</option>
-                                        <option value="USD">USD</option>
-                                        <option value="CAD">CAD</option>
-                                        <option value="EUR">EUR</option>
-                                        <option value="CZK">CZK</option>
-                                        <option value="DKK">DKK</option>
-                                        <option value="GHS">GHS</option>
-                                        <option value="ISK">ISK</option>
-                                        <option value="JOD">JPD</option>
-                                        <option value="KWD">KWD</option>
-                                        <option value="NZD">NZD</option>
-                                        <option value="PHP">PHP</option>
-                                        <option value="ZAR">ZAR</option> 
-                                        <option value="CHF">CHF</option>
-                                        <option value="GBP">GBP</option>
+                                        <option value="AUD">AUD</option>
+                                       
                                     </select> 
                                </div>
                                 {/* <InputGroup className="mb-3">

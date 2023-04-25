@@ -256,42 +256,44 @@ const AllTranfer = () => {
                       <div className="d-flex">
 
                         <div className="trsnsfer-process">
-                          <h4 className="text-capitalize">{summeryData.recipient_name}</h4>
+                          <h4 className="text-capitalize">Recipient Name-{summeryData.recipient_name}</h4>
                           <span>SENT- {summeryData.date}</span>
                         </div>
                       </div>
 
                       <div className="my-auto transac-text">
-                        <span className="text-white fs-6 pb-2">TRX -{paymetTransactionId}</span>
+                       {/* <h4>Send Money */}
+                       <span className="text-white fs-6 pb-2">Transaction ID -{paymetTransactionId}</span>
+                        {/* </h4>  */}
 
-                        <span className="text-white fs-5 pb-2">
+                        {/* <span className="text-white fs-5 pb-2">
                           {summeryData.send_amount} <span>{summeryData.send_currency}</span>
                         </span>
                         <span className="text-white">
                           {Total_amount}<span>{summeryData.recieve_currency}</span>
+                        </span> */}
+                        <span className="fs-6 pt-1 statuspopup">Status - <span class="badge bg-success"> {TransactionHistoryStatus}</span>
                         </span>
+
                       </div>
                     </div>
                   </div>
 
                   <div className="col-md-12">
-                    <span className="fs-6 pt-1 fw-bold statuspopup">Status</span>
-                    <span className="fs-6 pt-1 fw-bold statuspopup">{TransactionHistoryStatus}</span>
+                    
                     <hr></hr>
-                    <p>Your transaction is complete and we hope to see your again.</p>
+                    {/* <p>Your transaction is complete and we hope to see your again.</p>
 
-                    <MultiStepProgressBar />
+                    <MultiStepProgressBar /> */}
                   </div>
 
 
-                  <div className="col-md-12 m-top">
+                  {/* <div className="col-md-12 m-top">
                     <div className="justify-content-between trackicons">
                       <h6>Track your transfer</h6>
-                      {/* <hr></hr> */}
-                      {/* <img src={playicon} alt="app-icon" />
-                      <img src={playicon2} alt="app-icon" /> */}
+                     
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="col-md-12">
                     <div className="justify-content-between recipent-detailpopup">
