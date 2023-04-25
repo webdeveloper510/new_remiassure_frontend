@@ -170,7 +170,7 @@ const InprogressTransfer = () => {
                   </> : <></>}
               {/* End------- Loader functionalty */}
 
-          {transactionPendingData.data?.length != 0 ? (
+          {transactionPendingData?.length != 0 ? (
               <Table className="table table-responsive-md card-table previous-transaction">
                 <thead>
                   <tr>
@@ -204,25 +204,7 @@ const InprogressTransfer = () => {
             }
 
 
-              {transactionPendingData.data?.length == 0 ? (
-                <div className="no-data">
-                  <img src={nodata} alt="no-data" />
-                  <div className="col-md-12">
-                    <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p>
-                  </div>
-                  <div className="col-md-12">
-                    <a href="#/userdashboard" className="send_money">Send Money</a>
-                  </div>
-                </div>
-
-              ) : (
-                <>
-
-                </>
-              )
-              }
-
-
+          
           
             <Modal show={show} onHide={handleClose}
               centered
@@ -250,7 +232,7 @@ const InprogressTransfer = () => {
                       <span className="text-white">
                         {Total_amount}<span>{summeryData.recieve_currency}</span>
                       </span> */}
-                      <span className="fs-6 pt-1 fw-bold statuspopup">Status - {PendingStatusData}</span>
+                      <span className="fs-6 pt-1 statuspopup">Status - <span class="badge bg-success"> {PendingStatusData}</span></span>
                     </div>
                   </div>
                 </div>
@@ -343,7 +325,23 @@ const InprogressTransfer = () => {
               </Modal.Footer>
             </Modal>
 
-          
+            {transactionPendingData?.length == 0 ? (
+                <div className="no-data">
+                  <img src={nodata} alt="no-data" />
+                  <div className="col-md-12">
+                    <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p>
+                  </div>
+                  <div className="col-md-12">
+                    <a href="#/usersendmoney" className="send_money">Send Money</a>
+                  </div>
+                </div>
+
+              ) : (
+                <>
+
+                </>
+              )
+              }
 
 
           </div>

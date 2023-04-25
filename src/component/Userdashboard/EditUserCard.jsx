@@ -321,6 +321,8 @@ const EditCardUser = () => {
                                 <span style={myStyle}>{BankNameText.Accountnumberexist ? BankNameText.Accountnumberexist : ''}</span>
                               </div>
                             </div>
+                            </div>
+                            <div className="row each-row">
                             <div className="col-md-4">
                               <div className="input_field">
                                 <p className="get-text">Card expiry yaer<span style={{ color: 'red' }} >*</span></p>

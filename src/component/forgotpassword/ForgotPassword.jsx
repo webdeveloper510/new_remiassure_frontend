@@ -11,6 +11,11 @@ import Page404 from "../pageNotfound/Page404";
 
 const myStyle ={
     color: "red",
+    fontSize: "13px",
+    textTransform: "capitalize",
+    marginTop:"4px",
+    display:"block",
+    textAlign:"center"
 }
 
 const ForgotPassword = () => {

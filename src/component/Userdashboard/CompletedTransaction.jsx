@@ -236,7 +236,7 @@ const CompletedTransaction = () => {
                         <span className="text-white">
                           {Total_amount}<span>{summeryData.recieve_currency}</span>
                         </span> */}
-                        <span className="fs-6 pt-1 fw-bold statuspopup">Status - {completedStatusData}</span>
+                        <span className="fs-6 pt-1 fw-bold statuspopup">Status - <span class="badge bg-success"> {completedStatusData}</span></span>
                       </div>
                     </div>
                   </div>

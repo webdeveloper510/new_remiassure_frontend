@@ -10,7 +10,12 @@ import UserContext from '../context/UserContext';
 import Page404 from "../pageNotfound/Page404";
 
 const myStyle = {
-    color: 'red',
+    color: "red",
+    fontSize: "13px",
+    textTransform: "capitalize",
+    marginTop:"4px",
+    display:"block",
+    textAlign:"center"
 }
 
 const RecentPassword = () => {

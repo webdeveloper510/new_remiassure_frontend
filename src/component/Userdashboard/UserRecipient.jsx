@@ -168,7 +168,7 @@ const UserRecipients = () => {
           {
             LoginDigitalidVerified == 'true' || DigitalCode != undefined || ''? (
 
-           <section>
+        
                 <div className="margin-set">
                     <div className="tabs-page">
                         <Sidebar />
@@ -316,7 +316,7 @@ const UserRecipients = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+         
 
             ) : (
                 <>

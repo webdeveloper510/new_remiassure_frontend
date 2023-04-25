@@ -168,7 +168,7 @@ const UserCardLists = () => {
             {/* <!-- ======= Recept RemitAssure-Section start ======= --> */}
             {
                 LoginDigitalidVerified == 'true' || DigitalCode !=undefined || ''? (
-            <section>
+          
                 <div className="margin-set">
                     <div className="tabs-page">
                         <Sidebar />
@@ -279,7 +279,7 @@ const UserCardLists = () => {
                                         </div>
                                         <div className="card">
                                             <div className="card-body">
-                                                <h6 style={{ "text-align": "center", "margin-bottom": "20px" }}>No Saved Card</h6>
+                                                <h6 style={{ "text-align": "center", "margin-bottom": "20px" }}>No Saved Cards</h6>
                                                 <div className="add-rec-new">
                                                     <img src={nocard} alt="empty" />
                                                 </div>
@@ -311,7 +311,7 @@ const UserCardLists = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+      
                ): (
                 <>
                 <Page404 />

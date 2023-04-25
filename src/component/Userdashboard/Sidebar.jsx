@@ -81,7 +81,6 @@ const sidebar = () => {
       <Nav.Item>
         <NavLink to="/dashboard"><RiLockPasswordLine />Password</NavLink>
       </Nav.Item>
-
     </Nav> */}
           </div>
 

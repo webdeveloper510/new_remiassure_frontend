@@ -705,7 +705,7 @@ const UserSendMoney = () => {
       postcode: formValue.postcode,
       city: formValue.city,
       state: formValue.state,
-      country_code: formValue.country_code,
+      // country_code: formValue.country_code,
       country: countryValue.label,
       reason: formValue.reasonMoney,
 
@@ -846,20 +846,12 @@ const UserSendMoney = () => {
         else{
 
     axios.post(API.BASE_URL + 'payment/stripe/card/', {
-      send_currency: FromValue,
-      recieve_currency: ToValue,
-      send_amount: AmountValue,
-      recieve_amount: Total_amount ,
-      recipient_id: recipient_id.length > 0 ? recipient_id : recipentID,
-      reason: recipientMoneyReason,
-      destination: recipientDestination,
       name: formCardValue.cardName,
       card_number: formCardValue.cardNumber,
       expiry_month: formCardValue.exp_month,
       expiry_year: formCardValue.exp_year,
       cvc: formCardValue.securityCode,
-      save_card: numericValue,
-      type: "1"
+      save_card:numericValue,
 
 
     }, {
@@ -871,7 +863,7 @@ const UserSendMoney = () => {
       .then(function (response) {
         console.log(response);
         handleCloseDetails();
-        handlePay();
+        // handlePay();
         // window.location.reload()
   
         localStorage.setItem("paymetTransactionId", response.data.data.transaction_id);
@@ -932,28 +924,37 @@ const UserSendMoney = () => {
   /**************************************************************************
  * ************** Start Paymet Or Pay Api****************************
  * ***********************************************************************/
-  const handlePay = () => {
-    // event.preventDefault();
-    setLoading(true); // Set loading before sending API request
-    axios.post(API.BASE_URL + 'payment/stripe/charge/', {
-    }, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-      },
+  // const handlePay = () => {
+  //   // event.preventDefault();
+  //   setLoading(true); // Set loading before sending API request
+  //   axios.post(API.BASE_URL + 'payment/stripe/charge/', {
+  //     send_currency: FromValue,
+  //     recieve_currency: ToValue,
+  //     send_amount: AmountValue,
+  //     recieve_amount: Total_amount ,
+  //     recipient_id: recipient_id.length > 0 ? recipient_id : recipentID,
+  //     reason: recipientMoneyReason,
+  //     destination: recipientDestination,
+  //     reason: recipientMoneyReason,
+  //     card_id: paymetCardId,
+  //   }, {
+  //     headers: {
+  //       "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+  //     },
 
-    })
-      .then(function (response) {
-        console.log(response);
-        // setStep(step + 1)
-        setLoading(false); // Stop loading 
-      })
-      .catch(function (error, message) {
-        console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-        setBankNameText(error.response.data);
+  //   })
+  //     .then(function (response) {
+  //       console.log(response);
+  //       // setStep(step + 1)
+  //       setLoading(false); // Stop loading 
+  //     })
+  //     .catch(function (error, message) {
+  //       console.log(error.response);
+  //       setLoading(false); // Stop loading in case of error
+  //       setBankNameText(error.response.data);
 
-      })
-  }
+  //     })
+  // }
 
 
 
@@ -1668,7 +1669,7 @@ console.log("From", from)
 
 ``
                   <div className="row each-row">
-                    <div className="col-md-4">
+                    {/* <div className="col-md-4">
                       <div className="input_field">
                         <p className="get-text">Country Code<span style={{ color: 'red' }} >*</span></p>
                         <input
@@ -1682,7 +1683,7 @@ console.log("From", from)
                         <span style={myStyle}>{BankNameText.Entercountrycode ? BankNameText.Entercountrycode : ''}</span>
 
                       </div>
-                    </div>
+                    </div> */}
                     <div className="col-md-4">
                       <div className="input_field">
                         <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
@@ -1793,7 +1794,7 @@ console.log("From", from)
                     checked={moneyTransiction.paymentType == "Oslo"}
                     value="Oslo"
                     onChange={e => onInputChange(e)}
-                    onClick={ShowCardDetails}
+                    // onClick={ShowCardDetails}
                   />
                   <span className="checkmark"></span>
                 </label>
@@ -1826,7 +1827,7 @@ console.log("From", from)
                     checked={moneyTransiction.paymentType == " PoLI Internet Banking"}
                     value=" PoLI Internet Banking"
                     onChange={e => onInputChange(e)}
-                    onClick={ShowCardDetails}
+                    // onClick={ShowCardDetails}
                   />
                   <span className="checkmark"></span>
                 </label>
