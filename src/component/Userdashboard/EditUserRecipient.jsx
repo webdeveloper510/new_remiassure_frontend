@@ -102,15 +102,31 @@ const Editrecipientuser = () => {
   const [reasonMoney, setReasonMoney] = useState('');
   const [customer_id, setCustomer_id] = useState('');
 
-  /************ Start -Recipient Bank Details function***************/
-  // const handleStep2InputChange =(e,key) =>{
-  //   console.log(e.target.value)
-  //   console.log(key)
-  //   let valueForm = formValue
-  //   valueForm[key] = e.target.value
-  //   setFormValue(valueForm)
-  //   console.log(formValue)
-  // }
+  /************ Start - Edi-Recipient Bank Details function***************/
+  const handleBankNameValue = (event) => {
+    const regex = /^[a-zA-Z]+$/; // regex pattern to allow only alphabets
+    if (event.target.value === '' || regex.test(event.target.value)) {
+      setBank_name(event.target.value);
+    }
+  };
+
+
+  const handleAccountNameValue = (event) => {
+    const regex = /^[a-zA-Z]+$/; // regex pattern to allow only alphabets
+    if (event.target.value === '' || regex.test(event.target.value)) {
+      setAccount_name(event.target.value);
+    }
+  };
+
+   const handleAccountNumberValue = (event) => {
+    const newValue = event.target.value.replace(/\D/, ""); // remove non-numeric characters
+    setAccount_number(newValue);
+  
+  };
+
+ 
+
+
   /************ Start - Cancel Recipient Bank Details function***************/
   const handlRecipientBankDetails = (e) => {
     e.preventDefault();
@@ -355,14 +371,12 @@ const input_country = useRef(null);
                             <div className="input_field">
                               <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
                               <input
-                                type="text"
-                                ref={input_bankName}
-                                className="rate_input form-control"
-                                name="bankName"
-                                Value={bank_name}
-                                onChange={(e) => setBank_name(e.target.value)}
-                              //  placeholder={RecepientsData.bank_name}
-
+                               type="text"
+                               name="bankName"
+                               value={bank_name}
+                               onChange={handleBankNameValue}
+                               className='rate_input form-control'
+                               ref={input_bankName}
                               />
                              {errorUserRecipient && bank_name.length<=0?
                             <span style={myStyle}>Please Enter the Bank Name </span>:""} 
@@ -375,12 +389,12 @@ const input_country = useRef(null);
                             <div className="input_field">
                               <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
                               <input
-                                type="text"
-                                ref={input_accountName}
-                                defaultValue={account_name}
-                                onChange={(e) => setAccount_name(e.target.value)}
-                                className='rate_input form-control'
-                              // placeholder={RecepientsData.account_name}
+                               type="text"
+                               name="input_accountName"
+                               value={account_name}
+                               onChange={handleAccountNameValue}
+                               className='rate_input form-control'
+                               ref={input_accountName}
                               />
                                {errorUserRecipient&&account_name.length<=0?
                             <span style={myStyle}>Please Enter the Account Name </span>:""} 
@@ -393,14 +407,12 @@ const input_country = useRef(null);
                             <div className="input_field">
                               <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
                               <input
-                                min={0}
-                                type="number"
-                                name="accountNumber"
-                                ref={input_accountNumber}
-                                className='rate_input form-control'
-                                defaultValue={account_number}
-                                onChange={(e) => setAccount_number(e.target.value)}
-                              // placeholder={RecepientsData.account_number}
+                               type="text"
+                               name="accountNumber"
+                               value={account_number}
+                               onChange={handleAccountNumberValue}
+                               className='rate_input form-control'
+                               ref={input_accountNumber}
                               />
                               {errorUserRecipient&&account_number.length<=0?
                             <span style={myStyle}>Please Enter the Account number </span>:""}

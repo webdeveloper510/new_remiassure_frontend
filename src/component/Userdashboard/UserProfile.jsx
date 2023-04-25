@@ -111,15 +111,15 @@ const Profile = () => {
 
 
   /****************** Start select country *******************/
-  const [countryValue, setcountryValue] = useState('')
+  // const [countryValue, setcountryValue] = useState('')
   
-  const countryoptions = useMemo(() => countryList().getData(), [])
-  console.log(countryoptions, "countryoptionscountryoptions")
+  // const countryoptions = useMemo(() => countryList().getData(), [])
+  // console.log(countryoptions, "countryoptionscountryoptions")
 
-  const changeHandler = countryValue => {
-    setcountryValue(countryValue)
+  // const changeHandler = countryValue => {
+  //   setcountryValue(countryValue)
   
-  }
+  // }
 
 /****************** start-- useRef is used for focusing on inputbox *******************/
   const input_firstName = useRef(null);
@@ -184,20 +184,19 @@ const Profile = () => {
             setLastName(response.data.data.Last_name);
             setEmail(response.data.data.email);
             setMobile(response.data.data.mobile);
-            setcountryValue(response.data.data.location);
-            // setcountryValue(response.data.address.country);
-            console.log(countryValue, "setcountryValuesetcountryValue");
+            // setcountryValue(response.data.data.location);
+            setcountry(response.data.data.location);
             // alert(countryValue)
-            setFlat(response.data.address.flat);
-            setBuilding(response.data.address.building);
-            setStreet(response.data.address.street);
-            setPostcode(response.data.address.postcode);
-            setCity(response.data.address.city);
-            setState(response.data.address.state);
+            setFlat(response.data.data.flat);
+            setBuilding(response.data.data.building);
+            setStreet(response.data.data.street);
+            // setPostcode(response.data.address.postcode);
+            setCity(response.data.data.city);
+            setState(response.data.data.state);
 
           
-            setReasonMoney(response.data.address.reasonMoney);
-            setCustomer_id(response.data.address.customer_id);
+            setReasonMoney(response.data.data.reasonMoney);
+            setCustomer_id(response.data.data.customer_id);
 
 
 
@@ -220,47 +219,46 @@ const Profile = () => {
 
       /* start-- useRef is used for focusing on inputbox */
       const handleUserProfileUpdate = (event) => {
-        console.log(countryValue,"countryValue==========================>");
-        alert(countryValue)
+        // console.log(countryValue,"countryValue==========================>");
         // alert("hii")
         // console.log("============>token", token)
         event.preventDefault();
-          if (firstName.length==0){
-            input_firstName.current.focus();
-            setErrorUserRecipient(true);
-          }else if (middleName.length==0){
-            input_middleName.current.focus();
-            setErrorUserRecipient(true);
-          }else if (lastName.length==0){
-            input_lastName.current.focus();
-            setErrorUserRecipient(true);
-          }else if (email.length==0){
-            input_email.current.focus();
-            setErrorUserRecipient(true);
-          }else if (mobile.length==0){
-            input_mobile.current.focus();
-            setErrorUserRecipient(true);
-          }else if (flat.length==0){
-            input_flat.current.focus();
-            setErrorUserRecipient(true);
-          }else if (building.length==0){
-            input_building.current.focus();
-            setErrorUserRecipient(true);
-          }else if (street.length==0){
-            input_street.current.focus();
-            setErrorUserRecipient(true);
-          }else if (city.length==0){
-            input_city.current.focus();
-            setErrorUserRecipient(true);
-          }else if (state.length==0){
-            input_state.current.focus();
-            setErrorUserRecipient(true);
-          }
-          // }else if (country.length==0){
-          //   input_country.current.focus();
-          //   setErrorUserRecipient(true);
-          // }
-        else{
+        //   if (firstName.length==0){
+        //     input_firstName.current.focus();
+        //     setErrorUserRecipient(true);
+        //   }else if (middleName.length==0){
+        //     input_middleName.current.focus();
+        //     setErrorUserRecipient(true);
+        //   }else if (lastName.length==0){
+        //     input_lastName.current.focus();
+        //     setErrorUserRecipient(true);
+        //   }else if (email.length==0){
+        //     input_email.current.focus();
+        //     setErrorUserRecipient(true);
+        //   }else if (mobile.length==0){
+        //     input_mobile.current.focus();
+        //     setErrorUserRecipient(true);
+        //   }else if (flat.length==0){
+        //     input_flat.current.focus();
+        //     setErrorUserRecipient(true);
+        //   }else if (building.length==0){
+        //     input_building.current.focus();
+        //     setErrorUserRecipient(true);
+        //   }else if (street.length==0){
+        //     input_street.current.focus();
+        //     setErrorUserRecipient(true);
+        //   }else if (city.length==0){
+        //     input_city.current.focus();
+        //     setErrorUserRecipient(true);
+        //   }else if (state.length==0){
+        //     input_state.current.focus();
+        //     setErrorUserRecipient(true);
+        //   }
+        //   // }else if (country.length==0){
+        //   //   input_country.current.focus();
+        //   //   setErrorUserRecipient(true);
+        //   // }
+        // else{
         setLoading(true); // Set loading before sending API requestssss
         axios.post(API.BASE_URL + 'update-profile/', {
           First_name: firstName,
@@ -271,10 +269,9 @@ const Profile = () => {
           flat: flat,
           building: building,
           street: street,
-          postcode: postcode,
           city: city,
           state: state,
-          location: countryValue.label,
+          location: country,
         }, {
           headers: {
             "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -292,7 +289,7 @@ const Profile = () => {
             console.log(BankNameText, "BankNameText")
           })
       }
-    }
+    // }
 
 
 
@@ -348,7 +345,7 @@ const Profile = () => {
                                 {errorUserRecipient&&middleName.length<=0?
                               <span style={myStyle}>Please Enter the Middle Name </span>:""} 
 
-                                <span style={myStyle}>{BankNameText?.middle_name ? BankNameText?.middle_name : ''}</span>
+                                <span style={myStyle}>{BankNameText?.Entermiddlename ? BankNameText?.Entermiddlename : ''}</span>
                               </div>
                             </div>
                             <div className="col-md-4">
@@ -364,7 +361,7 @@ const Profile = () => {
                                 {errorUserRecipient&&lastName.length<=0?
                               <span style={myStyle}>Please Enter the Last Name </span>:""} 
 
-                                <span style={myStyle}>{BankNameText?.last_name ? BankNameText?.last_name : ''}</span>
+                                <span style={myStyle}>{BankNameText?.Enterlastname ? BankNameText?.Enterlastname : ''}</span>
                               </div>
                             </div>
                           </div>
@@ -446,6 +443,7 @@ const Profile = () => {
                                 />
                                  {errorUserRecipient&&flat.length<=0?
                                   <span style={myStyle}>Please Enter the Flat Name</span>:""} 
+                                     <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
                               </Form.Group>
                             </div>
                             <div className="col-md-4">
@@ -460,6 +458,7 @@ const Profile = () => {
                                 />
                                   {errorUserRecipient&&building.length<=0?
                                   <span style={myStyle}>Please Enter the Building Name</span>:""} 
+                                     <span style={myStyle}>{BankNameText?.Enterbuilding ? BankNameText?.Enterbuilding : ''}</span>
                               </Form.Group>
                             </div>
                             <div className="col-md-4">
@@ -474,6 +473,7 @@ const Profile = () => {
                                 />
                                   {errorUserRecipient&&street.length<=0?
                                   <span style={myStyle}>Please Enter the Street Name</span>:""} 
+                                     <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
                                 
                               </Form.Group>
                             </div>
@@ -502,6 +502,7 @@ const Profile = () => {
                                 />
                                      {errorUserRecipient&&city.length<=0?
                                   <span style={myStyle}>Please Enter the City Name</span>:""} 
+                                     <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
                               </Form.Group>
                             </div>
                             <div className="col-md-4">
@@ -517,20 +518,33 @@ const Profile = () => {
                                   {errorUserRecipient&&state.length<=0?
                                   <span style={myStyle}>Please Enter the State Name</span>:""} 
                               </Form.Group>
+                              <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
                             </div>
                             <div className="col-md-4">
                               <Form.Group className="form_label" controlId="Firstname">
                                 <p className="get-text">Country</p>
-                                <Select
+                                {/* <Select
                                 //  ref={input_country}
                                   options={countryoptions}
                                   defaultValue={countryValue}
                                   onChange={changeHandler}
-                                />
+                                /> */}
+
+                                    <Form.Select 
+                                    value={country}
+                                    onChange={(e) => setcountry(e.target.value)}
+                                       >   
+                                      <option value="">--- Select Location ---</option>
+                                      <option value="Australia">Australia</option>
+                                      <option value="New zealand">New zealand</option>
+                                                
+                                                    </Form.Select>
                                  {/* {errorUserRecipient&&country.length<=0?
                                   <span style={myStyle}>Please Enter the Country Name</span>:""}  */}
+                                     <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
 
                               </Form.Group>
+                              
                             </div>
                           </div>
                           <div className="row each-row">

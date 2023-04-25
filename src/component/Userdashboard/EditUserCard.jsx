@@ -71,12 +71,28 @@ const EditCardUser = () => {
 
 
 
-  const handleName =(e) => {
-    setName(e.target.value)
+  const handleName =(event) => {
+    const regex = /^[a-zA-Z]+$/; // regex pattern to allow only alphabets
+    if (event.target.value === '' || regex.test(event.target.value)) {
+      setName(event.target.value);
+    }
+   
   }
-console.log(name, "nameeeeeeeeeeeeeeee")
-  const handleNumber =(e) => {
-    setNumber(e.target.value)
+
+  const handleNumber =(event) => {
+    const newValue = event.target.value.replace(/[^0-9]/g, ''); // remove non-numeric characters
+    setNumber(newValue);
+
+  }
+
+  const handleExpiryMonth =(event) => {
+    const newValue = event.target.value.replace(/[^0-9]/g, ''); // remove non-numeric characters
+    setExp_month(newValue);
+  }
+
+  const handleExpiryYear =(event) => {
+    const newValue = event.target.value.replace(/[^0-9]/g, ''); // remove non-numeric characters
+    setExp_year(newValue);
   }
 
   /************ Start -Recipient Bank Details function***************/
@@ -273,10 +289,10 @@ console.log(name, "nameeeeeeeeeeeeeeee")
                               <div className="input_field">
                                 <p className="get-text">Card Number<span style={{ color: 'red' }} >*</span></p>
                                 <input
-                                  type="number"
-                                  ref={input_card_number}
+                                  type="text"
                                   name="number"
-                                  Value={number}
+                                  ref={input_card_number}
+                                  value={number}
                                   onChange={handleNumber}
                                   className='rate_input form-control'
                                 />
@@ -291,14 +307,12 @@ console.log(name, "nameeeeeeeeeeeeeeee")
                               <div className="input_field">
                                 <p className="get-text">Card expiry month<span style={{ color: 'red' }} >*</span></p>
                                 <input
-                                min={0}
-                                  type="number"
-                                  name="exp_month"
-                                  ref={input_expiry_month}
-                                  className='rate_input form-control'
-                                  defaultValue={exp_month}
-                                  onChange={(e) => setExp_month(e.target.value)}
-                                // placeholder={RecepientsData.account_number}
+                                 type="text"
+                                 name="exp_month"
+                                 ref={input_expiry_month}
+                                 value={exp_month}
+                                 onChange={handleExpiryMonth}
+                                 className='rate_input form-control'
                                 />
                                  {error&& exp_month.length<=0?
 				                         <span style={myStyle}>Please Enter the Card Expiry Month </span>:""}
@@ -311,13 +325,12 @@ console.log(name, "nameeeeeeeeeeeeeeee")
                               <div className="input_field">
                                 <p className="get-text">Card expiry yaer<span style={{ color: 'red' }} >*</span></p>
                                 <input
-                                  type="number"
-                                  name="exp_year"
-                                  ref={input_expiry_year}
-                                  className='rate_input form-control'
-                                  defaultValue={exp_year}
-                                  onChange={(e) => setExp_year(e.target.value)}
-                                // placeholder={RecepientsData.account_number}
+                                 type="text"
+                                 name="exp_year"
+                                 ref={input_expiry_year}
+                                 value={exp_year}
+                                 onChange={handleExpiryYear}
+                                 className='rate_input form-control'
                                 />
                                {error&& exp_year.length<=0?
 				                         <span style={myStyle}>Please Enter the Card Expiry Year </span>:""}

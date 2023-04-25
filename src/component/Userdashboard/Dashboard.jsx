@@ -61,7 +61,7 @@ const Dashboard = () => {
     const [firstName, setFirstName] = useState('');
     /**************************Recipient of state ************************ */
     const [data, setData] = useState([]);
-
+    const [recipientData, setRecipientData] = useState([]);
 
 
     const navigate = useNavigate();
@@ -100,6 +100,43 @@ const Dashboard = () => {
     console.log(transactionData, " nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
 
+      /**************************************************************************
+   * ************** Start  Recipient List ************************************
+   * ***********************************************************************/
+
+      useEffect(() => {
+        getList();
+    }, [])
+
+    const getList = () => {
+        setLoading(true); // Set loading before sending API request
+        axios.post(API.BASE_URL + 'payment/recipient-list/', {}, {
+            headers: {
+                "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+            }
+        })
+            .then(function (response) {
+                console.log("Recipients APIIIII", response.data);
+                setRecipientData(response.data);
+                console.log(data)
+                localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
+                setLoading(false); // Stop loading
+
+
+                //   if (response.status)
+                // // notify();
+            })
+            .catch(function (error) {
+                console.log(error);
+                console.log(error.response);
+                setLoading(false); // Stop loading in case of error
+
+            })
+    }
+
+    console.log(data, " recipient-listrecipient-listrecipient-listrecipient-list")
+
+
 
     /**************************************************************************
    * ************** Start  Recipient complete List ************************************
@@ -113,9 +150,9 @@ const Dashboard = () => {
             }
         })
             .then(function (response) {
-                console.log("Recipients APIIIII", response.data);
+                console.log("completed data transaction", response.data);
                 setData(response.data);
-                console.log(data)
+                console.log(data, "completed data transaction")
                 setLoading(false); // Stop loading
   
             })
@@ -127,7 +164,7 @@ const Dashboard = () => {
 
         }, [])
 
-    console.log(data, " nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+    // console.log(data, " completed data transactioncompleted data transaction")
 
      /**************************************************************************
     * ************** Start-- get data Profile ****************************
@@ -353,28 +390,28 @@ const Dashboard = () => {
                                                         <thead>
                                                             <tr>
                                                                 <th>Name</th>
-                                                                <th>Amount</th>
+                                                                <th>Destination</th>
                                                             </tr>
                                                         </thead>
 
                                                         <tbody>
                                                             {
-                                                                data.data?.map((res, index) => {
+                                                                recipientData.data?.map((res, index) => {
+                                                                    console.log(res, "recentRecipient data==============>")
                                                                     return (
 
                                                                         <tr>
                                                                             <td>
                                                                                 <div class="me-auto">
-                                                                                    <h6 class="fs-16 font-w600 mb-0">{res.recipient_name}</h6>
+                                                                                    <h6 class="fs-16 font-w600 mb-0">{res.name}</h6>
                                                                                     <span class="fs-12">{res.date}</span>
                                                                                 </div>
                                                                             </td>
 
                                                                             <td>
-                                                                                <span class="fs-16 text-black font-w600"><BiDollarCircle />
-                                                                                    $
-                                                                                    {Total_amount}
-                                                                                </span>
+                                                                               
+                                                                              {res.destination}
+                                                                             
                                                                             </td>
                                                                         </tr>
 
@@ -402,7 +439,7 @@ const Dashboard = () => {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                 <div className={isActive ? "add-recipent-section" : "remove-add-recipent-section"}>
+                                                                 {/* <div className={isActive ? "add-recipent-section" : "remove-add-recipent-section"}>
 
                                                                     <div className="col-md-12 align-center">
                                                                         <NavLink to="/addnewrecipient">
@@ -412,7 +449,7 @@ const Dashboard = () => {
                                                                             </button>
                                                                         </NavLink>
                                                                     </div>
-                                                                </div> 
+                                                                </div>  */}
                                                             </section> 
 
                                                         </> 

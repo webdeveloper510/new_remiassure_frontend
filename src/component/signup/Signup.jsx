@@ -200,7 +200,7 @@ const Signup = () => {
             password: password,
             confirmPassword: confirmPassword,
             // location: location,
-            location: countryValue.label,
+            location: location,
             referral_code: referral_code,
             promo_marketing: promo_marketing.Active,
         }
@@ -321,16 +321,16 @@ const Signup = () => {
                                             <div className="form_signup">
 
                                                 <form>
-                                                <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
+                                                {/* <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
                                                 <Select
                                                 ref={input_location}
                                                 options={options} 
                                                 value={countryValue} 
                                                 onChange={changeHandler}
-                                                />
+                                                /> */}
                                                 {/* {error&&countryValue.length<=0?
                                                     <span style={myStyle}>Please select the Location </span>:""} */}
-                                                        <span  style={myStyle}>{locationText? locationText: ""}</span> 
+                                                        {/* <span  style={myStyle}>{locationText? locationText: ""}</span>  */}
                                                 
                 
                                                     {/* <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
@@ -347,15 +347,17 @@ const Signup = () => {
                                                     <span style={myStyle}>Please check the Location </span>:""}
                                                     </CountryDropdown> */}
                                                     
-                                                    {/* <Form.Select 
+                                                    <Form.Select 
                                                     value={location}
                                                     onChange={handeleLocation}
                                                     >   
                                                         <option value="">--- Select Location ---</option>
-                                                        <option value="Austria">Austria</option>
-                                                        <option value="Canada">Canada</option>
-                                                        <option value="China">China</option>
-                                                    </Form.Select> */}
+                                                        <option value="Australia">Australia</option>
+                                                        <option value="New zealand">New zealand</option>
+                                                
+                                                    </Form.Select>
+                                                    <span  style={myStyle}>{locationText? locationText: ""}</span> 
+
                                                     <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
                                                         <Form.Label>Your Email<span style={{color: 'red'}} >*</span> </Form.Label>
                                                         <Form.Control 

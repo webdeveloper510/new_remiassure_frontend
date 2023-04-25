@@ -175,7 +175,7 @@ const CompletedTransaction = () => {
                   </> : <></>}
               {/* End------- Loader functionalty */}
 
-            {transactionCompletedData?.length != 0 ? (
+            {transactionCompletedData.data?.length != 0 ? (
                 <Table className="table table-responsive-md card-table previous-transaction">
                   <thead>
                     <tr>
@@ -222,7 +222,7 @@ const CompletedTransaction = () => {
                       <div className="d-flex">
 
                         <div className="trsnsfer-process">
-                          <h4 className="text-capitalize">{summeryData.recipient_name}</h4>
+                          <h4 className="text-capitalize">Recipient Name-{summeryData.recipient_name}</h4>
                           <span>SENT- {summeryData.date}</span>
                         </div>
                       </div>
@@ -230,19 +230,20 @@ const CompletedTransaction = () => {
                       <div className="my-auto transac-text">
                         <span className="text-white fs-6 pb-2">TRX -{paymetTransactionId}</span>
 
-                        <span className="text-white fs-5 pb-2">
+                        {/* <span className="text-white fs-5 pb-2">
                           {summeryData.send_amount} <span>{summeryData.send_currency}</span>
                         </span>
                         <span className="text-white">
                           {Total_amount}<span>{summeryData.recieve_currency}</span>
-                        </span>
+                        </span> */}
+                        <span className="fs-6 pt-1 fw-bold statuspopup">Status - {completedStatusData}</span>
                       </div>
                     </div>
                   </div>
 
                   <div className="col-md-12">
-                    <span className="fs-6 pt-1 fw-bold statuspopup">Status</span>
-                    <span className="fs-6 pt-1 fw-bold statuspopup">{completedStatusData}</span>
+                    {/* <span className="fs-6 pt-1 fw-bold statuspopup">Status</span>
+                    <span className="fs-6 pt-1 fw-bold statuspopup">{completedStatusData}</span> */}
                     <hr></hr>
                     <p>Your transaction is complete and we hope to see your again.</p>
 
@@ -332,7 +333,7 @@ const CompletedTransaction = () => {
 
 
               
-              {transactionCompletedData?.length == 0 ? (
+              {transactionCompletedData.data?.length == 0 ? (
                 <div className="no-data">
                   <img src={nodata} alt="no-data" />
 
