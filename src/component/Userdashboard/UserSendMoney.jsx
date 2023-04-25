@@ -92,7 +92,7 @@ const UserSendMoney = () => {
   const [amount, setAmount] = React.useState();
   const [exchange_amount, setExchange_amount] = React.useState();
   const [total_amount, setTotal_amount] = React.useState('');
-  const [total_rate, setTotal_rate] = React.useState('0');
+  const [total_rate, setTotal_rate] = React.useState('1.0998');
 
   // const [options, setOptions] = React.useState([]);
   const [output, setOutput] = React.useState(0);
@@ -777,34 +777,34 @@ const UserSendMoney = () => {
  
 
 
-  const handleCradBankDetails = (event) => {
-    setCheckedValueCard(!checkedValueCard)
-    console.log(checkedValueCard, "checkedValueCardcheckedValueCard")
-    event.preventDefault();
+  // const handleCradBankDetails = (event) => {
+  //   setCheckedValueCard(!checkedValueCard)
+  //   console.log(checkedValueCard, "checkedValueCardcheckedValueCard")
+  //   event.preventDefault();
 
-    axios.post(API.BASE_URL + 'payment/create-card/', {
-      name: formCardValue.cardName,
-      card_number: formCardValue.cardNumber,
-      expiry_month: formCardValue.exp_month,
-      expiry_year: formCardValue.exp_year,
+  //   axios.post(API.BASE_URL + 'payment/create-card/', {
+  //     name: formCardValue.cardName,
+  //     card_number: formCardValue.cardNumber,
+  //     expiry_month: formCardValue.exp_month,
+  //     expiry_year: formCardValue.exp_year,
 
-    }, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-      },
+  //   }, {
+  //     headers: {
+  //       "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+  //     },
 
-    })
-      .then(function (response) {
-        console.log(response.data);
+  //   })
+  //     .then(function (response) {
+  //       console.log(response.data);
 
-      })
-      .catch(function (error, message) {
-        console.log(error.response);
-        setCardErrorText(error.response.data);
+  //     })
+  //     .catch(function (error, message) {
+  //       console.log(error.response);
+  //       setCardErrorText(error.response.data);
 
-      })
-  }
-  //  }
+  //     })
+  // }
+  // //  }
 
 
   /**************************************************************************
@@ -817,8 +817,13 @@ const UserSendMoney = () => {
   const input_securityCode = useRef(null);
 
   const handlePaymentCard = (event) => {
-    
+    let numericValue = checkedValueCard ? '1': '0' ; // Move the variable declaration outside the if block
 
+    if (checkedValueCard) {
+      console.log(numericValue);
+      console.log("===================>checkedValueCard", checkedValueCard);
+    }
+    
     console.log(formCardValue, "formCardValueformCardValue")
     event.preventDefault();
          //useRef is used for focusing on inputbox
@@ -853,7 +858,7 @@ const UserSendMoney = () => {
       expiry_month: formCardValue.exp_month,
       expiry_year: formCardValue.exp_year,
       cvc: formCardValue.securityCode,
-      save_card: "0",
+      save_card: numericValue,
       type: "1"
 
 
@@ -1661,7 +1666,7 @@ console.log("From", from)
 
                   </div>
 
-
+``
                   <div className="row each-row">
                     <div className="col-md-4">
                       <div className="input_field">
@@ -1832,8 +1837,8 @@ console.log("From", from)
                 <button className="start-form-button">Clear</button>
               </div>
               <div className="col-md-8">
-                {/* <button className="form-button">Continue</button> */}
-                <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                <button className="form-button"  onClick={() => { setStep(step +1) }}>Continue</button>
+                {/* <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button> */}
               </div>
             </div>
           </div>
@@ -2010,9 +2015,8 @@ console.log("From", from)
                         <div className="card-fields">
                           <input
                            ref={input_cardName}
-                            min="1" 
-                            max="9" 
-                            type="number"
+                            max="16" 
+                            type="text"
                             className='rate_input form-control'
                             name="cardNumber"
                             placeholder="XXXX-XXXX-XXXX-XXXX"
@@ -2119,10 +2123,11 @@ console.log("From", from)
                         
                       
                       /> */}
-                      <input
+                       <input
                         type="checkbox"
                         checked={checkedValueCard}
-                        onChange={handleCradBankDetails}
+                        onChange={handleCheckboxChange}
+                        // onChange={handleCradBankDetails}
                       />
                       {/* <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
                           Save

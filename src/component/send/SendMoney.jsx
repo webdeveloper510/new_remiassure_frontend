@@ -942,35 +942,35 @@ const [errorCard, seterrorCard] = React.useState(false);
   /**************************************************************************
  * ************** Start  Create Card Bank Details ****************************
  * ***********************************************************************/
-  const handleCradBankDetails = (event) => {
-    setCheckedValueCard(!checkedValueCard)
-    event.preventDefault();
+  // const handleCradBankDetails = (event) => {
+  //   setCheckedValueCard(!checkedValueCard)
+  //   event.preventDefault();
 
-    axios.post(API.BASE_URL + 'payment/create-card/', {
-      card_number: formCardValue.cardNumber,
-      expiry_month: formCardValue.exp_month,
-      expiry_year: formCardValue.exp_year,
-      name: formCardValue.cardName,
-    }, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-      },
+  //   axios.post(API.BASE_URL + 'payment/create-card/', {
+  //     card_number: formCardValue.cardNumber,
+  //     expiry_month: formCardValue.exp_month,
+  //     expiry_year: formCardValue.exp_year,
+  //     name: formCardValue.cardName,
+  //   }, {
+  //     headers: {
+  //       "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+  //     },
 
-    })
-      .then(function (response) {
-        console.log(response);
-        // handleCloseDetails();
-        // window.location.reload();
-        // setLoading(false); // Stop loading 
-        // navigate('/dashboard'); 
+  //   })
+  //     .then(function (response) {
+  //       console.log(response);
+  //       // handleCloseDetails();
+  //       // window.location.reload();
+  //       // setLoading(false); // Stop loading 
+  //       // navigate('/dashboard'); 
 
 
-      })
-      .catch(function (error, message) {
-        console.log(error.response);
-      })
-  }
+  //     })
+  //     .catch(function (error, message) {
+  //       console.log(error.response);
+  //     })
   // }
+  // // }
 
   /**************************************************************************
  * ************** Start  Bank card List ************************************
@@ -1014,6 +1014,14 @@ const [errorCard, seterrorCard] = React.useState(false);
 
       const handlePaymentCard = (event) => {
         event.preventDefault();
+
+         let numericValue = checkedValueCard ? '1': '0' ; // Move the variable declaration outside the if block
+
+        if (checkedValueCard) {
+          console.log(numericValue);
+          console.log("===================>checkedValueCard", checkedValueCard);
+        }
+
          //useRef is used for focusing on inputbox
          if (formCardValue.cardName.length==0){
           input_cardName.current.focus();
@@ -1047,7 +1055,7 @@ const [errorCard, seterrorCard] = React.useState(false);
           expiry_month: formCardValue.exp_month,
           expiry_year: formCardValue.exp_year,
           cvc: formCardValue.securityCode,
-          save_card: "0",
+          save_card:numericValue,
           type: "1"
 
         }, {
@@ -1062,7 +1070,7 @@ const [errorCard, seterrorCard] = React.useState(false);
             setStep(step + 1);
             localStorage.setItem("paymetTransactionId", response.data.transaction_id);
             handleISDigitalVerified();
-           SummerySingleData()
+            SummerySingleData()
             setLoading(false); // Stop loading
 
           })
@@ -1963,7 +1971,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                       checked={moneyTransiction.paymentType == "Oslo"}
                       value="Oslo"
                       onChange={e => onInputChange(e)}
-                      onClick={ShowCardDetails}
+                      // onClick={ShowCardDetails}
                     />
                     <span className="checkmark"></span>
                   </label>
@@ -1997,7 +2005,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                       checked={moneyTransiction.paymentType == " PoLI Internet Banking"}
                       value=" PoLI Internet Banking"
                       onChange={e => onInputChange(e)}
-                      onClick={ShowCardDetails}
+                      // onClick={ShowCardDetails}
                     />
                     <span className="checkmark"></span>
                   </label>
@@ -2009,8 +2017,8 @@ const [errorCard, seterrorCard] = React.useState(false);
                   <button className="start-form-button">Cancel</button>
                 </div>
                 <div className="col-md-8">
-                  {/* <button className="form-button">Continue</button> */}
-                  <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                  <button className="form-button" onClick={() => { setStep(step +1) }}>Continue</button>
+                  {/* <button className="form-button" onClick={() => { setStep(step -1) }}>Previous</button> */}
                 </div>
               </div>
             </div>
@@ -2292,7 +2300,8 @@ const [errorCard, seterrorCard] = React.useState(false);
                       <input
                         type="checkbox"
                         checked={checkedValueCard}
-                        onChange={handleCradBankDetails}
+                        onChange={handleCheckboxChange}
+                        // onChange={handleCradBankDetails}
                       />
                       {/* <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
                               Save

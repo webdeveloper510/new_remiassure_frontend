@@ -333,8 +333,8 @@ const Signup = () => {
                                                         {/* <span  style={myStyle}>{locationText? locationText: ""}</span>  */}
                                                 
                 
-                                                    {/* <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
-                                                    <CountryDropdown
+                                                    <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
+                                                    {/* <CountryDropdown
                                                 
                                                     className='YOUR_CSS_CLASS rate_input form-control'
                                                     preferredCountries={['gb', 'us' ]} 
@@ -345,7 +345,7 @@ const Signup = () => {
                                                     >
                                                         {error&&location.length<=0?
                                                     <span style={myStyle}>Please check the Location </span>:""}
-                                                    </CountryDropdown> */}
+                                                    </CountryDropdown> */} 
                                                     
                                                     <Form.Select 
                                                     value={location}
@@ -381,7 +381,8 @@ const Signup = () => {
                                                         <PhoneInput 
                                                         type="mobile"
                                                         ref={input_mobile}
-                                                        country={"eg"}
+                                                        country={"au"}
+                                                        onlyCountries={["au", "nz"]}
                                                         enableSearch={true}
                                                         value={mobile}
                                                         onChange={(mobile) => setMobile(mobile)}
