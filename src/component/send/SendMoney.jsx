@@ -345,6 +345,9 @@ const [errorCard, seterrorCard] = React.useState(false);
   const recipientName = localStorage.getItem("recipientName")
   console.log(recipientName, "recipientName");
 
+  const paymetCardId = localStorage.getItem("paymetCardId")
+  console.log(paymetCardId, "paymetCardId")
+
 
 
   /****************** select country *******************/
@@ -677,7 +680,7 @@ const [errorCard, seterrorCard] = React.useState(false);
       .then(function (response) {
         console.log(response);
         if (response.status)
-          handlePay()
+        handlePay()
         setStep(step + 1) //next step call
         setData(response.data);
         setLoading(false); // Stop loading 
@@ -852,7 +855,7 @@ const [errorCard, seterrorCard] = React.useState(false);
       building: formValue.building,
       street: formValue.street,
       postcode: formValue.postcode,
-      country_code: formValue.country_code,
+      // country_code: formValue.country_code,
       city: formValue.city,
       state: formValue.state,
       country: countryValue.label,
@@ -866,13 +869,14 @@ const [errorCard, seterrorCard] = React.useState(false);
     })
       .then(function (response) {
         console.log(response);
-        handleShow(); //show view page
-        setLoading(false); // Stop loading 
-        setId(response.data.recipient_data.id)
 
         localStorage.setItem("recipientMoneyReason", formValue.reasonMoney);
         localStorage.setItem("recipientDestination", countryValue.label);
         localStorage.setItem("recipientName", formValue.firstName);
+        handleShow(); //show view page
+        setLoading(false); // Stop loading 
+        setId(response.data.recipient_data.id)
+
       })
       .catch(function (error, message) {
         console.log(error.response);
@@ -909,7 +913,7 @@ const [errorCard, seterrorCard] = React.useState(false);
       postcode: formValue.postcode,
       city: formValue.city,
       state: formValue.state,
-      country_code: formValue.country_code,
+      // country_code: formValue.country_code,
       country: countryValue.label,
       reason: formValue.reasonMoney
     }, {
@@ -921,13 +925,13 @@ const [errorCard, seterrorCard] = React.useState(false);
       .then(function (response) {
         console.log(response);
         // handleShow(); //show view page
-        setStep(step + 1);
-        setLoading(false); // Stop loading 
         setId(response.data.recipient_data.id)
-
-        localStorage.setItem("recipientMoneyReason", formValue.reasonMoney);
+        localStorage.setItem("recipientMoneyReason",formValue.reasonMoney);
         localStorage.setItem("recipientDestination", countryValue.label);
         localStorage.setItem("recipientName", formValue.firstName);
+        setStep(step + 1);
+        setLoading(false); // Stop loading 
+      
       })
       .catch(function (error, message) {
         console.log(error.response);
@@ -942,35 +946,35 @@ const [errorCard, seterrorCard] = React.useState(false);
   /**************************************************************************
  * ************** Start  Create Card Bank Details ****************************
  * ***********************************************************************/
-  const handleCradBankDetails = (event) => {
-    setCheckedValueCard(!checkedValueCard)
-    event.preventDefault();
+  // const handleCradBankDetails = (event) => {
+  //   setCheckedValueCard(!checkedValueCard)
+  //   event.preventDefault();
 
-    axios.post(API.BASE_URL + 'payment/create-card/', {
-      card_number: formCardValue.cardNumber,
-      expiry_month: formCardValue.exp_month,
-      expiry_year: formCardValue.exp_year,
-      name: formCardValue.cardName,
-    }, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-      },
+  //   axios.post(API.BASE_URL + 'payment/create-card/', {
+  //     card_number: formCardValue.cardNumber,
+  //     expiry_month: formCardValue.exp_month,
+  //     expiry_year: formCardValue.exp_year,
+  //     name: formCardValue.cardName,
+  //   }, {
+  //     headers: {
+  //       "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+  //     },
 
-    })
-      .then(function (response) {
-        console.log(response);
-        // handleCloseDetails();
-        // window.location.reload();
-        // setLoading(false); // Stop loading 
-        // navigate('/dashboard'); 
+  //   })
+  //     .then(function (response) {
+  //       console.log(response);
+  //       // handleCloseDetails();
+  //       // window.location.reload();
+  //       // setLoading(false); // Stop loading 
+  //       // navigate('/dashboard'); 
 
 
-      })
-      .catch(function (error, message) {
-        console.log(error.response);
-      })
-  }
+  //     })
+  //     .catch(function (error, message) {
+  //       console.log(error.response);
+  //     })
   // }
+  // // }
 
   /**************************************************************************
  * ************** Start  Bank card List ************************************
@@ -1014,6 +1018,14 @@ const [errorCard, seterrorCard] = React.useState(false);
 
       const handlePaymentCard = (event) => {
         event.preventDefault();
+
+         let numericValue = checkedValueCard ? '1': '0' ; // Move the variable declaration outside the if block
+
+        if (checkedValueCard) {
+          console.log(numericValue);
+          console.log("===================>checkedValueCard", checkedValueCard);
+        }
+
          //useRef is used for focusing on inputbox
          if (formCardValue.cardName.length==0){
           input_cardName.current.focus();
@@ -1035,20 +1047,12 @@ const [errorCard, seterrorCard] = React.useState(false);
           setLoading(true); // Set loading before sending API request
           // setTimeout(() => {
          axios.post(API.BASE_URL + 'payment/stripe/card/', {
-          send_currency: FromValue,
-          recieve_currency: ToValue,
-          send_amount: AmountValue,
-          recieve_amount: Total_amount ,
-          recipient_id: recipient_id,
-          reason: recipientMoneyReason,
-          destination: recipientDestination,
           name: formCardValue.cardName,
           card_number: formCardValue.cardNumber,
           expiry_month: formCardValue.exp_month,
           expiry_year: formCardValue.exp_year,
           cvc: formCardValue.securityCode,
-          save_card: "0",
-          type: "1"
+          save_card:numericValue,
 
         }, {
           headers: {
@@ -1061,8 +1065,9 @@ const [errorCard, seterrorCard] = React.useState(false);
             console.log(response);
             setStep(step + 1);
             localStorage.setItem("paymetTransactionId", response.data.transaction_id);
+            localStorage.setItem("paymetCardId", response.data.card_id);
             handleISDigitalVerified();
-           SummerySingleData()
+             SummerySingleData()
             setLoading(false); // Stop loading
 
           })
@@ -1085,6 +1090,17 @@ const [errorCard, seterrorCard] = React.useState(false);
     // event.preventDefault();
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/stripe/charge/', {
+
+      send_currency: FromValue,
+      recieve_currency: ToValue,
+      send_amount: AmountValue,
+      recieve_amount: Total_amount ,
+      recipient_id: recipient_id,
+      reason: recipientMoneyReason,
+      destination: recipientDestination,
+      reason: recipientMoneyReason,
+       card_id: paymetCardId,
+
     }, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -1622,7 +1638,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                         onChange={(e) => handleStep2InputChange(e, 'email')}
                       />
                       <span style={myStyle}>{BankNameText.Enteremail ? BankNameText.Enteremail : ''}</span>
-                      <span style={myStyle}>{BankNameText.Emailexist ? BankNameText.Emailexist : ''}</span>
+                      <span style={myStyle}>{BankNameText.emailexist ? BankNameText.emailexist : ''}</span>
                       <span style={myStyle}>{BankNameText.Emailinvalid ? BankNameText.Emailinvalid : ''}</span>
 
                     </div>
@@ -1640,7 +1656,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                       />
                       <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
                       <span style={myStyle}>{BankNameText.Validmobile ? BankNameText.Validmobile : ''}</span>
-                      <span style={myStyle}>{BankNameText.Mobileexist ? BankNameText.Mobileexist : ''}</span>
+                      <span style={myStyle}>{BankNameText.mobileexist ? BankNameText.mobileexist : ''}</span>
                       <span style={myStyle}>{BankNameText.Entermobile ? BankNameText.Entermobile : ''}</span>
 
                     </div>
@@ -1750,7 +1766,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
 
                 <div className="row each-row">
-                  <div className="col-md-4">
+                  {/* <div className="col-md-4">
                     <div className="input_field">
                       <p className="get-text">Country Code <span style={{ color: 'red' }} >*</span></p>
                       <input
@@ -1764,7 +1780,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                       <span style={myStyle}>{BankNameText.Entercountrycode ? BankNameText.Entercountrycode : ''}</span>
 
                     </div>
-                  </div>
+                  </div> */}
                   <div className="col-md-4">
                     <div className="input_field">
                       <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
@@ -1868,10 +1884,10 @@ const [errorCard, seterrorCard] = React.useState(false);
                       <th>Mobile</th>
                       <td>{formValue.mobile}</td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                       <th>Country Code</th>
                       <td>{formValue.country_code}</td>
-                    </tr>
+                    </tr> */}
                     {/* <tr>
                           <th>Address</th>
                           <td>{addressData}</td>
@@ -1963,7 +1979,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                       checked={moneyTransiction.paymentType == "Oslo"}
                       value="Oslo"
                       onChange={e => onInputChange(e)}
-                      onClick={ShowCardDetails}
+                      // onClick={ShowCardDetails}
                     />
                     <span className="checkmark"></span>
                   </label>
@@ -1997,7 +2013,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                       checked={moneyTransiction.paymentType == " PoLI Internet Banking"}
                       value=" PoLI Internet Banking"
                       onChange={e => onInputChange(e)}
-                      onClick={ShowCardDetails}
+                      // onClick={ShowCardDetails}
                     />
                     <span className="checkmark"></span>
                   </label>
@@ -2009,8 +2025,8 @@ const [errorCard, seterrorCard] = React.useState(false);
                   <button className="start-form-button">Cancel</button>
                 </div>
                 <div className="col-md-8">
-                  {/* <button className="form-button">Continue</button> */}
-                  <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                  <button className="form-button" onClick={() => { setStep(step +1) }}>Continue</button>
+                  <button className="form-button" onClick={() => { setStep(step -1) }}>Previous</button>
                 </div>
               </div>
             </div>
@@ -2292,7 +2308,8 @@ const [errorCard, seterrorCard] = React.useState(false);
                       <input
                         type="checkbox"
                         checked={checkedValueCard}
-                        onChange={handleCradBankDetails}
+                        onChange={handleCheckboxChange}
+                        // onChange={handleCradBankDetails}
                       />
                       {/* <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
                               Save
@@ -2634,7 +2651,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                   </div>
                 </div>
                 <div className="row each-row">
-                  <div className="col-md-4">
+                  {/* <div className="col-md-4">
                     <div className="input_field">
                       <p className="get-text">Country Code</p>
                       <input
@@ -2645,7 +2662,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                         onChange={(e) => hamdleSenderDetailsData(e, 'country_code')}
                       />
                     </div>
-                  </div>
+                  </div> */}
                   <div className="col-md-4">
                     <div className="input_field">
                       <p className="get-text">Country Name</p>

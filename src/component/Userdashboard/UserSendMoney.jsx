@@ -92,7 +92,7 @@ const UserSendMoney = () => {
   const [amount, setAmount] = React.useState();
   const [exchange_amount, setExchange_amount] = React.useState();
   const [total_amount, setTotal_amount] = React.useState('');
-  const [total_rate, setTotal_rate] = React.useState('0');
+  const [total_rate, setTotal_rate] = React.useState('1.0998');
 
   // const [options, setOptions] = React.useState([]);
   const [output, setOutput] = React.useState(0);
@@ -705,7 +705,7 @@ const UserSendMoney = () => {
       postcode: formValue.postcode,
       city: formValue.city,
       state: formValue.state,
-      country_code: formValue.country_code,
+      // country_code: formValue.country_code,
       country: countryValue.label,
       reason: formValue.reasonMoney,
 
@@ -777,34 +777,34 @@ const UserSendMoney = () => {
  
 
 
-  const handleCradBankDetails = (event) => {
-    setCheckedValueCard(!checkedValueCard)
-    console.log(checkedValueCard, "checkedValueCardcheckedValueCard")
-    event.preventDefault();
+  // const handleCradBankDetails = (event) => {
+  //   setCheckedValueCard(!checkedValueCard)
+  //   console.log(checkedValueCard, "checkedValueCardcheckedValueCard")
+  //   event.preventDefault();
 
-    axios.post(API.BASE_URL + 'payment/create-card/', {
-      name: formCardValue.cardName,
-      card_number: formCardValue.cardNumber,
-      expiry_month: formCardValue.exp_month,
-      expiry_year: formCardValue.exp_year,
+  //   axios.post(API.BASE_URL + 'payment/create-card/', {
+  //     name: formCardValue.cardName,
+  //     card_number: formCardValue.cardNumber,
+  //     expiry_month: formCardValue.exp_month,
+  //     expiry_year: formCardValue.exp_year,
 
-    }, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-      },
+  //   }, {
+  //     headers: {
+  //       "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+  //     },
 
-    })
-      .then(function (response) {
-        console.log(response.data);
+  //   })
+  //     .then(function (response) {
+  //       console.log(response.data);
 
-      })
-      .catch(function (error, message) {
-        console.log(error.response);
-        setCardErrorText(error.response.data);
+  //     })
+  //     .catch(function (error, message) {
+  //       console.log(error.response);
+  //       setCardErrorText(error.response.data);
 
-      })
-  }
-  //  }
+  //     })
+  // }
+  // //  }
 
 
   /**************************************************************************
@@ -817,8 +817,13 @@ const UserSendMoney = () => {
   const input_securityCode = useRef(null);
 
   const handlePaymentCard = (event) => {
-    
+    let numericValue = checkedValueCard ? '1': '0' ; // Move the variable declaration outside the if block
 
+    if (checkedValueCard) {
+      console.log(numericValue);
+      console.log("===================>checkedValueCard", checkedValueCard);
+    }
+    
     console.log(formCardValue, "formCardValueformCardValue")
     event.preventDefault();
          //useRef is used for focusing on inputbox
@@ -841,20 +846,12 @@ const UserSendMoney = () => {
         else{
 
     axios.post(API.BASE_URL + 'payment/stripe/card/', {
-      send_currency: FromValue,
-      recieve_currency: ToValue,
-      send_amount: AmountValue,
-      recieve_amount: Total_amount ,
-      recipient_id: recipient_id.length > 0 ? recipient_id : recipentID,
-      reason: recipientMoneyReason,
-      destination: recipientDestination,
       name: formCardValue.cardName,
       card_number: formCardValue.cardNumber,
       expiry_month: formCardValue.exp_month,
       expiry_year: formCardValue.exp_year,
       cvc: formCardValue.securityCode,
-      save_card: "0",
-      type: "1"
+      save_card:numericValue,
 
 
     }, {
@@ -866,7 +863,7 @@ const UserSendMoney = () => {
       .then(function (response) {
         console.log(response);
         handleCloseDetails();
-        handlePay();
+        // handlePay();
         // window.location.reload()
   
         localStorage.setItem("paymetTransactionId", response.data.data.transaction_id);
@@ -927,28 +924,37 @@ const UserSendMoney = () => {
   /**************************************************************************
  * ************** Start Paymet Or Pay Api****************************
  * ***********************************************************************/
-  const handlePay = () => {
-    // event.preventDefault();
-    setLoading(true); // Set loading before sending API request
-    axios.post(API.BASE_URL + 'payment/stripe/charge/', {
-    }, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-      },
+  // const handlePay = () => {
+  //   // event.preventDefault();
+  //   setLoading(true); // Set loading before sending API request
+  //   axios.post(API.BASE_URL + 'payment/stripe/charge/', {
+  //     send_currency: FromValue,
+  //     recieve_currency: ToValue,
+  //     send_amount: AmountValue,
+  //     recieve_amount: Total_amount ,
+  //     recipient_id: recipient_id.length > 0 ? recipient_id : recipentID,
+  //     reason: recipientMoneyReason,
+  //     destination: recipientDestination,
+  //     reason: recipientMoneyReason,
+  //     card_id: paymetCardId,
+  //   }, {
+  //     headers: {
+  //       "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+  //     },
 
-    })
-      .then(function (response) {
-        console.log(response);
-        // setStep(step + 1)
-        setLoading(false); // Stop loading 
-      })
-      .catch(function (error, message) {
-        console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-        setBankNameText(error.response.data);
+  //   })
+  //     .then(function (response) {
+  //       console.log(response);
+  //       // setStep(step + 1)
+  //       setLoading(false); // Stop loading 
+  //     })
+  //     .catch(function (error, message) {
+  //       console.log(error.response);
+  //       setLoading(false); // Stop loading in case of error
+  //       setBankNameText(error.response.data);
 
-      })
-  }
+  //     })
+  // }
 
 
 
@@ -1661,9 +1667,9 @@ console.log("From", from)
 
                   </div>
 
-
+``
                   <div className="row each-row">
-                    <div className="col-md-4">
+                    {/* <div className="col-md-4">
                       <div className="input_field">
                         <p className="get-text">Country Code<span style={{ color: 'red' }} >*</span></p>
                         <input
@@ -1677,7 +1683,7 @@ console.log("From", from)
                         <span style={myStyle}>{BankNameText.Entercountrycode ? BankNameText.Entercountrycode : ''}</span>
 
                       </div>
-                    </div>
+                    </div> */}
                     <div className="col-md-4">
                       <div className="input_field">
                         <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
@@ -1788,7 +1794,7 @@ console.log("From", from)
                     checked={moneyTransiction.paymentType == "Oslo"}
                     value="Oslo"
                     onChange={e => onInputChange(e)}
-                    onClick={ShowCardDetails}
+                    // onClick={ShowCardDetails}
                   />
                   <span className="checkmark"></span>
                 </label>
@@ -1821,7 +1827,7 @@ console.log("From", from)
                     checked={moneyTransiction.paymentType == " PoLI Internet Banking"}
                     value=" PoLI Internet Banking"
                     onChange={e => onInputChange(e)}
-                    onClick={ShowCardDetails}
+                    // onClick={ShowCardDetails}
                   />
                   <span className="checkmark"></span>
                 </label>
@@ -1832,8 +1838,8 @@ console.log("From", from)
                 <button className="start-form-button">Clear</button>
               </div>
               <div className="col-md-8">
-                {/* <button className="form-button">Continue</button> */}
-                <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                <button className="form-button"  onClick={() => { setStep(step +1) }}>Continue</button>
+                {/* <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button> */}
               </div>
             </div>
           </div>
@@ -2010,9 +2016,8 @@ console.log("From", from)
                         <div className="card-fields">
                           <input
                            ref={input_cardName}
-                            min="1" 
-                            max="9" 
-                            type="number"
+                            max="16" 
+                            type="text"
                             className='rate_input form-control'
                             name="cardNumber"
                             placeholder="XXXX-XXXX-XXXX-XXXX"
@@ -2119,10 +2124,11 @@ console.log("From", from)
                         
                       
                       /> */}
-                      <input
+                       <input
                         type="checkbox"
                         checked={checkedValueCard}
-                        onChange={handleCradBankDetails}
+                        onChange={handleCheckboxChange}
+                        // onChange={handleCradBankDetails}
                       />
                       {/* <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
                           Save

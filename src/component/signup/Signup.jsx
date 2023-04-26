@@ -344,8 +344,8 @@ const Signup = () => {
                                                         {/* <span  style={myStyle}>{locationText? locationText: ""}</span>  */}
                                                 
                 
-                                                    {/* <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
-                                                    <CountryDropdown
+                                                    <Form.Label>Where are you sending money from?<span style={{color: 'red'}} >*</span></Form.Label>
+                                                    {/* <CountryDropdown
                                                 
                                                     className='YOUR_CSS_CLASS rate_input form-control'
                                                     preferredCountries={['gb', 'us' ]} 
@@ -414,6 +414,7 @@ const Signup = () => {
                                                         ref={input_mobile}
                                                         country={"au"}
                                                         onlyCountries={["au", "nz"]}
+                                                        enableSearch={true}
                                                        // country={"eg"}
                                                         enableSearch={false}
                                                         value={mobile}
