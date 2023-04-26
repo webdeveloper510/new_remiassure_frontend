@@ -1104,8 +1104,8 @@ const UserSendMoney = () => {
     }
   }
 
-console.log("To", to)
-console.log("From", from)
+// console.log("To", to)
+// console.log("From", from)
 
   const Step1 = () => {
 
@@ -1177,6 +1177,24 @@ console.log("From", from)
                         {/* <option value="INR" selected="selected">INR</option> */}
                         <option value="NZD" selected="selected">NZD</option>
                         <option value="AUD">AUD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="INR">INR</option>
+                        <option value="BRL">BRL</option>
+                        <option value="BGN">BGN</option>
+                        <option value="XAF">XAF</option>
+                        <option value="CAD">CAD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="CZK">CZK</option>
+                        <option value="DKK">DKK</option>
+                        <option value="GHS">GHS</option>
+                        <option value="ISK">ISK</option>
+                        <option value="JOD">JPD</option>
+                        <option value="KWD">KWD</option>
+                        <option value="NZD">NZD</option>
+                        <option value="PHP">PHP</option>
+                        <option value="ZAR">ZAR</option>
+                        <option value="CHF">CHF</option>
+                        <option value="GBP">GBP</option>
 
                       </select>
                       {error && to.length <= 0 ?

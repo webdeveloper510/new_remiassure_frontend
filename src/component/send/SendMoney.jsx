@@ -30,6 +30,7 @@ const myStyle = {
 }
 
 const SendMoney = () => {
+  const [showCrad, setShowCrad] = React.useState(false);
   console.log('send Mondey')
   /************ Start page show hide condtion page ***************/
   const token = localStorage.getItem("token");
@@ -44,6 +45,9 @@ const SendMoney = () => {
   const signup_token = localStorage.getItem("signup_token")
   console.log("signup_token", signup_token);
 
+  const cardselectValue = localStorage.getItem("cardselectValue")
+  console.log("cardselectValue", "cardselectValuecardselectValue")
+  
 
   /************ Start -Recipient Bank Details***************/
   const [summaryList, setSummaryList] = React.useState(false);
@@ -80,7 +84,7 @@ const SendMoney = () => {
   const [amount, setAmount] = React.useState();
   const [exchange_amount, setExchange_amount] = React.useState();
   const [total_amount, setTotal_amount] = React.useState('');
-  const [total_rate, setTotal_rate] = React.useState('0');
+  const [total_rate, setTotal_rate] = React.useState('1.0998');
 
   // const [options, setOptions] = React.useState([]);
   // const [output, setOutput] = React.useState(0);
@@ -204,7 +208,13 @@ const [errorCard, seterrorCard] = React.useState(false);
 
   //   localStorage.setItem('courses', JSON.stringify(courses))
   // }
-
+/*********************************refresh function************* */
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent the default behavior (i.e., page reload)
+      input_AmountSend.current.blur(); // Remove focus from the input field
+    }
+  };
 
 
   //multiple function call
@@ -265,8 +275,12 @@ const [errorCard, seterrorCard] = React.useState(false);
   } = moneyTransiction;
 
   const onInputChange = e => {
+    setShowCrad(showCrad)
     console.log(e.target.name)
     console.log(e.target.value)
+    console.log(e.target.value, "cardselectValue");
+     // Store the selected value in localStorage
+  localStorage.setItem('cardselectValue', e.target.value);
     // console.log(defaultCountryData.length)
     setMoneyTransiction(item1 => ({ ...item1, [e.target.name]: e.target.value }));
   }
@@ -680,7 +694,7 @@ const [errorCard, seterrorCard] = React.useState(false);
       .then(function (response) {
         console.log(response);
         if (response.status)
-        handlePay()
+        // handlePay()
         setStep(step + 1) //next step call
         setData(response.data);
         setLoading(false); // Stop loading 
@@ -790,7 +804,7 @@ const [errorCard, seterrorCard] = React.useState(false);
       postcode: formSenderValue.postcode,
       city: formSenderValue.city,
       state: formSenderValue.state,
-      country_code: formSenderValue.country_code,
+      country_code: '66',
       country: countryValue.label,
     }, {
       headers: {
@@ -855,7 +869,7 @@ const [errorCard, seterrorCard] = React.useState(false);
       building: formValue.building,
       street: formValue.street,
       postcode: formValue.postcode,
-      // country_code: formValue.country_code,
+      country_code: '67',
       city: formValue.city,
       state: formValue.state,
       country: countryValue.label,
@@ -897,7 +911,7 @@ const [errorCard, seterrorCard] = React.useState(false);
      * ***********************************************************************/
   const handleRecipientBankDetails = (event) => {
     event.preventDefault();
-    setLoading(true); // Set loading before sending API request
+    // setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/recipient-create/', {
       bank_name: formValue.bankName,
       account_name: formValue.accountName,
@@ -913,7 +927,7 @@ const [errorCard, seterrorCard] = React.useState(false);
       postcode: formValue.postcode,
       city: formValue.city,
       state: formValue.state,
-      // country_code: formValue.country_code,
+      country_code:'55',
       country: countryValue.label,
       reason: formValue.reasonMoney
     }, {
@@ -930,13 +944,13 @@ const [errorCard, seterrorCard] = React.useState(false);
         localStorage.setItem("recipientDestination", countryValue.label);
         localStorage.setItem("recipientName", formValue.firstName);
         setStep(step + 1);
-        setLoading(false); // Stop loading 
+        // setLoading(false); // Stop loading 
       
       })
       .catch(function (error, message) {
         console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-        setBankNameText(error.response.data);
+        // setLoading(false); // Stop loading in case of error
+        // setBankNameText(error.response.data);
 
       })
   }
@@ -1064,11 +1078,11 @@ const [errorCard, seterrorCard] = React.useState(false);
           .then(function (response) {
             console.log(response);
             setStep(step + 1);
-            localStorage.setItem("paymetTransactionId", response.data.transaction_id);
             localStorage.setItem("paymetCardId", response.data.card_id);
             handleISDigitalVerified();
              SummerySingleData()
             setLoading(false); // Stop loading
+            // handlePay();
 
           })
           .catch(function (error, message) {
@@ -1094,7 +1108,7 @@ const [errorCard, seterrorCard] = React.useState(false);
       send_currency: FromValue,
       recieve_currency: ToValue,
       send_amount: AmountValue,
-      recieve_amount: Total_amount ,
+      recieve_amount: '23 ',
       recipient_id: recipient_id,
       reason: recipientMoneyReason,
       destination: recipientDestination,
@@ -1110,12 +1124,15 @@ const [errorCard, seterrorCard] = React.useState(false);
       .then(function (response) {
         console.log(response);
         // setStep(step + 1)
-        setLoading(false); // Stop loading 
+        setLoading(false); // Stop loading
+        localStorage.setItem("paymetTransactionId", response.data.transaction_id); 
       })
       .catch(function (error, message) {
         console.log(error.response);
         setLoading(false); // Stop loading in case of error
         setBankNameText(error.response.data);
+       
+        
 
       })
   }
@@ -1330,6 +1347,24 @@ const [errorCard, seterrorCard] = React.useState(false);
                         {/* <option value="INR" selected="selected">INR</option> */}
                         <option value="NZD" selected="selected">NZD</option>
                         <option value="AUD">AUD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="INR">INR</option>
+                        <option value="BRL">BRL</option>
+                        <option value="BGN">BGN</option>
+                        <option value="XAF">XAF</option>
+                        <option value="CAD">CAD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="CZK">CZK</option>
+                        <option value="DKK">DKK</option>
+                        <option value="GHS">GHS</option>
+                        <option value="ISK">ISK</option>
+                        <option value="JOD">JPD</option>
+                        <option value="KWD">KWD</option>
+                        <option value="NZD">NZD</option>
+                        <option value="PHP">PHP</option>
+                        <option value="ZAR">ZAR</option>
+                        <option value="CHF">CHF</option>
+                        <option value="GBP">GBP</option>
                       </select>
                       {error && to.length <= 0 ?
                         <span style={myStyle}>Please Select the Location </span> : ""}
@@ -1352,6 +1387,9 @@ const [errorCard, seterrorCard] = React.useState(false);
                         defaultValue={amountValue.amountInput}
                         onChange={(e) => handleAmountCahngeValue(e, 'amountInput')}
                         onBlurCapture={myTotalAmount}
+                     
+                        onKeyPress={handleKeyPress}
+
                       // onkeyup={(text)=> myTotalAmount(text)}
                       // onChange={e => onInputChangeDealType(e)}
                       />
@@ -1454,7 +1492,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                     <button
                       className="start-form-button"
                       onClick={handleEntailmentRequest}
-                    >Clear</button>
+                    >Cancel</button>
                   </div>
                   <div className="col-md-8">
                     <button
@@ -1474,6 +1512,8 @@ const [errorCard, seterrorCard] = React.useState(false);
                     </div>
               </> : <></>} */}
                     </button>
+
+                           {/* <button className="form-button" onClick={() => { setStep(step + 1) }}>Rohit</button> */}
                   </div>
                 </div>
               </div>
@@ -1827,7 +1867,8 @@ const [errorCard, seterrorCard] = React.useState(false);
                     {/* <button className="form-button" onClick={handleShow}>Continue</button> */}
                     <button type="submit" className="form-button" onClick={handleCreateRecipientValidation}>Continue</button>
                     {/* <button className="form-button" onClick={handleRecipientBankDetails}>Continue</button> */}
-                    <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                    {/* <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button> */}
+                    {/* <button className="form-button" onClick={() => { setStep(step + 1) }}>Rohit</button> */}
                   </div>
                 </div>
               </div>
@@ -1913,6 +1954,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
                 {/* onClick={() => setShow(!show)} */}
                 {/* <Button variant="primary" onClick={handleDigitalValue}>Continue</Button>  */}
+                
 
               </Modal.Footer>
             </Modal>
@@ -1979,7 +2021,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                       checked={moneyTransiction.paymentType == "Oslo"}
                       value="Oslo"
                       onChange={e => onInputChange(e)}
-                      // onClick={ShowCardDetails}
+                      // onClick={() => setShowCrad(!showCrad)}
                     />
                     <span className="checkmark"></span>
                   </label>
@@ -1994,9 +2036,11 @@ const [errorCard, seterrorCard] = React.useState(false);
                       name="paymentType"
                       // id="flexRadioDefault3" 
                       checked={moneyTransiction.paymentType == "Debit/Credit Card"}
+                      // onClick={() => setShowCrad(!showCrad)}
                       value="Debit/Credit Card"
                       onChange={e => onInputChange(e)}
-                      onClick={ShowCardDetails}
+                      // onClick={() => setShowCrad(!showCrad)}
+                      // onClick={ShowCardDetails}
                     />
                     <span className="checkmark"></span>
                   </label>
@@ -2014,6 +2058,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                       value=" PoLI Internet Banking"
                       onChange={e => onInputChange(e)}
                       // onClick={ShowCardDetails}
+                      // onClick={() => setShowCrad(!showCrad)}
                     />
                     <span className="checkmark"></span>
                   </label>
@@ -2025,8 +2070,46 @@ const [errorCard, seterrorCard] = React.useState(false);
                   <button className="start-form-button">Cancel</button>
                 </div>
                 <div className="col-md-8">
-                  <button className="form-button" onClick={() => { setStep(step +1) }}>Continue</button>
-                  <button className="form-button" onClick={() => { setStep(step -1) }}>Previous</button>
+
+                {/* {showCrad && (
+                    <div>
+                      {cardselectValue === "Debit/Credit Card" ? (
+                        <>
+                          <button className="form-button" onClick={ShowCardDetails}>Continue</button>
+                        </>
+                      ) : (
+                        <>
+                          <button className="form-button">Continue</button>
+                        </>
+                      )}
+                    </div>
+                  )} */}
+
+                
+
+                {!showCrad && (
+                    <div>  
+                      {cardselectValue === "Debit/Credit Card" ? (
+                        <>
+                        <button className="form-button" onClick={ShowCardDetails}>Continue</button>
+                        </>
+                      ) : (
+                        <>
+                          <button className="form-button">Continue</button>
+                        </>
+                      )}
+                    </div>
+                  )} 
+
+                  {/* {showCrad && (
+                    <div>  
+                      <button className="form-button">Continue</button>
+                    </div>
+                  )}  */}
+
+
+                
+                  {/* <button className="form-button" onClick={() => { setStep(step -1) }}>Previous</button> */}
                 </div>
               </div>
             </div>
@@ -2380,6 +2463,8 @@ const [errorCard, seterrorCard] = React.useState(false);
           },
           onComplete: function (res, error, onComplete) {
             console.log(2, "log2");
+            handlePay();
+            // SummerySingleData();
             setStep(step + 1);
             console.log(step, "stepdmskdmklm")
 
@@ -2681,7 +2766,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
               <div className="row each-row">
                 <div className="col-md-2 new_buttonss">
-                  <button className="start-form-button" onClick={handlSenderDetails}>Clear</button>
+                  <button className="start-form-button" onClick={handlSenderDetails}>Cancel</button>
                 </div>
                 <div className="col-md-10 new_buttons">
 
@@ -2808,6 +2893,10 @@ const [errorCard, seterrorCard] = React.useState(false);
                   {/* 
                       <button className="form-button" onClick={handlePay}>Pay</button> */}
                   {/* <button className="form-button" onClick={()=>{setStep(step+1)}}>Continue</button> */}
+                  <button
+                      className="start-form-button"
+                      onClick={handleEntailmentRequest}
+                    >Cancel</button>
 
                   <button className="form-button" onClick={handleVerifiedPaymentDigitalId}>Continue</button>
 
