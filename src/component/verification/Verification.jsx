@@ -175,6 +175,7 @@ const Verification = () => {
                                                         </>:<></>
                                                     }
                                                 </button>
+                                                {/* <span className="resend_otp">Resend Otp</span> */}
                                             
 
                                                 </div>

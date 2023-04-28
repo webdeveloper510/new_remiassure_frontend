@@ -4944,13 +4944,13 @@ label.container-new.form-gender {
   width: 404px;
   /* border-left:none !important; */
 }
-.addnewcard>p {
+/* .addnewcard>p {
   //background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%);
   padding: 10px;
   color: #000;
   text-align: center;
   text-transform: capitalize;
-}
+} */
 .modal-card .modal-content table tr td {
   border-left: 1px solid #ced4da;
   font-size: 15px;

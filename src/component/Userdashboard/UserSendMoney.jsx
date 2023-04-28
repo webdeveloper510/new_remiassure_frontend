@@ -83,7 +83,11 @@ const UserSendMoney = () => {
   console.log("signup_token", signup_token);
 
   const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp)
+  console.log("Verification Message", verification_otp);
+
+  const paymetCardId = localStorage.getItem("paymetCardId")
+  console.log(paymetCardId, "paymetCardId")
+
 
   /******************* Start Api call Amount & Delivery State  *******/
   const [from, setFrom] = React.useState('AUD');
@@ -705,7 +709,7 @@ const UserSendMoney = () => {
       postcode: formValue.postcode,
       city: formValue.city,
       state: formValue.state,
-      // country_code: formValue.country_code,
+      country_code: '45',
       country: countryValue.label,
       reason: formValue.reasonMoney,
 
@@ -827,23 +831,23 @@ const UserSendMoney = () => {
     console.log(formCardValue, "formCardValueformCardValue")
     event.preventDefault();
          //useRef is used for focusing on inputbox
-       if (formCardValue.cardName.length==0){
-        input_cardName.current.focus();
-            seterrorCard(true);
-        } else if (formCardValue.cardNumber.length==0){
-          input_cardNumber.current.focus();
-          seterrorCard(true);
-        } else if (formCardValue.exp_month.length==0){
-          input_exp_month.current.focus();
-          seterrorCard(true);
-        } else if (formCardValue.exp_year.length==0){
-          input_exp_year.current.focus();
-          seterrorCard(true);
-        } else if (formCardValue.securityCode.length==0){
-          input_securityCode.current.focus();
-          seterrorCard(true);
-        }
-        else{
+      //  if (formCardValue.cardName.length==0){
+      //   input_cardName.current.focus();
+      //       seterrorCard(true);
+      //   } else if (formCardValue.cardNumber.length==0){
+      //     input_cardNumber.current.focus();
+      //     seterrorCard(true);
+      //   } else if (formCardValue.exp_month.length==0){
+      //     input_exp_month.current.focus();
+      //     seterrorCard(true);
+      //   } else if (formCardValue.exp_year.length==0){
+      //     input_exp_year.current.focus();
+      //     seterrorCard(true);
+      //   } else if (formCardValue.securityCode.length==0){
+      //     input_securityCode.current.focus();
+      //     seterrorCard(true);
+      //   }
+      //   else{
 
     axios.post(API.BASE_URL + 'payment/stripe/card/', {
       name: formCardValue.cardName,
@@ -863,11 +867,10 @@ const UserSendMoney = () => {
       .then(function (response) {
         console.log(response);
         handleCloseDetails();
-        // handlePay();
-        // window.location.reload()
-  
-        localStorage.setItem("paymetTransactionId", response.data.data.transaction_id);
+        localStorage.setItem("paymetCardId", response.data.card_id);
+        handlePay();
         navigate('/dashboard');
+       
 
       })
       .catch(function (error, message) {
@@ -876,7 +879,7 @@ const UserSendMoney = () => {
 
       })
   }
-  }
+  // }
 
   /**************************************************************************
   * ************** Start  Paymet Card Select Bank Details ****************************
@@ -924,37 +927,40 @@ const UserSendMoney = () => {
   /**************************************************************************
  * ************** Start Paymet Or Pay Api****************************
  * ***********************************************************************/
-  // const handlePay = () => {
-  //   // event.preventDefault();
-  //   setLoading(true); // Set loading before sending API request
-  //   axios.post(API.BASE_URL + 'payment/stripe/charge/', {
-  //     send_currency: FromValue,
-  //     recieve_currency: ToValue,
-  //     send_amount: AmountValue,
-  //     recieve_amount: Total_amount ,
-  //     recipient_id: recipient_id.length > 0 ? recipient_id : recipentID,
-  //     reason: recipientMoneyReason,
-  //     destination: recipientDestination,
-  //     reason: recipientMoneyReason,
-  //     card_id: paymetCardId,
-  //   }, {
-  //     headers: {
-  //       "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-  //     },
+  const handlePay = () => {
+    
+    // event.preventDefault();
+    setLoading(true); // Set loading before sending API request
+    axios.post(API.BASE_URL + 'payment/stripe/charge/', {
+      send_currency: FromValue,
+      recieve_currency: ToValue,
+      send_amount: AmountValue,
+      recieve_amount: Total_amount ,
+      recipient_id: recipient_id.length > 0 ? recipient_id : recipentID,
+      reason: recipientMoneyReason,
+      destination: recipientDestination,
+      reason: recipientMoneyReason,
+      card_id: paymetCardId,
+    }, {
+      headers: {
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+      },
 
-  //   })
-  //     .then(function (response) {
-  //       console.log(response);
-  //       // setStep(step + 1)
-  //       setLoading(false); // Stop loading 
-  //     })
-  //     .catch(function (error, message) {
-  //       console.log(error.response);
-  //       setLoading(false); // Stop loading in case of error
-  //       setBankNameText(error.response.data);
+    })
+      .then(function (response) {
+        console.log(response);
+        // setStep(step + 1)
+        setLoading(false); // Stop loading 
+        // localStorage.setItem("paymetCardId", response.data.card_id);
+      })
+      .catch(function (error, message) {
+        console.log(error.response);
+        setLoading(false); // Stop loading in case of error
+        setBankNameText(error.response.data);
+        
 
-  //     })
-  // }
+      })
+  }
 
 
 

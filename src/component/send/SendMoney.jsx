@@ -1040,7 +1040,7 @@ const [errorCard, seterrorCard] = React.useState(false);
           console.log("===================>checkedValueCard", checkedValueCard);
         }
 
-         //useRef is used for focusing on inputbox
+         //useRef is used for focusing on inputbox 
          if (formCardValue.cardName.length==0){
           input_cardName.current.focus();
               seterrorCard(true);
@@ -1080,7 +1080,7 @@ const [errorCard, seterrorCard] = React.useState(false);
             setStep(step + 1);
             localStorage.setItem("paymetCardId", response.data.card_id);
             handleISDigitalVerified();
-             SummerySingleData()
+            //  SummerySingleData()
             setLoading(false); // Stop loading
             // handlePay();
 
@@ -1173,43 +1173,11 @@ const [errorCard, seterrorCard] = React.useState(false);
       })
   }
 
-       /**************************************************************************
-   * ************** Start  Get DataSummery Lists ****************************
-   * ***********************************************************************/
-       const paymetTransactionId = localStorage.getItem("paymetTransactionId");
-       console.log("paymetTransactionId ====================>", paymetTransactionId);
-     
-       useEffect(() => {
-     
-         SummerySingleData();
-       }, [])
-     
-       const SummerySingleData = () => {
-         axios.post(API.BASE_URL + 'payment/summary/', {
-           transaction_id: paymetTransactionId
-         }, {
-           headers: {
-             "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-     
-           },
-     
-         })
-           .then(function (response) {
-             console.log("Recipients APIIIII", response.data);
-             setSummeryData(response.data.data);
-             console.log(summeryData, "summeryData==========>")
-           })
-           .catch(function (error) {
-             console.log(error);
-             console.log(error.response);
-      
-     
-           })
-     
-       }
-     
-     
-       console.log(summeryData, " summeryData==========>")
+
+
+
+
+  
 
  
 
@@ -1866,6 +1834,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                   <div className="col-md-8">
                     {/* <button className="form-button" onClick={handleShow}>Continue</button> */}
                     <button type="submit" className="form-button" onClick={handleCreateRecipientValidation}>Continue</button>
+                       <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
                     {/* <button className="form-button" onClick={handleRecipientBankDetails}>Continue</button> */}
                     {/* <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button> */}
                     {/* <button className="form-button" onClick={() => { setStep(step + 1) }}>Rohit</button> */}
@@ -2440,8 +2409,57 @@ const [errorCard, seterrorCard] = React.useState(false);
   }
 
   const Step4 = () => {
+       /**************************************************************************
+   * ************** Start  Get DataSummery Lists ****************************
+   * ***********************************************************************/
+  //  const paymetTransactionId = localStorage.getItem("paymetTransactionId");
+  //  console.log("paymetTransactionId ====================>", paymetTransactionId);
+ 
+  //  useEffect(() => {
+ 
+  //    SummerySingleData();
+  //  }, [])
+  // const [paymetTransactionId, setPaymetTransactionId] = useState('');
+
+  // useEffect(() => {
+  //   const paymetTransactionId = localStorage.getItem('paymetTransactionId');
+  //   if (paymetTransactionId) {
+  //     setPaymetTransactionId(paymetTransactionId);
+  //     console.log(paymetTransactionId, "=================>paymetTransactionId")
+  //   }
+   
+  // }, [paymetTransactionId]);
+ 
+
+  const SummerySingleData = () => {
+    const paymetTransactionId = localStorage.getItem("paymetTransactionId");
+   console.log("paymetTransactionId ====================>", paymetTransactionId);
 
 
+    axios.post(API.BASE_URL + 'payment/summary/', {
+      transaction_id: paymetTransactionId,
+    }, {
+      headers: {
+        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+      },
+    })
+      .then(function (response) {
+        console.log("Recipients APIIIII", response.data);
+        setSummeryData(response.data.data);
+        console.log(summeryData, "summeryData==========>")
+      })
+      .catch(function (error) {
+        console.log(error);
+        console.log(error.response);
+      })
+  }
+
+ 
+   console.log(summeryData, " summeryData==========>")
+
+
+
+        
     useEffect(() => {
 
       const script = document.createElement('script');
@@ -2463,14 +2481,16 @@ const [errorCard, seterrorCard] = React.useState(false);
           },
           onComplete: function (res, error, onComplete) {
             console.log(2, "log2");
-            handlePay();
-            // SummerySingleData();
+            
             setStep(step + 1);
             console.log(step, "stepdmskdmklm")
 
             console.log(res, "codes")
             localStorage.setItem("DigitalCode", res.code);
             localStorage.setItem("DigitalTransactionId", res.transaction_id)
+            // handlePay();
+            SummerySingleData();
+
             // console.log(error, "error")
             // navigate("/sendMoney")
             // if(error.response){
@@ -2482,6 +2502,7 @@ const [errorCard, seterrorCard] = React.useState(false);
           },
           onClick: function (opts) {
             console.log(3, "log")
+            handlePay();
           },
           onKeepAlive: function () {
             console.log(4, "log")
@@ -2770,7 +2791,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                 </div>
                 <div className="col-md-10 new_buttons">
 
-                  <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                  {/* <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button> */}
 
 
                   {verificationValue == false ? (
@@ -2838,25 +2859,29 @@ const [errorCard, seterrorCard] = React.useState(false);
                   <tbody>
                     <tr>
                       <td>Amount to Send</td>
-                      <td>{summeryData.send_amount}
-                      <span>{to}</span>
+                      <td>{from} <span>{AmountValue}</span>
+                      
                       </td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                       <td>Fees</td>
-                      <td>{summeryData.recieve_amount}</td>
+                      <td>
+                        {summeryData.recieve_amount} 
+                        </td>
                     </tr>
                     <tr>
                       <td>Total Cost</td>
-                      <td>{summeryData.send_amount}</td>
-                    </tr>
-                  </tbody>
+                      <td>
+                         {summeryData.send_amount} 
+                        </td>
+                    </tr> */}
+                  {/* </tbody>
                   <thead>
                     <tr>
                       <th colSpan={2} className="popup-heading">Transfer to </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody> */}
                     <tr>
                       <td>Account No.</td>
                       <td>{summeryData.account_number}</td>
@@ -2871,8 +2896,9 @@ const [errorCard, seterrorCard] = React.useState(false);
                     </tr>
                     <tr>
                       <td>Total Recipient Received</td>
-                      <td>{total_amount }
-                      <span>{from}</span>
+                      <td>{to}
+                      <span> {total_amount }</span>
+                    
                       </td>
                     </tr>
                     <tr>
@@ -2900,7 +2926,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
                   <button className="form-button" onClick={handleVerifiedPaymentDigitalId}>Continue</button>
 
-                  <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button>
+                  {/* <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button> */}
                   {/* <button className="form-button" onClick={handleVerifiedPaymentDigitalIdPrevious}>Previous</button> */}
                 </div>
               </div>
