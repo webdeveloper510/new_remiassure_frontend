@@ -69,6 +69,11 @@ const UserSendMoney = () => {
   const recipentID = localStorage.getItem("recipentID");
   console.log("recipentID", recipentID);
 
+  const paymetCardId = localStorage.getItem("paymetCardId")
+  console.log(paymetCardId, "paymetCardId")
+
+  
+
 
 
   // let {recipient_id} = useParams();
@@ -85,8 +90,11 @@ const UserSendMoney = () => {
   const verification_otp = localStorage.getItem("verification_otp");
   console.log("Verification Message", verification_otp);
 
-  const paymetCardId = localStorage.getItem("paymetCardId")
-  console.log(paymetCardId, "paymetCardId")
+
+
+  /***********************Slected Payment Type ********************* */
+  const cardselectValue = localStorage.getItem("cardselectValue")
+  console.log("cardselectValue", "cardselectValuecardselectValue")
 
 
   /******************* Start Api call Amount & Delivery State  *******/
@@ -130,25 +138,25 @@ const UserSendMoney = () => {
   });
 
   const [inputPhoneValue, setInputPhoneValue] = React.useState({
-   mobile: '',
+    mobile: '',
   });
 
 
   const [bankNameValue, setBankNameValue] = React.useState({
     bankName: '',
-   });
-   const [accountNameValue, setAccountNameValue] = React.useState({
+  });
+  const [accountNameValue, setAccountNameValue] = React.useState({
     accountName: '',
-   });
-   const [accountNumberValue, setAccountNumberValue] = React.useState({
+  });
+  const [accountNumberValue, setAccountNumberValue] = React.useState({
     accountNumber: '',
-   });
+  });
 
-   const bankNameRef = React.useRef(null);
-   const accountNameRef = React.useRef(null);
-   const accountNumberRef = React.useRef(null);
- 
- 
+  const bankNameRef = React.useRef(null);
+  const accountNameRef = React.useRef(null);
+  const accountNumberRef = React.useRef(null);
+
+
 
   /************ Start -messageText state***************/
   const [BankNameText, setBankNameText] = React.useState('');
@@ -171,12 +179,18 @@ const UserSendMoney = () => {
 
   const [formCardValue, setformCardValue] = React.useState({
     recipient_id, cardNumber: '', securityCode: '', cardName: '', exp_month: '', exp_year: '',
+    reason: '',destination: '',card_id: '',
   });
 
   /************ Start -Card List State***************/
   const [bankCardData, setBankCardData] = React.useState('');
-/*******************************Start- cardError State*****************************/
+  /*******************************Start- cardError State*****************************/
   const [errorCard, seterrorCard] = React.useState(false);
+  /************************Payment Details Type Condtion State************* */
+  const [showCrad, setShowCrad] = React.useState(false);
+
+
+
 
 
 
@@ -198,69 +212,72 @@ const UserSendMoney = () => {
     setFormValue(valueForm)
     console.log(formValue)
   }
-  
-
-    // Start - Phone Bank value
-    const handleInputPhoneValue = (e, key) => {
-      console.log(e.target.value)
-      console.log(key)
-      let valueFormData = inputPhoneValue
-      valueFormData[key] = e.target.value
-      setInputPhoneValue(valueFormData)
-      console.log(inputPhoneValue)
-    }
-
-     // Start - BankValue Bank value
-     const handleBankValue = React.useCallback((e, key) => {
-      const regex = /^[a-zA-Z]+$/;
-      const value = e.target.value;
-      if (value === '' || regex.test(value)) {
-        setBankNameValue(prevState => ({
-          ...prevState,
-          [key]: value
-        }));
-        setTimeout(() => {
-          bankNameRef.current.focus();
-        }, 10);
-      }
-    }, []);
 
 
- // Start - AccountName value Bank value
-    const handleAccountValue = React.useCallback((e, key) => {
-      const regex = /^[a-zA-Z]+$/;
-      const value = e.target.value;
-      if (value === '' || regex.test(value)) {
-        setAccountNameValue(prevState => ({
-          ...prevState,
-          [key]: value
-        }));
-        setTimeout(() => {
-          accountNameRef.current.focus();
-        }, 10);
-      }
-    }, []);
-    
-     // Start - AccountNumber value Bank value
-     const handleAccountNumberValue = React.useCallback((e, key) => {
-      const newValue = e.target.value.trim().replace(/[^0-9]/g, ''); // remove non-numeric characters and leading/trailing whitespace
-      setAccountNumberValue(prevState => ({
+  // Start - Phone Bank value
+  const handleInputPhoneValue = (e, key) => {
+    console.log(e.target.value)
+    console.log(key)
+    let valueFormData = inputPhoneValue
+    valueFormData[key] = e.target.value
+    setInputPhoneValue(valueFormData)
+    console.log(inputPhoneValue)
+  }
+
+  // Start - BankValue Bank value
+  const handleBankValue = React.useCallback((e, key) => {
+    const regex = /^[a-zA-Z]+$/;
+    const value = e.target.value;
+    if (value === '' || regex.test(value)) {
+      setBankNameValue(prevState => ({
         ...prevState,
-        [key]: newValue
+        [key]: value
       }));
       setTimeout(() => {
-        accountNumberRef.current.focus();
+        bankNameRef.current.focus();
       }, 10);
-    }, []);
+    }
+  }, []);
+
+
+  // Start - AccountName value Bank value
+  const handleAccountValue = React.useCallback((e, key) => {
+    const regex = /^[a-zA-Z]+$/;
+    const value = e.target.value;
+    if (value === '' || regex.test(value)) {
+      setAccountNameValue(prevState => ({
+        ...prevState,
+        [key]: value
+      }));
+      setTimeout(() => {
+        accountNameRef.current.focus();
+      }, 10);
+    }
+  }, []);
+
+  // Start - AccountNumber value Bank value
+  const handleAccountNumberValue = React.useCallback((e, key) => {
+    const newValue = e.target.value.trim().replace(/[^0-9]/g, ''); // remove non-numeric characters and leading/trailing whitespace
+    setAccountNumberValue(prevState => ({
+      ...prevState,
+      [key]: newValue
+    }));
+    setTimeout(() => {
+      accountNumberRef.current.focus();
+    }, 10);
+  }, []);
 
   /*************************** Start- Select Payment Function************************* */
   const getCardDataPayment = (value) => {
     let CardForm = formCardValue
     CardForm.cardName = value.name;
-    CardForm.cardNumber = value.number;
+    CardForm.cardNumber = value.card_number;
     CardForm.exp_month = value.exp_month;
     CardForm.exp_year = value.exp_year;
     CardForm.recipient_id = recipentID;
+    CardForm.reason= recipientMoneyReason;
+    CardForm.destination= recipientDestination;
+    CardForm.card_id= paymetCardId; 
 
     setFormValue(CardForm)
     console.log("value data===========================>123", formCardValue)
@@ -275,7 +292,7 @@ const UserSendMoney = () => {
 
     let CardForm = formCardValue
     CardForm.cardName = value.name;
-    CardForm.cardNumber = value.number;
+    CardForm.cardNumber = value.card_number;
     CardForm.exp_month = value.exp_month;
     CardForm.exp_year = value.exp_year;
     CardForm.recipient_id = recipentID;
@@ -315,7 +332,7 @@ const UserSendMoney = () => {
     setCheckedValueCard(!checkedValueCard);
   };
 
-  
+
   //multiple function call
   function someFunc() {
     // handleShow();
@@ -370,8 +387,12 @@ const UserSendMoney = () => {
   } = moneyTransiction;
 
   const onInputChange = e => {
+    setShowCrad(showCrad)
     console.log(e.target.name)
     console.log(e.target.value)
+    console.log(e.target.value, "cardselectValue");
+    // Store the selected value in localStorage
+ localStorage.setItem('cardselectValue', e.target.value);
     // console.log(defaultCountryData.length)
     setMoneyTransiction(item1 => ({ ...item1, [e.target.name]: e.target.value }));
   }
@@ -425,12 +446,12 @@ const UserSendMoney = () => {
 
   /****************** select country *******************/
 
-    
-  const [countryValue, setcountryValue] =React.useState('')
+
+  const [countryValue, setcountryValue] = React.useState('')
   const options = useMemo(() => countryList().getData(), [])
 
   const changeHandler = countryValue => {
-      setcountryValue(countryValue)
+    setcountryValue(countryValue)
   }
 
 
@@ -722,14 +743,14 @@ const UserSendMoney = () => {
       .then(function (response) {
         console.log(response);
         console.log(response.data.recipient_data.id)
+        localStorage.setItem("recipientMoneyReason", formValue.reasonMoney);
+        localStorage.setItem("recipientDestination", countryValue.label);
+        localStorage.setItem("recipientName", formValue.firstName);
         handleShow(); //show view page
         setStep(step + 1)
         setLoading(false); // Stop loading 
         setId(response.data.recipient_data.id)
-
-        localStorage.setItem("recipientMoneyReason", formValue.reasonMoney);
-        localStorage.setItem("recipientDestination", countryValue.label);
-        localStorage.setItem("recipientName", formValue.firstName);
+ 
       })
       .catch(function (error, message) {
         console.log(error.response);
@@ -778,7 +799,7 @@ const UserSendMoney = () => {
  * ************** Start  Create Card Bank Details ****************************
  * ***********************************************************************/
   const input_bankName = useRef(null);
- 
+
 
 
   // const handleCradBankDetails = (event) => {
@@ -821,33 +842,33 @@ const UserSendMoney = () => {
   const input_securityCode = useRef(null);
 
   const handlePaymentCard = (event) => {
-    let numericValue = checkedValueCard ? '1': '0' ; // Move the variable declaration outside the if block
+    let numericValue = checkedValueCard ? '1' : '0'; // Move the variable declaration outside the if block
 
     if (checkedValueCard) {
       console.log(numericValue);
       console.log("===================>checkedValueCard", checkedValueCard);
     }
-    
+
     console.log(formCardValue, "formCardValueformCardValue")
     event.preventDefault();
-         //useRef is used for focusing on inputbox
-      //  if (formCardValue.cardName.length==0){
-      //   input_cardName.current.focus();
-      //       seterrorCard(true);
-      //   } else if (formCardValue.cardNumber.length==0){
-      //     input_cardNumber.current.focus();
-      //     seterrorCard(true);
-      //   } else if (formCardValue.exp_month.length==0){
-      //     input_exp_month.current.focus();
-      //     seterrorCard(true);
-      //   } else if (formCardValue.exp_year.length==0){
-      //     input_exp_year.current.focus();
-      //     seterrorCard(true);
-      //   } else if (formCardValue.securityCode.length==0){
-      //     input_securityCode.current.focus();
-      //     seterrorCard(true);
-      //   }
-      //   else{
+   // useRef is used for focusing on inputbox
+     if (formCardValue.cardName.length==0){
+      input_cardName.current.focus();
+          seterrorCard(true);
+      } else if (formCardValue.cardNumber.length==0){
+        input_cardNumber.current.focus();
+        seterrorCard(true);
+      } else if (formCardValue.exp_month.length==0){
+        input_exp_month.current.focus();
+        seterrorCard(true);
+      } else if (formCardValue.exp_year.length==0){
+        input_exp_year.current.focus();
+        seterrorCard(true);
+      } else if (formCardValue.securityCode.length==0){
+        input_securityCode.current.focus();
+        seterrorCard(true);
+      }
+      else{
 
     axios.post(API.BASE_URL + 'payment/stripe/card/', {
       name: formCardValue.cardName,
@@ -855,7 +876,7 @@ const UserSendMoney = () => {
       expiry_month: formCardValue.exp_month,
       expiry_year: formCardValue.exp_year,
       cvc: formCardValue.securityCode,
-      save_card:numericValue,
+      save_card: numericValue,
 
 
     }, {
@@ -870,16 +891,16 @@ const UserSendMoney = () => {
         localStorage.setItem("paymetCardId", response.data.card_id);
         handlePay();
         navigate('/dashboard');
-       
+
 
       })
       .catch(function (error, message) {
         console.log(error.response);
-        // setCardErrorText(error.response.data);
+        setCardErrorText(error.response.data);
 
       })
   }
-  // }
+  }
 
   /**************************************************************************
   * ************** Start  Paymet Card Select Bank Details ****************************
@@ -918,7 +939,7 @@ const UserSendMoney = () => {
       .catch(function (error, message) {
         console.log(error.response);
         setLoading(false); // Stop loading in case of error
-        setCardErrorText(error.response.data);
+        // setCardErrorText(error.response.data);
 
       })
   }
@@ -928,19 +949,19 @@ const UserSendMoney = () => {
  * ************** Start Paymet Or Pay Api****************************
  * ***********************************************************************/
   const handlePay = () => {
-    
+    const paymetCardId = localStorage.getItem("paymetCardId")
+    console.log(paymetCardId, "paymetCardId")
     // event.preventDefault();
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/stripe/charge/', {
       send_currency: FromValue,
       recieve_currency: ToValue,
       send_amount: AmountValue,
-      recieve_amount: Total_amount ,
+      recieve_amount: Total_amount,
       recipient_id: recipient_id.length > 0 ? recipient_id : recipentID,
       reason: recipientMoneyReason,
       destination: recipientDestination,
-      reason: recipientMoneyReason,
-      card_id: paymetCardId,
+      card_id: paymetCardId, 
     }, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -952,12 +973,14 @@ const UserSendMoney = () => {
         // setStep(step + 1)
         setLoading(false); // Stop loading 
         // localStorage.setItem("paymetCardId", response.data.card_id);
+        localStorage.setItem("UserDashboardTransactionId", response.transaction_id)
       })
       .catch(function (error, message) {
         console.log(error.response);
         setLoading(false); // Stop loading in case of error
         setBankNameText(error.response.data);
-        
+       
+
 
       })
   }
@@ -1110,8 +1133,8 @@ const UserSendMoney = () => {
     }
   }
 
-// console.log("To", to)
-// console.log("From", from)
+  // console.log("To", to)
+  // console.log("From", from)
 
   const Step1 = () => {
 
@@ -1152,13 +1175,13 @@ const UserSendMoney = () => {
                         value={from}
                         ref={input_From}
                         //  onChange={handleFrom}
-                        onChange={(e) => { myTotalAmountFrom(e.target.value)}}
+                        onChange={(e) => { myTotalAmountFrom(e.target.value) }}
                       // onBlurCapture={myTotalAmount}
                       >
                         {/* <option value="">--- Select Currency ---</option> */}
                         <option value="AUD" selected="selected">AUD</option>
                         <option value="NZD">NZD</option>
-                     
+
 
                       </select>
                       {error && from.length <= 0 ?
@@ -1472,12 +1495,12 @@ const UserSendMoney = () => {
                       <div className="input_field">
                         <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
                         <input
-                        type="text"
-                        className="rate_input form-control"
-                        name="accountName"
-                        value={accountNameValue.accountName}
-                        onChange={(e) => handleAccountValue(e, 'accountName')}
-                        ref={accountNameRef}
+                          type="text"
+                          className="rate_input form-control"
+                          name="accountName"
+                          value={accountNameValue.accountName}
+                          onChange={(e) => handleAccountValue(e, 'accountName')}
+                          ref={accountNameRef}
                         />
 
                         <span style={myStyle}>{BankNameText.Enteraccountname ? BankNameText.Enteraccountname : ''}</span>
@@ -1488,12 +1511,12 @@ const UserSendMoney = () => {
                       <div className="input_field">
                         <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
                         <input
-                         type="text"
-                         className="rate_input form-control"
-                         name="accountNumber"
-                         value={accountNumberValue.accountNumber}
-                         onChange={(e) => handleAccountNumberValue(e, 'accountNumber')}
-                         ref={accountNumberRef}
+                          type="text"
+                          className="rate_input form-control"
+                          name="accountNumber"
+                          value={accountNumberValue.accountNumber}
+                          onChange={(e) => handleAccountNumberValue(e, 'accountNumber')}
+                          ref={accountNumberRef}
                         />
                         <span style={myStyle}>{BankNameText.Enteraccountnumber ? BankNameText.Enteraccountnumber : ''}</span>
                         <span style={myStyle}>{BankNameText.Accountexist ? BankNameText.Accountexist : ''}</span>
@@ -1559,7 +1582,7 @@ const UserSendMoney = () => {
                           onChange={(e) => handleStep2InputChange(e, 'email')}
                         />
                         <span style={myStyle}>{BankNameText.Enteremail ? BankNameText.Enteremail : ''}</span>
-                        <span style={myStyle}>{BankNameText.Emailexist ? BankNameText.Emailexist : ''}</span>
+                        <span style={myStyle}>{BankNameText.emailexist ? BankNameText.emailexist : ''}</span>
                         <span style={myStyle}>{BankNameText.Emailinvalid ? BankNameText.Emailinvalid : ''}</span>
                       </div>
                     </div>
@@ -1575,7 +1598,7 @@ const UserSendMoney = () => {
                           onChange={(e) => handleStep2InputChange(e, 'mobile')}
                         />
 
-                         {/* <PhoneInput
+                        {/* <PhoneInput
                           country={"eg"}
                           enableSearch={true}
                           name="mobile"
@@ -1585,7 +1608,7 @@ const UserSendMoney = () => {
 
                         <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
                         <span style={myStyle}>{BankNameText.Entermobile ? BankNameText.Entermobile : ''}</span>
-                        <span style={myStyle}>{BankNameText.Mobileexist ? BankNameText.Mobileexist : ''}</span>
+                        <span style={myStyle}>{BankNameText.mobileexist ? BankNameText.mobileexist : ''}</span>
                         <span style={myStyle}>{BankNameText.Validmobile ? BankNameText.Validmobile : ''}</span>
                       </div>
                     </div>
@@ -1691,7 +1714,7 @@ const UserSendMoney = () => {
 
                   </div>
 
-``
+                  ``
                   <div className="row each-row">
                     {/* <div className="col-md-4">
                       <div className="input_field">
@@ -1713,8 +1736,8 @@ const UserSendMoney = () => {
                         <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                         <Select
                           // ref={input_location}
-                          options={options} 
-                          value={countryValue} 
+                          options={options}
+                          value={countryValue}
                           onChange={changeHandler}
                         />
                         <span style={myStyle}>{BankNameText.Selectcountry ? BankNameText.Selectcountry : ''}</span>
@@ -1818,7 +1841,7 @@ const UserSendMoney = () => {
                     checked={moneyTransiction.paymentType == "Oslo"}
                     value="Oslo"
                     onChange={e => onInputChange(e)}
-                    // onClick={ShowCardDetails}
+                  // onClick={ShowCardDetails}
                   />
                   <span className="checkmark"></span>
                 </label>
@@ -1835,7 +1858,7 @@ const UserSendMoney = () => {
                     checked={moneyTransiction.paymentType == "Debit/Credit Card"}
                     value="Debit/Credit Card"
                     onChange={e => onInputChange(e)}
-                    onClick={ShowCardDetails}
+                    // onClick={ShowCardDetails}
                   />
                   <span className="checkmark"></span>
                 </label>
@@ -1851,7 +1874,7 @@ const UserSendMoney = () => {
                     checked={moneyTransiction.paymentType == " PoLI Internet Banking"}
                     value=" PoLI Internet Banking"
                     onChange={e => onInputChange(e)}
-                    // onClick={ShowCardDetails}
+                  // onClick={ShowCardDetails}
                   />
                   <span className="checkmark"></span>
                 </label>
@@ -1862,7 +1885,22 @@ const UserSendMoney = () => {
                 <button className="start-form-button">Clear</button>
               </div>
               <div className="col-md-8">
-                <button className="form-button"  onClick={() => { setStep(step +1) }}>Continue</button>
+              {!showCrad && (
+                    <div>  
+                      {cardselectValue === "Debit/Credit Card" ? (
+                        <>
+                        <button className="form-button" onClick={ShowCardDetails}>Continue</button>
+                        </>
+                      ) : (
+                        <>
+                          <button className="form-button">Continue</button>
+                        </>
+                      )}
+                    </div>
+                  )} 
+
+
+                {/* <button className="form-button" onClick={() => { setStep(step + 1) }}>Continue</button> */}
                 {/* <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button> */}
               </div>
             </div>
@@ -1916,7 +1954,7 @@ const UserSendMoney = () => {
                                         </li>
                                         <li>
                                           <label>Card Number</label>
-                                          <p>{res.number}</p>
+                                          <p>{res.card_number}</p>
                                         </li>
                                         <li>
                                           <label>Expiry on</label>
@@ -2021,8 +2059,8 @@ const UserSendMoney = () => {
                             defaultValue={formCardValue.cardName}
                             onChange={(e) => handleCardInputChange(e, 'cardName')}
                           />
-                           {errorCard&&formCardValue.cardName.length<=0?
-                              <span style={myStyle}>Please select the Card </span>:""} 
+                          {errorCard && formCardValue.cardName.length <= 0 ?
+                            <span style={myStyle}>Please select the Card </span> : ""}
 
                           <span style={myStyle}>{CardErrorText.Name ? CardErrorText.Name : ''}</span>
                           <span style={myStyle}>{CardErrorText.name ? CardErrorText.name : ''}</span>
@@ -2039,8 +2077,8 @@ const UserSendMoney = () => {
                         <p className="get-text">Card Number<span style={{ color: 'red' }} >*</span> </p>
                         <div className="card-fields">
                           <input
-                           ref={input_cardName}
-                            max="16" 
+                            ref={input_cardName}
+                            max="16"
                             type="text"
                             className='rate_input form-control'
                             name="cardNumber"
@@ -2048,11 +2086,11 @@ const UserSendMoney = () => {
                             defaultValue={formCardValue.cardNumber}
                             onChange={(e) => handleCardInputChange(e, 'cardNumber')}
                           />
-                           
+
                           <i class="fa fa-credit-card" id="cardtype"></i>
                         </div>
-                        {errorCard&&formCardValue.cardNumber.length<=0?
-                              <span style={myStyle}>Please select the Card Number </span>:""} 
+                        {errorCard && formCardValue.cardNumber.length <= 0 ?
+                          <span style={myStyle}>Please select the Card Number </span> : ""}
                         <span style={myStyle}>{CardErrorText.Entercard ? CardErrorText.Entercard : ''}</span>
                         <span style={myStyle}>{CardErrorText.card_number ? CardErrorText.card_number : ''}</span>
                       </div>
@@ -2076,8 +2114,8 @@ const UserSendMoney = () => {
                               defaultValue={formCardValue.exp_month}
                               onChange={(e) => handleCardInputChange(e, 'exp_month')}
                             />
-                             {errorCard&&formCardValue.exp_month.length<=0?
-                              <span style={myStyle}>Please select the Card expiry month </span>:""} 
+                            {errorCard && formCardValue.exp_month.length <= 0 ?
+                              <span style={myStyle}>Please select the Card expiry month </span> : ""}
                             <span style={myStyle}>{CardErrorText.Entermonth ? CardErrorText.Entermonth : ''}</span>
                             <span style={myStyle}>{CardErrorText.expiry_month ? CardErrorText.expiry_month : ''}</span>
                             <span style={myStyle}>{CardErrorText.invalidmonth ? CardErrorText.invalidmonth : ''}</span>
@@ -2097,8 +2135,8 @@ const UserSendMoney = () => {
                               defaultValue={formCardValue.exp_year}
                               onChange={(e) => handleCardInputChange(e, 'exp_year')}
                             />
-                            {errorCard&&formCardValue.exp_year.length<=0?
-                              <span style={myStyle}>Please select the Card expiry year </span>:""} 
+                            {errorCard && formCardValue.exp_year.length <= 0 ?
+                              <span style={myStyle}>Please select the Card expiry year </span> : ""}
                             <span style={myStyle}>{CardErrorText.Enteryear ? CardErrorText.Enteryear : ''}</span>
                             <span style={myStyle}>{CardErrorText.expiry_year ? CardErrorText.expiry_year : ''}</span>
                             <i class="fa fa-calendar"></i>
@@ -2123,8 +2161,8 @@ const UserSendMoney = () => {
                             defaultValue={formCardValue.securityCode}
                             onChange={(e) => handleCardInputChange(e, 'securityCode')}
                           />
-                          {errorCard&&formCardValue.securityCode.length<=0?
-                              <span style={myStyle}>Please select the Card CVV </span>:""} 
+                          {errorCard && formCardValue.securityCode.length <= 0 ?
+                            <span style={myStyle}>Please select the Card CVV </span> : ""}
 
 
                           <span style={myStyle}>{CardErrorText.Entercvc ? CardErrorText.Entercvc : ''}</span>
@@ -2148,11 +2186,11 @@ const UserSendMoney = () => {
                         
                       
                       /> */}
-                       <input
+                      <input
                         type="checkbox"
                         checked={checkedValueCard}
                         onChange={handleCheckboxChange}
-                        // onChange={handleCradBankDetails}
+                      // onChange={handleCradBankDetails}
                       />
                       {/* <Button type="submit" variant="primary" onClick={handleCradBankDetails}>
                           Save

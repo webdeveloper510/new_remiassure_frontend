@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from 'react';
 import {HashRouter as Router, Route, Routes} from 'react-router-dom';
 import Home from '../component/home/Home';
 import Header from '../component/header/Header';
@@ -40,6 +41,7 @@ import GoToTop from '../GoToTop';
 import { AuthProvider } from '../component/context/UserContext';
 
 
+
 const Routerpage =()=>{
 
   /************ Start page show hide condtion page ***************/
@@ -51,6 +53,21 @@ const Routerpage =()=>{
 
 
  /******************* Start Api call Amount & Delivery State  *******/
+ const [showMessage, setShowMessage] = useState(false);
+
+//  useEffect(() => {
+//    const timeoutId = setTimeout(() => {
+//      setShowMessage(true);
+//    }, 5000);
+
+//    return () => clearTimeout(timeoutId);
+//  }, []);
+
+//  return (
+//    <div>
+//      {showMessage ? <p>Timed out!</p> : <p>Waiting...</p>}
+//    </div>
+//  );
   
   return(
   <>

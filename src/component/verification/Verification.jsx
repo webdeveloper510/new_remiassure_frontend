@@ -162,7 +162,7 @@ const Verification = () => {
                                             <div class="col-md-12 align-center">
                                                 <button variant="primary" 
                                                 type="submit"
-                                                className="continue_button"
+                                                className="continue_button verification_button"
                                                 onClick={handleEmailVerification}
                                                 >
                                                     Continue

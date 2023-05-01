@@ -44,6 +44,8 @@ const AllTranfer = () => {
   const TransactionHistoryStatus = localStorage.getItem("TransactionHistoryStatus");
   console.log("TransactionHistoryStatus", TransactionHistoryStatus);
 
+
+
   /*************************transactionData State************************ */
   const [transactionData, setTransactionData] = useState([]);
   const [RecepientsData, setRecepientsData] = useState('');
@@ -118,6 +120,9 @@ const AllTranfer = () => {
   const paymetTransactionId = localStorage.getItem("paymetTransactionId");
   console.log("paymetTransactionId ====================>", paymetTransactionId);
 
+  const UserDashboardTransactionId = localStorage.getItem("UserDashboardTransactionId")
+  console.log("UserDashboardTransactionId", UserDashboardTransactionId)
+
   useEffect(() => {
     SummrySingleData();
   }, [])
@@ -125,7 +130,7 @@ const AllTranfer = () => {
   const SummrySingleData = () => {
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/summary/', {
-      transaction_id: paymetTransactionId
+      transaction_id: paymetTransactionId ? paymetTransactionId: UserDashboardTransactionId,
     }, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -216,13 +221,8 @@ const AllTranfer = () => {
 
                             <h6 className="fs-16 font-w600 mb-0">{res.recipient_name}</h6>
                             <span className="fs-14">{res.date}</span> </td>
-                          {/* <td>{res.date}</td> */}
                           <td className="transaction-icon">{res.amount} <span>{res.send_currency}</span></td>
-                          {/* <td>{res.customer_id}</td> */}
                           <td>{res.reason}</td>
-                          {/* <td>{res.send_currency}</td>
-                          <td>{res.recieve_currency}</td> */}
-                          {/* <td>{res.send_method}</td> */}
                           <td>{res.transaction_id}</td>
 
 

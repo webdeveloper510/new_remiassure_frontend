@@ -98,6 +98,8 @@ const SendMoney = () => {
   /******************* End digital Api state   ***********************/
 
   /**************************** sender details data state *******************/
+  const [senderError, setSenderError] = React.useState('');
+
   const [senderDetailData, setSenderDetailData] = React.useState('');
   const [senderDetailText, setSenderDetailText] = React.useState('');
   const [formSenderValue, setFormSenderValue] = React.useState({
@@ -785,10 +787,20 @@ const [errorCard, seterrorCard] = React.useState(false);
   /**************************************************************************
    * ************** Start Sender-details-Create Api *********************************
    * ***********************************************************************/
+     /* start-- useRef is used for focusing on inputbox */
+     const input_firstName = useRef(null);
 
-  const handleCreateSenderDetails = (event) => {
-    event.preventDefault();
 
+  const handleCreateSenderDetails = () => {
+    // event.preventDefault();
+    
+    //useRef is used for focusing on inputbox
+       if (formSenderValue.firstName.length==0){
+            input_firstName.current.focus();
+            setError(true);
+            // setStep(step-1) //next step call
+        } 
+        else{
     axios.post(API.BASE_URL + '/create-sender/', {
       First_name: formSenderValue.firstName,
       Middle_name: formSenderValue.middleName,
@@ -822,6 +834,7 @@ const [errorCard, seterrorCard] = React.useState(false);
       })
 
   }
+}
 
 
 
@@ -1077,9 +1090,11 @@ const [errorCard, seterrorCard] = React.useState(false);
         })
           .then(function (response) {
             console.log(response);
+            
             setStep(step + 1);
             localStorage.setItem("paymetCardId", response.data.card_id);
             handleISDigitalVerified();
+            // handleCreateSenderDetails();
             //  SummerySingleData()
             setLoading(false); // Stop loading
             // handlePay();
@@ -1918,7 +1933,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                 <button className="start-form-button" variant="secondary" onClick={handleClose}>
                   Go back to Edit
                 </button>
-                {/* <button className="form-button" onClick={()=>{setStep(step+1)}}>Continue</button> */}
+                {/* <button className="form-button" onClick={()=>{setStep(step+1)}}>Rohit</button> */}
                 <button className="form-button" variant="primary" onClick={handleRecipientBankDetails}>Continue</button>
 
                 {/* onClick={() => setShow(!show)} */}
@@ -2053,6 +2068,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                       )}
                     </div>
                   )} */}
+                       {/* <button className="form-button" onClick={() => { setStep(step + 1) }}>Rohit</button> */}
 
                 
 
@@ -2132,7 +2148,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                                         </li>
                                         <li>
                                           <label>Card Number</label>
-                                          <p>{res.number}</p>
+                                          <p>{res.card_number}</p>
                                         </li>
                                         <li>
                                           <label>Expiry on</label>
@@ -2461,7 +2477,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
         
     useEffect(() => {
-
+    
       const script = document.createElement('script');
 
       script.src = 'https://digitalid-sandbox.com/sdk/app.js';
@@ -2502,6 +2518,7 @@ const [errorCard, seterrorCard] = React.useState(false);
           },
           onClick: function (opts) {
             console.log(3, "log")
+          handleCreateSenderDetails();
             handlePay();
           },
           onKeepAlive: function () {
@@ -2538,13 +2555,18 @@ const [errorCard, seterrorCard] = React.useState(false);
                   <div className="col-md-4">
                     <div className="input_field">
                       <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
+              
                       <input
                         type="text"
+                        ref={input_firstName}
                         className='rate_input form-control'
                         name="firstName"
                         defaultValue={formSenderValue.firstName}
                         onChange={(e) => hamdleSenderDetailsData(e, 'firstName')}
                       />
+                       {error&&formSenderValue.firstName.length<=0?
+                          <span style={myStyle}>Please Enter the FirstName </span>:""}	
+
                       <span style={myStyle}>{senderDetailText.Enterfirstname ? senderDetailText.Enterfirstname : ''}</span>
                     </div>
                   </div>
@@ -2795,7 +2817,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
 
                   {verificationValue == false ? (
-                    <div id="digitalid-verify"></div>
+                    <div  id="digitalid-verify" ></div>
                   ) : (
                     <>
                       <button className="form-button" onClick={handleCreateSenderDetails}> Continue</button>
@@ -2858,30 +2880,24 @@ const [errorCard, seterrorCard] = React.useState(false);
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Amount to Send</td>
+                      <td>Send Amount</td>
                       <td>{from} <span>{AmountValue}</span>
                       
                       </td>
                     </tr>
-                    {/* <tr>
-                      <td>Fees</td>
-                      <td>
-                        {summeryData.recieve_amount} 
-                        </td>
+                    <tr>
+                      <td>Exchange Rate</td>
+                      <td>1 <span>{from}</span> = {total_rate} <span>{to}</span> 
+                      
+                      </td>
                     </tr>
                     <tr>
-                      <td>Total Cost</td>
-                      <td>
-                         {summeryData.send_amount} 
-                        </td>
-                    </tr> */}
-                  {/* </tbody>
-                  <thead>
-                    <tr>
-                      <th colSpan={2} className="popup-heading">Transfer to </th>
+                      <td>Exchange Amount</td>
+                      <td>{amountValue.amountInput + " " + from + " ⇒ " + total_amount + " " + to}
+                      
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody> */}
+                   
                     <tr>
                       <td>Account No.</td>
                       <td>{summeryData.account_number}</td>
@@ -2926,7 +2942,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
                   <button className="form-button" onClick={handleVerifiedPaymentDigitalId}>Continue</button>
 
-                  {/* <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button> */}
+                  {/* <button className="form-button" onClick={() => { setStep(step + 1) }}>Rohit</button> */}
                   {/* <button className="form-button" onClick={handleVerifiedPaymentDigitalIdPrevious}>Previous</button> */}
                 </div>
               </div>
@@ -2969,7 +2985,7 @@ const [errorCard, seterrorCard] = React.useState(false);
             </div>
             <div className="col-md-12 align-center">
               <img className="verifies-img" src={verified} alt="verified" />
-              {/* <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button> */}
+              {/* <button className="form-button" onClick={() => {setStep(step-1)}}>Rohit</button> */}
               <p>Thanks for choosing RemitAssure</p>
               <NavLink to="/dashboard">
                 <button type="submit" class="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
