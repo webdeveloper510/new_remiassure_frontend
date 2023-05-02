@@ -36,6 +36,7 @@ import Addnewcard from '../component/Userdashboard/AddNewCard';
 import EditCardUser from '../component/Userdashboard/EditUserCard';
 import SingleCardProfile from '../component/Userdashboard/SingleCardProfile';
 import Page404 from '../component/pageNotfound/Page404';
+import Thankyou from '../component/send/Thankyou';
 
 import GoToTop from '../GoToTop';
 import { AuthProvider } from '../component/context/UserContext';
@@ -123,7 +124,7 @@ const Routerpage =()=>{
     <Route exact path='/EditCardUser/:id' element={<EditCardUser /> } />
     <Route exact path='/singleCardData/:id' element={<SingleCardProfile /> } />
     <Route exact path='/*' element={<Page404 />} />
-
+    <Route exact path='thankyou' element={<Thankyou />} />
     
     </Routes>
     <ToastContainer />

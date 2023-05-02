@@ -1210,6 +1210,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
 
 
+
   //  const step = step+1;
 
   const Form = () => {
@@ -1363,6 +1364,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                       <input
                         type="text"
                         // autoFocus="autofocus"
+                     
                         ref={input_AmountSend}
                         className='rate_input form-control'
                         // onChange={(e)=> {myTotalAmount(e.target.value); setAmount(e.target.value)}}
@@ -1370,7 +1372,6 @@ const [errorCard, seterrorCard] = React.useState(false);
                         defaultValue={amountValue.amountInput}
                         onChange={(e) => handleAmountCahngeValue(e, 'amountInput')}
                         onBlurCapture={myTotalAmount}
-                     
                         onKeyPress={handleKeyPress}
 
                       // onkeyup={(text)=> myTotalAmount(text)}
@@ -2988,7 +2989,8 @@ const [errorCard, seterrorCard] = React.useState(false);
               {/* <button className="form-button" onClick={() => {setStep(step-1)}}>Rohit</button> */}
               <p>Thanks for choosing RemitAssure</p>
               <NavLink to="/dashboard">
-                <button type="submit" class="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
+                <button type="submit" class="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button>
+                </NavLink>
             </div>
 
           </div>
