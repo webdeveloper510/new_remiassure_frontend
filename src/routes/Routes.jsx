@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from 'react';
 import {HashRouter as Router, Route, Routes} from 'react-router-dom';
 import Home from '../component/home/Home';
 import Header from '../component/header/Header';
@@ -35,9 +36,11 @@ import Addnewcard from '../component/Userdashboard/AddNewCard';
 import EditCardUser from '../component/Userdashboard/EditUserCard';
 import SingleCardProfile from '../component/Userdashboard/SingleCardProfile';
 import Page404 from '../component/pageNotfound/Page404';
+import Thankyou from '../component/send/Thankyou';
 
 import GoToTop from '../GoToTop';
 import { AuthProvider } from '../component/context/UserContext';
+
 
 
 const Routerpage =()=>{
@@ -51,6 +54,21 @@ const Routerpage =()=>{
 
 
  /******************* Start Api call Amount & Delivery State  *******/
+ const [showMessage, setShowMessage] = useState(false);
+
+//  useEffect(() => {
+//    const timeoutId = setTimeout(() => {
+//      setShowMessage(true);
+//    }, 5000);
+
+//    return () => clearTimeout(timeoutId);
+//  }, []);
+
+//  return (
+//    <div>
+//      {showMessage ? <p>Timed out!</p> : <p>Waiting...</p>}
+//    </div>
+//  );
   
   return(
   <>
@@ -106,7 +124,7 @@ const Routerpage =()=>{
     <Route exact path='/EditCardUser/:id' element={<EditCardUser /> } />
     <Route exact path='/singleCardData/:id' element={<SingleCardProfile /> } />
     <Route exact path='/*' element={<Page404 />} />
-
+    <Route exact path='thankyou' element={<Thankyou />} />
     
     </Routes>
     <ToastContainer />

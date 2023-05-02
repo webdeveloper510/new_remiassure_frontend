@@ -226,6 +226,7 @@ const Signup = () => {
         .then(function(response) {
             console.log(response);
             localStorage.setItem("signup_token", response.data.tokens.access);
+            localStorage.setItem("signup_email", email)
             //validation
             setSucessText(response.data.data.message && response.data.data.msg)
             setMobileText(response.data.Mobile);

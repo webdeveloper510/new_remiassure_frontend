@@ -245,20 +245,13 @@ const CompletedTransaction = () => {
                     {/* <span className="fs-6 pt-1 fw-bold statuspopup">Status</span>
                     <span className="fs-6 pt-1 fw-bold statuspopup">{completedStatusData}</span> */}
                     <hr></hr>
-                    <p>Your transaction is complete and we hope to see your again.</p>
+                    {/* <p>Your transaction is complete and we hope to see your again.</p>
 
-                    <MultiStepProgressBar />
+                    <MultiStepProgressBar /> */}
                   </div>
 
 
-                  <div className="col-md-12 m-top">
-                    <div className="justify-content-between trackicons">
-                      <h6>Track your transfer</h6>
-                      {/* <hr></hr>
-                      <img src={playicon} alt="app-icon" />
-                      <img src={playicon2} alt="app-icon" /> */}
-                    </div>
-                  </div>
+                
 
                   <div className="col-md-12">
                     <div className="justify-content-between recipent-detailpopup">

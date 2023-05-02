@@ -170,7 +170,7 @@ const InprogressTransfer = () => {
                   </> : <></>}
               {/* End------- Loader functionalty */}
 
-          {transactionPendingData?.length != 0 ? (
+          {transactionPendingData.data?.length != 0 ? (
               <Table className="table table-responsive-md card-table previous-transaction">
                 <thead>
                   <tr>
@@ -325,7 +325,7 @@ const InprogressTransfer = () => {
               </Modal.Footer>
             </Modal>
 
-            {transactionPendingData?.length == 0 ? (
+            {transactionPendingData.data?.length == 0 ? (
                 <div className="no-data">
                   <img src={nodata} alt="no-data" />
                   <div className="col-md-12">
