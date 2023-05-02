@@ -1208,6 +1208,12 @@ const [errorCard, seterrorCard] = React.useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent the default behavior (i.e., page reload)
+      input_AmountSend.current.blur(); // Remove focus from the input field
+    }
+  };
 
 
   //  const step = step+1;
@@ -1345,6 +1351,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                       <input
                         type="text"
                         // autoFocus="autofocus"
+                     
                         ref={input_AmountSend}
                         className='rate_input form-control'
                         // onChange={(e)=> {myTotalAmount(e.target.value); setAmount(e.target.value)}}
@@ -1352,6 +1359,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                         defaultValue={amountValue.amountInput}
                         onChange={(e) => handleAmountCahngeValue(e, 'amountInput')}
                         onBlurCapture={myTotalAmount}
+                        onKeyPress={handleKeyPress}
                       // onkeyup={(text)=> myTotalAmount(text)}
                       // onChange={e => onInputChangeDealType(e)}
                       />
