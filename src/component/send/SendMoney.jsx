@@ -22,6 +22,8 @@ import countryList from 'react-select-country-list'
 import sendmoney from "../../assets/img/userdashboard/money3.webp";
 import Page404 from "../pageNotfound/Page404";
 import nocard from "../../assets/img/userdashboard/nocard.jpg";
+import thankyou from "../../component/send/Thankyou";
+
 // start css
 const myStyle = {
   color: "red",
@@ -137,6 +139,17 @@ const SendMoney = () => {
   const [checkedValueCard, setCheckedValueCard] = React.useState(false);
 /*******************************Start- cardError State*****************************/
 const [errorCard, seterrorCard] = React.useState(false);
+
+/************ Start -Timin-TimeOut function*************** */
+const [ScreenTimeOut, setScreenTimeOut] = React.useState(false);
+
+
+
+
+
+
+
+
 
 
 
@@ -391,6 +404,23 @@ const [errorCard, seterrorCard] = React.useState(false);
   }
   /*************************** End - Select Payment Function************************* */
 
+
+
+
+
+  
+  /**************************************************************************
+   * **************Start -Timin-TimeOut function  ******************************
+   * ***********************************************************************/
+    useEffect(() => {
+      const timeoutId = setTimeout(() => {
+        setScreenTimeOut(true);
+        console.log(ScreenTimeOut, "==================>ScreenTimeOut")
+      },  900000);  /**One minute is equivalent to 60,000 milliseconds,
+                    so 15 minutes can be represented as 15 * 60,000 = 900,000 milliseconds */
+
+      return () => clearTimeout(timeoutId);
+    }, []);
 
 
 
@@ -697,9 +727,11 @@ const [errorCard, seterrorCard] = React.useState(false);
         console.log(response);
         if (response.status)
         // handlePay()
-        setStep(step + 1) //next step call
+        // setStep(step + 1) //next step call
+        
         setData(response.data);
         setLoading(false); // Stop loading 
+        navigate('/thankyou')
 
       })
       .catch(function (error, message) {
@@ -1054,20 +1086,31 @@ const [errorCard, seterrorCard] = React.useState(false);
         }
 
          //useRef is used for focusing on inputbox 
-         if (formCardValue.cardName.length==0){
-          input_cardName.current.focus();
-              seterrorCard(true);
-          } else if (formCardValue.cardNumber.length==0){
+         if (formCardValue.cardName.length === 0){
+          if (input_cardName.current) {
+            input_cardName.current.focus();
+          }
+          seterrorCard(true);
+        } else if (formCardValue.cardNumber.length==0){
+           if(input_cardNumber.current){
             input_cardNumber.current.focus();
+           }
             seterrorCard(true);
           } else if (formCardValue.exp_month.length==0){
+            if(  input_exp_month.current){
             input_exp_month.current.focus();
+            }
             seterrorCard(true);
+            
           } else if (formCardValue.exp_year.length==0){
+            if(input_exp_year.current){
             input_exp_year.current.focus();
+            }
             seterrorCard(true);
           } else if (formCardValue.securityCode.length==0){
+            if(input_securityCode.current){
             input_securityCode.current.focus();
+            }
             seterrorCard(true);
           }
           else{
@@ -2478,6 +2521,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
         
     useEffect(() => {
+    console.log(5, "log5")
     
       const script = document.createElement('script');
 
@@ -2487,7 +2531,8 @@ const [errorCard, seterrorCard] = React.useState(false);
       document.body.appendChild(script);
 
       script.onload = () => {
-
+        console.log(6, "log6")
+        
         /* Verify with Digital iD */
         window.digitalId.init({
           clientId: 'ctid2poVwlVfjH2PAnWEAB2l4v',
@@ -2500,6 +2545,7 @@ const [errorCard, seterrorCard] = React.useState(false);
             console.log(2, "log2");
             
             setStep(step + 1);
+            // navigate('/thankyou')
             console.log(step, "stepdmskdmklm")
 
             console.log(res, "codes")
@@ -2519,7 +2565,7 @@ const [errorCard, seterrorCard] = React.useState(false);
           },
           onClick: function (opts) {
             console.log(3, "log")
-          handleCreateSenderDetails();
+            handleCreateSenderDetails();
             handlePay();
           },
           onKeepAlive: function () {
@@ -2694,7 +2740,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                     <div className="input_field">
                       <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                       <input
-                        type="number"
+                        type="text"
                         className='rate_input form-control'
                         value={senderDetailData.mobile}
                       />
@@ -2814,7 +2860,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                 </div>
                 <div className="col-md-10 new_buttons">
 
-                  {/* <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button> */}
+                  {/* <button className="form-button" onClick={() => { setStep(step + 1) }}>Rohit</button> */}
 
 
                   {verificationValue == false ? (
@@ -2965,40 +3011,40 @@ const [errorCard, seterrorCard] = React.useState(false);
 
   const Step6 = () => {
 
-    return (
-      <>
+    // return (
+    //   <>
 
-        <section>
-          <div className="progressBar">
-            <div className="progress">
-              <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
-              <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
-              <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
-              <span className="progress-bar bg-success progress-bar-striped step4">{step}</span>
-              <span className="progress-bar bg-success progress-bar-striped step5">{step}</span>
-              <span className="progress-bar bg-success progress-bar-striped step6">{step}</span>
-            </div>
-          </div>
-          <div className="form_body">
-            {/* <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button> */}
-            <div className="header">
-              <h1>Thank you</h1>
-            </div>
-            <div className="col-md-12 align-center">
-              <img className="verifies-img" src={verified} alt="verified" />
-              {/* <button className="form-button" onClick={() => {setStep(step-1)}}>Rohit</button> */}
-              <p>Thanks for choosing RemitAssure</p>
-              <NavLink to="/dashboard">
-                <button type="submit" class="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button>
-                </NavLink>
-            </div>
+    //     <section>
+    //       <div className="progressBar">
+    //         <div className="progress">
+    //           <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
+    //           <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
+    //           <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
+    //           <span className="progress-bar bg-success progress-bar-striped step4">{step}</span>
+    //           <span className="progress-bar bg-success progress-bar-striped step5">{step}</span>
+    //           <span className="progress-bar bg-success progress-bar-striped step6">{step}</span>
+    //         </div>
+    //       </div>
+    //       <div className="form_body">
+    //         {/* <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button> */}
+    //         <div className="header">
+    //           <h1>Thank you</h1>
+    //         </div>
+    //         <div className="col-md-12 align-center">
+    //           <img className="verifies-img" src={verified} alt="verified" />
+              // <button className="form-button" onClick={() => {setStep(step-1)}}>Rohit</button>
+    //           <p>Thanks for choosing RemitAssure</p>
+    //           <NavLink to="/dashboard">
+    //             <button type="submit" class="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button>
+    //             </NavLink>
+    //         </div>
 
-          </div>
-        </section>
+    //       </div>
+    //     </section>
 
 
-      </>
-    );
+    //   </>
+    // );
   }
 
 
@@ -3007,12 +3053,22 @@ const [errorCard, seterrorCard] = React.useState(false);
 
     <>
       <div>
+        {/* timeIn TimeOut */}
         {
-          1 ? (
+          ScreenTimeOut ? (
+            window.location.reload()
+
+            ):(
+              <>
+              
             <div class="form">
+              {/* start- show hide */}
               {
-                 LoginDigitalidVerified == 'false'|| verification_otp || DigitalCode != undefined || '' ? (
+                 LoginDigitalidVerified == 'false'|| verification_otp || DigitalCode != undefined || ''  ? (
+                  
+                  
                   <>
+                   
                     <section className="why-us section-bgba user_dashboard_banner">
                       <div className="container">
                         <div className="row">
@@ -3135,6 +3191,8 @@ const [errorCard, seterrorCard] = React.useState(false);
                       </div>
                     </section>
                   </>
+
+
                 ) : (
                   <>
                     <Page404 />
@@ -3144,8 +3202,7 @@ const [errorCard, seterrorCard] = React.useState(false);
               }
 
             </div>
-          ) : (
-            <></>
+         </>
 
           )
         }

@@ -70,9 +70,12 @@ const UserSendMoney = () => {
   console.log("recipentID", recipentID);
 
   const paymetCardId = localStorage.getItem("paymetCardId")
-  console.log(paymetCardId, "paymetCardId")
+  console.log(paymetCardId, "paymetCardId");
 
-  
+  const UserDashboardTransactionId = localStorage.getItem("UserDashboardTransactionId");
+  console.log(UserDashboardTransactionId, "UserDashboardTransactionId");
+
+
 
 
 
@@ -178,7 +181,7 @@ const UserSendMoney = () => {
 
   const [formCardValue, setformCardValue] = React.useState({
     recipient_id, cardNumber: '', securityCode: '', cardName: '', exp_month: '', exp_year: '',
-    reason: '',destination: '',card_id: '',
+    reason: '', destination: '', card_id: '',
   });
 
   /************ Start -Card List State***************/
@@ -187,6 +190,8 @@ const UserSendMoney = () => {
   const [errorCard, seterrorCard] = React.useState(false);
   /************************Payment Details Type Condtion State************* */
   const [showCrad, setShowCrad] = React.useState(false);
+  /************ Start -Timin-TimeOut function*************** */
+  const [ScreenTimeOut, setScreenTimeOut] = React.useState(false);
 
 
 
@@ -274,9 +279,9 @@ const UserSendMoney = () => {
     CardForm.exp_month = value.exp_month;
     CardForm.exp_year = value.exp_year;
     CardForm.recipient_id = recipentID;
-    CardForm.reason= recipientMoneyReason;
-    CardForm.destination= recipientDestination;
-    CardForm.card_id= paymetCardId; 
+    CardForm.reason = recipientMoneyReason;
+    CardForm.destination = recipientDestination;
+    CardForm.card_id = paymetCardId;
 
     setFormValue(CardForm)
     console.log("value data===========================>123", formCardValue)
@@ -391,7 +396,7 @@ const UserSendMoney = () => {
     console.log(e.target.value)
     console.log(e.target.value, "cardselectValue");
     // Store the selected value in localStorage
- localStorage.setItem('cardselectValue', e.target.value);
+    localStorage.setItem('cardselectValue', e.target.value);
     // console.log(defaultCountryData.length)
     setMoneyTransiction(item1 => ({ ...item1, [e.target.name]: e.target.value }));
   }
@@ -459,6 +464,20 @@ const UserSendMoney = () => {
 
   const navigate = useNavigate();
   // const notify = () => toast.success("Amount & Delivery Successfully!!");
+
+
+  /**************************************************************************
+   * **************Start -Timin-TimeOut function  ******************************
+   * ***********************************************************************/
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setScreenTimeOut(true);
+      console.log(ScreenTimeOut, "==================>ScreenTimeOut")
+    }, 900000);  /**One minute is equivalent to 60,000 milliseconds,
+                  so 15 minutes can be represented as 15 * 60,000 = 900,000 milliseconds */
+
+    return () => clearTimeout(timeoutId);
+  }, []);
 
 
 
@@ -749,7 +768,7 @@ const UserSendMoney = () => {
         setStep(step + 1)
         setLoading(false); // Stop loading 
         setId(response.data.recipient_data.id)
- 
+
       })
       .catch(function (error, message) {
         console.log(error.response);
@@ -850,55 +869,65 @@ const UserSendMoney = () => {
 
     console.log(formCardValue, "formCardValueformCardValue")
     event.preventDefault();
-   // useRef is used for focusing on inputbox
-     if (formCardValue.cardName.length==0){
-      input_cardName.current.focus();
-          seterrorCard(true);
-      } else if (formCardValue.cardNumber.length==0){
-        input_cardNumber.current.focus();
-        seterrorCard(true);
-      } else if (formCardValue.exp_month.length==0){
-        input_exp_month.current.focus();
-        seterrorCard(true);
-      } else if (formCardValue.exp_year.length==0){
-        input_exp_year.current.focus();
-        seterrorCard(true);
-      } else if (formCardValue.securityCode.length==0){
-        input_securityCode.current.focus();
-        seterrorCard(true);
+    // useRef is used for focusing on inputbox
+    if (formCardValue.cardName.length == 0) {
+      if (input_cardName.current) {
+        input_cardName.current.focus();
       }
-      else{
+      seterrorCard(true);
+    } else if (formCardValue.cardNumber.length == 0) {
+      if (input_cardNumber.current) {
+        input_cardNumber.current.focus();
+      }
+      seterrorCard(true);
+    } else if (formCardValue.exp_month.length == 0) {
+      if (input_exp_month.current) {
+        input_exp_month.current.focus();
+      }
+      seterrorCard(true);
+    } else if (formCardValue.exp_year.length == 0) {
+      if (input_exp_year.current) {
+        input_exp_year.current.focus();
+      }
+      seterrorCard(true);
+    } else if (formCardValue.securityCode.length == 0) {
+      if (input_securityCode.current) {
+        input_securityCode.current.focus();
+      }
+      seterrorCard(true);
+    }
+    else {
 
-    axios.post(API.BASE_URL + 'payment/stripe/card/', {
-      name: formCardValue.cardName,
-      card_number: formCardValue.cardNumber,
-      expiry_month: formCardValue.exp_month,
-      expiry_year: formCardValue.exp_year,
-      cvc: formCardValue.securityCode,
-      save_card: numericValue,
+      axios.post(API.BASE_URL + 'payment/stripe/card/', {
+        name: formCardValue.cardName,
+        card_number: formCardValue.cardNumber,
+        expiry_month: formCardValue.exp_month,
+        expiry_year: formCardValue.exp_year,
+        cvc: formCardValue.securityCode,
+        save_card: numericValue,
 
 
-    }, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-      },
-
-    })
-      .then(function (response) {
-        console.log(response);
-        handleCloseDetails();
-        localStorage.setItem("paymetCardId", response.data.card_id);
-        handlePay();
-        navigate('/dashboard');
-
+      }, {
+        headers: {
+          "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+        },
 
       })
-      .catch(function (error, message) {
-        console.log(error.response);
-        setCardErrorText(error.response.data);
+        .then(function (response) {
+          console.log(response);
+          handleCloseDetails();
+          localStorage.setItem("paymetCardId", response.data.card_id);
+          handlePay();
+          navigate('/dashboard');
 
-      })
-  }
+
+        })
+        .catch(function (error, message) {
+          console.log(error.response);
+          setCardErrorText(error.response.data);
+
+        })
+    }
   }
 
   /**************************************************************************
@@ -960,7 +989,7 @@ const UserSendMoney = () => {
       recipient_id: recipient_id.length > 0 ? recipient_id : recipentID,
       reason: recipientMoneyReason,
       destination: recipientDestination,
-      card_id: paymetCardId, 
+      card_id: paymetCardId,
     }, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -978,7 +1007,7 @@ const UserSendMoney = () => {
         console.log(error.response);
         setLoading(false); // Stop loading in case of error
         setBankNameText(error.response.data);
-       
+
 
 
       })
@@ -1857,7 +1886,7 @@ const UserSendMoney = () => {
                     checked={moneyTransiction.paymentType == "Debit/Credit Card"}
                     value="Debit/Credit Card"
                     onChange={e => onInputChange(e)}
-                    // onClick={ShowCardDetails}
+                  // onClick={ShowCardDetails}
                   />
                   <span className="checkmark"></span>
                 </label>
@@ -1884,19 +1913,19 @@ const UserSendMoney = () => {
                 <button className="start-form-button">Clear</button>
               </div>
               <div className="col-md-8">
-              {!showCrad && (
-                    <div>  
-                      {cardselectValue === "Debit/Credit Card" ? (
-                        <>
+                {!showCrad && (
+                  <div>
+                    {cardselectValue === "Debit/Credit Card" ? (
+                      <>
                         <button className="form-button" onClick={ShowCardDetails}>Continue</button>
-                        </>
-                      ) : (
-                        <>
-                          <button className="form-button">Continue</button>
-                        </>
-                      )}
-                    </div>
-                  )} 
+                      </>
+                    ) : (
+                      <>
+                        <button className="form-button">Continue</button>
+                      </>
+                    )}
+                  </div>
+                )}
 
 
                 {/* <button className="form-button" onClick={() => { setStep(step + 1) }}>Continue</button> */}
@@ -2076,7 +2105,7 @@ const UserSendMoney = () => {
                         <p className="get-text">Card Number<span style={{ color: 'red' }} >*</span> </p>
                         <div className="card-fields">
                           <input
-                            ref={input_cardName}
+                            ref={input_cardNumber}
                             max="16"
                             type="text"
                             className='rate_input form-control'
@@ -2226,37 +2255,48 @@ const UserSendMoney = () => {
   return (
 
     <>
+      <div className="TimeIn-TimeOut">
+        {/* Start-TimeIn-TimeOut */}
+        {
+          ScreenTimeOut ? (
+            window.location.reload()
+
+          ) : (
+            <div>
+
+              {/* start- show hide */}
+              {
+                LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
+                  <>
+                    <div className="margin-set">
+                      <div className="tabs-page">
+                        <Sidebar />
+
+                        <div className="content-body">
+
+                          <div className="col-md-10">{
+                            <Form />}
+                          </div>
 
 
+                        </div>
+                      </div>
+                    </div>
 
-      {
-        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
-          <>
-            <div className="margin-set">
-              <div className="tabs-page">
-                <Sidebar />
+                  </>
 
-                <div className="content-body">
-
-                  <div className="col-md-10">{
-                    <Form />}
-                  </div>
-
-
-                </div>
-              </div>
+                ) : (
+                  <>
+                    <Page404 />
+                  </>
+                )
+              }
+              {/* End- show hide */}
             </div>
-
-          </>
-
-        ) : (
-          <>
-            <Page404 />
-          </>
-        )
-      }
-
-
+          )
+        }
+        {/* Start-TimeIn-TimeOut */}
+      </div>
     </>
   );
 }

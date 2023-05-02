@@ -160,12 +160,10 @@ function AccordionArrayOfObjects() {
 
   return (
     <>
+      {/* timeIn TimeOut */}
       {  
        ScreenTimeOut  ? (
         navigate('/')
-          //  <Route exact path='/login' element = {< Login /> }  /> 
-      
-   
     ):(
     <>
     {/* <!-- ======= help Remitassure Support-Section  start======= --> */}

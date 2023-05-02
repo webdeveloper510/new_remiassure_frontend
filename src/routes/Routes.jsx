@@ -124,7 +124,7 @@ const Routerpage =()=>{
     <Route exact path='/EditCardUser/:id' element={<EditCardUser /> } />
     <Route exact path='/singleCardData/:id' element={<SingleCardProfile /> } />
     <Route exact path='/*' element={<Page404 />} />
-    <Route exact path='thankyou' element={<Thankyou />} />
+    <Route exact path='/thankyou' element={<Thankyou />} />
     
     </Routes>
     <ToastContainer />
