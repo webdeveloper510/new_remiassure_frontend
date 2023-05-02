@@ -186,7 +186,7 @@ const Profile = () => {
             setMobile(response.data.data.mobile);
             // setcountryValue(response.data.data.location);
             setcountry(response.data.data.location);
-            // alert(countryValue)
+            // alert(country)
             setFlat(response.data.data.flat);
             setBuilding(response.data.data.building);
             setStreet(response.data.data.street);
@@ -538,7 +538,7 @@ const Profile = () => {
                                       <option value="Australia">Australia</option>
                                       <option value="New zealand">New zealand</option>
                                                 
-                                                    </Form.Select>
+                                    </Form.Select>
                                  {/* {errorUserRecipient&&country.length<=0?
                                   <span style={myStyle}>Please Enter the Country Name</span>:""}  */}
                                      <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>

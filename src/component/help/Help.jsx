@@ -1,4 +1,5 @@
 import React,{useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import Img from "react-image";
 import Accordion from 'react-bootstrap/Accordion';
 
@@ -6,6 +7,21 @@ const Help = () => {
 
   const [input_content, setInput_content] = useState('Search')
 
+  /************ Start -Timin-TimeOut function*************** */
+  const [ScreenTimeOut, setScreenTimeOut] = useState(false);
+  const navigate = useNavigate('')
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setScreenTimeOut(true);
+      console.log(ScreenTimeOut, "==================>ScreenTimeOut")
+    }, 900000);  /**One minute is equivalent to 60,000 milliseconds,
+                  so 15 minutes can be represented as 15 * 60,000 = 900,000 milliseconds */
+ 
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+/************ End -Timin-TimeOut function*************** */
 
   // start objects RenderingArrayOfObjects
     function RenderingArrayOfObjects() {
@@ -144,7 +160,14 @@ function AccordionArrayOfObjects() {
 
   return (
     <>
-    
+      {  
+       ScreenTimeOut  ? (
+        navigate('/')
+          //  <Route exact path='/login' element = {< Login /> }  /> 
+      
+   
+    ):(
+    <>
     {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
     <section className="why-us section-bgba help_banner">
       <div className="container">
@@ -227,7 +250,9 @@ function AccordionArrayOfObjects() {
     
     </section>
  {/* <!-- ======= Help Frequently asked questions FAQs End-Section ======= --> */}
-
+ </>
+ )
+} 
 
     </>
   )

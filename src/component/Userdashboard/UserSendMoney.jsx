@@ -132,8 +132,7 @@ const UserSendMoney = () => {
   const [id, setId] = React.useState('');
 
   const [formValue, setFormValue] = React.useState({
-    accountNumber: '', firstName: '', middleName: '',
-    lastName: '', email: '', mobile: '', flat: '', building: '', street: '', postcode: '', city: '', state: '',
+    accountNumber: '', firstName: '', middleName: '', lastName: '', email: '', mobile: '', flat: '', building: '', street: '', postcode: '', city: '', state: '',
     country_code: '', country: '', reasonMoney: ''
   });
 
