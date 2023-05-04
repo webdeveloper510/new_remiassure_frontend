@@ -84,11 +84,11 @@ const Routerpage =()=>{
     <Route exact path='/multiple' element= {< Multiple />} />
     <Route exact path='/user_recipients' element={< Recipients /> } />
     <Route exact path='/verification' element= {< Verification /> } />
-    <Route exact path='/sendMoney' element= {< SendMoney /> } />
+    <Route exact path='/send-money' element= {< SendMoney /> } />
     <Route exact path='/transfer' element={<Transfer /> } />
-    <Route exact path='/referraldata' element={<ReferralData /> } />
-    <Route exact path='/userdashboard' element={<UserDashboard /> } />
-    <Route exact path='/usersendmoney' element={<UserSendMoney /> } />
+    <Route exact path='/referral-data' element={<ReferralData /> } />
+    <Route exact path='/user-dashboard' element={<UserDashboard /> } />
+    <Route exact path='/user-send-money' element={<UserSendMoney /> } />
     <Route exact path='/addnewrecipient' element={<AddNewRecipient /> } />
     <Route exact path='/userprofile' element={<UserProfile /> } />
     <Route exact path='/userrecipients' element={<UserRecipient /> } />

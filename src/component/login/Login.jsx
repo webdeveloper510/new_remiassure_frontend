@@ -1,46 +1,96 @@
 import React, { useState, useContext } from "react";
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Links, NavLink, useNavigate } from 'react-router-dom';
 import { userLogin } from "../../utils/Api";
 import { toast } from "react-toastify";
-import UserContext from '../context/UserContext';
-import Page404 from "../pageNotfound/Page404";
+// import UserContext from '../context/UserContext';
+// import Page404 from "../pageNotfound/Page404";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import validate from "../../pages/FormValidationRules";
+// import validate from "../../pages/FormValidationRules";
+import { useFormik } from "formik";
+import * as Yup from "yup"
+import clsx from "clsx";
+
 {/* start -- css*/ }
-const myStyle = {
-    color: "red",
-    fontSize: "13px",
-    textTransform: "capitalize",
-    marginTop: "4px",
-    display: "block",
-    textAlign: "left"
-}
+// const myStyle = {
+//     color: "red",
+//     fontSize: "13px",
+//     textTransform: "capitalize",
+//     marginTop: "4px",
+//     display: "block",
+//     textAlign: "left"
+// }
 {/* End -- css*/ }
 
 const Login = () => {
 
-    
+    const loginSchema = Yup.object().shape({
+        email: Yup.string()
+            .email('Wrong email format')
+            .min(3, 'Minimum 3 symbols')
+            .max(50, 'Maximum 50 symbols')
+            .required('Email is required'),
+        password: Yup.string()
+            .min(6, 'Minimum 3 symbols')
+            .max(50, 'Maximum 50 symbols')
+            .required('Password is required'),
+    })
 
-    const token = localStorage.getItem("token");
-    // console.log("TOKEN", token);
+    const initialValues = {
+        email: '',
+        password: '',
+    }
 
-    const signup_token = localStorage.getItem("signup_token")
-    // console.log("signup_token", signup_token);
+    const formik = useFormik({
+        initialValues,
+        validationSchema: loginSchema,
+        onSubmit: async (values) => {
+            setLoading(true);
+            userLogin({ email: values.email, password: values.password }).then((res) => {
+                if (res.code == 200) {
+                    toast.success('Login Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
 
-    const verification_otp = localStorage.getItem("verification_otp");
-    // console.log("Verification Message", verification_otp);
+                    localStorage.setItem("token", res.token.access);
+                    //         localStorage.setItem("LoginDigitalidVerified", response.data.is_digitalid_verified)
+                  if(res.is_digitalid_verified){
+                    localStorage.setItem("LoginDigitalidVerified", res.is_digitalid_verified)
+                    navigate("/dashboard")
+                  } else{
+                    navigate('/send-money');
+                  }
+                }
+                setLoading(false);
+            }).catch((err) => {
+                setLoading(false);
+                console.log('catch-errr', err.response)
+                console.log('catch-errr', err.response.data.code)
+                if (err.response.data.code === '400') {
+                    toast.error('Credetionals Does not match', { position: "top-right", autoClose: 2000, theme: "colored" });
+                }
+            })
+        },
+    })
 
-    const DigitalCode = localStorage.getItem("DigitalCode");
-    // console.log("DigitalCode", DigitalCode);
 
-    const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
+    // const token = localStorage.getItem("token");
+    // // console.log("TOKEN", token);
+
+    // const signup_token = localStorage.getItem("signup_token")
+    // // console.log("signup_token", signup_token);
+
+    // const verification_otp = localStorage.getItem("verification_otp");
+    // // console.log("Verification Message", verification_otp);
+
+    // const DigitalCode = localStorage.getItem("DigitalCode");
+    // // console.log("DigitalCode", DigitalCode);
+
+    // const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
     // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
     /**************************State ************************ */
-    const [data, setData] = useState({email:'', password:''})
-    const [error, setError] = useState({emailErr:"", passwordErr:""})
+    // const [data, setData] = useState({ email: '', password: '' })
+    // const [error, setError] = useState({ emailErr: "", passwordErr: "" })
     const [promo_marketing, setPromo_marketing] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -51,16 +101,16 @@ const Login = () => {
     const toggleShowPassword = () => setShowPassword(prevState => !prevState);
 
     const navigate = useNavigate();
-    const notify = () => toast.success("Logged In Successfully!");
-    const wrongData = () => toast.warn("Login or Password is Wrong!");
-    const emailExits = () => toast.error("Please fill out all the fields");
+    // const notify = () => toast.success("Logged In Successfully!");
+    // const wrongData = () => toast.warn("Login or Password is Wrong!");
+    // const emailExits = () => toast.error("Please fill out all the fields");
 
 
 
     const handlePromo_marketing = (e) => {
         const { checked } = e.target;
 
-        console.log("checked " + checked);
+        // console.log("checked " + checked);
 
         setPromo_marketing((promo_marketing) => ({
             ...promo_marketing, // <-- shallow copy previous state
@@ -68,69 +118,43 @@ const Login = () => {
         }));
     };
 
-    const handleEmail =(e)=>{
-        let value = e.target.value
-        setData({...data, email:e.target.value})
-        let validateErr = validate({
-         email:value
-        })
-         if(value == ""){
-             setError({...error,emailErr:validateErr})
-         }else{
-             setError({...error,emailErr:""})
-         } 
-    }
+    // const handleEmail = (e) => {
+    //     let value = e.target.value
+    //     setData({ ...data, email: e.target.value })
+    //     let validateErr = validate({
+    //         email: value
+    //     })
+    //     if (value == "") {
+    //         setError({ ...error, emailErr: validateErr })
+    //     } else {
+    //         setError({ ...error, emailErr: "" })
+    //     }
+    // }
 
-    const handlePassword =(e)=>{
-        setData({...data, password:e.target.value})
-        let value = e.target.value
-        let validateErr = validate({
-        login_password:value
-        })
-         if(value == ""){
-             setError({...error,passwordErr:validateErr})
-         }else{
-             setError({...error,passwordErr:""})
-         }  
-    }
+    // const handlePassword = (e) => {
+    //     setData({ ...data, password: e.target.value })
+    //     let value = e.target.value
+    //     let validateErr = validate({
+    //         login_password: value
+    //     })
+    //     if (value == "") {
+    //         setError({ ...error, passwordErr: validateErr })
+    //     } else {
+    //         setError({ ...error, passwordErr: "" })
+    //     }
+    // }
 
 
-    const handleLogin = () => {
+    // const handleLogin = () => {
 
-        console.log('handleLogin++++')
-        setLoading(true);
+    //     console.log('handleLogin++++')
 
-        var validateErr = validate({
-            email: data.email,
-            login_password: data.password,
-        });
-        setError({emailErr:validateErr , passwordErr:validateErr})
-
-        if (Object.keys(validateErr).length == 0) {
-            userLogin(data).then((res)=>{
-                if(res.code == 200){
-                    toast.success('Login Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
-
-                    localStorage.setItem("token", res.token.access);
-        //         localStorage.setItem("LoginDigitalidVerified", response.data.is_digitalid_verified)
-                    navigate('/send-money');
-                }
-                setLoading(false);
-        }).catch((err)=>{
-                setLoading(false);
-                console.log('catch-errr', err.response)
-                console.log('catch-errr', err.response.data.code)
-                if(err.response.data.code === '400'){
-                    toast.error('Credetionals Does not match', { position: "top-right", autoClose: 2000, theme: "colored" });
-                }
-            })
-                
-        }else{
-            console.log('valid', error)
-            setLoading(false);
-        }
-
-    }
+    //     var validateErr = validate({
+    //         email: data.email,
+    //         login_password: data.password,
+    //     });
+    //     setError({ emailErr: validateErr, passwordErr: validateErr })
+    // }
 
 
     return (
@@ -143,109 +167,117 @@ const Login = () => {
                     </>
                 ) : (
                     <> */}
-                        <section className="why-us section-bgba login_banner">
-                            <div className="container">
-                                <div className="row">
-                                    {/* <div className="col-lg-6">
+            <section className="why-us section-bgba login_banner">
+                <div className="container">
+                    <div className="row">
+                        {/* <div className="col-lg-6">
                                 <div className="support_image">
                                     <img src="assets/img/help/help_img02.png" alt="support_images" />
                                 </div>
                             </div> */}
 
-                                    <div className="col-lg-12">
-                                        {/* start-- card */}
-                                        <div className="row">
-                                            <div className="col-lg-12">
-                                                <div className="card card-login">
-                                                    <div className="card-body">
-                                                        {/* <span style={myStyle}>{VerifydigtalidText? VerifydigtalidText: ''}</span> */}
-                                                        <h5 className="Sign-heading">Login</h5>
+                        <div className="col-lg-12">
+                            {/* start-- card */}
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    <div className="card card-login">
+                                        <div className="card-body">
+                                            {/* <span style={myStyle}>{VerifydigtalidText? VerifydigtalidText: ''}</span> */}
+                                            <h5 className="Sign-heading">Login</h5>
 
-                                                        <div className="form_login">
-                                                            <form>
-                                                                <Form.Group className="mb-3 form_label">
-                                                                    <Form.Label>Your Email<span style={{ color: 'red' }} >*</span></Form.Label>
-                                                                    <Form.Control type="email"
-                                                                        // value={email}
-                                                                        // onChange={handleEmail}
-                                                                        onChange={(e)=> handleEmail(e)}
-                                                                        placeholder="Enter email"
-                                                                    />
-                                                                    <span style={myStyle}>{error.emailErr?.email ? error.emailErr.email : ""}</span>
-                                                                </Form.Group>
+                                            <div className="form_login">
+                                                <form onSubmit={formik.handleSubmit} noValidate>
+                                                    <Form.Group className="mb-3 form_label">
+                                                        <Form.Label>Your Email<span style={{ color: 'red' }} >*</span></Form.Label>
+                                                        <Form.Control type="email"
+                                                            // value={email}
+                                                            // onChange={handleEmail}
+                                                            {...formik.getFieldProps('email')}
+                                                            maxLength="50"
+                                                            className={clsx(
+                                                                'form-control bg-transparent',
+                                                                { 'is-invalid': formik.touched.email && formik.errors.email },
+                                                                {
+                                                                    'is-valid': formik.touched.email && !formik.errors.email,
+                                                                }
+                                                            )}
+                                                            name='email'
+                                                            autoComplete='off'
+                                                            placeholder="Enter email"
+                                                        />
+                                                        {/* <span style={myStyle}>{error.emailErr?.email ? error.emailErr.email : ""}</span> */}
+                                                    </Form.Group>
 
-                                                                <Form.Group className="mb-3 form_label">
-                                                                    <Form.Label> Your Password<span style={{ color: 'red' }} >*</span></Form.Label>
-                                                                    <Form.Control
-                                                                        type={showPassword ? 'text' : 'password'}
-                                                                        id="password"
-                                                                        name="password"
-                                                                        // value={password}
-                                                                        onChange={(e)=> handlePassword(e)}
-                                                                        placeholder="Password"
-                                                                    />
-                                                                    <span className="pass_icons" type="button" onClick={toggleShowPassword}>
-                                                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
-                                                                    </span>
-                                                                    <span style={myStyle}>{error.passwordErr?.login_password ? error.passwordErr.login_password : ""}</span>
+                                                    <Form.Group className="mb-3 form_label">
+                                                        <Form.Label> Your Password<span style={{ color: 'red' }} >*</span></Form.Label>
+                                                        <Form.Control
+                                                            type={showPassword ? 'text' : 'password'}
+                                                            autoComplete='off'
+                                                            {...formik.getFieldProps('password')}
+                                                            className={clsx(
+                                                                'form-control bg-transparent',
+                                                                {
+                                                                    'is-invalid': formik.touched.password && formik.errors.password,
+                                                                },
+                                                                {
+                                                                    'is-valid': formik.touched.password && !formik.errors.password,
+                                                                }
+                                                            )}
+                                                            placeholder="Password"
+                                                        />
+                                                        <span className="pass_icons" type="button" onClick={toggleShowPassword}>
+                                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                                        </span>
+                                                        {/* <span style={myStyle}>{error.passwordErr?.login_password ? error.passwordErr.login_password : ""}</span> */}
 
-                                                                </Form.Group>
+                                                    </Form.Group>
 
-                                                                <div className="row">
-                                                                    <div className="col-lg-6">
-                                                                        <Form.Group className="mb-3">
-                                                                            <Form.Check
-                                                                                type="checkbox"
-                                                                                value={promo_marketing}
-                                                                                onChange={handlePromo_marketing}
-                                                                                checked={promo_marketing.Active} // <-- set the checked prop of input    
-                                                                                label="Remember me " />
-                                                                        </Form.Group>
-                                                                    </div>
-                                                                    <div className="col-lg-6">
-                                                                        <NavLink className="forgot_pass" to="/forgotpassword"> Forgot password?</NavLink>
-                                                                    </div>
-                                                                </div>
-
-                                                                <button variant="primary"
-                                                                    type="button"
-                                                                    className="login_button"
-                                                                    onClick={handleLogin}
-                                                                >
-                                                                    Login
-
-                                                                    {loading ? <>
-                                                                        <div className="loader-overly">
-                                                                            <div className="loader" >
-
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </> : <></>}
-                                                                </button>
-
-                                                                <p className="already_content">Don't have account?
-                                                                    <NavLink to="/signup">Sign up</NavLink>
-                                                                </p>
-                                                            </form>
+                                                    <div className="row">
+                                                        <div className="col-lg-6">
+                                                            <Form.Group className="mb-3">
+                                                                <Form.Check
+                                                                    type="checkbox"
+                                                                    value={promo_marketing}
+                                                                    onChange={handlePromo_marketing}
+                                                                    checked={promo_marketing.Active} // <-- set the checked prop of input    
+                                                                    label="Remember me " />
+                                                            </Form.Group>
+                                                        </div>
+                                                        <div className="col-lg-6">
+                                                            <NavLink className="forgot_pass" to="/forgotpassword"> Forgot password?</NavLink>
                                                         </div>
                                                     </div>
-                                                </div>
+
+                                                    <button variant="primary"
+                                                        type="submit"
+                                                        className="login_button"
+                                                    >
+                                                        Login
+
+                                                        {loading ? <>
+                                                            <div className="loader-overly">
+                                                                <div className="loader" >
+
+                                                                </div>
+
+                                                            </div>
+                                                        </> : <></>}
+                                                    </button>
+
+                                                    <p className="already_content">Don't have account?
+                                                        <NavLink to="/signup">Sign up</NavLink>
+                                                    </p>
+                                                </form>
                                             </div>
                                         </div>
-                                        {/* End-- card */}
                                     </div>
                                 </div>
                             </div>
-                        </section>
-                    </>
-        //         )
-        //     }
-
-        //     {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
-
-
-        // </>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </>
 
     )
 }

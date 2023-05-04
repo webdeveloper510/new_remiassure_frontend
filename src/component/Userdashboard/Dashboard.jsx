@@ -27,7 +27,7 @@ const Dashboard = () => {
 
     const navigate = useNavigate();
     useEffect(() => {
-        if (!authDashHelper('authDashCheck')) {
+        if (!authDashHelper('authCheck')) {
           navigate('/', { replace: true });
           return;
         }

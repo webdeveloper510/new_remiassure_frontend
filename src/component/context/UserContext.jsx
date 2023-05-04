@@ -8,7 +8,7 @@ export const AuthProvider = ({children})=>{
     const [sessionID, setSessionID] = React.useState({});
    
 
-    console.log('userAuthContext', location)
+    // console.log('userAuthContext', location)
 
     return (
         <UserContext.Provider value={{ location, setLocation, userauth, setAuth, sessionID, setSessionID}}>

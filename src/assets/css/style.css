@@ -2684,10 +2684,10 @@ button.continue_button {
 /* .user_dashboard_banner {
   margin-top: 80px;
 } */
-section.why-us.section-bgba.user_dashboard_banner {
+/* section.why-us.section-bgba.user_dashboard_banner {
   /* padding-top: 0; */
-  /* margin-top:90px; */
-}
+  /* margin-top:90px; 
+} */
 .money_exchange_row {
   width: 100%;
   text-align: center;
@@ -5555,7 +5555,7 @@ span.fs-14 {
 }
 span.pass_icons {
   float: right;
-  margin-right: 10px;
+  margin-right: 30px;
   margin-top: -25px;
   position: relative;
   z-index: 2;
@@ -5567,3 +5567,8 @@ span.pass_icons {
 /* .ausflag{
 backgound:url('../img/home/australia.png');
 } */
+
+.phoneInp:focus {
+outline: none !important;
+box-shadow: none !important;
+}

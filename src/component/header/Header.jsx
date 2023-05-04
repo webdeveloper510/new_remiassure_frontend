@@ -50,17 +50,17 @@ const Header =() => {
   const mobilemenuShow = () => setShow(true);
 
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
+  // console.log("TOKEN", token);
 
   const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
+  // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
   const DigitalCode = localStorage.getItem("DigitalCode");
-  console.log("DigitalCode", DigitalCode);
+  // console.log("DigitalCode", DigitalCode);
 
 
   const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp)
+  // console.log("Verification Message", verification_otp)
 
   // const token_forgot = localStorage.getItem("token_forgot");
   //   console.log("TOken_Forgot_password", token_forgot);
