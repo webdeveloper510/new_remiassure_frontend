@@ -15,7 +15,7 @@ import { BiDollarCircle } from "react-icons/bi";
 import { MdRemoveRedEye } from "react-icons/md";
 import { BiTransfer } from "react-icons/bi";
 import { BsFillPersonPlusFill } from "react-icons/bs";
-
+import authDashHelper from "../../utils/AuthDashHelper";
 
 import Sidebar from './Sidebar';
 import Page404 from "../pageNotfound/Page404";
@@ -23,8 +23,15 @@ import nodata from '../../assets/img/userdashboard/nodata.avif';
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
 
 
-
 const Dashboard = () => {
+
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!authDashHelper('authDashCheck')) {
+          navigate('/', { replace: true });
+          return;
+        }
+      }, []);
 
     /**************************token ************************ */
     const token = localStorage.getItem("token");
@@ -66,7 +73,6 @@ const Dashboard = () => {
     const [recipientData, setRecipientData] = useState([]);
 
 
-    const navigate = useNavigate();
     const [isActive, setActive] = useState("false");
 
     const handleToggle = () => {
@@ -198,9 +204,9 @@ const Dashboard = () => {
 
             {/* <!-- ======= help Remitassure Change password -Section  start======= --> */}
 
-            {
+            {/* {
                 LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
-                    <>
+                    <> */}
                         <div className="margin-set">
                             <div className="tabs-page">
                                 <Sidebar />
@@ -471,13 +477,13 @@ const Dashboard = () => {
                                 </div>
                             </div>
                         </div>
-                    </>
+                    {/* </>
                 ) : (
                     <>
                         <Page404 />
                     </>
                 )
-            }
+            } */}
 
 
             {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}

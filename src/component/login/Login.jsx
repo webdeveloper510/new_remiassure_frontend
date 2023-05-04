@@ -2,14 +2,12 @@ import React, { useState, useContext } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Links, NavLink, useNavigate } from 'react-router-dom';
-
+import { userLogin } from "../../utils/Api";
 import { toast } from "react-toastify";
-import { API } from "../../config/API";
-import axios from 'axios';
 import UserContext from '../context/UserContext';
 import Page404 from "../pageNotfound/Page404";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
+import validate from "../../pages/FormValidationRules";
 {/* start -- css*/ }
 const myStyle = {
     color: "red",
@@ -17,44 +15,37 @@ const myStyle = {
     textTransform: "capitalize",
     marginTop: "4px",
     display: "block",
-    textAlign: "center"
+    textAlign: "left"
 }
 {/* End -- css*/ }
 
 const Login = () => {
 
-    /**************************token ************************ */
+    
+
     const token = localStorage.getItem("token");
-    console.log("TOKEN", token);
+    // console.log("TOKEN", token);
 
     const signup_token = localStorage.getItem("signup_token")
-    console.log("signup_token", signup_token);
+    // console.log("signup_token", signup_token);
 
     const verification_otp = localStorage.getItem("verification_otp");
-    console.log("Verification Message", verification_otp);
+    // console.log("Verification Message", verification_otp);
 
     const DigitalCode = localStorage.getItem("DigitalCode");
-    console.log("DigitalCode", DigitalCode);
+    // console.log("DigitalCode", DigitalCode);
 
     const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-    console.log("LoginDigitalidVerified", LoginDigitalidVerified)
+    // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
     /**************************State ************************ */
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [data, setData] = useState({email:'', password:''})
+    const [error, setError] = useState({emailErr:"", passwordErr:""})
     const [promo_marketing, setPromo_marketing] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    // start Error mesasge states
-    const [emailText, setEmailText] = useState('');
-    const [passwordText, setPasswordText] = useState('');
-    const [EmailpasswordText, setEmailpasswordText] = useState('');
-    const [UserexistText, setUserexistText] = useState('');
     /****************Show hide password state********************** */
     const [showPassword, setShowPassword] = useState(false);
-
-
-
 
     /****************Show hide password functionality********************** */
     const toggleShowPassword = () => setShowPassword(prevState => !prevState);
@@ -64,13 +55,7 @@ const Login = () => {
     const wrongData = () => toast.warn("Login or Password is Wrong!");
     const emailExits = () => toast.error("Please fill out all the fields");
 
-    const handleEmail = (e) => {
-        setEmail(e.target.value);
-    }
 
-    const handlePassword = (e) => {
-        setPassword(e.target.value);
-    }
 
     const handlePromo_marketing = (e) => {
         const { checked } = e.target;
@@ -83,61 +68,67 @@ const Login = () => {
         }));
     };
 
-
-    let sessionID;
-    setTimeout(
-        function () {
-            sessionID = localStorage.getItem("SessionID");
-            console.log("Login Session", sessionID);
-        }, 3000
-    );
-
-
-    const handleLogin = (event) => {
-        event.preventDefault();
-        setLoading(true); // Set loading before sending API request
-        axios.post(API.BASE_URL + 'login/', {
-            email: email,
-            password: password,
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        }, {
+    const handleEmail =(e)=>{
+        let value = e.target.value
+        setData({...data, email:e.target.value})
+        let validateErr = validate({
+         email:value
         })
-            .then(function (response) {
-                console.log("Login API", response);
-                localStorage.setItem("token", response.data.token.access);
-                localStorage.setItem("LoginDigitalidVerified", response.data.is_digitalid_verified)
+         if(value == ""){
+             setError({...error,emailErr:validateErr})
+         }else{
+             setError({...error,emailErr:""})
+         } 
+    }
 
-                setLoading(false); // Stop loading
-                if (response.data.is_digitalid_verified == false) {
-                    navigate('/sendMoney');
-                } else {
-                    navigate('/dashboard');
+    const handlePassword =(e)=>{
+        setData({...data, password:e.target.value})
+        let value = e.target.value
+        let validateErr = validate({
+        login_password:value
+        })
+         if(value == ""){
+             setError({...error,passwordErr:validateErr})
+         }else{
+             setError({...error,passwordErr:""})
+         }  
+    }
+
+
+    const handleLogin = () => {
+
+        console.log('handleLogin++++')
+        setLoading(true);
+
+        var validateErr = validate({
+            email: data.email,
+            login_password: data.password,
+        });
+        setError({emailErr:validateErr , passwordErr:validateErr})
+
+        if (Object.keys(validateErr).length == 0) {
+            userLogin(data).then((res)=>{
+                if(res.code == 200){
+                    toast.success('Login Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
+
+                    localStorage.setItem("token", res.token.access);
+        //         localStorage.setItem("LoginDigitalidVerified", response.data.is_digitalid_verified)
+                    navigate('/send-money');
                 }
-
-                if (response.status) {
-                    // notify();
-                    // navigate('/userdashboard');   
+                setLoading(false);
+        }).catch((err)=>{
+                setLoading(false);
+                console.log('catch-errr', err.response)
+                console.log('catch-errr', err.response.data.code)
+                if(err.response.data.code === '400'){
+                    toast.error('Credetionals Does not match', { position: "top-right", autoClose: 2000, theme: "colored" });
                 }
-
             })
-
-            .catch(function (error, message) {
-                console.log(error.response)
-                setLoading(false); // Stop loading in case of error
-                // if(error.response.status){
-                //     toast.error(error.response.data.message);
-                // }
-                setEmailText(error.response.data.Email);
-                setPasswordText(error.response.data.Password);
-                setEmailpasswordText(error.response.data.Emailpassword);
-                setUserexistText(error.response.data.User);
-
-                console.log(error, "klnklnklnknnnnnnnnnnnn");
-            })
-
+                
+        }else{
+            console.log('valid', error)
+            setLoading(false);
+        }
 
     }
 
@@ -145,13 +136,13 @@ const Login = () => {
     return (
         <>
             {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
-            {
+            {/* {
                 token || DigitalCode != undefined || '' ? (
                     <>
                         <Page404 />
                     </>
                 ) : (
-                    <>
+                    <> */}
                         <section className="why-us section-bgba login_banner">
                             <div className="container">
                                 <div className="row">
@@ -167,43 +158,42 @@ const Login = () => {
                                             <div className="col-lg-12">
                                                 <div className="card card-login">
                                                     <div className="card-body">
-                                                        <span style={myStyle}>{EmailpasswordText ? EmailpasswordText : ''}</span>
                                                         {/* <span style={myStyle}>{VerifydigtalidText? VerifydigtalidText: ''}</span> */}
                                                         <h5 className="Sign-heading">Login</h5>
 
                                                         <div className="form_login">
                                                             <form>
-                                                                <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
+                                                                <Form.Group className="mb-3 form_label">
                                                                     <Form.Label>Your Email<span style={{ color: 'red' }} >*</span></Form.Label>
                                                                     <Form.Control type="email"
-                                                                        value={email}
-                                                                        onChange={handleEmail}
+                                                                        // value={email}
+                                                                        // onChange={handleEmail}
+                                                                        onChange={(e)=> handleEmail(e)}
                                                                         placeholder="Enter email"
                                                                     />
-                                                                    <span style={myStyle}>{emailText ? emailText : ""}</span>
-                                                                    <span style={myStyle}>{UserexistText ? UserexistText : ""}</span>
+                                                                    <span style={myStyle}>{error.emailErr?.email ? error.emailErr.email : ""}</span>
                                                                 </Form.Group>
 
-                                                                <Form.Group className="mb-3 form_label" controlId="formBasicPassword">
+                                                                <Form.Group className="mb-3 form_label">
                                                                     <Form.Label> Your Password<span style={{ color: 'red' }} >*</span></Form.Label>
                                                                     <Form.Control
                                                                         type={showPassword ? 'text' : 'password'}
                                                                         id="password"
                                                                         name="password"
-                                                                        value={password}
-                                                                        onChange={handlePassword}
+                                                                        // value={password}
+                                                                        onChange={(e)=> handlePassword(e)}
                                                                         placeholder="Password"
                                                                     />
                                                                     <span className="pass_icons" type="button" onClick={toggleShowPassword}>
                                                                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                                     </span>
-                                                                    <span style={myStyle}>{passwordText ? passwordText : ""}</span>
+                                                                    <span style={myStyle}>{error.passwordErr?.login_password ? error.passwordErr.login_password : ""}</span>
 
                                                                 </Form.Group>
 
                                                                 <div className="row">
                                                                     <div className="col-lg-6">
-                                                                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                                                                        <Form.Group className="mb-3">
                                                                             <Form.Check
                                                                                 type="checkbox"
                                                                                 value={promo_marketing}
@@ -218,15 +208,15 @@ const Login = () => {
                                                                 </div>
 
                                                                 <button variant="primary"
-                                                                    type="submit"
+                                                                    type="button"
                                                                     className="login_button"
                                                                     onClick={handleLogin}
                                                                 >
                                                                     Login
 
                                                                     {loading ? <>
-                                                                        <div class="loader-overly">
-                                                                            <div class="loader" >
+                                                                        <div className="loader-overly">
+                                                                            <div className="loader" >
 
                                                                             </div>
 
@@ -249,13 +239,13 @@ const Login = () => {
                             </div>
                         </section>
                     </>
-                )
-            }
+        //         )
+        //     }
 
-            {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
+        //     {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
 
 
-        </>
+        // </>
 
     )
 }

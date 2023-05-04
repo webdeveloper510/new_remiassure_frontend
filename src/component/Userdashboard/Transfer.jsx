@@ -16,9 +16,10 @@ import AllTransfer from "./AllTransfer";
 import CompletedTransaction from "./CompletedTransaction";
 import Sidebar from './Sidebar';
 import Page404 from "../pageNotfound/Page404";
-
+import authChecker from "../../utils/AuthHelper";
 
 const Transaction = () => {
+    const navigate = useNavigate();
     /**************************token ************************ */
     const token = localStorage.getItem("token");
     console.log("TOKEN", token);
@@ -35,7 +36,12 @@ const Transaction = () => {
     const DigitalCode = localStorage.getItem("DigitalCode");
     console.log("DigitalCode", DigitalCode);
 
-
+    // useEffect(() => {
+    //     if (!authChecker('authCheck')) {
+    //       navigate('/', { replace: true });
+    //       return;
+    //     }
+    //   }, []);
 
     /**************************Feild of state ************************ */
 

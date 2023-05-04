@@ -74,6 +74,7 @@ const Header =() => {
   const handleLogout = (event) => {
       event.preventDefault();
       localStorage.clear();
+      toast.success('Logout Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
       navigate('/login')
       // window.location.reload(false);
       // window.location.reload();
@@ -116,11 +117,9 @@ const Header =() => {
                       verification_otp || token != undefined || '' ? (
 
                         <li class="dropdown">
-                          <a href="#">
                             <span>
                             My account <IoIosArrowDown style={{ color: 'rgb(20, 34, 224);' }}/>
                               </span> 
-                          </a>
                         <ul>
                           {      
                             LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (

@@ -11,6 +11,7 @@ import CountryDropdown from 'country-dropdown-with-flags-for-react';
 import { Navigate, useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
 import Page404 from "../pageNotfound/Page404";
+import { verifyEmail } from "../../utils/Api";
 
 
 {/* start -- css*/}
@@ -73,6 +74,7 @@ const Verification = () => {
 
      const navigate = useNavigate();
      const notify = () => toast.success("Email Verified Successfully!");
+     const varifyEmail =()=> toast.error("Verification Not Complete")
      
 
 /**************************************************************************
@@ -82,36 +84,55 @@ const Verification = () => {
     const handleEmailVerification = (event) =>{
             event.preventDefault();
             setLoading(true) // set loading before  sending API request
-            axios.post(API.BASE_URL + 'verify-email/', {
-                // email_otp: Allvalue
-                email_otp: otp
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization" : `Bearer ${signup_token}`,
-                },
-            })
-            .then(function(response) {
-                console.log(response);
-                localStorage.setItem("verification_otp", response.data.msg);
-                setAlreadyverifiedText(response.data.Alreadyverified)
-                setLoading(false)  //stop loading 
-                if (response.status){
-                    // notify();
-                    navigate('/sendMoney');  
-                } 
-            })
-            .catch(function(error, message) {
+            verifyEmail(otp).then((res)=>{
+                console.log("verifing email" , res)
+                localStorage.setItem("verification_otp", otp);
+                setAlreadyverifiedText(res.Alreadyverified)
+                setLoading(false)
+                navigate('/send-money')
+                
+                if(res.code == 200){
+                    toast.success("You have successfully verified your email address", 
+                    { position: "top-right", autoClose: 2000, theme: "colored" })
+                }
+            }).catch((error)=>{
                 console.log(error.response)
-                setLoading(false) // stop loading in case with error
-                // if(error.response.status){
-                //     // toast.error(error.response.data.message); 
-                  
-                // } 
-                setEnterOtpText(error.response.data.Enterotp);
-                setInvalidotpText(error.response.data.Invalidotp);
-                console.log(error, "klnklnklnknnnnnnnnnnnn");   
+                if(error.response.status == 400){
+                    toast.error(error.response.data.message,
+                    { position: "top-right", autoClose: 2000, theme: "colored" });                        
+                }
+                setLoading(false)
             })
+            // axios.post(API.BASE_URL + 'verify-email/', {
+            //     // email_otp: Allvalue
+            //     email_otp: otp
+            // }, {
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         "Authorization" : `Bearer ${signup_token}`,
+            //     },
+            // })
+            // .then(function(response) {
+            //     console.log(response);
+            //     localStorage.setItem("verification_otp", response.data.msg);
+            //     setAlreadyverifiedText(response.data.Alreadyverified)
+            //     setLoading(false)  //stop loading 
+            //     if (response.status){
+            //         // notify();
+            //         navigate('/sendMoney');  
+            //     } 
+            // })
+            // .catch(function(error, message) {
+            //     console.log(error.response)
+            //     setLoading(false) // stop loading in case with error
+            //     // if(error.response.status){
+            //     //     // toast.error(error.response.data.message); 
+                  
+            //     // } 
+            //     setEnterOtpText(error.response.data.Enterotp);
+            //     setInvalidotpText(error.response.data.Invalidotp);
+            //     console.log(error, "klnklnklnknnnnnnnnnnnn");   
+            // })
     }
 
 
@@ -159,7 +180,7 @@ const Verification = () => {
                                                 <span  style={myStyle}>{InvalidotpText? InvalidotpText: ""}</span> 
 
                                             
-                                            <div class="col-md-12 align-center">
+                                            <div className="col-md-12 align-center">
                                                 <button variant="primary" 
                                                 type="submit"
                                                 className="continue_button"
@@ -168,8 +189,8 @@ const Verification = () => {
                                                     Continue
                                                     {
                                                         loading ?<>
-                                                        <div class="loader-overly"> 
-                                                            <div class="loader" > 
+                                                        <div className="loader-overly"> 
+                                                            <div className="loader" > 
                                                             </div>
                                                             </div>
                                                         </>:<></>

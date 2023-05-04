@@ -8,6 +8,8 @@ import {API} from "../../config/API";
 import axios from 'axios';
 import UserContext from '../context/UserContext';
 import Page404 from "../pageNotfound/Page404";
+import { resetEmail } from "../../utils/Api";
+import validate from "../../pages/FormValidationRules";
 
 const myStyle ={
     color: "red",
@@ -15,7 +17,7 @@ const myStyle ={
     textTransform: "capitalize",
     marginTop:"4px",
     display:"block",
-    textAlign:"center"
+    // textAlign:"center"
 }
 
 const ForgotPassword = () => {
@@ -36,6 +38,7 @@ const ForgotPassword = () => {
 
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
+    const [error , setError] = useState({emailErr:""})
 
     //
     const [EnteremailText, setEnteremailText] = useState('');
@@ -65,37 +68,59 @@ const ForgotPassword = () => {
 
     const handleForget = (event) => {
         event.preventDefault();
-        setLoading(true); // Set loading before sending API request
-            axios.post(API.BASE_URL + 'send-password-reset-email/', {
-                email: email,
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                }}, {
-            })
-            .then(function(response) {
-                console.log("Forget API" ,response);
-                setLoading(false); // Stop loading
-                localStorage.setItem("token_forgot", response.data.token);
-                localStorage.setItem("customerId_forgot", response.data.customer_id);
-                // localStorage.setItem("token_forgot_url", `http://localhost:3000/resetpassword/${token_forgot}`);
-                // navigate(`/resetpassword/${token_forgot}`);
-                // window.location.reload(false);
-                navigate('/resetpasswords')
-                // notify();
-            })
-            .catch(function(error) {
-                console.log(error.response);
-                setLoading(false); // Stop loading in case of error
-                // if(error.response.status){
-                //     toast.error(error.response.data.message);
-                // }
-                setEnteremailText(error.response.data.Enteremail);
-                setValidemailText(error.response.data.Validemail);
-                setNotegistered(error.response.data.Notegistered);
+        let validateErr = validate({
+            email:email
+        })
+        setError({emailErr:validateErr})
+        if(Object.keys(validateErr).length == 0){
+            setLoading(true); // Set loading before sending API request
+        resetEmail(email).then((res)=>{
+            console.log("reset Email" , res)
+            setLoading(false);
+            localStorage.setItem("token_forgot", res.token)
+            localStorage.setItem("customerId_forgot", res.customer_id);
+            navigate('/resetpasswords')
+            if(res.code =="200"){
+                toast.success("Please Check Your Email",{ position: "top-right", autoClose: 2000, theme: "colored" })
+            }
+        }).catch((error)=>{
+            console.log(error.response)
+            if(error.response.status == 400){
+                toast.error(error.response.data.message,{ position: "top-right", autoClose: 2000, theme: "colored" })
+            }
+            setLoading(false)
+        })
+        }
+            // axios.post(API.BASE_URL + 'send-password-reset-email/', {
+            //     email: email,
+            // }, {
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     }}, {
+            // })
+            // .then(function(response) {
+            //     console.log("Forget API" ,response);
+            //     setLoading(false); // Stop loading
+            //     localStorage.setItem("token_forgot", response.data.token);
+            //     localStorage.setItem("customerId_forgot", response.data.customer_id);
+            //     // localStorage.setItem("token_forgot_url", `http://localhost:3000/resetpassword/${token_forgot}`);
+            //     // navigate(`/resetpassword/${token_forgot}`);
+            //     // window.location.reload(false);
+            //     navigate('/resetpasswords')
+            //     // notify();
+            // })
+            // .catch(function(error) {
+            //     console.log(error.response);
+            //     setLoading(false); // Stop loading in case of error
+            //     // if(error.response.status){
+            //     //     toast.error(error.response.data.message);
+            //     // }
+            //     setEnteremailText(error.response.data.Enteremail);
+            //     setValidemailText(error.response.data.Validemail);
+            //     setNotegistered(error.response.data.Notegistered);
               
 
-            })
+            // })
         }
         
     
@@ -130,17 +155,18 @@ const ForgotPassword = () => {
                                         <div className="form_login">
                                             <form>
                                             <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
-                                                    <Form.Label>Your Email</Form.Label>
+                                                 <Form.Label>Your Email<span style={{ color: 'red' }} >*</span></Form.Label>
                                                     <Form.Control 
                                                     type="email"
                                                     value={email}
                                                     onChange={handleEmail}
                                                     placeholder="Enter email"
                                                     />
+                                                    <span style={myStyle}>{error.emailErr?.email ? error.emailErr.email :""}</span>
                                                     <span style={myStyle}>{EnteremailText? EnteremailText: ''}</span>
                                                     <span style={myStyle}>{ValidemailText? ValidemailText: ''}</span>
                                                     <span style={myStyle}>{Notegistered? Notegistered: ''}</span>
-                                                </Form.Group>
+                                            </Form.Group>
 
                                     
                                                 <button variant="primary" 
@@ -150,8 +176,8 @@ const ForgotPassword = () => {
                                             >
                                                     Forgot Password
                                                     {loading ? <>
-                                                        <div class="loader-overly"> 
-                                                        <div class="loader" > 
+                                                        <div className="loader-overly"> 
+                                                        <div className="loader" > 
                                                         
                                                         </div>
                                                         

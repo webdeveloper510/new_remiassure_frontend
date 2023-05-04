@@ -4,4 +4,4 @@ export const API ={
 
     //Client side url
     // BASE_URL: "http://3.101.154.87:8000/"
-}
+}  

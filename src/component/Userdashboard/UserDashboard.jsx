@@ -43,8 +43,8 @@ const UserDashboard = () => {
   return (
     <>
       {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
-      {
-        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
+      {/* {
+        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? ( */}
 
           <div className="margin-set">
 
@@ -106,13 +106,13 @@ const UserDashboard = () => {
 
 
           </div>
-        ) : (
+        {/* ) : (
           <>
             <Page404 />
           </>
 
         )
-      }
+      } */}
 
 
 

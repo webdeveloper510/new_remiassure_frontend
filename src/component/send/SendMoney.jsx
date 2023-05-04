@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef, useMemo } from "react";
-import { Links, NavLink } from 'react-router-dom';
+import { Links, NavLink, useNavigate} from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import CountryDropdown from 'country-dropdown-with-flags-for-react';
@@ -13,7 +13,6 @@ import creditcards from '../../assets/img/userdashboard/mastercard.png';
 import { toast } from "react-toastify";
 import { API } from "../../config/API";
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router";
 import ReactFlagsSelect from "react-flags-select";
 import verified from '../../assets/img/userdashboard/3.png';
 import { BsCheckCircleFill } from "react-icons/bs";
@@ -22,6 +21,8 @@ import countryList from 'react-select-country-list'
 import sendmoney from "../../assets/img/userdashboard/money3.webp";
 import Page404 from "../pageNotfound/Page404";
 import nocard from "../../assets/img/userdashboard/nocard.jpg";
+
+import authChecker from "../../utils/AuthHelper";
 // start css
 const myStyle = {
   color: "red",
@@ -30,7 +31,10 @@ const myStyle = {
 }
 
 const SendMoney = () => {
+  const navigate = useNavigate();
+
   const [showCrad, setShowCrad] = React.useState(false);
+
   console.log('send Mondey')
   /************ Start page show hide condtion page ***************/
   const token = localStorage.getItem("token");
@@ -158,7 +162,6 @@ const [errorCard, seterrorCard] = React.useState(false);
     console.log(formCardValue)
   }
 
-  const navigate = useNavigate();
   const notify = () => toast.success("Sign Up Successfully!");
   const emptyData = () => toast.warn("Please fill out all the fields");
   const emailExits = () => toast.error("User with this Email already exists!");
@@ -177,7 +180,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
   // Start Amount Api
   // Start -Recipient Bank Details 
-  const handleAmountCahngeValue = (e, key) => {
+  const handleAmountChangeValue = (e, key) => {
     console.log(e.target.value)
     console.log(key)
     let AmountData = amountValue
@@ -195,7 +198,12 @@ const [errorCard, seterrorCard] = React.useState(false);
     setFormSenderValue(SenderData)
     console.log(formSenderValue)
   }
-
+  useEffect(() => {
+    if (!authChecker('authCheck')) {
+      navigate('/', { replace: true });
+      return;
+    }
+  }, []);
 
   // function handleDataStore(){
 
@@ -753,8 +761,8 @@ const [errorCard, seterrorCard] = React.useState(false);
 
 
   /**************************************************************************
-   * ************** Start Sender-details-Lists Api *********************************
-   * ***********************************************************************/
+******************* Start Sender-details-Lists Api *****************************
+   ************************************************************************/
 
   useEffect(() => {
     setLoading(true); // Set loading before sending API request
@@ -1385,7 +1393,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                         // onChange={(e)=> {myTotalAmount(e.target.value); setAmount(e.target.value)}}
                         name="amountInput"
                         defaultValue={amountValue.amountInput}
-                        onChange={(e) => handleAmountCahngeValue(e, 'amountInput')}
+                        onChange={(e) => handleAmountChangeValue(e, 'amountInput')}
                         onBlurCapture={myTotalAmount}
                      
                         onKeyPress={handleKeyPress}
@@ -1504,8 +1512,8 @@ const [errorCard, seterrorCard] = React.useState(false);
                     >
                       Continue
                       {/* {loading ? <>
-                    <div class="loader-overly"> 
-                        <div class="loader" > 
+                    <div className="loader-overly"> 
+                        <div className="loader" > 
                                                       
                           </div>
                                                       
@@ -2274,7 +2282,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
                           <span style={myStyle}>{CardErrorText.Name ? CardErrorText.Name : ''}</span>
                           <span style={myStyle}>{CardErrorText.name ? CardErrorText.name : ''}</span>
-                          <i class="fa fa-user"></i>
+                          <i className="fa fa-user"></i>
                         </div>
 
                       </div>
@@ -2296,7 +2304,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                             defaultValue={formCardValue.cardNumber}
                             onChange={(e) => handleCardInputChange(e, 'cardNumber')}
                           />
-                          <i class="fa fa-credit-card" id="cardtype"></i>
+                          <i className="fa fa-credit-card" id="cardtype"></i>
                         </div>
                         {errorCard&&formCardValue.cardNumber.length<=0?
                               <span style={myStyle}>Please select the Card Number </span>:""} 
@@ -2331,7 +2339,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
                             <span style={myStyle}>{CardErrorText.Entermonth ? CardErrorText.Entermonth : ''}</span>
                             <span style={myStyle}>{CardErrorText.expiry_month ? CardErrorText.expiry_month : ''}</span>
-                            <i class="fa fa-calendar"></i>
+                            <i className="fa fa-calendar"></i>
 
                           </div>
                           <span>/</span>
@@ -2351,7 +2359,7 @@ const [errorCard, seterrorCard] = React.useState(false);
 
                             <span style={myStyle}>{CardErrorText.Enteryear ? CardErrorText.Enteryear : ''}</span>
                             <span style={myStyle}>{CardErrorText.expiry_year ? CardErrorText.expiry_year : ''}</span>
-                            <i class="fa fa-calendar"></i>
+                            <i className="fa fa-calendar"></i>
 
                           </div>
                         </div>
@@ -2376,7 +2384,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                               <span style={myStyle}>Please select the Card CVV </span>:""} 
 
                           <span style={myStyle}>{CardErrorText.Entercvc ? CardErrorText.Entercvc : ''}</span>
-                          <i class="fa fa-lock"></i>
+                          <i className="fa fa-lock"></i>
                         </div>
 
                       </div>
@@ -2412,8 +2420,8 @@ const [errorCard, seterrorCard] = React.useState(false);
               <Button type="submit" variant="primary" onClick={handlePaymentCard}>
                 Payment
                 {loading ? <>
-                    <div class="loader-overly"> 
-                      <div class="loader" > 
+                    <div className="loader-overly"> 
+                      <div className="loader" > 
                                                             
                       </div>
                                                             
@@ -2594,7 +2602,7 @@ const [errorCard, seterrorCard] = React.useState(false);
                           />
                           <span className="checkmark"></span>
                         </label>
-                        <label class="container-new form-gender">
+                        <label className="container-new form-gender">
                           <span className="radio-tick">Female</span>
                           <input
                             className="form-check-input"
@@ -2885,7 +2893,7 @@ const [errorCard, seterrorCard] = React.useState(false);
               </div>
 
 
-              <div class="row">
+              <div className="row">
                 {/* <div className="col-md-4">
                 <button className="start-form-button">Cancel</button>
               </div> */}
@@ -2946,7 +2954,7 @@ const [errorCard, seterrorCard] = React.useState(false);
               {/* <button className="form-button" onClick={() => {setStep(step-1)}}>Previous</button> */}
               <p>Thanks for choosing RemitAssure</p>
               <NavLink to="/dashboard">
-                <button type="submit" class="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
+                <button type="submit" className="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
             </div>
 
           </div>
@@ -2965,9 +2973,9 @@ const [errorCard, seterrorCard] = React.useState(false);
       <div>
         {
           1 ? (
-            <div class="form">
-              {
-                 LoginDigitalidVerified == 'false'|| verification_otp || DigitalCode != undefined || '' ? (
+            <div className="form">
+              {/* {
+                 LoginDigitalidVerified == 'false'|| verification_otp || DigitalCode != undefined || '' ? ( */}
                   <>
                     <section className="why-us section-bgba user_dashboard_banner">
                       <div className="container">
@@ -3091,13 +3099,13 @@ const [errorCard, seterrorCard] = React.useState(false);
                       </div>
                     </section>
                   </>
-                ) : (
+                {/* ) : (
                   <>
                     <Page404 />
 
                   </>
                 )
-              }
+              } */}
 
             </div>
           ) : (

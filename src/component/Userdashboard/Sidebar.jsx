@@ -47,8 +47,8 @@ const sidebar = () => {
   return (
 
     <>
-      {
-        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
+      {/* {
+        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? ( */}
 
           <div className="sidebar">
             <nav>
@@ -83,14 +83,14 @@ const sidebar = () => {
       </Nav.Item>
     </Nav> */}
           </div>
-
+{/* 
         ) : (
           <>
             <Page404 />
           </>
 
         )
-      }
+      } */}
 
     </>
   )

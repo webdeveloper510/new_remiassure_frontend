@@ -420,8 +420,8 @@ const Home = () => {
 
     {/* <!-- ======= Home Better-Way-Section  start======= --> */}
     <section className="top_sections">
-    <div class="container">
-        <div class="row">
+    <div className="container">
+        <div className="row">
             <div className="col-lg-6 no-padding banner-content">
                 <div className="vl">
                     <h1 className="vl-heading">A Better Way</h1>
@@ -448,7 +448,7 @@ const Home = () => {
         </div>
 
        
-        <div class="row">
+        <div className="row">
             <div className="col-lg-12">
                 <div className="card card-flag new_card">
                     <div className="card-body">
@@ -557,7 +557,7 @@ const Home = () => {
                             </div>
                             <div className="col-3-1">
                             <p className="get-text">Receive method</p>
-                              <select class="form-select rate_input form-control mb-3 home-select-method" aria-label="Select a reason">
+                              <select className="form-select rate_input form-control mb-3 home-select-method" aria-label="Select a reason">
                                       <option selected>Select Method</option>
                                       <option value="1">Bank Transfer</option>
                                       <option value="2">Mobile Wallet</option>
@@ -581,8 +581,8 @@ const Home = () => {
                                 >
                                   Continue
                                   {loading ? <>
-                                                <div class="loader-overly"> 
-                                                <div class="loader" > 
+                                                <div className="loader-overly"> 
+                                                <div className="loader" > 
                                                 
                                                 </div>
                                                 
@@ -624,7 +624,7 @@ const Home = () => {
 
 
        <div className="Money_section">
-        <div class="row">
+        <div className="row">
         <div className="col-lg-6 right_sections">
               <img src="assets/img/home/img03.svg" alt="background-images" />
             </div>
@@ -696,7 +696,7 @@ const Home = () => {
                    
                    {/* bank first row start */}
                     <div className="row">
-                      <ul class="bank_transfer custom-list">
+                      <ul className="bank_transfer custom-list">
                         < BankTransferArrayOfObjects />
                         </ul>
                     </div>

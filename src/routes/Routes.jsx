@@ -12,9 +12,6 @@ import RecentPassword from '../component/resetPassword/ResetPassword';
 import Profile from '../component/profile/Profile';
 import Recipients from '../component/userRecipients/Recipients';
 import LocalStorage from '../component/resetPassword/Localstorage';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { HashRouter } from "react-router-dom";
 import Verification from '../component/verification/Verification';
 import Multiple from '../component/profile/Multiple';
 import SendMoney from '../component/send/SendMoney';
@@ -35,7 +32,6 @@ import Addnewcard from '../component/Userdashboard/AddNewCard';
 import EditCardUser from '../component/Userdashboard/EditUserCard';
 import SingleCardProfile from '../component/Userdashboard/SingleCardProfile';
 import Page404 from '../component/pageNotfound/Page404';
-
 import GoToTop from '../GoToTop';
 import { AuthProvider } from '../component/context/UserContext';
 
@@ -107,9 +103,7 @@ const Routerpage =()=>{
     <Route exact path='/singleCardData/:id' element={<SingleCardProfile /> } />
     <Route exact path='/*' element={<Page404 />} />
 
-    
     </Routes>
-    <ToastContainer />
      
     <Footer /> 
     </>
