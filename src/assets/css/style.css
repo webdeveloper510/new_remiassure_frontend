@@ -2766,13 +2766,22 @@ select.form-select option {
 .progressBar {
   max-width: 500px;
   margin: 40px auto;
+  display: flex;
 }
 .progress {
   height: 10px;
   border-radius: 5px;
   overflow: visible;
+  display: block;
 }
-
+.steps-description {
+  margin-top: 15px;
+  top: -69px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align:center;
+}
 .progress-bar {
   background-color: #6414E9 !important;
 }
@@ -2828,15 +2837,16 @@ select.form-select option {
   padding-right: 52px !important;
   margin-left: 0;
 }
+
 .step1 ,.step2 , .step3 , .step4, .step5  , .step6{
   background-color: #6414E9 !important;
   width: 16.666%;
   color: #6414E9;
   position:relative;
   overflow: inherit;
-  font-size:0px;
+  /* font-size:0px; */
 }
-.step1:after  {
+/* .step1:after  {
   position: absolute;
   content: "1";
   bottom: 0;
@@ -2851,10 +2861,9 @@ select.form-select option {
   left: 0;
   right: 0;
   margin: 0 auto;
-  background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected;; */;
   border-radius: 100%;
   line-height: 35px;
-}
+} */
 .step1:before , .step2:before , .step3:before  , .step4:before , .step5:before , .step6:before  {
   width: 15px;
   border-left: 6px solid transparent;
@@ -2869,7 +2878,7 @@ select.form-select option {
   height: 0;
 }
 
-.step2:after  {
+/* .step2:after  {
   position: absolute;
   content: "2";
   bottom: 0;
@@ -2884,7 +2893,6 @@ select.form-select option {
   left: 0;
   right: 0;
   margin: 0 auto;
-  background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected;; */;
   border-radius: 100%;
   line-height: 35px;
 }
@@ -2903,7 +2911,6 @@ select.form-select option {
   left: 0;
   right: 0;
   margin: 0 auto;
-  background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected;; */;
   border-radius: 100%;
   line-height: 35px;
 }
@@ -2922,7 +2929,6 @@ select.form-select option {
   left: 0;
   right: 0;
   margin: 0 auto;
-  background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected;; */;
   border-radius: 100%;
   line-height: 35px;
 }
@@ -2941,7 +2947,6 @@ select.form-select option {
   left: 0;
   right: 0;
   margin: 0 auto;
-  background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected;; */;
   border-radius: 100%;
   line-height: 35px;
 }
@@ -2960,10 +2965,9 @@ select.form-select option {
   left: 0;
   right: 0;
   margin: 0 auto;
-  background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected;; */;
   border-radius: 100%;
   line-height: 35px;
-}
+} */
 /* .step2{
   background-color: #6414E9 !important;
   width: 50%;

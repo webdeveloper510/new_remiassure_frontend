@@ -102,7 +102,7 @@ const routes = [
   guard: AuthDashProtect,
   children: [
       
-      { path: '/user-sendmoney', element: <UserSendMoney /> },
+      { path: '/usersendmoney', element: <UserSendMoney /> },
       { path: '/addnewrecipient', element: <AddNewRecipient /> },
       { path: '/userprofile', element: <UserProfile /> },
       { path: '/userrecipients', element: <UserRecipient /> },
