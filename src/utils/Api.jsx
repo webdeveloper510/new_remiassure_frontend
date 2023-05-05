@@ -77,14 +77,25 @@ export const resetPassword = async (data) => {
 }
 
 export const updateProfile = async (data) => {
-  const response = await Axios.post("/update-profile", data).then(res => {
+  console.log("signup",signupToken ,token)
+  const response = await Axios.post("/update-profile/", data, {
+    header: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${signupToken ? signupToken : token}`
+    }
+  }).then(res => {
     return res.data
   })
   return response
 }
 
-export const UserProfile = async (data) => {
-  const response = await Axios.post("/user-profile", data).then(res => {
+export const userProfile = async (data) => {
+  const response = await Axios.post("/user-profile/", data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${signupToken ? signupToken : token}`
+    }
+  }).then(res => {
     return res.data
   })
   return response
