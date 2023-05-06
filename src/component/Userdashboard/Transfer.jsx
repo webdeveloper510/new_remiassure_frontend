@@ -17,24 +17,25 @@ import CompletedTransaction from "./CompletedTransaction";
 import Sidebar from './Sidebar';
 import Page404 from "../pageNotfound/Page404";
 import authChecker from "../../utils/AuthHelper";
+import { transactionHistory } from "../../utils/Api";
 
 const Transaction = () => {
     const navigate = useNavigate();
     /**************************token ************************ */
     const token = localStorage.getItem("token");
-    console.log("TOKEN", token);
+    // console.log("TOKEN", token);
 
     const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-    console.log("LoginDigitalidVerified", LoginDigitalidVerified)
+    // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
     const verification_otp = localStorage.getItem("verification_otp")
-    console.log("verification_otp", verification_otp);
+    // console.log("verification_otp", verification_otp);
 
     const signup_token = localStorage.getItem("signup_token")
-    console.log("signup_token", signup_token);
+    // console.log("signup_token", signup_token);
 
     const DigitalCode = localStorage.getItem("DigitalCode");
-    console.log("DigitalCode", DigitalCode);
+    // console.log("DigitalCode", DigitalCode);
 
     // useEffect(() => {
     //     if (!authChecker('authCheck')) {
@@ -42,6 +43,16 @@ const Transaction = () => {
     //       return;
     //     }
     //   }, []);
+
+    const [data , setData] = useState([])
+
+    useEffect(()=>{
+        transactionHistory().then((res)=>{
+            console.log(res)
+            setData(res.data)
+        })
+    },[])
+    // console.log("data----------------------", data)
 
     /**************************Feild of state ************************ */
 
@@ -57,21 +68,26 @@ const Transaction = () => {
 
                             <div className="content-body">
                                 <section className="transfer-history-section">
-                                    <div class="form-head mb-4">
-                                        <h2 class="text-black font-w600 mb-0"><b>Transaction History</b></h2>
+                                    <div className="form-head mb-4">
+                                        <h2 className="text-black font-w600 mb-0"><b>Transaction History</b></h2>
                                     </div>
                                     <div className="transaction-progress">
                                         <Tabs defaultActiveKey="AllTransaction" id="uncontrolled-tab-example" className="mb-3 tarnsfer-tabs">
                                             <Tab eventKey="AllTransaction" title="All Transactions">
-                                                <AllTransfer />
+                                                <AllTransfer status={"all"} data={data}/>
                                             </Tab>
-
                                             <Tab eventKey="Pending" title="Pending">
+                                                <AllTransfer status={"pending"} data={data} />
+                                            </Tab>
+                                            <Tab eventKey="Completed" title="Completed">
+                                                <AllTransfer status={"completed"} data={data} />
+                                            </Tab>
+                                            {/* <Tab eventKey="Pending" title="Pending">
                                                 <InprogressTransfer />
                                             </Tab>
                                             <Tab eventKey="Completed" title="Completed">
                                                 <CompletedTransaction />
-                                            </Tab>
+                                            </Tab> */}
                                         </Tabs>
                                     </div>
                                 </section>

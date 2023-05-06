@@ -1075,7 +1075,7 @@ const handleCountry = (e) => {
                                   }
                                 )}
                               >
-                                <option value="">--- Select Language ---</option>
+                                <option value=""> Select Language </option>
                                 {
                                   language.map((lang) => {
                                     return (
@@ -1113,7 +1113,7 @@ const handleCountry = (e) => {
                                   }
                                 )}
                               >
-                                <option value="">--- sending To ---</option>
+                                <option value="">Sending To</option>
                                 {
                                   sendTo.map((send) => {
                                     return (

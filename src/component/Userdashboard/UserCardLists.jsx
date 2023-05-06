@@ -219,13 +219,13 @@ const UserCardLists = () => {
                                                                     <tr key={res.id}>
                                                                         <td>{index + 1}</td>
                                                                         <td>{res.name}</td>
-                                                                        <td>{res.number}</td>
+                                                                        <td>{res.card_number}</td>
                                                                         <td>{res.exp_month}</td>
                                                                         <td>{res.exp_year}</td>
                                                                         <td>
                                                                             <button className="btn btn-danger" onClick={() => { handleShow(res.id) }}><i class="fa fa-trash"></i> Delete</button>
                                                                             <button className="btn btn-primary" onClick={() => { LoadEditCard(res.id) }}><i class="fa fa-pencil color-muted"></i> Edit</button>
-                                                                            <button className="btn btn-secondary" onClick={() => { LoadSinglCardData(res.id) }} ><i class="fa fa-eye color-muted"></i> View</button>
+                                                                            {/* <button className="btn btn-secondary" onClick={() => { LoadSinglCardData(res.id) }} ><i class="fa fa-eye color-muted"></i> View</button> */}
                                                                         </td>
 
                                                                     </tr>
