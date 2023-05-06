@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import {Links, NavLink, useNavigate, useParams} from 'react-router-dom';
+import {Links, NavLink, useLocation, useNavigate, useParams} from 'react-router-dom';
 
 import { toast } from "react-toastify";
 import {API} from "../../config/API";
@@ -40,9 +40,7 @@ const RecentPassword = () => {
     
 /**************************transaction of state ************************ */
     const [data , setData] =useState({reset_password_otp:"", password:"", confirmPassword:""})
-    // const [password, setPassword] = useState('');
-    // const [reset_password_otp, setReset_password_otp] = useState('');
-    // const [confirmPassword, setConfirmPassword] = useState('');
+
     const [loading, setLoading] = useState(false);
     const [active, setActive] = useState(false);
     const [error , setError] = useState({
@@ -97,18 +95,11 @@ const RecentPassword = () => {
     const token_forgot = localStorage.getItem("token_forgot");
     console.log("Token_Forgot_password", token_forgot);
 
-
-    // const token_forgot_url = localStorage.getItem("token_forgot_url");
-    // console.log("token_forgot_url", token_forgot_url);
-
-
     const notify = () =>toast.success("Check your email to Reset Password");
     const wrongData = () =>toast.warm("This E-mail is not our records, please try again");
     const passError = () =>toast.error("Reset Password Not Successfully")
     const navigate = useNavigate();
-
-
-
+const customer_id = useLocation().state
     const handleRecent = (event) => {
         event.preventDefault();
         let validateErr = validate({
@@ -118,10 +109,10 @@ const RecentPassword = () => {
         })
         setError({otpErr:validateErr , passwordErr:validateErr , confirmPasswordErr:validateErr})
             setActive(false)
-        // setLoading(true); // Set loading before sending API request
+
         if(Object.keys(validateErr).length == 0){
             data.customer_id=customerId_forgot
-            resetPassword(data).then((res)=>{
+            resetPassword({customer_id:customer_id, password:data.password, confirm_Pass:data.reset_password_otp}).then((res)=>{
                 console.log(res)
                 setLoading(false); // Stop loading
                 navigate('/login')
@@ -140,56 +131,16 @@ const RecentPassword = () => {
                 setLoading(false)
             })
         }
-            // axios.post(API.BASE_URL + `reset-password/`, {
-            //     customer_id:customerId_forgot,
-            //     password: password,
-            //     reset_password_otp:  reset_password_otp,
-            //     confirmPassword: confirmPassword,
-            // }, {
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         // "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
-            //     }}, {
-            // })
-            // .then(function(response) {
-            //     console.log("Forget API" ,response);
-            //     setLoading(false); // Stop loading
-            //     navigate('/login')
-            //     // notify();
-            // })
-            // .catch(function(error) {
-            //     console.log(error.response);
-            //     setLoading(false); // Stop loading in case of error
-            //     // if(error.response.status){
-            //     //     toast.error(error.response.data.message || error.response.data.non_field_errors);
-            //     // }
-            //     setInvalidotpText(error.response.data.Invalidotp);
-            //     setEnterpasswordText(error.response.data.Enterpassword);
-            //     setEnterotpText(error.response.data.Enterotp)
-            // })
         
     }
 
 
     
     return(
-        <>
-         {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
-         {  
-          token || DigitalCode != undefined || '' ? (
-            <>
-            <Page404 />
-            </>
-            ) : (
                 <>
             <section className="why-us section-bgba recent_banner">
             <div className="container">
                 <div className="row">
-                    {/* <div className="col-lg-6">
-                        <div className="support_image">
-                            <img src="assets/img/help/help_img02.png" alt="support_images" />
-                        </div>
-                    </div> */}
 
                     <div className="col-lg-12">
                         {/* start-- card */}
@@ -267,13 +218,6 @@ const RecentPassword = () => {
             </div>
             </section>
             </>
-            )
-            }
-
-        {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
-
-
-        </>
 
     )
 }

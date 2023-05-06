@@ -6,6 +6,9 @@ import BankDetails from './BankDetails'
 import PaymentDetails from './PaymentDetails'
 import SenderDetails from './SenderDetails'
 import PaymentSummary from './PaymentSummary'
+import { NavLink, useNavigate } from 'react-router-dom'
+import verified from '../../assets/img/userdashboard/3.png';
+import { IoMdGift } from 'react-icons/io'
 
 const SendMoney = () => {
 
@@ -23,13 +26,14 @@ const SendMoney = () => {
   })
 
   const [pay_detail, setPayDetail] = useState({
-    pay_type: ""
+    payment_type: ""
   })
 
 
   const handleAmtDetail = (data) => {
     setAmtDetail(data)
   }
+  const navigate =useNavigate()
 
   const handleBankDetail = (data) => {
     setBankDetail(data)
@@ -41,10 +45,34 @@ const SendMoney = () => {
 
   useEffect(() => {
     if (localStorage.getItem("send-step")) {
-      localStorage.removeItem("send-step")
+      setStep(Number(localStorage.getItem("send-step")))
     }
-    localStorage.setItem("send-step", step)
-  }, [step])
+    if(localStorage.getItem("transfer_data")){
+      const local = JSON.parse(localStorage.getItem("transfer_data"))
+      if(local?.amount){
+        setAmtDetail(local.amount)
+      }
+      if(local?.recipient){
+        setBankDetail(local.recipient)
+      }
+    }
+  }, [])
+
+  useEffect(()=>{
+console.log("bjdsgfjdbsf", amt_detail, bank_detail)
+  },[bank_detail, amt_detail])
+  useEffect(()=>{
+    window.scrollTo({
+      top:0,
+      left:0,
+      behavior:"instant"
+    })
+  },[step])
+  useEffect(()=>{
+    if(localStorage.getItem("DigitalCode")&&localStorage.getItem("DigitalTransactionId")){
+      navigate("/usersendmoney")
+    }
+  })
 
   return (
     <>
@@ -82,13 +110,26 @@ const SendMoney = () => {
                               :
                               step == 1 ? <BankDetails handleBankDetail={handleBankDetail} handleStep={handleStep} step={step} />
                                 :
-                                step == 2 ? <PaymentDetails />
+                                step == 2 ? <PaymentDetails handleStep={handleStep} step={step} />
                                   :
-                                  step == 3 ? <SenderDetails />
+                                  step == 3 ? <SenderDetails handleStep={handleStep} step={step} />
                                     :
-                                    step == 4 ? <PaymentSummary />
+                                    step == 4 ? <PaymentSummary handleStep={handleStep} step={step} />
                                       :
-                                      step == 5 ? <></>
+                                      step == 5 ? <>
+                                        <div className="form_body">
+                                          {/* <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button> */}
+                                          <div className="header">
+                                            <h1>Thank you</h1>
+                                          </div>
+                                          <div className="col-md-12 align-center">
+                                            <img className="verifies-img" src={verified} alt="verified" />
+                                            <p>Thanks for choosing RemitAssure</p>
+                                            <NavLink to="/dashboard">
+                                              <button type="submit" className="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
+                                          </div>
+
+                                        </div></>
                                         : ""
                           }
                         </section>
@@ -96,7 +137,7 @@ const SendMoney = () => {
                       <div className="col-md-4">
                         <Table>
                           {
-                            step > 0 && amt_detail?.exchange_amt != '' ? (
+                            step > 0  ? (
                               <div className="summary">
                                 <BsCheckCircleFill />
                                 <h5>Summary</h5>
@@ -121,7 +162,7 @@ const SendMoney = () => {
                             )
                           }
                           {
-                            step > 0 && bank_detail?.bank != '' ? (
+                            step > 1 && bank_detail?.bank != '' ? (
                               <div className="summary1">
                                 <BsCheckCircleFill />
                                 <h5>Recipient details Summary</h5>

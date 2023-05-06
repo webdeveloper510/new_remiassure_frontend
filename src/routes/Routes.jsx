@@ -69,18 +69,6 @@ const Routerpage =()=>{
     <Route exact path='/forgotpassword' element= {< ForgotPassword /> } />
     <Route exact path='/resetpasswords' element= { < RecentPassword /> } />
     <Route exact path='/resetpassword/:id' element= {< LocalStorage /> } />
-{/* <>
-{  
-       token || DigitalCode != undefined || '' ? (
-        <Route exact path='/sendMoney' element= {< SendMoney /> } />
-
-        
-       ):(
-        <></>
-
-       )
-    }
- </> */}
     <Route exact path='/multiple' element= {< Multiple />} />
     <Route exact path='/user_recipients' element={< Recipients /> } />
     <Route exact path='/verification' element= {< Verification /> } />

@@ -4,10 +4,11 @@ import { useFormik } from 'formik';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { exchangeRate } from '../../utils/Api';
+import { useNavigate } from 'react-router';
 
 const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
 
-
+const navigate = useNavigate()
     const [exch_rate, setExchRate] = React.useState('1.0998');
     const [amt_detail, setAmtDetail] = useState({
         send_amt: "", exchange_amt: "", from_type: "AUD", to_type: "NZD", recieve_meth: "Bank Transfer", payout_part: "Bank"
@@ -46,16 +47,17 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                 recieve_meth: values.recieve_meth,
                 payout_part: values.payout_part
             })
-            localStorage.setItem("transfer_data", {
-                step1: {
-                    send_amt: values.send_amt,
-                    exchange_amt: values.exchange_amt,
-                    from_type: values.from_type,
-                    to_type: values.to_type,
-                    recieve_meth: values.recieve_meth,
-                    payout_part: values.payout_part
-                }
-            })
+            let local={}
+            if (localStorage.getItem("transfer_data")) {
+                local = JSON.parse(localStorage.getItem("transfer_data"))
+            }
+            local.amount = values
+
+            localStorage.setItem("transfer_data", JSON.stringify(local))
+            if (localStorage.getItem("send-step")) {
+                localStorage.removeItem("send-step")
+            }
+            localStorage.setItem("send-step", Number(step) + 1)
             handleStep(Number(step) + 1)
         },
     })
@@ -70,6 +72,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
             event.preventDefault();
             event.stopPropagation()
         } else {
+            console.log("----------------------------", event.target.value)
             setAmtDetail({ ...amt_detail, send_amt: event.target.value })
             formik.setFieldValue('send_amt', event.target.value)
             formik.setFieldTouched('send_amt', true)
@@ -79,6 +82,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     const myTotalAmount = (event) => {
 
         event.preventDefault();
+        console.log("amout--------------", event.target.value, amt_detail.from_type, amt_detail.to_type)
         exchangeRate({ amount: event.target.value, from: amt_detail.from_type, to: amt_detail.to_type })
             .then(function (response) {
                 console.log(response);
@@ -111,6 +115,12 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
         }
 
     }
+
+    const handleCancel = () => {
+        localStorage.removeItem("send-step")
+        localStorage.removeItem("transfer_data")
+        navigate("/")
+      }
 
     const myTotalAmountTo = (e) => {
         console.log(e.target.value)
@@ -167,7 +177,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                             <select
                                 aria-label="Select a reason"
                                 onChange={(e) => { myTotalAmountFrom(e) }}
-                                // {...formik.getFieldProps('from_type')}
+                                {...formik.getFieldProps('from_type')}
                                 className={clsx(
                                     'mb-3 bg-transparent form-control form-select rate_input ',
                                     { 'is-invalid': formik.touched.from_type && formik.errors.from_type },
@@ -187,7 +197,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                             <select
                                 aria-label="Select a reason"
                                 onChange={(e) => { myTotalAmountTo(e) }}
-                                // {...formik.getFieldProps('to_type')}
+                                {...formik.getFieldProps('to_type')}
                                 className={clsx(
                                     'mb-3 bg-transparent form-control form-select rate_input ',
                                     { 'is-invalid': formik.touched.to_type && formik.errors.to_type },
@@ -329,6 +339,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                         <button
                             type='button'
                             className="start-form-button"
+                            onClick={()=>handleCancel()}
                         >Cancel</button>
                     </div>
                     <div className="col-md-8">

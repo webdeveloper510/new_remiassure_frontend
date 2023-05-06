@@ -3,9 +3,15 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import clsx from 'clsx';
 import { useState } from 'react';
-
+import Select from "react-select";
+import { Modal, Table } from 'react-bootstrap';
+import { useMemo } from 'react';
+import countryList from 'react-select-country-list';
+import { useNavigate } from 'react-router';
 
 const BankDetails = ({ handleBankDetail, handleStep, step }) => {
+
+  const navigate = useNavigate();
 
   const [data, setData] = useState({
     bank: "", acc_name: "", acc_no: "", f_name: "", l_name: "", m_name: "", email: "", mobile: "",
@@ -17,20 +23,22 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     flat: "", build_no: "", street: "", city: "", post_code: "", state: "", country: "", reason: ""
   }
 
+  const [show, setShow] = useState(false)
+
   const bankSchema = Yup.object().shape({
     bank: Yup.string()
-      .min(2, 'Minimum 3 symbols')
-      .max(6, 'Maximum 50 symbols')
+      .min(5, 'Minimum 3 symbols')
+      .max(50, 'Maximum 50 symbols')
       .required('Email is required'),
     acc_name: Yup.string().min(3).max(25).required(),
-    acc_no: Yup.number().min(11).max(17).required(),
-    f_name: Yup.string().min(2).max(20).required(),
-    l_name: Yup.string().min(2).max(20).required(),
+    acc_no: Yup.string().min(9).max(20).required(),
+    f_name: Yup.string().min(2).max(25).required(),
+    l_name: Yup.string().min(2).max(25).required(),
     email: Yup.string().email().max(50).required(),
     mobile: Yup.string().min(7).max(18).required(),
-    flat: Yup.number().min(2).max(10).required(),
-    build_no: Yup.number().min(2).max(10).required(),
-    street: Yup.string().min(2).max(50).required(),
+    flat: Yup.string().min(2).max(10).required(),
+    build_no: Yup.string().min(2).max(10).required(),
+    street: Yup.string().min(2).max(100).required(),
     city: Yup.string().min(2).max(30).required(),
     post_code: Yup.string().min(2).max(20).required(),
     state: Yup.string().min(2).max(30).required(),
@@ -38,10 +46,89 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
   })
 
+  const formik = useFormik({
+    initialValues,
+    validationSchema: bankSchema,
+    onSubmit: async (values) => {
+      console.log(values)
+      setData(values)
+      handleBankDetail(data)
+      setShow(true)
+
+    }
+  })
+
+  const handleAccNo = (event) => {
+    const pattern = /^[0-9.,]+$/;
+    if (event.key === 'Backspace') {
+
+    }
+    else if (!pattern.test(event.key)) {
+        event.preventDefault();
+        event.stopPropagation()
+    } else {
+        setData({ ...data, acc_no: event.target.value })
+        formik.setFieldValue('acc_no', event.target.value)
+    }
+  }
+
+  const handleMobile = (event) => {
+    const pattern = /^[0-9.,]+$/;
+    if (event.key === 'Backspace') {
+
+    }
+    else if (!pattern.test(event.key)) {
+        event.preventDefault();
+        event.stopPropagation()
+    } else {
+        setData({ ...data, mobile: event.target.value })
+        formik.setFieldValue('mobile', event.target.value)
+    }
+  }
+
+  const handlePostCode = (event) => {
+    const pattern = /^[0-9.,]+$/;
+    if (event.key === 'Backspace') {
+
+    }
+    else if (!pattern.test(event.key)) {
+        event.preventDefault();
+        event.stopPropagation()
+    } else {
+        setData({ ...data, post_code: event.target.value })
+        formik.setFieldValue('post_code', event.target.value)
+    }
+  }
+
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value })
+  }
+  const countryOptions = useMemo(() => countryList().getData(), [])
+
+  const handleReciept = (e) => {
+    const local = JSON.parse(localStorage.getItem("transfer_data"))
+    local.recipient = data
+    localStorage.removeItem("transfer_data")
+    localStorage.setItem("transfer_data", JSON.stringify(local))
+    if(localStorage.getItem("send-step")){
+      localStorage.removeItem("send-step")
+  }
+  localStorage.setItem("send-step", Number(step) + 1)
+    handleStep(Number(step)+1)
+  }
+
+ 
+
+  const handleCancel = () => {
+    localStorage.removeItem("send-step")
+    localStorage.removeItem("transfer_data")
+    navigate("/")
+  }
+
   return (
     <div>
       <section>
-        <form>
+        <form onSubmit={formik.handleSubmit}>
 
           <div className="form_body">
             <div className="header">
@@ -52,10 +139,16 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
                 <input
                   type="text"
-                  ref={input_bankName}
-                  className="rate_input form-control"
-                  name="bankName"
-                  // {}
+                  name="bank"
+                  onChange={(e) => handleChange(e)}
+                  {...formik.getFieldProps("bank")}
+                  className={clsx(
+                    'form-control bg-transparent',
+                    { 'is-invalid': formik.touched.bank && formik.errors.bank },
+                    {
+                      'is-valid': formik.touched.bank && !formik.errors.bank,
+                    }
+                  )}
                 />
               </div>
             </div>
@@ -65,10 +158,18 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="text"
-                    ref={input_accountName}
-                    defaultValue={formValue.accountName}
-                    onChange={(e) => handleStep2InputChange(e, 'accountName')}
-                    className='rate_input form-control'
+                    name="acc_name"
+                    value={data?.acc_name}
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("acc_name")}
+
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.acc_name && formik.errors.acc_name },
+                      {
+                        'is-valid': formik.touched.acc_name && !formik.errors.acc_name,
+                      }
+                    )}
                   />
                 </div>
               </div>
@@ -79,10 +180,17 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="text"
-                    name="accountNumber"
-                    className='rate_input form-control'
-                    defaultValue={formValue.accountNumber}
-                    onChange={(e) => handleStep2InputChange(e, 'accountNumber')}
+                    name="acc_no"
+                    value={data?.acc_no}
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("acc_no")}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.acc_no && formik.errors.acc_no },
+                      {
+                        'is-valid': formik.touched.acc_no && !formik.errors.acc_no,
+                      }
+                    )}
                   />
                 </div>
               </div>
@@ -94,10 +202,17 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="text"
-                    className='rate_input form-control'
-                    name="firstName"
-                    defaultValue={formValue.firstName}
-                    onChange={(e) => handleStep2InputChange(e, 'firstName')}
+                    name="f_name"
+                    value={data.f_name}
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("f_name")}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.f_name && formik.errors.f_name },
+                      {
+                        'is-valid': formik.touched.f_name && !formik.errors.f_name,
+                      }
+                    )}
                   />
                 </div>
               </div>
@@ -106,10 +221,18 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   <p className="get-text">Middle Name</p>
                   <input
                     type="text"
-                    className='rate_input form-control'
-                    name="middleName"
-                    defaultValue={formValue.middleName}
-                    onChange={(e) => handleStep2InputChange(e, 'middleName')}
+                    name="m_name"
+                    value={data.m_name}
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("m_name")}
+
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.m_name && formik.errors.m_name },
+                      {
+                        'is-valid': formik.touched.m_name && !formik.errors.m_name,
+                      }
+                    )}
                   />
                 </div>
               </div>
@@ -118,10 +241,18 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="text"
-                    className='rate_input form-control'
-                    name="lastName"
-                    defaultValue={formValue.lastName}
-                    onChange={(e) => handleStep2InputChange(e, 'lastName')}
+                    name="l_name"
+                    value={data.l_name}
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("l_name")}
+
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.l_name && formik.errors.l_name },
+                      {
+                        'is-valid': formik.touched.l_name && !formik.errors.l_name,
+                      }
+                    )}
                   />
                 </div>
               </div>
@@ -132,10 +263,18 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="email"
-                    className='rate_input form-control'
                     name="email"
-                    defaultValue={formValue.email}
-                    onChange={(e) => handleStep2InputChange(e, 'email')}
+                    value={data.email}
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("email")}
+
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.email && formik.errors.email },
+                      {
+                        'is-valid': formik.touched.email && !formik.errors.email,
+                      }
+                    )}
                   />
                 </div>
               </div>
@@ -144,15 +283,21 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="text"
-                    className='rate_input form-control'
                     name="mobile"
-                    defaultValue={formValue.mobile}
-                    onChange={(e) => handleStep2InputChange(e, 'mobile')}
+                    value={data.mobile}
+                    onKeyDown={(e) => handleMobile(e)}
+                    {...formik.getFieldProps("mobile")}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                      {
+                        'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                      }
+                    )}
                   />
                 </div>
               </div>
             </div>
-
             <div className="row each-row">
               <h5>Address</h5>
               <div className="col-md-4">
@@ -160,13 +305,19 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   <p className="get-text">Flat/Unit No.</p>
                   <input
                     type="text"
-
-                    className='rate_input form-control'
                     name="flat"
-                    defaultValue={formValue.flat}
-                    onChange={(e) => handleStep2InputChange(e, 'flat')}
-                  />
+                    value={data.flat}
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("flat")}
 
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.flat && formik.errors.flat },
+                      {
+                        'is-valid': formik.touched.flat && !formik.errors.flat,
+                      }
+                    )}
+                  />
                 </div>
               </div>
               <div className="col-md-4">
@@ -174,45 +325,60 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   <p className="get-text">Building/Unit No.</p>
                   <input
                     type="text"
+                    name="build_no"
+                    value={data.build_no}
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("build_no")}
 
-                    className='rate_input form-control'
-                    name="building"
-                    defaultValue={formValue.building}
-                    onChange={(e) => handleStep2InputChange(e, 'building')}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.build_no && formik.errors.build_no },
+                      {
+                        'is-valid': formik.touched.build_no && !formik.errors.build_no,
+                      }
+                    )}
                   />
-
                 </div>
               </div>
-
               <div className="col-md-4">
                 <div className="input_field">
                   <p className="get-text">Street</p>
                   <input
                     type="text"
-
-                    className='rate_input form-control'
                     name="street"
-                    defaultValue={formValue.street}
-                    onChange={(e) => handleStep2InputChange(e, 'street')}
-                  />
+                    value={data.street}
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("street")}
 
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.street && formik.errors.street },
+                      {
+                        'is-valid': formik.touched.street && !formik.errors.street,
+                      }
+                    )}
+                  />
                 </div>
               </div>
-
             </div>
-
-
             <div className="row each-row">
               <div className="col-md-4">
                 <div className="input_field">
                   <p className="get-text">Postcode</p>
                   <input
                     type="text"
+                    name="post_code"
+                    value={data.post_code}
+                    onKeyDown={(e) => handlePostCode(e)}
+                    {...formik.getFieldProps("post_code")}
 
-                    className='rate_input form-control'
-                    name="postcode"
-                    defaultValue={formValue.postcode}
-                    onChange={(e) => handleStep2InputChange(e, 'postcode')}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.post_code && formik.errors.post_code },
+                      {
+                        'is-valid': formik.touched.post_code && !formik.errors.post_code,
+                      }
+                    )}
                   />
 
                 </div>
@@ -222,72 +388,91 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   <p className="get-text">City/Town</p>
                   <input
                     type="text"
-
-                    className='rate_input form-control'
                     name="city"
-                    defaultValue={formValue.city}
-                    onChange={(e) => handleStep2InputChange(e, 'city')}
+                    value={data.city}
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("city")}
+
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.city && formik.errors.city },
+                      {
+                        'is-valid': formik.touched.city && !formik.errors.city,
+                      }
+                    )}
                   />
 
                 </div>
               </div>
-
               <div className="col-md-4">
                 <div className="input_field">
                   <p className="get-text">State</p>
                   <input
                     type="text"
-
-                    className='rate_input form-control'
                     name="state"
-                    defaultValue={formValue.state}
-                    onChange={(e) => handleStep2InputChange(e, 'state')}
+                    value={data.state}
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("state")}
+
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.state && formik.errors.state },
+                      {
+                        'is-valid': formik.touched.state && !formik.errors.state,
+                      }
+                    )}
                   />
                 </div>
               </div>
-
             </div>
-
-
             <div className="row each-row">
-              {/* <div className="col-md-4">
-              <div className="input_field">
-                <p className="get-text">Country Code <span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="text"
-
-                  className='rate_input form-control'
-                  name="country_code"
-                  defaultValue={formValue.country_code}
-                  onChange={(e) => handleStep2InputChange(e, 'country_code')}
-                />
-                <span style={myStyle}>{BankNameText.Entercountrycode ? BankNameText.Entercountrycode : ''}</span>
-
-              </div>
-            </div> */}
               <div className="col-md-4">
                 <div className="input_field">
                   <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
-                  <Select
-                    // ref={input_location}
-                    options={countryoptions}
-                    value={countryValue}
-                    onChange={changeHandler}
-                  />
-
+                  <select
+                    value={data.country}
+                    name="country"
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("country")}
+                    className={clsx(
+                      'form-control form-select bg-transparent',
+                      { 'is-invalid': formik.touched.country && formik.errors.country },
+                      {
+                        'is-valid': formik.touched.country && !formik.errors.country,
+                      }
+                    )}
+                  >
+                    <option>Select a country</option>
+                    {
+                      countryOptions && countryOptions.length > 0 ?
+                        countryOptions?.map((opt) => {
+                          return (
+                            <option value={opt.label}>{opt.label}</option>
+                          )
+                        }) : ""
+                    }
+                  </select>
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="input_field">
                   <p className="get-text">Reason For Sending Money<span style={{ color: 'red' }} >*</span></p>
                   <select
-                    className="form-select rate_input form-control"
                     aria-label="Select a reason"
-                    name="reasonMoney"
-                    defaultValue={formValue.reasonMoney}
-                    onChange={(e) => handleStep2InputChange(e, 'reasonMoney')}
+                    name="reason"
+                    value={data.reason}
+                    onChange={(e) => handleChange(e)}
+                    {...formik.getFieldProps("reason")}
+
+                    className={clsx(
+                      'form-control form-select bg-transparent',
+                      { 'is-invalid': formik.touched.reason && formik.errors.reason },
+                      {
+                        'is-valid': formik.touched.reason && !formik.errors.reason,
+                      }
+                    )}
                   >
-                    <option selected>Select a reason</option>
+                    <option>Select a reason</option>
                     <option value="Family Support">Family Support</option>
                     <option value="Education">Education</option>
                     <option value="Tax Payment">Tax Payment</option>
@@ -295,29 +480,22 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                     <option value="Travel Payment">Travel Payment</option>
                     <option value="Utility Payment">Utility Payment</option>
                   </select>
-
                 </div>
               </div>
             </div>
-
-
             <div className="row">
               <div className="col-md-4">
-                <button type="submit" className="start-form-button" onClick={handlRecipientBankDetails}>Cancel</button>
+                <button type="button" className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
               </div>
               <div className="col-md-8">
-                {/* <button className="form-button" onClick={handleShow}>Continue</button> */}
-                <button type="submit" className="form-button" onClick={handleCreateRecipientValidation}>Continue</button>
-                {/* <button className="form-button" onClick={handleRecipientBankDetails}>Continue</button> */}
-                {/* <button className="form-button" onClick={() => { setStep(step - 1) }}>Previous</button> */}
-                {/* <button className="form-button" onClick={() => { setStep(step + 1) }}>Rohit</button> */}
+                <button type="submit" className="form-button">Continue</button>
               </div>
             </div>
           </div>
         </form>
 
 
-        <Modal show={show} onHide={handleClose}
+        <Modal show={show} onHide={() => setShow(false)}
           centereds
         >
           <Modal.Header closeButton>
@@ -334,15 +512,15 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <tbody>
                 <tr>
                   <th>Bank Name</th>
-                  <td>{formValue.bankName}</td>
+                  <td>{data.bank}</td>
                 </tr>
                 <tr>
                   <th>Account Name</th>
-                  <td>{formValue.accountName}</td>
+                  <td>{data.acc_name}</td>
                 </tr>
                 <tr>
                   <th>Account number</th>
-                  <td>{formValue.accountNumber}</td>
+                  <td>{data.acc_no}</td>
                 </tr>
               </tbody>
               <thead>
@@ -353,62 +531,37 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <tbody>
                 <tr>
                   <th>First Name</th>
-                  <td>{formValue.firstName}</td>
+                  <td>{data.f_name}</td>
                 </tr>
                 <tr>
                   <th>Last Name</th>
-                  <td>{formValue.lastName}</td>
+                  <td>{data.l_name}</td>
                 </tr>
                 <tr>
                   <th>Email</th>
-                  <td>{formValue.email}</td>
+                  <td>{data.email}</td>
                 </tr>
                 <tr>
                   <th>Mobile</th>
-                  <td>{formValue.mobile}</td>
+                  <td>{data.mobile}</td>
                 </tr>
-                {/* <tr>
-                <th>Country Code</th>
-                <td>{formValue.country_code}</td>
-              </tr> */}
-                {/* <tr>
-                    <th>Address</th>
-                    <td>{addressData}</td>
-                  </tr> */}
                 <tr>
                   <>
-
                   </>
-
                   <th>Reason For Sending Money</th>
-                  <td>{formValue.reasonMoney}</td>
+                  <td>{data.reason}</td>
                 </tr>
               </tbody>
             </Table>
           </Modal.Body>
           <Modal.Footer>
-
-            <button className="start-form-button" variant="secondary" onClick={handleClose}>
+            <button className="start-form-button" variant="secondary" onClick={() => setShow(false)}>
               Go back to Edit
             </button>
-            {/* <button className="form-button" onClick={()=>{setStep(step+1)}}>Continue</button> */}
-            <button className="form-button" variant="primary" onClick={handleRecipientBankDetails}>Continue</button>
-
-            {/* onClick={() => setShow(!show)} */}
-            {/* <Button variant="primary" onClick={handleDigitalValue}>Continue</Button>  */}
-
-
+            <button className="form-button" type="button" variant="primary" onClick={(e) => handleReciept(e)}>Continue</button>
           </Modal.Footer>
         </Modal>
-
       </section>
-      {/* ) : (
-        <>
-         <Page404 />
-        </>
-
-      )
-    } */}
     </div>
   )
 }

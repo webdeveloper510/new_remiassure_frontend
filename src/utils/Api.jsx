@@ -28,14 +28,7 @@ export const userLogin = async (data) => {
 
 export const verifyEmail = async (data) => {
   // console.log("data++++",data)
-  const response = await Axios.post("/verify-email/", {
-    email_otp: data
-  }, {
-    headers: {
-      'Content-Type': 'application/json',
-      "Authorization": `Bearer ${localStorage.getItem('signup_token')}`,
-    },
-  })
+  const response = await Axios.post("/verify-email/",data)
     .then(res => {
       return res.data
     })
@@ -65,12 +58,7 @@ export const resetEmail = async (data) => {
 
 export const resetPassword = async (data) => {
   // console.log("data+++" , data)
-  const response = await Axios.post("/reset-password/", data, {
-    header: {
-      'Content-Type': 'application/json',
-      "Authorization": `Bearer ${signupToken ? signupToken : token}`
-    }
-  }).then(res => {
+  const response = await Axios.post("/reset-password/", data).then(res => {
     return res.data
   })
   return response
@@ -103,7 +91,7 @@ export const userProfile = async (data) => {
 
 export const exchangeRate = async (data) => {
   const response = await Axios.post("/exchange-rate/", data).then(res => {
-    return res.data
+    return res.data.data
   })
   return response
 }

@@ -50,15 +50,18 @@ const Login = () => {
             userLogin({ email: values.email, password: values.password }).then((res) => {
                 if (res.code == 200) {
                     toast.success('Login Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
-
-                    localStorage.setItem("token", res.token.access);
-                    //         localStorage.setItem("LoginDigitalidVerified", response.data.is_digitalid_verified)
-                  if(res.is_digitalid_verified){
-                    localStorage.setItem("LoginDigitalidVerified", res.is_digitalid_verified)
-                    navigate("/dashboard")
-                  } else{
-                    navigate('/send-money');
-                  }
+                    localStorage.setItem("token", res?.access_token)
+                    localStorage.setItem("remi-user-dt", res?.data)
+                    if (res.is_digitalid_verified) {
+                        localStorage.setItem("LoginDigitalidVerified", res.is_digitalid_verified)
+                        navigate("/dashboard")
+                    } else {
+                        navigate('/send-money')
+                    }
+                } else if (res.code == 200) {
+                    toast.warn("Please check your mail for otp", { position: "top-right", autoClose: 2000, theme: "colored" })
+                    localStorage.setItem("remi-user-dt", res?.data)
+                    navigate('/verification', { state: { email: values.email } })
                 }
                 setLoading(false);
             }).catch((err) => {
@@ -73,24 +76,6 @@ const Login = () => {
     })
 
 
-    // const token = localStorage.getItem("token");
-    // // console.log("TOKEN", token);
-
-    // const signup_token = localStorage.getItem("signup_token")
-    // // console.log("signup_token", signup_token);
-
-    // const verification_otp = localStorage.getItem("verification_otp");
-    // // console.log("Verification Message", verification_otp);
-
-    // const DigitalCode = localStorage.getItem("DigitalCode");
-    // // console.log("DigitalCode", DigitalCode);
-
-    // const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-    // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
-
-    /**************************State ************************ */
-    // const [data, setData] = useState({ email: '', password: '' })
-    // const [error, setError] = useState({ emailErr: "", passwordErr: "" })
     const [promo_marketing, setPromo_marketing] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -101,80 +86,21 @@ const Login = () => {
     const toggleShowPassword = () => setShowPassword(prevState => !prevState);
 
     const navigate = useNavigate();
-    // const notify = () => toast.success("Logged In Successfully!");
-    // const wrongData = () => toast.warn("Login or Password is Wrong!");
-    // const emailExits = () => toast.error("Please fill out all the fields");
-
-
 
     const handlePromo_marketing = (e) => {
         const { checked } = e.target;
 
-        // console.log("checked " + checked);
-
         setPromo_marketing((promo_marketing) => ({
-            ...promo_marketing, // <-- shallow copy previous state
-            Active: checked // <-- set new Active checked value
+            ...promo_marketing,
+            Active: checked
         }));
     };
 
-    // const handleEmail = (e) => {
-    //     let value = e.target.value
-    //     setData({ ...data, email: e.target.value })
-    //     let validateErr = validate({
-    //         email: value
-    //     })
-    //     if (value == "") {
-    //         setError({ ...error, emailErr: validateErr })
-    //     } else {
-    //         setError({ ...error, emailErr: "" })
-    //     }
-    // }
-
-    // const handlePassword = (e) => {
-    //     setData({ ...data, password: e.target.value })
-    //     let value = e.target.value
-    //     let validateErr = validate({
-    //         login_password: value
-    //     })
-    //     if (value == "") {
-    //         setError({ ...error, passwordErr: validateErr })
-    //     } else {
-    //         setError({ ...error, passwordErr: "" })
-    //     }
-    // }
-
-
-    // const handleLogin = () => {
-
-    //     console.log('handleLogin++++')
-
-    //     var validateErr = validate({
-    //         email: data.email,
-    //         login_password: data.password,
-    //     });
-    //     setError({ emailErr: validateErr, passwordErr: validateErr })
-    // }
-
-
     return (
         <>
-            {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
-            {/* {
-                token || DigitalCode != undefined || '' ? (
-                    <>
-                        <Page404 />
-                    </>
-                ) : (
-                    <> */}
             <section className="why-us section-bgba login_banner">
                 <div className="container">
                     <div className="row">
-                        {/* <div className="col-lg-6">
-                                <div className="support_image">
-                                    <img src="assets/img/help/help_img02.png" alt="support_images" />
-                                </div>
-                            </div> */}
 
                         <div className="col-lg-12">
                             {/* start-- card */}
@@ -182,7 +108,6 @@ const Login = () => {
                                 <div className="col-lg-12">
                                     <div className="card card-login">
                                         <div className="card-body">
-                                            {/* <span style={myStyle}>{VerifydigtalidText? VerifydigtalidText: ''}</span> */}
                                             <h5 className="Sign-heading">Login</h5>
 
                                             <div className="form_login">
@@ -190,8 +115,6 @@ const Login = () => {
                                                     <Form.Group className="mb-3 form_label">
                                                         <Form.Label>Your Email<span style={{ color: 'red' }} >*</span></Form.Label>
                                                         <Form.Control type="email"
-                                                            // value={email}
-                                                            // onChange={handleEmail}
                                                             {...formik.getFieldProps('email')}
                                                             maxLength="50"
                                                             className={clsx(
@@ -205,7 +128,7 @@ const Login = () => {
                                                             autoComplete='off'
                                                             placeholder="Enter email"
                                                         />
-                                                        {/* <span style={myStyle}>{error.emailErr?.email ? error.emailErr.email : ""}</span> */}
+                                                      
                                                     </Form.Group>
 
                                                     <Form.Group className="mb-3 form_label">
@@ -228,7 +151,7 @@ const Login = () => {
                                                         <span className="pass_icons" type="button" onClick={toggleShowPassword}>
                                                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                         </span>
-                                                        {/* <span style={myStyle}>{error.passwordErr?.login_password ? error.passwordErr.login_password : ""}</span> */}
+                                                    
 
                                                     </Form.Group>
 

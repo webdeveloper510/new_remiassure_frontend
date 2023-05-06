@@ -75,11 +75,10 @@ const ForgotPassword = () => {
         if(Object.keys(validateErr).length == 0){
             setLoading(true); // Set loading before sending API request
         resetEmail(email).then((res)=>{
-            console.log("reset Email" , res)
             setLoading(false);
             localStorage.setItem("token_forgot", res.token)
             localStorage.setItem("customerId_forgot", res.customer_id);
-            navigate('/resetpasswords')
+            navigate('/resetpasswords',{state:{customer_id: res.data.customer_id}})
             if(res.code =="200"){
                 toast.success("Please Check Your Email",{ position: "top-right", autoClose: 2000, theme: "colored" })
             }
@@ -91,49 +90,12 @@ const ForgotPassword = () => {
             setLoading(false)
         })
         }
-            // axios.post(API.BASE_URL + 'send-password-reset-email/', {
-            //     email: email,
-            // }, {
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     }}, {
-            // })
-            // .then(function(response) {
-            //     console.log("Forget API" ,response);
-            //     setLoading(false); // Stop loading
-            //     localStorage.setItem("token_forgot", response.data.token);
-            //     localStorage.setItem("customerId_forgot", response.data.customer_id);
-            //     // localStorage.setItem("token_forgot_url", `http://localhost:3000/resetpassword/${token_forgot}`);
-            //     // navigate(`/resetpassword/${token_forgot}`);
-            //     // window.location.reload(false);
-            //     navigate('/resetpasswords')
-            //     // notify();
-            // })
-            // .catch(function(error) {
-            //     console.log(error.response);
-            //     setLoading(false); // Stop loading in case of error
-            //     // if(error.response.status){
-            //     //     toast.error(error.response.data.message);
-            //     // }
-            //     setEnteremailText(error.response.data.Enteremail);
-            //     setValidemailText(error.response.data.Validemail);
-            //     setNotegistered(error.response.data.Notegistered);
-              
 
-            // })
         }
         
     
     return(
         <>
-         {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
-         {  
-          token || DigitalCode != undefined || '' ? (
-            <>
-            <Page404 />
-            </>
-            ) : (
-                <>
          <section className="why-us section-bgba forgot_banner">
             <div className="container">
                 <div className="row">
@@ -196,14 +158,6 @@ const ForgotPassword = () => {
             </div>
          </section>
          </>
-            )
-            }
-
-        {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
-
-
-        </>
-
     )
 }
 

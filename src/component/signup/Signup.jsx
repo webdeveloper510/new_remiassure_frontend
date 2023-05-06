@@ -30,7 +30,8 @@ const Signup = () => {
         password: "",
         confirmPassword: "",
         referral_code: "",
-        mobile: ""
+        mobile: "",
+        promo_marketing: "0"
     }
 
     const signSchema = Yup.object().shape({
@@ -46,29 +47,24 @@ const Signup = () => {
         initialValues,
         validationSchema: signSchema,
         onSubmit: async (values) => {
-            // console.log(values)
             setLoading(true)
             let data = {}
             if (values.referral_code) {
                 data = { location: values.location, email: values.email, mobile: values.mobile, password: values.password, confirmPassword: values.confirmPassword, referral_code: values.referral_code, promo_marketing: promo_marketing }
             } else {
                 data = { location: values.location, email: values.email, mobile: values.mobile, password: values.password, confirmPassword: values.confirmPassword, promo_marketing: promo_marketing }
-
             }
             userRegister(data).then((res) => {
-                // console.log("user-signup", referral_code, res)
                 if (res.code === "200") {
-                    // console.log('check+++++++++++++++++=', res)
                     toast.success('SignUp Succesfull', { position: "top-right", autoClose: 2000, theme: "colored" });
-                    localStorage.setItem("signup_token", res.tokens.access);
+                    localStorage.setItem("remi-user-dt", res?.data)
+                    navigate('/verification', { state: { email: values.email } })
                 }
-                navigate('/verification')
                 setLoading(false)
             }).catch((error) => {
                 console.log(error.response)
                 if (error.response.data.code == "400") {
                     toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" });
-
                 }
                 setLoading(false)
             })
@@ -125,9 +121,14 @@ const Signup = () => {
     }, [referral_code, show]);
     const handlePromo_marketing = (e) => {
         const { checked } = e.target;
+        if (checked) {
+            setPromo_marketing("1")
 
+        } else {
+            setPromo_marketing("0")
+
+        }
         // console.log("checked " + checked);
-        setPromo_marketing(checked)
     };
 
     return (
@@ -290,7 +291,7 @@ const Signup = () => {
 
                                                         <Form.Check className="form_label"
                                                             type="checkbox"
-                                                            value={promo_marketing}
+                                                            value="1"
                                                             onChange={(e) => handlePromo_marketing(e)}
                                                             defaultChecked={promo_marketing.Active} // <-- set the checked prop of input\
 

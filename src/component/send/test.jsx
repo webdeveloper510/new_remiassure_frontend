@@ -2497,14 +2497,6 @@ const [errorCard, seterrorCard] = React.useState(false);
           {/* {
             token || verification_otp ||DigitalCode != undefined || '' ? ( */}
           <section>
-            <div className="progressBar">
-              <div className="progress">
-                <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
-                <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
-                <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
-                <span className="progress-bar bg-success progress-bar-striped step4">{step}</span>
-              </div>
-            </div>
             <div className="form_body">
               <div className="header">
                 <h1>Sender Details </h1>
@@ -2813,15 +2805,6 @@ const [errorCard, seterrorCard] = React.useState(false);
           {/* {
             token || verification_otp || DigitalCode != undefined || '' ? ( */}
           <section>
-            <div className="progressBar">
-              <div className="progress">
-                <span className="progress-bar bg-success progress-bar-striped step1">{step}</span>
-                <span className="progress-bar bg-success progress-bar-striped step2">{step}</span>
-                <span className="progress-bar bg-success progress-bar-striped step3">{step}</span>
-                <span className="progress-bar bg-success progress-bar-striped step4">{step}</span>
-                <span className="progress-bar bg-success progress-bar-striped step5">{step}</span>
-              </div>
-            </div>
             <div className="form_body">
               <div className="header">
                 <h1>Payment Summary</h1>
