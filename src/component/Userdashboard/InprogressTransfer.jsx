@@ -161,8 +161,8 @@ const InprogressTransfer = () => {
           <div className="tabs-recipent-new">
              {/* Start------- Loader functionalty */}
              {loading ? <>
-                    <div class="loader-overly">
-                      <div class="loader" >
+                    <div className="loader-overly">
+                      <div className="loader" >
 
                       </div>
 
@@ -232,7 +232,7 @@ const InprogressTransfer = () => {
                       <span className="text-white">
                         {Total_amount}<span>{summeryData.recieve_currency}</span>
                       </span> */}
-                      <span className="fs-6 pt-1 statuspopup">Status - <span class="badge bg-success"> {PendingStatusData}</span></span>
+                      <span className="fs-6 pt-1 statuspopup">Status - <span className="badge bg-success"> {PendingStatusData}</span></span>
                     </div>
                   </div>
                 </div>

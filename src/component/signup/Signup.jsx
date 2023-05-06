@@ -40,7 +40,7 @@ const Signup = () => {
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/).required(),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")]).required(),
         referral_code: Yup.string().length(7).notRequired(),
-        mobile: Yup.string().min(7).max(18).required()
+        mobile: Yup.string().min(7).max(15).required()
     })
 
     const formik = useFormik({
@@ -197,12 +197,12 @@ const Signup = () => {
                                                     <Form.Group className="mb-3 form_label" >
                                                         <Form.Label>Your Phone<span style={{ color: 'red' }} >*</span> </Form.Label>
                                                         <PhoneInput
+                                                            onlyCountries={["au", "nz"]}
                                                             country={"au"}
                                                             name="mobile"
                                                             inputStyle={{ border: "none", margin: "none" }}
                                                             inputClass="phoneInp"
                                                             defaultCountry={"au"}
-                                                            onlyCountries={["au", "nz"]}
                                                             onChange={mno => { formik.setFieldValue('mobile', mno); formik.setFieldTouched('mobile', true) }}
                                                             className={clsx(
                                                                 'form-control form-control-sm bg-transparent',

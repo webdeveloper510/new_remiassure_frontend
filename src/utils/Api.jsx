@@ -95,3 +95,62 @@ export const exchangeRate = async (data) => {
   })
   return response
 }
+
+
+export const paymentSummary = async (data) => {
+  const response = await Axios.post("/payment/summary/", {transaction_id:data},{
+    headers: {
+      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+    },
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
+export const transactionHistory = async (data) => {
+  const response = await Axios.post("/payment/transaction-history/", data,{
+    headers: {
+      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+    },
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
+
+export const pendingPayment = async (data) => {
+  const response = await Axios.post("/payment/pending-transactions/", data,{
+    headers: {
+      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+    },
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
+
+export const completedPayment = async (data) => {
+  const response = await Axios.post("/payment/completed-transactions/", data,{
+    headers: {
+      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+    },
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
+// payment/recipient-create/
+export const createRecipient = async (data) => {
+  const response = await Axios.post("/payment/recipient-create/", data,{
+    headers: {
+      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+    },
+  }).then(res => {
+    return res.data
+  })
+  return response
+}

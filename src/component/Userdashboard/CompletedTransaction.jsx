@@ -78,7 +78,7 @@ const CompletedTransaction = () => {
       }
     })
       .then(function (response) {
-        console.log("Recipients APIIIII", response.data);
+        console.log("Recipients APIIIII payment/completed-transactions", response.data);
         setTransactionCompletedData(response.data);
         localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
         setLoading(false); // Stop loading
@@ -166,8 +166,8 @@ const CompletedTransaction = () => {
             <div className="tabs-recipent-new">
               {/* Start------- Loader functionalty */}
                   {loading ? <>
-                    <div class="loader-overly">
-                      <div class="loader" >
+                    <div className="loader-overly">
+                      <div className="loader" >
 
                       </div>
 
@@ -236,7 +236,7 @@ const CompletedTransaction = () => {
                         <span className="text-white">
                           {Total_amount}<span>{summeryData.recieve_currency}</span>
                         </span> */}
-                        <span className="fs-6 pt-1 fw-bold statuspopup">Status - <span class="badge bg-success"> {completedStatusData}</span></span>
+                        <span className="fs-6 pt-1 fw-bold statuspopup">Status - <span className="badge bg-success"> {completedStatusData}</span></span>
                       </div>
                     </div>
                   </div>

@@ -237,7 +237,6 @@ const UserRecipients = () => {
                                                                         <td>
                                                                             <button className="btn btn-danger" onClick={() => handleShow(res.id)}><i class="fa fa-trash"></i> Delete</button>
                                                                             <button className="btn btn-primary" onClick={() => { LoadEdit(res.id) }}><i class="fa fa-pencil color-muted"></i> Edit</button>
-                                                                            <button className="btn btn-secondary" onClick={() => { LoadSinglProfile(res.id) }} ><i class="fa fa-eye color-muted"></i> View</button>
                                                                         </td>
 
                                                                     </tr>
