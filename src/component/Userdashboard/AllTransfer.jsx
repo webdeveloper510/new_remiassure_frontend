@@ -82,7 +82,7 @@ const AllTranfer = ({ status, data }) => {
 
   // useEffect(() => {
   //   // PaymentTransactionHostpory();
-  //   SummrySingleData();
+  //   summrySingleData();
   //   // if(all){
   //   //   paymentSummary(data).then()
   //   // }
@@ -120,8 +120,8 @@ const AllTranfer = ({ status, data }) => {
   // console.log("paymetTransactionId ====================>", paymetTransactionId);
 
   useEffect(() => {
-    SummrySingleData();
-    if (data?.length) {
+    
+    if (data?.length) {      
       if (status == "pending") {
         let pending = data.filter((item) => {
           return item.status == "pending"
@@ -136,11 +136,14 @@ const AllTranfer = ({ status, data }) => {
       } else {
         setTransactionData(data)
       }
+    }else{
+      setLoading(true)
     }
+    summrySingleData();
   }, [data])
 
 
-  const SummrySingleData = () => {
+  const summrySingleData = () => {
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/summary/', {
       transaction_id: paymetTransactionId
@@ -351,7 +354,7 @@ const AllTranfer = ({ status, data }) => {
                   </Modal.Footer>
                 </Modal>
 
-                {transactionData?.length == 0 ? (
+                {transactionData?.length == 0  && !loading ? (
                   <div className="no-data">
                     <img src={nodata} alt="no-data" />
                     <div className="col-md-12">
@@ -361,17 +364,14 @@ const AllTranfer = ({ status, data }) => {
                       <a href="#/usersendmoney" className="send_money">Send Money</a>
                     </div>
                   </div>
-
                 ) : (
                   <>
                   </>
                 )
                 }
               </div>
-
             </div>
           </div>
-
         ) : (
           <>
             <Page404 />

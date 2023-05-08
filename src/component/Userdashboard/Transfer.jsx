@@ -52,7 +52,7 @@ const Transaction = () => {
             setData(res.data)
         })
     },[])
-    // console.log("data----------------------", data)
+    console.log("data----------------------", data)
 
     /**************************Feild of state ************************ */
 

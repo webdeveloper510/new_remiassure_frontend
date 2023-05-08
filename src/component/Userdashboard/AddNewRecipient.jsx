@@ -505,7 +505,7 @@ const country = [
     initialValues,
     validationSchema: recipientSchema,
     onSubmit : async (values) => {
-      console.log("pppppppppppppppppppppppppppppppppppppppppppppppppppppppp",values)
+      // console.log("pppppppppppppppppppppppppppppppppppppppppppppppppppppppp",values)
       setLoading(true)
       createRecipient({
         bank_name:  values.bankNameValue ,
@@ -524,12 +524,15 @@ const country = [
         country: values.country , 
         country_code: values.country_code , 
         postcode: values.postcode,
-        Reason: values.reasonMoney
+        reason: values.reasonMoney
       }).then((res)=>{
         console.log("rescipient+++++++++++++++", res)
         setLoading(false)
       }).catch((error)=>{
         console.log(error.response)
+        if(error.response.data.code=="400"){
+          toast.error(error.response.data.message,{ position: "top-right", autoClose: 2000, theme: "colored" })
+        }
         setLoading(false)
       })
 

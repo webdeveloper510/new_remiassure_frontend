@@ -34,13 +34,13 @@ const myStyle = {
 const Profile = () => {
   /************************Start page show hide condtion page ******************************/
   const token = localStorage.getItem("token");
-  // console.log("TOKEN", token);
+  console.log("TOKEN", token);
 
   const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
   // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
   const signup_token = localStorage.getItem("signup_token")
-  // console.log("signup_token", signup_token);
+  console.log("signup_token", signup_token);
 
   const verification_otp = localStorage.getItem("verification_otp");
   // console.log("Verification Message", verification_otp)
@@ -302,7 +302,6 @@ const Profile = () => {
     initialValues,
     validationSchema: profileSchema,
     onSubmit: async (values) => {
-      console.log("++++++++++++++++++++++++++++++++++++")
       setLoading(true)
       updateProfile({
         First_name: values.firstName, Middle_name: values.middleName, Last_name: values.lastName,
@@ -310,6 +309,10 @@ const Profile = () => {
         city: values.city, state: values.state, country: values.country
       }).then((res) => {
         console.log("user res----------------", res)
+        if(res.code =="200"){
+          toast.success("Successfully update",{ position: "top-right", autoClose: 2000, theme: "colored" })
+        }
+        setLoading(false)
       }).catch((error) => {
         console.log(error.response)
         if (error.response.data.code == "400") {

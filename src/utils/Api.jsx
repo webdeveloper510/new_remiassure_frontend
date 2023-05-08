@@ -2,9 +2,9 @@ import Axios from "axios";
 import global from './global';
 
 let signupToken = localStorage.getItem("signup_token")
-// console.log(signupToken)
+console.log(signupToken)
 const token = localStorage.getItem("token")
-// console.log("token", token)
+console.log("token", token)
 const token_forgot = localStorage.getItem("token_forgot")
 const customerId_forgot = localStorage.getItem("customerId_forgot");
 // console.log("token_forgot", token_forgot)
@@ -67,7 +67,7 @@ export const resetPassword = async (data) => {
 export const updateProfile = async (data) => {
   console.log("signup",signupToken ,token)
   const response = await Axios.post("/update-profile/", data, {
-    header: {
+    headers: {
       'Content-Type': 'application/json',
       "Authorization": `Bearer ${signupToken ? signupToken : token}`
     }
@@ -108,6 +108,7 @@ export const paymentSummary = async (data) => {
   return response
 }
 
+// http://3.101.154.87:8000/payment/transaction-history/
 export const transactionHistory = async (data) => {
   const response = await Axios.post("/payment/transaction-history/", data,{
     headers: {
