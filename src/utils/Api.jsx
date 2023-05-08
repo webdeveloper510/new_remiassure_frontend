@@ -2,9 +2,9 @@ import Axios from "axios";
 import global from './global';
 
 let signupToken = localStorage.getItem("signup_token")
-// console.log(signupToken)
+console.log(signupToken)
 const token = localStorage.getItem("token")
-// console.log("token", token)
+console.log("token", token)
 const token_forgot = localStorage.getItem("token_forgot")
 const customerId_forgot = localStorage.getItem("customerId_forgot");
 // console.log("token_forgot", token_forgot)
@@ -67,7 +67,7 @@ export const resetPassword = async (data) => {
 export const updateProfile = async (data) => {
   console.log("signup",signupToken ,token)
   const response = await Axios.post("/update-profile/", data, {
-    header: {
+    headers: {
       'Content-Type': 'application/json',
       "Authorization": `Bearer ${signupToken ? signupToken : token}`
     }
@@ -108,6 +108,7 @@ export const paymentSummary = async (data) => {
   return response
 }
 
+// http://3.101.154.87:8000/payment/transaction-history/
 export const transactionHistory = async (data) => {
   const response = await Axios.post("/payment/transaction-history/", data,{
     headers: {
@@ -131,7 +132,7 @@ export const pendingPayment = async (data) => {
   return response
 }
 
-
+// payment/completed-transactions/
 export const completedPayment = async (data) => {
   const response = await Axios.post("/payment/completed-transactions/", data,{
     headers: {
@@ -154,3 +155,30 @@ export const createRecipient = async (data) => {
   })
   return response
 }
+
+// payment/card-list/
+
+// payment/card/
+export const cardPayment = async (id) => {
+  const response = await Axios.post(`/payment/card/${id}`,{
+    headers: {
+      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+    },
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
+// payment/recipient-update/
+export const updatePayment = async (data) => {
+  const response = await Axios.post("/payment/recipient-update/",data,{
+    headers: {
+      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+    },
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+

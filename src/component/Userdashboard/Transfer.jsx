@@ -44,15 +44,22 @@ const Transaction = () => {
     //     }
     //   }, []);
 
-    const [data , setData] = useState([])
+    const [data, setData] = useState([])
+    const [dataLength, setDataLength] = useState("")
 
-    useEffect(()=>{
-        transactionHistory().then((res)=>{
+
+    useEffect(() => {
+        transactionHistory().then((res) => {
             console.log(res)
-            setData(res.data)
+            if (res.code == 200) {
+                setData(res.data)
+            }else{
+                setDataLength("none")
+            }
+
         })
-    },[])
-    // console.log("data----------------------", data)
+    }, [])
+    console.log("data----------------------", data)
 
     /**************************Feild of state ************************ */
 
@@ -74,13 +81,13 @@ const Transaction = () => {
                                     <div className="transaction-progress">
                                         <Tabs defaultActiveKey="AllTransaction" id="uncontrolled-tab-example" className="mb-3 tarnsfer-tabs">
                                             <Tab eventKey="AllTransaction" title="All Transactions">
-                                                <AllTransfer status={"all"} data={data}/>
+                                                <AllTransfer status={"all"} data={data}  length={dataLength}  />
                                             </Tab>
                                             <Tab eventKey="Pending" title="Pending">
-                                                <AllTransfer status={"pending"} data={data} />
+                                                <AllTransfer status={"pending"} data={data} length={dataLength} />
                                             </Tab>
                                             <Tab eventKey="Completed" title="Completed">
-                                                <AllTransfer status={"completed"} data={data} />
+                                                <AllTransfer status={"completed"} data={data}  length={dataLength} />
                                             </Tab>
                                             {/* <Tab eventKey="Pending" title="Pending">
                                                 <InprogressTransfer />
