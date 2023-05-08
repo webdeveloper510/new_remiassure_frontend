@@ -15,7 +15,7 @@ import axios from "axios";
 import Page404 from "../pageNotfound/Page404";
 import { completedPayment, transactionHistory, paymentSummary, pendingPayment } from "../../utils/Api";
 
-const AllTranfer = ({ status, data }) => {
+const AllTranfer = ({ status, data, length }) => {
 
   console.log("data*****************************", data)
   // Start page show hide condtion page s
@@ -48,7 +48,7 @@ const AllTranfer = ({ status, data }) => {
   /*************************transactionData State************************ */
   const [transactionData, setTransactionData] = useState([]);
   const [RecepientsData, setRecepientsData] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   /*************************SummeryData State************************ */
   const [summeryData, setSummeryData] = useState([]);
@@ -120,8 +120,9 @@ const AllTranfer = ({ status, data }) => {
   // console.log("paymetTransactionId ====================>", paymetTransactionId);
 
   useEffect(() => {
-    
-    if (data?.length) {      
+
+    if (data?.length) {
+      setLoading(false)
       if (status == "pending") {
         let pending = data.filter((item) => {
           return item.status == "pending"
@@ -136,8 +137,6 @@ const AllTranfer = ({ status, data }) => {
       } else {
         setTransactionData(data)
       }
-    }else{
-      setLoading(true)
     }
     summrySingleData();
   }, [data])
@@ -179,7 +178,7 @@ const AllTranfer = ({ status, data }) => {
   return (
     <>
       {
-        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
+        !loading ? (
           <div className="card">
             <div className="card-header d-block d-sm-flex border-0">
               <div className="me-3">
@@ -354,7 +353,7 @@ const AllTranfer = ({ status, data }) => {
                   </Modal.Footer>
                 </Modal>
 
-                {transactionData?.length == 0  && !loading ? (
+                {length == "none" ? (
                   <div className="no-data">
                     <img src={nodata} alt="no-data" />
                     <div className="col-md-12">
@@ -374,7 +373,10 @@ const AllTranfer = ({ status, data }) => {
           </div>
         ) : (
           <>
-            <Page404 />
+            <div className="loader-overly">
+              <div className="loader" >
+              </div>
+            </div>
           </>
         )
       }

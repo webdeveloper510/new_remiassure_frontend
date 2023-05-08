@@ -132,7 +132,7 @@ export const pendingPayment = async (data) => {
   return response
 }
 
-
+// payment/completed-transactions/
 export const completedPayment = async (data) => {
   const response = await Axios.post("/payment/completed-transactions/", data,{
     headers: {
@@ -155,3 +155,30 @@ export const createRecipient = async (data) => {
   })
   return response
 }
+
+// payment/card-list/
+
+// payment/card/
+export const cardPayment = async (id) => {
+  const response = await Axios.post(`/payment/card/${id}`,{
+    headers: {
+      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+    },
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
+// payment/recipient-update/
+export const updatePayment = async (data) => {
+  const response = await Axios.post("/payment/recipient-update/",data,{
+    headers: {
+      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+    },
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
