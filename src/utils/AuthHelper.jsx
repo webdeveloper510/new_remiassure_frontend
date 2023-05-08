@@ -1,18 +1,21 @@
 const authChecker = (checkType) => {
-    // const user = JSON.parse(localStorage.getItem('token'));
 
-    const user = localStorage.getItem('token')
-    console.log('checkUSer+++++++', user)
-    if (checkType === 'authCheck') {
-      if (!user) {
-        return false;
-      }
+  const token = localStorage.getItem('token')
+
+  if (checkType === 'authCheck') {
+    if (!token) {
+      return false;
+    } else {
       return true;
     }
-    if (!user || checkType !== user.userType) {
+  } else if (checkType === 'dashCheck') {
+    let user = JSON.parse(localStorage.getItem("remi-user-dt"))
+    if (token && user.digital_id_verified) {
+      return true;
+    } else {
       return false;
     }
-    return true;
-  };
-  
-  export default authChecker;
+  }
+};
+
+export default authChecker;

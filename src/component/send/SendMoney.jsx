@@ -6,17 +6,18 @@ import BankDetails from './BankDetails'
 import PaymentDetails from './PaymentDetails'
 import SenderDetails from './SenderDetails'
 import PaymentSummary from './PaymentSummary'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import verified from '../../assets/img/userdashboard/3.png';
-import { IoMdGift } from 'react-icons/io'
 
 const SendMoney = () => {
+
+  const data = useLocation()?.state
 
   const [step, setStep] = useState(0)
   const [titles, setTitles] = useState(["Amount & Delivery", "Recipient Bank Details", "Payment Details", "Sender Details", "Payment Summary", "Thank you"])
 
   const [amt_detail, setAmtDetail] = useState({
-    send_amt: "", exchange_amt: "", from_type: "", to_type: "", recieve_meth: "", payout_part: ""
+    send_amt: data?.send_amt || "", exchange_amt: data?.exchange_amt || "", from_type: data?.from_type || "", to_type: data?.to_type || "", recieve_meth: data?.recieve_meth || "", payout_part: ""
   })
 
 
@@ -33,7 +34,7 @@ const SendMoney = () => {
   const handleAmtDetail = (data) => {
     setAmtDetail(data)
   }
-  const navigate =useNavigate()
+  const navigate = useNavigate()
 
   const handleBankDetail = (data) => {
     setBankDetail(data)
@@ -44,35 +45,43 @@ const SendMoney = () => {
   }
 
   useEffect(() => {
-    if (localStorage.getItem("send-step")) {
-      setStep(Number(localStorage.getItem("send-step")))
-    }
-    if(localStorage.getItem("transfer_data")){
-      const local = JSON.parse(localStorage.getItem("transfer_data"))
-      if(local?.amount){
-        setAmtDetail(local.amount)
+
+    if (localStorage.getItem("DigitalCode") && localStorage.getItem("DigitalTransactionId")) {
+      navigate("/usersendmoney")
+    } else {
+      if (localStorage.getItem("send-step")) {
+        setStep(Number(localStorage.getItem("send-step")))
       }
-      if(local?.recipient){
-        setBankDetail(local.recipient)
+      if (localStorage.getItem("transfer_data")) {
+        const local = JSON.parse(localStorage.getItem("transfer_data"))
+        if (local?.amount) {
+          setAmtDetail(local.amount)
+        }
+        if (local?.recipient) {
+          setBankDetail(local.recipient)
+        }
       }
     }
+
+    const timer = setTimeout(() => {
+
+      localStorage.removeItem("send-step");
+      localStorage.removeItem("transfer_data");
+
+      navigate("/")
+    }, 15 * 60 * 1000);
+    return () => clearTimeout(timer);
+
   }, [])
 
-  useEffect(()=>{
-console.log("bjdsgfjdbsf", amt_detail, bank_detail)
-  },[bank_detail, amt_detail])
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
-      top:0,
-      left:0,
-      behavior:"instant"
+      top: 0,
+      left: 0,
+      behavior: "instant"
     })
-  },[step])
-  useEffect(()=>{
-    if(localStorage.getItem("DigitalCode")&&localStorage.getItem("DigitalTransactionId")){
-      navigate("/usersendmoney")
-    }
-  })
+  }, [step])
+
 
   return (
     <>
@@ -106,19 +115,18 @@ console.log("bjdsgfjdbsf", amt_detail, bank_detail)
                            
                           </div> */}
                           {
-                            step == 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
+                            step === 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
                               :
-                              step == 1 ? <BankDetails handleBankDetail={handleBankDetail} handleStep={handleStep} step={step} />
+                              step === 1 ? <BankDetails handleBankDetail={handleBankDetail} handleStep={handleStep} step={step} />
                                 :
-                                step == 2 ? <PaymentDetails handleStep={handleStep} step={step} />
+                                step === 2 ? <PaymentDetails handleStep={handleStep} step={step} />
                                   :
-                                  step == 3 ? <SenderDetails handleStep={handleStep} step={step} />
+                                  step === 3 ? <SenderDetails handleStep={handleStep} step={step} />
                                     :
-                                    step == 4 ? <PaymentSummary handleStep={handleStep} step={step} />
+                                    step === 4 ? <PaymentSummary handleStep={handleStep} step={step} />
                                       :
-                                      step == 5 ? <>
+                                      step === 5 ? <>
                                         <div className="form_body">
-                                          {/* <button className="form-button" onClick={()=>{setStep(step-1)}}>Previous</button> */}
                                           <div className="header">
                                             <h1>Thank you</h1>
                                           </div>
@@ -137,7 +145,7 @@ console.log("bjdsgfjdbsf", amt_detail, bank_detail)
                       <div className="col-md-4">
                         <Table>
                           {
-                            step > 0  ? (
+                            step > 0 ? (
                               <div className="summary">
                                 <BsCheckCircleFill />
                                 <h5>Summary</h5>

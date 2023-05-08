@@ -1,27 +1,12 @@
-import React, { useState, useContext } from "react";
-// import Button from 'react-bootstrap/Button';
+import React, { useState } from "react";
 import Form from 'react-bootstrap/Form';
-import { Links, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { userLogin } from "../../utils/Api";
 import { toast } from "react-toastify";
-// import UserContext from '../context/UserContext';
-// import Page404 from "../pageNotfound/Page404";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-// import validate from "../../pages/FormValidationRules";
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import clsx from "clsx";
-
-{/* start -- css*/ }
-// const myStyle = {
-//     color: "red",
-//     fontSize: "13px",
-//     textTransform: "capitalize",
-//     marginTop: "4px",
-//     display: "block",
-//     textAlign: "left"
-// }
-{/* End -- css*/ }
 
 const Login = () => {
 
@@ -51,14 +36,13 @@ const Login = () => {
                 if (res.code == 200) {
                     toast.success('Login Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
                     localStorage.setItem("token", res?.access_token)
-                    localStorage.setItem("remi-user-dt", res?.data)
-                    if (res.is_digitalid_verified) {
-                        localStorage.setItem("LoginDigitalidVerified", res.is_digitalid_verified)
+                    localStorage.setItem("remi-user-dt", JSON.stringify(res?.data))
+                    if (res.digital_id_verified) {
                         navigate("/dashboard")
                     } else {
                         navigate('/send-money')
                     }
-                } else if (res.code == 200) {
+                } else if (res.code == 201) {
                     toast.warn("Please check your mail for otp", { position: "top-right", autoClose: 2000, theme: "colored" })
                     localStorage.setItem("remi-user-dt", res?.data)
                     navigate('/verification', { state: { email: values.email } })
@@ -78,11 +62,7 @@ const Login = () => {
 
     const [promo_marketing, setPromo_marketing] = useState(false);
     const [loading, setLoading] = useState(false);
-
-    /****************Show hide password state********************** */
     const [showPassword, setShowPassword] = useState(false);
-
-    /****************Show hide password functionality********************** */
     const toggleShowPassword = () => setShowPassword(prevState => !prevState);
 
     const navigate = useNavigate();
@@ -128,7 +108,7 @@ const Login = () => {
                                                             autoComplete='off'
                                                             placeholder="Enter email"
                                                         />
-                                                      
+
                                                     </Form.Group>
 
                                                     <Form.Group className="mb-3 form_label">
@@ -151,7 +131,7 @@ const Login = () => {
                                                         <span className="pass_icons" type="button" onClick={toggleShowPassword}>
                                                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                         </span>
-                                                    
+
 
                                                     </Form.Group>
 

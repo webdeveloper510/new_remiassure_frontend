@@ -58,7 +58,7 @@ const Verification = () => {
     const handleEmailVerification = (event) => {
         event.preventDefault();
         setLoading(true)
-        verifyEmail({email_otp:otp , email:email}).then((res) => {
+        verifyEmail({ email_otp: otp, email: email }).then((res) => {
             console.log("verifing email", res)
             if (res.code == 200) {
                 toast.success("Email verification successful",
@@ -66,7 +66,6 @@ const Verification = () => {
                 localStorage.setItem('token', res.access_token)
                 setLoading(false)
                 navigate('/send-money')
-
             }
 
 
@@ -82,67 +81,58 @@ const Verification = () => {
     }
 
     return (
-            <>
-                <section className="why-us section-bgba verification_banner">
-                    <div className="container">
-                        <div className="row">
+        <>
+            <section className="why-us section-bgba verification_banner">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="card card-verification">
+                                <div className="card-body">
+                                    <span style={successStyle}>{AlreadyverifiedText ? AlreadyverifiedText : ""}</span>
+                                    <h5 className="Sign-heading">Verify your Account</h5>
+                                    <p>A verification code sent to your email. Please enter the code to continue.</p>
+                                    <div className="form_verification">
+                                        <form onSubmit={handleEmailVerification} >
+                                            <OtpInput
+                                                value={otp}
+                                                onChange={handleChange}
+                                                numInputs={6}
+                                                isSuccessed={true}
+                                                successStyle="success"
+                                                separator={<span></span>}
+                                                separateAfter={3}
+                                                className="verification_input"
+                                                onSubmit={console.log(otp)}
 
-                            <div className="col-lg-12">
-                                <div className="row">
-                                    <div className="col-lg-12">
-                                        <div className="card card-verification">
-                                            <div className="card-body">
-                                                <span style={successStyle}>{AlreadyverifiedText ? AlreadyverifiedText : ""}</span>
-                                                <h5 className="Sign-heading">Verify your Account</h5>
-                                                <p>A verification code sent to your email. Please enter the code to continue.</p>
-                                                <div className="form_verification">
-
-                                                    <form>
-                                                        <OtpInput
-                                                            value={otp}
-                                                            onChange={handleChange}
-                                                            numInputs={6}
-                                                            isSuccessed={true}
-                                                            successStyle="success"
-                                                            separator={<span></span>}
-                                                            separateAfter={3}
-                                                            className="verification_input"
-                                                            onSubmit={console.log(otp)}
-
-                                                        />
-                                                        <span style={myStyle}>{EnterOtpText ? EnterOtpText : ""}</span>
-                                                        <span style={myStyle}>{InvalidotpText ? InvalidotpText : ""}</span>
-
-                                                        <div className="col-md-12 align-center">
-                                                            <button variant="primary"
-                                                                type="submit"
-                                                                className="continue_button"
-                                                                onClick={handleEmailVerification}
-                                                            >
-                                                                Continue
-                                                                {
-                                                                    loading ? <>
-                                                                        <div className="loader-overly">
-                                                                            <div className="loader" >
-                                                                            </div>
-                                                                        </div>
-                                                                    </> : <></>
-                                                                }
-                                                            </button>
-
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                            />
+                                            <span style={myStyle}>{EnterOtpText ? EnterOtpText : ""}</span>
+                                            <span style={myStyle}>{InvalidotpText ? InvalidotpText : ""}</span>
+                                            <div className="text-center pt-3">
+                                                <button variant="primary"
+                                                    type="submit"
+                                                    className="continue_button w-75"
+                                                >
+                                                    Continue
+                                                    {
+                                                        loading ? <>
+                                                            <div className="loader-overly">
+                                                                <div className="loader" >
+                                                                </div>
+                                                            </div>
+                                                        </> : <></>
+                                                    }
+                                                </button>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
-
                             </div>
+
                         </div>
                     </div>
-                </section>
-            </>
+                </div>
+            </section>
+        </>
     )
 }
 

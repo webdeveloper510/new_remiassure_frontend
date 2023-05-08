@@ -1,27 +1,19 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import authChecker from '../utils/AuthHelper';
 
 // ----------------------------------------------------------------------
 
 function AuthDashProtect({ children }) {
-  const navigate = useNavigate();
 
-  // React.useEffect(() => {
-  //   if (!authChecker('authCheck')) {
-  //     navigate('/', { replace: true });
-  //   } else {
-  //     console.log('');
-  //     navigate(children, { replace: true });
-  //   }
-  // }, []);
-  const auth = authChecker('authCheck');
+  const auth = authChecker('dashCheck');
+
   if (auth) {
     return <Navigate to={children} />;
   }
-  return <Navigate to="/" />;
+  return <Navigate to="/send-money" />;
 }
 AuthProtect.propTypes = {
   children: PropTypes.string

@@ -21,7 +21,6 @@ import clsx from "clsx";
 const Signup = () => {
 
     const search = useLocation()
-    const [mobile, setMobile] = useState({ value: "", err: false })
     const [show, setShow] = useState(false);
 
     const initialValues = {
@@ -30,8 +29,7 @@ const Signup = () => {
         password: "",
         confirmPassword: "",
         referral_code: "",
-        mobile: "",
-        promo_marketing: "0"
+        mobile: ""
     }
 
     const signSchema = Yup.object().shape({
@@ -57,7 +55,7 @@ const Signup = () => {
             userRegister(data).then((res) => {
                 if (res.code === "200") {
                     toast.success('SignUp Succesfull', { position: "top-right", autoClose: 2000, theme: "colored" });
-                    localStorage.setItem("remi-user-dt", res?.data)
+                    localStorage.setItem("remi-user-dt", JSON.stringify(res?.data))
                     navigate('/verification', { state: { email: values.email } })
                 }
                 setLoading(false)
@@ -82,7 +80,7 @@ const Signup = () => {
 
 
 
-    const [promo_marketing, setPromo_marketing] = useState(false);
+    const [promo_marketing, setPromo_marketing] = useState("0");
 
 
 

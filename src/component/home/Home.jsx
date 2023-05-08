@@ -1,24 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Scrollbar from '../scrollbar/Scrollbar';
-
 import { toast } from "react-toastify";
-import { API } from "../../config/API";
-import axios from "axios";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import clsx from "clsx";
 import { exchangeRate } from "../../utils/Api";
 
-// start -----Why RemitAssure circle function
 function WhyRenderingArrayOfObjects() {
     const dataItems = [
         {
@@ -61,9 +52,6 @@ function WhyRenderingArrayOfObjects() {
         </div>
     )
 }
-// End -----Why RemitAssure circle function
-
-// Start--- home Bank Transfer funstion 
 function BankTransferArrayOfObjects() {
     const bankItems = [
         {
@@ -111,10 +99,7 @@ function BankTransferArrayOfObjects() {
         </div>
     )
 }
-// End--- home Bank Transfer funstion 
 
-
-// Start----- Flag home function 
 function FlagHomeArrayofoObjects() {
     const flagData = [
         {
@@ -192,44 +177,34 @@ function FlagHomeArrayofoObjects() {
 // End----Flag home function 
 
 // card carousel start
-const Card = (props) => {
-    // console.log(props,"propspropspropsprops")x
-    return (
-        <li className="card li_card " key={props.id}>
-            <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-            <div className="row">
-                <div className="col-lg-4">
-                    <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons" />
-                    <p className="boy_icons_text">Worldtraveler</p>
-                </div>
-                <div className="col-8">
-                    <span className="material-icons">{props.heading}</span>
-                    <p className="material-heading">{props.paragraph}</p>
-                    <img src="assets/img/help/star.png" />
-                </div>
-            </div>
-            <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" />
-        </li>
-    )
-}
+// const Card = (props) => {
+//     return (
+//         <li className="card li_card " key={props.id}>
+//             <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
+//             <div className="row">
+//                 <div className="col-lg-4">
+//                     <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons" />
+//                     <p className="boy_icons_text">Worldtraveler</p>
+//                 </div>
+//                 <div className="col-8">
+//                     <span className="material-icons">{props.heading}</span>
+//                     <p className="material-heading">{props.paragraph}</p>
+//                     <img src="assets/img/help/star.png" />
+//                 </div>
+//             </div>
+//             <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" />
+//         </li>
+//     )
+// }
 
 
 
 const Home = () => {
 
-
-    // Start page show hide condtion page 
     const token = localStorage.getItem("token");
-    // console.log("TOKEN", token);
-    const digitalCode = localStorage.getItem("DigitalCode")
-
-    const verification_otp = localStorage.getItem("verification_otp");
-    // console.log("Verification Message", verification_otp)
-
-    // Start page show hide condtion page
+    const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
 
     const [data, setData] = useState({ amt1: "", amtC1: "AUD", amt2: "", amtc2: "NZD" })
-
 
     const items = [
         {
@@ -253,46 +228,17 @@ const Home = () => {
         }
     ];
 
-    //const [movePage, setMovePage] = useState('');
     const [carouselItems, setCarouselItems] = useState(items);
-    //console.log(items, "carouselItemscarouselItemscarouselItemscarouselItemscarouselItems")
 
     useEffect(() => {
         document.documentElement.style.setProperty('--num', carouselItems.length);
     }, [carouselItems])
-
-    // const handleAnimationEnd = () => {
-    // if(movePage === 'prev'){
-    // shiftNext([...carouselItems]);
-    // }else if(movePage === 'next'){
-    // shiftPrev([...carouselItems]);
-    // }
-    // setMovePage('')
-    // }
-
-    // const shiftPrev = (paragraph) => {
-    // let lastcard = paragraph.pop();
-    // paragraph.splice(0, 0, lastcard);
-    // setCarouselItems(paragraph);
-    // }
-
-    // const shiftNext = (paragraph) => {
-    // let firstcard = paragraph.shift();
-    // paragraph.splice(paragraph.length, 0, firstcard);
-    // setCarouselItems(paragraph);
-    // }
-
-    // End carousel End
-
     const amountSchema = Yup.object().shape({
         amount: Yup.number()
             .required('Amount is required'),
-        // totalAmount: Yup.number()
-        // .required('Total amount is required'),
         paymentMethod: Yup.string().oneOf(['1', '2'])
             .required("Payment method is required")
     })
-
     const initialValues = {
         amount: '',
         totalAmount: '',
@@ -300,44 +246,13 @@ const Home = () => {
         to: "NZD",
         paymentMethod: ""
     }
-
-
-
-    //*********** */ Start Main EXCHANGE RATE Api call *********************\\
-    // const [amount, setAmount] = useState('');
-    // alert(amount)
-    // const [from, setFrom] = useState('AUD');
-    // const [to, setTo] = useState('NZD');
-
     const [loading, setLoading] = useState(false);
-    // const [total_amount, setTotal_amount] =useState('');
     const [total_rates, setTotal_rates] = useState('1.0998');
-    // alert(total_amount)
-
-
-
-
-    // const HandleAmount =(e)=>{
-    // setAmount(e.target.value)
-    // }
-
-    // const HandleFrom = (e) =>{
-    // setFrom(e.target.value)
-    // }
-
-    // const HandleTo = (e) => {
-    // setTo(e.target.value)
-    // }
-
     const navigate = useNavigate();
-    // const notify = () => toast.success("Amount & Delivery Successfully!!")
-
     const formik = useFormik({
         initialValues,
         validationSchema: amountSchema,
         onSubmit: async (values) => {
-            // console.log("user amount---------")
-
             setLoading(true)
             exchangeRate({ amount: values.amount, from: values.from, to: values.to, paymentMethod: values.paymentMethod }).then((res) => {
                 console.log(res)
@@ -346,10 +261,11 @@ const Home = () => {
                     localStorage.setItem("amount", data.amt1)
                     localStorage.setItem("exchangeAmount", res.amount)
                     if (token) {
-                        if (localStorage.getItem("LoginDigitalidVerified")) {
+                        if (userdt?.digital_id_verified) {
                             navigate("/usersendmoney")
                         } else {
-                            navigate("/send-money")
+                            const obj = {send_amt:data.amt1 , exchange_amt: res?.amount, from_type:values.from, to_type: values.to, recieve_meth: values.paymentMethod}
+                            navigate("/send-money",{state:obj})
                         }
                     } else {
                         navigate("/login")
@@ -365,50 +281,9 @@ const Home = () => {
             })
         }
     })
-
-    //main Api call
-    // const handleAmonutDelivery =(event) =>{
-    // event.preventDefault();
-    // setLoading(true); // Set loading before sending API request
-    // axios.post(API.BASE_URL + 'exchange-rate/', {
-    // amount: amount,
-    // from: from,
-    // to: to
-    // }, {
-    // headers:{
-
-    // },
-
-    // })
-    // .then(function(response){
-    // console.log(response)
-    // setLoading(false); // Stop loading
-    // if(response.status){
-    // // notify();
-    // // navigate('/login');
-
-    // }
-    // })
-    // .catch(function(error){
-    // console.log(error.response);
-    // setLoading(false); // Stop loading in case of error
-    // // if(error.response.data.status){
-    // // toast.error(error.response.data.message)
-    // // }
-
-    // })
-
-    // }
-
-    //End main Api
-
-
-    // Start--Exchange money Api call 
     const myExchangeTotalAmount = (event) => {
         event.preventDefault();
-        // alert("hii")
-        // event.preventDefault();
-        setLoading(true); // Set loading before sending API request
+        setLoading(true); 
         exchangeRate({ amount: data.amt1, from: data.amtC1, to: data.amtc2, paymentMethod: initialValues.paymentMethod }).then((res) => {
             console.log(res)
             setData({ ...data, amt2: res.amount })
@@ -421,66 +296,7 @@ const Home = () => {
             }
             setLoading(false)
         })
-        // axios.post(API.BASE_URL + 'exchange-rate/', {
-        // // amount: amount,
-        // from: from,
-        // to: to
-        // }, {
-        // headers: {
-
-        // }
-
-        // })
-        // .then(function (response) {
-        // console.log(response);
-        // // setTotal_amount(response.data.amount);
-        // setTotal_rates(response.data.rate);
-        // setLoading(false); // Stop loading
-        // })
-        // .catch(function (error) {
-        // console.log(error.response)
-        // setLoading(false); // Stop loading in case of error
-        // // if(error.response.data.status){
-        // // toast.error(error.response.data.message)
-        // // }
-        // })
     }
-
-
-    // End--Exchange money Api call 
-
-
-    // const getInitialState = () => {
-    // const value = "USD";
-    // return value;
-    // };
-
-    // const [value, setValue] = useState(getInitialState);
-
-    // const handleChange = (e) => {
-    // setValue(e.target.value);
-    // };
-
-
-
-    // //second to 
-    // const getInitialStatess = () => {
-    // const value = "INR";
-    // return value;
-    // };
-
-    // const [valuess, setValuess] = useState(getInitialStatess);
-
-    // const handleChangess= (e) => {
-    // setValuess(e.target.value);
-    // };
-
-
-
-
-
-    //*********** */ End EXCHANGE RATE Api call *********************\\
-
 
     const inputvalidation = (event) => {
         console.log("dfjghfguh---------------", event.key)
@@ -511,9 +327,6 @@ const Home = () => {
 
     return (
         <>
-
-
-            {/* <!-- ======= Home Better-Way-Section start======= --> */}
             <section className="top_sections">
                 <div className="container">
                     <div className="row">
@@ -567,27 +380,16 @@ const Home = () => {
                                                                 'is-valid': formik.touched.amount && !formik.errors.amount,
                                                             }
                                                         )}
-                                                        // onChange={HandleAmount}
                                                         placeholder="Please Enter Amount"
-                                                        // onChange={(e) =>{myExchangeTotalAmount(e.target.value); setAmount(e.target.value)}}
-                                                        // onChange={formik.handleChange}
                                                         onBlur={(e) => myExchangeTotalAmount(e)}
 
                                                     />
-                                                    {/* <Form.Control aria-label="Text input with dropdown button" />
- </InputGroup> */}
                                                     <select
                                                         className="form-select mb-3 home-select-method"
                                                         aria-label="Select a reason"
                                                         onChange={(e) => { handleSelect1(e) }}
-                                                        // value={value} 
-                                                        // onChange={HandleFrom}
-                                                        // onClick={myExchangeTotalAmount}
-                                                        // onChange={(e)=> {myExchangeTotalAmount(e.target.value);setFrom(e.target.value)}}
-                                                        // onChange={formik.handleChange}
                                                         onBlurCapture={myExchangeTotalAmount}
                                                     >
-                                                        {/* <option className="option-custom" value="">Select</option> */}
                                                         <option className="option-custom" value="AUD" selected="selected">AUD</option>
                                                         <option className="option-custom" value="NZD">NZD</option>
                                                     </select>
@@ -596,14 +398,6 @@ const Home = () => {
                                             <div className="col-3-1">
                                                 <p className="get-text">They get<span style={{ color: 'red' }} >*</span></p>
                                                 <div className="inline select-currency">
-
-                                                    {/* <InputGroup 
- className="mb-3"
- value={total_amount && amount != 0 || "" ? total_amount : ""}
- >
- <Form.Control aria-label="Text input with dropdown button" />
- </InputGroup> */}
-
                                                     <input
                                                         autoComplete='off'
                                                         value={data.amt2}
@@ -614,22 +408,13 @@ const Home = () => {
                                                                 'is-valid': formik.touched.totalAmount && !formik.errors.totalAmount,
                                                             }
                                                         )}
-
                                                     />
-
-
                                                     <select
                                                         className="form-select form-control mb-3 home-select-method"
                                                         aria-label="Select a reason"
-                                                        // value={data.amtc2}
-                                                        // onChange={HandleTo}
-                                                        // onClick={myExchangeTotalAmount}
-                                                        // onChange={(e)=> {myExchangeTotalAmount(e.target.value);setTo(e.target.value)}}
                                                         onChange={(e) => { handleSelect2(e) }}
                                                         onBlurCapture={myExchangeTotalAmount}
-
                                                     >
-                                                        {/* <option value="">Select</option> */}
                                                         <option value="NZD" selected="selected">NZD</option>
                                                         <option value="AUD">AUD</option>
                                                         <option value="AUD">AUD</option>
@@ -651,19 +436,8 @@ const Home = () => {
                                                         <option value="ZAR">ZAR</option>
                                                         <option value="CHF">CHF</option>
                                                         <option value="GBP">GBP</option>
-
                                                     </select>
                                                 </div>
-                                                {/* <InputGroup className="mb-3">
- <Form.Control aria-label="Text input with dropdown button" />
- <DropdownButton variant="outline-secondary" title="AUD" id="input-group-dropdown-2" align="end">
- <Dropdown.Item href="#">Action</Dropdown.Item>
- <Dropdown.Item href="#">Another action</Dropdown.Item>
- <Dropdown.Item href="#">Something else here</Dropdown.Item>
- <Dropdown.Divider />
- <Dropdown.Item href="#">Separated link</Dropdown.Item>
- </DropdownButton>
- </InputGroup> */}
                                             </div>
                                             <div className="col-3-1">
                                                 <p className="get-text">Receive method</p>
@@ -680,30 +454,17 @@ const Home = () => {
                                                     <option value="1">Bank Transfer</option>
                                                     <option value="2">Mobile Wallet</option>
                                                 </select>
-                                                {/* <InputGroup className="mb-3">
- <Form.Control aria-label="Text input with dropdown button" />
- <DropdownButton variant="outline-secondary" title="AUD" id="input-group-dropdown-2" align="end">
- <Dropdown.Item href="#">Action</Dropdown.Item>
- <Dropdown.Item href="#">Another action</Dropdown.Item>
- <Dropdown.Item href="#">Something else here</Dropdown.Item>
- <Dropdown.Divider />
- <Dropdown.Item href="#">Separated link</Dropdown.Item>
- </DropdownButton>
- </InputGroup> */}
                                             </div>
                                             <div className="col-3-2">
                                                 <button
                                                     type="submit"
                                                     className="btn btn continue-button"
-
                                                 >
                                                     Continue
                                                     {loading ? <>
                                                         <div className="loader-overly">
                                                             <div className="loader" >
-
                                                             </div>
-
                                                         </div>
                                                     </> : <></>}
                                                 </button>
@@ -716,14 +477,8 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-            {/* <!-- ======= Home Better-Way-Section End-Section ======= --> */}
-
-
-
-            {/* <!-- ======= Home Why RemitAssure-Section start ======= --> */}
             <section className="why-us_section homepage-why-us">
                 <div className="container">
-
                     <div className="row">
                         <div className="col-lg-6">
                             <div className="vl">
@@ -740,14 +495,11 @@ const Home = () => {
                             <img src="assets/img/home/img02.svg" alt="background-images" />
                         </div>
                     </div>
-
-
                     <div className="Money_section">
                         <div className="row">
                             <div className="col-lg-6 right_sections">
                                 <img src="assets/img/home/img03.svg" alt="background-images" />
                             </div>
-
                             <div className="col-lg-6 better_sections">
                                 <div className="vl">
                                     <h1 className="vl-heading">A Better Way</h1>
@@ -769,30 +521,18 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </section>
-
-            {/* <!-- ======= Home Why RemitAssure-Section End ======= --> */}
-
-
-            {/* <!-- ======= Home Wide-Choice-Section start======= --> */}
             <section className="why-us section-bgba banner_section05" >
                 <div className="container">
-
-                    {/* main row start*/}
                     <div className="row">
                         <div className="col-lg-12">
-
                             <div className="row">
                                 <div className="col-lg-7">
-
                                     <div className="vl03">
                                         <h1 className="chose-heading">A wide choice of ways</h1>
                                         <h1 className="chose-heading01">to send money online</h1>
-
                                     </div>
-
                                     <div className="chose-content">
                                         <p className="chose-paragraph02">Lorem ipsum dolor sit amet, consectetur
                                             adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
@@ -805,94 +545,41 @@ const Home = () => {
                                             massa. Sed nisi lacus sed viverra. Integer vitae justo eget magna.
                                             Sed vulputate mi sit amet. Nam aliquam sem et tortor consequat id porta.
                                         </p>
-
                                     </div>
-
                                 </div>
-
-                                {/* second section row start */}
                                 <div className="col-lg-5">
-
-                                    {/* bank first row start */}
                                     <div className="row">
                                         <ul className="bank_transfer custom-list">
                                             < BankTransferArrayOfObjects />
                                         </ul>
                                     </div>
-                                    {/* Bank first row End */}
-
                                 </div>
-                                {/* second section row end */}
-
                             </div>
                         </div>
                     </div>
-                    {/* main row End*/}
-
                     <div className="row" id="testimonial-section">
                         <div className="col-lg-12">
                             <h3 className="customers-heading">What customers say about us</h3>
-                            {/* <div className="button_icons">
- <button className="btn btn prev left_icon" onClick={() => setMovePage('prev')}>
- <i className="bx bx-chevron-left prev_button"></i>
- </button>
-
- <button className="btn btn next right_icon" onClick={() => setMovePage('next')}>
- <i className="bx bx-chevron-right "></i>
- </button>
-
- 
-
- </div> */}
-
                             <p className="customers-paragraph">We do our best to provide you the best experience ever</p>
                         </div>
                     </div>
-
-                    {/* start carousel cards */}
-
                     <div className="row">
                         <div className="col-lg-12">
-                            {/* <div className="carouselwrapper module-wrapper">
- 
-
- 
- <ul onAnimationEnd={handleAnimationEnd} className={`${movePage} carousel`}>
- {carouselItems.map((t, index) => 
- <Card key={t.paragraph + index} heading={t.heading} paragraph={t.paragraph} />
- 
- )}
- </ul>
-
- </div> */}
                             <Scrollbar />
                         </div>
                     </div>
-
-                    {/* start carousel cards */}
-
-
                 </div>
             </section>
-            {/* <!-- ======= Home Wide-Choice-Section End ======= --> */}
-
-
-            {/* <!-- ======= Home Call-us section start======= --> */}
             <section className="why-us section-bgba banner_section01">
                 <div className="container">
-
-                    {/* main row start*/}
                     <div className="row">
                         <div className="col-lg-12">
-
                             <div className="row">
                                 <div className="col-lg-6">
-
                                     <div className="vl02">
                                         <h1 className="money-heading">Send money to over 130 countries worldwide and choose
                                             from over 70 currencies</h1>
                                     </div>
-
                                     <div className="popular-content">
                                         <h4 className="popular-paragraph01">POPULAR COUNTRIES
                                         </h4>
@@ -901,50 +588,32 @@ const Home = () => {
                                         <p className="popular-paragraph02"> incididunt ut labore et dolore magna aliqua. Facilisi morbi tempus iaculis urna.
                                         </p>
                                     </div>
-
                                 </div>
-
-                                {/* second section row start */}
                                 <div className="col-lg-6">
-
-                                    {/* first row flag */}
                                     <div className="row">
                                         <ul className="bank_transfer">
                                             < FlagHomeArrayofoObjects />
                                         </ul>
-
                                     </div>
-                                    {/* first row flag */}
-
                                     {
-                                        verification_otp || token != undefined || '' ? (
-
+                                        userdt && token ? (
                                             <div className="view-button">
                                                 <NavLink to={"/userdashboard"}>
                                                     <button className="btn btn view_button">View all</button>
                                                 </NavLink>
                                             </div>
-
                                         ) : (
                                             <>
-
                                                 <div className="view-button">
                                                     <NavLink to={"/login"}>
                                                         <button className="btn btn view_button">View all</button>
                                                     </NavLink>
                                                 </div>
-
                                             </>
                                         )
                                     }
-
-
-
                                 </div>
-                                {/* second section row end */}
-
                             </div>
-
                         </div>
                     </div>
                     {/* main row End*/}
@@ -965,13 +634,6 @@ const Home = () => {
                 </div>
             </section>
             {/* <!-- ======= Home Call-us section End======= --> */}
-
-
-
-
-
-
-
         </>
     )
 }
