@@ -3,6 +3,9 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router'
+import global from '../../utils/global'
+import Axios from "axios"
+import axios from 'axios'
 
 const PaymentSummary = ({ handleStep, step }) => {
 
@@ -10,7 +13,9 @@ const PaymentSummary = ({ handleStep, step }) => {
     send_amount: "", to: "", recieve_amount: "", account_number: "", account_name: "", bank_name: "",
     total_amount: "", from: "", send_method: ""
   })
-const navigate = useNavigate()
+
+  const navigate = useNavigate()
+
   useEffect(() => {
     const local = JSON.parse(localStorage.getItem("transfer_data"));
     console.log(local)
@@ -23,24 +28,96 @@ const navigate = useNavigate()
       account_name: local?.recipient?.acc_name,
       account_number: local?.recipient?.acc_no,
       bank_name: local?.recipient?.bank,
-      send_method:local?.payment?.payment_type
+      send_method: local?.payment?.payment_type
+    })
+
+    axios.post("http://54.193.130.43:8000/digital-verification/", { code: localStorage.getItem("DigitalCode") }, {
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    }).then(res => {
+      return true
     })
 
   }, [])
 
   const handleFinalStep = () => {
-    if (localStorage.getItem("send-step")) {
-      localStorage.removeItem("send-step")
+    const local = JSON.parse(localStorage.getItem("transfer_data"))
+console.log(local)
+    const data = {
+      sender: {
+        first_name: local?.sender?.f_name,
+        middle_name: local?.sender?.m_name,
+        last_name: local?.sender?.l_name,
+        date_of_birth: local?.sender?.dob,
+        gender: local?.sender?.gender,
+        flat: local?.sender?.flat,
+        building: local?.sender?.build_no,
+        street: local?.sender?.street,
+        postcode: local?.sender?.post_code,
+        city: local?.sender?.city,
+        state: local?.sender?.state,
+        country: local?.sender?.country
+      },
+      recipient: {
+        first_name: local?.recipient?.f_name,
+        middle_name: local?.recipient?.m_name,
+        last_name: local?.recipient?.l_name,
+        email: local?.recipient?.email,
+        mobile: local?.recipient?.mobile,
+        flat: local?.recipient?.flat,
+        building: local?.recipient?.build_no,
+        street: local?.recipient?.street,
+        postcode: local?.recipient?.post_code,
+        city: local?.recipient?.city,
+        state: local?.recipient?.state,
+        country: local?.recipient?.country
+      },
+      bank_details: {
+        bank_name: local?.recipient?.bank,
+        account_name: local?.recipient?.acc_name,
+        account_number: local?.recipient?.acc_no
+      },
+      amount: {
+        send_amount: local?.amount?.send_amt,
+        recieve_amount: local?.amount?.exchange_amt,
+        send_currency: local?.amount?.from_type,
+        recieve_currency: local?.amount?.to_type,
+        send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
+        recieve_method: local?.amount?.recieve_meth,
+        reason: local?.recipient?.reason,
+        card_token: local?.payment?.token?.id
+      }
     }
-    localStorage.setItem("send-step", Number(step) + 1)
-    handleStep(Number(step) + 1)
+    Axios.post(`${global.serverUrl}/payment/stripe/user-charge/`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    }).then((res) => {
+      if (res.code == 200) {
+        localStorage.setItem("transaction_id", res?.data?.transaction_id)
+        const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+        localStorage.removeItem("remi-user-dt")
+        user.digital_id_verified = true
+        localStorage.setItem("remi-user-dt")
+        if (localStorage.getItem("send-step")) {
+          localStorage.removeItem("send-step")
+        }
+        localStorage.removeItem("transfer_data")
+        localStorage.setItem("send-step", Number(step) + 1)
+        handleStep(Number(step) + 1)
+      }
+    })
+
   }
 
   const handlePrev = () => {
     if (localStorage.getItem("send-step")) {
       localStorage.removeItem("send-step")
     }
-    localStorage.setItem("send-step",( Number(step) - 1))
+    localStorage.setItem("send-step", (Number(step) - 1))
     handleStep(Number(step) - 1)
   }
   const handleCancel = () => {
@@ -106,28 +183,16 @@ const navigate = useNavigate()
               <td>{data.send_method}</td>
             </tr>
           </tbody>
-
         </Table>
       </div>
-
-
       <div className="row">
-        {/* <div className="col-md-4">
-        <button className="start-form-button">Cancel</button>
-      </div> */}
         <div className="col-md-12 verified-section">
-          {/* 
-              <button className="form-button" onClick={handlePay}>Pay</button> */}
-          {/* <button className="form-button" onClick={()=>{setStep(step+1)}}>Continue</button> */}
           <button
             className="start-form-button"
             onClick={() => handleCancel()}
           >Cancel</button>
-
-          <button className="form-button" onClick={() => handleFinalStep()}>Continue</button>
-
+          <button className="form-button" onClick={() => handleFinalStep()}>Confirm Payment</button>
           <button className="form-button" onClick={() => { handlePrev() }}>Previous</button>
-          {/* <button className="form-button" onClick={handleVerifiedPaymentDigitalIdPrevious}>Previous</button> */}
         </div>
       </div>
     </div>

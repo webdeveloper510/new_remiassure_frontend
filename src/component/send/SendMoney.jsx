@@ -63,14 +63,12 @@ const SendMoney = () => {
       }
     }
 
-    const timer = setTimeout(() => {
-
-      localStorage.removeItem("send-step");
-      localStorage.removeItem("transfer_data");
-
-      navigate("/")
-    }, 15 * 60 * 1000);
-    return () => clearTimeout(timer);
+    // setInterval(() => {
+    //   console.log("time")
+    //   localStorage.removeItem("send-step");
+    //   localStorage.removeItem("transfer_data");
+    //   navigate("/")
+    // }, 15 * 60 * 1000);
 
   }, [])
 

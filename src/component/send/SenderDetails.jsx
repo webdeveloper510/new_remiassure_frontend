@@ -6,16 +6,18 @@ import { useState } from 'react';
 import countryList from 'react-select-country-list';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { Axios } from 'axios';
 
 const SenderDetails = ({ handleStep, step }) => {
+const userd =  JSON.parse(localStorage.getItem("remi-user-dt"))
 
   const [data, setData] = useState({
-    f_name: "", m_name: "", l_name: "", email: "", mobile: "", customer_id: "id", gender: "Male",
+    f_name: "", m_name: "", l_name: "", email: userd.email, mobile:userd.mobile, customer_id: userd.customer_id, gender: "Male",
     country_of_birth: "", dob: "", flat: "", build_no: "", street: "", city: "", country: "", post_code: "", state: ""
   })
 
   const initialValues = {
-    f_name: "", m_name: "", l_name: "", email: "", mobile: "", customer_id: "id", gender: "Male",
+    f_name: "", m_name: "", l_name: "", email:  userd.email, mobile:userd.mobile, customer_id:userd.customer_id, gender: "Male",
     country_of_birth: "", dob: "", flat: "", build_no: "", street: "", city: "", country: "", post_code: "", state: ""
   }
 
@@ -44,8 +46,15 @@ const SenderDetails = ({ handleStep, step }) => {
     initialValues,
     validationSchema: senderSchema,
     onSubmit: async (values) => {
-      console.log(values)
-      setData(values)
+      const local = JSON.parse(localStorage.getItem("transfer_data"))
+      local.sender = values
+      localStorage.removeItem("transfer_data")
+      localStorage.setItem("transfer_data", JSON.stringify(local))
+      if (localStorage.getItem("send-step")) {
+        localStorage.removeItem("send-step")
+      }
+      localStorage.setItem("send-step", Number(step) + 1)
+      handleStep(Number(step) + 1)
     }
   })
   const handleMobile = (event) => {
@@ -103,18 +112,9 @@ const SenderDetails = ({ handleStep, step }) => {
           console.log(2, "log2");
 
           console.log(res, "codes")
-          localStorage.setItem("DigitalCode", res.code);
-          localStorage.setItem("DigitalTransactionId", res.transaction_id)
-          const local = JSON.parse(localStorage.getItem("transfer_data"))
-          local.sender = { ...data, transaction_id: res.transaction_id, digital_code: res.code }
-          localStorage.removeItem("transfer_data")
-          localStorage.setItem("transfer_data", JSON.stringify(local))
-          if (localStorage.getItem("send-step")) {
-            localStorage.removeItem("send-step")
-          }
-          localStorage.setItem("send-step", Number(step) + 1)
-          handleStep(Number(step) + 1)
 
+          localStorage.setItem("DigitalCode", res.code)
+          formik.handleSubmit()
         },
         onClick: function () {
           console.log(3, "log")
@@ -133,7 +133,7 @@ const SenderDetails = ({ handleStep, step }) => {
     localStorage.removeItem("transfer_data")
     navigate("/")
   }
-  
+
   const handlePrev = () => {
     if (localStorage.getItem("send-step")) {
       localStorage.removeItem("send-step")
@@ -147,7 +147,7 @@ const SenderDetails = ({ handleStep, step }) => {
       <div className="header">
         <h1>Sender Details </h1>
       </div>
-      <form onSubmit={formik.handleSubmit}>
+      <form autoComplete='off'>
         <div className="row each-row">
           <div className="col-md-4">
             <div className="input_field">
@@ -218,6 +218,7 @@ const SenderDetails = ({ handleStep, step }) => {
               <input
                 type="text"
                 value={data.customer_id}
+                readOnly
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.dob && formik.errors.dob },
@@ -316,6 +317,7 @@ const SenderDetails = ({ handleStep, step }) => {
               <input
                 type="email"
                 value={data.email}
+                readOnly
                 onChange={(e) => handleChange(e)}
                 {...formik.getFieldProps("email")}
 
@@ -353,7 +355,7 @@ const SenderDetails = ({ handleStep, step }) => {
           <h5>Address</h5>
           <div className="col-md-4">
             <div className="input_field">
-              <p className="get-text">Flat/Unit No.</p>
+              <p className="get-text">Flat/Unit No.<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
                 name="flat"
@@ -372,7 +374,7 @@ const SenderDetails = ({ handleStep, step }) => {
           </div>
           <div className="col-md-4">
             <div className="input_field">
-              <p className="get-text">Building No./Name</p>
+              <p className="get-text">Building No./Name<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
                 name="build_no"
@@ -392,7 +394,7 @@ const SenderDetails = ({ handleStep, step }) => {
           </div>
           <div className="col-md-4">
             <div className="input_field">
-              <p className="get-text">Street</p>
+              <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
                 name="street"
@@ -414,7 +416,7 @@ const SenderDetails = ({ handleStep, step }) => {
         <div className="row each-row">
           <div className="col-md-4">
             <div className="input_field">
-              <p className="get-text">Postcode</p>
+              <p className="get-text">Postcode<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
                 name="post_code"
@@ -434,7 +436,7 @@ const SenderDetails = ({ handleStep, step }) => {
           </div>
           <div className="col-md-4">
             <div className="input_field">
-              <p className="get-text">City/Town</p>
+              <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
                 name="city"
@@ -454,7 +456,7 @@ const SenderDetails = ({ handleStep, step }) => {
           </div>
           <div className="col-md-4">
             <div className="input_field">
-              <p className="get-text">State</p>
+              <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
                 name="state"
@@ -476,7 +478,7 @@ const SenderDetails = ({ handleStep, step }) => {
         <div className="row each-row">
           <div className="col-md-4">
             <div className="input_field">
-              <p className="get-text">Country Name</p>
+              <p className="get-text">Country Name<span style={{ color: 'red' }} >*</span></p>
               <select
                 value={data.country}
                 name="country"
@@ -506,15 +508,15 @@ const SenderDetails = ({ handleStep, step }) => {
       </form>
       <div className="row each-row">
         <div className="col-md-2 new_buttonss">
-          <button className="start-form-button" onClick={()=>handleCancel()}>Cancel</button>
+          <button className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
         </div>
         <div className="col-md-10 new_buttons">
-          <button className="form-button" onClick={()=>handlePrev()}>Previous</button>
+          <button className="form-button" onClick={() => handlePrev()}>Previous</button>
           {!verificationValue ? (
             <div id="digitalid-verify"></div>
           ) : (
             <>
-              <button type='submit' className="form-button"> Continue</button>
+              <button type='button' className="form-button" onClick={()=>formik.handleSubmit()}> Continue</button>
             </>
           )
           }

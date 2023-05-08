@@ -13,6 +13,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   const navigate = useNavigate();
 
+
+
   const [data, setData] = useState({
     bank: "", acc_name: "", acc_no: "", f_name: "", l_name: "", m_name: "", email: "", mobile: "",
     flat: "", build_no: "", street: "", city: "", post_code: "", state: "", country: "", reason: ""
@@ -302,7 +304,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <h5>Address</h5>
               <div className="col-md-4">
                 <div className="input_field">
-                  <p className="get-text">Flat/Unit No.</p>
+                  <p className="get-text">Flat/Unit No.<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="text"
                     name="flat"
@@ -322,7 +324,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               </div>
               <div className="col-md-4">
                 <div className="input_field">
-                  <p className="get-text">Building/Unit No.</p>
+                  <p className="get-text">Building/Unit No.<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="text"
                     name="build_no"
@@ -342,7 +344,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               </div>
               <div className="col-md-4">
                 <div className="input_field">
-                  <p className="get-text">Street</p>
+                  <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="text"
                     name="street"
@@ -364,7 +366,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             <div className="row each-row">
               <div className="col-md-4">
                 <div className="input_field">
-                  <p className="get-text">Postcode</p>
+                  <p className="get-text">Postcode<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="text"
                     name="post_code"
@@ -385,7 +387,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               </div>
               <div className="col-md-4">
                 <div className="input_field">
-                  <p className="get-text">City/Town</p>
+                  <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="text"
                     name="city"
@@ -406,7 +408,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               </div>
               <div className="col-md-4">
                 <div className="input_field">
-                  <p className="get-text">State</p>
+                  <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="text"
                     name="state"

@@ -37,7 +37,7 @@ const Login = () => {
                     toast.success('Login Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
                     localStorage.setItem("token", res?.access_token)
                     localStorage.setItem("remi-user-dt", JSON.stringify(res?.data))
-                    if (res.digital_id_verified) {
+                    if (res?.data?.digital_id_verified == "true") {
                         navigate("/dashboard")
                     } else {
                         navigate('/send-money')
