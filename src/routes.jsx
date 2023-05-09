@@ -22,7 +22,7 @@ import Verification from './component/verification/Verification';
 import Multiple from './component/profile/Multiple';
 import SendMoney from './component/send/SendMoney';
 import Transfer from './component/Userdashboard/Transfer';
-import UserSendMoney from './component/Userdashboard/sendmoney/UserSendMoney';
+import UserSendMoney from './component/Userdashboard/UserSendMoney';
 import UserDashboard from './component/Userdashboard/UserDashboard';
 import AddNewRecipient from './component/Userdashboard/AddNewRecipient';
 import UserProfile from './component/Userdashboard/UserProfile';
@@ -71,7 +71,7 @@ const routes = [
     children: [
 
       { path: '/multiple', element: <Multiple /> },
-      { path: '/user-recipients', element: <Recipients /> },
+      // { path: '/user-recipients', element: <Recipients /> },
       { path: '/send-money', element: <SendMoney /> },
       { path: '/referral-data', element: <ReferralData /> },
       // { path: '/user-dashboard', element: <UserDashboard /> },
@@ -108,7 +108,7 @@ const routes = [
       { path: '/dashboard', element: <Dashboard /> },
       { path: '/edit-recipient-user/:id', element: <Editrecipientuser /> },
       { path: '/profile-single-data/:id', element: <SingleRecipientProfile /> },
-      { path: '/user-card-lists', element: <UserCardLists /> },
+      { path: '/user-card-list', element: <UserCardLists /> },
       { path: '/add-new-card', element: <Addnewcard /> },
       { path: '/edit-card-user/:id', element: <EditCardUser /> },
       { path: '/single-card-data/:id', element: <SingleCardProfile /> },

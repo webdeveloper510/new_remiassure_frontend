@@ -655,8 +655,8 @@ const input_country = useRef(null);
 
   return (
     <>
-      {
-        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
+      {/* {
+        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? ( */}
 
          <section>
           <div className="margin-set">
@@ -1166,13 +1166,13 @@ const input_country = useRef(null);
           </div>
           </section>
 
-        ) : (
+        {/* ) : (
           <>
             <Page404 />
           </>
 
         )
-      }
+      } */}
     </>
   )
 }

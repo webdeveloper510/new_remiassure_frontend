@@ -327,8 +327,7 @@ const EditCardUser = () => {
 
   return (
     <>
-      {
-        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
+
 
           <section>
             <div className="margin-set">
@@ -533,14 +532,6 @@ const EditCardUser = () => {
               </div>
             </div>
           </section>
-
-        ) : (
-          <>
-            <Page404 />
-          </>
-
-        )
-      }
     </>
   )
 }

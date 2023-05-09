@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 
-import UserSendMoney from "./sendmoney/UserSendMoney";
+import UserSendMoney from "./UserSendMoney";
 import UserProfile from "./UserProfile";
 import AddNewRecipient from "./AddNewRecipient";
 import ChangePassword from "./ChangePassword";

@@ -164,8 +164,6 @@ const UserRecipients = () => {
 
     return (
         <>
-            {/* <!-- ======= Recept RemitAssure-Section start ======= --> */}
-            {/* LoginDigitalidVerified == 'true' || DigitalCode != undefined || "" */}
             <div className="margin-set">
                 <div className="tabs-page">
                     <Sidebar />
