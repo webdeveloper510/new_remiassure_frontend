@@ -135,16 +135,14 @@ const EditCardUser = () => {
 
   const navigate = useNavigate('');
 
-  const [data, setData] = useState({ user_name: "", c_number: "", expire_month: "", expire_year: "" })
+  const [data, setData] = useState({ name: "", c_number: "", expire_month: "", expire_year: "" })
 
   const updateSchema = Yup.object().shape({
     name: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("Name is required"),
     number: Yup.string().min(12, "Minimum 1 Letter").max(16, "Maximum 100 letter").required("Card Number is required"),
     exp_month: Yup.string().min(1, "Minimum 1 digit").max(2, "Maximum 100 digit").required("Expire Month is required"),
     exp_year: Yup.string().min(1, "Minimum 1 digit").max(2, "Maximum 50 digit").required("Expire Year is required"),
-
   })
-
 
   const initialValues = {
     name: '',
@@ -163,6 +161,14 @@ const EditCardUser = () => {
     console.log("Data=========>", id)
 
     setLoading(true); // Set loading before sending API requestssss
+    // cardPayment(id).then((response)=>{
+    //   console.log("user-response", response, id)
+    //   setLoading(false)
+    // }).catch((error)=>{
+    //   console.log(error.response)
+    //   console.log(id,"id--------")
+    //   setLoading(false)
+    // })
     axios.post(API.BASE_URL + `payment/card/${id}`, {}, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
@@ -170,24 +176,20 @@ const EditCardUser = () => {
     })
       .then(function (response) {
         console.log(response);
-        // let value = response.data.data
+        let value = response.data.data
         console.log({
-          ...data, user_name: response.data.data.name, c_number: response.data.data.card_number,
-          expire_month: response.data.data.expiry_month, expire_year: response.data.data.expiry_year
+          ...data, name: value.name, c_number: value.card_number,
+          expire_month: value.expiry_month, expire_year: value.expiry_year
         })
 
         setData({
           ...data,
-          user_name: response.data.data.name,
-          c_number: response.data.data.card_number,
-          expire_month: response.data.data.expiry_month,
-          expire_year: response.data.data.expiry_year
+          name: value.name,
+          c_number: value.card_number,
+          expire_month: value.expiry_month,
+          expire_year: value.expiry_year
         })
-        // setName(response.data.data.name);
-        // setNumber(response.data.data.card_number);
-        // console.log( " =========> number");
-        // setExp_month(response.data.data.expiry_month);
-        // setExp_year(response.data.data.expiry_year);
+        
         setLoading(false); // Stop loading   
       })
       .catch(function (error, message) {
@@ -198,6 +200,7 @@ const EditCardUser = () => {
       })
 
   }, [])
+
 
   /**************************************************************************
     * ************** Start  Recipient Bank Details ****************************
@@ -310,7 +313,7 @@ const EditCardUser = () => {
         .then(function (response) {
           console.log(response);
           setLoading(false); // Stop loading 
-          navigate('/userCardLists');
+          navigate('/user-card-list');
 
         })
         .catch(function (error) {
@@ -345,7 +348,7 @@ const EditCardUser = () => {
                   <section className="edit_recipient_section">
                     <div class="form-head mb-4">
                       <h2 class="text-black font-w600 mb-0"><b>Update Card </b>
-                        <NavLink to="/userCardLists">
+                        <NavLink to="/user-card-list">
                           <button className="start-form-button back-btn" >
                             <MdOutlineKeyboardBackspace />
                             Back
@@ -372,14 +375,15 @@ const EditCardUser = () => {
                                   
                                   // value={name}
                                   // onChange={(e) => {handleName(e)}}
-
-                                  value={data.user_name}
+                                  value={data.name}
                                   type="text"
                                   autoComplete='off'
                                   placeholder="Enter name"
-                                  {...formik.getFieldProps('name')}
+                                  // {...formik.getFieldProps('name')}
+                                  name="name"
+                                  onChange={(e)=>setData({data, name:e.target.value})}
                                   className={clsx(
-                                    'form-control bg-transparent',
+                                    'form-control rate_input  bg-transparent',
                                     { 'is-invalid': formik.touched.name && formik.errors.name },
                                     {
                                       'is-valid': formik.touched.name && !formik.errors.name,
@@ -389,8 +393,6 @@ const EditCardUser = () => {
                                 />
                                 {/* {error && name.length <= 0 ?
                                   <span style={myStyle}>Please Enter the Card Name </span> : ""} */}
-
-
                                 <span style={myStyle}>{BankNameText.name ? BankNameText.name : ''}</span>
 
                               </div>
@@ -406,11 +408,12 @@ const EditCardUser = () => {
                                   // onChange={handleNumber}
                                   // className='rate_input form-control'
                                   value={data.c_number}
-                                  name="number"
+                                  // name="number"
                                   type="text"
                                   autoComplete='off'
                                   onKeyDown={(e) => inputvalidation(e)}
-                                  {...formik.getFieldProps('number')}
+                                  name="number"
+                                  onChange={(e)=>setData({data, c_number:e.target.value})}
                                   className={clsx(
                                     'mb-3 bg-transparent form-control',
                                     { 'is-invalid': formik.touched.number && formik.errors.number },
@@ -441,7 +444,8 @@ const EditCardUser = () => {
                                   type="text"
                                   autoComplete='off'
                                   onKeyDown={(e) => monthvalidation(e)}
-                                  {...formik.getFieldProps('exp_month')}
+                                  name="exp_month"
+                                  onChange={(e)=>setData({data, expire_month:e.target.value})}
                                   className={clsx(
                                     'mb-3 bg-transparent form-control',
                                     { 'is-invalid': formik.touched.exp_month && formik.errors.exp_month },
@@ -474,7 +478,7 @@ const EditCardUser = () => {
                                   type="text"
                                   autoComplete='off'
                                   onKeyDown={(e) => yearvalidation(e)}
-                                  {...formik.getFieldProps('exp_year')}
+                                  onChange={(e)=>setData({data, expire_year:e.target.value})}
                                   className={clsx(
                                     'mb-3 bg-transparent form-control',
                                     { 'is-invalid': formik.touched.exp_year && formik.errors.exp_year },
