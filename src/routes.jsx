@@ -38,6 +38,7 @@ import Addnewcard from './component/Userdashboard/AddNewCard';
 import EditCardUser from './component/Userdashboard/EditUserCard';
 import SingleCardProfile from './component/Userdashboard/SingleCardProfile';
 import Page404 from './component/pageNotfound/Page404';
+import UserMoney from "./component/Userdashboard/UserMoney/UserMoney"
 import GoToTop from './GoToTop';
 
 
@@ -101,6 +102,7 @@ const routes = [
     children: [
       { path: '/transfer', element: <Transfer /> },
       { path: '/user-send-money', element: <UserSendMoney /> },
+      { path: '/user-money', element: <UserMoney/> },
       { path: '/add-new-recipient', element: <AddNewRecipient /> },
       { path: '/user-profile', element: <UserProfile /> },
       { path: '/user-recipients', element: <UserRecipient /> },

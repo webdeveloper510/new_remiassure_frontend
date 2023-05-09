@@ -705,7 +705,7 @@ const UserSendMoney = () => {
       postcode: formValue.postcode,	
       city: formValue.city,	
       state: formValue.state,	
-      // country_code: formValue.country_code,	
+      country_code: "AU",	
       country: countryValue.label,	
       reason: formValue.reasonMoney,	
 
@@ -717,11 +717,11 @@ const UserSendMoney = () => {
     })	
       .then(function (response) {	
         console.log(response);	
-        console.log(response.data.recipient_data.id)	
+        console.log(response.data.data.recipient_data.id)	
         handleShow(); //show view page	
         setStep(step + 1)	
         setLoading(false); // Stop loading 	
-        setId(response.data.recipient_data.id)	
+        setId(response.data.data.recipient_data.id)	
 
         localStorage.setItem("recipientMoneyReason", formValue.reasonMoney);	
         localStorage.setItem("recipientDestination", countryValue.label);	
