@@ -658,7 +658,6 @@ const input_country = useRef(null);
       {/* {
         LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? ( */}
 
-         <section>
           <div className="margin-set">
             <div className="tabs-page">
               <Sidebar />
@@ -1164,7 +1163,7 @@ const input_country = useRef(null);
               </div>
             </div>
           </div>
-          </section>
+         
 
         {/* ) : (
           <>

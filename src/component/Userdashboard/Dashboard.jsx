@@ -389,11 +389,11 @@ const Dashboard = () => {
                                                                                 </td>
                                                                                 <td>
                                                                                     <h6 className="fs-16 font-w600 mb-0"><a href="/transactions-details/" className="text-black">{res.recipient_name}</a></h6>
-                                                                                    <span className="fs-14">Transfer</span>
+                                                                                    
                                                                                 </td>
                                                                                 <td><span className="fs-16 text-black font-w500">${res.amount}</span></td>
                                                                                 <td>
-                                                                                    <span className="text-success fs-16 font-w500 text-end d-block"> <a href="javascript:void(0)" className="btn btn-outline-success btn-rounded">{res.status}</a></span>
+                                                                                    <span className="text-success fs-16 font-w500 d-block"> <a href="javascript:void(0)" className="btn btn-outline-success btn-rounded">{res.status}</a></span>
                                                                                 </td>
                                                                             </tr>
                                                                         )

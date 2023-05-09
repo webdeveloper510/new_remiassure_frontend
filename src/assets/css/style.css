@@ -2591,7 +2591,7 @@ span.progress-step {
   padding-bottom: 0;
 }
 .previous-transactions .btn {
-  padding: 2px 10px;
+  padding: 8px 10px;
   text-transform: capitalize;
 }
 /*--------------------------------------------------------------
@@ -3085,10 +3085,11 @@ margin-top: 15px;
   /* width: 100%; */
   box-shadow: 0px 4px 20px rgb(0 0 0 / 16%);
   border-radius: 12px;
-  margin: 150px auto 0px;
+  margin: 120px auto 0px;
   padding: 10px;
   float: right;
   position:relative;
+  background:#fff;
 }
 
 .summary svg {
@@ -3098,7 +3099,10 @@ margin-top: 15px;
   right: 0;
   margin: 0 auto;
   color: green;
-  font-size: 27px;
+  font-size: 32px;
+  background: #fff;
+  padding: 3px;
+  border-radius: 100%;
 }
 .summary1:before {
   position: absolute;
@@ -3122,6 +3126,7 @@ margin-top: 15px;
   padding: 10px;
   float: right;
   position:relative;
+  background:#fff;
 }
 .summary1 svg {
   position: absolute;
@@ -3130,7 +3135,10 @@ margin-top: 15px;
   right: 0;
   margin: 0 auto;
   color: green;
-  font-size: 27px;
+  font-size: 32px;
+  background: #fff;
+  padding: 3px;
+  border-radius: 100%;
 }
 .summary h5 , .summary1 h5 {
   font-size: 16px;
@@ -4765,6 +4773,7 @@ td.inprogress-status span {
 }
 .previous-transaction span.btn {
   text-transform: capitalize;
+  font-size: 14px;
 }
 .m-top {
   margin-top: 65px;
@@ -5071,7 +5080,7 @@ label.container-new.form-gender {
 }
 .content-body {
   width: 100%;
-  background: #F9F9F9;
+  background: #E8F0FF;
   padding: 0px 30px 30px;
 }
 .padding0 {
@@ -5139,7 +5148,7 @@ a.icon-bottom p {
   transition: all .5s ease-in-out;
   position: relative;
   border: 0rem solid transparent;
-  border-radius: 0.625rem;
+  border-radius: 20px;
   box-shadow: 0rem 0.3125rem 0.3125rem 0rem rgba(82, 63, 105, 0.05);
   height: calc(100% - 30px);
   margin-top: 1.875rem;
@@ -5156,7 +5165,9 @@ a.icon-bottom p {
 }
 .previous-transactions tr td , .previous-transactions tr th {
   padding: 10px 30px;
+  border: none !important;
 }
+
 .previous-transactions tr td svg {
   float: left;
   width: 20px;
@@ -5185,9 +5196,40 @@ button.form-button.addsingle_recepient {
   border-right: none;
 }
 
-.previous-transaction tr td {
+/*.previous-transaction tr td {
   border-right: 1px solid #dee2e6;
+}*/
+table.table.table-responsive-md.card-table.previous-transactions {
+  width: 95%;
+  margin: 0 auto;
 }
+.previous-transaction tbody tr:nth-child(odd) , .previous-transactions tbody tr:nth-child(odd){
+  background:#F4F6FA;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+} 
+.previous-transaction tr td , .previous-transaction tr th ,.previous-transactions tr td , .previous-transactions tr th {
+  border: none !important;
+  padding: 14px;
+  vertical-align: baseline;
+}
+.previous-transaction tr td , .previous-transactions tr td{
+  font-size: 14px;
+}
+
+.previous-transaction tr td:first-child ,  .previous-transactions tr td:first-child{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  
+}
+.previous-transaction tr td:last-child , .previous-transactions tr td:last-child{
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+
 .sidebar nav ul {
   list-style: none;
   padding: 0;
@@ -5552,9 +5594,9 @@ span.fs-14 {
 }
 
 
-.previous-transactions{
+/*.previous-transactions{
     border-bottom: 1px solid #dee2e6 !important;
-}
+}*/
 .previous-transactions td h6 {
   font-size: 14px;
 }
@@ -5589,7 +5631,18 @@ box-shadow: none !important;
 
 
 .send_money_section {
-  background-color: #dcc8fc;
+  /* background-color: #dcc8fc; */
+  background: url(../img/home/top-main.svg);
+  background-repeat: no-repeat;
+    background-size: cover;
+    POSITION:RELATIVE;
+}
+.send_money_section:after{
+  content: url(../img/home/login-light-bg.svg);
+    left: 0;
+    top: 69px;
+    position: absolute;
+    opacity: .1;
 }
 .send_money_section .form_body {
   background: #fff;
