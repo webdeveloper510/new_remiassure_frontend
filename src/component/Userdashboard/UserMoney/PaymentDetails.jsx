@@ -32,7 +32,7 @@ const PaymentDetails = ({ handleStep, step }) => {
   const handleCancel = () => {
     localStorage.removeItem("send-step")
     localStorage.removeItem("transfer_data")
-    navigate("/")
+    navigate("/dashboard")
   }
   const handlePrevious = () => {
     localStorage.removeItem("send-step")
@@ -124,101 +124,6 @@ const PaymentDetails = ({ handleStep, step }) => {
         </Modal.Footer>
       </Modal>
     </section>
-    // <div>
-    //   <div className="form_body">
-    //     <div className="header">
-    //       <h1>Payment details</h1>
-    //     </div>
-    //     <div className="row each-row">
-    //       <h5>Payment type</h5>
-
-    //       <div className="col-md-12">
-    //         <label className="container-new">
-    //           <span className="radio-tick">Osko</span>
-    // <input
-    //   className="form-check-input"
-    //   type="radio"
-    //   name="Payment Type"
-    //   defaultChecked={data.payment_type == "Oslo"}
-    //   value="Oslo"
-    //   onChange={handleChange}
-    // />
-    //           <span className="checkmark"></span>
-    //         </label>
-    //       </div>
-
-    //       <div className="col-md-12">
-    //         <label className="container-new">
-    //           <span className="radio-tick">Debit/Credit Card</span>
-    // <input
-    //   className="form-check-input"
-    //   type="radio"
-    //   name="Payment Type"
-    //   defaultChecked={data.payment_type == "Debit/Credit Card"}
-    //   value="Debit/Credit Card"
-    //   onChange={handleChange}
-
-    // />
-    //           <span className="checkmark"></span>
-    //         </label>
-    //       </div>
-
-    //       <div className="col-md-12">
-    //         <label className="container-new">
-    //           <span className="radio-tick">PoLI Internet Banking</span>
-    // <input
-    //   className="form-check-input"
-    //   type="radio"
-    //   name="Payment Type"
-    //   defaultChecked={data.payment_type == "PoLI Internet Banking"}
-    //   value="PoLI Internet Banking"
-    //   onChange={handleChange}
-    // />
-    //           <span className="checkmark"></span>
-    //         </label>
-    //       </div>
-
-    //     </div>
-    //     <div className="row">
-    //       <div className="col-md-4">
-    //         <button className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
-    //       </div>
-    //       <div className="col-md-8">
-    //         <div>
-    //           <button className="form-button" onClick={() => handlePayType()}>Continue</button>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-
-    // <Modal className="modal-card" show={modal} onHide={() => setModal(false)}>
-    //   <Modal.Header>
-    //     <Modal.Title><i className='bi bi-stripe'></i> Payment</Modal.Title>
-    //   </Modal.Header>
-    //   <Modal.Body className='my-4'>
-    //     <Elements stripe={stripePromise}>
-    //       <CheckoutForm payRef={payRef} method={data.payment_type} handleStep={handleStep} step={step} handleModal={() => setModal(false)} />
-    //     </Elements>
-    //   </Modal.Body>
-    //   <Modal.Footer>
-    //     <Button variant="secondary" onClick={() => setModal(false)} >
-    //       Cancel
-    //     </Button>
-    //     <Button type="submit" variant="primary" onClick={() => payRef.current.click()}>
-    //       Continue
-    //       {/* {loading ? <>
-    //         <div className="loader-overly">
-    //           <div className="loader" >
-
-    //           </div>
-
-    //         </div>
-    //       </> : <></>} */}
-    //     </Button>
-    //   </Modal.Footer>
-    // </Modal>
-    // </div>
-
   )
 }
 
@@ -262,15 +167,13 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
         navigate("/dashboard")
       }
     }).catch((err) => {
+      localStorage.removeItem("transfer_data")
+      if (localStorage.getItem("send-step")) {
+        localStorage.removeItem("send-step")
+      }
       toast.error("Transaction falied, please try again later")
       navigate("/dashboard")
     })
-
-    // const {error, paymentMethod} = await stripe.createPaymentMethod({
-    //   type: 'card',
-    //   card: elements.getElement(CardElement),
-    // });
-    // console.log(paymentMethod)
   };
 
   return (

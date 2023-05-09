@@ -12,57 +12,30 @@ import norecipients from '../../assets/img/userdashboard/hidden.avif';
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
 import Page404 from "../pageNotfound/Page404";
+import authDashHelper from "../../utils/AuthDashHelper";
 
 
 const UserRecipients = () => {
 
-    /********************  Start page show hide condtion page ******** */
-    const token = localStorage.getItem("token");
-    // console.log("TOKEN", token);
-
-    const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-    // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
-
-    const signup_token = localStorage.getItem("signup_token")
-    // console.log("signup_token", signup_token);
-
-    const verification_otp = localStorage.getItem("verification_otp");
-    // console.log("Verification Message", verification_otp)
-
-    const RecipientUserName = localStorage.getItem("RecipientUserName");
-    // console.log("RecipientUserName", RecipientUserName);
-
-    const DigitalCode = localStorage.getItem("DigitalCode");
-    // console.log("DigitalCode", DigitalCode);
-
-
-    /********************State ******** */
+    const token = localStorage.getItem("token")
+    const navigate = useNavigate();
 
     const [show, setShow] = useState(false);
     const [delete_id, setDelete_Id] = useState('');
     const handleClose = () => setShow(false);
-
-    const handleShow = (key) => {
-        console.log("******==>", key)
-        setShow(true);
-        setDelete_Id(key)
-    }
-
-
     const [isActive, setActive] = useState("false");
-
-    const handleToggle = () => {
-        setActive(!isActive);
-    };
-
-
-    // Start page show hide condtion page
     const [data, setData] = useState([]);
     const [RecepientsData, setRecepientsData] = useState('');
     const [loading, setLoading] = useState(true);
 
-    //let { id } = useParams();
-    // console.log(id, "idvalue")
+    const handleShow = (key) => {
+        setShow(true);
+        setDelete_Id(key)
+    }
+
+    const handleToggle = () => {
+        setActive(!isActive);
+    };
 
     const LoadEdit = (id) => {
         navigate(`/edit-recipient-user/${id}`);
@@ -72,92 +45,50 @@ const UserRecipients = () => {
         navigate(`/profile-single-data/${id}`);
     }
 
-    const navigate = useNavigate();
-
-
-
-    // function handleDataStore(){
-
-    //   var courses =JSON.parse(localStorage.getItem('courses') || "[]")
-    //   var course ={
-    //     // bank_name:bank_name,
-    //     // account_name:account_name
-    //   }
-    //   courses.push(course)
-
-    //   localStorage.setItem('courses', JSON.stringify(courses))
-    // }
-
-    /**************************************************************************
-   * ************** Start  Recipient List ************************************
-   * ***********************************************************************/
-
-    useEffect(() => {
-        getList();
-    }, [])
-
     const getList = () => {
-        setLoading(true); // Set loading before sending API request
+        setLoading(true);
         axios.post(API.BASE_URL + 'payment/recipient-list/', {}, {
             headers: {
-                "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+                "Authorization": `Bearer ${token}`,
             }
         })
             .then(function (response) {
-                console.log("Recipients APIIIII", response.data);
-                setData(response.data);
-                console.log(data)
-                localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
-                setLoading(false); // Stop loading
-
-
-                //   if (response.status)
-                // // notify();
+                if (response.data.code == "200") {
+                    console.log(response.data.data)
+                    setData(response.data?.data);
+                }
+                setLoading(false);
             })
             .catch(function (error) {
                 console.log(error);
                 console.log(error.response);
-                setLoading(false); // Stop loading in case of error
-
+                setLoading(false);
             })
     }
 
-    console.log(data, " recipient-listrecipient-listrecipient-listrecipient-list")
-
-    /**************************************************************************
-     * ************** Start  Recipient List Delete ****************************
-     * ***********************************************************************/
+    useEffect(() => {
+        if (!authDashHelper('dashCheck')) {
+            navigate("/send-money")
+         }
+        getList();
+    }, [])
 
     let id;
-    {/* start- delete function */ }
+
     const handleRemoveRecipientBankDetails = (value) => {
         console.log("==============>======456768768", value)
-
-        // if (window.confirm('Do you wnat to remove?')) {
-        // setLoading(true); // Set loading before sending API request
         axios.delete(API.BASE_URL + `payment/recipient-update/${value}`, {
-
             headers: {
-                "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+                "Authorization": `Bearer ${token}`,
             },
-
         })
             .then(function (response) {
                 console.log("=======success", response);
                 handleClose()
                 getList();
-                // window.location.reload(false);
-                // alert('Remove Successfully.')
-                // setLoading(false); // Stop loading 
-                // navigate('/userrecipients');   
-
-
             })
             .catch(function (error, message) {
-                console.log(error.response);
-                // setLoading(false); // Stop loading in case of error
-
-
+                console.log(error.response)
             })
     }
 
@@ -196,7 +127,7 @@ const UserRecipients = () => {
 
                                             <div className="col-lg-12">
                                                 {/* loader start */}
-                          
+
                                                 {loading ? <>
                                                     <div class="loader-overly">
                                                         <div class="loader" >
@@ -209,7 +140,7 @@ const UserRecipients = () => {
 
                                                 <div className="card">
                                                     <div className="card-body">
-                                                    
+
                                                         <Table className="table table-responsive-md card-table previous-transaction">
                                                             <thead>
                                                                 <tr>
@@ -222,19 +153,19 @@ const UserRecipients = () => {
                                                             </thead>
                                                             <tbody>
                                                                 {
-                                                                    data.data?.map((res, index) => {
+                                                                    data?.map((item, index) => {
                                                                         //console.log(items, "itemnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
                                                                         return (
 
-                                                                            <tr key={res.id}>
+                                                                            <tr key={item.id}>
 
                                                                                 <td>{index + 1}</td>
-                                                                                <td>{res.name}</td>
-                                                                                <td>{res.destination}</td>
-                                                                                <td>{res.transfer_now}</td>
+                                                                                <td>{item.first_name} {item.last_name}</td>
+                                                                                <td>{item.country}</td>
+                                                                                <td>{item.transfer_now}</td>
                                                                                 <td>
-                                                                                    <button className="btn btn-danger" onClick={() => handleShow(res.id)}><i class="fa fa-trash"></i></button>
-                                                                                    <button className="btn btn-primary" onClick={() => { LoadEdit(res.id) }}><i class="fa fa-pencil color-muted"></i></button>
+                                                                                    <button className="btn btn-danger" onClick={() => handleShow(item.id)}><i class="fa fa-trash"></i></button>
+                                                                                    <button className="btn btn-primary" onClick={() => { LoadEdit(item.id) }}><i class="fa fa-pencil color-muted"></i></button>
                                                                                 </td>
 
                                                                             </tr>

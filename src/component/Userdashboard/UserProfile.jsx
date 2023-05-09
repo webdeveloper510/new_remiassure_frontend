@@ -23,6 +23,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup"
 import clsx from "clsx";
 import { userProfile, updateProfile } from "../../utils/Api";
+import authDashHelper from "../../utils/AuthDashHelper";
 
 // start css
 const myStyle = {
@@ -276,9 +277,12 @@ const Profile = () => {
     sendingFrom: "United States"
   }
   useEffect(() => {
+    if (!authDashHelper('dashCheck')) {
+      navigate("/send-money")
+   } else {
     setLoading(true)
     getUserData()
-
+   }
   }, [])
 
   const getUserData = () => {
@@ -354,77 +358,9 @@ const Profile = () => {
     }
   })
 
-  /* start-- useRef is used for focusing on inputbox */
   const handleUserProfileUpdate = (event) => {
-    // console.log(countryValue,"countryValue==========================>");
-    // alert("hii")
-    // console.log("============>token", token)
+
     event.preventDefault();
-    //   if (firstName.length==0){
-    //     input_firstName.current.focus();
-    //     setErrorUserRecipient(true);
-    //   }else if (middleName.length==0){
-    //     input_middleName.current.focus();
-    //     setErrorUserRecipient(true);
-    //   }else if (lastName.length==0){
-    //     input_lastName.current.focus();
-    //     setErrorUserRecipient(true);
-    //   }else if (email.length==0){
-    //     input_email.current.focus();
-    //     setErrorUserRecipient(true);
-    //   }else if (mobile.length==0){
-    //     input_mobile.current.focus();
-    //     setErrorUserRecipient(true);
-    //   }else if (flat.length==0){
-    //     input_flat.current.focus();
-    //     setErrorUserRecipient(true);
-    //   }else if (building.length==0){
-    //     input_building.current.focus();
-    //     setErrorUserRecipient(true);
-    //   }else if (street.length==0){
-    //     input_street.current.focus();
-    //     setErrorUserRecipient(true);
-    //   }else if (city.length==0){
-    //     input_city.current.focus();
-    //     setErrorUserRecipient(true);
-    //   }else if (state.length==0){
-    //     input_state.current.focus();
-    //     setErrorUserRecipient(true);
-    //   }
-    //   // }else if (country.length==0){
-    //   //   input_country.current.focus();
-    //   //   setErrorUserRecipient(true);
-    //   // }
-    // else{
-    // setLoading(true); // Set loading before sending API requestssss
-    // axios.post(API.BASE_URL + 'update-profile/', {
-    //   First_name: firstName,
-    //   Middle_name: middleName,
-    //   Last_name: lastName,
-    //   email: email,
-    //   mobile: mobile,
-    //   flat: flat,
-    //   building: building,
-    //   street: street,
-    //   city: city,
-    //   state: state,
-    //   location: country,
-    // }, {
-    //   headers: {
-    //     "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-    //   },
-    // })
-    //   .then(function (response) {
-    //     console.log(response);
-    //     setLoading(false); // Stop loading 
-    //     navigate('/dashboard');  
-    //   })
-    //   .catch(function (error, message) {
-    //     console.log(error.response);
-    //     setLoading(false); // Stop loading in case of error
-    //     setBankNameText(error.response.data)
-    //     console.log(BankNameText, "BankNameText")
-    //   })
   }
   // }
 

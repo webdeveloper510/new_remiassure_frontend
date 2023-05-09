@@ -15,6 +15,7 @@ const PaymentSummary = ({ handleStep, step }) => {
   })
 
   const navigate = useNavigate()
+  const [loader, setLoader] = useState(false)
 
   useEffect(() => {
     const local = JSON.parse(localStorage.getItem("transfer_data"));
@@ -44,7 +45,7 @@ const PaymentSummary = ({ handleStep, step }) => {
 
   const handleFinalStep = () => {
     const local = JSON.parse(localStorage.getItem("transfer_data"))
-// console.log(local)
+    // console.log(local)
     const data = {
       sender: {
         first_name: local?.sender?.f_name,
@@ -90,6 +91,7 @@ const PaymentSummary = ({ handleStep, step }) => {
         card_token: local?.payment?.token?.id
       }
     }
+    setLoader(true)
     Axios.post(`${global.serverUrl}/payment/stripe/user-charge/`, data, {
       headers: {
         'Content-Type': 'application/json',
@@ -97,6 +99,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       }
     }).then((res) => {
       if (res.code == 200) {
+        setLoader(false)
         localStorage.setItem("transaction_id", res?.data?.transaction_id)
         const user = JSON.parse(localStorage.getItem("remi-user-dt"))
         localStorage.removeItem("remi-user-dt")
@@ -109,6 +112,9 @@ const PaymentSummary = ({ handleStep, step }) => {
         localStorage.setItem("send-step", Number(step) + 1)
         handleStep(Number(step) + 1)
       }
+    }).catch((err) => {
+      console.log(err)
+      setLoader(false)
     })
 
   }
@@ -195,6 +201,12 @@ const PaymentSummary = ({ handleStep, step }) => {
           <button className="form-button" onClick={() => { handlePrev() }}>Previous</button>
         </div>
       </div>
+      {loader ? <>
+        <div class="loader-overly">
+          <div class="loader" >
+          </div>
+        </div>
+      </> : ""}
     </div>
   )
 }

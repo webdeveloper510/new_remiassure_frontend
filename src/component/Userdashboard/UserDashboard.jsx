@@ -17,6 +17,8 @@ import { BsFillPersonPlusFill } from "react-icons/bs";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
 import Page404 from "../pageNotfound/Page404";
+import authDashHelper from "../../utils/AuthDashHelper";
+import { useNavigate } from "react-router";
 
 
 const UserDashboard = () => {
@@ -24,32 +26,22 @@ const UserDashboard = () => {
   /**************************token ************************ */
   const token = localStorage.getItem("token");
   console.log("TOKEN", token);
+  const navigate = useNavigate()
 
-  const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
+useEffect(()=>{
+  if (!authDashHelper('dashCheck')) {
+    navigate("/send-money")
+ }
+},[])
 
-  const signup_token = localStorage.getItem("signup_token")
-  console.log("signup_token", signup_token);
-
-  const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp)
-
-  const DigitalCode = localStorage.getItem("DigitalCode");
-  console.log("DigitalCode", DigitalCode);
 
   /**************************Feild of state ************************ */
 
 
   return (
     <>
-      {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
-      {/* {
-        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? ( */}
-
           <div className="margin-set">
-
             <div class="tabs-page">
-              {/* <div class="header"><h1>UserDashboard</h1></div> */}
               <Tab.Container id="left-tabs-example" defaultActiveKey="first">
 
                 <div className="sidebar">
@@ -100,23 +92,9 @@ const UserDashboard = () => {
                     </Tab.Pane>
                   </Tab.Content>
                 </div>
-
               </Tab.Container>
             </div>
-
-
           </div>
-        {/* ) : (
-          <>
-            <Page404 />
-          </>
-
-        )
-      } */}
-
-
-
-      {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
 
     </>
   )

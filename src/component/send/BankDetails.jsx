@@ -13,6 +13,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   const navigate = useNavigate();
   const tdata = localStorage.getItem("transfer_data")
+  const [loader, setLoader] = useState(false)
 
   const [data, setData] = useState({
     bank: tdata?.recipient?.bank || "", acc_name: tdata?.recipient?.acc_name || "", acc_no: tdata?.recipient?.acc_no || "",
@@ -59,7 +60,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     initialValues,
     validationSchema: bankSchema,
     onSubmit: async (values) => {
-      // console.log(values)
       setData(values)
       handleBankDetail(data)
       setShow(true)

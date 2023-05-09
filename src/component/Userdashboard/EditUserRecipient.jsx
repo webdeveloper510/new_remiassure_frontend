@@ -679,22 +679,10 @@ const Editrecipientuser = () => {
 
   return (
     <>
-      {/* {
-        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? ( */}
 
           <div className="margin-set">
             <div className="tabs-page">
               <Sidebar />
-
-            {/* <div class="form-head mb-4">
-              <h2 ><b>Profile</b>
-              </h2>
-              <NavLink to="/userrecipients">
-                  <button className="form-button addsingle_recepient" ><BsFillPersonPlusFill /> Recipients Lists</button>
-              </NavLink>
-            </div> */}
-
-
             <div className="content-body">
               <section className="edit_recipient_section">
                 <div class="form-head mb-4">
@@ -705,8 +693,6 @@ const Editrecipientuser = () => {
                         Back
                       </button>
                     </NavLink>
-                    {/* <button className="form-button addsingle_recepient" ><NavLink to="/userrecipients"><BsFillPersonPlusFill /> Recipients Lists</NavLink></button>  */}
-
                   </h2></div>
                 <span style={myStyle}>{BankNameText.Accountnumberexist ? BankNameText.Accountnumberexist : ''}</span>
                 <span style={myStyle}>{BankNameText.userrecipient ? BankNameText.userrecipient : ''}</span>
@@ -720,12 +706,7 @@ const Editrecipientuser = () => {
                           <div className="input_field">
                             <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
                             <input
-                              //  type="text"
-                              //  name="bankName"
                               value={data.bank_name}
-                              //  onChange={handleBankNameValue}
-                              //  className='rate_input form-control'
-                              //  ref={input_bankName}
                               type="text"
                               autoComplete='off'
                               placeholder="Enter Bank Name"
@@ -750,12 +731,6 @@ const Editrecipientuser = () => {
                           <div className="input_field">
                             <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
                             <input
-                              //  type="text"
-                              //  name="input_accountName"
-                              //  value={account_name}
-                              //  onChange={handleAccountNameValue}
-                              //  className='rate_input form-control'
-                              //  ref={input_accountName}
                               value={data.account_name}
                               type="text"
                               autoComplete='off'
@@ -834,7 +809,6 @@ const Editrecipientuser = () => {
                             <p className="get-text">Middle Name</p>
                             <input
                               type="text"
-                              // ref={input_middleName}
                               className='rate_input form-control'
                               placeholder="Enter middle name"
                               autoComplete='off'
@@ -882,7 +856,6 @@ const Editrecipientuser = () => {
                               placeholder="Enter email"
                               autoComplete='off'
                               value={data.email}
-                              // onChange={formik.getFieldProps('email')}
                               name="email"
                               onChange={(e) => setData({ data, email: e.target.value })}
                               className={clsx(
@@ -904,23 +877,7 @@ const Editrecipientuser = () => {
                         <div className="col-md-6">
                           <div className="input_field">
                             <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
-                            {/* <PhoneInput
-                               
-                                // ref={input_recipientMobile}
-                                className='rate_input form-control'
-                                country={"eg"}
-                                enableSearch={true}
-                                name="mobile"
-                                defaultValue={mobile}
-                                onChange={(e) => setMobile(e.target.value)}
-                              // placeholder={RecepientsData.mobile}
-                              /> */}
                             <PhoneInput
-                              //  ref={input_mobile}
-                              //   country={"eg"}
-                              //   enableSearch={true}
-                              //   value={mobile}
-                              //   onChange={(mobile) => setMobile(mobile)}
                               enableSearch={true}
                               name="mobile"
                               inputStyle={{ border: "none", margin: "none" }}
@@ -957,8 +914,6 @@ const Editrecipientuser = () => {
                               placeholder="Enter Flat No."
                               autoComplete='off'
                               value={data.flat}
-                              // name="flat"
-                              // onChange={(e) => setData({ data, flat: e.target.value })}
                               {...formik.getFieldProps('flat')}
                               className={clsx(
                                 'form-control bg-transparent',
@@ -1016,19 +971,6 @@ const Editrecipientuser = () => {
                         </div>
                       </div>
                       <div className="row each-row">
-                        {/* <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">Postcode</p>
-                              <Form.Control
-                                type="text"
-                                className='rate_input form-control'
-                                name="postcode"
-                                defaultValue={postcode}
-                                onChange={(e) => setPostcode(e.target.value)}
-                              // placeholder={RecepientsData.postcode}
-                              />
-                            </Form.Group>
-                          </div> */}
                         <div className="col-md-4">
                           <Form.Group className="form_label" controlId="Firstname">
                             <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
@@ -1095,56 +1037,10 @@ const Editrecipientuser = () => {
                             </Form.Select>
                             {errorUserRecipient && country.length <= 0 ?
                               <span style={myStyle}>Please Enter the Country Name</span> : ""}
-                            {/* <CountryDropdown
-                       id="UNIQUE_ID" 
-                       className='YOUR_CSS_CLASS rate_input form-control'
-                        preferredCountries={['gb', 'us' ]} 
-                        value="" handleChange={e=> console.log(e.target.value)}
-                        name="country"
-                        defaultValue={country}
-                        onChange={(e)=>setCountry(e.target.value)}
-                        // placeholder={RecepientsData.country}
-                        ></CountryDropdown> */}
                           </Form.Group>
                         </div>
                       </div>
                       <div className="row each-row">
-                        {/* <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">Country Code</p>
-                              <Form.Control
-                                type="text"
-                                className='rate_input form-control'
-                                name="country_code"
-                                defaultValue={country_code}
-                                onChange={(e) => setCountry_code(e.target.value)}
-                              // placeholder={RecepientsData.country_code}
-                              />
-                            </Form.Group>
-                          </div> */}
-
-                        {/* <div className="col-md-4">
-                            <div className="input_field">
-                              <p className="get-text">Reason For Sending Money</p>
-                              <select
-                                className="form-select rate_input form-control"
-                                aria-label="Select a reason"
-                                // ref={input_recipientReasoMoney}
-                                name="reasonMoney"
-                                defaultValue={reasonMoney}
-                                onChange={(e) => setReasonMoney(e.target.value)}
-                              >
-                                <option selected>Select a reason</option>
-                                <option value="Family Support">Family Support</option>
-                                <option value="Education">Education</option>
-                                <option value="Tax Payment">Tax Payment</option>
-                                <option value="Loan Payment">Loan Payment</option>
-                                <option value="Travel Payment">Travel Payment</option>
-                                <option value="Utility Payment">Utility Payment</option>
-                              </select>
-                        
-                            </div>
-                          </div> */}
                       </div>
 
                       <div className="row">
@@ -1161,19 +1057,15 @@ const Editrecipientuser = () => {
                           <button
                             type="submit"
                             className="form-button"
-                            // onClick={() => handleRecipientBankDetails(id)}
                           >
                             Update Recipient
 
                             {loading ? <>
                               <div class="loader-overly">
                                 <div class="loader" >
-
                                 </div>
-
                               </div>
                             </> : <></>}
-
                           </button>
                         </div>
                       </div>
@@ -1183,20 +1075,7 @@ const Editrecipientuser = () => {
               </section>
             </div>
           </div>
-<<<<<<< HEAD
-         
-=======
-        </div>
-      </section>
->>>>>>> 8df42e4 (updateProfile)
-
-      {/* ) : (
-          <>
-            <Page404 />
-          </>
-
-        )
-      } */}
+          </div>
     </>
   )
 }

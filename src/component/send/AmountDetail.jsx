@@ -4,13 +4,14 @@ import { useFormik } from 'formik';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { exchangeRate } from '../../utils/Api';
-import { useNavigate , useLocation} from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 
 const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
 
     const navigate = useNavigate()
     const data = useLocation()?.state
     const tdata = JSON.parse(localStorage.getItem("transfer_data"))
+    const [loader, setLoader] = useState(false)
 
     const [exch_rate, setExchRate] = React.useState('1.0998');
     const [amt_detail, setAmtDetail] = useState({
@@ -39,7 +40,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
         from_type: tdata?.amt?.from_type || data?.from_type || "AUD",
         to_type: tdata?.amt?.to_type || data?.to_type || "NZD",
         recieve_meth: tdata?.amt?.recieve_meth || data?.recieve_meth || "Bank Transfer",
-        payout_part: tdata?.amt?.payout_part  || "Bank"
+        payout_part: tdata?.amt?.payout_part || "Bank"
     }
 
     const formik = useFormik({
@@ -90,16 +91,19 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     const myTotalAmount = (event) => {
 
         event.preventDefault();
-        console.log("amout--------------", event.target.value, amt_detail.from_type, amt_detail.to_type)
+        if (event.target.value > 9)
+            setLoader(true)
         exchangeRate({ amount: event.target.value, from: amt_detail.from_type, to: amt_detail.to_type })
             .then(function (response) {
-                console.log(response);
+                // console.log(response);
+                setLoader(false)
                 setExchRate(response.rate)
                 formik.setFieldValue("exchange_amt", response.amount)
                 setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
             })
             .catch(function (error, message) {
                 console.log(error.response)
+                setLoader(false)
 
             })
     }
@@ -110,15 +114,17 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
         setAmtDetail({ ...amt_detail, from_type: e.target.value })
         formik.setFieldValue("from_type", e.target.value)
         if (amt_detail.send_amt != 0) {
+            setLoader(true)
             exchangeRate({ amount: amt_detail.send_amt, from: e.target.value, to: amt_detail.to_type })
                 .then(function (response) {
                     setExchRate(response.rate)
                     formik.setFieldValue("exchange_amt", response.amount)
                     setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+                    setLoader(false)
                 })
                 .catch(function (error, message) {
                     console.log(error.response)
-
+                    setLoader(false)
                 })
         }
 
@@ -135,14 +141,17 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
         setAmtDetail({ ...amt_detail, to_type: e.target.value })
         formik.setFieldValue("to_type", e.target.value)
         if (amt_detail.send_amt != 0) {
+            setLoader(true)
             exchangeRate({ amount: amt_detail.send_amt, from: amt_detail.from_type, to: e.target.value })
                 .then(function (response) {
                     setExchRate(response.rate)
                     formik.setFieldValue("exchange_amt", response.amount)
                     setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+                    setLoader(false)
                 })
                 .catch(function (error, message) {
                     console.log(error.response)
+                    setLoader(false)
                 })
         }
 
@@ -360,6 +369,12 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                             Continue
                         </button>
                     </div>
+                    {loader ? <>
+                        <div class="loader-overly">
+                            <div class="loader" >
+                            </div>
+                        </div>
+                    </> : ""}
                 </div>
             </div>
         </form>

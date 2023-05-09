@@ -4971,7 +4971,7 @@ label.container-new.form-gender {
   /* border-left:none !important; */
 }
 .addnewcard>p {
-  //background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%);
+/* background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%); */
   padding: 10px;
   color: #000;
   text-align: center;

@@ -257,22 +257,20 @@ const Home = () => {
         onSubmit: async (values) => {
             setLoading(true)
             exchangeRate({ amount: values.amount, from: values.from, to: values.to, paymentMethod: values.paymentMethod }).then((res) => {
-                // console.log(res)
-                if (res.data.code == "200") {
-                    setLoading(false)
-                    localStorage.setItem("amount", data.amt1)
-                    localStorage.setItem("exchangeAmount", res.amount)
-                    if (token) {
-                        if (userdt?.digital_id_verified) {
-                            navigate("/user-send-money")
-                        } else {
-                            const obj = {send_amt:data.amt1 , exchange_amt: res?.amount, from_type:values.from, to_type: values.to, recieve_meth: values.paymentMethod}
-                            navigate("/send-money",{state:obj})
-                        }
+                console.log(res)
+                setLoading(false)
+                // localStorage.setItem("amount", data.amt1)
+                // localStorage.setItem("exchangeAmount", res.amount)
+                if (token) {
+                    if (userdt?.digital_id_verified) {
+                        let obj = { send_amt: values.amount, exchange_amt: res?.amount, from_type: values.from, to_type: values.to, recieve_meth: values.paymentMethod }
+                        navigate("/user-send-money", { state: obj })
                     } else {
-                        navigate("/login")
+                        let obj = { send_amt: values.amount, exchange_amt: res?.amount, from_type: values.from, to_type: values.to, recieve_meth: values.paymentMethod }
+                        navigate("/send-money", { state: obj })
                     }
-
+                } else {
+                    navigate("/login")
                 }
             }).catch((error) => {
                 // console.log(error.response)
@@ -287,25 +285,25 @@ const Home = () => {
 
     const myExchangeTotalAmount = (event) => {
         event.preventDefault();
-        
+
         // console.log({...data, amount:event.target.value})
-        let length = data.amt1.toString()
-        if(length.length > 0){
-            setLoading(true); 
-            exchangeRate({ amount: data.amt1, from: data.amtC1, to: data.amtc2, paymentMethod: initialValues.paymentMethod })
-        .then((res) => {
-            console.log(res)            
-                setData({ ...data, amt2: res.amount })
-                setTotal_rates(res.rate)
-                setLoading(false)               
-            
-        }).catch((error) => {
-            // console.log(error.response)
-            if (error.response.data.code == "400") {
-                toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" })
-            }
-            setLoading(false)
-        })
+        let length = event.target.value.toString()
+        if (length.length > 0) {
+            setLoading(true);
+            exchangeRate({ amount: event.target.value, from: data.amtC1, to: data.amtc2, paymentMethod: initialValues.paymentMethod })
+                .then((res) => {
+                    console.log(res)
+                    setData({ ...data, amt2: res.amount })
+                    setTotal_rates(res.rate)
+                    setLoading(false)
+
+                }).catch((error) => {
+                    // console.log(error.response)
+                    if (error.response.data.code == "400") {
+                        toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" })
+                    }
+                    setLoading(false)
+                })
         }
     }
 
@@ -401,7 +399,7 @@ const Home = () => {
                                                         onChange={(e) => { handleSelect1(e) }}
                                                         onBlurCapture={myExchangeTotalAmount}
                                                     >
-                                                        <option className="option-custom" value="AUD" selected="selected">AUD</option>
+                                                        <option className="option-custom" value="AUD" >AUD</option>
                                                         <option className="option-custom" value="NZD">NZD</option>
                                                     </select>
                                                 </div>
@@ -412,6 +410,7 @@ const Home = () => {
                                                     <input
                                                         autoComplete='off'
                                                         value={data.amt2}
+                                                        readOnly
                                                         className={clsx(
                                                             'form-control bg-transparent mb-3 new_input',
                                                             { 'is-invalid': formik.touched.totalAmount && formik.errors.totalAmount },
@@ -426,7 +425,7 @@ const Home = () => {
                                                         onChange={(e) => { handleSelect2(e) }}
                                                         onBlurCapture={myExchangeTotalAmount}
                                                     >
-                                                        <option value="NZD" selected="selected">NZD</option>
+                                                        <option value="NZD">NZD</option>
                                                         <option value="AUD">AUD</option>
                                                         <option value="AUD">AUD</option>
                                                         <option value="EUR">EUR</option>

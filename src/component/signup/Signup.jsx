@@ -37,7 +37,7 @@ const Signup = () => {
         email: Yup.string().email().min(6).max(50).required(),
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/).required(),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")]).required(),
-        referral_code: Yup.string().length(7).notRequired(),
+        referral_code: show ? Yup.string().length(7).required() : Yup.string().length(7).notRequired(),
         mobile: Yup.string().min(7).max(15).required()
     })
 
@@ -58,10 +58,10 @@ const Signup = () => {
                     toast.success('SignUp Succesfull', { position: "top-right", autoClose: 2000, theme: "colored" });
                     localStorage.setItem("remi-user-dt", JSON.stringify(res?.data))
                     navigate('/verification', { state: { email: values.email } })
-                } else if(res.code == '400') {
+                } else if (res.code == '400') {
                     toast.error(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });
                 }
-                else if(res.code == '201') {
+                else if (res.code == '201') {
                     toast.error(res.message + ", please login", { position: "top-right", autoClose: 2000, theme: "colored" });
                     navigate("/login")
                 }
@@ -281,13 +281,13 @@ const Signup = () => {
                                                             <Form.Control
                                                                 type="text"
                                                                 {...formik.getFieldProps('referral_code')}
-                                                                className={clsx(
+                                                                className={show ? clsx(
                                                                     'form-control bg-transparent',
                                                                     { 'is-invalid': formik.touched.referral_code && formik.errors.referral_code },
                                                                     {
-                                                                        'is-valid': formik.touched.referral_code && !formik.errors.referral_code,
+                                                                        'is-valid': formik.values.referral_code.length == 7,
                                                                     }
-                                                                )}
+                                                                ) : ""}
                                                                 placeholder="Enter Referral Code"
                                                             />
                                                         </Form.Group>

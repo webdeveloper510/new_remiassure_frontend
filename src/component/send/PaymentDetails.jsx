@@ -154,12 +154,6 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
     }
     localStorage.setItem("send-step", Number(step) + 1)
     handleStep(Number(step) + 1)
-
-    // const {error, paymentMethod} = await stripe.createPaymentMethod({
-    //   type: 'card',
-    //   card: elements.getElement(CardElement),
-    // });
-    // console.log(paymentMethod)
   };
 
   return (

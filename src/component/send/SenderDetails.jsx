@@ -10,21 +10,26 @@ import { Axios } from 'axios';
 
 const SenderDetails = ({ handleStep, step }) => {
 
+  const userd = JSON.parse(localStorage.getItem("remi-user-dt"))
+  const tdata = JSON.parse(localStorage.getItem("transfer_data"))
+
   const [data, setData] = useState({
-    f_name: "", m_name: "", l_name: "",
-    email: "", mobile: "", customer_id: "", gender: "Male",
-    country_of_birth: "", dob: "", flat: "",
-    build_no: "", street: "", city: "", country: "",
-    post_code: "", state: ""
+    f_name: tdata?.sender?.f_name || "", m_name: tdata?.sender?.m_name || "", l_name: tdata?.sender?.l_name || "",
+    gender: tdata?.sender?.gender || "Male", country_of_birth: tdata?.sender?.country_of_birth || "",
+    dob: tdata?.sender?.dob || "", flat: tdata?.sender?.flat || "", build_no: tdata?.sender?.build_no || "",
+    street: tdata?.sender?.street || "", city: tdata?.sender?.city || "", country: tdata?.sender?.country || "",
+    post_code: tdata?.sender?.post_code || "", state: tdata?.sender?.state || "", email: userd.email, mobile: userd.mobile,
+    customer_id: userd.customer_id
   })
 
-  // const initialValues = {
-  //   f_name: tdata?.sender?.f_name || "", m_name: tdata?.sender?.m_name || "", l_name: tdata?.sender?.l_name || "",
-  //   email: userd.email, mobile: userd.mobile, customer_id: userd.customer_id, gender: tdata?.sender?.gender || "Male",
-  //   country_of_birth: tdata?.sender?.country_of_birth || "", dob: tdata?.sender?.dob || "", flat: tdata?.sender?.flat || "",
-  //   build_no: tdata?.sender?.build_no || "", street: tdata?.sender?.street || "", city: tdata?.sender?.city || "", country: tdata?.sender?.country || "",
-  //   post_code: tdata?.sender?.post_code || "", state: tdata?.sender?.state || ""
-  // }
+  const initialValues = {
+    f_name: tdata?.sender?.f_name || "", m_name: tdata?.sender?.m_name || "", l_name: tdata?.sender?.l_name || "",
+    gender: tdata?.sender?.gender || "Male", country_of_birth: tdata?.sender?.country_of_birth || "",
+    dob: tdata?.sender?.dob || "", flat: tdata?.sender?.flat || "", build_no: tdata?.sender?.build_no || "",
+    street: tdata?.sender?.street || "", city: tdata?.sender?.city || "", country: tdata?.sender?.country || "",
+    post_code: tdata?.sender?.post_code || "", state: tdata?.sender?.state || "", email: userd.email, mobile: userd.mobile,
+    customer_id: userd.customer_id
+  }
 
   const navigate = useNavigate()
 
@@ -48,7 +53,7 @@ const SenderDetails = ({ handleStep, step }) => {
   })
 
   const formik = useFormik({
-    data,
+    initialValues,
     validationSchema: senderSchema,
     onSubmit: async (values) => {
       const local = JSON.parse(localStorage.getItem("transfer_data"))
@@ -110,8 +115,6 @@ const SenderDetails = ({ handleStep, step }) => {
         clientId: 'ctid2poVwlVfjH2PAnWEAB2l4v',
         uxMode: 'popup',
         onLoadComplete: function () {
-          // console.log(1, "log");
-          // console.log(step, "stepdmskdmklm")
         },
         onComplete: function (res, error, onComplete) {
           // console.log(2, "log2");
@@ -132,18 +135,6 @@ const SenderDetails = ({ handleStep, step }) => {
     }
 
   }, []);
-
-  useEffect(() => {
-    const tdata = JSON.parse(localStorage.getItem("transfer_data"))
-    const userd = JSON.parse(localStorage.getItem("remi-user-dt"))
-      setData({
-        f_name: tdata?.sender?.f_name || "", m_name: tdata?.sender?.m_name || "", l_name: tdata?.sender?.l_name || "",
-        email: userd.email, mobile: userd.mobile, customer_id: userd.customer_id, gender: tdata?.sender?.gender || "Male",
-        country_of_birth: tdata?.sender?.country_of_birth || "", dob: tdata?.sender?.dob || "", flat: tdata?.sender?.flat || "",
-        build_no: tdata?.sender?.build_no || "", street: tdata?.sender?.street || "", city: tdata?.sender?.city || "", country: tdata?.sender?.country || "",
-        post_code: tdata?.sender?.post_code || "", state: tdata?.sender?.state || ""
-      })
-  }, [step])
 
   const handleCancel = () => {
     localStorage.removeItem("send-step")

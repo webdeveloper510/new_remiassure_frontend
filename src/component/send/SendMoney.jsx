@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useRef} from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Table } from 'react-bootstrap'
 import { BsCheckCircleFill } from 'react-icons/bs'
 import AmountDetail from './AmountDetail'
@@ -8,17 +8,18 @@ import SenderDetails from './SenderDetails'
 import PaymentSummary from './PaymentSummary'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import verified from '../../assets/img/userdashboard/3.png';
+import authDashHelper from '../../utils/AuthDashHelper'
 
 const SendMoney = () => {
 
   const [activeStep, setActiveStep] = useState(1);
   const progressBarRefs = useRef([]);
 
-  function handleNextStep() {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    const currentStep = activeStep - 1;
-    progressBarRefs.current[currentStep].style.transform = "translateX(100%)";
-  }
+  // function handleNextStep() {
+  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  //   const currentStep = activeStep - 1;
+  //   progressBarRefs.current[currentStep].style.transform = "translateX(100%)";
+  // }
 
   const data = useLocation()?.state
 
@@ -55,8 +56,10 @@ const SendMoney = () => {
 
   useEffect(() => {
 
-    if (localStorage.getItem("DigitalCode") && localStorage.getItem("DigitalTransactionId")) {
+    if (authDashHelper('dashCheck')) {
       navigate("/user-send-money")
+    } else if (!authDashHelper('authCheck')) {
+      navigate("/login")
     } else {
       if (localStorage.getItem("send-step")) {
         setStep(Number(localStorage.getItem("send-step")))
@@ -70,15 +73,13 @@ const SendMoney = () => {
           setBankDetail(local.recipient)
         }
       }
+      setInterval(() => {
+        // console.log("time")
+        localStorage.removeItem("send-step");
+        localStorage.removeItem("transfer_data");
+        navigate("/")
+      }, 15 * 60 * 1000);
     }
-
-    setInterval(() => {
-      // console.log("time")
-      localStorage.removeItem("send-step");
-      localStorage.removeItem("transfer_data");
-      navigate("/")
-    }, 15 * 60 * 1000);
-
   }, [])
 
   useEffect(() => {
@@ -87,11 +88,13 @@ const SendMoney = () => {
       left: 0,
       behavior: "instant"
     })
+    const s = step;
+    setActiveStep(Number(s) + 1)
   }, [step])
 
 
 
-  
+
 
   return (
     <>
@@ -103,81 +106,63 @@ const SendMoney = () => {
                 <section className="why-us section-bgba user_dashboard_banner">
                   <div className="container">
                     <div className="row">
-                    <ul className="multi-steps">
-        <li className={`step ${activeStep === 1 ? "is-active" : ""}`}>
-          <div className="step-label">
-          Amount & Delivery
-            <div className="progress-bar progress-bar--success">
-              <div
-                className="progress-bar__bar"
-                ref={(ref) => (progressBarRefs.current[0] = ref)}
-              ></div>
-            </div>
-          </div>
-        </li>
-        <li className={`step ${activeStep === 2 ? "is-active" : ""}`}>
-          <div className="step-label">
-            Recipient Details
-            <div className="progress-bar progress-bar--success">
-              <div
-                className="progress-bar__bar"
-                ref={(ref) => (progressBarRefs.current[1] = ref)}
-              ></div>
-            </div>
-          </div>
-        </li>
-        <li className={`step ${activeStep === 3 ? "is-active" : ""}`}>
-          <div className="step-label">
-           Payment Method
-            <div className="progress-bar progress-bar--success">
-              <div
-                className="progress-bar__bar"
-                ref={(ref) => (progressBarRefs.current[2] = ref)}
-              ></div>
-            </div>
-          </div>
-        </li>
-        <li className={`step ${activeStep === 4 ? "is-active" : ""}`}>
-          <div className="step-label">
-          Sender Details
-          <div className="progress-bar progress-bar--success">
-              <div
-                className="progress-bar__bar"
-                ref={(ref) => (progressBarRefs.current[3] = ref)}
-              ></div>
-            </div>
-          </div>
-        </li>
-        <li className={`step ${activeStep === 5 ? "is-active" : ""}`}>
-          <div className="step-label">
-            Summary
-          </div>
-        </li>
-      </ul>
-      <button onClick={handleNextStep}>Next</button>
+                      <ul className="multi-steps">
+                        <li className={`step ${activeStep === 1 ? "is-active" : ""}`}>
+                          <div className="step-label">
+                            Amount & Delivery
+                            <div className="progress-bar progress-bar--success">
+                              <div
+                                className="progress-bar__bar"
+                                ref={(ref) => (progressBarRefs.current[0] = ref)}
+                              ></div>
+                            </div>
+                          </div>
+                        </li>
+                        <li className={`step ${activeStep === 2 ? "is-active" : ""}`}>
+                          <div className="step-label">
+                            Recipient Details
+                            <div className="progress-bar progress-bar--success">
+                              <div
+                                className="progress-bar__bar"
+                                ref={(ref) => (progressBarRefs.current[1] = ref)}
+                              ></div>
+                            </div>
+                          </div>
+                        </li>
+                        <li className={`step ${activeStep === 3 ? "is-active" : ""}`}>
+                          <div className="step-label">
+                            Payment Method
+                            <div className="progress-bar progress-bar--success">
+                              <div
+                                className="progress-bar__bar"
+                                ref={(ref) => (progressBarRefs.current[2] = ref)}
+                              ></div>
+                            </div>
+                          </div>
+                        </li>
+                        <li className={`step ${activeStep === 4 ? "is-active" : ""}`}>
+                          <div className="step-label">
+                            Sender Details
+                            <div className="progress-bar progress-bar--success">
+                              <div
+                                className="progress-bar__bar"
+                                ref={(ref) => (progressBarRefs.current[3] = ref)}
+                              ></div>
+                            </div>
+                          </div>
+                        </li>
+                        <li className={`step ${activeStep === 5 ? "is-active" : ""}`}>
+                          <div className="step-label">
+                            Summary
+                          </div>
+                        </li>
+                      </ul>
+                      {/* <button onClick={handleNextStep}>Next</button> */}
                       <div className="col-md-8">
-                        
 
-                     
+
+
                         <section>
-                          {/* <div className="progressBar">
-                           
-                              {
-                                titles?.map((item, index) => {
-                                  console.log(index, step)
-                                  return (
-                                    <>
-                                   <div className={`progress step${index+1}`}>
-                                    <div className='steps-description'>
-                                    {item}
-                                    </div>
-                                    </div>
-                                    </>
-                                  )
-                                })
-                              }
-                           
-                          </div> */}
                           {
                             step === 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
                               :

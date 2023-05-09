@@ -14,6 +14,7 @@ import { API } from "../../config/API";
 import axios from "axios";
 import Page404 from "../pageNotfound/Page404";
 import { completedPayment, transactionHistory, paymentSummary, pendingPayment } from "../../utils/Api";
+import authDashHelper from "../../utils/AuthDashHelper";
 
 const AllTranfer = ({ status, data, length }) => {
 
@@ -120,7 +121,9 @@ const AllTranfer = ({ status, data, length }) => {
   // console.log("paymetTransactionId ====================>", paymetTransactionId);
 
   useEffect(() => {
-
+    if (!authDashHelper('dashCheck')) {
+      navigate("/send-money")
+   }
     if (data?.length) {
       setLoading(false)
       if (status == "pending") {

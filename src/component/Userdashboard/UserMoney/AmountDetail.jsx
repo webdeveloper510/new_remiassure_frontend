@@ -91,20 +91,22 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     const myTotalAmount = (event) => {
 
         event.preventDefault();
-        console.log("amout--------------", event.target.value, amt_detail.from_type, amt_detail.to_type)
-        setLoader(true)
-        exchangeRate({ amount: event.target.value, from: amt_detail.from_type, to: amt_detail.to_type })
-            .then(function (response) {
-                console.log(response);
-                setExchRate(response.rate)
-                setLoader(false)
-                formik.setFieldValue("exchange_amt", response.amount)
-                setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
-            })
-            .catch(function (error, message) {
-                console.log(error.response)
-                setLoader(false)
-            })
+        if (event.target.value != "") {
+            // console.log("amout--------------", event.target.value, amt_detail.from_type, amt_detail.to_type)
+            setLoader(true)
+            exchangeRate({ amount: event.target.value, from: amt_detail.from_type, to: amt_detail.to_type })
+                .then(function (response) {
+                    console.log(response);
+                    setExchRate(response.rate)
+                    setLoader(false)
+                    formik.setFieldValue("exchange_amt", response.amount)
+                    setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+                })
+                .catch(function (error, message) {
+                    console.log(error.response)
+                    setLoader(false)
+                })
+        }
     }
 
     const myTotalAmountFrom = (e) => {
@@ -132,13 +134,14 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     const handleCancel = () => {
         localStorage.removeItem("send-step")
         localStorage.removeItem("transfer_data")
-        navigate("/")
+        navigate("/dashboard")
     }
 
     const myTotalAmountTo = (e) => {
         console.log(e.target.value)
         setAmtDetail({ ...amt_detail, to_type: e.target.value })
         formik.setFieldValue("to_type", e.target.value)
+        formik.setFieldTouched("to_type", e.target.value)
         if (amt_detail.send_amt != 0) {
             setLoader(true)
             exchangeRate({ amount: amt_detail.send_amt, from: amt_detail.from_type, to: e.target.value })
@@ -216,7 +219,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                                     <select
                                         aria-label="Select a reason"
                                         onChange={(e) => { myTotalAmountTo(e) }}
-                                        {...formik.getFieldProps('to_type')}
+                                        // {...formik.getFieldProps('to_type')}
                                         className={clsx(
                                             'mb-3 bg-transparent form-control form-select rate_input ',
                                             { 'is-invalid': formik.touched.to_type && formik.errors.to_type },
@@ -370,7 +373,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                                             <div class="loader" >
                                             </div>
                                         </div>
-                                    </>:""}
+                                    </> : ""}
                                 </button>
                             </div>
                         </div>

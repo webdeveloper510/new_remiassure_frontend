@@ -1016,7 +1016,7 @@ const [errorCard, seterrorCard] = React.useState(false);
         console.log("Recipients APIIIII", response.data);
         setBankCardData(response.data);
         console.log(bankCardData, "bankCardDatabankCardData")
-        localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
+        localStorage.setItem("", JSON.stringify(response.data.data))
       })
       .catch(function (error) {
         console.log(error);

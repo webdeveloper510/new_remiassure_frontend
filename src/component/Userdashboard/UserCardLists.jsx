@@ -19,35 +19,12 @@ const UserCardLists = () => {
 
     /***************************Start page show hide condtion pages ************************/
     const token = localStorage.getItem("token");
-    // console.log("TOKEN", token);
-
-    const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-    // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
-
-    const verification_otp = localStorage.getItem("verification_otp");
-    // console.log("Verification Message", verification_otp)
-
-    const RecipientUserName = localStorage.getItem("RecipientUserName");
-    // console.log("RecipientUserName", RecipientUserName);
-
-    const signup_token = localStorage.getItem("signup_token")
-    // console.log("signup_token", signup_token);
-
-    const DigitalCode = localStorage.getItem("DigitalCode");
-    // console.log("DigitalCode", DigitalCode);
 
     // Start page show hide condtion page
     const [carddata, setCarddata] = useState([]);
     const [RecepientsData, setRecepientsData] = useState('');
     const [loading, setLoading] = useState(true);
-
-
-    // let { id } = useParams();
-    // alert(id)
-    //   console.log("========================>",id) ;
-
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const [delete_id, setDelete_Id] = useState('');
 
@@ -63,10 +40,6 @@ const UserCardLists = () => {
         setActive(!isActive);
     };
 
-    // const LoadEditCard = (id) => {
-    //     navigate(`/edit-card-user/${id}`);
-    // }
-
     const LoadEditCard = (id) => {
         navigate(`/edit-card-user/${id}`);
     }
@@ -77,12 +50,6 @@ const UserCardLists = () => {
 
     const navigate = useNavigate();
 
-    // const notify = () => toast.success("User Data Get Successfully!");
-
-    /**************************************************************************
-   * ************** Start  Recipient List ************************************
-   * ***********************************************************************/
-
     useEffect(() => {
         getList();
 
@@ -92,7 +59,7 @@ const UserCardLists = () => {
         setLoading(true); // Set loading before sending API request
         axios.post(API.BASE_URL + 'payment/card-list/', {}, {
             headers: {
-                "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+                "Authorization": `Bearer ${token}`,
             }
         })
             .then(function (response) {
@@ -111,11 +78,6 @@ const UserCardLists = () => {
             })
     }
 
-    console.log(carddata, " nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-
-    /**************************************************************************
-     * ************** Start  Card List Delete ********************************
-     * ***********************************************************************/
 
     {/* start- delete function */ }
     const handleRemovecardDetails = (value) => {
@@ -123,44 +85,31 @@ const UserCardLists = () => {
 
         axios.delete(API.BASE_URL + `payment/card/${value}`, {
             headers: {
-                "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+                "Authorization": `Bearer ${token}`,
             },
         })
             .then(function (response) {
                 console.log(response);
                 handleClose()
                 getList();
-                // alert('Remove Successfully.')
-                // setLoading(false); // Stop loading 
-                // navigate('/userrecipients');   
             })
             .catch(function (error, message) {
                 console.log(error.response);
-                // setLoading(false); // Stop loading in case of error
             })
     }
 
     return (
         <>
-            {/* <!-- ======= Recept RemitAssure-Section start ======= --> */}
-            {/* {
-                LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? ( */}
-
             <div className="margin-set">
                 <div className="tabs-page">
                     <Sidebar />
                     <div className="content-body">
-                        {/* loader start */}
-
                         {loading ? <>
                             <div class="loader-overly">
                                 <div class="loader" >
                                 </div>
                             </div>
                         </> : <></>}
-                        {/* loader End */}
-
-
                         <section className="user_recipients_section">
                             <div class="form-head mb-4">
                                 <h2 class="text-black font-w600 mb-0"><b>Card Lists</b>
@@ -186,7 +135,6 @@ const UserCardLists = () => {
                                                         </thead>
                                                         <tbody>
                                                             {carddata.data?.map((res, index) => {
-                                                                console.log(res, "itemnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
                                                                 return (
                                                                     <tr key={res.id}>
                                                                         <td>{index + 1}</td>
@@ -246,52 +194,11 @@ const UserCardLists = () => {
                             )
                             }
                         </section>
-
-
-
-
-                        {/* {carddata?.length == 0 ? (
-                                    <>
-                                        <section>
-
-                                            */}
-                        {/* <div className={isActive ? "add-recipent-section" : "remove-add-recipent-section"}>
-        
-                        <div className="col-md-12 align-center">
-                        <NavLink to="/addnewrecipient">
-                                    <button className="form-button addsingle_recepient" >
-                                        <BsFillPersonPlusFill />
-                                        Add New Recepients
-                                    </button>
-                                </NavLink>
-                        </div>
-                        </div>  */}
-                        {/* </section>
-
-
-                                    </>
-                                ) : (
-                                    <>
-
-                                    </>
-                                )
-                                } */}
-
-
                     </div>
                 </div>
             </div>
 
-            {/* ) : (
-                    <>
-                        <Page404 />
-                    </>
-                )
-            } */}
-
-
-            {/* <!-- ======= Recept RemitAssure-Section End ======= --> */}
-
+           
         </>
     )
 }
