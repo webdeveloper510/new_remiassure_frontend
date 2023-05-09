@@ -5695,7 +5695,7 @@ box-shadow: none !important;
   background-color: #027f00;
 }
 .progress-bar__bar {
-  background-color: #e1e1e1;
+  background-color: #fff;
   bottom: 0;
   left: 0;
   position: absolute;
