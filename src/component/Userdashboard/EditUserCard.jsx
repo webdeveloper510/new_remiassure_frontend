@@ -20,7 +20,7 @@ import Page404 from "../pageNotfound/Page404";
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import clsx from "clsx";
-import { cardPayment } from "../../utils/Api";
+import { updateCard } from "../../utils/Api";
 // start css
 const myStyle = {
   color: "red",
@@ -161,43 +161,42 @@ const EditCardUser = () => {
     console.log("Data=========>", id)
 
     setLoading(true); // Set loading before sending API requestssss
-    // cardPayment(id).then((response)=>{
-    //   console.log("user-response", response, id)
-    //   setLoading(false)
-    // }).catch((error)=>{
-    //   console.log(error.response)
-    //   console.log(id,"id--------")
-    //   setLoading(false)
-    // })
-    axios.post(API.BASE_URL + `payment/card/${id}`, {}, {
-      headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-      },
+    updateCard(id).then((response)=>{
+      console.log("user-response", response)
+      setLoading(false)
+    }).catch((error)=>{
+      console.log(error.response)
+      setLoading(false)
     })
-      .then(function (response) {
-        console.log(response);
-        let value = response.data.data
-        console.log({
-          ...data, name: value.name, c_number: value.card_number,
-          expire_month: value.expiry_month, expire_year: value.expiry_year
-        })
+    // axios.post(API.BASE_URL + `payment/card/${id}`, {}, {
+    //   headers: {
+    //     "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+    //   },
+    // })
+    //   .then(function (response) {
+    //     console.log(response);
+    //     let value = response.data.data
+    //     console.log({
+    //       ...data, name: value.name, c_number: value.card_number,
+    //       expire_month: value.expiry_month, expire_year: value.expiry_year
+    //     })
 
-        setData({
-          ...data,
-          name: value.name,
-          c_number: value.card_number,
-          expire_month: value.expiry_month,
-          expire_year: value.expiry_year
-        })
+    //     setData({
+    //       ...data,
+    //       name: value.name,
+    //       c_number: value.card_number,
+    //       expire_month: value.expiry_month,
+    //       expire_year: value.expiry_year
+    //     })
         
-        setLoading(false); // Stop loading   
-      })
-      .catch(function (error, message) {
-        console.log(error.response);
-        setLoading(false); // Stop loading in case of error
-        // setBankNameText(error.response.data); 
+    //     setLoading(false); // Stop loading   
+    //   })
+    //   .catch(function (error, message) {
+    //     console.log(error.response);
+    //     setLoading(false); // Stop loading in case of error
+    //     // setBankNameText(error.response.data); 
 
-      })
+    //   })
 
   }, [])
 
@@ -327,8 +326,6 @@ const EditCardUser = () => {
 
   return (
     <>
-
-
           <section>
             <div className="margin-set">
               <div className="tabs-page">
