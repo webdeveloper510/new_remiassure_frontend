@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { exchangeRate } from '../../utils/Api';
-import { useNavigate } from 'react-router';
+import { useNavigate , useLocation} from 'react-router';
 
 const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
 
