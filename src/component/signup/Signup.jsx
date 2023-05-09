@@ -53,16 +53,24 @@ const Signup = () => {
                 data = { location: values.location, email: values.email, mobile: values.mobile, password: values.password, confirmPassword: values.confirmPassword, promo_marketing: promo_marketing }
             }
             userRegister(data).then((res) => {
+                console.log('vija-----', res)
                 if (res.code === "200") {
                     toast.success('SignUp Succesfull', { position: "top-right", autoClose: 2000, theme: "colored" });
                     localStorage.setItem("remi-user-dt", JSON.stringify(res?.data))
                     navigate('/verification', { state: { email: values.email } })
+                } else if(res.code == '400') {
+                    toast.error(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });
                 }
+                else if(res.code == '201') {
+                    toast.error(res.message + ", please login", { position: "top-right", autoClose: 2000, theme: "colored" });
+                    navigate("/login")
+                }
+
                 setLoading(false)
             }).catch((error) => {
                 console.log(error.response)
-                if (error.response.data.code == "400") {
-                    toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" });
+                if (error.response.code == "400") {
+                    toast.error(error.response.message, { position: "top-right", autoClose: 2000, theme: "colored" });
                 }
                 setLoading(false)
             })

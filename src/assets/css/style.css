@@ -1461,6 +1461,8 @@ color: #191970;
 .support_image {
   text-align: center;
   padding-top: 70px;
+  z-index: 2;
+    position: relative;
 }
 .card-support{
   /* width: 1180px; */
@@ -1739,12 +1741,20 @@ margin-top: 30px;
   margin-top: 25px;
 }
 .signup_banner {
-  background-image: url(../img/about/about_banner.png);
+  background-image: url(../img/home/bg05.jpg);
  /* min-height: 866px; */
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;
   margin-top:80px;
+  position:relative;
+}
+.signup_banner:before {
+  content: url(../img/home/login-light-bg.svg);
+  left: 0;
+  top: 69px;
+  position: absolute;
+  
 }
 .Sign-heading{
 font-family: var(--font-family) !important;
@@ -2591,15 +2601,18 @@ span.progress-step {
   padding-bottom: 0;
 }
 .previous-transactions .btn {
-  padding: 2px 10px;
+  padding: 8px 10px;
   text-transform: capitalize;
 }
 /*--------------------------------------------------------------
 # Verification 
 --------------------------------------------------------------*/
-section.dashboard .card {
+/*section.dashboard .card {
   height: 500px !important;
   overflow-y: auto !important;
+}*/
+.dashboard .no-data img {
+  width: 40%;
 }
 .verification_banner{
     width: 100%;
@@ -3085,10 +3098,11 @@ margin-top: 15px;
   /* width: 100%; */
   box-shadow: 0px 4px 20px rgb(0 0 0 / 16%);
   border-radius: 12px;
-  margin: 150px auto 0px;
+  margin: 120px auto 0px;
   padding: 10px;
   float: right;
   position:relative;
+  background:#fff;
 }
 
 .summary svg {
@@ -3098,7 +3112,10 @@ margin-top: 15px;
   right: 0;
   margin: 0 auto;
   color: green;
-  font-size: 27px;
+  font-size: 32px;
+  background: #fff;
+  padding: 3px;
+  border-radius: 100%;
 }
 .summary1:before {
   position: absolute;
@@ -3122,6 +3139,7 @@ margin-top: 15px;
   padding: 10px;
   float: right;
   position:relative;
+  background:#fff;
 }
 .summary1 svg {
   position: absolute;
@@ -3130,7 +3148,10 @@ margin-top: 15px;
   right: 0;
   margin: 0 auto;
   color: green;
-  font-size: 27px;
+  font-size: 32px;
+  background: #fff;
+  padding: 3px;
+  border-radius: 100%;
 }
 .summary h5 , .summary1 h5 {
   font-size: 16px;
@@ -3863,7 +3884,6 @@ a.active {
 }
 
 p.send-text {
-  background: #fff;
   text-align: left;
   width: max-content;
   z-index: 11;
@@ -4765,6 +4785,7 @@ td.inprogress-status span {
 }
 .previous-transaction span.btn {
   text-transform: capitalize;
+  font-size: 14px;
 }
 .m-top {
   margin-top: 65px;
@@ -5071,7 +5092,7 @@ label.container-new.form-gender {
 }
 .content-body {
   width: 100%;
-  background: #F9F9F9;
+  background: #E8F0FF;
   padding: 0px 30px 30px;
 }
 .padding0 {
@@ -5139,7 +5160,7 @@ a.icon-bottom p {
   transition: all .5s ease-in-out;
   position: relative;
   border: 0rem solid transparent;
-  border-radius: 0.625rem;
+  border-radius: 20px;
   box-shadow: 0rem 0.3125rem 0.3125rem 0rem rgba(82, 63, 105, 0.05);
   height: calc(100% - 30px);
   margin-top: 1.875rem;
@@ -5156,7 +5177,9 @@ a.icon-bottom p {
 }
 .previous-transactions tr td , .previous-transactions tr th {
   padding: 10px 30px;
+  border: none !important;
 }
+
 .previous-transactions tr td svg {
   float: left;
   width: 20px;
@@ -5185,9 +5208,40 @@ button.form-button.addsingle_recepient {
   border-right: none;
 }
 
-.previous-transaction tr td {
+/*.previous-transaction tr td {
   border-right: 1px solid #dee2e6;
+}*/
+table.table.table-responsive-md.card-table.previous-transactions {
+  width: 95%;
+  margin: 0 auto;
 }
+.previous-transaction tbody tr:nth-child(odd) , .previous-transactions tbody tr:nth-child(odd){
+  background:#F4F6FA;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+} 
+.previous-transaction tr td , .previous-transaction tr th ,.previous-transactions tr td , .previous-transactions tr th {
+  border: none !important;
+  padding: 14px;
+  vertical-align: baseline;
+}
+.previous-transaction tr td , .previous-transactions tr td{
+  font-size: 14px;
+}
+
+.previous-transaction tr td:first-child ,  .previous-transactions tr td:first-child{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  
+}
+.previous-transaction tr td:last-child , .previous-transactions tr td:last-child{
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+
 .sidebar nav ul {
   list-style: none;
   padding: 0;
@@ -5552,9 +5606,9 @@ span.fs-14 {
 }
 
 
-.previous-transactions{
+/*.previous-transactions{
     border-bottom: 1px solid #dee2e6 !important;
-}
+}*/
 .previous-transactions td h6 {
   font-size: 14px;
 }
@@ -5576,4 +5630,141 @@ backgound:url('../img/home/australia.png');
 .phoneInp:focus {
 outline: none !important;
 box-shadow: none !important;
+}
+
+
+
+
+
+
+
+
+/********************** new progress bar ************/
+
+
+.send_money_section {
+  /* background-color: #dcc8fc; */
+  background: url(../img/home/top-main.svg);
+  background-repeat: no-repeat;
+    background-size: cover;
+    POSITION:RELATIVE;
+}
+.send_money_section:after{
+  content: url(../img/home/login-light-bg.svg);
+    left: 0;
+    top: 69px;
+    position: absolute;
+    opacity: .1;
+}
+.send_money_section .form_body {
+  background: #fff;
+}
+
+.multi-steps > li.is-active:before, .multi-steps > li.is-active ~ li:before {
+  content: counter(stepNum);
+  font-family: inherit;
+  font-weight: 700;
+}
+.multi-steps > li.is-active:after, .multi-steps > li.is-active ~ li:after {
+  background-color: #e1e1e1;
+}
+.multi-steps {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  margin-top: 100px;
+}
+.multi-steps > li {
+  counter-increment: stepNum;
+  text-align: center;
+  display: table-cell;
+  position: relative;
+  color: #000;
+}
+.multi-steps > li:before {
+  content: '\f00c';
+  content: '\2713';
+  content: '\10003';
+  content: '\10004';
+  content: '\2713';
+  display: block;
+  margin: 0 auto 4px;
+  background-color: #6414E9;
+  width: 36px;
+  height: 36px;
+  line-height: 32px;
+  text-align: center;
+  font-weight: bold;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #6414E9;
+  border-radius: 50%;
+  color: white;
+  z-index: 2;
+  position: inherit;
+}
+.multi-steps > li:last-child:after {
+  display: none;
+}
+.multi-steps > li.is-active:before {
+  background-color: #fff;
+  border-color: #6414E9;
+  color: #6414E9;
+  animation: pulse 2s infinite;
+}
+.multi-steps > li.is-active ~ li {
+  color: #000;
+}
+.multi-steps > li.is-active ~ li:before {
+  background-color: #fff;
+  border-color: #fff;
+  color: #000;
+}
+.is-complete {
+  background: linear-gradient(to right, #027f00 50%, #e1e1e1 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: all 0.5s ease-out;
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 #027f00 70;
+ }
+  100% {
+    box-shadow: 0 0 0 10px #027f00 0;
+ }
+}
+@keyframes nextStep {
+  0% {
+    width: 0%;
+ }
+  100% {
+    width: 100%;
+ }
+}
+.progress-bar {
+  cursor: pointer;
+  user-select: none;
+}
+.progress-bar {
+  background-color: #e1e1e1;
+  height: 7px;
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  bottom: calc(50% + 7px);
+  width: 100%;
+  z-index: 1;
+}
+.progress-bar--success {
+  background-color: #027f00;
+}
+.progress-bar__bar {
+  background-color: #fff;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: all 500ms ease-out;
 }

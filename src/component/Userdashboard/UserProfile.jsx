@@ -40,7 +40,7 @@ const Profile = () => {
   /*************data get ************/
   let { id } = useParams();
   // alert(id)
-  console.log("========================>", id);
+  // console.log("========================>", id);
 
 
   /************ Start -Recipient Bank Details state***************/
@@ -222,7 +222,23 @@ const Profile = () => {
    * ************** Start  Recipient Bank Details ****************************
    * ***********************************************************************/
 
-  const [data, setData] = useState({ emailId: "", phoneno: "", country: "" })
+  const [data, setData] = useState(
+    {
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      emailId: "",
+      phoneno: "",
+      country: "",
+      flat: "",
+      street: "",
+      state: "",
+      building: "",
+      city: "",
+      language:"",
+      sendingTo:""
+    }
+  )
 
   const profileSchema = Yup.object().shape({
     firstName: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("First name is required"),
@@ -261,18 +277,42 @@ const Profile = () => {
   }
   useEffect(() => {
     setLoading(true)
+    getUserData()
+
+  }, [])
+
+  const getUserData = () => {
     userProfile().then((res) => {
       console.log("response----------==========", res)
       if (res.code == "200") {
         setLoading(false)
-        // console.log({
-        //   ...data, emailId: res.data.email, phoneno: res.data.mobile, country: res.data.location
-        // })
+
         setData({
-          ...data, emailId: res.data.email, phoneno: res.data.mobile, country: res.data.location
+          ...data, 
+          emailId: res.data.email, 
+          phoneno: res.data.mobile, 
+          country: res.data.location,
+          firstName: res.data.First_name,
+          lastName: res.data.Last_name,
+          middleName: res.data.middleName,
+          flat: res.data.flat,
+          street: res.data.street,
+          building: res.data.building,
+          state: res.data.state,
+          city: res.data.city,
+          language:res.data.language,
+          sendingTo: res.data.sendTo
         })
         formik.setFieldValue("mobile", res.data.mobile)
         formik.setFieldValue("country", res.data.location)
+        formik.setFieldValue("firstName", res.data.First_name)
+        formik.setFieldValue("lastName", res.data.Last_name)
+        formik.setFieldValue("middleName", res.data.Middle_name)
+        formik.setFieldValue("flat", res.data.flat)
+        formik.setFieldValue("building", res.data.building)
+        formik.setFieldValue("state", res.data.state)
+        formik.setFieldValue("street", res.data.street)
+        formik.setFieldValue("city", res.data.city)
       }
     }).catch((error) => {
       console.log(error.response)
@@ -281,12 +321,18 @@ const Profile = () => {
       }
       setLoading(false)
     })
-  }, [])
+  }
 
   const formik = useFormik({
     initialValues,
     validationSchema: profileSchema,
     onSubmit: async (values) => {
+      console.log({...data})
+      console.log({
+        First_name: values.firstName, Middle_name: values.middleName, Last_name: values.lastName,
+        email: values.email, mobile: values.mobile, flat: values.flat, building: values.building, street: values.street,
+        city: values.city, state: values.state, country: values.country
+      })
       setLoading(true)
       updateProfile({
         First_name: values.firstName, Middle_name: values.middleName, Last_name: values.lastName,
@@ -294,8 +340,8 @@ const Profile = () => {
         city: values.city, state: values.state, country: values.country
       }).then((res) => {
         console.log("user res----------------", res)
-        if(res.code =="200"){
-          toast.success("Successfully update",{ position: "top-right", autoClose: 2000, theme: "colored" })
+        if (res.code == "200") {
+          toast.success("Successfully update", { position: "top-right", autoClose: 2000, theme: "colored" })
         }
         setLoading(false)
       }).catch((error) => {
@@ -304,7 +350,6 @@ const Profile = () => {
           toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" })
         }
         setLoading(false)
-
       })
     }
   })
@@ -652,190 +697,196 @@ const Profile = () => {
   ]
 
 
-const handleCountry = (e) => {
-  formik.setFieldValue('country', e.target.value)
-  setData({...data , country:e.target.value})
-  console.log(e.target.value,"--------------------------")
-}
+  const handleCountry = (e) => {
+    formik.setFieldValue('country', e.target.value)
+    setData({ ...data, country: e.target.value })
+    // console.log(e.target.value,"--------------------------")
+  }
 
 
 
 
   return (
     <>
-          <div className="margin-set">
-            <div className="tabs-page">
-              <Sidebar />
-              <div className="content-body">
-                <section className="edit_recipient_section">
-                  <div className="form-head mb-4">
-                    <h2 className="text-black font-w600 mb-0"><b>Profile Update</b></h2></div>
-                  <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
-                    <div className="card">
-                      <div className="card-body">
-                        <div className="row each-row">
-                          <h5>Personal Details</h5>
-                          <div className="col-md-4">
-                            <div className="input_field">
-                              <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
-                              <input
-                                // type="text"
-                                // ref={input_firstName}
-                                // className='rate_input form-control'
-                                // Value={firstName}
-                                // onChange={(e) => setFirstName(e.target.value)}
-                                type="text"
-                                autoComplete='off'
-                                placeholder="Enter first name"
-                                {...formik.getFieldProps('firstName')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.firstName && formik.errors.firstName },
-                                  {
-                                    'is-valid': formik.touched.firstName && !formik.errors.firstName,
-                                  }
-                                )}
+      <div className="margin-set">
+        <div className="tabs-page">
+          <Sidebar />
+          <div className="content-body">
+            <section className="edit_recipient_section">
+              <div className="form-head mb-4">
+                <h2 className="text-black font-w600 mb-0"><b>Profile Update</b></h2></div>
+              <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
+                <div className="card">
+                  <div className="card-body">
+                    <div className="row each-row">
+                      <h5>Personal Details</h5>
+                      <div className="col-md-4">
+                        <div className="input_field">
+                          <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
+                          <input
+                            // type="text"
+                            // ref={input_firstName}
+                            // className='rate_input form-control'
+                            // Value={firstName}
+                            // onChange={(e) => setFirstName(e.target.value)}
+                            type="text"
+                              autoComplete='off'
+                              value={data.firstName}
+                              placeholder="Enter first name"
+                              name="firstName"
+                              onChange={(e) => setData({ ...data, firstName: e.target.value })}
+                              {...formik.getFieldProps('firstName')}
+                              className={clsx(
+                                'form-control bg-transparent',
+                                { 'is-invalid': formik.touched.firstName && formik.errors.firstName },
+                                {
+                                  'is-valid': formik.touched.firstName && !formik.errors.firstName,
+                                }
+                              )}
 
-                              />
-                              {/* <span>{formik.errors.firstName ? formik.errors.firstName :""}</span> */}
-                              {/* {errorUserRecipient && firstName.length <= 0 ?
+                          />
+                          {/* <span>{formik.errors.firstName ? formik.errors.firstName :""}</span> */}
+                          {/* {errorUserRecipient && firstName.length <= 0 ?
                                 <span style={myStyle}>Please Enter the First Name </span> : ""}
 
                               <span style={myStyle}>{BankNameText?.EnterfirstName ? BankNameText?.EnterfirstName : ''}</span> */}
-                            </div>
-                          </div>
-                          <div className="col-md-4">
-                            <div className="input_field">
-                              <p className="get-text">Middle Name</p>
-                              <input
-                                type="text"
-                                // ref={input_middleName}
-                                className='rate_input form-control'
-                                placeholder="Enter middle name"
-                                autoComplete='off'
-                                {...formik.getFieldProps('middleName')}
-                              // type="text"
-                              // placeholder="Enter middle name"
-                              // {...formik.getFieldProps('middleName')}
-                              // className={clsx(
-                              //   'form-control bg-transparent',
-                              //   { 'is-invalid': formik.touched.middleName && formik.errors.middleName },
-                              //   {
-                              //     'is-valid': formik.touched.middleName && !formik.errors.middleName,
-                              //   }
-                              // )}
-                              />
+                        </div>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="input_field">
+                          <p className="get-text">Middle Name</p>
+                          <input
+                            type="text"
+                            // ref={input_middleName}
+                            className='rate_input form-control'
+                            placeholder="Enter middle name"
+                            autoComplete='off'
+                            {...formik.getFieldProps('middleName')}
+                          // type="text"
+                          // placeholder="Enter middle name"
+                          // {...formik.getFieldProps('middleName')}
+                          // className={clsx(
+                          //   'form-control bg-transparent',
+                          //   { 'is-invalid': formik.touched.middleName && formik.errors.middleName },
+                          //   {
+                          //     'is-valid': formik.touched.middleName && !formik.errors.middleName,
+                          //   }
+                          // )}
+                          />
 
 
-                              {/* {errorUserRecipient && middleName.length <= 0 ?
+                          {/* {errorUserRecipient && middleName.length <= 0 ?
                                 <span style={myStyle}>Please Enter the Middle Name </span> : ""}
 
                               <span style={myStyle}>{BankNameText?.Entermiddlename ? BankNameText?.Entermiddlename : ''}</span> */}
-                            </div>
-                          </div>
-                          <div className="col-md-4">
-                            <div className="input_field">
-                              <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
-                              <input
-                                // type="text"
-                                // ref={input_lastName}
-                                // className='rate_input form-control'
-                                // Value={lastName}
-                                // onChange={(e) => setLastName(e.target.value)}
-                                type="text"
-                                placeholder="Enter last name"
-                                autoComplete='off'
-                                {...formik.getFieldProps('lastName')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.lastName && formik.errors.lastName },
-                                  {
-                                    'is-valid': formik.touched.lastName && !formik.errors.lastName,
-                                  }
-                                )}
-                              />
-                              {/* {errorUserRecipient && lastName.length <= 0 ?
+                        </div>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="input_field">
+                          <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
+                          <input
+                            // type="text"
+                            // ref={input_lastName}
+                            // className='rate_input form-control'
+                            // Value={lastName}
+                            // onChange={(e) => setLastName(e.target.value)}
+                            type="text"
+                            placeholder="Enter last name"
+                            autoComplete='off'
+                            value={data.lastName}
+                            name="lastName"
+                            onChange={(e) => setData({ ...data, lastName: e.target.value })}
+                            {...formik.getFieldProps('lastName')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.lastName && formik.errors.lastName },
+                              {
+                                'is-valid': formik.touched.lastName && !formik.errors.lastName,
+                              }
+                            )}
+                          />
+                          {/* {errorUserRecipient && lastName.length <= 0 ?
                                 <span style={myStyle}>Please Enter the Last Name </span> : ""}
 
                               <span style={myStyle}>{BankNameText?.Enterlastname ? BankNameText?.Enterlastname : ''}</span> */}
-                            </div>
-                          </div>
                         </div>
-                        <div className="row each-row">
-                          <div className="col-md-6">
-                            <div className="input_field">
-                              <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
-                              <input
-                                // type="email"
-                                //  ref={input_email}
-                                // className='rate_input form-control'
-                                // name="email"
-                                // Value={email}
-                                // onChange={(e) => setEmail(e.target.value)}
-                                type="email"
-                                value={data.emailId}
-                                placeholder="Enter email"
-                                autoComplete='off'
-                                // onChange={formik.getFieldProps('email')}
-                                // {...formik.getFieldProps('email')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.email && formik.errors.email },
-                                  {
-                                    'is-valid': formik.touched.email && !formik.errors.email,
-                                  }
-                                )}
-                              />
-                              {/* {errorUserRecipient && email.length <= 0 ?
+                      </div>
+                    </div>
+                    <div className="row each-row">
+                      <div className="col-md-6">
+                        <div className="input_field">
+                          <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
+                          <input
+                            // type="email"
+                            //  ref={input_email}
+                            // className='rate_input form-control'
+                            // name="email"
+                            // Value={email}
+                            // onChange={(e) => setEmail(e.target.value)}
+                            type="email"
+                            value={data.emailId}
+                            placeholder="Enter email"
+                            autoComplete='off'
+                            // onChange={formik.getFieldProps('email')}
+                            // {...formik.getFieldProps('email')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.email && formik.errors.email },
+                              {
+                                'is-valid': formik.touched.email && !formik.errors.email,
+                              }
+                            )}
+                          />
+                          {/* {errorUserRecipient && email.length <= 0 ?
                                 <span style={myStyle}>Please Enter the Email Address </span> : ""}*/}
 
-                              <span style={myStyle}>{BankNameText?.email ? BankNameText?.email : ''}</span>
+                          <span style={myStyle}>{BankNameText?.email ? BankNameText?.email : ''}</span>
 
-                            </div>
-                          </div>
+                        </div>
+                      </div>
 
-                          <div className="col-md-6">
-                            <div className="input_field">
-                              <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
-                              {/* <input
+                      <div className="col-md-6">
+                        <div className="input_field">
+                          <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
+                          {/* <input
                                   type="number"
                               
                                   name="mobile"
                                   Value={mobile}
                                   onChange={(e) => setMobile(e.target.value)}
                                 /> */}
-                              <PhoneInput
-                                // ref={input_mobile}
-                                // country={"eg"}
-                                // enableSearch={true}
-                                // value={mobile}
-                                // onChange={(mobile) => setMobile(mobile)}
-                                country={"au"}
-                                name="mobile"
-                                value={data.phoneno}
-                                inputStyle={{ border: "none", margin: "none" }}
-                                inputClass="phoneInp"
-                                defaultCountry={"au"}
-                                onlyCountries={["au", "nz"]}
-                                onChange={mno => { formik.setFieldValue('mobile', mno); formik.setFieldTouched('mobile', true) }}
-                                className={clsx(
-                                  'form-control form-control-sm bg-transparent',
-                                  { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
-                                  {
-                                    'is-valid': formik.touched.mobile && !formik.errors.mobile,
-                                  }
-                                )}
-                              />
-                              {/* {errorUserRecipient && mobile.length <= 0 ?
+                          <PhoneInput
+                            // ref={input_mobile}
+                            // country={"eg"}
+                            // enableSearch={true}
+                            // value={mobile}
+                            // onChange={(mobile) => setMobile(mobile)}
+                            country={"au"}
+                            name="mobile"
+                            value={data.phoneno}
+                            inputStyle={{ border: "none", margin: "none" }}
+                            inputClass="phoneInp"
+                            defaultCountry={"au"}
+                            onlyCountries={["au", "nz"]}
+                            onChange={mno => { formik.setFieldValue('mobile', mno); formik.setFieldTouched('mobile', true) }}
+                            className={clsx(
+                              'form-control form-control-sm bg-transparent',
+                              { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                              {
+                                'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                              }
+                            )}
+                          />
+                          {/* {errorUserRecipient && mobile.length <= 0 ?
                                 <span style={myStyle}>Please Enter the Mobile Number </span> : ""} */}
 
-                              <span style={myStyle}>{BankNameText?.mobile ? BankNameText?.mobile : ''}</span>
-                              <span style={myStyle}>{BankNameText?.Entervalidmobile ? BankNameText?.Entervalidmobile : ''}</span>
-                              <span style={myStyle}>{BankNameText?.Mobileexist ? BankNameText?.Mobileexist : ''}</span>
-                              <span style={myStyle}>{BankNameText?.Invalidmobile ? BankNameText?.Invalidmobile : ''}</span>
-                            </div>
-                          </div>
-                          {/* <div className="col-md-4">
+                          <span style={myStyle}>{BankNameText?.mobile ? BankNameText?.mobile : ''}</span>
+                          <span style={myStyle}>{BankNameText?.Entervalidmobile ? BankNameText?.Entervalidmobile : ''}</span>
+                          <span style={myStyle}>{BankNameText?.Mobileexist ? BankNameText?.Mobileexist : ''}</span>
+                          <span style={myStyle}>{BankNameText?.Invalidmobile ? BankNameText?.Invalidmobile : ''}</span>
+                        </div>
+                      </div>
+                      {/* <div className="col-md-4">
                       <div className="input_field">
                         <p className="get-text">Referral code<span style={{color: 'red'}} >*</span></p>
                         <input 
@@ -851,93 +902,102 @@ const handleCountry = (e) => {
                           <span style={myStyle}>{BankNameText.Invalidmobile? BankNameText.Invalidmobile: ''}</span>
                       </div>
                     </div> */}
-                        </div>
+                    </div>
 
-                        <div className="row each-row">
-                          <h5>Address</h5>
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">Flat/Unit No.<span style={{ color: 'red' }} >*</span></p>
+                    <div className="row each-row">
+                      <h5>Address</h5>
+                      <div className="col-md-4">
+                        <Form.Group className="form_label" controlId="Firstname">
+                          <p className="get-text">Flat/Unit No.<span style={{ color: 'red' }} >*</span></p>
 
-                              <Form.Control
-                                // type="text"
-                                // ref={input_flat}
-                                // className='rate_input form-control'
-                                // Value={flat}
-                                // onChange={(e) => setFlat(e.target.value)}
-                                type="text"
-                                placeholder="Enter Flat No."
-                                autoComplete='off'
-                                {...formik.getFieldProps('flat')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.flat && formik.errors.flat },
-                                  {
-                                    'is-valid': formik.touched.flat && !formik.errors.flat,
-                                  }
-                                )}
-                              />
-                              {/* {errorUserRecipient && flat.length <= 0 ?
+                          <Form.Control
+                            // type="text"
+                            // ref={input_flat}
+                            // className='rate_input form-control'
+                            // Value={flat}
+                            // onChange={(e) => setFlat(e.target.value)}
+                            type="text"
+                            placeholder="Enter Flat No."
+                            autoComplete='off'
+                            value={data.flat}
+                            name="flat"
+                            onChange={(e) => setData({ ...data, flat: e.target.value })}
+                            {...formik.getFieldProps('flat')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.flat && formik.errors.flat },
+                              {
+                                'is-valid': formik.touched.flat && !formik.errors.flat,
+                              }
+                            )}
+                          />
+                          {/* {errorUserRecipient && flat.length <= 0 ?
                                 <span style={myStyle}>Please Enter the Flat Name</span> : ""}</span> */}
-                              <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
-                            </Form.Group>
-                          </div>
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">Building/Unit No.<span style={{ color: 'red' }} >*</span></p>
-                              <Form.Control
-                                // type="text"
-                                // ref={input_building}
-                                // className='rate_input form-control'
-                                // Value={building}
-                                // onChange={(e) => setBuilding(e.target.value)}
-                                type="text"
-                                autoComplete='off'
-                                placeholder="Enter building no."
-                                {...formik.getFieldProps('building')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.building && formik.errors.building },
-                                  {
-                                    'is-valid': formik.touched.building && !formik.errors.building,
-                                  }
-                                )}
-                              />
-                              {/* {errorUserRecipient && building.length <= 0 ?
+                          <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-4">
+                        <Form.Group className="form_label" controlId="Firstname">
+                          <p className="get-text">Building/Unit No.<span style={{ color: 'red' }} >*</span></p>
+                          <Form.Control
+                            // type="text"
+                            // ref={input_building}
+                            // className='rate_input form-control'
+                            // Value={building}
+                            // onChange={(e) => setBuilding(e.target.value)}
+                            type="text"
+                            autoComplete='off'
+                            placeholder="Enter building no."
+                            value={data.building}
+                            name="building"
+                            onChange={(e) => setData({ ...data, building: e.target.value })}
+                            {...formik.getFieldProps('building')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.building && formik.errors.building },
+                              {
+                                'is-valid': formik.touched.building && !formik.errors.building,
+                              }
+                            )}
+                          />
+                          {/* {errorUserRecipient && building.length <= 0 ?
                                 <span style={myStyle}>Please Enter the Building Name</span> : ""}</span> */}
-                              <span style={myStyle}>{BankNameText?.Enterbuilding ? BankNameText?.Enterbuilding : ''}</span>
-                            </Form.Group>
-                          </div>
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
-                              <Form.Control
-                                // type="text"
-                                // ref={input_street}
-                                // className='rate_input form-control'
-                                // Value={street}
-                                // onChange={(e) => setStreet(e.target.value)}
-                                type="text"
-                                placeholder="Enter street"
-                                autoComplete='off'
-                                {...formik.getFieldProps('street')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.street && formik.errors.street },
-                                  {
-                                    'is-valid': formik.touched.street && !formik.errors.street,
-                                  }
-                                )}
-                              />
-                              {/* {errorUserRecipient && street.length <= 0 ?
+                          <span style={myStyle}>{BankNameText?.Enterbuilding ? BankNameText?.Enterbuilding : ''}</span>
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-4">
+                        <Form.Group className="form_label" controlId="Firstname">
+                          <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
+                          <Form.Control
+                            // type="text"
+                            // ref={input_street}
+                            // className='rate_input form-control'
+                            // Value={street}
+                            // onChange={(e) => setStreet(e.target.value)}
+                            type="text"
+                            placeholder="Enter street"
+                            autoComplete='off'
+                            value={data.street}
+                            name="street"
+                            onChange={(e) => setData({ ...data, street: e.target.value })}
+                            {...formik.getFieldProps('street')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.street && formik.errors.street },
+                              {
+                                'is-valid': formik.touched.street && !formik.errors.street,
+                              }
+                            )}
+                          />
+                          {/* {errorUserRecipient && street.length <= 0 ?
                                 <span style={myStyle}>Please Enter the Street Name</span> : ""}*/}
-                              <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
+                          <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
 
-                            </Form.Group>
-                          </div>
-                        </div>
-                        <div className="row each-row">
-                          {/* <div className="col-md-4">
+                        </Form.Group>
+                      </div>
+                    </div>
+                    <div className="row each-row">
+                      {/* <div className="col-md-4">
                               <Form.Group className="form_label" controlId="Firstname">
                                 <p className="get-text">Postcode</p>
                                 <Form.Control
@@ -948,204 +1008,210 @@ const handleCountry = (e) => {
                                 />
                               </Form.Group>
                             </div> */}
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
-                              <Form.Control
-                                // type="text"
-                                // ref={input_city}
-                                // className='rate_input form-control'
-                                // Value={city}
-                                // onChange={(e) => setCity(e.target.value)}
-                                type="text"
-                                placeholder="Enter City"
-                                autoComplete='off'
-                                {...formik.getFieldProps('city')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.city && formik.errors.city },
-                                  {
-                                    'is-valid': formik.touched.city && !formik.errors.city,
-                                  }
-                                )}
-                              />
-                              {/* {errorUserRecipient && city.length <= 0 ?
+                      <div className="col-md-4">
+                        <Form.Group className="form_label" controlId="Firstname">
+                          <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
+                          <Form.Control
+                            // type="text"
+                            // ref={input_city}
+                            // className='rate_input form-control'
+                            // Value={city}
+                            // onChange={(e) => setCity(e.target.value)}
+                            type="text"
+                            placeholder="Enter City"
+                            autoComplete='off'
+                            value={data.city}
+                            name="city"
+                            onChange={(e) => setData({ ...data, city: e.target.value })}
+                            {...formik.getFieldProps('city')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.city && formik.errors.city },
+                              {
+                                'is-valid': formik.touched.city && !formik.errors.city,
+                              }
+                            )}
+                          />
+                          {/* {errorUserRecipient && city.length <= 0 ?
                                 <span style={myStyle}>Please Enter the City Name</span> : ""}*/}
-                              <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
-                            </Form.Group>
-                          </div>
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
-                              <Form.Control
-                                // type="text"
-                                // ref={input_state}
-                                // className='rate_input form-control'
-                                // Value={state}
-                                // onChange={(e) => setState(e.target.value)}
-                                type="text"
-                                placeholder="Enter State"
-                                autoComplete='off'
-                                {...formik.getFieldProps('state')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.state && formik.errors.state },
-                                  {
-                                    'is-valid': formik.touched.state && !formik.errors.state,
-                                  }
-                                )}
-                              />
-                              {/* {errorUserRecipient && state.length <= 0 ?
+                          <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-4">
+                        <Form.Group className="form_label" controlId="Firstname">
+                          <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
+                          <Form.Control
+                            // type="text"
+                            // ref={input_state}
+                            // className='rate_input form-control'
+                            // Value={state}
+                            // onChange={(e) => setState(e.target.value)}
+                            type="text"
+                            placeholder="Enter State"
+                            autoComplete='off'
+                            value={data.state}
+                            name="state"
+                            onChange={(e) => setData({ ...data, state: e.target.value })}
+                            {...formik.getFieldProps('state')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.state && formik.errors.state },
+                              {
+                                'is-valid': formik.touched.state && !formik.errors.state,
+                              }
+                            )}
+                          />
+                          {/* {errorUserRecipient && state.length <= 0 ?
                                 <span style={myStyle}>Please Enter the State Name</span> : ""} */}
-                            </Form.Group>
-                            {/* <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span> */}
-                          </div>
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
-                              {/* <Select
+                        </Form.Group>
+                        {/* <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span> */}
+                      </div>
+                      <div className="col-md-4">
+                        <Form.Group className="form_label" controlId="Firstname">
+                          <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
+                          {/* <Select
                                 //  ref={input_country}
                                   options={countryoptions}
                                   defaultValue={countryValue}
                                   onChange={changeHandler}
                                 /> */}
 
-                              <Form.Select
-                                name="country"
-                                value={data.country}
-                                onChange={(e)=>{handleCountry(e)}}
-                                // {...formik.getFieldProps('country')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.country && formik.errors.country },
-                                  {
-                                    'is-valid': formik.touched.country && !formik.errors.country,
-                                  }
-                                )}
-                              >
-                                <option value="">--- Select Location ---</option>
-                                <option value="Australia">Australia</option>
-                                <option value="New zealand">New zealand</option>
+                          <Form.Select
+                            name="country"
+                            value={data.country}
+                            onChange={(e) => { handleCountry(e) }}
+                            // {...formik.getFieldProps('country')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.country && formik.errors.country },
+                              {
+                                'is-valid': formik.touched.country && !formik.errors.country,
+                              }
+                            )}
+                          >
+                            <option value="">--- Select Location ---</option>
+                            <option value="Australia">Australia</option>
+                            <option value="New zealand">New zealand</option>
 
-                              </Form.Select>
-                              {/* {errorUserRecipient&&country.length<=0?
+                          </Form.Select>
+                          {/* {errorUserRecipient&&country.length<=0?
                                   <span style={myStyle}>Please Enter the Country Name</span>:""}  */}
-                              <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
+                          <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
 
-                            </Form.Group>
+                        </Form.Group>
 
-                          </div>
-                        </div>
-                        <div className="row each-row">
-                          <h5>Others</h5>
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">Language<span style={{ color: 'red' }} >*</span></p>
-                              {/* <Select
+                      </div>
+                    </div>
+                    <div className="row each-row">
+                      <h5>Others</h5>
+                      <div className="col-md-4">
+                        <Form.Group className="form_label" controlId="Firstname">
+                          <p className="get-text">Language<span style={{ color: 'red' }} >*</span></p>
+                          {/* <Select
                                 //  ref={input_country}
                                   options={countryoptions}
                                   defaultValue={countryValue}
                                   onChange={changeHandler}
                                 /> */}
 
-                              <Form.Select
-                                name="language"
-                                {...formik.getFieldProps('language')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.language && formik.errors.language },
-                                  {
-                                    'is-valid': formik.touched.language && !formik.errors.language,
-                                  }
-                                )}
-                              >
-                                <option value=""> Select Language </option>
-                                {
-                                  language.map((lang) => {
-                                    return (
-                                      <option value={lang.value}>{lang.name}</option>
-                                    )
-                                  })
-                                }
+                          <Form.Select
+                            name="language"
+                            {...formik.getFieldProps("language")}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.language && formik.errors.language },
+                              {
+                                'is-valid': formik.touched.language && !formik.errors.language,
+                              }
+                            )}
+                          >
+                            <option value=""> Select Language </option>
+                            {
+                              language.map((lang) => {
+                                return (
+                                  <option value={lang.value}>{lang.name}</option>
+                                )
+                              })
+                            }
 
-                              </Form.Select>
-                              {/* {errorUserRecipient&&country.length<=0?
+                          </Form.Select>
+                          {/* {errorUserRecipient&&country.length<=0?
                                   <span style={myStyle}>Please Enter the Country Name</span>:""}  */}
-                              <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
+                          <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
 
-                            </Form.Group>
+                        </Form.Group>
 
-                          </div>
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">Sending To<span style={{ color: 'red' }} >*</span></p>
-                              {/* <Select
+                      </div>
+                      <div className="col-md-4">
+                        <Form.Group className="form_label" controlId="Firstname">
+                          <p className="get-text">Sending To<span style={{ color: 'red' }} >*</span></p>
+                          {/* <Select
                                 //  ref={input_country}
                                   options={countryoptions}
                                   defaultValue={countryValue}
                                   onChange={changeHandler}
                                 /> */}
 
-                              <Form.Select
-                                name="sendingTo"
-                                {...formik.getFieldProps('sendingTo')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.sendingTo && formik.errors.sendingTo },
-                                  {
-                                    'is-valid': formik.touched.sendingTo && !formik.errors.sendingTo,
-                                  }
-                                )}
-                              >
-                                <option value="">Sending To</option>
-                                {
-                                  sendTo.map((send) => {
-                                    return (
-                                      <option value={send.code}>{send.name}</option>
-                                    )
-                                  })
-                                }
+                          <Form.Select
+                            name="sendingTo"
+                            {...formik.getFieldProps("sendingTo")}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.sendingTo && formik.errors.sendingTo },
+                              {
+                                'is-valid': formik.touched.sendingTo && !formik.errors.sendingTo,
+                              }
+                            )}
+                          >
+                            <option value="">Sending To</option>
+                            {
+                              sendTo.map((send) => {
+                                return (
+                                  <option value={send.code}>{send.name}</option>
+                                )
+                              })
+                            }
 
 
-                              </Form.Select>
-                              {/* {errorUserRecipient&&country.length<=0?
+                          </Form.Select>
+                          {/* {errorUserRecipient&&country.length<=0?
                                   <span style={myStyle}>Please Enter the Country Name</span>:""}  */}
-                              <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
+                          <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
 
-                            </Form.Group>
-                          </div>
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">Sending from</p>
-                              <Form.Control
-                                // type="text"
-                                // ref={input_street}
-                                // className='rate_input form-control'
-                                // Value={street}
-                                // onChange={(e) => setStreet(e.target.value)}
-                                type="text"
-                                autoComplete='off'
-                                value={initialValues.sendingFrom}
-                              // {...formik.getFieldProps('sendingFrom')}
-                              // className={clsx(
-                              //   'form-control bg-transparent',
-                              //   { 'is-invalid': formik.touched.sendingFrom && formik.errors.sendingFrom },
-                              //   {
-                              //     'is-valid': formik.touched.sendingFrom && !formik.errors.sendingFrom,
-                              //   }
-                              // )}
-                              />
-                              {/* {errorUserRecipient && street.length <= 0 ?
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-4">
+                        <Form.Group className="form_label" controlId="Firstname">
+                          <p className="get-text">Sending from</p>
+                          <Form.Control
+                            // type="text"
+                            // ref={input_street}
+                            // className='rate_input form-control'
+                            // Value={street}
+                            // onChange={(e) => setStreet(e.target.value)}
+                            type="text"
+                            autoComplete='off'
+                            value={initialValues.sendingFrom}
+                          // {...formik.getFieldProps('sendingFrom')}
+                          // className={clsx(
+                          //   'form-control bg-transparent',
+                          //   { 'is-invalid': formik.touched.sendingFrom && formik.errors.sendingFrom },
+                          //   {
+                          //     'is-valid': formik.touched.sendingFrom && !formik.errors.sendingFrom,
+                          //   }
+                          // )}
+                          />
+                          {/* {errorUserRecipient && street.length <= 0 ?
                                 <span style={myStyle}>Please Enter the Street Name</span> : ""}*/}
-                              <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
+                          <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
 
-                            </Form.Group>
-                          </div>
-                        </div>
-                        <div className="row each-row">
+                        </Form.Group>
+                      </div>
+                    </div>
+                    <div className="row each-row">
 
 
-                          {/* <div className="col-md-4">
+                      {/* <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
                             <p className="get-text">Country Code</p>
                             <Form.Control 
@@ -1158,44 +1224,44 @@ const handleCountry = (e) => {
                       </div> */}
 
 
-                        </div>
+                    </div>
 
-                        <div className="row">
-                          <div className="col-md-4">
-                            {/* <button 
+                    <div className="row">
+                      <div className="col-md-4">
+                        {/* <button 
                       type="submit" 
                       className="start-form-button"
                       onClick={handlRecipientBankDetails}
                       >
                         Clear
                       </button> */}
-                          </div>
-                          <div className="col-md-8">
-                            <button
-                              type="submit"
-                              className="form-button"
-                            >
-                              Update
+                      </div>
+                      <div className="col-md-8">
+                        <button
+                          type="submit"
+                          className="form-button"
+                        >
+                          Update
 
-                              {loading ? <>
-                                <div className="loader-overly">
-                                  <div className="loader" >
+                          {loading ? <>
+                            <div className="loader-overly">
+                              <div className="loader" >
 
-                                  </div>
+                              </div>
 
-                                </div>
-                              </> : <></>}
+                            </div>
+                          </> : <></>}
 
-                            </button>
-                          </div>
-                        </div>
+                        </button>
                       </div>
                     </div>
-                  </form>
-                </section>
-              </div>
-            </div>
+                  </div>
+                </div>
+              </form>
+            </section>
           </div>
+        </div>
+      </div>
     </>
   )
 }

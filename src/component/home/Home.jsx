@@ -249,6 +249,8 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [total_rates, setTotal_rates] = useState('1.0998');
     const navigate = useNavigate();
+
+
     const formik = useFormik({
         initialValues,
         validationSchema: amountSchema,
@@ -256,7 +258,7 @@ const Home = () => {
             setLoading(true)
             exchangeRate({ amount: values.amount, from: values.from, to: values.to, paymentMethod: values.paymentMethod }).then((res) => {
                 // console.log(res)
-                if (res.code == "200") {
+                if (res.data.code == "200") {
                     setLoading(false)
                     localStorage.setItem("amount", data.amt1)
                     localStorage.setItem("exchangeAmount", res.amount)
@@ -281,14 +283,22 @@ const Home = () => {
             })
         }
     })
+
+
     const myExchangeTotalAmount = (event) => {
         event.preventDefault();
-        setLoading(true); 
-        exchangeRate({ amount: data.amt1, from: data.amtC1, to: data.amtc2, paymentMethod: initialValues.paymentMethod }).then((res) => {
-            // console.log(res)
-            setData({ ...data, amt2: res.amount })
-            setTotal_rates(res.rate)
-            setLoading(false)
+        
+        // console.log({...data, amount:event.target.value})
+        let length = data.amt1.toString()
+        if(length.length > 0){
+            setLoading(true); 
+            exchangeRate({ amount: data.amt1, from: data.amtC1, to: data.amtc2, paymentMethod: initialValues.paymentMethod })
+        .then((res) => {
+            console.log(res)            
+                setData({ ...data, amt2: res.amount })
+                setTotal_rates(res.rate)
+                setLoading(false)               
+            
         }).catch((error) => {
             // console.log(error.response)
             if (error.response.data.code == "400") {
@@ -296,6 +306,7 @@ const Home = () => {
             }
             setLoading(false)
         })
+        }
     }
 
     const inputvalidation = (event) => {

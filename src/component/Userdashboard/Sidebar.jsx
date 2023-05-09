@@ -25,20 +25,20 @@ const sidebar = () => {
 
   /**************************token ************************ */
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
+  // console.log("TOKEN", token);
 
   const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
+  // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
   const signup_token = localStorage.getItem("signup_token")
-  console.log("signup_token", signup_token);
+  // console.log("signup_token", signup_token);
 
   const DigitalCode = localStorage.getItem("DigitalCode");
-  console.log("DigitalCode", DigitalCode);
+  // console.log("DigitalCode", DigitalCode);
 
 
   const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp)
+  // console.log("Verification Message", verification_otp)
 
 
   /**************************Feild of state ************************ */

@@ -196,7 +196,7 @@ const UserRecipients = () => {
 
                                             <div className="col-lg-12">
                                                 {/* loader start */}
-
+                          
                                                 {loading ? <>
                                                     <div class="loader-overly">
                                                         <div class="loader" >
@@ -209,6 +209,7 @@ const UserRecipients = () => {
 
                                                 <div className="card">
                                                     <div className="card-body">
+                                                    
                                                         <Table className="table table-responsive-md card-table previous-transaction">
                                                             <thead>
                                                                 <tr>
@@ -232,8 +233,8 @@ const UserRecipients = () => {
                                                                                 <td>{res.destination}</td>
                                                                                 <td>{res.transfer_now}</td>
                                                                                 <td>
-                                                                                    <button className="btn btn-danger" onClick={() => handleShow(res.id)}><i class="fa fa-trash"></i> Delete</button>
-                                                                                    <button className="btn btn-primary" onClick={() => { LoadEdit(res.id) }}><i class="fa fa-pencil color-muted"></i> Edit</button>
+                                                                                    <button className="btn btn-danger" onClick={() => handleShow(res.id)}><i class="fa fa-trash"></i></button>
+                                                                                    <button className="btn btn-primary" onClick={() => { LoadEdit(res.id) }}><i class="fa fa-pencil color-muted"></i></button>
                                                                                 </td>
 
                                                                             </tr>

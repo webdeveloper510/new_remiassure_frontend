@@ -36,7 +36,12 @@ export const verifyEmail = async (data) => {
 }
 
 export const changePassword = async (data) => {
-  const response = await Axios.post("/change-password", data).then(res => {
+  const response = await Axios.post("/change-password/", data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${token}`
+    }
+  }).then(res => {
     return res.data
   })
   return response
@@ -159,8 +164,21 @@ export const createRecipient = async (data) => {
 // payment/card-list/
 
 // payment/card/
-export const cardPayment = async (id) => {
+export const updateCard = async (id) => {
   const response = await Axios.post(`/payment/card/${id}`,{
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${token}`,
+    },
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
+// payment/recipient-update/
+export const getUserRecipient = async (id) => {
+  const response = await Axios.get(`/payment/recipient-update/${id}`,{
     headers: {
       "Authorization": `Bearer ${signupToken ? signupToken : token}`,
     },
@@ -170,9 +188,9 @@ export const cardPayment = async (id) => {
   return response
 }
 
-// payment/recipient-update/
-export const updatePayment = async (data) => {
-  const response = await Axios.post("/payment/recipient-update/",data,{
+
+export const updateUserRecipient = async (id) => {
+  const response = await Axios.patch(`/payment/recipient-update/${id}`,{
     headers: {
       "Authorization": `Bearer ${signupToken ? signupToken : token}`,
     },

@@ -57,26 +57,38 @@ const Verification = () => {
 
     const handleEmailVerification = (event) => {
         event.preventDefault();
-        setLoading(true)
-        verifyEmail({ email_otp: otp, email: email }).then((res) => {
-            console.log("verifing email", res)
-            if (res.code == 200) {
-                toast.success("Email verification successful",
-                    { position: "top-right", autoClose: 2000, theme: "colored" })
-                localStorage.setItem('token', res.access_token)
-                setLoading(false)
-                navigate('/send-money')
-            }
+        
+        console.log("otp.length", otp)
+        let length = otp.toString()
 
-
-        }).catch((error) => {
-            console.log(error.response)
-            if (error.response.status == 400) {
-                toast.error(error.response.data.message,
+        if(length.length == 6){
+            setLoading(true)
+            verifyEmail({ email_otp: otp, email: email }).then((res) => {
+                console.log("verifing email", res)
+                if (res.code == 200) {
+                    toast.success("Email verification successful",
+                        { position: "top-right", autoClose: 2000, theme: "colored" })
+                    localStorage.setItem('token', res.access_token)
+                    setLoading(false)
+                    navigate('/send-money')
+                }else if(res.code == "400"){
+                    toast.error(res.message,
                     { position: "top-right", autoClose: 2000, theme: "colored" });
-            }
-            setLoading(false)
-        })
+                    setLoading(false)
+                }            
+            }).catch((error) => {
+                console.log(error.response)
+                if (error.response.status == 400) {
+                    toast.error(error.response.data.message,
+                        { position: "top-right", autoClose: 2000, theme: "colored" });
+                }
+                setLoading(false)
+            })
+        } else {
+
+            toast.error("Please enter 6 digit O.T.P", { position: "top-right", autoClose: 2000, theme: "colored" })
+        }
+       
 
     }
 

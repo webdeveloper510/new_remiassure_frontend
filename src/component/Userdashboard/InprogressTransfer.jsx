@@ -152,11 +152,7 @@ const InprogressTransfer = () => {
       LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
 
       <div className="card">
-        <div className="card-header d-block d-sm-flex border-0">
-          <div className="me-3">
-            {/* <h4 className="fs-20 text-black">InProgress Transaction</h4> */}
-          </div>
-        </div>
+        
         <div className="card-body">
           <div className="tabs-recipent-new">
              {/* Start------- Loader functionalty */}
