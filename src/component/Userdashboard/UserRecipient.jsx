@@ -15,25 +15,25 @@ import Page404 from "../pageNotfound/Page404";
 
 
 const UserRecipients = () => {
- 
+
     /********************  Start page show hide condtion page ******** */
     const token = localStorage.getItem("token");
-    console.log("TOKEN", token);
+    // console.log("TOKEN", token);
 
     const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-    console.log("LoginDigitalidVerified", LoginDigitalidVerified)
+    // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
     const signup_token = localStorage.getItem("signup_token")
-    console.log("signup_token", signup_token);
+    // console.log("signup_token", signup_token);
 
     const verification_otp = localStorage.getItem("verification_otp");
-    console.log("Verification Message", verification_otp)
+    // console.log("Verification Message", verification_otp)
 
     const RecipientUserName = localStorage.getItem("RecipientUserName");
-    console.log("RecipientUserName", RecipientUserName);
+    // console.log("RecipientUserName", RecipientUserName);
 
     const DigitalCode = localStorage.getItem("DigitalCode");
-    console.log("DigitalCode", DigitalCode);
+    // console.log("DigitalCode", DigitalCode);
 
 
     /********************State ******** */
@@ -59,17 +59,17 @@ const UserRecipients = () => {
     // Start page show hide condtion page
     const [data, setData] = useState([]);
     const [RecepientsData, setRecepientsData] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     //let { id } = useParams();
     // console.log(id, "idvalue")
 
     const LoadEdit = (id) => {
-        navigate(`/Editrecipientuser/${id}`);
+        navigate(`/edit-recipient-user/${id}`);
     }
 
     const LoadSinglProfile = (id) => {
-        navigate(`/profilesingledata/${id}`);
+        navigate(`/profile-single-data/${id}`);
     }
 
     const navigate = useNavigate();
@@ -165,121 +165,151 @@ const UserRecipients = () => {
     return (
         <>
             {/* <!-- ======= Recept RemitAssure-Section start ======= --> */}
-          {
-            LoginDigitalidVerified == 'true' || DigitalCode != undefined || ''? (
-
-        
-                <div className="margin-set">
-                    <div className="tabs-page">
-                        <Sidebar />
-                        <div className="content-body">
-                     {/* Start------- Loader functionalty */}
+            {/* LoginDigitalidVerified == 'true' || DigitalCode != undefined || "" */}
+            <div className="margin-set">
+                <div className="tabs-page">
+                    <Sidebar />
+                    <div className="content-body">
+                        {/* Start------- Loader functionalty */}
                         {loading ? <>
-                           <div class="loader-overly">
-                            <div class="loader" >
-
-                            </div>
+                            <div class="loader-overly">
+                                <div class="loader" >
+                                </div>
 
                             </div>
                         </> : <></>}
-                     {/* End------- Loader functionalty */}
-                                        
-                            {data?.length != 0 ? (
-                                <section className="user_recipients_section">
-                                    <div class="form-head mb-4">
-                                        <h2 class="text-black font-w600 mb-0"><b>Recipients Lists</b>
-                                            <NavLink to="/addnewrecipient">
-                                                <button className="form-button addsingle_recepient" >
-                                                    <BsFillPersonPlusFill />
-                                                    Add New Recepient
-                                                </button>
-                                            </NavLink>
-                                        </h2>
+                        {/* End------- Loader functionalty */}
+                        {
+                            !loading ? (
+                                <span>
+                                    {data?.length != 0 ? (
+                                        <section className="user_recipients_section">
+                                            <div class="form-head mb-4">
+                                                <h2 class="text-black font-w600 mb-0"><b>Recipients Lists</b>
+                                                    <NavLink to="/add-new-recipient">
+                                                        <button className="form-button addsingle_recepient" >
+                                                            <BsFillPersonPlusFill />
+                                                            Add New Recepient
+                                                        </button>
+                                                    </NavLink>
+                                                </h2>
+                                            </div>
 
-                                    </div>
-                                    <div className="col-lg-12">
-                                        {/* loader start */}
 
-                                        {loading ? <>
-                                            <div class="loader-overly">
-                                                <div class="loader" >
+                                            <div className="col-lg-12">
+                                                {/* loader start */}
 
+                                                {loading ? <>
+                                                    <div class="loader-overly">
+                                                        <div class="loader" >
+
+                                                        </div>
+
+                                                    </div>
+                                                </> : <></>}
+                                                {/* loader End */}
+
+                                                <div className="card">
+                                                    <div className="card-body">
+                                                        <Table className="table table-responsive-md card-table previous-transaction">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Sr.No </th>
+                                                                    <th>Name</th>
+                                                                    <th>Destination</th>
+                                                                    <th>Transfer Now Link</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {
+                                                                    data.data?.map((res, index) => {
+                                                                        //console.log(items, "itemnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+                                                                        return (
+
+                                                                            <tr key={res.id}>
+
+                                                                                <td>{index + 1}</td>
+                                                                                <td>{res.name}</td>
+                                                                                <td>{res.destination}</td>
+                                                                                <td>{res.transfer_now}</td>
+                                                                                <td>
+                                                                                    <button className="btn btn-danger" onClick={() => handleShow(res.id)}><i class="fa fa-trash"></i> Delete</button>
+                                                                                    <button className="btn btn-primary" onClick={() => { LoadEdit(res.id) }}><i class="fa fa-pencil color-muted"></i> Edit</button>
+                                                                                </td>
+
+                                                                            </tr>
+
+                                                                        )
+                                                                    })}
+
+
+                                                            </tbody>
+                                                        </Table>
+
+
+                                                        <Modal show={show} onHide={handleClose}>
+                                                            <Modal.Header closeButton>
+                                                                <Modal.Title>Delete Recipient</Modal.Title>
+                                                            </Modal.Header>
+                                                            <Modal.Body>Are you sure you want to delete ?</Modal.Body>
+                                                            <Modal.Footer>
+                                                                <Button variant="secondary" onClick={handleClose}>
+                                                                    Close
+                                                                </Button>
+                                                                <Button className="delete_recipient" variant="danger" onClick={() => { handleRemoveRecipientBankDetails(delete_id) }} >
+                                                                    Delete
+                                                                </Button>
+                                                            </Modal.Footer>
+                                                        </Modal>
+
+
+
+                                                    </div>
                                                 </div>
-
                                             </div>
-                                        </> : <></>}
-                                        {/* loader End */}
 
-                                        <div className="card">
-                                            <div className="card-body">
-                                                <Table className="table table-responsive-md card-table previous-transaction">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Sr.No </th>
-                                                            <th>Name</th>
-                                                            <th>Destination</th>
-                                                            <th>Transfer Now Link</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {
-                                                            data.data?.map((res, index) => {
-                                                                //console.log(items, "itemnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
-                                                                return (
+                                        </section>
+                                    ) : (
+                                        <>
+                                            <section>
+                                                <div class="form-head mb-4">
+                                                    <h2 class="text-black font-w600 mb-0"><b>Add Recipient</b></h2>
+                                                </div>
+                                                <div className="card">
+                                                    <div className="card-body">
+                                                        <div className="add-rec-new">
+                                                            <img src={norecipients} alt="empty" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className={isActive ? "add-recipent-section" : "remove-add-recipent-section"}>
 
-                                                                    <tr key={res.id}>
-
-                                                                        <td>{index + 1}</td>
-                                                                        <td>{res.name}</td>
-                                                                        <td>{res.destination}</td>
-                                                                        <td>{res.transfer_now}</td>
-                                                                        <td>
-                                                                            <button className="btn btn-danger" onClick={() => handleShow(res.id)}><i class="fa fa-trash"></i> Delete</button>
-                                                                            <button className="btn btn-primary" onClick={() => { LoadEdit(res.id) }}><i class="fa fa-pencil color-muted"></i> Edit</button>
-                                                                        </td>
-
-                                                                    </tr>
-
-                                                                )
-                                                            })}
-
-
-                                                    </tbody>
-                                                </Table>
-
-
-                                                <Modal show={show} onHide={handleClose}>
-                                                    <Modal.Header closeButton>
-                                                        <Modal.Title>Delete Recipient</Modal.Title>
-                                                    </Modal.Header>
-                                                    <Modal.Body>Are you sure you want to delete ?</Modal.Body>
-                                                    <Modal.Footer>
-                                                        <Button variant="secondary" onClick={handleClose}>
-                                                            Close
-                                                        </Button>
-                                                        <Button className="delete_recipient" variant="danger" onClick={() => { handleRemoveRecipientBankDetails(delete_id) }} >
-                                                            Delete
-                                                        </Button>
-                                                    </Modal.Footer>
-                                                </Modal>
-
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </section>
+                                                    <div className="col-md-12 align-center">
+                                                        <NavLink to="/add-new-recipient">
+                                                            <button className="form-button addsingle_recepient" >
+                                                                <BsFillPersonPlusFill />
+                                                                Add New Recepients
+                                                            </button>
+                                                        </NavLink>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </>
+                                    )
+                                    }
+                                </span>
                             ) : (
                                 <>
+                                    <div class="loader-overly">
+                                        <div class="loader" >
+                                        </div>
+
+                                    </div>
                                 </>
                             )
-                            }
-
-
-
-                            {data?.length == 0 ? (
+                        }
+                        {/* {data?.length == 0 ? (
                                 <>
                                  <section>
                                         <div class="form-head mb-4">
@@ -309,27 +339,15 @@ const UserRecipients = () => {
                                 <>
                                 </>
                             )
-                            }
-
-
-                        </div>
+                            } */}
                     </div>
                 </div>
-         
-
-            ) : (
-                <>
-                <Page404 />
-                </>
-            )
-            }
+            </div>
 
             {/* <!-- ======= Recept RemitAssure-Section End ======= --> */}
 
         </>
     )
 }
-
-
 
 export default UserRecipients;

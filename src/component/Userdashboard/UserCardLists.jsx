@@ -19,32 +19,27 @@ const UserCardLists = () => {
 
     /***************************Start page show hide condtion pages ************************/
     const token = localStorage.getItem("token");
-    console.log("TOKEN", token);
+    // console.log("TOKEN", token);
 
     const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-    console.log("LoginDigitalidVerified", LoginDigitalidVerified)
+    // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
     const verification_otp = localStorage.getItem("verification_otp");
-    console.log("Verification Message", verification_otp)
+    // console.log("Verification Message", verification_otp)
 
     const RecipientUserName = localStorage.getItem("RecipientUserName");
-    console.log("RecipientUserName", RecipientUserName);
+    // console.log("RecipientUserName", RecipientUserName);
 
     const signup_token = localStorage.getItem("signup_token")
-    console.log("signup_token", signup_token);
+    // console.log("signup_token", signup_token);
 
     const DigitalCode = localStorage.getItem("DigitalCode");
-    console.log("DigitalCode", DigitalCode);
-
-
-
+    // console.log("DigitalCode", DigitalCode);
 
     // Start page show hide condtion page
     const [carddata, setCarddata] = useState([]);
     const [RecepientsData, setRecepientsData] = useState('');
-    const [loading, setLoading] = useState(false);
-
-
+    const [loading, setLoading] = useState(true);
 
 
     // let { id } = useParams();
@@ -60,9 +55,7 @@ const UserCardLists = () => {
         console.log("=========>cardDelete", key)
         setShow(true);
         setDelete_Id(key)
-
     }
-
 
     const [isActive, setActive] = useState("false");
 
@@ -70,26 +63,21 @@ const UserCardLists = () => {
         setActive(!isActive);
     };
 
-
-
     // const LoadEditCard = (id) => {
-    //     navigate(`/EditCardUser/${id}`);
+    //     navigate(`/edit-card-user/${id}`);
     // }
 
     const LoadEditCard = (id) => {
-        navigate(`/EditCardUser/${id}`);
+        navigate(`/edit-card-user/${id}`);
     }
 
     const LoadSinglCardData = (id) => {
-        navigate(`/singleCardData/${id}`);
+        navigate(`/single-card-data/${id}`);
     }
 
     const navigate = useNavigate();
 
     // const notify = () => toast.success("User Data Get Successfully!");
-
-
-
 
     /**************************************************************************
    * ************** Start  Recipient List ************************************
@@ -113,9 +101,6 @@ const UserCardLists = () => {
                 console.log(carddata)
                 localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
                 setLoading(false); // Stop loading
-
-
-
                 //   if (response.status)
                 // // notify();
             })
@@ -123,9 +108,7 @@ const UserCardLists = () => {
                 console.log(error);
                 console.log(error.response);
                 setLoading(false); // Stop loading in case of error
-
             })
-
     }
 
     console.log(carddata, " nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
@@ -142,7 +125,6 @@ const UserCardLists = () => {
             headers: {
                 "Authorization": `Bearer ${signup_token ? signup_token : token}`,
             },
-
         })
             .then(function (response) {
                 console.log(response);
@@ -151,17 +133,12 @@ const UserCardLists = () => {
                 // alert('Remove Successfully.')
                 // setLoading(false); // Stop loading 
                 // navigate('/userrecipients');   
-
-
             })
             .catch(function (error, message) {
                 console.log(error.response);
                 // setLoading(false); // Stop loading in case of error
-
-
             })
     }
-
 
     return (
         <>

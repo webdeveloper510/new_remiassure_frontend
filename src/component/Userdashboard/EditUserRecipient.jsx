@@ -114,11 +114,11 @@ const Editrecipientuser = () => {
 
   const recipientSchema = Yup.object().shape({
     bank_name: Yup.string().min(2).max(50).required(),
-      accountName: Yup.string().min(2).max(50).required(),
-      accountNumber: Yup.string().min(11).max(17).required(),
-    firstName: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("First name is required"),
-    middleName: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("Middle Name is required"),
-    lastName: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("Last name is required"),
+    account_name: Yup.string().min(2).max(50).required(),
+    account_number: Yup.string().min(11).max(17).required(),
+    first_name: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("First name is required"),
+    middle_name: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("Middle Name is required"),
+    last_name: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("Last name is required"),
     email: Yup.string().email().min(6, "Minimum 6 Letter").max(50, "Maximum 50 letter").required("Email is required"),
     mobile: Yup.string().min(7).max(15).required(),
     flat: Yup.string().min(1, "Minimum 1 Letter").max(200, "Maximum 200 letter").required("Flat No. is required"),
@@ -130,6 +130,23 @@ const Editrecipientuser = () => {
     
   })
 
+  const initialValues = {
+    bank_name:"",
+    account_name:"",
+    account_number:"",
+    first_name: '',
+    middle_name: '',
+    last_name: "",
+    email: "",
+    mobile: "",
+    flat: "",
+    building: "",
+    street: "",
+    city: '',
+    state: '',
+    country: '',
+  
+  }
   
 
   const countries = [
@@ -467,23 +484,7 @@ const input_country = useRef(null);
     * ***********************************************************************/
 
   /* start-- useRef is used for focusing on inputbox */
-  const initialValues = {
-    bank_name:"",
-    account_name:"",
-    account_number:"",
-    first_name: '',
-    middle_name: '',
-    last_name: "",
-    email: "",
-    mobile: "",
-    flat: "",
-    building: "",
-    street: "",
-    city: '',
-    state: '',
-    country: '',
   
-  }
   useEffect(() => {
     console.log("Data=========>", id)
     //  setLoading(true); // Set loading before sending API requestssss
@@ -495,17 +496,23 @@ const input_country = useRef(null);
       .then(function (response) {
         console.log(response);
         let value = response.data.data
-        console.log({...data, bank_name: value.bank_name, account_name: value.account_name,
-          account_number: value.account_number, first_name: value.first_name, middle_name: value.middle_name,
-          last_name: value.last_name, email: value.email, mobile: value.mobile,
-          flat: value.flat, building: value.building, state: value.state, city: value.city,
-           street: value.street, country: value.country,})
+        
         //  setLoading(false); // Stop loading   
-        setData({...data, bank_name: value.bank_name, account_name: value.account_name,
-          account_number: value.account_number, first_name: value.first_name, middle_name: value.middle_name,
-          last_name: value.last_name, email: value.email, mobile: value.mobile,
-          flat: value.flat, building: value.building, state: value.state, city: value.city,
-           street: value.street, country: value.country,})
+        setData({...data, 
+          bank_name: value.bank_name, 
+          account_name: value.account_name,
+          account_number: value.account_number, 
+          first_name: value.first_name, 
+          middle_name: value.middle_name,
+          last_name: value.last_name, 
+          email: value.email, 
+          mobile: value.mobile,
+          flat: value.flat, 
+          building: value.building, 
+          state: value.state, 
+          city: value.city,
+          street: value.street, 
+          country: value.country,})
       })
       .catch(function (error, message) {
         console.log(error.response);
@@ -597,7 +604,7 @@ const input_country = useRef(null);
       .then(function (response) {
         console.log(response);
         setLoading(false); // Stop loading 
-        navigate('/userrecipients');
+        navigate('/user-recipients');
 
       })
       .catch(function (error, message) {
@@ -669,7 +676,7 @@ const input_country = useRef(null);
                 <section className="edit_recipient_section">
                   <div class="form-head mb-4">
                     <h2 class="text-black font-w600 mb-0"><b>Update Recipient </b>
-                      <NavLink to="/userrecipients">
+                      <NavLink to="/user-recipients">
                         <button className="start-form-button back-btn" >
                           <MdOutlineKeyboardBackspace />
                           Back
@@ -699,7 +706,8 @@ const input_country = useRef(null);
                               type="text"
                                 autoComplete='off'
                                 placeholder="Enter Bank Name"
-                                {...formik.getFieldProps('bank_name')}
+                                name="bank_name"
+                                onChange={(e)=>setData({data, bank_name:e.target.value})}
                                 className={clsx(
                                   'form-control bg-transparent',
                                   { 'is-invalid': formik.touched.bank_name && formik.errors.bank_name },
@@ -729,7 +737,8 @@ const input_country = useRef(null);
                               type="text"
                                 autoComplete='off'
                                 placeholder="Enter Account Name"
-                                {...formik.getFieldProps('account_name')}
+                                name="account_name"
+                                onChange={(e)=>setData({data, account_name:e.target.value})}
                                 className={clsx(
                                   'form-control bg-transparent',
                                   { 'is-invalid': formik.touched.account_name && formik.errors.account_name },
@@ -753,7 +762,8 @@ const input_country = useRef(null);
                                autoComplete='off'
                                value={data.account_number}
                                placeholder="Enter Account Number"
-                               {...formik.getFieldProps('account_number')}
+                               name="account_number"
+                                onChange={(e)=>setData({data, account_number:e.target.value})}
                                className={clsx(
                                  'form-control bg-transparent',
                                  { 'is-invalid': formik.touched.account_number && formik.errors.account_number },
@@ -780,7 +790,8 @@ const input_country = useRef(null);
                                 autoComplete='off'
                                 value={data.first_name}
                                 placeholder="Enter first name"
-                                {...formik.getFieldProps('first_name')}
+                                name="first_name"
+                                onChange={(e)=>setData({data, first_name:e.target.value})}
                                 className={clsx(
                                   'form-control bg-transparent',
                                   { 'is-invalid': formik.touched.first_name && formik.errors.first_name },
@@ -805,7 +816,8 @@ const input_country = useRef(null);
                                 placeholder="Enter middle name"
                                 autoComplete='off'
                                 value={data.middle_name}
-                                {...formik.getFieldProps('middleName')}
+                                name="middle_name"
+                                onChange={(e)=>setData({data, middle_name:e.target.value})}
                               />
                               {errorUserRecipient&&middleName.length<=0?
                               <span style={myStyle}>Please Enter the Middle Name </span>:""} 
@@ -821,7 +833,8 @@ const input_country = useRef(null);
                                 placeholder="Enter last name"
                                 autoComplete='off'
                                 value={data.last_name}
-                                {...formik.getFieldProps('last_name')}
+                                name="last_name"
+                                onChange={(e)=>setData({data, last_name:e.target.value})}
                                 className={clsx(
                                   'form-control bg-transparent',
                                   { 'is-invalid': formik.touched.last_name && formik.errors.last_name },
@@ -847,7 +860,8 @@ const input_country = useRef(null);
                                 autoComplete='off'
                                 value={data.email}
                                 // onChange={formik.getFieldProps('email')}
-                                {...formik.getFieldProps('email')}
+                                name="email"
+                                onChange={(e)=>setData({data, email:e.target.value})}
                                 className={clsx(
                                   'form-control bg-transparent',
                                   { 'is-invalid': formik.touched.email && formik.errors.email },
@@ -920,7 +934,8 @@ const input_country = useRef(null);
                                 placeholder="Enter Flat No."
                                 autoComplete='off'
                                 value={data.flat}
-                                {...formik.getFieldProps('flat')}
+                                name="flat"
+                                onChange={(e)=>setData({data, flat:e.target.value})}
                                 className={clsx(
                                   'form-control bg-transparent',
                                   { 'is-invalid': formik.touched.flat && formik.errors.flat },
@@ -942,7 +957,8 @@ const input_country = useRef(null);
                                 autoComplete='off'
                                 value={data.building}
                                 placeholder="Enter building no."
-                                {...formik.getFieldProps('building')}
+                                name="building"
+                                onChange={(e)=>setData({data, building:e.target.value})}
                                 className={clsx(
                                   'form-control bg-transparent',
                                   { 'is-invalid': formik.touched.building && formik.errors.building },
@@ -962,7 +978,8 @@ const input_country = useRef(null);
                                 type="text"
                                 placeholder="Enter street"
                                 autoComplete='off'
-                                {...formik.getFieldProps('street')}
+                                name="street"
+                                onChange={(e)=>setData({data, street:e.target.value})}
                                 className={clsx(
                                   'form-control bg-transparent',
                                   { 'is-invalid': formik.touched.street && formik.errors.street },
@@ -997,7 +1014,8 @@ const input_country = useRef(null);
                                 type="text"
                                 placeholder="Enter City"
                                 autoComplete='off'
-                                {...formik.getFieldProps('city')}
+                                name="city"
+                                onChange={(e)=>setData({data, city:e.target.value})}
                                 className={clsx(
                                   'form-control bg-transparent',
                                   { 'is-invalid': formik.touched.city && formik.errors.city },
@@ -1017,7 +1035,8 @@ const input_country = useRef(null);
                                 type="text"
                                 placeholder="Enter State"
                                 autoComplete='off'
-                                {...formik.getFieldProps('state')}
+                                name="state"
+                                onChange={(e)=>setData({data, state:e.target.value})}
                                 className={clsx(
                                   'form-control bg-transparent',
                                   { 'is-invalid': formik.touched.state && formik.errors.state },
@@ -1035,7 +1054,7 @@ const input_country = useRef(null);
                               <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                               <Form.Select
                                 name="country"
-                                {...formik.getFieldProps('country')}
+                                onChange={(e)=>setData({data, country:e.target.value})}
                                 value={data.country}
                                 className={clsx(
                                   'form-control bg-transparent',
@@ -1053,13 +1072,9 @@ const input_country = useRef(null);
                                     )
                                   })
                                 }
-
-
                               </Form.Select>
                                  {errorUserRecipient&&country.length<=0?
                                   <span style={myStyle}>Please Enter the Country Name</span>:""} 
-
-
                               {/* <CountryDropdown
                        id="UNIQUE_ID" 
                        className='YOUR_CSS_CLASS rate_input form-control'
