@@ -9,16 +9,23 @@ import { useNavigate } from 'react-router';
 import { Axios } from 'axios';
 
 const SenderDetails = ({ handleStep, step }) => {
-const userd =  JSON.parse(localStorage.getItem("remi-user-dt"))
+  const userd = JSON.parse(localStorage.getItem("remi-user-dt"))
+  const tdata = localStorage.getItem("transfer_data")
 
   const [data, setData] = useState({
-    f_name: "", m_name: "", l_name: "", email: userd.email, mobile:userd.mobile, customer_id: userd.customer_id, gender: "Male",
-    country_of_birth: "", dob: "", flat: "", build_no: "", street: "", city: "", country: "", post_code: "", state: ""
+    f_name: tdata?.sender?.f_name || "", m_name: tdata?.sender?.m_name || "", l_name: tdata?.sender?.l_name || "",
+    email: userd.email, mobile: userd.mobile, customer_id: userd.customer_id, gender: tdata?.sender?.gender || "Male",
+    country_of_birth: tdata?.sender?.country_of_birth || "", dob: tdata?.sender?.dob || "", flat: tdata?.sender?.flat || "",
+    build_no: tdata?.sender?.build_no || "", street: tdata?.sender?.street || "", city: tdata?.sender?.city || "", country: tdata?.sender?.country || "",
+    post_code: tdata?.sender?.post_code || "", state: tdata?.sender?.state || ""
   })
 
   const initialValues = {
-    f_name: "", m_name: "", l_name: "", email:  userd.email, mobile:userd.mobile, customer_id:userd.customer_id, gender: "Male",
-    country_of_birth: "", dob: "", flat: "", build_no: "", street: "", city: "", country: "", post_code: "", state: ""
+    f_name: tdata?.sender?.f_name || "", m_name: tdata?.sender?.m_name || "", l_name: tdata?.sender?.l_name || "",
+    email: userd.email, mobile: userd.mobile, customer_id: userd.customer_id, gender: tdata?.sender?.gender || "Male",
+    country_of_birth: tdata?.sender?.country_of_birth || "", dob: tdata?.sender?.dob || "", flat: tdata?.sender?.flat || "",
+    build_no: tdata?.sender?.build_no || "", street: tdata?.sender?.street || "", city: tdata?.sender?.city || "", country: tdata?.sender?.country || "",
+    post_code: tdata?.sender?.post_code || "", state: tdata?.sender?.state || ""
   }
 
   const navigate = useNavigate()
@@ -516,7 +523,7 @@ const userd =  JSON.parse(localStorage.getItem("remi-user-dt"))
             <div id="digitalid-verify"></div>
           ) : (
             <>
-              <button type='button' className="form-button" onClick={()=>formik.handleSubmit()}> Continue</button>
+              <button type='button' className="form-button" onClick={() => formik.handleSubmit()}> Continue</button>
             </>
           )
           }

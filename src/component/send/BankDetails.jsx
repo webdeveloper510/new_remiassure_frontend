@@ -12,17 +12,24 @@ import { useNavigate } from 'react-router';
 const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   const navigate = useNavigate();
-
-
+  const tdata = localStorage.getItem("transfer_data")
 
   const [data, setData] = useState({
-    bank: "", acc_name: "", acc_no: "", f_name: "", l_name: "", m_name: "", email: "", mobile: "",
-    flat: "", build_no: "", street: "", city: "", post_code: "", state: "", country: "", reason: ""
+    bank: tdata?.recipient?.bank || "", acc_name: tdata?.recipient?.acc_name || "", acc_no: tdata?.recipient?.acc_no || "",
+    f_name: tdata?.recipient?.f_name || "", l_name: tdata?.recipient?.l_name || "", m_name: tdata?.recipient?.m_name || "",
+    email: tdata?.recipient?.email || "", mobile: tdata?.recipient?.mobile || "", flat: tdata?.recipient?.flat || "",
+    build_no: tdata?.recipient?.build_no || "", street: tdata?.recipient?.street || "", city: tdata?.recipient?.city || "",
+    post_code: tdata?.recipient?.post_code || "", state: tdata?.recipient?.state || "", country: tdata?.recipient?.country || "",
+    reason: tdata?.recipient?.reason || ""
   })
 
   const initialValues = {
-    bank: "", acc_name: "", acc_no: "", f_name: "", l_name: "", m_name: "", email: "", mobile: "",
-    flat: "", build_no: "", street: "", city: "", post_code: "", state: "", country: "", reason: ""
+    bank: tdata?.recipient?.bank || "", acc_name: tdata?.recipient?.acc_name || "", acc_no: tdata?.recipient?.acc_no || "",
+    f_name: tdata?.recipient?.f_name || "", l_name: tdata?.recipient?.l_name || "", m_name: tdata?.recipient?.m_name || "",
+    email: tdata?.recipient?.email || "", mobile: tdata?.recipient?.mobile || "", flat: tdata?.recipient?.flat || "",
+    build_no: tdata?.recipient?.build_no || "", street: tdata?.recipient?.street || "", city: tdata?.recipient?.city || "",
+    post_code: tdata?.recipient?.post_code || "", state: tdata?.recipient?.state || "", country: tdata?.recipient?.country || "",
+    reason: tdata?.recipient?.reason || ""
   }
 
   const [show, setShow] = useState(false)
@@ -66,11 +73,11 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
     }
     else if (!pattern.test(event.key)) {
-        event.preventDefault();
-        event.stopPropagation()
+      event.preventDefault();
+      event.stopPropagation()
     } else {
-        setData({ ...data, acc_no: event.target.value })
-        formik.setFieldValue('acc_no', event.target.value)
+      setData({ ...data, acc_no: event.target.value })
+      formik.setFieldValue('acc_no', event.target.value)
     }
   }
 
@@ -80,11 +87,11 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
     }
     else if (!pattern.test(event.key)) {
-        event.preventDefault();
-        event.stopPropagation()
+      event.preventDefault();
+      event.stopPropagation()
     } else {
-        setData({ ...data, mobile: event.target.value })
-        formik.setFieldValue('mobile', event.target.value)
+      setData({ ...data, mobile: event.target.value })
+      formik.setFieldValue('mobile', event.target.value)
     }
   }
 
@@ -94,11 +101,11 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
     }
     else if (!pattern.test(event.key)) {
-        event.preventDefault();
-        event.stopPropagation()
+      event.preventDefault();
+      event.stopPropagation()
     } else {
-        setData({ ...data, post_code: event.target.value })
-        formik.setFieldValue('post_code', event.target.value)
+      setData({ ...data, post_code: event.target.value })
+      formik.setFieldValue('post_code', event.target.value)
     }
   }
 
@@ -112,14 +119,14 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     local.recipient = data
     localStorage.removeItem("transfer_data")
     localStorage.setItem("transfer_data", JSON.stringify(local))
-    if(localStorage.getItem("send-step")){
+    if (localStorage.getItem("send-step")) {
       localStorage.removeItem("send-step")
-  }
-  localStorage.setItem("send-step", Number(step) + 1)
-    handleStep(Number(step)+1)
+    }
+    localStorage.setItem("send-step", Number(step) + 1)
+    handleStep(Number(step) + 1)
   }
 
- 
+
 
   const handleCancel = () => {
     localStorage.removeItem("send-step")

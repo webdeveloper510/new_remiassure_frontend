@@ -8,10 +8,18 @@ import { useNavigate } from 'react-router';
 
 const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
 
-const navigate = useNavigate()
+    const navigate = useNavigate()
+    const data = useLocation()?.state
+    const tdata = JSON.parse(localStorage.getItem("transfer_data"))
+
     const [exch_rate, setExchRate] = React.useState('1.0998');
     const [amt_detail, setAmtDetail] = useState({
-        send_amt: "", exchange_amt: "", from_type: "AUD", to_type: "NZD", recieve_meth: "Bank Transfer", payout_part: "Bank"
+        send_amt: tdata?.amt?.send_amt || data?.send_amt || "",
+        exchange_amt: tdata?.amt?.exchange_amt || data?.exchange_amt || "",
+        from_type: tdata?.amt?.from_type || data?.from_type || "AUD",
+        to_type: tdata?.amt?.to_type || data?.to_type || "NZD",
+        recieve_meth: tdata?.amt?.recieve_meth || data?.recieve_meth || "Bank Transfer",
+        payout_part: tdata?.amt?.payout_part || data?.payout_part || "Bank"
     })
 
 
@@ -26,12 +34,12 @@ const navigate = useNavigate()
     })
 
     const initialValues = {
-        send_amt: "",
-        exchange_amt: "",
-        from_type: "AUD",
-        to_type: "NZD",
-        recieve_meth: "Bank Transfer",
-        payout_part: "Bank"
+        send_amt: tdata?.amt?.send_amt || data?.send_amt || "",
+        exchange_amt: tdata?.amt?.exchange_amt || data?.exchange_amt || "",
+        from_type: tdata?.amt?.from_type || data?.from_type || "AUD",
+        to_type: tdata?.amt?.to_type || data?.to_type || "NZD",
+        recieve_meth: tdata?.amt?.recieve_meth || data?.recieve_meth || "Bank Transfer",
+        payout_part: tdata?.amt?.payout_part  || "Bank"
     }
 
     const formik = useFormik({
@@ -47,7 +55,7 @@ const navigate = useNavigate()
                 recieve_meth: values.recieve_meth,
                 payout_part: values.payout_part
             })
-            let local={}
+            let local = {}
             if (localStorage.getItem("transfer_data")) {
                 local = JSON.parse(localStorage.getItem("transfer_data"))
             }
@@ -120,7 +128,7 @@ const navigate = useNavigate()
         localStorage.removeItem("send-step")
         localStorage.removeItem("transfer_data")
         navigate("/")
-      }
+    }
 
     const myTotalAmountTo = (e) => {
         console.log(e.target.value)
@@ -262,6 +270,7 @@ const navigate = useNavigate()
                                 type="text"
                                 value={amt_detail?.exchange_amt}
                                 className='rate_input form-control'
+                                readOnly
                             />
                         </div>
                     </div>
@@ -339,7 +348,7 @@ const navigate = useNavigate()
                         <button
                             type='button'
                             className="start-form-button"
-                            onClick={()=>handleCancel()}
+                            onClick={() => handleCancel()}
                         >Cancel</button>
                     </div>
                     <div className="col-md-8">
