@@ -255,14 +255,14 @@ const Home = () => {
         onSubmit: async (values) => {
             setLoading(true)
             exchangeRate({ amount: values.amount, from: values.from, to: values.to, paymentMethod: values.paymentMethod }).then((res) => {
-                console.log(res)
+                // console.log(res)
                 if (res.code == "200") {
                     setLoading(false)
                     localStorage.setItem("amount", data.amt1)
                     localStorage.setItem("exchangeAmount", res.amount)
                     if (token) {
                         if (userdt?.digital_id_verified) {
-                            navigate("/usersendmoney")
+                            navigate("/user-send-money")
                         } else {
                             const obj = {send_amt:data.amt1 , exchange_amt: res?.amount, from_type:values.from, to_type: values.to, recieve_meth: values.paymentMethod}
                             navigate("/send-money",{state:obj})
@@ -273,7 +273,7 @@ const Home = () => {
 
                 }
             }).catch((error) => {
-                console.log(error.response)
+                // console.log(error.response)
                 if (error.response.data.code == "400") {
                     toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" })
                 }
@@ -285,12 +285,12 @@ const Home = () => {
         event.preventDefault();
         setLoading(true); 
         exchangeRate({ amount: data.amt1, from: data.amtC1, to: data.amtc2, paymentMethod: initialValues.paymentMethod }).then((res) => {
-            console.log(res)
+            // console.log(res)
             setData({ ...data, amt2: res.amount })
             setTotal_rates(res.rate)
             setLoading(false)
         }).catch((error) => {
-            console.log(error.response)
+            // console.log(error.response)
             if (error.response.data.code == "400") {
                 toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" })
             }
@@ -299,7 +299,7 @@ const Home = () => {
     }
 
     const inputvalidation = (event) => {
-        console.log("dfjghfguh---------------", event.key)
+        // console.log("dfjghfguh---------------", event.key)
         const pattern = /^[0-9.,]+$/;
         if (event.key === 'Backspace') {
 

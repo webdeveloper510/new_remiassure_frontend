@@ -33,7 +33,7 @@ const Footer = () => {
         ];
 
         const NavigationItems = navigationData.map((value) => {
-            console.log(navigationData, "ooook")
+            // console.log(navigationData, "ooook")
             return(
                 <li key={value.id}>
                  <NavLink to="#">{value.content}</NavLink>
@@ -144,7 +144,7 @@ function LegalArrayObjects(){
                   
                     <ul>
                     <li><NavLink to="/">Home</NavLink></li>
-                   <li> <NavLink to="/aboutus">About Us</NavLink></li>
+                   <li> <NavLink to="/about-us">About Us</NavLink></li>
                    <li><a href="#">What We Do</a></li>
                    <li><a href="#">To The Power of 10</a></li>
                    <li><a href="#">Donate</a></li>

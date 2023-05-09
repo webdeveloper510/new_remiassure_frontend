@@ -22,21 +22,7 @@ const Profile = () => {
 
   /**************************token ************************ */
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
-
-  const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
-
-  const signup_token = localStorage.getItem("signup_token")
-  console.log("signup_token", signup_token);
-
-
-  const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp);
-
-
-  const DigitalCode = localStorage.getItem("DigitalCode");
-  console.log("DigitalCode", DigitalCode);
+  const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
 
 
   /**************************Feild of state ************************ */
@@ -122,7 +108,7 @@ const Profile = () => {
         confirmPassword: confirmPassword,
       }, {
         headers: {
-          "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+          "Authorization": `Bearer ${token}`,
         }
       }, {
       })
@@ -152,10 +138,6 @@ const Profile = () => {
     <>
 
       {/* <!-- ======= help Remitassure Change password -Section  start======= --> */}
-
-      {
-        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
-
           <div className="margin-set">
             <div className="tabs-page">
               <Sidebar />
@@ -258,15 +240,6 @@ const Profile = () => {
               </div>
             </div>
           </div>
-
-        ) : (
-          <>
-            <Page404 />
-          </>
-        )
-      }
-
-
       {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
 
     </>

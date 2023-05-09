@@ -41,13 +41,13 @@ const Card = (props) => {
 const Referral = () => {
 
 const token = localStorage.getItem("token");
-console.log("TOKEN", token);
+// console.log("TOKEN", token);
 
 const signup_token = localStorage.getItem("signup_token")
-console.log("signup_token", signup_token);
+// console.log("signup_token", signup_token);
 
 const verification_otp = localStorage.getItem("verification_otp");
-console.log("Verification Message", verification_otp)
+// console.log("Verification Message", verification_otp)
 
 /**************************Recipient of state ************************ */
 const [dataRefferal, setDataRefferal] = useState([]);
@@ -64,17 +64,17 @@ const [dataRefferal, setDataRefferal] = useState([]);
             }
           })
           .then(function(response) {
-              console.log("Recipients APIIIII", response.data);
+            //   console.log("Recipients APIIIII", response.data);
               setDataRefferal(response.data);
           })
           .catch(function(error) {
-              console.log(error);
-              console.log(error.response);
+            //   console.log(error);
+            //   console.log(error.response);
             
           })
     }, [])
 
-console.log(dataRefferal," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+// console.log(dataRefferal," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 
 
 

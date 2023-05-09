@@ -67,7 +67,7 @@ const Header = () => {
                 <NavLink className="" to="/">Home</NavLink>
               </li>
               <li>
-                <NavLink to="/aboutus"> About us</NavLink>
+                <NavLink to="/about-us"> About us</NavLink>
               </li>
               <li>
                 <NavLink to="/help">Help</NavLink>
@@ -93,7 +93,7 @@ const Header = () => {
                 ) : (
                   <>
                     <li>
-                      <NavLink to="/signup">Signup</NavLink>
+                      <NavLink to="/sign-up">Signup</NavLink>
                     </li>
                     <li>
                       <NavLink to="/login">Login</NavLink>
@@ -121,7 +121,7 @@ const Header = () => {
                     <NavLink className="" to="/" onClick={handleClose}><GoHome /> Home</NavLink>
                   </li>
                   <li>
-                    <NavLink to="/aboutus" onClick={handleClose}> <HiInformationCircle /> About us</NavLink>
+                    <NavLink to="/about-us" onClick={handleClose}> <HiInformationCircle /> About us</NavLink>
                   </li>
                   <li>
                     <NavLink to="/help" onClick={handleClose}><FaHandsHelping />Help</NavLink>
@@ -149,7 +149,7 @@ const Header = () => {
                     ) : (
                       <>
                         <li>
-                          <NavLink to="/signup" onClick={handleClose}><FaUserPlus />Signup</NavLink>
+                          <NavLink to="/sign-up" onClick={handleClose}><FaUserPlus />Signup</NavLink>
                         </li>
                         <li>
                           <NavLink to="/login" onClick={handleClose}><AiOutlineLogin />Login</NavLink>

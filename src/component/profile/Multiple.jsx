@@ -18,9 +18,9 @@ const Multiple = () => {
       try {
         const data = await axios.get("https://api.exchangeratesapi.io/latest");
         //setRatesList(data);
-        console.log(data);
+        // console.log(data);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     };
     fetchData();
@@ -30,7 +30,7 @@ const Multiple = () => {
     const from_cur = from_select.current.value;
     const to_cur = to_select.current.value;
     const from_amount = from_input.current.value;
-    console.log(from_cur);
+    // console.log(from_cur);
     axios
       .get("https://api.exchangeratesapi.io/latest?base=" + from_cur)
       .then((result) => {

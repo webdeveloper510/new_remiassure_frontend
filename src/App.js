@@ -7,16 +7,14 @@ import routes from './routes';
 import { useRoutes, useNavigate } from 'react-router-dom';
 import Header from './component/header/Header';
 import Footer from './component/footer/Footer';
-const App =()=>{
+const App = () => {
   const routing = useRoutes(routes);
 
-  return(
+  return (
     <>
-<Header />
-   {routing} 
-     {/* < Routerpage autoclose={3000} /> */}
-     {/* <GoToTop /> */}
-     <Footer />
+      <Header />
+      {routing}
+      <Footer />
     </>
   )
 }

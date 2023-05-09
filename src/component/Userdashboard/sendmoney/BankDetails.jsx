@@ -136,7 +136,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   return (
     <div>
-      <section>
+      {/* <section>
         <form onSubmit={formik.handleSubmit}>
 
           <div className="form_body">
@@ -570,7 +570,396 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             <button className="form-button" type="button" variant="primary" onClick={(e) => handleReciept(e)}>Continue</button>
           </Modal.Footer>
         </Modal>
-      </section>
+      </section> */}
+       <section>
+          <div className={isActive ? "col-md-12 add-recipent-section" : "col-md-12 remove-add-recipent-section"}>
+            <div class="form-head mb-4">
+              <h2 class="text-black font-w600 mb-0"><b>Select a recipient to send money</b>
+              </h2>
+
+            </div>
+
+
+            <div className="card">
+              <div className="card-body">
+
+
+                {data?.length != 0 ? (
+                  <div>
+                    {
+                      data.data?.map((res, index) => {
+                        return (
+
+                          <ul key={res.id}>
+                            <a onClick={() => { selectRecipientPayemen(res.id) }}>
+
+                              <li><a>{res.name} <BsChevronDoubleRight /></a></li>
+                            </a>
+
+                          </ul>
+
+                        )
+                      })}
+
+                  </div>
+                ) : (
+                  <>
+                  </>
+                )
+                }
+
+
+                {data?.length == 0 ? (
+                  <>
+                    <div class="no-recipt">
+                      <h5>No Recipient</h5>
+                      <img src={norecipients} alt="no-recipeint" />
+                    </div>
+                  </>
+
+                ) : (
+                  <>
+
+                  </>
+                )
+                }
+
+                <div className="add-rec">
+                  <button className="form-button" onClick={() => { setStep(step - 1) }} style={{ "float": "left" }}>Previous</button>
+                  <button className="form-button" onClick={handleToggle} style={{ "float": "right" }}><BsFillPersonPlusFill /> Add Recepients</button>
+                </div>
+
+
+              </div>
+            </div>
+
+          </div>
+
+
+          <div className={isActive ? "removerecepient" : "showrecepient"} >
+            <div class="form-head mb-4">
+              <h2 class="text-black font-w600 mb-0"><b>Recipient Bank Details</b>
+              </h2>
+            </div>
+            <form>
+              <div className="card">
+                <div className="card-body">
+                  <div className="row">
+                    <h5>Bank Information</h5>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+                          className="rate_input form-control"
+                          name="bankName"
+                          value={bankNameValue.bankName}
+                          onChange={(e) => handleBankValue(e, 'bankName')}
+                          ref={bankNameRef}
+                        />
+                        {/* {error&&formValue.bankName.length<=0?
+                        <span style={myStyle}>Please Enter the Bank Name </span>:""}   */}
+                        <span style={myStyle}>{BankNameText.Enterbank ? BankNameText.Enterbank : ''}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                        type="text"
+                        className="rate_input form-control"
+                        name="accountName"
+                        value={accountNameValue.accountName}
+                        onChange={(e) => handleAccountValue(e, 'accountName')}
+                        ref={accountNameRef}
+                        />
+
+                        <span style={myStyle}>{BankNameText.Enteraccountname ? BankNameText.Enteraccountname : ''}</span>
+                        {/* <span style={myStyle}>{BankNameText.message ? BankNameText.message : ''}</span> */}
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                         type="text"
+                         className="rate_input form-control"
+                         name="accountNumber"
+                         value={accountNumberValue.accountNumber}
+                         onChange={(e) => handleAccountNumberValue(e, 'accountNumber')}
+                         ref={accountNumberRef}
+                        />
+                        <span style={myStyle}>{BankNameText.Enteraccountnumber ? BankNameText.Enteraccountnumber : ''}</span>
+                        <span style={myStyle}>{BankNameText.Accountexist ? BankNameText.Accountexist : ''}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row each-row">
+                    <h5>Recipient Details</h5>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+                          // ref={input_recipientFirstName}
+                          className='rate_input form-control'
+                          name="firstName"
+                          defaultValue={formValue.firstName}
+                          onChange={(e) => handleStep2InputChange(e, 'firstName')}
+                        />
+                        <span style={myStyle}>{BankNameText.first_name ? BankNameText.first_name : ''}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Middle Name</p>
+                        <input
+                          type="text"
+                          // ref={input_recipientMiddleName}
+                          className='rate_input form-control'
+                          name="middleName"
+                          defaultValue={formValue.middleName}
+                          onChange={(e) => handleStep2InputChange(e, 'middleName')}
+                        />
+                        <span style={myStyle}>{BankNameText.middle_name ? BankNameText.middle_name : ''}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+                          // ref={input_recipientLastName}
+                          className='rate_input form-control'
+                          name="lastName"
+                          defaultValue={formValue.lastName}
+                          onChange={(e) => handleStep2InputChange(e, 'lastName')}
+                        />
+                        <span style={myStyle}>{BankNameText.last_name ? BankNameText.last_name : ''}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row each-row">
+                    <div className="col-md-6">
+                      <div className="input_field">
+                        <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="email"
+                          // ref={input_recipientEmail}
+                          className='rate_input form-control'
+                          name="email"
+                          defaultValue={formValue.email}
+                          onChange={(e) => handleStep2InputChange(e, 'email')}
+                        />
+                        <span style={myStyle}>{BankNameText.Enteremail ? BankNameText.Enteremail : ''}</span>
+                        <span style={myStyle}>{BankNameText.Emailexist ? BankNameText.Emailexist : ''}</span>
+                        <span style={myStyle}>{BankNameText.Emailinvalid ? BankNameText.Emailinvalid : ''}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="input_field">
+                        <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+                          // ref={input_recipientMobile}
+                          className='rate_input form-control'
+                          name="mobile"
+                          defaultValue={formValue.mobile}
+                          onChange={(e) => handleStep2InputChange(e, 'mobile')}
+                        />
+
+                         {/* <PhoneInput
+                          country={"eg"}
+                          enableSearch={true}
+                          name="mobile"
+                          defaultValue={inputPhoneValue.mobile}
+                          onChange={(e) => handleInputPhoneValue(e, 'mobile')}
+                          /> */}
+
+                        <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
+                        <span style={myStyle}>{BankNameText.Entermobile ? BankNameText.Entermobile : ''}</span>
+                        <span style={myStyle}>{BankNameText.Mobileexist ? BankNameText.Mobileexist : ''}</span>
+                        <span style={myStyle}>{BankNameText.Validmobile ? BankNameText.Validmobile : ''}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row each-row">
+                    <h5>Address</h5>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Flat/Unit No.</p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="flat"
+                          defaultValue={formValue.flat}
+                          onChange={(e) => handleStep2InputChange(e, 'flat')}
+                        />
+                        <span style={myStyle}>{BankNameText.Enterflat ? BankNameText.Enterflat : ''}</span>
+
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Building/Unit No.</p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="building"
+                          defaultValue={formValue.building}
+                          onChange={(e) => handleStep2InputChange(e, 'building')}
+                        />
+                        <span style={myStyle}>{BankNameText.Enterbuilding ? BankNameText.Enterbuilding : ''}</span>
+
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Street</p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="street"
+                          defaultValue={formValue.street}
+                          onChange={(e) => handleStep2InputChange(e, 'street')}
+                        />
+                        <span style={myStyle}>{BankNameText.Enterstreet ? BankNameText.Enterstreet : ''}</span>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+
+                  <div className="row each-row">
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Postcode</p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="postcode"
+                          defaultValue={formValue.postcode}
+                          onChange={(e) => handleStep2InputChange(e, 'postcode')}
+                        />
+                        <span style={myStyle}>{BankNameText.Enterpostcode ? BankNameText.Enterpostcode : ''}</span>
+
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">City/Town</p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="city"
+                          defaultValue={formValue.city}
+                          onChange={(e) => handleStep2InputChange(e, 'city')}
+                        />
+                        <span style={myStyle}>{BankNameText.Entercity ? BankNameText.Entercity : ''}</span>
+
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">State</p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="state"
+                          defaultValue={formValue.state}
+                          onChange={(e) => handleStep2InputChange(e, 'state')}
+                        />
+                        <span style={myStyle}>{BankNameText.Entercity ? BankNameText.Entercity : ''}</span>
+                      </div>
+                    </div>
+
+                  </div>
+
+``
+                  <div className="row each-row">
+                    {/* <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Country Code<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+
+                          className='rate_input form-control'
+                          name="country_code"
+                          defaultValue={formValue.country_code}
+                          onChange={(e) => handleStep2InputChange(e, 'country_code')}
+                        />
+                        <span style={myStyle}>{BankNameText.Entercountrycode ? BankNameText.Entercountrycode : ''}</span>
+
+                      </div>
+                    </div> */}
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
+                        <Select
+                          // ref={input_location}
+                          options={options} 
+                          value={countryValue} 
+                          onChange={changeHandler}
+                        />
+                        <span style={myStyle}>{BankNameText.Selectcountry ? BankNameText.Selectcountry : ''}</span>
+
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Reason For Sending Money<span style={{ color: 'red' }} >*</span></p>
+                        <select
+                          className="form-select rate_input form-control"
+                          aria-label="Select a reason"
+                          name="reasonMoney"
+                          defaultValue={formValue.reasonMoney}
+                          onChange={(e) => handleStep2InputChange(e, 'reasonMoney')}
+                        >
+                          <option selected>Select a reason</option>
+                          <option value="Family Support">Family Support</option>
+                          <option value="Education">Education</option>
+                          <option value="Tax Payment">Tax Payment</option>
+                          <option value="Loan Payment">Loan Payment</option>
+                          <option value="Travel Payment">Travel Payment</option>
+                          <option value="Utility Payment">Utility Payment</option>
+                        </select>
+                        <span style={myStyle}>{BankNameText.Reason ? BankNameText.Reason : ''}</span>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-4">
+                      <button type="submit" className="start-form-button" onClick={handlRecipientBankDetails}>Clear</button>
+                    </div>
+                    <div className="col-md-8">
+                      {/* <button className="form-button" onClick={handleShow}>Continue</button> */}
+                      {/* <button className="form-button" onClick={someFunc}>Continue</button> */}
+                      <button type="" className="form-button" onClick={handleRecipientBankDetails}>Continue</button>
+                      <button type="submit" className="form-button" onClick={HandleRecipientlist}>Previous</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+
+
+
+          </div>
+        </section>
     </div>
   )
 }

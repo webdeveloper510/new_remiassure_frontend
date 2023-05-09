@@ -50,8 +50,8 @@ const Login = () => {
                 setLoading(false);
             }).catch((err) => {
                 setLoading(false);
-                console.log('catch-errr', err.response)
-                console.log('catch-errr', err.response.data.code)
+                // console.log('catch-errr', err.response)
+                // console.log('catch-errr', err.response.data.code)
                 if (err.response.data.code === '400') {
                     toast.error('Credetionals Does not match', { position: "top-right", autoClose: 2000, theme: "colored" });
                 }
@@ -147,7 +147,7 @@ const Login = () => {
                                                             </Form.Group>
                                                         </div>
                                                         <div className="col-lg-6">
-                                                            <NavLink className="forgot_pass" to="/forgotpassword"> Forgot password?</NavLink>
+                                                            <NavLink className="forgot_pass" to="/forgot-password"> Forgot password?</NavLink>
                                                         </div>
                                                     </div>
 
@@ -168,7 +168,7 @@ const Login = () => {
                                                     </button>
 
                                                     <p className="already_content">Don't have account?
-                                                        <NavLink to="/signup">Sign up</NavLink>
+                                                        <NavLink to="/sign-up">Sign up</NavLink>
                                                     </p>
                                                 </form>
                                             </div>

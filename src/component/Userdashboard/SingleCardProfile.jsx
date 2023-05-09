@@ -141,8 +141,7 @@ const SingleCardProfile = () => {
 
   return (
     <>
-   {
-       LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
+
       <section>
         <div className="margin-set">
           <div className="tabs-page">
@@ -152,7 +151,7 @@ const SingleCardProfile = () => {
 
                 <div className="form-head mb-4">
                   <h2 className="text-black font-w600 mb-0"><b>Card Profile</b>
-                    <NavLink to="/userCardLists">
+                    <NavLink to="/user-card-list">
                       <button className="start-form-button back-btn" >
                         <MdOutlineKeyboardBackspace />
                         Back
@@ -252,12 +251,6 @@ const SingleCardProfile = () => {
           </div>
         </div>
       </section>
-      ):(
-        <>
-        <Page404 />
-        </>
-      )
-    }
     </>
   )
 }

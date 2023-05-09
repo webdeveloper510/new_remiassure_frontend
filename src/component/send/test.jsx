@@ -35,22 +35,22 @@ const SendMoney = () => {
 
   const [showCrad, setShowCrad] = React.useState(false);
 
-  console.log('send Mondey')
+  // console.log('send Mondey')
   /************ Start page show hide condtion page ***************/
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
+  // console.log("TOKEN", token);
 
   const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
+  // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
   const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp)
+  // console.log("Verification Message", verification_otp)
 
   const signup_token = localStorage.getItem("signup_token")
-  console.log("signup_token", signup_token);
+  // console.log("signup_token", signup_token);
 
   const cardselectValue = localStorage.getItem("cardselectValue")
-  console.log("cardselectValue", "cardselectValuecardselectValue")
+  // console.log("cardselectValue", "cardselectValuecardselectValue")
   
 
   /************ Start -Recipient Bank Details***************/

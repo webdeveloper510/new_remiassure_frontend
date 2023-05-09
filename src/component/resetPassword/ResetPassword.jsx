@@ -24,19 +24,19 @@ const RecentPassword = () => {
 
  /**************************token ************************ */
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
+//   console.log("TOKEN", token);
 
   const signup_token = localStorage.getItem("signup_token")
-    console.log("signup_token", signup_token);
+    // console.log("signup_token", signup_token);
 
   const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp);
+//   console.log("Verification Message", verification_otp);
 
   const DigitalCode = localStorage.getItem("DigitalCode");
-  console.log("DigitalCode", DigitalCode);
+//   console.log("DigitalCode", DigitalCode);
 
   const customerId_forgot = localStorage.getItem("customerId_forgot");
-  console.log("customerId_forgot", customerId_forgot);
+//   console.log("customerId_forgot", customerId_forgot);
     
 /**************************transaction of state ************************ */
     const [data , setData] =useState({reset_password_otp:"", password:"", confirmPassword:""})

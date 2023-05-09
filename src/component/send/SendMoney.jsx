@@ -47,7 +47,7 @@ const SendMoney = () => {
   useEffect(() => {
 
     if (localStorage.getItem("DigitalCode") && localStorage.getItem("DigitalTransactionId")) {
-      navigate("/usersendmoney")
+      navigate("/user-send-money")
     } else {
       if (localStorage.getItem("send-step")) {
         setStep(Number(localStorage.getItem("send-step")))
@@ -64,7 +64,7 @@ const SendMoney = () => {
     }
 
     setInterval(() => {
-      console.log("time")
+      // console.log("time")
       localStorage.removeItem("send-step");
       localStorage.removeItem("transfer_data");
       navigate("/")

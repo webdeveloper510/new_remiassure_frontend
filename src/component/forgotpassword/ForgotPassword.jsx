@@ -22,17 +22,6 @@ const myStyle ={
 
 const ForgotPassword = () => {
     /**************************token ************************ */
-  const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
-
-  const signup_token = localStorage.getItem("signup_token")
-    console.log("signup_token", signup_token);
-
-  const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp);
-
-  const DigitalCode = localStorage.getItem("DigitalCode");
-  console.log("DigitalCode", DigitalCode);
 
 /**************************State ************************ */
 
@@ -62,7 +51,7 @@ const ForgotPassword = () => {
     setTimeout(
         function() {
             sessionID = localStorage.getItem("SessionID");
-            console.log("Login Session", sessionID);
+            // console.log("Login Session", sessionID);
         },3000
     );
 
@@ -78,12 +67,12 @@ const ForgotPassword = () => {
             setLoading(false);
             localStorage.setItem("token_forgot", res.token)
             localStorage.setItem("customerId_forgot", res.customer_id);
-            navigate('/resetpasswords',{state:{customer_id: res.data.customer_id}})
+            navigate('/reset-passwords',{state:{customer_id: res.data.customer_id}})
             if(res.code =="200"){
                 toast.success("Please Check Your Email",{ position: "top-right", autoClose: 2000, theme: "colored" })
             }
         }).catch((error)=>{
-            console.log(error.response)
+            // console.log(error.response)
             if(error.response.status == 400){
                 toast.error(error.response.data.message,{ position: "top-right", autoClose: 2000, theme: "colored" })
             }

@@ -51,7 +51,7 @@ const ReferralData = () => {
     const handlePromo_marketing = (e) => {
         const { checked } = e.target;
     
-        console.log("checked " + checked);
+        // console.log("checked " + checked);
     
         setPromo_marketing((promo_marketing) => ({
           ...promo_marketing, // <-- shallow copy previous state
@@ -86,7 +86,7 @@ const ReferralData = () => {
           
         })
         .then(function(response) {
-            console.log(response);
+            // console.log(response);
             // localStorage.setItem("signup_message", response.data.msg);
             // setShow(!show)
             setLoading(false); // Stop loading
@@ -95,12 +95,12 @@ const ReferralData = () => {
                 // console.log(navigate, "jkfjkdkvnfkvnfkvnfkvnvknvknvkvnkvnvknknvknvknk")
         })
         .catch(function(error, message) {
-            console.log(error.response)
+            // console.log(error.response)
             setLoading(false); // Stop loading in case of error
             if(error.response.data.status){
                 toast.error(error.response.data.message || error.response.data.password[0]);
             } 
-            console.log(error, "klnklnklnknnnnnnnnnnnn");   
+            // console.log(error, "klnklnklnknnnnnnnnnnnn");   
         })
     }
 

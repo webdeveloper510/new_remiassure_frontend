@@ -13,7 +13,7 @@ const LocalStorage = () => {
     useEffect(() => {
         localStorage.setItem('token_forgot',id)
        // history.push('/resetpasswordsss')
-        navigate('/resetpasswords');     
+        navigate('/reset-passwords');     
     
       }, [token]);
 

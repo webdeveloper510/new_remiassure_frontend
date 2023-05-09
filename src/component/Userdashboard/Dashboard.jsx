@@ -94,13 +94,13 @@ const Dashboard = () => {
     const transHistory =()=>{
         setLoading(true);
         transactionHistory().then((response) => {
-            console.log("payment-transaction-history----------====", response)
+            // console.log("payment-transaction-history----------====", response)
             if(response.code == 200){
                 setTransactionData(response);
             }
             setLoading(false)
         }).catch((error) => {
-            console.log(error.response)
+            // console.log(error.response)
             setLoading(false)
         })
     }
@@ -128,10 +128,10 @@ const Dashboard = () => {
         //     })
     // }, [])
 
-    console.log(transactionData, " nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-    console.log(data, " dataaaaaaaaaaaa++++++++++")
-    console.log(recipientData, " recipientData____________")
-    console.log("first name****************", firstName)
+    // console.log(transactionData, " nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+    // console.log(data, " dataaaaaaaaaaaa++++++++++")
+    // console.log(recipientData, " recipientData____________")
+    // console.log("first name****************", firstName)
 
 
     /**************************************************************************
@@ -148,17 +148,17 @@ const Dashboard = () => {
             }
         })
             .then(function (response) {
-                console.log("Recipients APIIIII", response.data);
+                // console.log("Recipients APIIIII", response.data);
                 setRecipientData(response.data);
-                console.log(data)
+                // console.log(data)
                 localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
                 setLoading(false); // Stop loading
                 //   if (response.status)
                 // // notify();
             })
             .catch(function (error) {
-                console.log(error);
-                console.log(error.response);
+                // console.log(error);
+                // console.log(error.response);
                 setLoading(false); // Stop loading in case of error
             })
     }
@@ -174,16 +174,16 @@ const Dashboard = () => {
     const transComplete = ()=>{
         setLoading(true); // Set loading before sending API request
         completedPayment().then((response) => {
-            console.log("payment-completed-transactions----------====", response)
+            // console.log("payment-completed-transactions----------====", response)
             if (response.code == 200) {
-                console.log(data, "completed data transaction")
+                // console.log(data, "completed data transaction")
                 setLoading(false); // Stop loading
             } else {
                 setDataLength("none")
             }
             setData(response);
         }).catch((error) => {
-            console.log(error.response)
+            // console.log(error.response)
         })
     }
 
@@ -276,14 +276,14 @@ const Dashboard = () => {
                                                             </div>
 
                                                             <div className="icon">
-                                                                <NavLink to={"/addnewrecipient"} >
+                                                                <NavLink to={"/add-new-recipient"} >
                                                                     <BsFillPersonPlusFill />
                                                                 </NavLink>
                                                             </div>
 
                                                         </div>
                                                         <div className="mt-3">
-                                                            <NavLink to="/userrecipients" className="btn btn-outline-dark btn-rounded">
+                                                            <NavLink to="/user-recipients" className="btn btn-outline-dark btn-rounded">
                                                                 View
                                                             </NavLink>
 
@@ -309,7 +309,7 @@ const Dashboard = () => {
                                                             </div>
                                                         </div>
                                                         <div className="mt-3">
-                                                            <NavLink to="/usersendmoney" className="btn btn-outline-dark btn-rounded">
+                                                            <NavLink to="/user-send-money" className="btn btn-outline-dark btn-rounded">
                                                                 View
                                                             </NavLink>
                                                         </div>
@@ -334,7 +334,7 @@ const Dashboard = () => {
                                                             </div>
                                                         </div>
                                                         <div className="mt-3">
-                                                            <NavLink to="/userprofile" className="btn btn-outline-dark btn-rounded">
+                                                            <NavLink to="/user-profile" className="btn btn-outline-dark btn-rounded">
                                                                 View
                                                             </NavLink>
                                                         </div>
@@ -415,7 +415,7 @@ const Dashboard = () => {
                                                                 <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p>
                                                             </div>
                                                             <div className="col-md-12">
-                                                                <a href="#/usersendmoney" className="send_money">Send Money</a>
+                                                                <a href="#/user-send-money" className="send_money">Send Money</a>
                                                             </div>
                                                         </div>
                                                     ) : (

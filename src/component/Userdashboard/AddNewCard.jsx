@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect, useRef, useMemo } from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Links, NavLink, useNavigate } from 'react-router-dom';
+import { Links, NavLink, Navigate, useNavigate } from 'react-router-dom';
 import CountryDropdown from 'country-dropdown-with-flags-for-react';
 import { toast } from "react-toastify";
 import { API } from "../../config/API";
@@ -28,23 +28,7 @@ const Addnewcard = () => {
 
   /************ Start-show hide condtion page ***************/
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
-
-  const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
-
-  const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp)
-
-  const RecipientUserName = localStorage.getItem("RecipientUserName");
-  console.log("RecipientUserName", RecipientUserName);
-
-  const signup_token = localStorage.getItem("signup_token")
-  console.log("signup_token", signup_token);
-
-
-  const DigitalCode = localStorage.getItem("DigitalCode");
-  console.log("DigitalCode", DigitalCode);
+  const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
 
   /************ Start -Recipient Bank Details state***************/
   const [error, setError] = useState(false);
@@ -137,14 +121,6 @@ const Addnewcard = () => {
   const handleRecipientBankDetails = (event) => {
     event.preventDefault();
 
-    //useRef is used for focusing on inputbox
-    //     if(errorBankName.length==0){
-    //   		input_grant_type.current.focus();
-    //   		setError(true);
-    //       console.log(error, "error")
-    //   	} 
-
-    //  else{
 
     setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/recipient-create/', {
@@ -168,14 +144,14 @@ const Addnewcard = () => {
 
     }, {
       headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+        "Authorization": `Bearer ${token}`,
       },
 
     })
       .then(function (response) {
         console.log(response);
         setLoading(false); // Stop loading  
-        navigate('/userrecipients');
+        navigate('/user-recipients');
 
 
       })
@@ -193,11 +169,8 @@ const Addnewcard = () => {
 
   return (
     <>
-      {/* <Recipients /> */}
-
       {
-        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
-
+        userdt?.digital_id_verified && token? (
           <div className="margin-set">
             <div className="tabs-page">
               <Sidebar />
@@ -205,7 +178,7 @@ const Addnewcard = () => {
                 <section className="showrecepient">
                   <div class="form-head mb-4">
                     <h2 class="text-black font-w600 mb-0"><b>Add Recipient</b>
-                      <NavLink to="/userCardLists">
+                      <NavLink to="/user-card-list">
                         <button className="start-form-button back-btn" >
                           <MdOutlineKeyboardBackspace />
                           Back
@@ -532,13 +505,9 @@ const Addnewcard = () => {
           </div>
 
         ) : (
-          <>
-            <Page404 />
-          </>
-
+          <Navigate to="/send-money" />
         )
       }
-
     </>
   )
 }

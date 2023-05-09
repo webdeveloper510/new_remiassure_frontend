@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router'
-import global from '../../utils/global'
+import global from '../../../utils/global'
 import Axios from "axios"
 import axios from 'axios'
 

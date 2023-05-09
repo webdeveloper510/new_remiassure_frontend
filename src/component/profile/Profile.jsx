@@ -63,18 +63,18 @@ const Profile = () => {
   } = profileDetaills;
 
   const handlePtrofileDetails = (e) => {
-    console.log(e.target.name)
-    console.log(e.target.defaultValue)
+    // console.log(e.target.name)
+    // console.log(e.target.defaultValue)
 
     setProfileDetaills(profileItem => ({...profileItem, [e.target.name]: e.target.defaultValue}));
   }
 
  // Start page show hide condtion page 
  const token = localStorage.getItem("token");
- console.log("TOKEN", token);
+//  console.log("TOKEN", token);
 
  const verification_otp = localStorage.getItem("verification_otp");
- console.log("Verification Message", verification_otp)
+//  console.log("Verification Message", verification_otp)
 
   
 
@@ -92,10 +92,10 @@ const Profile = () => {
         }
       })
       .then(function(response){
-        console.log(response);
+        // console.log(response);
       })
       .catch(function(error, response){
-        console.log(error.response);
+        // console.log(error.response);
 
       })
 
@@ -107,10 +107,6 @@ const Profile = () => {
         <>
 
           {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
-
-          {  
-          verification_otp || token != undefined || '' ? (
-
             <section className="profile-page">
             <div className="container">
               <div className="row">
@@ -277,15 +273,6 @@ const Profile = () => {
               </div>
             </div>
           </section>
-
-
-         ) : (
-            <>
-            
-            </>
-        )
-        }
-
 
         {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
           

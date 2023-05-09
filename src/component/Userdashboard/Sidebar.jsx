@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 
-import UserSendMoney from "./UserSendMoney";
+import UserSendMoney from "./sendmoney/UserSendMoney";
 import UserProfile from "./UserProfile";
 import AddNewRecipient from "./AddNewRecipient";
 import ChangePassword from "./ChangePassword";
@@ -47,51 +47,19 @@ const sidebar = () => {
   return (
 
     <>
-      {/* {
-        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? ( */}
-
-          <div className="sidebar">
-            <nav>
-              <ul>
-                <li><NavLink to="/dashboard"><RxDashboard />Dashboard</NavLink></li>
-                <li><NavLink to="/usersendmoney"><BsCurrencyExchange />Send Money</NavLink></li>
-                <li><NavLink to="/userprofile"><BsFilePersonFill />Profile Information</NavLink></li>
-                <li><NavLink to="/transfer"><BiTransfer />Transaction</NavLink></li>
-                <li><NavLink to="/userrecipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
-                <li><NavLink to="/userCardLists"><FaRegCreditCard />Card</NavLink></li>
-                <li><NavLink to="/changepassword"><RiLockPasswordLine />Password</NavLink></li>
-              </ul>
-            </nav>
-            {/* <Nav variant="pills" className="flex-column">
-    <Nav.Item>
-        <NavLink to="/dashboard"><RxDashboard />Dashboard</NavLink>
-      </Nav.Item>
-      <Nav.Item>
-        <NavLink to="/usersendmoney"><BsCurrencyExchange />Send Money</NavLink>
-      </Nav.Item>
-      <Nav.Item>
-        <NavLink to="/dashboard"><BsFilePersonFill />Profile Information</NavLink>
-      </Nav.Item>
-      <Nav.Item>
-        <NavLink to="/dashboard"><BiTransfer />Transfer</NavLink>
-      </Nav.Item>
-      <Nav.Item>
-        <NavLink to="/dashboard"><BsFillPersonPlusFill />Recipients</NavLink>
-      </Nav.Item>
-      <Nav.Item>
-        <NavLink to="/dashboard"><RiLockPasswordLine />Password</NavLink>
-      </Nav.Item>
-    </Nav> */}
-          </div>
-{/* 
-        ) : (
-          <>
-            <Page404 />
-          </>
-
-        )
-      } */}
-
+      <div className="sidebar">
+        <nav>
+          <ul>
+            <li><NavLink to="/dashboard"><RxDashboard />Dashboard</NavLink></li>
+            <li><NavLink to="/user-send-money"><BsCurrencyExchange />Send Money</NavLink></li>
+            <li><NavLink to="/user-profile"><BsFilePersonFill />Profile Information</NavLink></li>
+            <li><NavLink to="/transfer"><BiTransfer />Transaction</NavLink></li>
+            <li><NavLink to="/user-recipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
+            <li><NavLink to="/user-card-list"><FaRegCreditCard />Card</NavLink></li>
+            <li><NavLink to="/change-password"><RiLockPasswordLine />Password</NavLink></li>
+          </ul>
+        </nav>
+      </div>
     </>
   )
 }

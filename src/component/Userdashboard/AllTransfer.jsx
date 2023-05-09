@@ -59,11 +59,11 @@ const AllTranfer = ({ status, data, length }) => {
   // const { all, pending, completed } = status
 
   const LoadEdit = (id) => {
-    navigate(`/Editrecipientuser/${id}`);
+    navigate(`/edit-recipient-user/${id}`);
   }
 
   const LoadinglProfile = (id) => {
-    navigate(`/profilesingledata/${id}`);
+    navigate(`/profile-single-data/${id}`);
   }
 
   const getStatusDataSummary = (value) => {
@@ -201,14 +201,12 @@ const AllTranfer = ({ status, data, length }) => {
                     <thead>
                       <tr>
                         <th>Recipient</th>
-                        {/* <th>Date</th> */}
+              
                         <th>Amount</th>
                         <th>Date</th>
-                        {/* <th>CustomerId</th> */}
+                       
                         <th>Reason</th>
-                        {/* <th>send_currency</th>
-                  <th>recieve_currency</th> */}
-                        {/* <th>send_method</th> */}
+                  
                         <th>TransactionId</th>
                         <th>Status</th>
                       </tr>
@@ -360,7 +358,7 @@ const AllTranfer = ({ status, data, length }) => {
                       <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p>
                     </div>
                     <div className="col-md-12">
-                      <a href="#/usersendmoney" className="send_money">Send Money</a>
+                      <a href="#/user-send-money" className="send_money">Send Money</a>
                     </div>
                   </div>
                 ) : (

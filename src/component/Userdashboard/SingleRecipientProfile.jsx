@@ -151,7 +151,7 @@ const SingleRecipientProfile = () => {
 
                 <div className="form-head mb-4">
                   <h2 className="text-black font-w600 mb-0"><b>Profile</b>
-                    <NavLink to="/userrecipients">
+                    <NavLink to="/user-recipients">
                       <button className="start-form-button back-btn" >
                         <MdOutlineKeyboardBackspace />
                         Back

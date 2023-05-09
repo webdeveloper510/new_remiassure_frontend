@@ -34,22 +34,7 @@ const myStyle = {
 const Profile = () => {
   /************************Start page show hide condtion page ******************************/
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
-
-  const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-  // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
-
-  const signup_token = localStorage.getItem("signup_token")
-  console.log("signup_token", signup_token);
-
-  const verification_otp = localStorage.getItem("verification_otp");
-  // console.log("Verification Message", verification_otp)
-
-  const RecipientUserName = localStorage.getItem("RecipientUserName");
-  // console.log("RecipientUserName", RecipientUserName);
-
-  const DigitalCode = localStorage.getItem("DigitalCode");
-  // console.log("DigitalCode", DigitalCode);
+  const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
 
   //Get data of update value 
   /*************data get ************/
@@ -678,10 +663,6 @@ const handleCountry = (e) => {
 
   return (
     <>
-      {
-        LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
-
-
           <div className="margin-set">
             <div className="tabs-page">
               <Sidebar />
@@ -1215,15 +1196,6 @@ const handleCountry = (e) => {
               </div>
             </div>
           </div>
-
-
-        ) : (
-          <>
-            <Page404 />
-          </>
-
-        )
-      }
     </>
   )
 }
