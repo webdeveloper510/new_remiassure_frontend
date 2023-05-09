@@ -1461,6 +1461,8 @@ color: #191970;
 .support_image {
   text-align: center;
   padding-top: 70px;
+  z-index: 2;
+    position: relative;
 }
 .card-support{
   /* width: 1180px; */
@@ -1739,12 +1741,20 @@ margin-top: 30px;
   margin-top: 25px;
 }
 .signup_banner {
-  background-image: url(../img/about/about_banner.png);
+  background-image: url(../img/home/bg05.jpg);
  /* min-height: 866px; */
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;
   margin-top:80px;
+  position:relative;
+}
+.signup_banner:before {
+  content: url(../img/home/login-light-bg.svg);
+  left: 0;
+  top: 69px;
+  position: absolute;
+  
 }
 .Sign-heading{
 font-family: var(--font-family) !important;
@@ -2597,9 +2607,12 @@ span.progress-step {
 /*--------------------------------------------------------------
 # Verification 
 --------------------------------------------------------------*/
-section.dashboard .card {
+/*section.dashboard .card {
   height: 500px !important;
   overflow-y: auto !important;
+}*/
+.dashboard .no-data img {
+  width: 40%;
 }
 .verification_banner{
     width: 100%;
@@ -3871,7 +3884,6 @@ a.active {
 }
 
 p.send-text {
-  background: #fff;
   text-align: left;
   width: max-content;
   z-index: 11;
