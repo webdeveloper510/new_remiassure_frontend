@@ -13,6 +13,7 @@ import * as Yup from "yup"
 import clsx from "clsx";
 import Page404 from "../pageNotfound/Page404";
 import { changePassword } from "../../utils/Api";
+import authDashHelper from "../../utils/AuthDashHelper";
 
 {/* start -- css*/ }
 const myStyle = {
@@ -46,6 +47,12 @@ const Profile = () => {
 
   // const {id} = useParams();
 
+  useEffect(() => {
+    if (!authDashHelper("dashCheck")) {
+      navigate("/send-money")
+    }
+  }, [])
+  
   const handlecurrentPassword = (e) => {
     setOld_password(e.target.value);
   }
@@ -60,7 +67,7 @@ const Profile = () => {
     old_password: Yup.string().required(),
     new_password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/).required(),
     confirmPassword: Yup.string().oneOf([Yup.ref("new_password")]).required(),
-   
+
   })
 
   const initialValues = {
@@ -73,23 +80,23 @@ const Profile = () => {
   const formik = useFormik({
     initialValues,
     validationSchema: updateSchema,
-    onSubmit : async (value) => {
+    onSubmit: async (value) => {
       console.log("password-------------------")
       setLoading(true)
       changePassword({
-        old_password : value.old_password,
-        new_password : value.new_password,
-        confirmPassword : value.confirmPassword
-      }).then((response)=>{
+        old_password: value.old_password,
+        new_password: value.new_password,
+        confirmPassword: value.confirmPassword
+      }).then((response) => {
         console.log("response===============", response)
-        if(response.code == 200){
+        if (response.code == 200) {
           toast.success('Password Succesfully Updated', { position: "top-right", autoClose: 2000, theme: "colored" });
-          
+
         }
         setLoading(false)
-      }).catch((error)=>{
+      }).catch((error) => {
         console.log(error.response)
-        if(error.response.code == 400){
+        if (error.response.code == 400) {
           toast.error(error.response.message, { position: "top-right", autoClose: 2000, theme: "colored" });
         }
         setLoading(false)
@@ -183,129 +190,129 @@ const Profile = () => {
     <>
 
       {/* <!-- ======= help Remitassure Change password -Section  start======= --> */}
-          <div className="margin-set">
-            <div className="tabs-page">
-              <Sidebar />
+      <div className="margin-set">
+        <div className="tabs-page">
+          <Sidebar />
 
-              <div className="content-body">
-                <div className="col-md-8">
-                  <section className="change-password">
+          <div className="content-body">
+            <div className="col-md-8">
+              <section className="change-password">
 
-                    <div class="form-head mb-4">
-                      <h2 class="text-black font-w600 mb-0"><b>Change Password</b>
-                      </h2>
-                      <span style={myStyle}>{successText}</span>
-                    </div>
-                    <div className="card">
-                      <div className="card-body">
-                        <div className="update-profile">
-
-                          <form onSubmit={formik.handleSubmit} noValidate >
-                            <div className="row each-row">
-                              {/* <h5>Change Password</h5> */}
-                              <div className="col-md-4">
-                                <Form.Group className="form_label" controlId="Firstname">
-                                  <p className="get-text">Current Password<span style={{ color: 'red' }} >*</span></p>
-                                  <Form.Control
-                                    type="text"
-                                    placeholder="Old password"
-                                    autoComplete='off'
-                                    {...formik.getFieldProps('old_password')}
-                                    className={clsx(
-                                      'form-control bg-transparent',
-                                      { 'is-invalid': formik.touched.old_password && formik.errors.old_password },
-                                      {
-                                        'is-valid': formik.touched.old_password && !formik.errors.old_password,
-                                      }
-                                    )}
-                                  />
-                                  {/* {error&&currentPassword.length<=0?
-				                          <span style={myStyle}>Please Enter the Current Password </span>:""}  */}
-                                  <span style={myStyle}>{old_passwordText ? old_passwordText : ""}</span>
-                                  <span style={myStyle}>{wrongold_passwordText ? wrongold_passwordText : ""}</span>
-
-                                </Form.Group>
-                              </div>
-                              <div className="col-md-4">
-                                <Form.Group className="form_label" controlId="Firstname">
-                                  <p className="get-text">New Password<span style={{ color: 'red' }} >*</span></p>
-                                  <Form.Control
-                                    type="text"
-                                    placeholder="New password"
-                                    autoComplete='off'
-                                    {...formik.getFieldProps('new_password')}
-                                    className={clsx(
-                                      'form-control bg-transparent',
-                                      { 'is-invalid': formik.touched.new_password && formik.errors.new_password },
-                                      {
-                                        'is-valid': formik.touched.new_password && !formik.errors.new_password,
-                                      }
-                                    )}
-                                  />
-                                  {/* {error&&currentPassword.length<=0?
-				                          <span style={myStyle}>Please Enter the Current Password </span>:""}  */}
-                                  <span style={myStyle}>{new_passwordText ? new_passwordText : ""}</span>
-                                </Form.Group>
-                              </div>
-                              <div className="col-md-4">
-                                <Form.Group className="form_label" controlId="Firstname">
-                                  <p className="get-text">Confirm Password<span style={{ color: 'red' }} >*</span></p>
-                                  <Form.Control
-                                    type="text"
-                                    placeholder="Confirm password"
-                                    autoComplete='off'
-                                    {...formik.getFieldProps('confirmPassword')}
-                                    className={clsx(
-                                      'form-control bg-transparent',
-                                      { 'is-invalid': formik.touched.confirmPassword && formik.errors.confirmPassword },
-                                      {
-                                        'is-valid': formik.touched.confirmPassword && !formik.errors.confirmPassword,
-                                      }
-                                    )}
-                                  />
-                                  <span className={active == true ? 'not_match' : 'hide'}>Passwords do not match</span>
-                                  {/* {error&&confirmPassword.length<=0?
-				                      <span style={myStyle}>Please Enter the Confirm Password </span>:""}  */}
-                                </Form.Group>
-                              </div>
-                            </div>
-                            <div class="row each-row">
-                              <div className="col-md-4">
-                                <button
-                                  type="submit"
-                                  className="start-form-button"
-                                  onClick={handleEntailmentRequest}
-                                >Clear</button>
-                              </div>
-                              <div className="col-md-8">
-                                <button
-                                  type="submit"
-                                  // onClick={handleChangePassword}
-                                  className="profile-form-button"
-                                >
-                                  Change Password
-                                  {loading ? <>
-                                    <div class="loader-overly">
-                                      <div class="loader" >
-
-                                      </div>
-
-                                    </div>
-                                  </> : <></>}
-                                </button>
-                                {/* <button  type="submit"  className="profile-form-button">Edit</button> */}
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-
-                  </section>
+                <div class="form-head mb-4">
+                  <h2 class="text-black font-w600 mb-0"><b>Change Password</b>
+                  </h2>
+                  <span style={myStyle}>{successText}</span>
                 </div>
-              </div>
+                <div className="card">
+                  <div className="card-body">
+                    <div className="update-profile">
+
+                      <form onSubmit={formik.handleSubmit} noValidate >
+                        <div className="row each-row">
+                          {/* <h5>Change Password</h5> */}
+                          <div className="col-md-4">
+                            <Form.Group className="form_label" controlId="Firstname">
+                              <p className="get-text">Current Password<span style={{ color: 'red' }} >*</span></p>
+                              <Form.Control
+                                type="text"
+                                placeholder="Old password"
+                                autoComplete='off'
+                                {...formik.getFieldProps('old_password')}
+                                className={clsx(
+                                  'form-control bg-transparent',
+                                  { 'is-invalid': formik.touched.old_password && formik.errors.old_password },
+                                  {
+                                    'is-valid': formik.touched.old_password && !formik.errors.old_password,
+                                  }
+                                )}
+                              />
+                              {/* {error&&currentPassword.length<=0?
+				                          <span style={myStyle}>Please Enter the Current Password </span>:""}  */}
+                              <span style={myStyle}>{old_passwordText ? old_passwordText : ""}</span>
+                              <span style={myStyle}>{wrongold_passwordText ? wrongold_passwordText : ""}</span>
+
+                            </Form.Group>
+                          </div>
+                          <div className="col-md-4">
+                            <Form.Group className="form_label" controlId="Firstname">
+                              <p className="get-text">New Password<span style={{ color: 'red' }} >*</span></p>
+                              <Form.Control
+                                type="text"
+                                placeholder="New password"
+                                autoComplete='off'
+                                {...formik.getFieldProps('new_password')}
+                                className={clsx(
+                                  'form-control bg-transparent',
+                                  { 'is-invalid': formik.touched.new_password && formik.errors.new_password },
+                                  {
+                                    'is-valid': formik.touched.new_password && !formik.errors.new_password,
+                                  }
+                                )}
+                              />
+                              {/* {error&&currentPassword.length<=0?
+				                          <span style={myStyle}>Please Enter the Current Password </span>:""}  */}
+                              <span style={myStyle}>{new_passwordText ? new_passwordText : ""}</span>
+                            </Form.Group>
+                          </div>
+                          <div className="col-md-4">
+                            <Form.Group className="form_label" controlId="Firstname">
+                              <p className="get-text">Confirm Password<span style={{ color: 'red' }} >*</span></p>
+                              <Form.Control
+                                type="text"
+                                placeholder="Confirm password"
+                                autoComplete='off'
+                                {...formik.getFieldProps('confirmPassword')}
+                                className={clsx(
+                                  'form-control bg-transparent',
+                                  { 'is-invalid': formik.touched.confirmPassword && formik.errors.confirmPassword },
+                                  {
+                                    'is-valid': formik.touched.confirmPassword && !formik.errors.confirmPassword,
+                                  }
+                                )}
+                              />
+                              <span className={active == true ? 'not_match' : 'hide'}>Passwords do not match</span>
+                              {/* {error&&confirmPassword.length<=0?
+				                      <span style={myStyle}>Please Enter the Confirm Password </span>:""}  */}
+                            </Form.Group>
+                          </div>
+                        </div>
+                        <div class="row each-row">
+                          <div className="col-md-4">
+                            <button
+                              type="submit"
+                              className="start-form-button"
+                              onClick={handleEntailmentRequest}
+                            >Clear</button>
+                          </div>
+                          <div className="col-md-8">
+                            <button
+                              type="submit"
+                              // onClick={handleChangePassword}
+                              className="profile-form-button"
+                            >
+                              Change Password
+                              {loading ? <>
+                                <div class="loader-overly">
+                                  <div class="loader" >
+
+                                  </div>
+
+                                </div>
+                              </> : <></>}
+                            </button>
+                            {/* <button  type="submit"  className="profile-form-button">Edit</button> */}
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+              </section>
             </div>
           </div>
+        </div>
+      </div>
       {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
 
     </>

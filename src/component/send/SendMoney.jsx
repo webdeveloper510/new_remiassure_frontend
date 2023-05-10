@@ -88,6 +88,15 @@ const SendMoney = () => {
       left: 0,
       behavior: "instant"
     })
+    if (localStorage.getItem("transfer_data")) {
+      const local = JSON.parse(localStorage.getItem("transfer_data"))
+      if (local?.amount) {
+        setAmtDetail(local.amount)
+      }
+      if (local?.recipient) {
+        setBankDetail(local.recipient)
+      }
+    }
     const s = step;
     setActiveStep(Number(s) + 1)
   }, [step])

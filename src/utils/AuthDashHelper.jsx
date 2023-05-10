@@ -9,10 +9,10 @@ const authDashHelper = (checkType) => {
       return true
     }
   } else if (checkType === 'dashCheck') {
-    if (!login && !user?.digital_id_verified) {
-      return false
-    } else {
+    if (login && user?.digital_id_verified === "true") {
       return true
+    } else {
+      return false
     }
   }
 

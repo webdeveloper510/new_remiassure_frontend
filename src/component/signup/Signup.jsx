@@ -35,8 +35,8 @@ const Signup = () => {
     const signSchema = Yup.object().shape({
         location: Yup.string().oneOf(['Australia', 'New Zealand']).required(),
         email: Yup.string().email().min(6).max(50).required(),
-        password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/).required(),
-        confirmPassword: Yup.string().oneOf([Yup.ref("password")]).required(),
+        password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/,'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required(),
+        confirmPassword: Yup.string().oneOf([Yup.ref("password")],"Passwords did not match").required("Password confirmation is required"),
         referral_code: show ? Yup.string().length(7).required() : Yup.string().length(7).notRequired(),
         mobile: Yup.string().min(7).max(15).required()
     })
@@ -197,6 +197,13 @@ const Signup = () => {
                                                                 }
                                                             )}
                                                         />
+                                                        {formik.touched.email && formik.errors.email && (
+                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                <div className='fv-help-block'>
+                                                                    <span role='alert' className="text-danger">{formik.errors.email}</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
 
                                                     </Form.Group>
 
@@ -241,6 +248,13 @@ const Signup = () => {
                                                         <span onClick={toggleShowPassword} className="pass_icons">
                                                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                         </span>
+                                                        {formik.touched.password && formik.errors.password && (
+                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                <div className='fv-help-block'>
+                                                                    <span role='alert' className="text-danger">{formik.errors.password}</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
 
                                                     </Form.Group>
 
@@ -248,7 +262,7 @@ const Signup = () => {
                                                         <Form.Label> Confirm Password<span style={{ color: 'red' }} >*</span> </Form.Label>
                                                         <Form.Control
                                                             type={showConfirmPassword ? 'text' : 'password'}
-                                                            name="confirmPassword"
+                                                            name="confirm Password"
                                                             placeholder="Confirm Password"
                                                             {...formik.getFieldProps('confirmPassword')}
                                                             className={`${clsx(
@@ -263,7 +277,14 @@ const Signup = () => {
                                                         <span onClick={toggleShowConfirmPassword} className="pass_icons">
                                                             {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                                                         </span>
-
+                                                        
+                                                        {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                <div className='fv-help-block'>
+                                                                    <span role='alert' className="text-danger">{formik.errors.confirmPassword}</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                     </Form.Group>
 
 

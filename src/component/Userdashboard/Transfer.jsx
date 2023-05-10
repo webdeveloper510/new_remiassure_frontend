@@ -18,6 +18,7 @@ import Sidebar from './Sidebar';
 import Page404 from "../pageNotfound/Page404";
 import authChecker from "../../utils/AuthHelper";
 import { transactionHistory } from "../../utils/Api";
+import authDashHelper from "../../utils/AuthDashHelper";
 
 const Transaction = () => {
 
@@ -28,15 +29,18 @@ const Transaction = () => {
 
 
     useEffect(() => {
-        transactionHistory().then((res) => {
-            console.log(res)
-            if (res.code == 200) {
-                setData(res.data)
-            } else {
-                setDataLength("none")
-            }
-
-        })
+        if (!authDashHelper('dashCheck')) {
+            navigate("/send-money")
+        } else {
+            transactionHistory().then((res) => {
+                console.log(res)
+                if (res.code == 200) {
+                    setData(res.data)
+                } else {
+                    setDataLength("none")
+                }
+            })
+        }
     }, [])
     console.log("data----------------------", data)
 
