@@ -6,13 +6,17 @@ import Footer from './component/footer/Footer';
 const App = () => {
   const routing = useRoutes(routes);
   const location = useLocation()
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: "smooth"
     })
-  },[location.pathname])
+    if (location.pathname != "/send-money" || location.pathname != "user-send-money") {
+      if (localStorage.getItem("send-step")) { localStorage.removeItem("send-step") }
+      if (localStorage.getItem("transfer_data")) { localStorage.removeItem("transfer_data") }
+    }
+  }, [location.pathname])
 
   return (
     <>

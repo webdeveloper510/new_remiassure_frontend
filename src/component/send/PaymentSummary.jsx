@@ -126,11 +126,6 @@ const PaymentSummary = ({ handleStep, step }) => {
     localStorage.setItem("send-step", (Number(step) - 1))
     handleStep(Number(step) - 1)
   }
-  const handleCancel = () => {
-    localStorage.removeItem("send-step")
-    localStorage.removeItem("transfer_data")
-    navigate("/")
-  }
 
   return (
     <div className="form_body">
@@ -193,10 +188,6 @@ const PaymentSummary = ({ handleStep, step }) => {
       </div>
       <div className="row">
         <div className="col-md-12 verified-section">
-          <button
-            className="start-form-button"
-            onClick={() => handleCancel()}
-          >Cancel</button>
           <button className="form-button" onClick={() => handleFinalStep()}>Confirm Payment</button>
           <button className="form-button" onClick={() => { handlePrev() }}>Previous</button>
         </div>

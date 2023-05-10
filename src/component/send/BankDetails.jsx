@@ -126,7 +126,11 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     handleStep(Number(step) + 1)
   }
   const handlePrevious = () => {
-    
+    if (localStorage.getItem("send-step")) {
+      localStorage.removeItem("send-step")
+    }
+    localStorage.setItem("send-step", Number(step) - 1)
+    handleStep(Number(step) - 1)
   }
 
 
@@ -506,7 +510,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <button type="button" className="start-form-button" onClick={() => handleClear()}>Clear</button>
             </div>
             <div className="col-md-8">
-              <button type="button" className="form-button" onClick={() => {handlePrevious()}}>Previous</button>
+              <button type="button" className="form-button" onClick={() => { handlePrevious() }}>Previous</button>
               <button type="submit" className="form-button">Continue</button>
             </div>
           </div>

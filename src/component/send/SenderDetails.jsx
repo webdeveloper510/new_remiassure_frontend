@@ -136,18 +136,16 @@ const SenderDetails = ({ handleStep, step }) => {
 
   }, []);
 
-  const handleCancel = () => {
-    localStorage.removeItem("send-step")
-    localStorage.removeItem("transfer_data")
-    navigate("/")
-  }
-
-  const handlePrev = () => {
-    if (localStorage.getItem("send-step")) {
-      localStorage.removeItem("send-step")
-    }
-    localStorage.setItem("send-step", Number(step) - 1)
-    handleStep(Number(step) - 1)
+  const handleClear = () => {
+    setData({
+      f_name: "", m_name: "", l_name: "",
+      gender: "Male", country_of_birth: "",
+      dob: "", flat: "", build_no: "",
+      street: "", city: "", country: "",
+      post_code: "", state: "", email: userd.email, mobile: userd.mobile,
+      customer_id: userd.customer_id
+    })
+    formik.resetForm()
   }
 
   return (
@@ -516,10 +514,9 @@ const SenderDetails = ({ handleStep, step }) => {
       </form>
       <div className="row each-row">
         <div className="col-md-2 new_buttonss">
-          <button className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
+          <button className="start-form-button" onClick={() => handleClear()}>Clear</button>
         </div>
         <div className="col-md-10 new_buttons">
-          <button className="form-button" onClick={() => handlePrev()}>Previous</button>
           {!verificationValue ? (
             <div id="digitalid-verify"></div>
           ) : (

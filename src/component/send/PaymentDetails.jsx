@@ -28,10 +28,12 @@ const PaymentDetails = ({ handleStep, step }) => {
 
   const stripePromise = loadStripe(`${global.stripe_p_key}`);
 
-  const handleCancel = () => {
-    localStorage.removeItem("send-step")
-    localStorage.removeItem("transfer_data")
-    navigate("/")
+  const handlePrevious = () => {
+    if (localStorage.getItem("send-step")) {
+      localStorage.removeItem("send-step")
+    }
+    localStorage.setItem("send-step", Number(step) - 1)
+    handleStep(Number(step) - 1)
   }
 
   return (
@@ -92,7 +94,7 @@ const PaymentDetails = ({ handleStep, step }) => {
         </div>
         <div className="row">
           <div className="col-md-4">
-            <button className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
+            <button className="start-form-button" onClick={() => handlePrevious()}>Previous</button>
           </div>
           <div className="col-md-8">
             <div>
