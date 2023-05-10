@@ -330,13 +330,7 @@ const Profile = () => {
   const formik = useFormik({
     initialValues,
     validationSchema: profileSchema,
-    onSubmit: async (values) => {
-      console.log({...data})
-      console.log({
-        First_name: values.firstName, Middle_name: values.middleName, Last_name: values.lastName,
-        email: values.email, mobile: values.mobile, flat: values.flat, building: values.building, street: values.street,
-        city: values.city, state: values.state, country: values.country
-      })
+    onSubmit: async (values) => { 
       setLoading(true)
       updateProfile({
         First_name: values.firstName, Middle_name: values.middleName, Last_name: values.lastName,
