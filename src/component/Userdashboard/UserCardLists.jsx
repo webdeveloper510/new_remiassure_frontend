@@ -140,8 +140,8 @@ const UserCardLists = () => {
                                                                         <td>{index + 1}</td>
                                                                         <td>{res.name}</td>
                                                                         <td>{res.card_number}</td>
-                                                                        <td>{res.exp_month}</td>
-                                                                        <td>{res.exp_year}</td>
+                                                                        <td>{res.expiry_month}</td>
+                                                                        <td>{res.expiry_year}</td>
                                                                         <td>
                                                                             <button className="btn btn-danger" onClick={() => { handleShow(res.id) }}><i class="fa fa-trash"></i></button>
                                                                             <button className="btn btn-primary" onClick={() => { LoadEditCard(res.id) }}><i class="fa fa-pencil color-muted"></i></button>

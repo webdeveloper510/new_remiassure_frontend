@@ -11,7 +11,7 @@ import CountryDropdown from 'country-dropdown-with-flags-for-react';
 import { Navigate, useLocation, useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
 import Page404 from "../pageNotfound/Page404";
-import { verifyEmail } from "../../utils/Api";
+import { resendOtp, verifyEmail } from "../../utils/Api";
 
 
 {/* start -- css*/ }
@@ -88,8 +88,20 @@ const Verification = () => {
 
             toast.error("Please enter 6 digit O.T.P", { position: "top-right", autoClose: 2000, theme: "colored" })
         }
-       
+    }
 
+    const handleResendOtp =(e)=>{
+        e.preventDefault()
+        setLoading(true)
+        resendOtp({type:"email", email: email})
+        .then((res)=>{
+            console.log("resend-otp-----", res)
+            setLoading(false)
+        })
+        .catch((error)=>{
+            console.log(error.response)
+            setLoading(false)
+        })
     }
 
     return (
@@ -125,6 +137,21 @@ const Verification = () => {
                                                     className="continue_button w-75"
                                                 >
                                                     Continue
+                                                    {
+                                                        loading ? <>
+                                                            <div className="loader-overly">
+                                                                <div className="loader" >
+                                                                </div>
+                                                            </div>
+                                                        </> : <></>
+                                                    }
+                                                </button>
+                                                <button variant="primary"
+                                                    type="button" 
+                                                    onClick={(e)=>{handleResendOtp(e)}}
+                                                    className="continue_button w-75"
+                                                >
+                                                    Resend OTP
                                                     {
                                                         loading ? <>
                                                             <div className="loader-overly">

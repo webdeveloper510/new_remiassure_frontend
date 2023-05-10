@@ -340,7 +340,10 @@ const EditCardUser = () => {
         .then((response) => {
           console.log("user update-----", response)
           if(response.code == "200"){
+            navigate('/user-card-list')
             toast.success(response.message, { position: "top-right", autoClose: 2000, theme: "colored" })
+          }else if(response.code == "400"){
+            toast.error(response.message, { position: "top-right", autoClose: 2000, theme: "colored" })
           }
           setLoading(false)
         })
@@ -398,7 +401,7 @@ const EditCardUser = () => {
                               placeholder="Enter name"
                               name="name"
                               onChange={(e) => setData({ ...data, name: e.target.value })}
-                              // {...formik.getFieldProps('name')}
+                              {...formik.getFieldProps('name')}
                               className={clsx(
                                 'form-control bg-transparent',
                                 { 'is-invalid': formik.touched.name && formik.errors.name },
@@ -416,7 +419,7 @@ const EditCardUser = () => {
                         </div>
                         <div className="col-md-4">
                           <div className="input_field">
-                            <p className="get-text">Card card_number<span style={{ color: 'red' }} >*</span></p>
+                            <p className="get-text">Card Number<span style={{ color: 'red' }} >*</span></p>
                             <input
                               // type="text"
                               // name="card_number"
@@ -448,7 +451,7 @@ const EditCardUser = () => {
                         </div>
                         <div className="col-md-4">
                           <div className="input_field">
-                            <p className="get-text">Card expiry month<span style={{ color: 'red' }} >*</span></p>
+                            <p className="get-text">Card Expiry Month<span style={{ color: 'red' }} >*</span></p>
                             <input
                               // type="text"
                               // name="expiry_month"
@@ -485,7 +488,7 @@ const EditCardUser = () => {
                       <div className="row each-row">
                         <div className="col-md-4">
                           <div className="input_field">
-                            <p className="get-text">Card expiry year<span style={{ color: 'red' }} >*</span></p>
+                            <p className="get-text">Card Expiry Year<span style={{ color: 'red' }} >*</span></p>
                             <input
                               // type="text"
                               // name="expiry_year"

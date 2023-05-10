@@ -35,6 +35,16 @@ export const verifyEmail = async (data) => {
   return response
 }
 
+// /resend-otp/
+export const resendOtp = async (data) => {
+  // console.log("data++++",data)
+  const response = await Axios.post("/resend-otp/",data)
+    .then(res => {
+      return res.data
+    })
+  return response
+}
+
 export const changePassword = async (data) => {
   const response = await Axios.post("/change-password/", data, {
     headers: {
@@ -177,7 +187,7 @@ export const getCardData = async (id) => {
 }
 
 export const updateCardUser = async (id, data) => {
-  const response = await Axios.post(`/payment/card/${id}`,data,{
+  const response = await Axios.patch(`/payment/card/${id}`,data,{
     headers: {
       'Content-Type': 'application/json',
       "Authorization": `Bearer ${token}`,
