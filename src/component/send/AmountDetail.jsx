@@ -15,12 +15,12 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
 
     const [exch_rate, setExchRate] = React.useState('1.0998');
     const [amt_detail, setAmtDetail] = useState({
-        send_amt: tdata?.amt?.send_amt || data?.send_amt || "",
-        exchange_amt: tdata?.amt?.exchange_amt || data?.exchange_amt || "",
-        from_type: tdata?.amt?.from_type || data?.from_type || "AUD",
-        to_type: tdata?.amt?.to_type || data?.to_type || "NZD",
-        recieve_meth: tdata?.amt?.recieve_meth || data?.recieve_meth || "Bank Transfer",
-        payout_part: tdata?.amt?.payout_part || data?.payout_part || "Bank"
+        send_amt: data?.send_amt || "",
+        exchange_amt: data?.exchange_amt || "",
+        from_type: data?.from_type || "AUD",
+        to_type: data?.to_type || "NZD",
+        recieve_meth: data?.recieve_meth || "Bank Transfer",
+        payout_part: "Bank"
     })
 
 
@@ -35,16 +35,17 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     })
 
     const initialValues = {
-        send_amt: tdata?.amt?.send_amt || data?.send_amt || "",
-        exchange_amt: tdata?.amt?.exchange_amt || data?.exchange_amt || "",
-        from_type: tdata?.amt?.from_type || data?.from_type || "AUD",
-        to_type: tdata?.amt?.to_type || data?.to_type || "NZD",
-        recieve_meth: tdata?.amt?.recieve_meth || data?.recieve_meth || "Bank Transfer",
-        payout_part: tdata?.amt?.payout_part || "Bank"
+        send_amt: data?.send_amt || "",
+        exchange_amt: data?.exchange_amt || "",
+        from_type: data?.from_type || "AUD",
+        to_type: data?.to_type || "NZD",
+        recieve_meth: data?.recieve_meth || "Bank Transfer",
+        payout_part: "Bank"
     }
 
     const formik = useFormik({
         initialValues,
+        enableReinitialize: true,
         validationSchema: amtSchema,
         onSubmit: async (values) => {
             console.log("Amount Details---------------", values)
@@ -76,15 +77,22 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
         const pattern = /^[0-9.,]+$/;
         if (event.key === 'Backspace') {
 
-        }
-        else if (!pattern.test(event.key)) {
-            event.preventDefault();
-            event.stopPropagation()
         } else {
-            console.log("----------------------------", event.target.value)
-            setAmtDetail({ ...amt_detail, send_amt: event.target.value })
-            formik.setFieldValue('send_amt', event.target.value)
-            formik.setFieldTouched('send_amt', true)
+            let value = event.target.value.toString()
+            if (value.length < 7) {
+                if (!pattern.test(event.key)) {
+                    event.preventDefault();
+                    event.stopPropagation()
+                } else {
+                    console.log("----------------------------", event.target.value)
+                    setAmtDetail({ ...amt_detail, send_amt: event.target.value })
+                    formik.setFieldValue('send_amt', event.target.value)
+                    formik.setFieldTouched('send_amt', true)
+                }
+            } else {
+                event.preventDefault();
+                event.stopPropagation()
+            }
         }
     }
 
@@ -130,7 +138,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
 
     }
 
-    const handleCancel = () => {
+    const handleClear = () => {
         formik.resetForm()
         setAmtDetail({
             send_amt: "",
@@ -175,8 +183,15 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     }
 
     useEffect(() => {
-        console.log(amt_detail)
-    }, [amt_detail])
+        if (localStorage.getItem("transfer_data")) {
+            let tdata = JSON.parse(localStorage.getItem("transfer_data"))
+            if (tdata?.amount) {
+                setAmtDetail(tdata?.amount)
+                formik.setValues({ ...tdata?.amount })
+            }
+        }
+
+    }, [step])
 
     return (
         <form noValidate>
@@ -363,7 +378,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                         <button
                             type='button'
                             className="start-form-button"
-                            onClick={() => handleCancel()}
+                            onClick={() => handleClear()}
                         >Clear</button>
                     </div>
                     <div className="col-md-8">

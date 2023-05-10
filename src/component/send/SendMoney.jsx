@@ -98,11 +98,11 @@ const SendMoney = () => {
       }
     }
     const s = step;
-    if(s>0){
-      let n=s;
-      while(n!=0){
+    if (s > 0) {
+      let n = s;
+      while (n != 0) {
         console.log(n)
-        progressBarRefs.current[n-1].style.transform = "translateX(100%)";
+        progressBarRefs.current[n - 1].style.transform = "translateX(100%)";
         n--
       }
     }
@@ -179,34 +179,33 @@ const SendMoney = () => {
 
 
 
-                       
-                          {
-                            step === 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
-                              :
-                              step === 1 ? <BankDetails handleBankDetail={handleBankDetail} handleStep={handleStep} step={step} />
-                                :
-                                step === 2 ? <PaymentDetails handleStep={handleStep} step={step} />
-                                  :
-                                  step === 3 ? <SenderDetails handleStep={handleStep} step={step} />
-                                    :
-                                    step === 4 ? <PaymentSummary handleStep={handleStep} step={step} />
-                                      :
-                                      step === 5 ? <>
-                                        <div className="form_body">
-                                          <div className="header">
-                                            <h1>Thank you</h1>
-                                          </div>
-                                          <div className="col-md-12 align-center">
-                                            <img className="verifies-img" src={verified} alt="verified" />
-                                            <p>Thanks for choosing RemitAssure</p>
-                                            <NavLink to="/dashboard">
-                                              <button type="submit" className="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
-                                          </div>
 
-                                        </div></>
-                                        : ""
-                          }
-                        
+                        {
+                          step === 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
+                            :
+                            step === 1 ? <BankDetails handleBankDetail={handleBankDetail} handleStep={handleStep} step={step} />
+                              :
+                              step === 2 ? <PaymentDetails handleStep={handleStep} step={step} />
+                                :
+                                step === 3 ? <SenderDetails handleStep={handleStep} step={step} />
+                                  :
+                                  step === 4 ? <PaymentSummary handleStep={handleStep} step={step} />
+                                    :
+                                    step === 5 ? <>
+                                      <div className="form_body">
+                                        <div className="header">
+                                          <h1>Thank you</h1>
+                                        </div>
+                                        <div className="col-md-12 align-center">
+                                          <img className="verifies-img" src={verified} alt="verified" />
+                                          <p>Thanks for choosing RemitAssure</p>
+                                          <NavLink to="/dashboard">
+                                            <button type="submit" className="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
+                                        </div>
+
+                                      </div></>
+                                      : ""
+                        }
                       </div>
                       <div className="col-md-4">
                         <Table>
@@ -268,7 +267,8 @@ const SendMoney = () => {
               </>
             </div>
           ) : (
-            <></>
+            <>
+            </>
           )
         }
       </div>

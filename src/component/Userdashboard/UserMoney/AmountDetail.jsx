@@ -8,19 +8,18 @@ import { useNavigate, useLocation } from 'react-router';
 
 const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
 
-    const navigate = useNavigate()
     const data = useLocation()?.state
     const [loader, setLoader] = useState(false)
     const tdata = JSON.parse(localStorage.getItem("transfer_data"))
 
     const [exch_rate, setExchRate] = React.useState('1.0998');
     const [amt_detail, setAmtDetail] = useState({
-        send_amt: tdata?.amt?.send_amt || data?.send_amt || "",
-        exchange_amt: tdata?.amt?.exchange_amt || data?.exchange_amt || "",
-        from_type: tdata?.amt?.from_type || data?.from_type || "AUD",
-        to_type: tdata?.amt?.to_type || data?.to_type || "NZD",
-        recieve_meth: tdata?.amt?.recieve_meth || data?.recieve_meth || "Bank Transfer",
-        payout_part: tdata?.amt?.payout_part || data?.payout_part || "Bank"
+        send_amt: data?.send_amt || "",
+        exchange_amt: data?.exchange_amt || "",
+        from_type: data?.from_type || "AUD",
+        to_type: data?.to_type || "NZD",
+        recieve_meth: data?.recieve_meth || "Bank Transfer",
+        payout_part: "Bank"
     })
 
 
@@ -28,19 +27,19 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     const amtSchema = Yup.object().shape({
         send_amt: Yup.string()
             .min(2, 'Minimum 3 symbols')
-            .max(6, 'Maximum 50 symbols')
+            .max(7, 'Maximum 50 symbols')
             .required('Email is required'),
         from_type: Yup.string().oneOf(["AUD", "NZD"]),
         to_type: Yup.string().required()
     })
 
     const initialValues = {
-        send_amt: tdata?.amt?.send_amt || data?.send_amt || "",
-        exchange_amt: tdata?.amt?.exchange_amt || data?.exchange_amt || "",
-        from_type: tdata?.amt?.from_type || data?.from_type || "AUD",
-        to_type: tdata?.amt?.to_type || data?.to_type || "NZD",
-        recieve_meth: tdata?.amt?.recieve_meth || data?.recieve_meth || "Bank Transfer",
-        payout_part: tdata?.amt?.payout_part || "Bank"
+        send_amt: data?.send_amt || "",
+        exchange_amt: data?.exchange_amt || "",
+        from_type: data?.from_type || "AUD",
+        to_type: data?.to_type || "NZD",
+        recieve_meth: data?.recieve_meth || "Bank Transfer",
+        payout_part: "Bank"
     }
 
     const formik = useFormik({
@@ -76,16 +75,24 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
         const pattern = /^[0-9.,]+$/;
         if (event.key === 'Backspace') {
 
-        }
-        else if (!pattern.test(event.key)) {
-            event.preventDefault();
-            event.stopPropagation()
         } else {
-            console.log("----------------------------", event.target.value)
-            setAmtDetail({ ...amt_detail, send_amt: event.target.value })
-            formik.setFieldValue('send_amt', event.target.value)
-            formik.setFieldTouched('send_amt', true)
+            let value = event.target.value.toString()
+            if (value.length < 7) {
+                if (!pattern.test(event.key)) {
+                    event.preventDefault();
+                    event.stopPropagation()
+                } else {
+                    console.log("----------------------------", event.target.value)
+                    setAmtDetail({ ...amt_detail, send_amt: event.target.value })
+                    formik.setFieldValue('send_amt', event.target.value)
+                    formik.setFieldTouched('send_amt', true)
+                }
+            } else {
+                event.preventDefault();
+                    event.stopPropagation()
+            }
         }
+
     }
 
     const myTotalAmount = (event) => {
@@ -131,10 +138,16 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
 
     }
 
-    const handleCancel = () => {
-        localStorage.removeItem("send-step")
-        localStorage.removeItem("transfer_data")
-        navigate("/dashboard")
+    const handleClear = () => {
+        formik.resetForm()
+        setAmtDetail({
+            send_amt: "",
+            exchange_amt: "",
+            from_type: "AUD",
+            to_type: "NZD",
+            recieve_meth: "Bank Transfer",
+            payout_part: "Bank"
+        })
     }
 
     const myTotalAmountTo = (e) => {
@@ -171,8 +184,15 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     }
 
     useEffect(() => {
-        console.log(amt_detail)
-    }, [amt_detail])
+        if (localStorage.getItem("transfer_data")) {
+            let tdata = JSON.parse(localStorage.getItem("transfer_data"))
+            if (tdata?.amount) {
+                setAmtDetail(tdata?.amount)
+                formik.setValues({ ...tdata?.amount })
+            }
+        }
+
+    }, [step])
 
     return (
         <section>
@@ -358,8 +378,8 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                                 <button
                                     type='button'
                                     className="start-form-button"
-                                    onClick={() => handleCancel()}
-                                >Cancel</button>
+                                    onClick={() => handleClear()}
+                                >Clear</button>
                             </div>
                             <div className="col-md-8">
                                 <button

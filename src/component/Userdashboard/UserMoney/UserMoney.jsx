@@ -58,7 +58,7 @@ const SendMoney = () => {
         setInterval(() => {
             localStorage.removeItem("send-step");
             localStorage.removeItem("transfer_data");
-            navigate("/")
+            window.location.reload(true)
         }, 15 * 60 * 1000);
 
     }, [])

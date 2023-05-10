@@ -83,7 +83,7 @@ const Header = () => {
                     </span>
                     <ul>
                       {
-                        LoginDigitalidVerified ? (
+                        LoginDigitalidVerified == "true" ? (
                           <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
                         ) : (<> </>)
                       }
@@ -139,7 +139,7 @@ const Header = () => {
                         </a>
                         <ul>
                           {
-                            LoginDigitalidVerified ? (
+                            LoginDigitalidVerified == "true" ? (
                               <li> <NavLink to="/dashboard" onClick={handleClose}>User Dashboard</NavLink></li>
                             ) : (<> </>)
                           }

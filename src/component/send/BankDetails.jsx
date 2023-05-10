@@ -8,6 +8,7 @@ import { Modal, Table } from 'react-bootstrap';
 import { useMemo } from 'react';
 import countryList from 'react-select-country-list';
 import { useNavigate } from 'react-router';
+import { useEffect } from 'react';
 
 const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
@@ -16,24 +17,35 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   const [loader, setLoader] = useState(false)
 
   const [data, setData] = useState({
-    bank: tdata?.recipient?.bank || "", acc_name: tdata?.recipient?.acc_name || "", acc_no: tdata?.recipient?.acc_no || "",
-    f_name: tdata?.recipient?.f_name || "", l_name: tdata?.recipient?.l_name || "", m_name: tdata?.recipient?.m_name || "",
-    email: tdata?.recipient?.email || "", mobile: tdata?.recipient?.mobile || "", flat: tdata?.recipient?.flat || "",
-    build_no: tdata?.recipient?.build_no || "", street: tdata?.recipient?.street || "", city: tdata?.recipient?.city || "",
-    post_code: tdata?.recipient?.post_code || "", state: tdata?.recipient?.state || "", country: tdata?.recipient?.country || "",
-    reason: tdata?.recipient?.reason || ""
+    bank: "", acc_name: "", acc_no: "",
+    f_name: "", l_name: "", m_name: "",
+    email: "", mobile: "", flat: "",
+    build_no: "", street: "", city: "",
+    post_code: "", state: "", country: "",
+    reason: ""
   })
 
   const initialValues = {
-    bank: tdata?.recipient?.bank || "", acc_name: tdata?.recipient?.acc_name || "", acc_no: tdata?.recipient?.acc_no || "",
-    f_name: tdata?.recipient?.f_name || "", l_name: tdata?.recipient?.l_name || "", m_name: tdata?.recipient?.m_name || "",
-    email: tdata?.recipient?.email || "", mobile: tdata?.recipient?.mobile || "", flat: tdata?.recipient?.flat || "",
-    build_no: tdata?.recipient?.build_no || "", street: tdata?.recipient?.street || "", city: tdata?.recipient?.city || "",
-    post_code: tdata?.recipient?.post_code || "", state: tdata?.recipient?.state || "", country: tdata?.recipient?.country || "",
-    reason: tdata?.recipient?.reason || ""
+    bank: "", acc_name: "", acc_no: "",
+    f_name: "", l_name: "", m_name: "",
+    email: "", mobile: "", flat: "",
+    build_no: "", street: "", city: "",
+    post_code: "", state: "", country: "",
+    reason: ""
   }
 
   const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    if (localStorage.getItem("transfer_data")) {
+        let tdata = JSON.parse(localStorage.getItem("transfer_data"))
+        if (tdata?.recipient) {
+            setData(tdata?.recipient)
+            formik.setValues({ ...tdata?.recipient })
+        }
+    }
+
+}, [step])
 
   const bankSchema = Yup.object().shape({
     bank: Yup.string()
@@ -510,8 +522,9 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <button type="button" className="start-form-button" onClick={() => handleClear()}>Clear</button>
             </div>
             <div className="col-md-8">
-              <button type="button" className="form-button" onClick={() => { handlePrevious() }}>Previous</button>
               <button type="submit" className="form-button">Continue</button>
+              <button type="button" className="form-button" onClick={() => { handlePrevious() }}>Previous</button>
+
             </div>
           </div>
         </div>

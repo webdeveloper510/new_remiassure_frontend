@@ -14,25 +14,24 @@ const SenderDetails = ({ handleStep, step }) => {
   const tdata = JSON.parse(localStorage.getItem("transfer_data"))
 
   const [data, setData] = useState({
-    f_name: tdata?.sender?.f_name || "", m_name: tdata?.sender?.m_name || "", l_name: tdata?.sender?.l_name || "",
-    gender: tdata?.sender?.gender || "Male", country_of_birth: tdata?.sender?.country_of_birth || "",
-    dob: tdata?.sender?.dob || "", flat: tdata?.sender?.flat || "", build_no: tdata?.sender?.build_no || "",
-    street: tdata?.sender?.street || "", city: tdata?.sender?.city || "", country: tdata?.sender?.country || "",
-    post_code: tdata?.sender?.post_code || "", state: tdata?.sender?.state || "", email: userd.email, mobile: userd.mobile,
+    f_name:  "", m_name:  "", l_name: "",
+    gender:"Male", country_of_birth:"",
+    dob:  "", flat: "", build_no: "",
+    street: "", city:"", country: "",
+    post_code: "", state: "", email: userd.email, mobile: userd.mobile,
     customer_id: userd.customer_id
   })
 
   const initialValues = {
-    f_name: tdata?.sender?.f_name || "", m_name: tdata?.sender?.m_name || "", l_name: tdata?.sender?.l_name || "",
-    gender: tdata?.sender?.gender || "Male", country_of_birth: tdata?.sender?.country_of_birth || "",
-    dob: tdata?.sender?.dob || "", flat: tdata?.sender?.flat || "", build_no: tdata?.sender?.build_no || "",
-    street: tdata?.sender?.street || "", city: tdata?.sender?.city || "", country: tdata?.sender?.country || "",
-    post_code: tdata?.sender?.post_code || "", state: tdata?.sender?.state || "", email: userd.email, mobile: userd.mobile,
+    f_name:  "", m_name:  "", l_name: "",
+    gender:"Male", country_of_birth:"",
+    dob:  "", flat: "", build_no: "",
+    street: "", city:"", country: "",
+    post_code: "", state: "", email: userd.email, mobile: userd.mobile,
     customer_id: userd.customer_id
   }
 
   const navigate = useNavigate()
-
 
   const senderSchema = Yup.object().shape({
     f_name: Yup.string().min(2).max(25).required(),
@@ -135,6 +134,17 @@ const SenderDetails = ({ handleStep, step }) => {
     }
 
   }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("transfer_data")) {
+        let tdata = JSON.parse(localStorage.getItem("transfer_data"))
+        if (tdata?.sender) {
+            setData(tdata?.sender)
+            formik.setValues({ ...tdata?.sender })
+        }
+    }
+
+}, [step])
 
   const handleClear = () => {
     setData({

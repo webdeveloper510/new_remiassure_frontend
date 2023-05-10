@@ -95,12 +95,10 @@ const PaymentDetails = ({ handleStep, step }) => {
         </div>
         <div className="row">
           <div className="col-md-4">
-            <button className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
+            <button type="button" className="start-form-button" onClick={() => handlePrevious()}>Previous</button>
           </div>
           <div className="col-md-8">
             <button className="form-button" onClick={() => handlePayType()}>Continue</button>
-            <button type="button" className="form-button" onClick={() => handlePrevious()}>Previous</button>
-
           </div>
         </div>
       </div>
@@ -143,16 +141,17 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
     handleModal()
     const local = JSON.parse(localStorage.getItem("transfer_data"))
     const data = {
+      name: local?.recipient?.First_name,
       send_currency: local?.amount?.from_type,
       recieve_currency: local?.amount?.to_type,
       destination: local?.recipient?.country,
       recipient_id: local?.recipient?.id,
       send_amount: local?.amount?.send_amt,
       recieve_amount: local?.amount?.exchange_amt,
-      reason: local?.recipient?.reason,
-      card_id: token?.token?.id
+      reason: "Family Support",
+      card_token: token?.token?.id
     }
-    axios.post(`${global.serverUrl}/payment/stripe/charge/`, data, {
+    axios.post(`${global.serverUrl}/payment/stripe-charge/`, data, {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`,
       },

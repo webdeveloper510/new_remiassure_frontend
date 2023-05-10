@@ -27,11 +27,6 @@ import { completedPayment, transactionHistory, userProfile } from "../../utils/A
 const Dashboard = () => {
 
     const navigate = useNavigate();
-    useEffect(() => {
-        if (!authDashHelper('dashCheck')) {
-            navigate("/send-money")
-        }
-    }, []);
 
     /**************************token ************************ */
     const token = localStorage.getItem("token");
@@ -55,11 +50,7 @@ const Dashboard = () => {
         setActive(!isActive);
     };
 
-    useEffect(() => {
-        getList();
-        transComplete()
-        transHistory()
-    }, [])
+
 
     const transHistory = () => {
         setLoading(true);
@@ -111,19 +102,22 @@ const Dashboard = () => {
         })
     }
 
-
-
-
     useEffect(() => {
-        userProfile().then((response) => {
-            console.log("user-profile----------====", response)
-            if (response.code == 200) {
-                setFirstName(response.data.First_name);
-            }
-        }).catch((error) => {
-            console.log(error.response)
-        })
-
+        if (!authDashHelper('dashCheck')) {
+            navigate("/send-money")
+        } else {
+            getList();
+            transComplete()
+            transHistory()
+            userProfile().then((response) => {
+                console.log("user-profile----------====", response)
+                if (response.code == 200) {
+                    setFirstName(response.data.First_name);
+                }
+            }).catch((error) => {
+                console.log(error.response)
+            })
+        }
     }, [])
 
     return (

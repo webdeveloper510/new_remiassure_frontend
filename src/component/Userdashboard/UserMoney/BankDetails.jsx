@@ -14,6 +14,7 @@ import norecipients from '../../../assets/img/userdashboard/hidden.avif';
 import { useEffect } from 'react';
 import global from '../../../utils/global';
 import axios from "axios"
+import { toast } from 'react-toastify';
 
 const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
@@ -29,24 +30,24 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   };
 
   const [data, setData] = useState({
-    bank: tdata?.recipient?.bank || "", acc_name: tdata?.recipient?.acc_name || "", acc_no: tdata?.recipient?.acc_no || "",
-    f_name: tdata?.recipient?.f_name || "", l_name: tdata?.recipient?.l_name || "", m_name: tdata?.recipient?.m_name || "",
-    email: tdata?.recipient?.email || "", mobile: tdata?.recipient?.mobile || "", flat: tdata?.recipient?.flat || "",
-    build_no: tdata?.recipient?.build_no || "", street: tdata?.recipient?.street || "", city: tdata?.recipient?.city || "",
-    post_code: tdata?.recipient?.post_code || "", state: tdata?.recipient?.state || "", country: tdata?.recipient?.country || "",
-    reason: tdata?.recipient?.reason || "", label: ""
+    bank: "", acc_name: "", acc_no: "",
+    f_name: "", l_name: "", m_name: "",
+    email: "", mobile: "", flat: "",
+    build_no: "", street: "", city: "",
+    post_code: "", state: "", country: "",
+    reason: ""
   })
 
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(false)
 
   const initialValues = {
-    bank: tdata?.recipient?.bank || "", acc_name: tdata?.recipient?.acc_name || "", acc_no: tdata?.recipient?.acc_no || "",
-    f_name: tdata?.recipient?.f_name || "", l_name: tdata?.recipient?.l_name || "", m_name: tdata?.recipient?.m_name || "",
-    email: tdata?.recipient?.email || "", mobile: tdata?.recipient?.mobile || "", flat: tdata?.recipient?.flat || "",
-    build_no: tdata?.recipient?.build_no || "", street: tdata?.recipient?.street || "", city: tdata?.recipient?.city || "",
-    post_code: tdata?.recipient?.post_code || "", state: tdata?.recipient?.state || "", country: tdata?.recipient?.country || "",
-    reason: tdata?.recipient?.reason || ""
+    bank: "", acc_name: "", acc_no: "",
+    f_name: "", l_name: "", m_name: "",
+    email: "", mobile: "", flat: "",
+    build_no: "", street: "", city: "",
+    post_code: "", state: "", country: "",
+    reason: ""
   }
 
   const [show, setShow] = useState(false)
@@ -104,8 +105,23 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
       })
         .then(function (response) {
-          HandleRecipientlist()
-          setLoading(false)
+          console.log(response)
+          if (response.data.code == "200") {
+            setData({
+              bank: "", acc_name: "", acc_no: "",
+              f_name: "", l_name: "", m_name: "",
+              email: "", mobile: "", flat: "",
+              build_no: "", street: "", city: "",
+              post_code: "", state: "", country: "",
+              reason: ""
+            })
+            formik.resetForm()
+            HandleRecipientlist()
+            setLoading(false)
+          } else if (response.data.code == "400") {
+            setLoading(false)
+            toast.error(response.data.message, { autoClose: 2000 })
+          }
         })
         .catch(function (error, message) {
           console.log(error.response);
@@ -115,19 +131,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     }
   })
 
-  const handleAccNo = (event) => {
-    const pattern = /^[0-9.,]+$/;
-    if (event.key === 'Backspace') {
-
-    }
-    else if (!pattern.test(event.key)) {
-      event.preventDefault();
-      event.stopPropagation()
-    } else {
-      setData({ ...data, acc_no: event.target.value })
-      formik.setFieldValue('acc_no', event.target.value)
-    }
-  }
 
   const handleMobile = (event) => {
     const pattern = /^[0-9.,]+$/;
@@ -172,15 +175,34 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   const handlePrevious = () => {
     localStorage.removeItem("send-step")
-    localStorage.setItem("send-step", 0)
-    handleStep(0);
+    localStorage.setItem("send-step", Number(step) - 1)
+    handleStep(Number(step) - 1);
   }
 
-  const handleCancel = () => {
-    localStorage.removeItem("send-step")
-    localStorage.removeItem("transfer_data")
-    navigate("/dashboard")
+  const handleClear = () => {
+    setData({
+      bank: "", acc_name: "", acc_no: "",
+      f_name: "", l_name: "", m_name: "",
+      email: "", mobile: "", flat: "",
+      build_no: "", street: "", city: "",
+      post_code: "", state: "", country: "",
+      reason: ""
+    })
+    formik.resetForm()
   }
+  const handleCancel = () => {
+    setData({
+      bank: "", acc_name: "", acc_no: "",
+      f_name: "", l_name: "", m_name: "",
+      email: "", mobile: "", flat: "",
+      build_no: "", street: "", city: "",
+      post_code: "", state: "", country: "",
+      reason: ""
+    })
+    formik.resetForm()
+    setActive(!isActive)
+  }
+
   const selectRecipient = (value) => {
     const local = JSON.parse(localStorage.getItem("transfer_data"))
     localStorage.removeItem("transfer_data")
@@ -190,7 +212,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     if (localStorage.getItem("send-step")) {
       localStorage.removeItem("send-step")
     }
-    handleStep(2);
+    localStorage.setItem("send-step", Number(step) + 1)
+    handleStep(Number(step) + 1);
   }
 
   useEffect(() => {
@@ -623,7 +646,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
               <div className="row">
                 <div className="col-md-4">
-                  <button type="button" className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
+                  <button type="button" className="start-form-button" onClick={() => handleClear()}>Clear</button>
                 </div>
                 <div className="col-md-8">
                   <button type="submit" className="form-button">Continue  {loading ? <>
@@ -631,15 +654,12 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                       <div class="loader" >
                       </div>
                     </div></> : ""}</button>
+                  <button type="button" className="form-button" onClick={() => handleCancel()}>Cancel</button>
                 </div>
               </div>
             </div>
           </div>
         </form>
-
-
-
-
       </div>
     </section>
   )
