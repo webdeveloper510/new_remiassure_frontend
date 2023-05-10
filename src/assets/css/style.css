@@ -2839,6 +2839,7 @@ select.form-select option {
   border-radius: 12px;
   margin: 0 auto;
   padding: 38px 36px;
+  background:#fff;
 }
 .country-select {
   width: 100%;
