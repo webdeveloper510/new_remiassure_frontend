@@ -396,26 +396,26 @@ const Editrecipientuser = () => {
     { name: 'Zimbabwe', code: 'ZW' }
   ]
   /************ Start - Edi-Recipient Bank Details function***************/
-  // const handleBankNameValue = (event) => {
-  //   const regex = /^[a-zA-Z]+$/; // regex pattern to allow only alphabets
-  //   if (event.target.value === '' || regex.test(event.target.value)) {
-  //     setBank_name(event.target.value);
-  //   }
-  // };
+  const handleBankNameValue = (event) => {
+    const regex = /^[a-zA-Z]+$/; // regex pattern to allow only alphabets
+    if (event.target.value === '' || regex.test(event.target.value)) {
+      setBank_name(event.target.value);
+    }
+  };
 
 
-  // const handleAccountNameValue = (event) => {
-  //   const regex = /^[a-zA-Z]+$/; // regex pattern to allow only alphabets
-  //   if (event.target.value === '' || regex.test(event.target.value)) {
-  //     setAccount_name(event.target.value);
-  //   }
-  // };
+  const handleAccountNameValue = (event) => {
+    const regex = /^[a-zA-Z]+$/; // regex pattern to allow only alphabets
+    if (event.target.value === '' || regex.test(event.target.value)) {
+      setAccount_name(event.target.value);
+    }
+  };
 
-  // const handleAccountNumberValue = (event) => {
-  //   const newValue = event.target.value.replace(/\D/, ""); // remove non-numeric characters
-  //   setAccount_number(newValue);
+  const handleAccountNumberValue = (event) => {
+    const newValue = event.target.value.replace(/\D/, ""); // remove non-numeric characters
+    setAccount_number(newValue);
 
-  // };
+  };
 
 
 
@@ -450,20 +450,20 @@ const Editrecipientuser = () => {
   };
 
   /********************** Start- form-validation ***********************/
-  // const input_bankName = useRef(null);
-  // const input_accountName = useRef(null);
-  // const input_accountNumber = useRef(null);
-  // const input_firstName = useRef(null);
-  // const input_middleName = useRef(null);
-  // const input_lastName = useRef(null);
-  // const input_email = useRef(null);
-  // const input_mobile = useRef(null);
-  // const input_flat = useRef(null);
-  // const input_building = useRef(null);
-  // const input_street = useRef(null);
-  // const input_city = useRef(null);
-  // const input_state = useRef(null);
-  // const input_country = useRef(null);
+  const input_bankName = useRef(null);
+  const input_accountName = useRef(null);
+  const input_accountNumber = useRef(null);
+  const input_firstName = useRef(null);
+  const input_middleName = useRef(null);
+  const input_lastName = useRef(null);
+  const input_email = useRef(null);
+  const input_mobile = useRef(null);
+  const input_flat = useRef(null);
+  const input_building = useRef(null);
+  const input_street = useRef(null);
+  const input_city = useRef(null);
+  const input_state = useRef(null);
+  const input_country = useRef(null);
 
 
   /**********************Localstorage getting data*********** */
@@ -668,11 +668,8 @@ const Editrecipientuser = () => {
         city: values.city,
         state: values.state,
         country: values.country
-      }).then((response) => {
-        console.log("rescipient+++++++++++++++", response)
-        if(response.code == "200"){
-          toast.success("Successfully updated", { position: "top-right", autoClose: 2000, theme: "colored" })
-        }
+      }).then((res) => {
+        console.log("rescipient+++++++++++++++", res)
         setLoading(false)
       }).catch((error) => {
         console.log(error.response)
@@ -680,7 +677,9 @@ const Editrecipientuser = () => {
         if (error.response.data.code == "400") {
           toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" })
         }
+
       })
+
     }
   })
 
@@ -708,6 +707,7 @@ const Editrecipientuser = () => {
               <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
                 <div className="card">
                   <div className="card-body">
+
                     <div className="row">
                       <h5>Bank Information</h5>
                       <div className="col-md-4">
