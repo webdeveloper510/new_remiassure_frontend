@@ -176,10 +176,6 @@ const SendMoney = () => {
                       </ul>
                       {/* <button onClick={handleNextStep}>Next</button> */}
                       <div className="col-md-8">
-
-
-
-
                         {
                           step === 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
                             :

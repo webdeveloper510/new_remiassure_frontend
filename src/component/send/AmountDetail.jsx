@@ -28,7 +28,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     const amtSchema = Yup.object().shape({
         send_amt: Yup.string()
             .min(1, 'Minimum 3 symbols')
-            .max(6, 'Maximum 50 symbols')
+            .max(7, 'Maximum 50 symbols')
             .required('Email is required'),
         from_type: Yup.string().oneOf(["AUD", "NZD"]),
         to_type: Yup.string().required()

@@ -38,32 +38,32 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   useEffect(() => {
     if (localStorage.getItem("transfer_data")) {
-        let tdata = JSON.parse(localStorage.getItem("transfer_data"))
-        if (tdata?.recipient) {
-            setData(tdata?.recipient)
-            formik.setValues({ ...tdata?.recipient })
-        }
+      let tdata = JSON.parse(localStorage.getItem("transfer_data"))
+      if (tdata?.recipient) {
+        setData(tdata?.recipient)
+        formik.setValues({ ...tdata?.recipient })
+      }
     }
 
-}, [step])
+  }, [step])
 
   const bankSchema = Yup.object().shape({
     bank: Yup.string()
       .min(5, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
       .required('Email is required'),
-    acc_name: Yup.string().min(3).max(25).required(),
+    acc_name: Yup.string().min(3).max(50).required(),
     acc_no: Yup.string().min(9).max(20).required(),
     f_name: Yup.string().min(2).max(25).required(),
     l_name: Yup.string().min(2).max(25).required(),
     email: Yup.string().email().max(50).required(),
     mobile: Yup.string().min(7).max(18).required(),
-    flat: Yup.string().min(2).max(10).required(),
-    build_no: Yup.string().min(2).max(10).required(),
-    street: Yup.string().min(2).max(100).required(),
-    city: Yup.string().min(2).max(30).required(),
+    flat: Yup.string().min(2).max(15).required(),
+    build_no: Yup.string().min(2).max(30).required(),
+    street: Yup.string().min(2).max(30).required(),
+    city: Yup.string().min(2).max(35).required(),
     post_code: Yup.string().min(2).max(20).required(),
-    state: Yup.string().min(2).max(30).required(),
+    state: Yup.string().min(2).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
     reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
   })
@@ -79,31 +79,24 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     }
   })
 
-  const handleAccNo = (event) => {
-    const pattern = /^[0-9.,]+$/;
-    if (event.key === 'Backspace') {
-
-    }
-    else if (!pattern.test(event.key)) {
-      event.preventDefault();
-      event.stopPropagation()
-    } else {
-      setData({ ...data, acc_no: event.target.value })
-      formik.setFieldValue('acc_no', event.target.value)
-    }
-  }
-
   const handleMobile = (event) => {
     const pattern = /^[0-9.,]+$/;
     if (event.key === 'Backspace') {
 
-    }
-    else if (!pattern.test(event.key)) {
-      event.preventDefault();
-      event.stopPropagation()
     } else {
-      setData({ ...data, mobile: event.target.value })
-      formik.setFieldValue('mobile', event.target.value)
+      let value = event.target.value.toString()
+      if (value.length >= 18) {
+        event.stopPropagation()
+        event.preventDefault()
+      } else {
+        if (!pattern.test(event.key)) {
+          event.preventDefault();
+          event.stopPropagation()
+        } else {
+          setData({ ...data, mobile: event.target.value })
+          formik.setFieldValue('mobile', event.target.value)
+        }
+      }
     }
   }
 
@@ -111,16 +104,22 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     const pattern = /^[0-9.,]+$/;
     if (event.key === 'Backspace') {
 
-    }
-    else if (!pattern.test(event.key)) {
-      event.preventDefault();
-      event.stopPropagation()
     } else {
-      setData({ ...data, post_code: event.target.value })
-      formik.setFieldValue('post_code', event.target.value)
+      let value = event.target.value.toString()
+      if (value.length >= 18) {
+        event.stopPropagation()
+        event.preventDefault()
+      } else {
+        if (!pattern.test(event.key)) {
+          event.preventDefault();
+          event.stopPropagation()
+        } else {
+          setData({ ...data, post_code: event.target.value })
+          formik.setFieldValue('post_code', event.target.value)
+        }
+      }
     }
   }
-
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value })
   }
@@ -158,6 +157,26 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     })
     formik.resetForm()
   }
+  const handleKeyDown = (e, max) => {
+    if (e.key === "Backspace") {
+
+    } else {
+      const value = e.target.value.toString()
+
+      if (value.length >= max) {
+
+        e.stopPropagation()
+        e.preventDefault()
+
+      } else {
+
+        setData({ ...data, [e.target.name]: e.target.value })
+        formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+        formik.setFieldTouched(`${[e.target.name]}`, true)
+
+      }
+    }
+  }
 
   return (
     <div>
@@ -174,7 +193,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <input
                 type="text"
                 name="bank"
-                onChange={(e) => handleChange(e)}
+                onKeyDown={(e) => { handleKeyDown(e, 50) }}
                 {...formik.getFieldProps("bank")}
                 className={clsx(
                   'form-control bg-transparent',
@@ -194,7 +213,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="acc_name"
                   value={data?.acc_name}
-                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => { handleKeyDown(e, 50) }}
                   {...formik.getFieldProps("acc_name")}
 
                   className={clsx(
@@ -216,7 +235,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="acc_no"
                   value={data?.acc_no}
-                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => { handleKeyDown(e, 20) }}
                   {...formik.getFieldProps("acc_no")}
                   className={clsx(
                     'form-control bg-transparent',
@@ -238,7 +257,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="f_name"
                   value={data.f_name}
-                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => { handleKeyDown(e, 25) }}
                   {...formik.getFieldProps("f_name")}
                   className={clsx(
                     'form-control bg-transparent',
@@ -257,7 +276,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="m_name"
                   value={data.m_name}
-                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => { handleKeyDown(e, 25) }}
+
                   {...formik.getFieldProps("m_name")}
 
                   className={clsx(
@@ -277,7 +297,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="l_name"
                   value={data.l_name}
-                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => { handleKeyDown(e, 25) }}
+
                   {...formik.getFieldProps("l_name")}
 
                   className={clsx(
@@ -299,7 +320,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="email"
                   name="email"
                   value={data.email}
-                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => { handleKeyDown(e, 50) }}
+
                   {...formik.getFieldProps("email")}
 
                   className={clsx(
@@ -341,7 +363,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="flat"
                   value={data.flat}
-                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => { handleKeyDown(e, 15) }}
+
                   {...formik.getFieldProps("flat")}
 
                   className={clsx(
@@ -361,9 +384,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="build_no"
                   value={data.build_no}
-                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => { handleKeyDown(e, 30) }}
                   {...formik.getFieldProps("build_no")}
-
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.build_no && formik.errors.build_no },
@@ -381,7 +403,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="street"
                   value={data.street}
-                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => { handleKeyDown(e, 50) }}
                   {...formik.getFieldProps("street")}
 
                   className={clsx(
@@ -405,7 +427,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   value={data.post_code}
                   onKeyDown={(e) => handlePostCode(e)}
                   {...formik.getFieldProps("post_code")}
-
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.post_code && formik.errors.post_code },
@@ -424,9 +445,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="city"
                   value={data.city}
-                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => { handleKeyDown(e, 35) }}
                   {...formik.getFieldProps("city")}
-
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.city && formik.errors.city },
@@ -445,9 +465,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="state"
                   value={data.state}
-                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => { handleKeyDown(e, 30) }}
                   {...formik.getFieldProps("state")}
-
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.state && formik.errors.state },

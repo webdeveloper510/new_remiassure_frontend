@@ -53,62 +53,40 @@ const Dashboard = () => {
 
 
     const transHistory = () => {
-        setLoading(true);
         transactionHistory().then((response) => {
             // console.log("payment-transaction-history----------====", response)
             if (response.code == 200) {
                 setTransactionData(response);
             }
-            setLoading(false)
         }).catch((error) => {
             // console.log(error.response)
-            setLoading(false)
         })
     }
 
 
 
     const getList = () => {
-        setLoading(true); // Set loading before sending API request
         axios.post(API.BASE_URL + 'payment/recipient-list/', {}, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
         })
             .then(function (response) {
-                // console.log("guguguguugugugggugug", response)
                 if (response.data.code == "200") {
                     setRecipientData(response.data.data);
+                    setLoading(false)
                 }
-                setLoading(false);
             })
             .catch(function (error) {
-                setLoading(false); // Stop loading in case of error
+               console.log(error)
+               setLoading(false)
             })
-    }
-
-    const transComplete = () => {
-        setLoading(true);
-        completedPayment().then((response) => {
-            console.log("------------------------0,0", response)
-            if (response.code == 200) {
-
-                setLoading(false);
-            } else {
-                setDataLength("none")
-            }
-            setData(response);
-        }).catch((error) => {
-        })
     }
 
     useEffect(() => {
         if (!authDashHelper('dashCheck')) {
             navigate("/send-money")
         } else {
-            getList();
-            transComplete()
-            transHistory()
             userProfile().then((response) => {
                 console.log("user-profile----------====", response)
                 if (response.code == 200) {
@@ -118,6 +96,11 @@ const Dashboard = () => {
                 console.log(error.response)
             })
         }
+    }, [])
+
+    useEffect(() => {
+        transHistory()
+        getList()
     }, [])
 
     return (
@@ -287,7 +270,7 @@ const Dashboard = () => {
                                                             <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p>
                                                         </div>
                                                         <div className="col-md-12">
-                                                            <a href="#/user-send-money" className="send_money">Send Money</a>
+                                                            <NavLink to="/user-send-money" className="send_money">Send Money</NavLink>
                                                         </div>
                                                     </div>
                                                 ) : (
@@ -306,7 +289,7 @@ const Dashboard = () => {
                                                     </div>
                                                 </div>
 
-                                                {data?.length != 0 ? (
+                                                {recipientData?.length != 0 ? (
                                                     <table className="table table-responsive-md card-table previous-transactions">
                                                         <thead>
                                                             <tr>

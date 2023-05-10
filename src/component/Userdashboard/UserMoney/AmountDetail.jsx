@@ -82,7 +82,6 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                     event.preventDefault();
                     event.stopPropagation()
                 } else {
-                    console.log("----------------------------", event.target.value)
                     setAmtDetail({ ...amt_detail, send_amt: event.target.value })
                     formik.setFieldValue('send_amt', event.target.value)
                     formik.setFieldTouched('send_amt', true)

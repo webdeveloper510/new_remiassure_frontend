@@ -7,6 +7,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { useRef } from 'react'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
+import { BiXCircle } from 'react-icons/bi'
 
 const PaymentDetails = ({ handleStep, step }) => {
 
@@ -170,8 +171,14 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
       if (localStorage.getItem("send-step")) {
         localStorage.removeItem("send-step")
       }
-      toast.error("Transaction falied, please try again later")
-      navigate("/dashboard")
+      return (
+        <Modal show={true} size='sm' onHide={() => { navigate("/dashboard") }}>
+          <Modal.Header > <BiXCircle color='red' />Error</Modal.Header>
+          <Modal.Body>
+            <Modal.Dialog className='text-danger'>Transaction falied, please try again later</Modal.Dialog>
+          </Modal.Body>
+        </Modal>
+      )
     })
   };
 

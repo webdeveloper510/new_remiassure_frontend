@@ -14,6 +14,8 @@ import { userRegister } from "../../utils/Api";
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import clsx from "clsx";
+import { Modal } from "react-bootstrap";
+import { BsCheck, BsCheckCircleFill, BsXCircleFill } from "react-icons/bs";
 
 
 
@@ -22,6 +24,7 @@ const Signup = () => {
 
     const search = useLocation()
     const [show, setShow] = useState(false);
+    const [modalShow, setModalShow] = useState({ toggle: false, value: "", type: "", navigate:""})
 
     const initialValues = {
         location: "",
@@ -34,9 +37,9 @@ const Signup = () => {
 
     const signSchema = Yup.object().shape({
         location: Yup.string().oneOf(['Australia', 'New Zealand']).required(),
-        email: Yup.string().email().min(6).max(50).required(),
-        password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/,'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required(),
-        confirmPassword: Yup.string().oneOf([Yup.ref("password")],"Passwords did not match").required("Password confirmation is required"),
+        email: Yup.string().email().min(6).max(50).required("Email is required"),
+        password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
+        confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
         referral_code: show ? Yup.string().length(7).required() : Yup.string().length(7).notRequired(),
         mobile: Yup.string().min(7).max(15).required()
     })
@@ -53,24 +56,25 @@ const Signup = () => {
                 data = { location: values.location, email: values.email, mobile: values.mobile, password: values.password, confirmPassword: values.confirmPassword, promo_marketing: promo_marketing }
             }
             userRegister(data).then((res) => {
-                console.log('vija-----', res)
+                // console.log('vija-----', res)
                 if (res.code === "200") {
-                    toast.success('SignUp Succesfull', { position: "top-right", autoClose: 2000, theme: "colored" });
+                    setModalShow({ toggle: true, value: "Registration successful", type: "success", navigate:"/verification" })
                     localStorage.setItem("remi-user-dt", JSON.stringify(res?.data))
-                    navigate('/verification', { state: { email: values.email } })
+             
                 } else if (res.code == '400') {
-                    toast.error(res.message, { position: "top-right", autoClose: 2000, theme: "colored" });
+                    setModalShow({ toggle: true, value: res.message, type: "error" })
                 }
                 else if (res.code == '201') {
-                    toast.error(res.message + ", please login", { position: "top-right", autoClose: 2000, theme: "colored" });
-                    navigate("/login")
+                    setModalShow({ toggle: true, value: res.message + ", please login", type: "error", navigate:"/login" })
+                    // toast.error(res.message + ", please login", { position: "top-right", autoClose: 2000, theme: "colored" });
+                    // navigate("/login")
                 }
 
                 setLoading(false)
             }).catch((error) => {
                 console.log(error.response)
                 if (error.response.code == "400") {
-                    toast.error(error.response.message, { position: "top-right", autoClose: 2000, theme: "colored" });
+                    setModalShow({ toggle: true, value: error.response.message, type: "error" })
                 }
                 setLoading(false)
             })
@@ -136,6 +140,16 @@ const Signup = () => {
         }
         // console.log("checked " + checked);
     };
+    const handleHide = () =>{
+        setModalShow({...modalShow, toggle:false})
+        if(modalShow.navigate){
+            if(modalShow.navigate==="login"){
+                navigate("/login")
+            } else {
+                navigate("/verification",{state:{email:formik.values.email}})
+            }
+        }
+    }
 
     return (
         <>
@@ -277,7 +291,7 @@ const Signup = () => {
                                                         <span onClick={toggleShowConfirmPassword} className="pass_icons">
                                                             {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                                                         </span>
-                                                        
+
                                                         {formik.touched.confirmPassword && formik.errors.confirmPassword && (
                                                             <div className='fv-plugins-message-container mt-1'>
                                                                 <div className='fv-help-block'>
@@ -354,6 +368,15 @@ const Signup = () => {
                         </div>
                     </div>
                 </div>
+                <Modal show={modalShow.toggle} onHide={() => {handleHide()}}
+                centered
+                >
+                    
+                    <Modal.Body className="text-success text-center py-5">
+                    <BsCheckCircleFill color="green" className="fs-1"/>
+                        <p className="fs-5 text-success text-center fw-bold mt-3">{modalShow.value}</p>
+                    </Modal.Body>
+                </Modal>
             </section>
             {/* </>
                 )

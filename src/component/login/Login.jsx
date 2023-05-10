@@ -34,7 +34,7 @@ const Login = () => {
             setLoading(true);
             userLogin({ email: values.email, password: values.password }).then((res) => {
                 if (res.code == 200) {
-                    toast.success('Login Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
+                    toast.success('Login Successfully', { position: "top-right", autoClose: 2000 });
                     localStorage.setItem("token", res?.access_token)
                     localStorage.setItem("remi-user-dt", JSON.stringify(res?.data))
                     if (res?.data?.digital_id_verified) {
@@ -43,7 +43,7 @@ const Login = () => {
                         navigate('/send-money')
                     }
                 } else if (res.code == 201) {
-                    toast.warn("Please check your mail for otp", { position: "top-right", autoClose: 2000, theme: "colored" })
+                    toast.warn("Please check your mail for otp", { position: "top-right", autoClose: 2000 })
                     localStorage.setItem("remi-user-dt", res?.data)
                     navigate('/verification', { state: { email: values.email } })
                 }
@@ -53,7 +53,7 @@ const Login = () => {
                 // console.log('catch-errr', err.response)
                 // console.log('catch-errr', err.response.data.code)
                 if (err.response.data.code === '400') {
-                    toast.error('Credetionals Does not match', { position: "top-right", autoClose: 2000, theme: "colored" });
+                    toast.error('Credetionals Does not match', { position: "top-right", autoClose: 2000 });
                 }
             })
         },
