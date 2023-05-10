@@ -27,7 +27,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
 
     const amtSchema = Yup.object().shape({
         send_amt: Yup.string()
-            .min(2, 'Minimum 3 symbols')
+            .min(1, 'Minimum 3 symbols')
             .max(6, 'Maximum 50 symbols')
             .required('Email is required'),
         from_type: Yup.string().oneOf(["AUD", "NZD"]),
@@ -91,7 +91,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     const myTotalAmount = (event) => {
 
         event.preventDefault();
-        if (event.target.value > 9)
+        if (event.target.value > 0)
             setLoader(true)
         exchangeRate({ amount: event.target.value, from: amt_detail.from_type, to: amt_detail.to_type })
             .then(function (response) {
@@ -131,9 +131,15 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     }
 
     const handleCancel = () => {
-        localStorage.removeItem("send-step")
-        localStorage.removeItem("transfer_data")
-        navigate("/")
+        formik.resetForm()
+        setAmtDetail({
+            send_amt: "",
+            exchange_amt: "",
+            from_type: "AUD",
+            to_type: "NZD",
+            recieve_meth: "Bank Transfer",
+            payout_part: "Bank"
+        })
     }
 
     const myTotalAmountTo = (e) => {
@@ -358,7 +364,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                             type='button'
                             className="start-form-button"
                             onClick={() => handleCancel()}
-                        >Cancel</button>
+                        >Clear</button>
                     </div>
                     <div className="col-md-8">
                         <button

@@ -98,6 +98,14 @@ const SendMoney = () => {
       }
     }
     const s = step;
+    if(s>0){
+      let n=s;
+      while(n!=0){
+        console.log(n)
+        progressBarRefs.current[n-1].style.transform = "translateX(100%)";
+        n--
+      }
+    }
     setActiveStep(Number(s) + 1)
   }, [step])
 
@@ -171,7 +179,7 @@ const SendMoney = () => {
 
 
 
-                        <section>
+                       
                           {
                             step === 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
                               :
@@ -198,7 +206,7 @@ const SendMoney = () => {
                                         </div></>
                                         : ""
                           }
-                        </section>
+                        
                       </div>
                       <div className="col-md-4">
                         <Table>
