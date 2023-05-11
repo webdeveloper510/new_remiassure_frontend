@@ -111,6 +111,7 @@ const SendMoney = () => {
                 <section className="why-us section-bgba user_dashboard_banner">
                   <div className="container">
                     <div className="row">
+                      <div className='col-9'>
                       <ul className="multi-steps">
                         <li className={`step ${activeStep === 1 ? "is-active" : ""}`}>
                           <div className="step-label text-light">
@@ -162,7 +163,12 @@ const SendMoney = () => {
                           </div>
                         </li>
                       </ul>
-
+                      
+                      </div>
+                       
+                       <div className='col-3'>
+                       <div className='timer-row sendmoney-timer'>Form auto closes in ⇒  <label> <span> {minutes < 10 ? "0" + minutes : minutes}</span><p>Minutes</p> </label> <label className='timerdots'>:</label>  <label><span> {seconds < 10 ? "0" + seconds : seconds}</span> <p>Seconds</p> </label></div>
+                       </div>
                       <div className="col-md-8">
                         {
                           step === 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
@@ -193,7 +199,7 @@ const SendMoney = () => {
                         }
                       </div>
                       <div className="col-md-4">
-                        <div>Form auto closes in ⇒ {minutes < 10 ? "0" + minutes : minutes} : {seconds < 10 ? "0" + seconds : seconds}</div>
+                      
 
                         <Table>
                           {
@@ -203,16 +209,16 @@ const SendMoney = () => {
                                 <h5>Summary</h5>
                                 <tbody>
                                   <tr>
-                                    <th>Amount</th>
-                                    <td>{amt_detail?.from_type + amt_detail?.send_amt + " ⇒ " + amt_detail?.to_type + amt_detail?.exchange_amt}</td>
+                                    {/* <th>Amount</th> */}
+                                    <td><b>Amount : </b>{amt_detail?.from_type + amt_detail?.send_amt + " ⇒ " + amt_detail?.to_type + amt_detail?.exchange_amt}</td>
                                   </tr>
                                   <tr>
-                                    <th>Received Method</th>
-                                    <td>{amt_detail?.recieve_meth}</td>
+                                    {/* <th>Received Method</th> */}
+                                    <td><b>Received Method : </b>{amt_detail?.recieve_meth}</td>
                                   </tr>
                                   <tr>
-                                    <th>Payout Partners</th>
-                                    <td>{amt_detail?.payout_part}</td>
+                                    {/* <th>Payout Partners</th> */}
+                                    <td><b>Payout Partners : </b>{amt_detail?.payout_part}</td>
                                   </tr>
                                 </tbody>
                               </div>
@@ -228,16 +234,16 @@ const SendMoney = () => {
                                 <h5>Recipient details Summary</h5>
                                 <tbody>
                                   <tr>
-                                    <th>Full Name</th>
-                                    <td>{bank_detail?.f_name} <span>{bank_detail?.l_name}</span></td>
+                                    {/* <th>Full Name</th> */}
+                                    <td><b>Full Name : </b>{bank_detail?.f_name} <span>{bank_detail?.l_name}</span></td>
                                   </tr>
                                   <tr>
-                                    <th>Mobile</th>
-                                    <td>{bank_detail?.mobile}</td>
+                                    {/* <th>Mobile</th> */}
+                                    <td><b>Mobile : </b>{bank_detail?.mobile}</td>
                                   </tr>
                                   <tr>
-                                    <th>Reason</th>
-                                    <td>{bank_detail?.reason}</td>
+                                    {/* <th>Reason</th> */}
+                                    <td><b>Reason : </b>{bank_detail?.reason}</td>
                                   </tr>
                                 </tbody>
                               </div>

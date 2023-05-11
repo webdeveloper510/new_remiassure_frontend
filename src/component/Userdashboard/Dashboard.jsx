@@ -144,8 +144,7 @@ const Dashboard = () => {
                                                             {/* <NavLink to={"/add-new-recipient"} > */}
                                                             <BsFillPersonPlusFill />
                                                             {/* </NavLink> */}
-                                                            <br />
-                                                            <b className="text-light">{total_recipients} Recipients</b>
+                                                            
                                                         </div>
 
                                                     </div>
@@ -153,7 +152,7 @@ const Dashboard = () => {
                                                         <NavLink to="/user-recipients" className="btn btn-outline-dark btn-rounded">
                                                             View
                                                         </NavLink>
-
+                                                        <span className="text-light custom-number">Recipients ⇒ {total_recipients}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -174,13 +173,14 @@ const Dashboard = () => {
                                                         <div className="icon">
                                                             <BiTransfer />
                                                             <br />
-                                                            <b className="text-light">{total_amount}</b>
+                                                           
                                                         </div>
                                                     </div>
                                                     <div className="mt-3">
                                                         <NavLink to="/user-send-money" className="btn btn-outline-dark btn-rounded">
                                                             View
                                                         </NavLink>
+                                                        <span className="text-light custom-number">Amount Sent ⇒ {total_amount}</span>
                                                     </div>
                                                 </div>
                                             </div>

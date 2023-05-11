@@ -50,7 +50,10 @@ const PaymentDetails = ({ handleStep, step }) => {
         </h2>
       </div>
       <div className="form_body">
-        <h6 className='float-end text-capitalize' style={{color:"#6414E9"}}> Sending: {local?.amount?.from_type}{local?.amount?.send_amt} To: {local?.recipient?.first_name} {local?.recipient.last_name}</h6>
+        <p className='float-end text-capitalize col-12' style={{color:"#6414E9"}}> Sending ⇒  {local?.amount?.from_type}{local?.amount?.send_amt}</p>
+        <p className='float-end text-capitalize col-12' style={{color:"#6414E9"}}> To  ⇒ {local?.recipient?.first_name} {local?.recipient.last_name}</p>
+        <br></br>
+        <br></br>
         <div className="row each-row">
           <h5>Payment type</h5>
           <div className="col-md-12">

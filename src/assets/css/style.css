@@ -867,15 +867,16 @@ padding-left: 10px;
     height: 44.81px;
    
   }
-  .continue-button:hover{
-    background-color:rgba(104, 164, 196, 0.7);
-
+  .continue-button:hover , .continue-button:focus{
+       background: #6414e9;
   }
   img.flag_icons {
     border-radius: 50px;
 }
 
-
+.home-error {
+  position: absolute;
+}
 
 
 
@@ -2764,7 +2765,7 @@ button.continue_button {
   cursor: pointer;
 }
 .inline.select-currency input {
-  width: 200px !important;
+  /* width: 200px !important; */
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
   border-right: none;
@@ -3105,7 +3106,7 @@ margin-top: 15px;
 .summary {
   font-family: var(--font-family) !important;
   font-style: normal;
-  /* width: 100%; */
+  width: 100%; 
   box-shadow: 0px 4px 20px rgb(0 0 0 / 16%);
   border-radius: 12px;
   margin: 0px auto 0px;
@@ -3114,7 +3115,13 @@ margin-top: 15px;
   position:relative;
   background:#fff;
 }
-
+.summary tbody , .summary1 tbody {
+  width: 100% !important;
+  display: table;
+}
+.summary tbody tr td b , .summary1 tbody tr td b {
+  margin-right: 10px;
+}
 .summary svg {
   position: absolute;
   top: -16px;
@@ -3142,7 +3149,7 @@ margin-top: 15px;
 .summary1 {
   font-family: var(--font-family) !important;
   font-style: normal;
-  /* width: 100%; */
+  width: 100%;
   box-shadow: 0px 4px 20px rgb(0 0 0 / 16%);
   border-radius: 12px;
   margin: 64px auto 0px;
@@ -3667,6 +3674,8 @@ section.top_sections .row {
 }
 .continue-button {
   width: 131px;
+  margin-right:10px;
+  margin-top: 35px;
 }
 button#input-group-dropdown-2 {
   border: 1px solid #0aedc7;
@@ -4346,7 +4355,7 @@ input.mb-3.new_input {
   border: 1px solid #eaeaea;
   border-radius: .375rem;
   color: #000;
-  width: 200px!important;
+  /* width: 200px!important; */
   border-bottom-right-radius: 0;
   border-right: none;
   border-top-right-radius: 0;
@@ -5784,4 +5793,41 @@ box-shadow: none !important;
   right: 0;
   top: 0;
   transition: all 500ms ease-out;
+}
+span.text-light.custom-number {
+  float: right;
+  font-size: 14px;
+}
+.timer-row {
+  background-color: rgba(114, 62, 235, 0.07);
+  padding: 20px;
+  border-radius: 11px;
+  width: -moz-fit-content;
+  width: fit-content;
+  text-align: center;
+  margin: 30px auto;
+  display: flex;
+  align-items: center;
+}
+.timer-row span {
+  background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%);
+  color: #fff;
+  padding: 13px 16px;
+  border-radius: 10px;
+  width: 100%;
+    float: left;
+}
+.timer-row label {
+  margin: 0px 5px;
+  vertical-align: super;
+  font-size: 14px;
+}
+label.timerdots {
+  margin-top: -19px;
+  font-size: 26px;
+}
+.sendmoney-timer {
+  margin-top: 92px;
+  background: #DCC8FC !important;
+  font-size: 14px;
 }

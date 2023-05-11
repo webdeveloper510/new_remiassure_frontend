@@ -381,7 +381,7 @@ const Home = () => {
                                     <form onSubmit={formik.handleSubmit} noValidate>
                                         <div className="row">
 
-                                            <div className="col-3-1">
+                                            <div className="col-4">
                                                 <p className="send-text">You Send<span style={{ color: 'red' }} >*</span></p>
                                                 <div className="inline select-currency">
                                                     <Form.Control
@@ -414,14 +414,14 @@ const Home = () => {
                                                    
                                                 </div>
                                                 {formik.touched.amount && formik.errors.amount && (
-                                                            <div className='fv-plugins-message-container mt-1'>
+                                                            <div className='fv-plugins-message-container mt-1 home-error'>
                                                                 <div className='fv-help-block'>
                                                                     <span role='alert' className="text-danger">{formik.errors.amount}</span>
                                                                 </div>
                                                             </div>
                                                         )}
                                             </div>
-                                            <div className="col-3-1">
+                                            <div className="col-4">
                                                 <p className="get-text">They get<span style={{ color: 'red' }} >*</span></p>
                                                 <div className="inline select-currency">
                                                     <input
@@ -467,7 +467,7 @@ const Home = () => {
                                                 </div>
                                                 {/* <span className="text-danger">{formik.errors.amount ? formik.errors.amount :""}</span> */}
                                             </div>
-                                            <div className="col-3-1">
+                                            <div className="col-4">
                                                 <p className="get-text">Receive method</p>
                                                 <select
                                                     {...formik.getFieldProps('paymentMethod')}
@@ -483,14 +483,14 @@ const Home = () => {
                                                     <option value="2">Mobile Wallet</option>
                                                 </select>
                                                 {formik.touched.paymentMethod && formik.errors.paymentMethod && (
-                                                            <div className='fv-plugins-message-container mt-1'>
+                                                            <div className='fv-plugins-message-container mt-1 home-error'>
                                                                 <div className='fv-help-block'>
                                                                     <span role='alert' className="text-danger">{formik.errors.paymentMethod}</span>
                                                                 </div>
                                                             </div>
                                                         )}
                                             </div>
-                                            <div className="col-3-2">
+                                            <div className="col-12 text-center">
                                                 <button
                                                     type="submit"
                                                     className="btn btn continue-button"
