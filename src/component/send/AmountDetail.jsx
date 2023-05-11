@@ -118,14 +118,16 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
 
     const myTotalAmountFrom = (e) => {
         console.log(e.target.value)
-
         setAmtDetail({ ...amt_detail, from_type: e.target.value })
         formik.setFieldValue("from_type", e.target.value)
-        if (amt_detail.send_amt != 0) {
+        formik.setFieldTouched("from_type", true)
             setLoader(true)
-            exchangeRate({ amount: amt_detail.send_amt, from: e.target.value, to: amt_detail.to_type })
+            const amt = formik.values.send_amt !=0 ?formik.values.send_amt:1
+
+            exchangeRate({ amount: amt , from: e.target.value, to: formik.values.to_type })
                 .then(function (response) {
                     setExchRate(response.rate)
+
                     formik.setFieldValue("exchange_amt", response.amount)
                     setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
                     setLoader(false)
@@ -134,8 +136,6 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                     console.log(error.response)
                     setLoader(false)
                 })
-        }
-
     }
 
     const handleClear = () => {
@@ -145,12 +145,12 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     }
 
     const myTotalAmountTo = (e) => {
-        console.log(e.target.value)
+        console.log(e.target.value, formik.values.send_amt)
         setAmtDetail({ ...amt_detail, to_type: e.target.value })
         formik.setFieldValue("to_type", e.target.value)
-        if (amt_detail.send_amt != 0) {
             setLoader(true)
-            exchangeRate({ amount: amt_detail.send_amt, from: amt_detail.from_type, to: e.target.value })
+            const amt = formik.values.send_amt !=0 ?formik.values.send_amt:1
+            exchangeRate({ amount: amt, from: formik.values.from_type, to: e.target.value })
                 .then(function (response) {
                     setExchRate(response.rate)
                     formik.setFieldValue("exchange_amt", response.amount)
@@ -161,9 +161,6 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                     console.log(error.response)
                     setLoader(false)
                 })
-        }
-
-
     }
 
     const handleRecieveMethod = (e) => {
@@ -202,7 +199,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                     <div className="col-md-12">
                         <div className="input_field rate-value">
                             <p className="get-text Exchange_rate">Exchange Rate</p>
-                            <p className="exchange-rate exchange_value" >1 <span>{amt_detail.from_type}</span> = {exch_rate} <span>{amt_detail.to_type}</span> </p>
+                            <p className="exchange-rate exchange_value" >1 <span>{formik.values.from_type}</span> = {exch_rate} <span>{formik.values.to_type}</span> </p>
                             {/* <input type="text" className='rate_input form-control' /> */}
                         </div>
                     </div>
@@ -214,7 +211,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                             <select
                                 aria-label="Select a reason"
                                 onChange={(e) => { myTotalAmountFrom(e) }}
-                                {...formik.getFieldProps('from_type')}
+                                // {...formik.getFieldProps('from_type')}
                                 className={clsx(
                                     'mb-3 bg-transparent form-control form-select rate_input ',
                                     { 'is-invalid': formik.touched.from_type && formik.errors.from_type },
@@ -233,7 +230,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                             <p className="get-text">To<span style={{ color: 'red' }} >*</span></p>
                             <select
                                 aria-label="Select a reason"
-                                onChange={(e) => { myTotalAmountTo(e) }}
+                                onBlurCapture={(e) => { myTotalAmountTo(e) }}
                                 {...formik.getFieldProps('to_type')}
                                 className={clsx(
                                     'mb-3 bg-transparent form-control form-select rate_input ',
