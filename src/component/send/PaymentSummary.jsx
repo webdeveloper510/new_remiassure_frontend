@@ -19,6 +19,7 @@ const PaymentSummary = ({ handleStep, step }) => {
   const navigate = useNavigate()
   const [modalView, setModalView] = useState(false)
   const [loader, setLoader] = useState(false)
+  const [transaction, setTransaction] = useState({id:"", status:""})
 
   useEffect(() => {
     const local = JSON.parse(localStorage.getItem("transfer_data"));
@@ -104,11 +105,12 @@ const PaymentSummary = ({ handleStep, step }) => {
       console.log(res)
       if (res.data.code == "200") {
         setLoader(false)
-        localStorage.setItem("transaction_id", res?.data?.transaction_id)
+        setTransaction({status:"Completed", id:res?.data?.data?.transaction_id})
+        localStorage.setItem("transaction_id", res?.data?.data?.transaction_id)
         const user = JSON.parse(localStorage.getItem("remi-user-dt"))
         // localStorage.removeItem("remi-user-dt")
         user.digital_id_verified = true
-        localStorage.setItem("remi-user-dt", user)
+        localStorage.setItem("remi-user-dt", JSON.stringify(user))
         if (localStorage.getItem("send-step")) {
           localStorage.removeItem("send-step")
         }

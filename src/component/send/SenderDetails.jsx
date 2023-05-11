@@ -68,6 +68,9 @@ const SenderDetails = ({ handleStep, step }) => {
     }
   })
 
+  useEffect(() => {
+
+  },)
   const handleMobile = (event) => {
     const pattern = /^[0-9.,]+$/;
     if (event.key === 'Backspace') {
@@ -84,15 +87,15 @@ const SenderDetails = ({ handleStep, step }) => {
         } else {
           setData({ ...data, mobile: event.target.value })
           formik.setFieldValue('mobile', event.target.value)
-          formik.validateForm().then(res => {
-            if (Object.keys(res).length == 0 || Object.keys(res).length == 1 && res.m_name) {
-              setDisplay("block")
-              console.log(Object.keys(res).length)
-              console.log("form valid")
-            } else {
-              setDisplay("none")
-            }
-          })
+          // formik.validateForm().then(res => {
+          //   if (Object.keys(res).length == 0 || Object.keys(res).length == 1 && res.m_name) {
+          //     setDisplay("block")
+          //     console.log(Object.keys(res).length)
+          //     console.log("form valid")
+          //   } else {
+          //     setDisplay("none")
+          //   }
+          // })
         }
       }
     }
@@ -115,16 +118,16 @@ const SenderDetails = ({ handleStep, step }) => {
           setData({ ...data, post_code: event.target.value })
           formik.setFieldValue('post_code', event.target.value)
           formik.setFieldTouched('post_code', true)
-          formik.validateForm().then(res => {
-            if (Object.keys(res).length == 0 || Object.keys(res).length == 1 && res.m_name) {
-              setDisplay("block")
-              console.log(Object.keys(res).length)
-              console.log("form valid")
+          // formik.validateForm().then(res => {
+          //   if (Object.keys(res).length == 0 || Object.keys(res).length == 1 && res.m_name) {
+          //     setDisplay("block")
+          //     console.log(Object.keys(res).length)
+          //     console.log("form valid")
 
-            } else {
-              setDisplay("none")
-            }
-          })
+          //   } else {
+          //     setDisplay("none")
+          //   }
+          // })
         }
       }
     }
@@ -132,16 +135,18 @@ const SenderDetails = ({ handleStep, step }) => {
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value })
-    formik.validateForm().then(res => {
-      if (Object.keys(res).length == 0 || Object.keys(res).length == 1 && res.m_name) {
-        setDisplay("block")
-        console.log(res)
-        console.log("form valid")
+    console.log("---------------------------", formik.isValidating)
 
-      } else {
-        setDisplay("none")
-      }
-    })
+    // formik.validateForm().then(res => {
+    //   if (Object.keys(res).length == 0 || Object.keys(res).length == 1 && res.m_name) {
+    //     setDisplay("block")
+    //     console.log(res)
+    //     console.log("form valid")
+
+    //   } else {
+    //     setDisplay("none")
+    //   }
+    // })
   }
   const countryOptions = useMemo(() => countryList().getData(), [])
   const verificationValue = localStorage.getItem("DigitalCode")
@@ -158,22 +163,26 @@ const SenderDetails = ({ handleStep, step }) => {
         e.preventDefault()
 
       } else {
+        console.log("---------------------------", formik.isValidating, formik.isValid)
 
         setData({ ...data, [e.target.name]: e.target.value })
         formik.setFieldValue(`${[e.target.name]}`, e.target.value)
         formik.setFieldTouched(`${[e.target.name]}`, true)
-        formik.validateForm().then(res => {
-          if (Object.keys(res).length == 0) {
-            console.log(Object.keys(res).length || Object.keys(res).length == 1 && res.m_name)
-            setDisplay("block")
-            console.log("form valid")
-          } else {
-            setDisplay("none")
-          }
-        })
+
       }
     }
   }
+  useEffect(() => {
+    formik.validateForm().then(res => {
+      if (Object.keys(res).length == 0) {
+        console.log(Object.keys(res).length || Object.keys(res).length == 1 && res.m_name)
+        setDisplay("block")
+        console.log("form valid")
+      } else {
+        setDisplay("none")
+      }
+    })
+  }, [formik.values])
 
   useEffect(() => {
 
