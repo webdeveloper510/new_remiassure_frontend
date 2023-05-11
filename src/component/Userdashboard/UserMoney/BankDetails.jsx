@@ -134,7 +134,7 @@ const BankDetails = ({ handleStep, step }) => {
 
   const handleMobile = (event) => {
     const pattern = /^[0-9.,]+$/;
-    if (event.key === 'Backspace') {
+    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
 
     } else {
       let value = event.target.value.toString()
@@ -155,7 +155,7 @@ const BankDetails = ({ handleStep, step }) => {
 
   const handlePostCode = (event) => {
     const pattern = /^[0-9.,]+$/;
-    if (event.key === 'Backspace') {
+    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
 
     } else {
       let value = event.target.value.toString()
@@ -296,6 +296,7 @@ const BankDetails = ({ handleStep, step }) => {
                   </div>
                 ) : (
                   <>
+                    <h4 className='text-center py-5'>No Recipients Found</h4>
                   </>
                 )
                 }
@@ -316,9 +317,9 @@ const BankDetails = ({ handleStep, step }) => {
                     <button type="button" className="start-form-button" onClick={() => { handleClear() }} style={{ "float": "left" }}>Cancel</button>
                   </div>
                   <div className='col-md-8'>
-                    <button type="button" className="form-button" onClick={() => { handlePrevious() }} style={{ "float": "right" }}>Previous</button>
                     <button type="button" className="form-button" onClick={() => handleToggle()} style={{ "float": "right" }}><BsFillPersonPlusFill /> Add Recepients
                     </button>
+                    <button type="button" className="form-button" onClick={() => { handlePrevious() }} style={{ "float": "right" }}>Previous</button>
                   </div>
                 </div>
               </div>

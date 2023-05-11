@@ -1,22 +1,10 @@
-import { faL, faSlash, faUnsorted } from "@fortawesome/free-solid-svg-icons";
-import React, { useState, useContext, useEffect } from "react";
-import Accordion from 'react-bootstrap/Accordion';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { Links, NavLink, useNavigate } from 'react-router-dom';
 
-import { toast } from "react-toastify";
-import { API } from "../../config/API";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import AddNewRecipient from "./AddNewRecipient";
-import InprogressTransfer from "./InprogressTransfer";
 import AllTransfer from "./AllTransfer";
-import CompletedTransaction from "./CompletedTransaction";
 import Sidebar from './Sidebar';
-import Page404 from "../pageNotfound/Page404";
-import authChecker from "../../utils/AuthHelper";
 import { transactionHistory } from "../../utils/Api";
 import authDashHelper from "../../utils/AuthDashHelper";
 
@@ -27,19 +15,31 @@ const Transaction = () => {
     const [data, setData] = useState([])
     const [dataLength, setDataLength] = useState("")
     const [loading, setLoading] = useState(false)
+    // const [error, setError] = useState(false)
+
+    const handleLoading = () => {
+        setLoading(!loading)
+    }
 
     useEffect(() => {
         if (!authDashHelper('dashCheck')) {
             navigate("/send-money")
         } else {
-            // setLoading(true)
+            setLoading(true)
             transactionHistory().then((res) => {
                 console.log(res)
-                if (res.code == 200) {
+                if (res.code == "200") {
                     setData(res.data)
+                    setLoading(false)
                 } else {
-                    setDataLength("none")
+                    // setDataLength("none")
+                    setLoading(false)
                 }
+            }).catch(err => {
+                console.log("transfer-------------", err)
+                // setDataLength("none")
+                setLoading(false)
+                // setError(true)
             })
         }
     }, [])
@@ -59,22 +59,35 @@ const Transaction = () => {
                                 <h2 className="text-black font-w600 mb-0"><b>Transaction History</b></h2>
                             </div>
                             <div className="transaction-progress">
-                                <Tabs defaultActiveKey="AllTransaction" id="uncontrolled-tab-example" className="mb-3 tarnsfer-tabs">
-                                    <Tab eventKey="AllTransaction" title="All Transactions">
-                                        <AllTransfer status={"all"} data={data} length={dataLength} />
-                                    </Tab>
-                                    <Tab eventKey="Pending" title="Pending">
-                                        <AllTransfer status={"pending"} data={data} length={dataLength} />
-                                    </Tab>
-                                    <Tab eventKey="Completed" title="Completed">
-                                        <AllTransfer status={"completed"} data={data} length={dataLength} />
-                                    </Tab>
-                                </Tabs>
+                                {!loading ? (
+                                    <>
+                                        <Tabs defaultActiveKey="AllTransaction" id="uncontrolled-tab-example" className="mb-3 tarnsfer-tabs">
+                                            <Tab eventKey="AllTransaction" title="All Transactions">
+                                                <AllTransfer status={"all"} data={data} length={dataLength} />
+                                            </Tab>
+                                            <Tab eventKey="Pending" title="Pending">
+                                                <AllTransfer status={"pending"} data={data} length={dataLength} />
+                                            </Tab>
+                                            <Tab eventKey="Completed" title="Completed">
+                                                <AllTransfer status={"completed"} data={data} length={dataLength} />
+                                            </Tab>
+                                        </Tabs>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="loader-overly">
+                                            <div className="loader" >
+                                            </div>
+                                        </div>
+                                    </>
+                                )
+                                }
                             </div>
                         </section>
                     </div>
                 </div>
             </div>
+
         </>
     )
 }

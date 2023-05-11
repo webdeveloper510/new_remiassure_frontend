@@ -100,7 +100,7 @@ const routes = [
     // element: <HomeLayout />,
     guard: AuthDashProtect,
     children: [
-      { path: '/transfer', element: <Transfer /> },
+      { path: '/transactions', element: <Transfer /> },
       // { path: '/user-send-money', element: <UserSendMoney /> },
       { path: '/user-send-money', element: <UserMoney/> },
       { path: '/add-new-recipient', element: <AddNewRecipient /> },

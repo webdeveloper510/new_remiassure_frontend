@@ -273,7 +273,7 @@ const EditCardUser = () => {
     const pattern = /^[0-9]+$/;
     let value = event.target.value
     console.log("v------",event.target.value)
-    if (event.key === 'Backspace') {
+    if (event.key === 'Backspace'||event.key === 'Enter'||event.key === 'Tab'|| event.key ==='Shift'||event.key==='ArrowLeft'||event.key==="ArrowRight") {
       console.log("ppppppppppppppppppppppppppppp")
     } else {
       if (value.length < 16) {

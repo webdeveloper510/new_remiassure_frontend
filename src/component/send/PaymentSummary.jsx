@@ -7,6 +7,9 @@ import global from '../../utils/global'
 import Axios from "axios"
 import axios from 'axios'
 import verified from '../../assets/img/userdashboard/3.png';
+import { BsCheckCircleFill } from 'react-icons/bs'
+import { NavLink } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 
 const PaymentSummary = ({ handleStep, step }) => {
@@ -19,7 +22,7 @@ const PaymentSummary = ({ handleStep, step }) => {
   const navigate = useNavigate()
   const [modalView, setModalView] = useState(false)
   const [loader, setLoader] = useState(false)
-  const [transaction, setTransaction] = useState({id:"", status:""})
+  const [transaction, setTransaction] = useState({ id: "", status: "" })
 
   useEffect(() => {
     const local = JSON.parse(localStorage.getItem("transfer_data"));
@@ -50,49 +53,186 @@ const PaymentSummary = ({ handleStep, step }) => {
   const handleFinalStep = () => {
     const local = JSON.parse(localStorage.getItem("transfer_data"))
     // console.log(local)
-    const data = {
-      sender: {
-        first_name: local?.sender?.f_name,
-        middle_name: local?.sender?.m_name,
-        last_name: local?.sender?.l_name,
-        date_of_birth: local?.sender?.dob,
-        gender: local?.sender?.gender,
-        flat: local?.sender?.flat,
-        building: local?.sender?.build_no,
-        street: local?.sender?.street,
-        postcode: local?.sender?.post_code,
-        city: local?.sender?.city,
-        state: local?.sender?.state,
-        country: local?.sender?.country
-      },
-      recipient: {
-        first_name: local?.recipient?.f_name,
-        middle_name: local?.recipient?.m_name,
-        last_name: local?.recipient?.l_name,
-        email: local?.recipient?.email,
-        mobile: local?.recipient?.mobile,
-        flat: local?.recipient?.flat,
-        building: local?.recipient?.build_no,
-        street: local?.recipient?.street,
-        postcode: local?.recipient?.post_code,
-        city: local?.recipient?.city,
-        state: local?.recipient?.state,
-        country: local?.recipient?.country
-      },
-      bank_details: {
-        bank_name: local?.recipient?.bank,
-        account_name: local?.recipient?.acc_name,
-        account_number: local?.recipient?.acc_no
-      },
-      amount: {
-        send_amount: local?.amount?.send_amt,
-        recieve_amount: local?.amount?.exchange_amt,
-        send_currency: local?.amount?.from_type,
-        recieve_currency: local?.amount?.to_type,
-        send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
-        recieve_method: local?.amount?.recieve_meth,
-        reason: local?.recipient?.reason,
-        card_token: local?.payment?.token?.id
+    let data = {}
+    if (local.sender.m_name == "") {
+      data = {
+        sender: {
+          first_name: local?.sender?.f_name,
+          last_name: local?.sender?.l_name,
+          date_of_birth: local?.sender?.dob,
+          gender: local?.sender?.gender,
+          flat: local?.sender?.flat,
+          building: local?.sender?.build_no,
+          street: local?.sender?.street,
+          postcode: local?.sender?.post_code,
+          city: local?.sender?.city,
+          state: local?.sender?.state,
+          country: local?.sender?.country
+        },
+        recipient: {
+          first_name: local?.recipient?.f_name,
+          middle_name: local?.recipient?.m_name,
+          last_name: local?.recipient?.l_name,
+          email: local?.recipient?.email,
+          mobile: local?.recipient?.mobile,
+          flat: local?.recipient?.flat,
+          building: local?.recipient?.build_no,
+          street: local?.recipient?.street,
+          postcode: local?.recipient?.post_code,
+          city: local?.recipient?.city,
+          state: local?.recipient?.state,
+          country: local?.recipient?.country
+        },
+        bank_details: {
+          bank_name: local?.recipient?.bank,
+          account_name: local?.recipient?.acc_name,
+          account_number: local?.recipient?.acc_no
+        },
+        amount: {
+          send_amount: local?.amount?.send_amt,
+          recieve_amount: local?.amount?.exchange_amt,
+          send_currency: local?.amount?.from_type,
+          recieve_currency: local?.amount?.to_type,
+          send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
+          recieve_method: local?.amount?.recieve_meth,
+          reason: local?.recipient?.reason,
+          card_token: local?.payment?.token?.id
+        }
+      }
+    } else if (local.recipient.m_name == "") {
+      data = {
+        sender: {
+          first_name: local?.sender?.f_name,
+          middle_name: local?.sender?.m_name,
+          last_name: local?.sender?.l_name,
+          date_of_birth: local?.sender?.dob,
+          gender: local?.sender?.gender,
+          flat: local?.sender?.flat,
+          building: local?.sender?.build_no,
+          street: local?.sender?.street,
+          postcode: local?.sender?.post_code,
+          city: local?.sender?.city,
+          state: local?.sender?.state,
+          country: local?.sender?.country
+        },
+        recipient: {
+          first_name: local?.recipient?.f_name,
+          last_name: local?.recipient?.l_name,
+          email: local?.recipient?.email,
+          mobile: local?.recipient?.mobile,
+          flat: local?.recipient?.flat,
+          building: local?.recipient?.build_no,
+          street: local?.recipient?.street,
+          postcode: local?.recipient?.post_code,
+          city: local?.recipient?.city,
+          state: local?.recipient?.state,
+          country: local?.recipient?.country
+        },
+        bank_details: {
+          bank_name: local?.recipient?.bank,
+          account_name: local?.recipient?.acc_name,
+          account_number: local?.recipient?.acc_no
+        },
+        amount: {
+          send_amount: local?.amount?.send_amt,
+          recieve_amount: local?.amount?.exchange_amt,
+          send_currency: local?.amount?.from_type,
+          recieve_currency: local?.amount?.to_type,
+          send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
+          recieve_method: local?.amount?.recieve_meth,
+          reason: local?.recipient?.reason,
+          card_token: local?.payment?.token?.id
+        }
+      }
+    } else if (local.recipient.m_name == "" && local.sender.m_name == "") {
+      data = {
+        sender: {
+          first_name: local?.sender?.f_name,
+          last_name: local?.sender?.l_name,
+          date_of_birth: local?.sender?.dob,
+          gender: local?.sender?.gender,
+          flat: local?.sender?.flat,
+          building: local?.sender?.build_no,
+          street: local?.sender?.street,
+          postcode: local?.sender?.post_code,
+          city: local?.sender?.city,
+          state: local?.sender?.state,
+          country: local?.sender?.country
+        },
+        recipient: {
+          first_name: local?.recipient?.f_name,
+          last_name: local?.recipient?.l_name,
+          email: local?.recipient?.email,
+          mobile: local?.recipient?.mobile,
+          flat: local?.recipient?.flat,
+          building: local?.recipient?.build_no,
+          street: local?.recipient?.street,
+          postcode: local?.recipient?.post_code,
+          city: local?.recipient?.city,
+          state: local?.recipient?.state,
+          country: local?.recipient?.country
+        },
+        bank_details: {
+          bank_name: local?.recipient?.bank,
+          account_name: local?.recipient?.acc_name,
+          account_number: local?.recipient?.acc_no
+        },
+        amount: {
+          send_amount: local?.amount?.send_amt,
+          recieve_amount: local?.amount?.exchange_amt,
+          send_currency: local?.amount?.from_type,
+          recieve_currency: local?.amount?.to_type,
+          send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
+          recieve_method: local?.amount?.recieve_meth,
+          reason: local?.recipient?.reason,
+          card_token: local?.payment?.token?.id
+        }
+      }
+    } else {
+      data = {
+        sender: {
+          first_name: local?.sender?.f_name,
+          middle_name: local?.sender?.m_name,
+          last_name: local?.sender?.l_name,
+          date_of_birth: local?.sender?.dob,
+          gender: local?.sender?.gender,
+          flat: local?.sender?.flat,
+          building: local?.sender?.build_no,
+          street: local?.sender?.street,
+          postcode: local?.sender?.post_code,
+          city: local?.sender?.city,
+          state: local?.sender?.state,
+          country: local?.sender?.country
+        },
+        recipient: {
+          first_name: local?.recipient?.f_name,
+          middle_name: local?.recipient?.m_name,
+          last_name: local?.recipient?.l_name,
+          email: local?.recipient?.email,
+          mobile: local?.recipient?.mobile,
+          flat: local?.recipient?.flat,
+          building: local?.recipient?.build_no,
+          street: local?.recipient?.street,
+          postcode: local?.recipient?.post_code,
+          city: local?.recipient?.city,
+          state: local?.recipient?.state,
+          country: local?.recipient?.country
+        },
+        bank_details: {
+          bank_name: local?.recipient?.bank,
+          account_name: local?.recipient?.acc_name,
+          account_number: local?.recipient?.acc_no
+        },
+        amount: {
+          send_amount: local?.amount?.send_amt,
+          recieve_amount: local?.amount?.exchange_amt,
+          send_currency: local?.amount?.from_type,
+          recieve_currency: local?.amount?.to_type,
+          send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
+          recieve_method: local?.amount?.recieve_meth,
+          reason: local?.recipient?.reason,
+          card_token: local?.payment?.token?.id
+        }
       }
     }
     setLoader(true)
@@ -105,7 +245,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       console.log(res)
       if (res.data.code == "200") {
         setLoader(false)
-        setTransaction({status:"Completed", id:res?.data?.data?.transaction_id})
+        setTransaction({ status: "Completed", id: res?.data?.data?.transaction_id })
         localStorage.setItem("transaction_id", res?.data?.data?.transaction_id)
         const user = JSON.parse(localStorage.getItem("remi-user-dt"))
         // localStorage.removeItem("remi-user-dt")
@@ -117,9 +257,17 @@ const PaymentSummary = ({ handleStep, step }) => {
         localStorage.removeItem("transfer_data")
         localStorage.removeItem("DigitalCode")
         setModalView(true)
+        setInterval(() => {
+          navigate("/dashboard")
+        }, 10 * 1000)
       }
+      setLoader(false)
     }).catch((err) => {
       console.log(err)
+      toast.error("Somthing went wrong, please try again later", {position:"bottom-right", hideProgressBar:true})
+      setInterval(()=>{
+        navigate("/")
+      },2000)
       setLoader(false)
     })
   }
@@ -213,11 +361,29 @@ const PaymentSummary = ({ handleStep, step }) => {
         <Modal.Body>
           <div className="form_body">
             <div className="header">
-              <h1>First Transaction Successful</h1>
+              <h1 className='text-success'><BsCheckCircleFill /> First Transaction Successful</h1>
             </div>
+            <Table>
+              <tbody>
+                <tr>
+                  <th>Transaction Id:</th>
+                  <td>{transaction?.id}</td>
+                </tr>
+                <tr>
+                  <th>Transacted Amount</th>
+                  <td>{data.from}{data.send_amount}</td>
+                </tr>
+                <tr>
+                  <th>Transaction Status:</th>
+                  <td>{transaction?.status}</td>
+                </tr>
+              </tbody>
+            </Table>
             <div className="col-md-12 align-center">
-              <img className="verifies-img" src={verified} alt="verified" />
+              {/* <img className="verifies-img" src={verified} alt="verified" /> */}
               <p>Thanks for choosing RemitAssure</p>
+              <NavLink to="/transactions">
+                <button type="button" className="form-button" style={{ "width": '100%' }}>View All Transactions</button></NavLink>
             </div>
 
           </div>

@@ -57,7 +57,7 @@ const Login = () => {
                     localStorage.setItem("remi-user-dt", JSON.stringify(res?.data))
                     navigate('/verification', { state: { email: values.email } })
                 } else if (res.code == "400") {
-                    toast.error("User not found !, please register", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+                    toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                 }
                 setLoading(false);
             }).catch((err) => {
@@ -147,7 +147,7 @@ const Login = () => {
                                                             )}
                                                             placeholder="Password"
                                                         />
-                                                        
+
                                                         <span className="pass_icons" type="button" onClick={toggleShowPassword}>
                                                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                         </span>

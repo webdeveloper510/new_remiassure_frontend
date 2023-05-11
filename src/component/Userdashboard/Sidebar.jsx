@@ -53,7 +53,7 @@ const sidebar = () => {
             <li><NavLink to="/dashboard"><RxDashboard />Dashboard</NavLink></li>
             <li><NavLink to="/user-send-money"><BsCurrencyExchange />Send Money</NavLink></li>
             <li><NavLink to="/user-profile"><BsFilePersonFill />Profile Information</NavLink></li>
-            <li><NavLink to="/transfer"><BiTransfer />Transaction</NavLink></li>
+            <li><NavLink to="/transactions"><BiTransfer />Transaction</NavLink></li>
             <li><NavLink to="/user-recipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
             <li><NavLink to="/user-card-list"><FaRegCreditCard />Card</NavLink></li>
             <li><NavLink to="/change-password"><RiLockPasswordLine />Password</NavLink></li>

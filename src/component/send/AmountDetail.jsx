@@ -4,9 +4,9 @@ import { useFormik } from 'formik';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { exchangeRate } from '../../utils/Api';
-import { useNavigate, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 
-const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
+const AmountDetail = ({ handleStep, step }) => {
 
     const [loader, setLoader] = useState(false)
     const locationState = useLocation().state
@@ -65,7 +65,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     const inputvalidation = (event) => {
         console.log("dfjghfguh---------------", event.key)
         const pattern = /^[0-9.,]+$/;
-        if (event.key === 'Backspace') {
+        if (event.key === 'Backspace'||event.key === 'Enter'||event.key === 'Tab'|| event.key ==='Shift'||event.key==='ArrowLeft'||event.key==="ArrowRight") {
 
         } else {
             let value = event.target.value.toString()
@@ -160,8 +160,6 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
         }
     }
 
-
-
     const myTotalAmountTo = (e) => {
         console.log(e.target.value, formik.values.send_amt)
         setAmtDetail({ ...amt_detail, to_type: e.target.value })
@@ -211,13 +209,13 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
             let data = locationState
             setAmtDetail({ ...amt_detail, from_type: data.from_type, to_type: data.to_type, send_amt: data.send_amt, exchange_amt: data.exchange_amt })
             setExchRate(data.exch_rate)
-            formik.setValues({ from_type: data.from_type, to_type: data.to_type, send_amt: data.send_amt, exchange_amt: data.exchange_amt })
+            formik.setValues({ ...formik.values, from_type: data.from_type, to_type: data.to_type, send_amt: data.send_amt, exchange_amt: data.exchange_amt })
         }
         else {
             let data = JSON.parse(localStorage.getItem("exchange_curr"))
             setAmtDetail({ ...amt_detail, from_type: data.from_type, to_type: data.to_type })
             setExchRate(data.exch_rate)
-            formik.setValues({ from_type: data.from_type, to_type: data.to_type })
+            formik.setValues({ ...formik.values, from_type: data.from_type, to_type: data.to_type })
         }
 
     }, [])

@@ -48,37 +48,20 @@ const UserRecipients = () => {
 
     const getList = () => {
         setLoading(true);
-        recipientList().then((res)=>{
-            console.log("response=====",res)
+        recipientList().then((res) => {
+            console.log("response=====", res)
             setData(res.data)
             setLoading(false)
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log(error.response)
             setLoading(false)
         })
-        // axios.post(API.BASE_URL + 'payment/recipient-list/', {}, {
-        //     headers: {
-        //         "Authorization": `Bearer ${token}`,
-        //     }
-        // })
-        //     .then(function (response) {
-        //         if (response.data.code == "200") {
-        //             console.log(response.data.data)
-        //             setData(response.data?.data);
-        //         }
-        //         setLoading(false);
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //         console.log(error.response);
-        //         setLoading(false);
-        //     })
     }
 
     useEffect(() => {
         if (!authDashHelper('dashCheck')) {
             navigate("/send-money")
-         }
+        }
         getList();
     }, [])
 
@@ -120,7 +103,7 @@ const UserRecipients = () => {
                         {
                             !loading ? (
                                 <span>
-                                    {data?.length != 0 ? (
+                                    {data && data?.length > 0 ? (
                                         <section className="user_recipients_section">
                                             <div class="form-head mb-4">
                                                 <h2 class="text-black font-w600 mb-0"><b>Recipients Lists</b>
@@ -137,14 +120,14 @@ const UserRecipients = () => {
                                             <div className="col-lg-12">
                                                 {/* loader start */}
 
-                                                {loading ? <>
+                                                {/* {loading ? <>
                                                     <div class="loader-overly">
                                                         <div class="loader" >
 
                                                         </div>
 
                                                     </div>
-                                                </> : <></>}
+                                                </> : <></>} */}
                                                 {/* loader End */}
 
                                                 <div className="card">
@@ -218,6 +201,7 @@ const UserRecipients = () => {
                                                 <div className="card">
                                                     <div className="card-body">
                                                         <div className="add-rec-new">
+                                                        <h6 className="my-2">No Recipient Found</h6>
                                                             <img src={norecipients} alt="empty" />
                                                         </div>
                                                     </div>

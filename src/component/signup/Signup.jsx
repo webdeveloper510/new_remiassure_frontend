@@ -76,7 +76,7 @@ const Signup = () => {
                 }
                 else if (res.code == '201') {
                     // setModalShow({ toggle: true, value: res.message + ", please login", type: "error", navigate:"/login" })
-                    toast.error(res.message + ", please login", { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
+                    toast.warn(res.message , { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
                     navigate("/verification", { state: { email: values.email } })
                 }
 

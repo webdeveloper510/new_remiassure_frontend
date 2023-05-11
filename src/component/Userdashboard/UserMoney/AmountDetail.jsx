@@ -8,21 +8,21 @@ import { useNavigate, useLocation } from 'react-router';
 
 const AmountDetail = ({ handleStep, step }) => {
 
-    const data = useLocation()?.state
+    const locationState = useLocation()?.state
     const [loader, setLoader] = useState(false)
-    const tdata = JSON.parse(localStorage.getItem("transfer_data"))
 
     const [exch_rate, setExchRate] = React.useState('1.0998');
     const [amt_detail, setAmtDetail] = useState({
-        send_amt: data?.send_amt || "",
-        exchange_amt: data?.exchange_amt || "",
-        from_type: data?.from_type || "AUD",
-        to_type: data?.to_type || "NZD",
-        recieve_meth: data?.recieve_meth || "Bank Transfer",
+        send_amt: "",
+        exchange_amt: "",
+        from_type: "AUD",
+        to_type: "NZD",
+        recieve_meth: "Bank Transfer",
         payout_part: "Bank"
     })
 
-
+    const nzd_opt = ["AUD", "USD", "EUR", "CAD"]
+    const aud_opt = ["NZD", "USD", "EUR", "CAD"]
 
     const amtSchema = Yup.object().shape({
         send_amt: Yup.string()
@@ -34,11 +34,11 @@ const AmountDetail = ({ handleStep, step }) => {
     })
 
     const initialValues = {
-        send_amt: data?.send_amt || "",
-        exchange_amt: data?.exchange_amt || "",
-        from_type: data?.from_type || "AUD",
-        to_type: data?.to_type || "NZD",
-        recieve_meth: data?.recieve_meth || "Bank Transfer",
+        send_amt: "",
+        exchange_amt: "",
+        from_type: "AUD",
+        to_type: "NZD",
+        recieve_meth: "Bank Transfer",
         payout_part: "Bank"
     }
 
@@ -65,7 +65,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const inputvalidation = (event) => {
         console.log("dfjghfguh---------------", event.key)
         const pattern = /^[0-9.,]+$/;
-        if (event.key === 'Backspace') {
+        if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
 
         } else {
             let value = event.target.value.toString()
@@ -74,51 +74,83 @@ const AmountDetail = ({ handleStep, step }) => {
                     event.preventDefault();
                     event.stopPropagation()
                 } else {
+                    console.log("----------------------------", event.target.value)
                     setAmtDetail({ ...amt_detail, send_amt: event.target.value })
                     formik.setFieldValue('send_amt', event.target.value)
                     formik.setFieldTouched('send_amt', true)
                 }
             } else {
                 event.preventDefault();
-                    event.stopPropagation()
+                event.stopPropagation()
             }
         }
-
     }
 
     const myTotalAmount = (event) => {
 
         event.preventDefault();
-        if (event.target.value != "") {
-            // console.log("amout--------------", event.target.value, amt_detail.from_type, amt_detail.to_type)
+        if (event.target.value > 0)
             setLoader(true)
-            exchangeRate({ amount: event.target.value, from: amt_detail.from_type, to: amt_detail.to_type })
-                .then(function (response) {
-                    console.log(response);
-                    setExchRate(response.rate)
-                    setLoader(false)
-                    formik.setFieldValue("exchange_amt", response.amount)
-                    setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
-                })
-                .catch(function (error, message) {
-                    console.log(error.response)
-                    setLoader(false)
-                })
-        }
+        exchangeRate({ amount: event.target.value, from: formik.values.from_type, to: formik.values.to_type })
+            .then(function (response) {
+                setLoader(false)
+                setExchRate(response.rate)
+                formik.setFieldValue("exchange_amt", response.amount)
+                setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+            })
+            .catch(function (error, message) {
+                console.log(error.response)
+                setLoader(false)
+
+            })
     }
 
     const myTotalAmountFrom = (e) => {
         console.log(e.target.value)
-
         setAmtDetail({ ...amt_detail, from_type: e.target.value })
         formik.setFieldValue("from_type", e.target.value)
-        if (amt_detail.send_amt != 0) {
-            setLoader(true)
-            exchangeRate({ amount: amt_detail.send_amt, from: e.target.value, to: amt_detail.to_type })
+        formik.setFieldTouched("from_type", true)
+        setLoader(true)
+        const amt = formik.values.send_amt != undefined && formik.values.send_amt != 0 && formik.values.send_amt != "" ? formik.values.send_amt : "1"
+
+        if (e.target.value == "AUD" && formik.values.to_type == "AUD") {
+            formik.setFieldValue("to_type", "NZD")
+            exchangeRate({ amount: amt, from: e.target.value, to: "NZD" })
                 .then(function (response) {
                     setExchRate(response.rate)
-                    formik.setFieldValue("exchange_amt", response.amount)
-                    setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+                    if (formik.values.send_amt != 0 && formik.values.send_amt != "" && formik.values.send_amt != undefined) {
+                        formik.setFieldValue("exchange_amt", response.amount)
+                        setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+                    }
+                    setLoader(false)
+                })
+                .catch(function (error, message) {
+                    console.log(error.response)
+                    setLoader(false)
+                })
+        } else if (e.target.value == "NZD" && formik.values.to_type == "NZD") {
+            formik.setFieldValue("to_type", "AUD")
+            exchangeRate({ amount: amt, from: e.target.value, to: "AUD" })
+                .then(function (response) {
+                    setExchRate(response.rate)
+                    if (formik.values.send_amt != 0 && formik.values.send_amt != "" && formik.values.send_amt != undefined) {
+                        formik.setFieldValue("exchange_amt", response.amount)
+                        setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+                    }
+                    setLoader(false)
+                })
+                .catch(function (error, message) {
+                    console.log(error.response)
+                    setLoader(false)
+                })
+        } else {
+            exchangeRate({ amount: amt, from: e.target.value, to: formik.values.to_type })
+                .then(function (response) {
+                    setExchRate(response.rate)
+                    if (formik.values.send_amt != 0 && formik.values.send_amt != "" && formik.values.send_amt != undefined) {
+                        formik.setFieldValue("exchange_amt", response.amount)
+                        setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+                    }
                     setLoader(false)
                 })
                 .catch(function (error, message) {
@@ -126,36 +158,34 @@ const AmountDetail = ({ handleStep, step }) => {
                     setLoader(false)
                 })
         }
-
-    }
-
-    const handleCancel = () => {
-       localStorage.removeItem("transfer_data")
-       localStorage.removeItem("send-step")
-       window.location.reload()
     }
 
     const myTotalAmountTo = (e) => {
-        console.log(e.target.value)
+        console.log(e.target.value, formik.values.send_amt)
         setAmtDetail({ ...amt_detail, to_type: e.target.value })
         formik.setFieldValue("to_type", e.target.value)
-        formik.setFieldTouched("to_type", e.target.value)
-        if (amt_detail.send_amt != 0) {
-            setLoader(true)
-            exchangeRate({ amount: amt_detail.send_amt, from: amt_detail.from_type, to: e.target.value })
-                .then(function (response) {
-                    setExchRate(response.rate)
+        formik.setFieldTouched("to_type", true)
+        setLoader(true)
+        const amt = formik.values.send_amt != undefined && formik.values.send_amt != 0 && formik.values.send_amt != "" ? formik.values.send_amt : "1"
+
+        exchangeRate({ amount: amt, from: formik.values.from_type, to: e.target.value })
+            .then(function (response) {
+                setExchRate(response.rate)
+                if (formik.values.send_amt != 0 && formik.values.send_amt != undefined && formik.values.send_amt != "") {
                     formik.setFieldValue("exchange_amt", response.amount)
                     setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
-                    setLoader(false)
-                })
-                .catch(function (error, message) {
-                    console.log(error.response)
-                    setLoader(false)
-                })
-        }
-
-
+                }
+                setLoader(false)
+            })
+            .catch(function (error, message) {
+                console.log(error.response)
+                setLoader(false)
+            })
+    }
+    const handleCancel = () => {
+        localStorage.removeItem("transfer_data")
+        localStorage.removeItem("send-step")
+        window.location.reload(true)
     }
 
     const handleRecieveMethod = (e) => {
@@ -175,9 +205,20 @@ const AmountDetail = ({ handleStep, step }) => {
                 setAmtDetail(tdata?.amount)
                 formik.setValues({ ...tdata?.amount })
             }
+        } else if (locationState) {
+            let data = locationState
+            setAmtDetail({ ...amt_detail, from_type: data.from_type, to_type: data.to_type, send_amt: data.send_amt, exchange_amt: data.exchange_amt })
+            setExchRate(data.exch_rate)
+            formik.setValues({ ...formik.values, from_type: data.from_type, to_type: data.to_type, send_amt: data.send_amt, exchange_amt: data.exchange_amt })
+        }
+        else {
+            let data = JSON.parse(localStorage.getItem("exchange_curr"))
+            setAmtDetail({ ...amt_detail, from_type: data.from_type, to_type: data.to_type })
+            setExchRate(data.exch_rate)
+            formik.setValues({ ...formik.values, from_type: data.from_type, to_type: data.to_type })
         }
 
-    }, [step])
+    }, [])
 
     return (
         <section>
@@ -192,7 +233,7 @@ const AmountDetail = ({ handleStep, step }) => {
                             <div className="col-md-12">
                                 <div className="input_field rate-value">
                                     <p className="get-text Exchange_rate">Exchange Rate</p>
-                                    <p className="exchange-rate exchange_value" >1 <span>{amt_detail.from_type}</span> = {exch_rate} <span>{amt_detail.to_type}</span> </p>
+                                    <p className="exchange-rate exchange_value" >1 <span>{formik.values.from_type}</span> = {exch_rate} <span>{formik.values.to_type}</span> </p>
                                     {/* <input type="text" className='rate_input form-control' /> */}
                                 </div>
                             </div>
@@ -204,14 +245,8 @@ const AmountDetail = ({ handleStep, step }) => {
                                     <select
                                         aria-label="Select a reason"
                                         onChange={(e) => { myTotalAmountFrom(e) }}
-                                        {...formik.getFieldProps('from_type')}
-                                        className={clsx(
-                                            'mb-3 bg-transparent form-control form-select rate_input ',
-                                            { 'is-invalid': formik.touched.from_type && formik.errors.from_type },
-                                            {
-                                                'is-valid': formik.touched.from_type && !formik.errors.from_type,
-                                            }
-                                        )}
+                                        // {...formik.getFieldProps('from_type')}
+                                        className='mb-3 bg-transparent form-control form-select rate_input '
                                     >
                                         <option value="AUD">AUD</option>
                                         <option value="NZD">NZD</option>
@@ -223,36 +258,23 @@ const AmountDetail = ({ handleStep, step }) => {
                                     <p className="get-text">To<span style={{ color: 'red' }} >*</span></p>
                                     <select
                                         aria-label="Select a reason"
+                                        className="mb-3 bg-transparent form-control form-select rate_input"
                                         onChange={(e) => { myTotalAmountTo(e) }}
-                                        // {...formik.getFieldProps('to_type')}
-                                        className={clsx(
-                                            'mb-3 bg-transparent form-control form-select rate_input ',
-                                            { 'is-invalid': formik.touched.to_type && formik.errors.to_type },
-                                            {
-                                                'is-valid': formik.touched.to_type && !formik.errors.to_type,
-                                            }
-                                        )}
+                                    // {...formik.getFieldProps('to_type')}
                                     >
-                                        <option value="NZD">NZD</option>
-                                        <option value="AUD">AUD</option>
-                                        <option value="EUR">EUR</option>
-                                        <option value="INR">INR</option>
-                                        <option value="BRL">BRL</option>
-                                        <option value="BGN">BGN</option>
-                                        <option value="XAF">XAF</option>
-                                        <option value="CAD">CAD</option>
-                                        <option value="EUR">EUR</option>
-                                        <option value="CZK">CZK</option>
-                                        <option value="DKK">DKK</option>
-                                        <option value="GHS">GHS</option>
-                                        <option value="ISK">ISK</option>
-                                        <option value="JOD">JPD</option>
-                                        <option value="KWD">KWD</option>
-                                        <option value="NZD">NZD</option>
-                                        <option value="PHP">PHP</option>
-                                        <option value="ZAR">ZAR</option>
-                                        <option value="CHF">CHF</option>
-                                        <option value="GBP">GBP</option>
+                                        {
+                                            formik.values.from_type === "AUD" ?
+                                                aud_opt.map((item, index) => {
+                                                    return (
+                                                        <option value={item}>{item}</option>
+                                                    )
+                                                }) :
+                                                nzd_opt.map((item) => {
+                                                    return (
+                                                        <option value={item}>{item}</option>
+                                                    )
+                                                })
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -264,7 +286,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                     <input
                                         type="text"
                                         name="amountInput"
-                                        value={amt_detail?.send_amt}
+                                        value={formik.values?.send_amt}
                                         onKeyDown={(e) => inputvalidation(e)}
                                         {...formik.getFieldProps('send_amt')}
                                         className={clsx(
@@ -285,7 +307,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                     </p>
                                     <input
                                         type="text"
-                                        value={amt_detail?.exchange_amt}
+                                        value={formik.values?.exchange_amt}
                                         className='rate_input form-control'
                                         readOnly
                                     />

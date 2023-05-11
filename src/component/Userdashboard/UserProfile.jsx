@@ -310,9 +310,9 @@ const Profile = () => {
         let num = res.data.mobile;
 
         let num_length = num.length;
-        let phone = num.substring(0, 2)+"-"+ num.substring(2, num_length);
-        
-        console.log('phone-------------' , phone)
+        let phone = num.substring(0, 2) + "-" + num.substring(2, num_length);
+
+        console.log('phone-------------', phone)
         let value = res.data
         setData({
           ...data,
@@ -406,15 +406,19 @@ const Profile = () => {
       updateProfile(data).then((res) => {
         console.log("user res----------------", res)
         if (res.code == "200") {
+          const local = JSON.parse(localStorage.getItem("remi-user-dt"))
+          local = { ...res.data, digital_id_verified: true }
+          localStorage.removeItem("remi-user-dt")
+          localStorage.setItem("remi-user-dt", JSON.stringify(local))
           toast.success("Successfully update", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         }
         setLoading(false)
       }).catch((error) => {
         console.log(error.response)
+        setLoading(false)
         if (error.response.data.code == "400") {
           toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         }
-        setLoading(false)
       })
     }
   })
@@ -1007,7 +1011,7 @@ const Profile = () => {
                             name="Middle_name"
                             onChange={(e) => setData({ ...data, Middle_name: e.target.value })}
                             {...formik.getFieldProps('Middle_name')}
-                          
+
                           />
                         </div>
                       </div>
@@ -1126,7 +1130,7 @@ const Profile = () => {
                             // Value={email}
                             // onChange={(e) => setEmail(e.target.value)}
                             type="email"
-                            value={"+"+data.phoneno}
+                            value={"+" + data.phoneno}
                             placeholder="Enter Mobile"
                             autoComplete='off'
                             readOnly

@@ -38,6 +38,7 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
 
     const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('')
     /**************************Recipient of state ************************ */
     const [data, setData] = useState([]);
     const [recipientData, setRecipientData] = useState([]);
@@ -67,8 +68,13 @@ const Dashboard = () => {
                 setTotalAmount(amount)
                 setLoading(false)
             }
+            else if (response.code == "400") {
+                setLoading(false)
+            }
         }).catch((error) => {
             // console.log(error.response)
+            setLoading(false)
+
         })
     }
 
@@ -101,6 +107,7 @@ const Dashboard = () => {
                 console.log("user-profile----------====", response)
                 if (response.code == 200) {
                     setFirstName(response.data.First_name);
+                    setLastName(response.data.Last_name)
                 }
             }).catch((error) => {
                 console.log(error.response)
@@ -144,7 +151,7 @@ const Dashboard = () => {
                                                             {/* <NavLink to={"/add-new-recipient"} > */}
                                                             <BsFillPersonPlusFill />
                                                             {/* </NavLink> */}
-                                                            
+
                                                         </div>
 
                                                     </div>
@@ -173,7 +180,7 @@ const Dashboard = () => {
                                                         <div className="icon">
                                                             <BiTransfer />
                                                             <br />
-                                                           
+
                                                         </div>
                                                     </div>
                                                     <div className="mt-3">
@@ -206,6 +213,7 @@ const Dashboard = () => {
                                                         <NavLink to="/user-profile" className="btn btn-outline-dark btn-rounded">
                                                             View
                                                         </NavLink>
+                                                        <span className="text-light custom-number">{firstName} {lastName}</span>
                                                     </div>
                                                 </div>
                                             </div>

@@ -68,12 +68,9 @@ const SenderDetails = ({ handleStep, step }) => {
     }
   })
 
-  useEffect(() => {
-
-  },)
   const handleMobile = (event) => {
     const pattern = /^[0-9.,]+$/;
-    if (event.key === 'Backspace') {
+    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
 
     } else {
       let value = event.target.value.toString()
@@ -87,15 +84,6 @@ const SenderDetails = ({ handleStep, step }) => {
         } else {
           setData({ ...data, mobile: event.target.value })
           formik.setFieldValue('mobile', event.target.value)
-          // formik.validateForm().then(res => {
-          //   if (Object.keys(res).length == 0 || Object.keys(res).length == 1 && res.m_name) {
-          //     setDisplay("block")
-          //     console.log(Object.keys(res).length)
-          //     console.log("form valid")
-          //   } else {
-          //     setDisplay("none")
-          //   }
-          // })
         }
       }
     }
@@ -103,7 +91,7 @@ const SenderDetails = ({ handleStep, step }) => {
 
   const handlePostCode = (event) => {
     const pattern = /^[0-9.,]+$/;
-    if (event.key === 'Backspace') {
+    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
 
     } else {
       let value = event.target.value.toString()
@@ -118,16 +106,6 @@ const SenderDetails = ({ handleStep, step }) => {
           setData({ ...data, post_code: event.target.value })
           formik.setFieldValue('post_code', event.target.value)
           formik.setFieldTouched('post_code', true)
-          // formik.validateForm().then(res => {
-          //   if (Object.keys(res).length == 0 || Object.keys(res).length == 1 && res.m_name) {
-          //     setDisplay("block")
-          //     console.log(Object.keys(res).length)
-          //     console.log("form valid")
-
-          //   } else {
-          //     setDisplay("none")
-          //   }
-          // })
         }
       }
     }
@@ -135,18 +113,9 @@ const SenderDetails = ({ handleStep, step }) => {
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value })
-    console.log("---------------------------", formik.isValidating)
-
-    // formik.validateForm().then(res => {
-    //   if (Object.keys(res).length == 0 || Object.keys(res).length == 1 && res.m_name) {
-    //     setDisplay("block")
-    //     console.log(res)
-    //     console.log("form valid")
-
-    //   } else {
-    //     setDisplay("none")
-    //   }
-    // })
+    formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+    formik.setFieldTouched(`${[e.target.name]}`, true)
+    // console.log("---------------------------", formik.isValidating)
   }
   const countryOptions = useMemo(() => countryList().getData(), [])
   const verificationValue = localStorage.getItem("DigitalCode")
@@ -172,6 +141,7 @@ const SenderDetails = ({ handleStep, step }) => {
       }
     }
   }
+
   useEffect(() => {
     formik.validateForm().then(res => {
       if (Object.keys(res).length == 0) {
@@ -182,7 +152,7 @@ const SenderDetails = ({ handleStep, step }) => {
         setDisplay("none")
       }
     })
-  }, [formik.values])
+  }, [data])
 
   useEffect(() => {
 
@@ -227,16 +197,6 @@ const SenderDetails = ({ handleStep, step }) => {
     }
 
   }, [step])
-
-  // const valid = () => {
-  // formik.validateForm().then(res => {
-  //   if (res) {
-  //     // setDisplay("block")
-  //     digitalRef.current.click()
-
-  //   }
-  // })
-  // }
 
 
   const handleClear = () => {
@@ -325,10 +285,9 @@ const SenderDetails = ({ handleStep, step }) => {
               <p className="get-text">Date of birth<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="date"
-                name="DateofBirth"
+                name="dob"
                 value={data.dob}
                 onChange={(e) => handleChange(e)}
-                {...formik.getFieldProps("dob")}
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.dob && formik.errors.dob },
@@ -379,7 +338,6 @@ const SenderDetails = ({ handleStep, step }) => {
                 value={data.country}
                 name="country_of_birth"
                 onChange={(e) => handleChange(e)}
-                {...formik.getFieldProps("country_of_birth")}
                 className={clsx(
                   'form-control w-75 form-select bg-transparent',
                   { 'is-invalid': formik.touched.country_of_birth && formik.errors.country_of_birth },
@@ -562,7 +520,6 @@ const SenderDetails = ({ handleStep, step }) => {
                 value={data.country}
                 name="country"
                 onChange={(e) => handleChange(e)}
-                {...formik.getFieldProps("country")}
                 className={clsx(
                   'form-control form-select bg-transparent',
                   { 'is-invalid': formik.touched.country && formik.errors.country },

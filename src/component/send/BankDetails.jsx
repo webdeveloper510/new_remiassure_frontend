@@ -83,7 +83,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   const handleMobile = (event) => {
     const pattern = /^[0-9.,]+$/;
-    if (event.key === 'Backspace') {
+    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
 
     } else {
       let value = event.target.value.toString()
@@ -104,7 +104,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   const handlePostCode = (event) => {
     const pattern = /^[0-9.,]+$/;
-    if (event.key === 'Backspace') {
+    console.log("------------------------------------------------------++++", event.key)
+    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
 
     } else {
       let value = event.target.value.toString()

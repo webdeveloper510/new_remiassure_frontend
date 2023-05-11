@@ -304,7 +304,7 @@ const Home = () => {
     const inputvalidation = (event) => {
         // console.log("dfjghfguh---------------", event.key)
         const pattern = /^[0-9.,]+$/;
-        if (event.key === 'Backspace') {
+        if (event.key === 'Backspace'||event.key === 'Enter'||event.key === 'Tab'|| event.key ==='Shift'||event.key==='ArrowLeft'||event.key==="ArrowRight") {
 
         }
         else if (!pattern.test(event.key)) {
