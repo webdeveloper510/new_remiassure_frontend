@@ -224,3 +224,28 @@ export const updateUserRecipient = async (id ,data) => {
   return response
 }
 
+// payment/card-list
+export const cardList = async (data) => {
+  console.log("data---------")
+  const response = await Axios.post("/payment/card-list/",data,{
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+  }).then(res => {
+    return res.data
+  })
+  return response
+}
+
+// payment/recipient-list/
+export const recipientList = async (data) => {
+  console.log("data---------")
+  const response = await Axios.post("/payment/recipient-list/",data,{
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+  }).then(res => {
+    return res.data
+  })
+  return response
+}

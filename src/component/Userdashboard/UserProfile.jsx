@@ -1007,23 +1007,8 @@ const Profile = () => {
                             name="Middle_name"
                             onChange={(e) => setData({ ...data, Middle_name: e.target.value })}
                             {...formik.getFieldProps('Middle_name')}
-                          // type="text"
-                          // placeholder="Enter middle name"
-                          // {...formik.getFieldProps('Middle_name')}
-                          // className={clsx(
-                          //   'form-control bg-transparent',
-                          //   { 'is-invalid': formik.touched.Middle_name && formik.errors.Middle_name },
-                          //   {
-                          //     'is-valid': formik.touched.Middle_name && !formik.errors.Middle_name,
-                          //   }
-                          // )}
+                          
                           />
-
-
-                          {/* {errorUserRecipient && Middle_name.length <= 0 ?
-                                <span style={myStyle}>Please Enter the Middle Name </span> : ""}
-
-                              <span style={myStyle}>{BankNameText?.EnterMiddle_name ? BankNameText?.EnterMiddle_name : ''}</span> */}
                         </div>
                       </div>
                       <div className="col-md-4">

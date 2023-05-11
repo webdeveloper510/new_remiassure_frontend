@@ -13,6 +13,7 @@ import { BsFillPersonPlusFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
 import Page404 from "../pageNotfound/Page404";
 import authDashHelper from "../../utils/AuthDashHelper";
+import { recipientList } from "../../utils/Api";
 
 
 const UserRecipients = () => {
@@ -47,23 +48,31 @@ const UserRecipients = () => {
 
     const getList = () => {
         setLoading(true);
-        axios.post(API.BASE_URL + 'payment/recipient-list/', {}, {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            }
+        recipientList().then((res)=>{
+            console.log("response=====",res)
+            setData(res.data)
+            setLoading(false)
+        }).catch((error)=>{
+            console.log(error.response)
+            setLoading(false)
         })
-            .then(function (response) {
-                if (response.data.code == "200") {
-                    console.log(response.data.data)
-                    setData(response.data?.data);
-                }
-                setLoading(false);
-            })
-            .catch(function (error) {
-                console.log(error);
-                console.log(error.response);
-                setLoading(false);
-            })
+        // axios.post(API.BASE_URL + 'payment/recipient-list/', {}, {
+        //     headers: {
+        //         "Authorization": `Bearer ${token}`,
+        //     }
+        // })
+        //     .then(function (response) {
+        //         if (response.data.code == "200") {
+        //             console.log(response.data.data)
+        //             setData(response.data?.data);
+        //         }
+        //         setLoading(false);
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //         console.log(error.response);
+        //         setLoading(false);
+        //     })
     }
 
     useEffect(() => {
