@@ -26,7 +26,7 @@ const SenderDetails = ({ handleStep, step }) => {
   })
 
   const initialValues = {
-    f_name: "", l_name: "",
+    f_name: "", m_name: "", l_name: "",
     gender: "Male", country_of_birth: "",
     dob: "", flat: "", build_no: "",
     street: "", city: "", country: "",
@@ -154,9 +154,6 @@ const SenderDetails = ({ handleStep, step }) => {
 
       } else {
 
-       if(e.target.name == "m_name"){
-        setData({ ...data, [e.target.name]: e.target.value })
-       } else{
         setData({ ...data, [e.target.name]: e.target.value })
         formik.setFieldValue(`${[e.target.name]}`, e.target.value)
         formik.setFieldTouched(`${[e.target.name]}`, true)
@@ -167,7 +164,6 @@ const SenderDetails = ({ handleStep, step }) => {
             console.log("form valid")
           }
         })
-       }
       }
     }
   }
@@ -271,6 +267,7 @@ const SenderDetails = ({ handleStep, step }) => {
                 className='form-control'
                 value={data.m_name}
                 onKeyDown={(e) => { handleKeyDown(e, 25) }}
+                {...formik.getFieldProps("m_name")}
               />
             </div>
           </div>
