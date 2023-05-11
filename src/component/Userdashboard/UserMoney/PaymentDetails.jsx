@@ -28,12 +28,14 @@ const PaymentDetails = ({ handleStep, step }) => {
     }
   }
 
+  const local = JSON.parse(localStorage.getItem("transfer_data"))
+
   const stripePromise = loadStripe(`${global.stripe_p_key}`);
 
   const handleCancel = () => {
     localStorage.removeItem("send-step")
     localStorage.removeItem("transfer_data")
-    navigate("/dashboard")
+    window.location.reload()
   }
   const handlePrevious = () => {
     localStorage.removeItem("send-step")
@@ -48,6 +50,7 @@ const PaymentDetails = ({ handleStep, step }) => {
         </h2>
       </div>
       <div className="form_body">
+        <h6 className='float-end text-capitalize' style={{color:"#6414E9"}}> Sending: {local?.amount?.from_type}{local?.amount?.send_amt} To: {local?.recipient?.first_name} {local?.recipient.last_name}</h6>
         <div className="row each-row">
           <h5>Payment type</h5>
           <div className="col-md-12">
@@ -96,10 +99,11 @@ const PaymentDetails = ({ handleStep, step }) => {
         </div>
         <div className="row">
           <div className="col-md-4">
-            <button type="button" className="start-form-button" onClick={() => handlePrevious()}>Previous</button>
+            <button type="button" className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
           </div>
           <div className="col-md-8">
             <button className="form-button" onClick={() => handlePayType()}>Continue</button>
+            <button className="form-button" onClick={() => handlePrevious()}>Previous</button>
           </div>
         </div>
       </div>

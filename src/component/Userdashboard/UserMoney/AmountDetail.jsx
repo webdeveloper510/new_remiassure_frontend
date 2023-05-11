@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { exchangeRate } from '../../../utils/Api';
 import { useNavigate, useLocation } from 'react-router';
 
-const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
+const AmountDetail = ({ handleStep, step }) => {
 
     const data = useLocation()?.state
     const [loader, setLoader] = useState(false)
@@ -47,14 +47,6 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
         validationSchema: amtSchema,
         onSubmit: async (values) => {
             console.log("Amount Details---------------", values)
-            handleAmtDetail({
-                send_amt: values.send_amt,
-                exchange_amt: values.exchange_amt,
-                from_type: values.from_type,
-                to_type: values.to_type,
-                recieve_meth: values.recieve_meth,
-                payout_part: values.payout_part
-            })
             let local = {}
             if (localStorage.getItem("transfer_data")) {
                 local = JSON.parse(localStorage.getItem("transfer_data"))

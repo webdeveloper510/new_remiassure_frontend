@@ -16,7 +16,7 @@ import global from '../../../utils/global';
 import axios from "axios"
 import { toast } from 'react-toastify';
 
-const BankDetails = ({ handleBankDetail, handleStep, step }) => {
+const BankDetails = ({ handleStep, step }) => {
 
   const navigate = useNavigate();
   const tdata = localStorage.getItem("transfer_data")

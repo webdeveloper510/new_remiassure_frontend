@@ -10,28 +10,10 @@ const SendMoney = () => {
 
     const data = useLocation()?.state
     const [step, setStep] = useState(0)
-    const [titles, setTitles] = useState(["Amount & Delivery", "Recipient Bank Details", "Payment Details", "Sender Details", "Payment Summary", "Thank you"])
-    const [amt_detail, setAmtDetail] = useState({
-        send_amt: data?.send_amt || "", exchange_amt: data?.exchange_amt || "", from_type: data?.from_type || "", to_type: data?.to_type || "", recieve_meth: data?.recieve_meth || "", payout_part: ""
-    })
+    const [seconds, setSeconds] = useState(60);
+    const [minutes, setMinutes] = useState(14);
 
-    const [bank_detail, setBankDetail] = useState({
-        bank: "", acc_name: "", acc_no: "", f_name: "", l_name: "", m_name: "", email: "", mobile: "",
-        flat: "", build_no: "", street: "", city: "", post: "", state: "", country: "", reason: ""
-    })
-
-    const [pay_detail, setPayDetail] = useState({
-        payment_type: ""
-    })
-
-    const handleAmtDetail = (data) => {
-        setAmtDetail(data)
-    }
     const navigate = useNavigate()
-
-    const handleBankDetail = (data) => {
-        setBankDetail(data)
-    }
 
     const handleStep = (data) => {
         setStep(Number(data))
@@ -42,8 +24,8 @@ const SendMoney = () => {
             navigate("/send-money")
         }
         else {
-          localStorage.removeItem("send-step")
-          localStorage.removeItem("transfer_data")
+            localStorage.removeItem("send-step")
+            localStorage.removeItem("transfer_data")
         }
         setInterval(() => {
             localStorage.removeItem("send-step");
@@ -63,19 +45,27 @@ const SendMoney = () => {
         console.log("step---------------------------", step)
     }, [step])
 
+    useEffect(() => {
+        seconds > 0 && setTimeout(() => setSeconds(seconds - 1), 1000);
+
+    }, [seconds]);
+
+    useEffect(() => {
+        minutes > 0 && setTimeout(() => setMinutes(minutes - 1), 60 * 1000);
+        setSeconds(60)
+    }, [minutes])
 
     return (
         <div className="margin-set">
             <div className="tabs-page">
                 <Sidebar />
-
                 <div className="content-body">
-
+                <div>Form auto closes in ⇒ {minutes < 10 ? "0" + minutes : minutes} : {seconds < 10 ? "0" + seconds : seconds}</div>
                     <div className="col-md-10">
                         {
-                            step === 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
+                            step === 0 ? <AmountDetail handleStep={handleStep} step={step} />
                                 :
-                                step === 1 ? <BankDetails handleBankDetail={handleBankDetail} handleStep={handleStep} step={step} />
+                                step === 1 ? <BankDetails handleStep={handleStep} step={step} />
                                     :
                                     step === 2 ? <PaymentDetails handleStep={handleStep} step={step} />
                                         : <></>

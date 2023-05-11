@@ -14,19 +14,19 @@ const SenderDetails = ({ handleStep, step }) => {
   const tdata = JSON.parse(localStorage.getItem("transfer_data"))
 
   const [data, setData] = useState({
-    f_name:  "", m_name:  "", l_name: "",
-    gender:"Male", country_of_birth:"",
-    dob:  "", flat: "", build_no: "",
-    street: "", city:"", country: "",
+    f_name: "", m_name: "", l_name: "",
+    gender: "Male", country_of_birth: "",
+    dob: "", flat: "", build_no: "",
+    street: "", city: "", country: "",
     post_code: "", state: "", email: userd.email, mobile: userd.mobile,
     customer_id: userd.customer_id
   })
 
   const initialValues = {
-    f_name:  "", m_name:  "", l_name: "",
-    gender:"Male", country_of_birth:"",
-    dob:  "", flat: "", build_no: "",
-    street: "", city:"", country: "",
+    f_name: "", m_name: "", l_name: "",
+    gender: "Male", country_of_birth: "",
+    dob: "", flat: "", build_no: "",
+    street: "", city: "", country: "",
     post_code: "", state: "", email: userd.email, mobile: userd.mobile,
     customer_id: userd.customer_id
   }
@@ -160,7 +160,11 @@ const SenderDetails = ({ handleStep, step }) => {
           formik.handleSubmit()
         },
         onClick: function () {
-          // console.log(3, "log")
+          formik.validateForm().then((res) => {
+            if (res.length == 0) {
+              return false
+            }
+          })
         },
         onKeepAlive: function () {
           // console.log(4, "log")
@@ -173,14 +177,14 @@ const SenderDetails = ({ handleStep, step }) => {
 
   useEffect(() => {
     if (localStorage.getItem("transfer_data")) {
-        let tdata = JSON.parse(localStorage.getItem("transfer_data"))
-        if (tdata?.sender) {
-            setData(tdata?.sender)
-            formik.setValues({ ...tdata?.sender })
-        }
+      let tdata = JSON.parse(localStorage.getItem("transfer_data"))
+      if (tdata?.sender) {
+        setData(tdata?.sender)
+        formik.setValues({ ...tdata?.sender })
+      }
     }
 
-}, [step])
+  }, [step])
 
   const handleClear = () => {
     localStorage.removeItem("transfer_data")
@@ -550,7 +554,7 @@ const SenderDetails = ({ handleStep, step }) => {
           <button className="start-form-button" onClick={() => handleClear()}>Cancel</button>
         </div>
         <div className="col-md-10 new_buttons">
-          {!verificationValue && formik.validateOnMount ?  (
+          {!verificationValue ? (
             <div id="digitalid-verify"></div>
           ) : (
             <>

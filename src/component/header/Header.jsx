@@ -46,7 +46,7 @@ const Header = () => {
   const handleLogout = (event) => {
     event.preventDefault();
     localStorage.clear();
-    toast.success('Logout Successfully', { position:"bottom-right", autoClose: 2000, hideProgressBar: true });
+    toast.success('Logout Successfully', { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
     navigate('/login')
   }
 
@@ -85,7 +85,9 @@ const Header = () => {
                       {
                         LoginDigitalidVerified == "true" ? (
                           <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
-                        ) : (<> </>)
+                        ) : (
+                          <li> <NavLink to="/send-money">Send Money</NavLink></li>
+                        )
                       }
                       <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
                     </ul>
@@ -141,7 +143,9 @@ const Header = () => {
                           {
                             LoginDigitalidVerified == "true" ? (
                               <li> <NavLink to="/dashboard" onClick={handleClose}>User Dashboard</NavLink></li>
-                            ) : (<> </>)
+                            ) : (
+                              <li> <NavLink to="/send-money" onClick={handleClose}>Send Money</NavLink></li>
+                            )
                           }
                           <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
                         </ul>
