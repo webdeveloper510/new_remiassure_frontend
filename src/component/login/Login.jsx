@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { userLogin } from "../../utils/Api";
+import { exchangeRate, userLogin } from "../../utils/Api";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useFormik } from "formik";
@@ -9,6 +9,14 @@ import * as Yup from "yup"
 import clsx from "clsx";
 
 const Login = () => {
+
+    useEffect(() => {
+        exchangeRate({ amount: 1, from: "AUD", to: "NZD" }).then(res => {
+            const data = { send_amt: 1, exchange_amt: res.amount, from_type: "AUD", to_type: "NZD", exch_rate: res.rate }
+            localStorage.removeItem("exchange_curr")
+            localStorage.setItem("exchange_curr", JSON.stringify(data))
+        })
+    }, [])
 
     const loginSchema = Yup.object().shape({
         email: Yup.string()

@@ -26,7 +26,7 @@ const SenderDetails = ({ handleStep, step }) => {
   })
 
   const initialValues = {
-    f_name: "", m_name: "", l_name: "",
+    f_name: "", m_name: " ", l_name: "",
     gender: "Male", country_of_birth: "",
     dob: "", flat: "", build_no: "",
     street: "", city: "", country: "",
@@ -57,7 +57,7 @@ const SenderDetails = ({ handleStep, step }) => {
     onSubmit: async (values) => {
       const local = JSON.parse(localStorage.getItem("transfer_data"))
       const user = JSON.parse(localStorage.getItem("remi-user-dt"))
-      local.sender = {...values, email:user.email, customer_id:user.customer_id, mobile:user.mobile}
+      local.sender = { ...values, email: user.email, customer_id: user.customer_id, mobile: user.mobile }
       localStorage.removeItem("transfer_data")
       localStorage.setItem("transfer_data", JSON.stringify(local))
       if (localStorage.getItem("send-step")) {
@@ -85,11 +85,12 @@ const SenderDetails = ({ handleStep, step }) => {
           setData({ ...data, mobile: event.target.value })
           formik.setFieldValue('mobile', event.target.value)
           formik.validateForm().then(res => {
-            if (Object.keys(res).length ==0) {
+            if (Object.keys(res).length == 0 || Object.keys(res).length == 1 && res.m_name) {
               setDisplay("block")
-            console.log(Object.keys(res).length)
-            console.log("form valid")
-
+              console.log(Object.keys(res).length)
+              console.log("form valid")
+            } else {
+              setDisplay("none")
             }
           })
         }
@@ -115,11 +116,13 @@ const SenderDetails = ({ handleStep, step }) => {
           formik.setFieldValue('post_code', event.target.value)
           formik.setFieldTouched('post_code', true)
           formik.validateForm().then(res => {
-            if (Object.keys(res).length == 0) {
+            if (Object.keys(res).length == 0 || Object.keys(res).length == 1 && res.m_name) {
               setDisplay("block")
-            console.log(Object.keys(res).length)
-            console.log("form valid")
+              console.log(Object.keys(res).length)
+              console.log("form valid")
 
+            } else {
+              setDisplay("none")
             }
           })
         }
@@ -130,11 +133,13 @@ const SenderDetails = ({ handleStep, step }) => {
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value })
     formik.validateForm().then(res => {
-      if (Object.keys(res).length == 0) {
+      if (Object.keys(res).length == 0 || Object.keys(res).length == 1 && res.m_name) {
         setDisplay("block")
-        console.log(Object.keys(res).length)
+        console.log(res)
         console.log("form valid")
 
+      } else {
+        setDisplay("none")
       }
     })
   }
@@ -159,9 +164,11 @@ const SenderDetails = ({ handleStep, step }) => {
         formik.setFieldTouched(`${[e.target.name]}`, true)
         formik.validateForm().then(res => {
           if (Object.keys(res).length == 0) {
-            console.log(Object.keys(res).length)
+            console.log(Object.keys(res).length || Object.keys(res).length == 1 && res.m_name)
             setDisplay("block")
             console.log("form valid")
+          } else {
+            setDisplay("none")
           }
         })
       }
@@ -213,13 +220,13 @@ const SenderDetails = ({ handleStep, step }) => {
   }, [step])
 
   // const valid = () => {
-    // formik.validateForm().then(res => {
-    //   if (res) {
-    //     // setDisplay("block")
-    //     digitalRef.current.click()
+  // formik.validateForm().then(res => {
+  //   if (res) {
+  //     // setDisplay("block")
+  //     digitalRef.current.click()
 
-    //   }
-    // })
+  //   }
+  // })
   // }
 
 
@@ -236,7 +243,7 @@ const SenderDetails = ({ handleStep, step }) => {
       <div className="header">
         <h1>Sender Details </h1>
       </div>
-      <form autoComplete='off'>
+      <form autoComplete='mukul' >
         <div className="row each-row">
           <div className="col-md-4">
             <div className="input_field">

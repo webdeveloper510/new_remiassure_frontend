@@ -61,7 +61,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
             if (localStorage.getItem("transfer_data")) {
                 local = JSON.parse(localStorage.getItem("transfer_data"))
             }
-            local.amount = {...values, rates: exch_rate}
+            local.amount = { ...values, rates: exch_rate }
 
             localStorage.setItem("transfer_data", JSON.stringify(local))
             if (localStorage.getItem("send-step")) {
@@ -183,6 +183,11 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                 setAmtDetail(tdata?.amount)
                 formik.setValues({ ...tdata?.amount })
             }
+        } else if (localStorage.getItem("exchange_curr")) {
+            let data = JSON.parse(localStorage.getItem("exchange_curr"))
+            setAmtDetail({ ...amt_detail, send_amt: data.send_amt, exchange_amt: data.exchange_amt, from_type: data.from_type, to_type: data.to_type })
+            setExchRate(data.exch_rate)
+            formik.setValues({send_amt: data.send_amt, exchange_amt: data.exchange_amt, from_type: data.from_type, to_type: data.to_type })
         }
 
     }, [])
