@@ -168,7 +168,6 @@ const UserCardLists = () => {
                                                             </Button>
                                                         </Modal.Footer>
                                                     </Modal>
-
                                                 </div>
                                             </div>
                                         </div>

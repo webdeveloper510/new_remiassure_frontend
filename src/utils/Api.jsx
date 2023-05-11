@@ -84,7 +84,7 @@ export const updateProfile = async (data) => {
   const response = await Axios.post("/update-profile/", data, {
     headers: {
       'Content-Type': 'application/json',
-      "Authorization": `Bearer ${signupToken ? signupToken : token}`
+      "Authorization": `Bearer ${token}`
     }
   }).then(res => {
     return res.data
@@ -96,7 +96,7 @@ export const userProfile = async (data) => {
   const response = await Axios.post("/user-profile/", data, {
     headers: {
       'Content-Type': 'application/json',
-      "Authorization": `Bearer ${signupToken ? signupToken : token}`
+      "Authorization": `Bearer ${token}`
     }
   }).then(res => {
     return res.data
@@ -115,7 +115,7 @@ export const exchangeRate = async (data) => {
 export const paymentSummary = async (data) => {
   const response = await Axios.post("/payment/summary/", {transaction_id:data},{
     headers: {
-      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+      "Authorization": `Bearer ${token}`,
     },
   }).then(res => {
     return res.data
@@ -127,7 +127,7 @@ export const paymentSummary = async (data) => {
 export const transactionHistory = async (data) => {
   const response = await Axios.post("/payment/transaction-history/", data,{
     headers: {
-      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+      "Authorization": `Bearer ${token}`,
     },
   }).then(res => {
     return res.data
@@ -139,7 +139,7 @@ export const transactionHistory = async (data) => {
 export const pendingPayment = async (data) => {
   const response = await Axios.post("/payment/pending-transactions/", data,{
     headers: {
-      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+      "Authorization": `Bearer ${token}`,
     },
   }).then(res => {
     return res.data
@@ -151,7 +151,7 @@ export const pendingPayment = async (data) => {
 export const completedPayment = async (data) => {
   const response = await Axios.post("/payment/completed-transactions/", data,{
     headers: {
-      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+      "Authorization": `Bearer ${token}`,
     },
   }).then(res => {
     return res.data
@@ -163,7 +163,7 @@ export const completedPayment = async (data) => {
 export const createRecipient = async (data) => {
   const response = await Axios.post("/payment/recipient-create/", data,{
     headers: {
-      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+      "Authorization": `Bearer ${token}`,
     },
   }).then(res => {
     return res.data
@@ -203,7 +203,7 @@ export const getUserRecipient = async (id) => {
   console.log("id", id)
   const response = await Axios.get(`/payment/recipient-update/${id}`,{
     headers: {
-      "Authorization": `Bearer ${signupToken ? signupToken : token}`,
+      "Authorization": `Bearer ${token}`,
     },
   }).then(res => {
     return res.data

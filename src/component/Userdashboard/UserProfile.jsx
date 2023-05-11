@@ -60,7 +60,7 @@ const Profile = () => {
   /************ Start -Recipient Bank Details state***************/
   // const [bankName, setBankName] = useState('')
   // const [firstName, setFirstName] = useState('');
-  // const [middleName, setMiddleName] = useState('');
+  // const [Middle_name, setMiddle_name] = useState('');
   // const [lastName, setLastName] = useState('');
   // const [email, setEmail] = useState('');
   // const [mobile, setMobile] = useState('');
@@ -117,7 +117,7 @@ const Profile = () => {
 
   /****************** start-- useRef is used for focusing on inputbox *******************/
   // const input_firstName = useRef(null);
-  // const input_middleName = useRef(null);
+  // const input_Middle_name = useRef(null);
   // const input_lastName = useRef(null);
   // const input_email = useRef(null);
   // const input_mobile = useRef(null);
@@ -186,7 +186,7 @@ const Profile = () => {
   //     .then(function (response) {
   //       console.log("Recipients APIIIII", response.data);
   //       setFirstName(response.data.data.First_name);
-  //       setMiddleName(response.data.data.Middle_name);
+  //       setMiddle_name(response.data.data.Middle_name);
   //       setLastName(response.data.data.Last_name);
   //       setEmail(response.data.data.email);
   //       setMobile(response.data.data.mobile);
@@ -226,7 +226,7 @@ const Profile = () => {
   const [data, setData] = useState(
     {
       firstName: "",
-      middleName: "",
+      Middle_name: "",
       lastName: "",
       emailId: "",
       phoneno: "",
@@ -236,14 +236,18 @@ const Profile = () => {
       state: "",
       building: "",
       city: "",
-      language:"",
-      sendingTo:""
+      // language:"",
+      // sendingTo:"",
+      birth: "",
+      gender: "",
+      region: "",
+      placeBirthCountry: ""
     }
   )
 
   const profileSchema = Yup.object().shape({
     firstName: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("First name is required"),
-    middleName: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter"),
+    Middle_name: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter"),
     lastName: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("Last name is required"),
     email: Yup.string().email().min(6, "Minimum 6 Letter").max(50, "Maximum 50 letter"),
     mobile: Yup.string().min(7, "Minimum 7 Letter").max(18, "Maximum 18 letter").required("Mobile No. is required"),
@@ -253,16 +257,21 @@ const Profile = () => {
     city: Yup.string().min(1, "Minimum 1 Letter").max(200, "Maximum 200 letter").required("City is required"),
     state: Yup.string().min(1, "Minimum 1 Letter").max(200, "Maximum 200 letter").required("State is required"),
     country: Yup.string().oneOf(['Australia', 'New Zealand']).required("Country is required"),
-    language: Yup.string().required("Language is required"),
-    sendingTo: Yup.string().required("Sending To is required"),
-    sendingFrom: Yup.string().required()
+    birth: Yup.string().required(),
+    gender: Yup.string().required(),
+    placeBirthCountry: Yup.string().required(),
+    region: Yup.string().required(),
+    // language: Yup.string().required("Language is required"),
+    // sendingTo: Yup.string().required("Sending To is required"),
+    // sendingFrom: Yup.string().required()
+
   })
 
 
 
   const initialValues = {
     firstName: '',
-    middleName: '',
+    Middle_name: '',
     lastName: "",
     email: "",
     mobile: "",
@@ -272,17 +281,21 @@ const Profile = () => {
     city: '',
     state: '',
     country: '',
-    language: "",
-    sendingTo: "",
-    sendingFrom: "United States"
+    // language: "",
+    // sendingTo: "",
+    // sendingFrom: "United States",
+    birth: "",
+    gender: "",
+    region: "",
+    placeBirthCountry: ""
   }
   useEffect(() => {
     if (!authDashHelper('dashCheck')) {
       navigate("/send-money")
-   } else {
-    setLoading(true)
-    getUserData()
-   }
+    } else {
+      setLoading(true)
+      getUserData()
+    }
   }, [])
 
   const getUserData = () => {
@@ -290,38 +303,48 @@ const Profile = () => {
       console.log("response----------==========", res)
       if (res.code == "200") {
         setLoading(false)
-
+        let value = res.data
         setData({
-          ...data, 
-          emailId: res.data.email, 
-          phoneno: res.data.mobile, 
-          country: res.data.location,
-          firstName: res.data.First_name,
-          lastName: res.data.Last_name,
-          middleName: "",
-          flat: res.data.flat,
-          street: res.data.street,
-          building: res.data.building,
-          state: res.data.state,
-          city: res.data.city,
-          language:res.data.language,
-          sendingTo: res.data.sendTo
+          ...data,
+          emailId: value.email,
+          phoneno: value.mobile,
+          country: value.location,
+          firstName: value.First_name,
+          lastName: value.Last_name,
+          Middle_name: value.Middle_name,
+          flat: value.flat,
+          street: value.street,
+          building: value.building,
+          state: value.state,
+          city: value.city,
+          birth: value.Date_of_birth,
+          gender: value.Gender,
+          placeBirthCountry: value.Country_of_birth
+          ,
+          region: value.region
+          // language: value.language,
+          // sendingTo: value.sendTo
         })
-        formik.setFieldValue("mobile", res.data.mobile)
-        formik.setFieldValue("country", res.data.location)
-        formik.setFieldValue("firstName", res.data.First_name)
-        formik.setFieldValue("lastName", res.data.Last_name)
-        formik.setFieldValue("middleName", "")
-        formik.setFieldValue("flat", res.data.flat)
-        formik.setFieldValue("building", res.data.building)
-        formik.setFieldValue("state", res.data.state)
-        formik.setFieldValue("street", res.data.street)
-        formik.setFieldValue("city", res.data.city)
+        formik.setFieldValue("mobile", value.mobile)
+        formik.setFieldValue("country", value.location)
+        formik.setFieldValue("mobile", value.mobile)
+        formik.setFieldValue("firstName", value.First_name)
+        formik.setFieldValue("lastName", value.Last_name)
+        formik.setFieldValue("Middle_name", value.Middle_name)
+        formik.setFieldValue("flat", value.flat)
+        formik.setFieldValue("building", value.building)
+        formik.setFieldValue("state", value.state)
+        formik.setFieldValue("street", value.street)
+        formik.setFieldValue("city", value.city)
+        formik.setFieldValue("birth", value.Date_of_birth)
+        formik.setFieldValue("gender", value.Gender)
+        formik.setFieldValue("placeBirthCountry", value.Country_of_birth)
+        formik.setFieldValue("regio", value.region)
       }
     }).catch((error) => {
       console.log(error.response)
       if (error.response.data.code == "400") {
-        toast.error(error.response.data.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
+        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
       }
       setLoading(false)
     })
@@ -330,22 +353,54 @@ const Profile = () => {
   const formik = useFormik({
     initialValues,
     validationSchema: profileSchema,
-    onSubmit: async (values) => { 
+    onSubmit: async (values) => {
+      let data = {
+        First_name: values.firstName,
+        Middle_name: values.Middle_name,
+        Last_name: values.lastName,
+        email: values.email,
+        mobile: values.mobile,
+        flat: values.flat,
+        building: values.building,
+        street: values.street,
+        city: values.city,
+        state: values.state,
+        country: values.country,
+        Date_of_birth: values.birth,
+        Country_of_birth: values.placeBirthCountry,
+        Gender: values.gender,
+
+      }
+      if (values.Middle_name == "") {
+        data = {
+          First_name: values.firstName,
+          Last_name: values.lastName,
+          email: values.email,
+          mobile: values.mobile,
+          flat: values.flat,
+          building: values.building,
+          street: values.street,
+          city: values.city,
+          state: values.state,
+          country: values.country,
+          Date_of_birth: values.birth,
+          Country_of_birth: values.placeBirthCountry,
+          Gender: values.gender,
+        }
+      }
+
+
       setLoading(true)
-      updateProfile({
-        First_name: values.firstName, Middle_name: "", Last_name: values.lastName,
-        email: values.email, mobile: values.mobile, flat: values.flat, building: values.building, street: values.street,
-        city: values.city, state: values.state, country: values.country
-      }).then((res) => {
+      updateProfile(data).then((res) => {
         console.log("user res----------------", res)
         if (res.code == "200") {
-          toast.success("Successfully update", { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
+          toast.success("Successfully update", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         }
         setLoading(false)
       }).catch((error) => {
         console.log(error.response)
         if (error.response.data.code == "400") {
-          toast.error(error.response.data.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
+          toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         }
         setLoading(false)
       })
@@ -633,6 +688,252 @@ const Profile = () => {
     // console.log(e.target.value,"--------------------------")
   }
 
+  const countries = [
+    { name: 'Afghanistan', code: 'AF' },
+    { name: 'Åland Islands', code: 'AX' },
+    { name: 'Albania', code: 'AL' },
+    { name: 'Algeria', code: 'DZ' },
+    { name: 'American Samoa', code: 'AS' },
+    { name: 'AndorrA', code: 'AD' },
+    { name: 'Angola', code: 'AO' },
+    { name: 'Anguilla', code: 'AI' },
+    { name: 'Antarctica', code: 'AQ' },
+    { name: 'Antigua and Barbuda', code: 'AG' },
+    { name: 'Argentina', code: 'AR' },
+    { name: 'Armenia', code: 'AM' },
+    { name: 'Aruba', code: 'AW' },
+    { name: 'Australia', code: 'AU' },
+    { name: 'Austria', code: 'AT' },
+    { name: 'Azerbaijan', code: 'AZ' },
+    { name: 'Bahamas', code: 'BS' },
+    { name: 'Bahrain', code: 'BH' },
+    { name: 'Bangladesh', code: 'BD' },
+    { name: 'Barbados', code: 'BB' },
+    { name: 'Belarus', code: 'BY' },
+    { name: 'Belgium', code: 'BE' },
+    { name: 'Belize', code: 'BZ' },
+    { name: 'Benin', code: 'BJ' },
+    { name: 'Bermuda', code: 'BM' },
+    { name: 'Bhutan', code: 'BT' },
+    { name: 'Bolivia', code: 'BO' },
+    { name: 'Bosnia and Herzegovina', code: 'BA' },
+    { name: 'Botswana', code: 'BW' },
+    { name: 'Bouvet Island', code: 'BV' },
+    { name: 'Brazil', code: 'BR' },
+    { name: 'British Indian Ocean Territory', code: 'IO' },
+    { name: 'Brunei Darussalam', code: 'BN' },
+    { name: 'Bulgaria', code: 'BG' },
+    { name: 'Burkina Faso', code: 'BF' },
+    { name: 'Burundi', code: 'BI' },
+    { name: 'Cambodia', code: 'KH' },
+    { name: 'Cameroon', code: 'CM' },
+    { name: 'Canada', code: 'CA' },
+    { name: 'Cape Verde', code: 'CV' },
+    { name: 'Cayman Islands', code: 'KY' },
+    { name: 'Central African Republic', code: 'CF' },
+    { name: 'Chad', code: 'TD' },
+    { name: 'Chile', code: 'CL' },
+    { name: 'China', code: 'CN' },
+    { name: 'Christmas Island', code: 'CX' },
+    { name: 'Cocos (Keeling) Islands', code: 'CC' },
+    { name: 'Colombia', code: 'CO' },
+    { name: 'Comoros', code: 'KM' },
+    { name: 'Congo', code: 'CG' },
+    { name: 'Congo, The Democratic Republic of the', code: 'CD' },
+    { name: 'Cook Islands', code: 'CK' },
+    { name: 'Costa Rica', code: 'CR' },
+    { name: 'Cote D\'Ivoire', code: 'CI' },
+    { name: 'Croatia', code: 'HR' },
+    { name: 'Cuba', code: 'CU' },
+    { name: 'Cyprus', code: 'CY' },
+    { name: 'Czech Republic', code: 'CZ' },
+    { name: 'Denmark', code: 'DK' },
+    { name: 'Djibouti', code: 'DJ' },
+    { name: 'Dominica', code: 'DM' },
+    { name: 'Dominican Republic', code: 'DO' },
+    { name: 'Ecuador', code: 'EC' },
+    { name: 'Egypt', code: 'EG' },
+    { name: 'El Salvador', code: 'SV' },
+    { name: 'Equatorial Guinea', code: 'GQ' },
+    { name: 'Eritrea', code: 'ER' },
+    { name: 'Estonia', code: 'EE' },
+    { name: 'Ethiopia', code: 'ET' },
+    { name: 'Falkland Islands (Malvinas)', code: 'FK' },
+    { name: 'Faroe Islands', code: 'FO' },
+    { name: 'Fiji', code: 'FJ' },
+    { name: 'Finland', code: 'FI' },
+    { name: 'France', code: 'FR' },
+    { name: 'French Guiana', code: 'GF' },
+    { name: 'French Polynesia', code: 'PF' },
+    { name: 'French Southern Territories', code: 'TF' },
+    { name: 'Gabon', code: 'GA' },
+    { name: 'Gambia', code: 'GM' },
+    { name: 'Georgia', code: 'GE' },
+    { name: 'Germany', code: 'DE' },
+    { name: 'Ghana', code: 'GH' },
+    { name: 'Gibraltar', code: 'GI' },
+    { name: 'Greece', code: 'GR' },
+    { name: 'Greenland', code: 'GL' },
+    { name: 'Grenada', code: 'GD' },
+    { name: 'Guadeloupe', code: 'GP' },
+    { name: 'Guam', code: 'GU' },
+    { name: 'Guatemala', code: 'GT' },
+    { name: 'Guernsey', code: 'GG' },
+    { name: 'Guinea', code: 'GN' },
+    { name: 'Guinea-Bissau', code: 'GW' },
+    { name: 'Guyana', code: 'GY' },
+    { name: 'Haiti', code: 'HT' },
+    { name: 'Heard Island and Mcdonald Islands', code: 'HM' },
+    { name: 'Holy See (Vatican City State)', code: 'VA' },
+    { name: 'Honduras', code: 'HN' },
+    { name: 'Hong Kong', code: 'HK' },
+    { name: 'Hungary', code: 'HU' },
+    { name: 'Iceland', code: 'IS' },
+    { name: 'India', code: 'IN' },
+    { name: 'Indonesia', code: 'ID' },
+    { name: 'Iran, Islamic Republic Of', code: 'IR' },
+    { name: 'Iraq', code: 'IQ' },
+    { name: 'Ireland', code: 'IE' },
+    { name: 'Isle of Man', code: 'IM' },
+    { name: 'Israel', code: 'IL' },
+    { name: 'Italy', code: 'IT' },
+    { name: 'Jamaica', code: 'JM' },
+    { name: 'Japan', code: 'JP' },
+    { name: 'Jersey', code: 'JE' },
+    { name: 'Jordan', code: 'JO' },
+    { name: 'Kazakhstan', code: 'KZ' },
+    { name: 'Kenya', code: 'KE' },
+    { name: 'Kiribati', code: 'KI' },
+    { name: 'Korea, Democratic People\'S Republic of', code: 'KP' },
+    { name: 'Korea, Republic of', code: 'KR' },
+    { name: 'Kuwait', code: 'KW' },
+    { name: 'Kyrgyzstan', code: 'KG' },
+    { name: 'Lao People\'S Democratic Republic', code: 'LA' },
+    { name: 'Latvia', code: 'LV' },
+    { name: 'Lebanon', code: 'LB' },
+    { name: 'Lesotho', code: 'LS' },
+    { name: 'Liberia', code: 'LR' },
+    { name: 'Libyan Arab Jamahiriya', code: 'LY' },
+    { name: 'Liechtenstein', code: 'LI' },
+    { name: 'Lithuania', code: 'LT' },
+    { name: 'Luxembourg', code: 'LU' },
+    { name: 'Macao', code: 'MO' },
+    { name: 'Macedonia, The Former Yugoslav Republic of', code: 'MK' },
+    { name: 'Madagascar', code: 'MG' },
+    { name: 'Malawi', code: 'MW' },
+    { name: 'Malaysia', code: 'MY' },
+    { name: 'Maldives', code: 'MV' },
+    { name: 'Mali', code: 'ML' },
+    { name: 'Malta', code: 'MT' },
+    { name: 'Marshall Islands', code: 'MH' },
+    { name: 'Martinique', code: 'MQ' },
+    { name: 'Mauritania', code: 'MR' },
+    { name: 'Mauritius', code: 'MU' },
+    { name: 'Mayotte', code: 'YT' },
+    { name: 'Mexico', code: 'MX' },
+    { name: 'Micronesia, Federated States of', code: 'FM' },
+    { name: 'Moldova, Republic of', code: 'MD' },
+    { name: 'Monaco', code: 'MC' },
+    { name: 'Mongolia', code: 'MN' },
+    { name: 'Montserrat', code: 'MS' },
+    { name: 'Morocco', code: 'MA' },
+    { name: 'Mozambique', code: 'MZ' },
+    { name: 'Myanmar', code: 'MM' },
+    { name: 'Namibia', code: 'NA' },
+    { name: 'Nauru', code: 'NR' },
+    { name: 'Nepal', code: 'NP' },
+    { name: 'Netherlands', code: 'NL' },
+    { name: 'Netherlands Antilles', code: 'AN' },
+    { name: 'New Caledonia', code: 'NC' },
+    { name: 'New Zealand', code: 'NZ' },
+    { name: 'Nicaragua', code: 'NI' },
+    { name: 'Niger', code: 'NE' },
+    { name: 'Nigeria', code: 'NG' },
+    { name: 'Niue', code: 'NU' },
+    { name: 'Norfolk Island', code: 'NF' },
+    { name: 'Northern Mariana Islands', code: 'MP' },
+    { name: 'Norway', code: 'NO' },
+    { name: 'Oman', code: 'OM' },
+    { name: 'Pakistan', code: 'PK' },
+    { name: 'Palau', code: 'PW' },
+    { name: 'Palestinian Territory, Occupied', code: 'PS' },
+    { name: 'Panama', code: 'PA' },
+    { name: 'Papua New Guinea', code: 'PG' },
+    { name: 'Paraguay', code: 'PY' },
+    { name: 'Peru', code: 'PE' },
+    { name: 'Philippines', code: 'PH' },
+    { name: 'Pitcairn', code: 'PN' },
+    { name: 'Poland', code: 'PL' },
+    { name: 'Portugal', code: 'PT' },
+    { name: 'Puerto Rico', code: 'PR' },
+    { name: 'Qatar', code: 'QA' },
+    { name: 'Reunion', code: 'RE' },
+    { name: 'Romania', code: 'RO' },
+    { name: 'Russian Federation', code: 'RU' },
+    { name: 'RWANDA', code: 'RW' },
+    { name: 'Saint Helena', code: 'SH' },
+    { name: 'Saint Kitts and Nevis', code: 'KN' },
+    { name: 'Saint Lucia', code: 'LC' },
+    { name: 'Saint Pierre and Miquelon', code: 'PM' },
+    { name: 'Saint Vincent and the Grenadines', code: 'VC' },
+    { name: 'Samoa', code: 'WS' },
+    { name: 'San Marino', code: 'SM' },
+    { name: 'Sao Tome and Principe', code: 'ST' },
+    { name: 'Saudi Arabia', code: 'SA' },
+    { name: 'Senegal', code: 'SN' },
+    { name: 'Serbia and Montenegro', code: 'CS' },
+    { name: 'Seychelles', code: 'SC' },
+    { name: 'Sierra Leone', code: 'SL' },
+    { name: 'Singapore', code: 'SG' },
+    { name: 'Slovakia', code: 'SK' },
+    { name: 'Slovenia', code: 'SI' },
+    { name: 'Solomon Islands', code: 'SB' },
+    { name: 'Somalia', code: 'SO' },
+    { name: 'South Africa', code: 'ZA' },
+    { name: 'South Georgia and the South Sandwich Islands', code: 'GS' },
+    { name: 'Spain', code: 'ES' },
+    { name: 'Sri Lanka', code: 'LK' },
+    { name: 'Sudan', code: 'SD' },
+    { name: 'Suriname', code: 'SR' },
+    { name: 'Svalbard and Jan Mayen', code: 'SJ' },
+    { name: 'Swaziland', code: 'SZ' },
+    { name: 'Sweden', code: 'SE' },
+    { name: 'Switzerland', code: 'CH' },
+    { name: 'Syrian Arab Republic', code: 'SY' },
+    { name: 'Taiwan, Province of China', code: 'TW' },
+    { name: 'Tajikistan', code: 'TJ' },
+    { name: 'Tanzania, United Republic of', code: 'TZ' },
+    { name: 'Thailand', code: 'TH' },
+    { name: 'Timor-Leste', code: 'TL' },
+    { name: 'Togo', code: 'TG' },
+    { name: 'Tokelau', code: 'TK' },
+    { name: 'Tonga', code: 'TO' },
+    { name: 'Trinidad and Tobago', code: 'TT' },
+    { name: 'Tunisia', code: 'TN' },
+    { name: 'Turkey', code: 'TR' },
+    { name: 'Turkmenistan', code: 'TM' },
+    { name: 'Turks and Caicos Islands', code: 'TC' },
+    { name: 'Tuvalu', code: 'TV' },
+    { name: 'Uganda', code: 'UG' },
+    { name: 'Ukraine', code: 'UA' },
+    { name: 'United Arab Emirates', code: 'AE' },
+    { name: 'United Kingdom', code: 'GB' },
+    { name: 'United States', code: 'US' },
+    { name: 'United States Minor Outlying Islands', code: 'UM' },
+    { name: 'Uruguay', code: 'UY' },
+    { name: 'Uzbekistan', code: 'UZ' },
+    { name: 'Vanuatu', code: 'VU' },
+    { name: 'Venezuela', code: 'VE' },
+    { name: 'Viet Nam', code: 'VN' },
+    { name: 'Virgin Islands, British', code: 'VG' },
+    { name: 'Virgin Islands, U.S.', code: 'VI' },
+    { name: 'Wallis and Futuna', code: 'WF' },
+    { name: 'Western Sahara', code: 'EH' },
+    { name: 'Yemen', code: 'YE' },
+    { name: 'Zambia', code: 'ZM' },
+    { name: 'Zimbabwe', code: 'ZW' }
+  ]
+
 
 
 
@@ -660,19 +961,19 @@ const Profile = () => {
                             // Value={firstName}
                             // onChange={(e) => setFirstName(e.target.value)}
                             type="text"
-                              autoComplete='off'
-                              value={data.firstName}
-                              placeholder="Enter first name"
-                              name="firstName"
-                              onChange={(e) => setData({ ...data, firstName: e.target.value })}
-                              {...formik.getFieldProps('firstName')}
-                              className={clsx(
-                                'form-control bg-transparent',
-                                { 'is-invalid': formik.touched.firstName && formik.errors.firstName },
-                                {
-                                  'is-valid': formik.touched.firstName && !formik.errors.firstName,
-                                }
-                              )}
+                            autoComplete='off'
+                            value={data.firstName}
+                            placeholder="Enter first name"
+                            name="firstName"
+                            onChange={(e) => setData({ ...data, firstName: e.target.value })}
+                            {...formik.getFieldProps('firstName')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.firstName && formik.errors.firstName },
+                              {
+                                'is-valid': formik.touched.firstName && !formik.errors.firstName,
+                              }
+                            )}
 
                           />
                           {/* <span>{formik.errors.firstName ? formik.errors.firstName :""}</span> */}
@@ -690,27 +991,27 @@ const Profile = () => {
                             className='rate_input form-control'
                             placeholder="Enter middle name"
                             autoComplete='off'
-                            value={data.middle_name}
-                            name="middle_name"
-                            onChange={(e) => setData({ ...data, middle_name: e.target.value })}
-                            {...formik.getFieldProps('middle_name')}
+                            value={data.Middle_name}
+                            name="Middle_name"
+                            // onChange={(e) => setData({ ...data, Middle_name: e.target.value })}
+                            {...formik.getFieldProps('Middle_name')}
                           // type="text"
                           // placeholder="Enter middle name"
-                          // {...formik.getFieldProps('middleName')}
+                          // {...formik.getFieldProps('Middle_name')}
                           // className={clsx(
                           //   'form-control bg-transparent',
-                          //   { 'is-invalid': formik.touched.middleName && formik.errors.middleName },
+                          //   { 'is-invalid': formik.touched.Middle_name && formik.errors.Middle_name },
                           //   {
-                          //     'is-valid': formik.touched.middleName && !formik.errors.middleName,
+                          //     'is-valid': formik.touched.Middle_name && !formik.errors.Middle_name,
                           //   }
                           // )}
                           />
 
 
-                          {/* {errorUserRecipient && middleName.length <= 0 ?
+                          {/* {errorUserRecipient && Middle_name.length <= 0 ?
                                 <span style={myStyle}>Please Enter the Middle Name </span> : ""}
 
-                              <span style={myStyle}>{BankNameText?.Entermiddlename ? BankNameText?.Entermiddlename : ''}</span> */}
+                              <span style={myStyle}>{BankNameText?.EnterMiddle_name ? BankNameText?.EnterMiddle_name : ''}</span> */}
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -744,6 +1045,7 @@ const Profile = () => {
                         </div>
                       </div>
                     </div>
+
                     <div className="row each-row">
                       <div className="col-md-6">
                         <div className="input_field">
@@ -834,6 +1136,90 @@ const Profile = () => {
                           <span style={myStyle}>{BankNameText.Invalidmobile? BankNameText.Invalidmobile: ''}</span>
                       </div>
                     </div> */}
+                    </div>
+                    <div className="row each-row">
+                      <div className="col-md-4">
+                        <div className="input_field">
+                          <p className="get-text">Date of Birth<span style={{ color: 'red' }} >*</span></p>
+                          <input
+
+                            type="date"
+                            autoComplete='off'
+                            value={data.firstName}
+                            name="birth"
+                            onChange={(e) => setData({ ...data, birth: e.target.value })}
+                            {...formik.getFieldProps('birth')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.birth && formik.errors.birth },
+                              {
+                                'is-valid': formik.touched.birth && !formik.errors.birth,
+                              }
+                            )}
+
+                          />
+                          {/* <span>{formik.errors.firstName ? formik.errors.firstName :""}</span> */}
+                          {/* {errorUserRecipient && firstName.length <= 0 ?
+                                <span style={myStyle}>Please Enter the First Name </span> : ""}
+
+                              <span style={myStyle}>{BankNameText?.EnterfirstName ? BankNameText?.EnterfirstName : ''}</span> */}
+                        </div>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="input_field">
+                          <p className="get-text">Gender<span style={{ color: 'red' }} >*</span></p>
+                          <Form.Select
+                            name="gender"
+                            value={data.gender}
+                            // onChange={(e) => { handleGender(e) }}
+                            {...formik.getFieldProps('gender')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.gender && formik.errors.gender },
+                              {
+                                'is-valid': formik.touched.gender && !formik.errors.gender,
+                              }
+                            )}
+                          >
+                            <option value="">--- Select Gender ---</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+
+                          </Form.Select>
+                        </div>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="input_field">
+                          <p className="get-text">Country of birth<span style={{ color: 'red' }} >*</span></p>
+                          <Form.Select
+                            name="placeBirthCountry"
+                            value={data.placeBirthCountry}
+                            onChange={(e) => { handleCountry(e) }}
+                            {...formik.getFieldProps('placeBirthCountry')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.placeBirthCountry && formik.errors.placeBirthCountry },
+                              {
+                                'is-valid': formik.touched.placeBirthCountry && !formik.errors.placeBirthCountry,
+                              }
+                            )}
+                          >
+                            <option value="">--- Select Location ---</option>
+                            {
+                              countries.map((location) => {
+                                return (
+                                  <option value={location.code}>{location.name}</option>
+                                )
+                              })
+                            }
+
+                          </Form.Select>
+                          {/* {errorUserRecipient && lastName.length <= 0 ?
+                                <span style={myStyle}>Please Enter the Last Name </span> : ""}
+
+                              <span style={myStyle}>{BankNameText?.Enterlastname ? BankNameText?.Enterlastname : ''}</span> */}
+                        </div>
+                      </div>
                     </div>
 
                     <div className="row each-row">
@@ -1023,7 +1409,7 @@ const Profile = () => {
                           >
                             <option value="">--- Select Location ---</option>
                             <option value="Australia">Australia</option>
-                            <option value="New zealand">New zealand</option>
+                            <option value="New Zealand">New Zealand</option>
 
                           </Form.Select>
                           {/* {errorUserRecipient&&country.length<=0?
@@ -1035,128 +1421,40 @@ const Profile = () => {
                       </div>
                     </div>
                     <div className="row each-row">
-                      <h5>Others</h5>
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
-                          <p className="get-text">Language<span style={{ color: 'red' }} >*</span></p>
-                          {/* <Select
-                                //  ref={input_country}
-                                  options={countryoptions}
-                                  defaultValue={countryValue}
-                                  onChange={changeHandler}
-                                /> */}
-
+                          <p className="get-text">Region<span style={{ color: 'red' }} >*</span></p>
                           <Form.Select
-                            name="language"
-                            {...formik.getFieldProps("language")}
+                            name="region"
+                            value={data.region}
+                            // onChange={(e) => { handleregion(e) }}
+                            {...formik.getFieldProps('region')}
                             className={clsx(
                               'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.language && formik.errors.language },
+                              { 'is-invalid': formik.touched.region && formik.errors.region },
                               {
-                                'is-valid': formik.touched.language && !formik.errors.language,
+                                'is-valid': formik.touched.region && !formik.errors.region,
                               }
                             )}
                           >
-                            <option value=""> Select Language </option>
-                            {
-                              language.map((lang) => {
-                                return (
-                                  <option value={lang.value}>{lang.name}</option>
-                                )
-                              })
-                            }
+                            <option value="">--- Select Region ---</option>
+                            <option value="Africa">Africa</option>
+                            <option value="Asia">Asia</option>
+                            <option value="Central America">Central America</option>
+                            <option value="Europe">Europe</option>
+                            <option value="Middle East">Middle East</option>
+                            <option value="North America">North America</option>
+                            <option value="Pacific">Pacific</option>
+                            <option value="South America">South America</option>
 
                           </Form.Select>
-                          {/* {errorUserRecipient&&country.length<=0?
-                                  <span style={myStyle}>Please Enter the Country Name</span>:""}  */}
-                          <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
-
+                          {/* {errorUserRecipient && state.length <= 0 ?
+                                <span style={myStyle}>Please Enter the State Name</span> : ""} */}
                         </Form.Group>
-
-                      </div>
-                      <div className="col-md-4">
-                        <Form.Group className="form_label" controlId="Firstname">
-                          <p className="get-text">Sending To<span style={{ color: 'red' }} >*</span></p>
-                          {/* <Select
-                                //  ref={input_country}
-                                  options={countryoptions}
-                                  defaultValue={countryValue}
-                                  onChange={changeHandler}
-                                /> */}
-
-                          <Form.Select
-                            name="sendingTo"
-                            {...formik.getFieldProps("sendingTo")}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.sendingTo && formik.errors.sendingTo },
-                              {
-                                'is-valid': formik.touched.sendingTo && !formik.errors.sendingTo,
-                              }
-                            )}
-                          >
-                            <option value="">Sending To</option>
-                            {
-                              sendTo.map((send) => {
-                                return (
-                                  <option value={send.code}>{send.name}</option>
-                                )
-                              })
-                            }
-
-
-                          </Form.Select>
-                          {/* {errorUserRecipient&&country.length<=0?
-                                  <span style={myStyle}>Please Enter the Country Name</span>:""}  */}
-                          <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
-
-                        </Form.Group>
-                      </div>
-                      <div className="col-md-4">
-                        <Form.Group className="form_label" controlId="Firstname">
-                          <p className="get-text">Sending from</p>
-                          <Form.Control
-                            // type="text"
-                            // ref={input_street}
-                            // className='rate_input form-control'
-                            // Value={street}
-                            // onChange={(e) => setStreet(e.target.value)}
-                            type="text"
-                            autoComplete='off'
-                            value={initialValues.sendingFrom}
-                          // {...formik.getFieldProps('sendingFrom')}
-                          // className={clsx(
-                          //   'form-control bg-transparent',
-                          //   { 'is-invalid': formik.touched.sendingFrom && formik.errors.sendingFrom },
-                          //   {
-                          //     'is-valid': formik.touched.sendingFrom && !formik.errors.sendingFrom,
-                          //   }
-                          // )}
-                          />
-                          {/* {errorUserRecipient && street.length <= 0 ?
-                                <span style={myStyle}>Please Enter the Street Name</span> : ""}*/}
-                          <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span>
-
-                        </Form.Group>
+                        {/* <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span> */}
                       </div>
                     </div>
-                    <div className="row each-row">
 
-
-                      {/* <div className="col-md-4">
-                        <Form.Group className="form_label" controlId="Firstname">
-                            <p className="get-text">Country Code</p>
-                            <Form.Control 
-                              type="text" 
-                              className='rate_input form-control' 
-                              Value={country_code}
-                              onChange={(e)=>setCountry_code(e.target.value)}
-                              />
-                        </Form.Group>
-                      </div> */}
-
-
-                    </div>
 
                     <div className="row">
                       <div className="col-md-4">
