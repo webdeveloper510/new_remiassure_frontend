@@ -298,7 +298,7 @@ const Profile = () => {
           country: res.data.location,
           firstName: res.data.First_name,
           lastName: res.data.Last_name,
-          middleName: res.data.middleName,
+          middleName: "",
           flat: res.data.flat,
           street: res.data.street,
           building: res.data.building,
@@ -311,7 +311,7 @@ const Profile = () => {
         formik.setFieldValue("country", res.data.location)
         formik.setFieldValue("firstName", res.data.First_name)
         formik.setFieldValue("lastName", res.data.Last_name)
-        formik.setFieldValue("middleName", res.data.Middle_name)
+        formik.setFieldValue("middleName", "")
         formik.setFieldValue("flat", res.data.flat)
         formik.setFieldValue("building", res.data.building)
         formik.setFieldValue("state", res.data.state)
@@ -333,7 +333,7 @@ const Profile = () => {
     onSubmit: async (values) => { 
       setLoading(true)
       updateProfile({
-        First_name: values.firstName, Middle_name: values.middleName, Last_name: values.lastName,
+        First_name: values.firstName, Middle_name: "", Last_name: values.lastName,
         email: values.email, mobile: values.mobile, flat: values.flat, building: values.building, street: values.street,
         city: values.city, state: values.state, country: values.country
       }).then((res) => {
@@ -687,11 +687,13 @@ const Profile = () => {
                           <p className="get-text">Middle Name</p>
                           <input
                             type="text"
-                            // ref={input_middleName}
                             className='rate_input form-control'
                             placeholder="Enter middle name"
                             autoComplete='off'
-                            {...formik.getFieldProps('middleName')}
+                            value={data.middle_name}
+                            name="middle_name"
+                            onChange={(e) => setData({ ...data, middle_name: e.target.value })}
+                            {...formik.getFieldProps('middle_name')}
                           // type="text"
                           // placeholder="Enter middle name"
                           // {...formik.getFieldProps('middleName')}

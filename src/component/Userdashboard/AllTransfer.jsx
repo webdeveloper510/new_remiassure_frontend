@@ -180,21 +180,23 @@ const AllTranfer = ({ status, data, length }) => {
 
   return (
     <>
-      {
-        !loading ? (
+      {/* {
+        !loading ? ( */}
           <div className="card">
             
             <div className="card-body">
               <div className="tabs-recipent-new">
                 {/* Start------- Loader functionalty */}
-                {loading ? <>
+                {/* {loading ? <>
                   <div className="loader-overly">
                     <div className="loader" >
                     </div>
                   </div>
-                </> : <></>}
+                </> : <></>} */}
                 {/* End------- Loader functionalty */}
-
+                {
+                 !loading ? (
+               <span>
                 {transactionData?.length != 0 ? (
                   <Table className="table table-responsive-md card-table previous-transaction">
                     <thead>
@@ -237,9 +239,28 @@ const AllTranfer = ({ status, data, length }) => {
                   </Table>
                 ) : (
                   <>
+                  <div className="no-data">
+                    <img src={nodata} alt="no-data" height="400px"/>
+                    <div className="col-md-12">
+                      {/* <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p> */}
+                    </div>
+                    <div className="col-md-12">
+                      <a href="#/user-send-money" className="send_money">Send Money</a>
+                    </div>
+                  </div>
                   </>
                 )
                 }
+                </span>
+                 ) : (
+                  <>
+                    <div className="loader-overly">
+                      <div className="loader" >
+                      </div>
+                    </div>
+                  </>
+                )
+              }
                 <Modal show={show} onHide={handleClose}
                   centered
                 >
@@ -350,7 +371,7 @@ const AllTranfer = ({ status, data, length }) => {
                   </Modal.Footer>
                 </Modal>
 
-                {length == "none" ? (
+                {/* {length == "none" ? (
                   <div className="no-data">
                     <img src={nodata} alt="no-data" />
                     <div className="col-md-12">
@@ -364,11 +385,11 @@ const AllTranfer = ({ status, data, length }) => {
                   <>
                   </>
                 )
-                }
+                } */}
               </div>
             </div>
           </div>
-        ) : (
+        {/* ) : (
           <>
             <div className="loader-overly">
               <div className="loader" >
@@ -376,7 +397,7 @@ const AllTranfer = ({ status, data, length }) => {
             </div>
           </>
         )
-      }
+      } */}
     </>
   )
 }
