@@ -204,7 +204,7 @@ const Home = () => {
     const token = localStorage.getItem("token");
     const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
 
-    const [data, setData] = useState({ amt1: "", amtC1: "AUD", amt2: "", amtc2: "NZD" })
+   
 
     const items = [
         {
@@ -229,6 +229,8 @@ const Home = () => {
     ];
 
     const [carouselItems, setCarouselItems] = useState(items);
+
+    const [data, setData] = useState({ amt1: "", amtC1: "AUD", amt2: "", amtc2: "NZD" })
 
     useEffect(() => {
         document.documentElement.style.setProperty('--num', carouselItems.length);
@@ -333,6 +335,12 @@ const Home = () => {
         formik.setFieldValue("to", e.target.value)
     }
 
+    const handleReset =()=>{
+        formik.resetForm({
+            values:{amount:"", paymentMethod:"", totalAmount:""}
+        })
+        setData({amt2:""})
+    }
 
     return (
         <>
@@ -495,7 +503,22 @@ const Home = () => {
                                                         </div>
                                                     </> : <></>}
                                                 </button>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn continue-button"
+                                                    onClick={()=>handleReset()}
+                                                >
+                                                    Reset
+                                                    {loading ? <>
+                                                        <div className="loader-overly">
+                                                            <div className="loader" >
+                                                            </div>
+                                                        </div>
+                                                    </> : <></>}
+                                                </button>
+                                                
                                             </div>
+                                            
                                         </div>
                                     </form>
                                 </div>
