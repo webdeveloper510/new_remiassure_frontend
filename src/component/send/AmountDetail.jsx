@@ -185,7 +185,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
             }
         }
 
-    }, [step])
+    }, [])
 
     return (
         <form noValidate>
