@@ -51,6 +51,7 @@ const Dashboard = () => {
         setActive(!isActive);
     };
 
+    console.log("transation----------------", transactionData)
 
 
     const transHistory = () => {
@@ -59,12 +60,12 @@ const Dashboard = () => {
             if (response.code == "200") {
                 setTransactionData(response.data);
                 let d = response.data
-                    let amount = 0
-                    for (let i = 0; i < d.length; i++) {
-                        amount = Number(amount) + Number(d[i].amount)
-                    }
-                    setTotalAmount(amount)
-                    setLoading(false)
+                let amount = 0
+                for (let i = 0; i < d.length; i++) {
+                    amount = Number(amount) + Number(d[i].amount)
+                }
+                setTotalAmount(amount)
+                setLoading(false)
             }
         }).catch((error) => {
             // console.log(error.response)
@@ -141,9 +142,9 @@ const Dashboard = () => {
 
                                                         <div className="icon">
                                                             {/* <NavLink to={"/add-new-recipient"} > */}
-                                                                <BsFillPersonPlusFill />
+                                                            <BsFillPersonPlusFill />
                                                             {/* </NavLink> */}
-                                                            <br/>
+                                                            <br />
                                                             <b className="text-light">{total_recipients} Recipients</b>
                                                         </div>
 
@@ -172,7 +173,7 @@ const Dashboard = () => {
                                                         </div>
                                                         <div className="icon">
                                                             <BiTransfer />
-                                                            <br/>
+                                                            <br />
                                                             <b className="text-light">{total_amount}</b>
                                                         </div>
                                                     </div>
@@ -259,7 +260,7 @@ const Dashboard = () => {
                                                                                 <h6 className="fs-16 font-w600 mb-0"><a href="/transactions-details/" className="text-black">{res.recipient_name}</a></h6>
 
                                                                             </td>
-                                                                            <td><span className="fs-16 text-black font-w500">${res.amount}</span></td>
+                                                                            <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res.send_currency} </span> {res.amount}</span></td>
                                                                             <td>
                                                                                 <span className="text-success fs-16 font-w500 d-block"> <a href="javascript:void(0)" className="btn btn-outline-success btn-rounded">{res.status}</a></span>
                                                                             </td>

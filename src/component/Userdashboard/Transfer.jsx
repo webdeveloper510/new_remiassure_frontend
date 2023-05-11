@@ -26,12 +26,13 @@ const Transaction = () => {
 
     const [data, setData] = useState([])
     const [dataLength, setDataLength] = useState("")
-
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         if (!authDashHelper('dashCheck')) {
             navigate("/send-money")
         } else {
+            // setLoading(true)
             transactionHistory().then((res) => {
                 console.log(res)
                 if (res.code == 200) {

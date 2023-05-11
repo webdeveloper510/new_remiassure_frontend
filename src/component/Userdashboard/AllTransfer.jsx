@@ -147,7 +147,7 @@ const AllTranfer = ({ status, data, length }) => {
 
 
   const summrySingleData = () => {
-    setLoading(true); // Set loading before sending API request
+    // setLoading(true); // Set loading before sending API request
     axios.post(API.BASE_URL + 'payment/summary/', {
       transaction_id: paymetTransactionId
     }, {
@@ -159,14 +159,14 @@ const AllTranfer = ({ status, data, length }) => {
         console.log("Recipients APIIIII==========", response);
         setSummeryData(response.data.data);
         // console.log(summeryData, "summeryData==========>")
-        setLoading(false); // Stop loading
+        // setLoading(false); // Stop loading
         //   if (response.status)
         // // notify();
       })
       .catch(function (error) {
         // console.log(error);
         console.log(error.response);
-        setLoading(false); // Stop loading in case of error
+        // setLoading(false); // Stop loading in case of error
       })
   }
 
@@ -187,12 +187,12 @@ const AllTranfer = ({ status, data, length }) => {
             <div className="card-body">
               <div className="tabs-recipent-new">
                 {/* Start------- Loader functionalty */}
-                {loading ? <>
+                {/* {loading ? <>
                   <div className="loader-overly">
                     <div className="loader" >
                     </div>
                   </div>
-                </> : <></>}
+                </> : <></>} */}
                 {/* End------- Loader functionalty */}
                 {!loading ? (
                <span>
@@ -256,7 +256,7 @@ const AllTranfer = ({ status, data, length }) => {
                     </div>
                   </>
                 )
-              }
+              } 
                 <Modal show={show} onHide={handleClose}
                   centered
                 >
