@@ -10,6 +10,8 @@ import countryList from 'react-select-country-list';
 import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
 
+import PhoneInput from "react-phone-input-2";
+
 const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   const navigate = useNavigate();
@@ -318,24 +320,34 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                     }
                   )}
                 />
+                {formik.touched.email && formik.errors.email && (
+                  <div className='fv-plugins-message-container mt-1'>
+                    <div className='fv-help-block'>
+                      <span role='alert' className="text-danger">{formik.errors.email}</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             <div className="col-md-6">
               <div className="input_field">
                 <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="text"
+                <PhoneInput
+                  onlyCountries={["au", "nz"]}
+                  country={"au"}
                   name="mobile"
-                  value={data.mobile}
-                  onKeyDown={(e) => handleMobile(e)}
-                  {...formik.getFieldProps("mobile")}
+                  inputStyle={{ border: "none", margin: "none" }}
+                  inputClass="phoneInp"
+                  defaultCountry={"au"}
+                  onChange={mno => { formik.setFieldValue('mobile', mno); formik.setFieldTouched('mobile', true) }}
                   className={clsx(
-                    'form-control bg-transparent',
+                    'form-control form-control-sm bg-transparent',
                     { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
                     {
                       'is-valid': formik.touched.mobile && !formik.errors.mobile,
                     }
                   )}
+
                 />
               </div>
             </div>

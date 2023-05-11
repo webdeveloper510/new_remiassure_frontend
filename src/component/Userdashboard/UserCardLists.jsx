@@ -13,6 +13,7 @@ import { BsFillPersonPlusFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
 import nocard from "../../assets/img/userdashboard/nocard.jpg";
 import Page404 from "../pageNotfound/Page404";
+import { cardList } from "../../utils/Api";
 
 
 const UserCardLists = () => {
@@ -57,26 +58,35 @@ const UserCardLists = () => {
 
     const getList = () => {
         setLoading(true); // Set loading before sending API request
-        axios.post(API.BASE_URL + 'payment/card-list/', {}, {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            }
+        cardList().then((res)=>{
+            console.log("response=====",res)
+            setCarddata(res)
+            setLoading(false)
+        }).catch((error)=>{
+            console.log(error.response)
+            setLoading(false)
         })
-            .then(function (response) {
-                console.log("Recipients APIIIII", response.data);
-                setCarddata(response.data);
-                console.log(carddata)
-                localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
-                setLoading(false); // Stop loading
-                //   if (response.status)
-                // // notify();
-            })
-            .catch(function (error) {
-                console.log(error);
-                console.log(error.response);
-                setLoading(false); // Stop loading in case of error
-            })
+        // axios.post(API.BASE_URL + 'payment/card-list/', {}, {
+        //     headers: {
+        //         "Authorization": `Bearer ${token}`,
+        //     }
+        // })
+        //     .then(function (response) {
+        //         console.log("Recipients APIIIII", response.data);
+        //         setCarddata(response.data);
+        //         console.log(carddata)
+        //         localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
+        //         setLoading(false); // Stop loading
+        //         //   if (response.status)
+        //         // // notify();
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //         console.log(error.response);
+        //         setLoading(false); // Stop loading in case of error
+        //     })
     }
+    console.log("setCarddata",carddata)
 
 
     {/* start- delete function */ }
