@@ -112,6 +112,13 @@ const Login = () => {
                                                             autoComplete='off'
                                                             placeholder="Enter email"
                                                         />
+                                                        {formik.touched.email && formik.errors.email && (
+                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                <div className='fv-help-block'>
+                                                                    <span role='alert' className="text-danger">{formik.errors.email}</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
 
                                                     </Form.Group>
 
@@ -132,9 +139,17 @@ const Login = () => {
                                                             )}
                                                             placeholder="Password"
                                                         />
+                                                        
                                                         <span className="pass_icons" type="button" onClick={toggleShowPassword}>
                                                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                         </span>
+                                                        {formik.touched.password && formik.errors.password && (
+                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                <div className='fv-help-block'>
+                                                                    <span role='alert' className="text-danger">{formik.errors.password}</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
 
 
                                                     </Form.Group>

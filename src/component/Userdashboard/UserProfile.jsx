@@ -240,8 +240,9 @@ const Profile = () => {
       // sendingTo:"",
       birth: "",
       gender: "",
-      region: "",
-      placeBirthCountry: ""
+      postcode: "",
+      placeBirthCountry: "",
+      customer_id: ""
     }
   )
 
@@ -260,7 +261,8 @@ const Profile = () => {
     birth: Yup.string().required(),
     gender: Yup.string().required(),
     placeBirthCountry: Yup.string().required(),
-    region: Yup.string().required(),
+    postcode: Yup.string().min(1, "Minimum 1 Letter").max(200, "Maximum 200 letter").required(),
+    customer_id: Yup.string()
     // language: Yup.string().required("Language is required"),
     // sendingTo: Yup.string().required("Sending To is required"),
     // sendingFrom: Yup.string().required()
@@ -286,8 +288,9 @@ const Profile = () => {
     // sendingFrom: "United States",
     birth: "",
     gender: "",
-    region: "",
-    placeBirthCountry: ""
+    postcode: "",
+    placeBirthCountry: "",
+    customer_id: ""
   }
   useEffect(() => {
     if (!authDashHelper('dashCheck')) {
@@ -303,11 +306,18 @@ const Profile = () => {
       console.log("response----------==========", res)
       if (res.code == "200") {
         setLoading(false)
+
+        let num = res.data.mobile;
+
+        let num_length = num.length;
+        let phone = num.substring(0, 2)+"-"+ num.substring(2, num_length);
+        
+        console.log('phone-------------' , phone)
         let value = res.data
         setData({
           ...data,
           emailId: value.email,
-          phoneno: value.mobile,
+          phoneno: phone,
           country: value.location,
           firstName: value.First_name,
           lastName: value.Last_name,
@@ -319,9 +329,9 @@ const Profile = () => {
           city: value.city,
           birth: value.Date_of_birth,
           gender: value.Gender,
-          placeBirthCountry: value.Country_of_birth
-          ,
-          region: value.region
+          placeBirthCountry: value.Country_of_birth,
+          postcode: value.postcode,
+          customer_id: value.customer_id
           // language: value.language,
           // sendingTo: value.sendTo
         })
@@ -339,7 +349,8 @@ const Profile = () => {
         formik.setFieldValue("birth", value.Date_of_birth)
         formik.setFieldValue("gender", value.Gender)
         formik.setFieldValue("placeBirthCountry", value.Country_of_birth)
-        formik.setFieldValue("regio", value.region)
+        formik.setFieldValue("postcode", value.postcode)
+        formik.setFieldValue("customer_id", value.customer_id)
       }
     }).catch((error) => {
       console.log(error.response)
@@ -369,7 +380,7 @@ const Profile = () => {
         Date_of_birth: values.birth,
         Country_of_birth: values.placeBirthCountry,
         Gender: values.gender,
-
+        postcode: values.postcode
       }
       if (values.Middle_name == "") {
         data = {
@@ -386,6 +397,7 @@ const Profile = () => {
           Date_of_birth: values.birth,
           Country_of_birth: values.placeBirthCountry,
           Gender: values.gender,
+          postcode: values.postcode
         }
       }
 
@@ -993,7 +1005,7 @@ const Profile = () => {
                             autoComplete='off'
                             value={data.Middle_name}
                             name="Middle_name"
-                            // onChange={(e) => setData({ ...data, Middle_name: e.target.value })}
+                            onChange={(e) => setData({ ...data, Middle_name: e.target.value })}
                             {...formik.getFieldProps('Middle_name')}
                           // type="text"
                           // placeholder="Enter middle name"
@@ -1047,7 +1059,38 @@ const Profile = () => {
                     </div>
 
                     <div className="row each-row">
-                      <div className="col-md-6">
+                      <div className="col-md-4">
+                        <div className="input_field">
+                          <p className="get-text">Customer Id<span style={{ color: 'red' }} >*</span></p>
+                          <input
+                            // type="text"
+                            // ref={input_lastName}
+                            // className='rate_input form-control'
+                            // Value={lastName}
+                            // onChange={(e) => setLastName(e.target.value)}
+                            type="text"
+                            placeholder="Enter last name"
+                            autoComplete='off'
+                            value={data.customer_id}
+                            name="customer_id"
+                            readOnly
+                            // onChange={(e) => setData({ ...data, customer_id: e.target.value })}
+                            // {...formik.getFieldProps('customer_id')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.customer_id && formik.errors.customer_id },
+                              {
+                                'is-valid': formik.touched.customer_id && !formik.errors.customer_id,
+                              }
+                            )}
+                          />
+                          {/* {errorUserRecipient && lastName.length <= 0 ?
+                                <span style={myStyle}>Please Enter the Last Name </span> : ""}
+
+                              <span style={myStyle}>{BankNameText?.Enterlastname ? BankNameText?.Enterlastname : ''}</span> */}
+                        </div>
+                      </div>
+                      <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
                           <input
@@ -1061,6 +1104,7 @@ const Profile = () => {
                             value={data.emailId}
                             placeholder="Enter email"
                             autoComplete='off'
+                            readOnly
                             // onChange={formik.getFieldProps('email')}
                             // {...formik.getFieldProps('email')}
                             className={clsx(
@@ -1079,7 +1123,7 @@ const Profile = () => {
                         </div>
                       </div>
 
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                           {/* <input
@@ -1089,7 +1133,31 @@ const Profile = () => {
                                   Value={mobile}
                                   onChange={(e) => setMobile(e.target.value)}
                                 /> */}
-                          <PhoneInput
+                          <input
+                            // type="email"
+                            //  ref={input_email}
+                            // className='rate_input form-control'
+                            // name="email"
+                            // Value={email}
+                            // onChange={(e) => setEmail(e.target.value)}
+                            type="email"
+                            value={"+"+data.phoneno}
+                            placeholder="Enter Mobile"
+                            autoComplete='off'
+                            readOnly
+                            // onChange={formik.getFieldProps('email')}
+                            // {...formik.getFieldProps('email')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                              {
+                                'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                              }
+                            )}
+                          />
+
+
+                          {/* <PhoneInput
                             // ref={input_mobile}
                             // country={"eg"}
                             // enableSearch={true}
@@ -1098,11 +1166,12 @@ const Profile = () => {
                             country={"au"}
                             name="mobile"
                             value={data.phoneno}
+                            disabled
                             inputStyle={{ border: "none", margin: "none" }}
                             inputClass="phoneInp"
                             defaultCountry={"au"}
                             onlyCountries={["au", "nz"]}
-                            onChange={mno => { formik.setFieldValue('mobile', mno); formik.setFieldTouched('mobile', true) }}
+                            // onChange={mno => { formik.setFieldValue('mobile', mno); formik.setFieldTouched('mobile', true) }}
                             className={clsx(
                               'form-control form-control-sm bg-transparent',
                               { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
@@ -1110,7 +1179,7 @@ const Profile = () => {
                                 'is-valid': formik.touched.mobile && !formik.errors.mobile,
                               }
                             )}
-                          />
+                          /> */}
                           {/* {errorUserRecipient && mobile.length <= 0 ?
                                 <span style={myStyle}>Please Enter the Mobile Number </span> : ""} */}
 
@@ -1145,7 +1214,7 @@ const Profile = () => {
 
                             type="date"
                             autoComplete='off'
-                            value={data.firstName}
+                            value={data.birth}
                             name="birth"
                             onChange={(e) => setData({ ...data, birth: e.target.value })}
                             {...formik.getFieldProps('birth')}
@@ -1158,11 +1227,6 @@ const Profile = () => {
                             )}
 
                           />
-                          {/* <span>{formik.errors.firstName ? formik.errors.firstName :""}</span> */}
-                          {/* {errorUserRecipient && firstName.length <= 0 ?
-                                <span style={myStyle}>Please Enter the First Name </span> : ""}
-
-                              <span style={myStyle}>{BankNameText?.EnterfirstName ? BankNameText?.EnterfirstName : ''}</span> */}
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -1214,10 +1278,6 @@ const Profile = () => {
                             }
 
                           </Form.Select>
-                          {/* {errorUserRecipient && lastName.length <= 0 ?
-                                <span style={myStyle}>Please Enter the Last Name </span> : ""}
-
-                              <span style={myStyle}>{BankNameText?.Enterlastname ? BankNameText?.Enterlastname : ''}</span> */}
                         </div>
                       </div>
                     </div>
@@ -1315,17 +1375,27 @@ const Profile = () => {
                       </div>
                     </div>
                     <div className="row each-row">
-                      {/* <div className="col-md-4">
-                              <Form.Group className="form_label" controlId="Firstname">
-                                <p className="get-text">Postcode</p>
-                                <Form.Control
-                                  type="text"
-                                  className='rate_input form-control'
-                                  Value={postcode}
-                                  onChange={(e) => setPostcode(e.target.value)}
-                                />
-                              </Form.Group>
-                            </div> */}
+                      <div className="col-md-4">
+                        <Form.Group className="form_label" controlId="Firstname">
+                          <p className="get-text">Postcode</p>
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter City"
+                            autoComplete='off'
+                            value={data.postcode}
+                            name="postcode"
+                            onChange={(e) => setData({ ...data, postcode: e.target.value })}
+                            {...formik.getFieldProps('postcode')}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.postcode && formik.errors.postcode },
+                              {
+                                'is-valid': formik.touched.postcode && !formik.errors.postcode,
+                              }
+                            )}
+                          />
+                        </Form.Group>
+                      </div>
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
                           <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
@@ -1384,15 +1454,12 @@ const Profile = () => {
                         </Form.Group>
                         {/* <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span> */}
                       </div>
+
+                    </div>
+                    <div className="row each-row">
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
                           <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
-                          {/* <Select
-                                //  ref={input_country}
-                                  options={countryoptions}
-                                  defaultValue={countryValue}
-                                  onChange={changeHandler}
-                                /> */}
 
                           <Form.Select
                             name="country"
@@ -1418,40 +1485,6 @@ const Profile = () => {
 
                         </Form.Group>
 
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <div className="col-md-4">
-                        <Form.Group className="form_label" controlId="Firstname">
-                          <p className="get-text">Region<span style={{ color: 'red' }} >*</span></p>
-                          <Form.Select
-                            name="region"
-                            value={data.region}
-                            // onChange={(e) => { handleregion(e) }}
-                            {...formik.getFieldProps('region')}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.region && formik.errors.region },
-                              {
-                                'is-valid': formik.touched.region && !formik.errors.region,
-                              }
-                            )}
-                          >
-                            <option value="">--- Select Region ---</option>
-                            <option value="Africa">Africa</option>
-                            <option value="Asia">Asia</option>
-                            <option value="Central America">Central America</option>
-                            <option value="Europe">Europe</option>
-                            <option value="Middle East">Middle East</option>
-                            <option value="North America">North America</option>
-                            <option value="Pacific">Pacific</option>
-                            <option value="South America">South America</option>
-
-                          </Form.Select>
-                          {/* {errorUserRecipient && state.length <= 0 ?
-                                <span style={myStyle}>Please Enter the State Name</span> : ""} */}
-                        </Form.Group>
-                        {/* <span style={myStyle}>{BankNameText?.Enterflat ? BankNameText?.Enterflat : ''}</span> */}
                       </div>
                     </div>
 

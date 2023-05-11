@@ -18,7 +18,7 @@ const Help = () => {
 
         {
           id: 2,
-          name: "Faq",
+          name: "FAQ",
           src: "assets/img/help/Shape.svg"
         },
         {
