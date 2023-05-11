@@ -3234,7 +3234,14 @@ th.popup-heading {
   font-size: 15px;
   font-weight: 500;
   text-transform: capitalize;
+  word-wrap: break-word;
 }
+
+.recipint-details-popup{
+  display: table;
+  table-layout: fixed;
+}
+
 
 .modal-content table tr th {
   font-weight: 600;

@@ -556,7 +556,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
         </Modal.Header>
         <Modal.Body>
 
-          <Table>
+          <Table className='recipint-details-popup'>
             <thead>
               <tr>
                 <th colSpan={2} className="popup-heading">Bank Details</th>
