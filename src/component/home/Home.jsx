@@ -393,6 +393,7 @@ const Home = () => {
                                                         onBlur={(e) => myExchangeTotalAmount(e)}
 
                                                     />
+                                                    
                                                     <select
                                                         className="form-select mb-3 home-select-method"
                                                         aria-label="Select a reason"
@@ -402,7 +403,15 @@ const Home = () => {
                                                         <option className="option-custom" value="AUD" >AUD</option>
                                                         <option className="option-custom" value="NZD">NZD</option>
                                                     </select>
+                                                   
                                                 </div>
+                                                {formik.touched.amount && formik.errors.amount && (
+                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                <div className='fv-help-block'>
+                                                                    <span role='alert' className="text-danger">{formik.errors.amount}</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                             </div>
                                             <div className="col-3-1">
                                                 <p className="get-text">They get<span style={{ color: 'red' }} >*</span></p>
@@ -448,6 +457,7 @@ const Home = () => {
                                                         <option value="GBP">GBP</option>
                                                     </select>
                                                 </div>
+                                                {/* <span className="text-danger">{formik.errors.amount ? formik.errors.amount :""}</span> */}
                                             </div>
                                             <div className="col-3-1">
                                                 <p className="get-text">Receive method</p>
@@ -464,6 +474,13 @@ const Home = () => {
                                                     <option value="1">Bank Transfer</option>
                                                     <option value="2">Mobile Wallet</option>
                                                 </select>
+                                                {formik.touched.paymentMethod && formik.errors.paymentMethod && (
+                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                <div className='fv-help-block'>
+                                                                    <span role='alert' className="text-danger">{formik.errors.paymentMethod}</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                             </div>
                                             <div className="col-3-2">
                                                 <button

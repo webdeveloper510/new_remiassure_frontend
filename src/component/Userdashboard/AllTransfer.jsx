@@ -76,6 +76,7 @@ const AllTranfer = ({ status, data, length }) => {
 
   const navigate = useNavigate();
 
+  console.log("summeryData--------", summeryData)
 
   /**************************************************************************
   * ************** Start  transaction-history List *************************
@@ -151,7 +152,7 @@ const AllTranfer = ({ status, data, length }) => {
       transaction_id: paymetTransactionId
     }, {
       headers: {
-        "Authorization": `Bearer ${signup_token ? signup_token : token}`,
+        "Authorization": `Bearer ${token}`,
       },
     })
       .then(function (response) {
@@ -183,38 +184,33 @@ const AllTranfer = ({ status, data, length }) => {
       {/* {
         !loading ? ( */}
           <div className="card">
-            
             <div className="card-body">
               <div className="tabs-recipent-new">
                 {/* Start------- Loader functionalty */}
-                {/* {loading ? <>
+                {loading ? <>
                   <div className="loader-overly">
                     <div className="loader" >
                     </div>
                   </div>
-                </> : <></>} */}
+                </> : <></>}
                 {/* End------- Loader functionalty */}
-                {
-                 !loading ? (
+                {!loading ? (
                <span>
                 {transactionData?.length != 0 ? (
                   <Table className="table table-responsive-md card-table previous-transaction">
                     <thead>
                       <tr>
                         <th>Recipient</th>
-              
                         <th>Amount</th>
                         <th>Date</th>
-                       
                         <th>Reason</th>
-                  
-                        <th>TransactionId</th>
+                        {/* <th>TransactionId</th> */}
                         <th>Status</th>
                       </tr>
                     </thead>
                     <tbody>
                       {
-                        transactionData.map((res, index) => {
+                        transactionData?.map((res, index) => {
                           //console.log(items, "itemnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
                           return (
                             <tr key={index}>
@@ -229,7 +225,7 @@ const AllTranfer = ({ status, data, length }) => {
                               {/* <td>{res.send_currency}</td>
                           <td>{res.recieve_currency}</td> */}
                               {/* <td>{res.send_method}</td> */}
-                              <td>{res.transaction_id}</td>
+                              {/* <td>{res.transaction_id}</td> */}
                               <td><span className="btn btn-outline-success btn-rounded" >{res.status}</span></td>
                               {/* onClick={() => { getStatusDataSummary(res.status) }} */}
                             </tr>

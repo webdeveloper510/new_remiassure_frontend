@@ -649,11 +649,10 @@ const Editrecipientuser = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: recipientSchema,
+    // validationSchema: recipientSchema,
     onSubmit: async (values) => {
       console.log("pppppppppppppppppp", id , values)
-      setLoading(true)
-      updateUserRecipient(id ,{
+      let data = {
         bank_name: values.bank_name,
         account_name: values.account_name,
         account_number: values.account_number,
@@ -668,7 +667,27 @@ const Editrecipientuser = () => {
         city: values.city,
         state: values.state,
         country: values.country
-      }).then((response) => {
+      }
+
+      if(values.middle_name == ""){
+        data = {
+          bank_name: values.bank_name,
+          account_name: values.account_name,
+          account_number: values.account_number,
+          first_name: values.first_name,
+          last_name: values.last_name,
+          email: values.email,
+          mobile: values.mobile,
+          flat: values.flat,
+          building: values.building,
+          street: values.street,
+          city: values.city,
+          state: values.state,
+          country: values.country
+        }
+      }
+      setLoading(true)
+      updateUserRecipient(id ,data).then((response) => {
         console.log("rescipient+++++++++++++++", response)
         if(response.code == "200"){
           toast.success("Successfully updated", { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
