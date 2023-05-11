@@ -138,48 +138,45 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
       return;
     }
     const token = await stripe.createToken(elements.getElement(CardElement))
-    console.log("token---------", token)
-    handleModal()
-    const local = JSON.parse(localStorage.getItem("transfer_data"))
-    const data = {
-      name: local?.recipient?.First_name,
-      send_currency: local?.amount?.from_type,
-      recieve_currency: local?.amount?.to_type,
-      destination: local?.recipient?.country,
-      recipient_id: local?.recipient?.id,
-      send_amount: local?.amount?.send_amt,
-      recieve_amount: local?.amount?.exchange_amt,
-      reason: "Family Support",
-      card_token: token?.token?.id
-    }
-    axios.post(`${global.serverUrl}/payment/stripe-charge/`, data, {
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`,
-      },
-    }).then(res => {
-      console.log(res)
-      if (res.data.code == 200) {
+    if (token.token) {
+      handleModal()
+      const local = JSON.parse(localStorage.getItem("transfer_data"))
+      const data = {
+        name: local?.recipient?.First_name,
+        send_currency: local?.amount?.from_type,
+        recieve_currency: local?.amount?.to_type,
+        destination: local?.recipient?.country,
+        recipient_id: local?.recipient?.id,
+        send_amount: local?.amount?.send_amt,
+        recieve_amount: local?.amount?.exchange_amt,
+        reason: "Family Support",
+        card_token: token?.token?.id
+      }
+      axios.post(`${global.serverUrl}/payment/stripe-charge/`, data, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+      }).then(res => {
+        console.log(res, "-------------------------------")
+        if (res.data.code == "200") {
+          localStorage.removeItem("transfer_data")
+          if (localStorage.getItem("send-step")) {
+            localStorage.removeItem("send-step")
+          }
+          toast.success("Payment Successful", { position: "bottom-right", hideProgressBar: true })
+          window.location.reload()
+        }
+      }).catch((err) => {
         localStorage.removeItem("transfer_data")
         if (localStorage.getItem("send-step")) {
           localStorage.removeItem("send-step")
         }
-        toast.success("Payment Successful", { position: "top-right" })
-        navigate("/dashboard")
-      }
-    }).catch((err) => {
-      localStorage.removeItem("transfer_data")
-      if (localStorage.getItem("send-step")) {
-        localStorage.removeItem("send-step")
-      }
-      return (
-        <Modal show={true} size='sm' onHide={() => { navigate("/dashboard") }}>
-          <Modal.Header > <BiXCircle color='red' />Error</Modal.Header>
-          <Modal.Body>
-            <Modal.Dialog className='text-danger'>Transaction falied, please try again later</Modal.Dialog>
-          </Modal.Body>
-        </Modal>
-      )
-    })
+        toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+        window.location.reload()
+      })
+    } else {
+      toast.error("Enter card details to continue", { position:"bottom-right", hideProgressBar: true, autoClose: 2000 })
+    }
   };
 
   return (

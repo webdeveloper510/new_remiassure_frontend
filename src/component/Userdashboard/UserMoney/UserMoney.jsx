@@ -92,8 +92,6 @@ const SendMoney = () => {
 
                         }
                     </div>
-
-
                 </div>
             </div>
         </div>

@@ -341,9 +341,9 @@ const EditCardUser = () => {
           console.log("user update-----", response)
           if(response.code == "200"){
             navigate('/user-card-list')
-            toast.success(response.message, { position: "top-right", autoClose: 2000, theme: "colored" })
+            toast.success(response.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
           }else if(response.code == "400"){
-            toast.error(response.message, { position: "top-right", autoClose: 2000, theme: "colored" })
+            toast.error(response.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
           }
           setLoading(false)
         })

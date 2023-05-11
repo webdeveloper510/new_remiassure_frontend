@@ -671,14 +671,14 @@ const Editrecipientuser = () => {
       }).then((response) => {
         console.log("rescipient+++++++++++++++", response)
         if(response.code == "200"){
-          toast.success("Successfully updated", { position: "top-right", autoClose: 2000, theme: "colored" })
+          toast.success("Successfully updated", { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
         }
         setLoading(false)
       }).catch((error) => {
         console.log(error.response)
         setLoading(false)
         if (error.response.data.code == "400") {
-          toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" })
+          toast.error(error.response.data.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
         }
       })
     }

@@ -49,19 +49,19 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
         validationSchema: amtSchema,
         onSubmit: async (values) => {
             console.log("Amount Details---------------", values)
-            handleAmtDetail({
-                send_amt: values.send_amt,
-                exchange_amt: values.exchange_amt,
-                from_type: values.from_type,
-                to_type: values.to_type,
-                recieve_meth: values.recieve_meth,
-                payout_part: values.payout_part
-            })
+            // handleAmtDetail({
+            //     send_amt: values.send_amt,
+            //     exchange_amt: values.exchange_amt,
+            //     from_type: values.from_type,
+            //     to_type: values.to_type,
+            //     recieve_meth: values.recieve_meth,
+            //     payout_part: values.payout_part
+            // })
             let local = {}
             if (localStorage.getItem("transfer_data")) {
                 local = JSON.parse(localStorage.getItem("transfer_data"))
             }
-            local.amount = values
+            local.amount = {...values, rates: exch_rate}
 
             localStorage.setItem("transfer_data", JSON.stringify(local))
             if (localStorage.getItem("send-step")) {
@@ -139,15 +139,9 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
     }
 
     const handleClear = () => {
-        formik.resetForm()
-        setAmtDetail({
-            send_amt: "",
-            exchange_amt: "",
-            from_type: "AUD",
-            to_type: "NZD",
-            recieve_meth: "Bank Transfer",
-            payout_part: "Bank"
-        })
+        localStorage.removeItem("transfer_data")
+        localStorage.removeItem("send-step")
+        window.location.reload(true)
     }
 
     const myTotalAmountTo = (e) => {
@@ -379,7 +373,7 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                             type='button'
                             className="start-form-button"
                             onClick={() => handleClear()}
-                        >Clear</button>
+                        >Cancel</button>
                     </div>
                     <div className="col-md-8">
                         <button

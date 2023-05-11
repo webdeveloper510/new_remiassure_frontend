@@ -66,7 +66,7 @@ const SenderDetails = ({ handleStep, step }) => {
       handleStep(Number(step) + 1)
     }
   })
-  
+
   const handleMobile = (event) => {
     const pattern = /^[0-9.,]+$/;
     if (event.key === 'Backspace') {
@@ -183,15 +183,10 @@ const SenderDetails = ({ handleStep, step }) => {
 }, [step])
 
   const handleClear = () => {
-    setData({
-      f_name: "", m_name: "", l_name: "",
-      gender: "Male", country_of_birth: "",
-      dob: "", flat: "", build_no: "",
-      street: "", city: "", country: "",
-      post_code: "", state: "", email: userd.email, mobile: userd.mobile,
-      customer_id: userd.customer_id
-    })
-    formik.resetForm()
+    localStorage.removeItem("transfer_data")
+    localStorage.removeItem("send-step")
+    localStorage.removeItem("DigitalCode")
+    window.location.reload(true)
   }
 
   return (
@@ -227,18 +222,10 @@ const SenderDetails = ({ handleStep, step }) => {
               <input
                 type="text"
                 name="m_name"
+                className='form-control'
                 value={data.m_name}
                 onKeyDown={(e) => { handleKeyDown(e, 25) }}
                 {...formik.getFieldProps("m_name")}
-
-                className={clsx(
-                  'form-control bg-transparent',
-                  { 'is-invalid': formik.touched.m_name && formik.errors.m_name },
-                  {
-                    'is-valid': formik.touched.m_name && !formik.errors.m_name,
-                  }
-                )}
-
               />
             </div>
           </div>
@@ -560,7 +547,7 @@ const SenderDetails = ({ handleStep, step }) => {
       </form>
       <div className="row each-row">
         <div className="col-md-2 new_buttonss">
-          <button className="start-form-button" onClick={() => handleClear()}>Clear</button>
+          <button className="start-form-button" onClick={() => handleClear()}>Cancel</button>
         </div>
         <div className="col-md-10 new_buttons">
           {!verificationValue ? (

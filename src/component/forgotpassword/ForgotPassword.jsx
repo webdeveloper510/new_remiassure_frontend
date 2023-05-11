@@ -69,12 +69,12 @@ const ForgotPassword = () => {
             localStorage.setItem("customerId_forgot", res.customer_id);
             navigate('/reset-passwords',{state:{customer_id: res.data.customer_id}})
             if(res.code =="200"){
-                toast.success("Please Check Your Email",{ position: "top-right", autoClose: 2000, theme: "colored" })
+                toast.success("Please Check Your Email",{ position:"bottom-right", autoClose: 2000, hideProgressBar: true})
             }
         }).catch((error)=>{
             // console.log(error.response)
             if(error.response.status == 400){
-                toast.error(error.response.data.message,{ position: "top-right", autoClose: 2000, theme: "colored" })
+                toast.error(error.response.data.message,{ position:"bottom-right", autoClose: 2000, hideProgressBar: true })
             }
             setLoading(false)
         })

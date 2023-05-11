@@ -321,7 +321,7 @@ const Profile = () => {
     }).catch((error) => {
       console.log(error.response)
       if (error.response.data.code == "400") {
-        toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" })
+        toast.error(error.response.data.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
       }
       setLoading(false)
     })
@@ -339,13 +339,13 @@ const Profile = () => {
       }).then((res) => {
         console.log("user res----------------", res)
         if (res.code == "200") {
-          toast.success("Successfully update", { position: "top-right", autoClose: 2000, theme: "colored" })
+          toast.success("Successfully update", { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
         }
         setLoading(false)
       }).catch((error) => {
         console.log(error.response)
         if (error.response.data.code == "400") {
-          toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" })
+          toast.error(error.response.data.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
         }
         setLoading(false)
       })

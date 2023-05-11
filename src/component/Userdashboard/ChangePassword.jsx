@@ -90,14 +90,14 @@ const Profile = () => {
       }).then((response) => {
         console.log("response===============", response)
         if (response.code == 200) {
-          toast.success('Password Succesfully Updated', { position: "top-right", autoClose: 2000, theme: "colored" });
+          toast.success('Password Succesfully Updated', { position:"bottom-right", autoClose: 2000, hideProgressBar: true });
 
         }
         setLoading(false)
       }).catch((error) => {
         console.log(error.response)
         if (error.response.code == 400) {
-          toast.error(error.response.message, { position: "top-right", autoClose: 2000, theme: "colored" });
+          toast.error(error.response.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true });
         }
         setLoading(false)
       })

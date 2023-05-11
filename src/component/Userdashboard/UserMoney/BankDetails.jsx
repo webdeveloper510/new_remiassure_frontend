@@ -120,7 +120,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             setLoading(false)
           } else if (response.data.code == "400") {
             setLoading(false)
-            toast.error(response.data.message, { autoClose: 2000 })
+            toast.error(response.data.message, { autoClose: 2000, hideProgressBar: true })
           }
         })
         .catch(function (error, message) {
@@ -194,15 +194,9 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   }
 
   const handleClear = () => {
-    setData({
-      bank: "", acc_name: "", acc_no: "",
-      f_name: "", l_name: "", m_name: "",
-      email: "", mobile: "", flat: "",
-      build_no: "", street: "", city: "",
-      post_code: "", state: "", country: "",
-      reason: ""
-    })
-    formik.resetForm()
+    localStorage.removeItem("transfer_data")
+    localStorage.removeItem("send-step")
+    window.location.reload()
   }
   const handleCancel = () => {
     setData({
@@ -317,10 +311,15 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   </>
                 )
                 }
-                <div className="add-rec">
-                  <button type="button" className="form-button" onClick={() => { handlePrevious() }} style={{ "float": "left" }}>Previous</button>
-                  <button type="button" className="form-button" onClick={() => handleToggle()} style={{ "float": "right" }}><BsFillPersonPlusFill /> Add Recepients
-                  </button>
+                <div className="add- row">
+                  <div className='col-md-4'>
+                    <button type="button" className="start-form-button" onClick={() => { handleClear() }} style={{ "float": "left" }}>Cancel</button>
+                  </div>
+                  <div className='col-md-8'>
+                    <button type="button" className="form-button" onClick={() => { handlePrevious() }} style={{ "float": "right" }}>Previous</button>
+                    <button type="button" className="form-button" onClick={() => handleToggle()} style={{ "float": "right" }}><BsFillPersonPlusFill /> Add Recepients
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -427,14 +426,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                       onKeyDown={(e) => { handleKeyDown(e, 25) }}
 
                       {...formik.getFieldProps("m_name")}
-
-                      className={clsx(
-                        'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.m_name && formik.errors.m_name },
-                        {
-                          'is-valid': formik.touched.m_name && !formik.errors.m_name,
-                        }
-                      )}
                     />
                   </div>
                 </div>
@@ -685,7 +676,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
               <div className="row">
                 <div className="col-md-4">
-                  <button type="button" className="start-form-button" onClick={() => handleClear()}>Clear</button>
+                  <button type="button" className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
                 </div>
                 <div className="col-md-8">
                   <button type="submit" className="form-button">Continue  {loading ? <>
@@ -693,7 +684,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                       <div class="loader" >
                       </div>
                     </div></> : ""}</button>
-                  <button type="button" className="form-button" onClick={() => handleCancel()}>Cancel</button>
                 </div>
               </div>
             </div>

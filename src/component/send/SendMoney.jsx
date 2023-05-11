@@ -15,12 +15,6 @@ const SendMoney = () => {
   const [activeStep, setActiveStep] = useState(1);
   const progressBarRefs = useRef([]);
 
-  // function handleNextStep() {
-  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  //   const currentStep = activeStep - 1;
-  //   progressBarRefs.current[currentStep].style.transform = "translateX(100%)";
-  // }
-
   const data = useLocation()?.state
 
   const [step, setStep] = useState(0)
@@ -109,10 +103,6 @@ const SendMoney = () => {
     setActiveStep(Number(s) + 1)
   }, [step])
 
-
-
-
-
   return (
     <>
       <div>
@@ -125,7 +115,7 @@ const SendMoney = () => {
                     <div className="row">
                       <ul className="multi-steps">
                         <li className={`step ${activeStep === 1 ? "is-active" : ""}`}>
-                          <div className="step-label">
+                          <div className="step-label text-light">
                             Amount & Delivery
                             <div className="progress-bar progress-bar--success">
                               <div
@@ -136,8 +126,8 @@ const SendMoney = () => {
                           </div>
                         </li>
                         <li className={`step ${activeStep === 2 ? "is-active" : ""}`}>
-                          <div className="step-label">
-                            Recipient Details
+                          <div className="step-label text-light">
+                            Recipient Details 
                             <div className="progress-bar progress-bar--success">
                               <div
                                 className="progress-bar__bar"
@@ -147,7 +137,7 @@ const SendMoney = () => {
                           </div>
                         </li>
                         <li className={`step ${activeStep === 3 ? "is-active" : ""}`}>
-                          <div className="step-label">
+                          <div className="step-label text-light">
                             Payment Method
                             <div className="progress-bar progress-bar--success">
                               <div
@@ -158,7 +148,7 @@ const SendMoney = () => {
                           </div>
                         </li>
                         <li className={`step ${activeStep === 4 ? "is-active" : ""}`}>
-                          <div className="step-label">
+                          <div className="step-label text-light">
                             Sender Details
                             <div className="progress-bar progress-bar--success">
                               <div
@@ -169,12 +159,12 @@ const SendMoney = () => {
                           </div>
                         </li>
                         <li className={`step ${activeStep === 5 ? "is-active" : ""}`}>
-                          <div className="step-label">
+                          <div className="step-label text-light">
                             Summary
                           </div>
                         </li>
                       </ul>
-                      {/* <button onClick={handleNextStep}>Next</button> */}
+
                       <div className="col-md-8">
                         {
                           step === 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
@@ -186,34 +176,35 @@ const SendMoney = () => {
                                 step === 3 ? <SenderDetails handleStep={handleStep} step={step} />
                                   :
                                   step === 4 ? <PaymentSummary handleStep={handleStep} step={step} />
-                                    :
-                                    step === 5 ? <>
-                                      <div className="form_body">
-                                        <div className="header">
-                                          <h1>Thank you</h1>
-                                        </div>
-                                        <div className="col-md-12 align-center">
-                                          <img className="verifies-img" src={verified} alt="verified" />
-                                          <p>Thanks for choosing RemitAssure</p>
-                                          <NavLink to="/dashboard">
-                                            <button type="submit" className="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
-                                        </div>
+                                    : <></>
+                          // step === 5 ? <>
+                            // <div className="form_body">
+                            //   <div className="header">
+                            //     <h1>Thank you</h1>
+                            //   </div>
+                            //   <div className="col-md-12 align-center">
+                            //     <img className="verifies-img" src={verified} alt="verified" />
+                            //     <p>Thanks for choosing RemitAssure</p>
+                            //     <NavLink to="/dashboard">
+                            //       <button type="submit" className="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
+                            //   </div>
 
-                                      </div></>
-                                      : ""
+                            // </div>
+                          // </>
+                          //   : ""
                         }
                       </div>
                       <div className="col-md-4">
                         <Table>
                           {
-                            step > 0 ? (
+                            step > 0 && step < 4 ? (
                               <div className="summary">
                                 <BsCheckCircleFill />
                                 <h5>Summary</h5>
                                 <tbody>
                                   <tr>
                                     <th>Amount</th>
-                                    <td>{amt_detail?.send_amt + " " + amt_detail?.from_type + " ⇒ " + amt_detail?.exchange_amt + " " + amt_detail?.to_type}</td>
+                                    <td>{amt_detail?.from_type + amt_detail?.send_amt + " ⇒ " + amt_detail?.to_type  + amt_detail?.exchange_amt}</td>
                                   </tr>
                                   <tr>
                                     <th>Received Method</th>
@@ -231,7 +222,7 @@ const SendMoney = () => {
                             )
                           }
                           {
-                            step > 1 && bank_detail?.bank != '' ? (
+                            step > 1 && step < 4 && bank_detail?.bank != '' ? (
                               <div className="summary1">
                                 <BsCheckCircleFill />
                                 <h5>Recipient details Summary</h5>
@@ -245,7 +236,7 @@ const SendMoney = () => {
                                     <td>{bank_detail?.mobile}</td>
                                   </tr>
                                   <tr>
-                                    <th>Reason For Sending Money</th>
+                                    <th>Reason</th>
                                     <td>{bank_detail?.reason}</td>
                                   </tr>
                                 </tbody>

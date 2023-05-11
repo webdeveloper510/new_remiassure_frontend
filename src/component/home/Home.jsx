@@ -275,7 +275,7 @@ const Home = () => {
             }).catch((error) => {
                 // console.log(error.response)
                 if (error.response.data.code == "400") {
-                    toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" })
+                    toast.error(error.response.data.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
                 }
                 setLoading(false)
             })
@@ -300,7 +300,7 @@ const Home = () => {
                 }).catch((error) => {
                     // console.log(error.response)
                     if (error.response.data.code == "400") {
-                        toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" })
+                        toast.error(error.response.data.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
                     }
                     setLoading(false)
                 })

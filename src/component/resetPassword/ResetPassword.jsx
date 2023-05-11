@@ -118,7 +118,7 @@ const customer_id = useLocation().state
                 navigate('/login')
                 localStorage.setItem("verification_otp" ,data.reset_password_otp)
                 if(res.code == "200"){
-                    toast.success("Password Reset Successfully",{ position: "top-right", autoClose: 2000, theme: "colored" })
+                    toast.success("Password Reset Successfully",{ position:"bottom-right", autoClose: 2000, hideProgressBar: true })
                 }
             }).catch((error)=>{
                 console.log(error.response)
@@ -126,7 +126,7 @@ const customer_id = useLocation().state
                     toast.error(error.response.message || error.response.non_field_errors);
                 }
                 if(error.response.status == 400){
-                    toast.error(error.response.data.message, { position: "top-right", autoClose: 2000, theme: "colored" });
+                    toast.error(error.response.data.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true });
                 }
                 setLoading(false)
             })

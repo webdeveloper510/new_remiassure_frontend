@@ -137,16 +137,10 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
 
     }
 
-    const handleClear = () => {
-        formik.resetForm()
-        setAmtDetail({
-            send_amt: "",
-            exchange_amt: "",
-            from_type: "AUD",
-            to_type: "NZD",
-            recieve_meth: "Bank Transfer",
-            payout_part: "Bank"
-        })
+    const handleCancel = () => {
+       localStorage.removeItem("transfer_data")
+       localStorage.removeItem("send-step")
+       window.location.reload()
     }
 
     const myTotalAmountTo = (e) => {
@@ -377,8 +371,8 @@ const AmountDetail = ({ handleAmtDetail, handleStep, step }) => {
                                 <button
                                     type='button'
                                     className="start-form-button"
-                                    onClick={() => handleClear()}
-                                >Clear</button>
+                                    onClick={() => handleCancel()}
+                                >Cancel</button>
                             </div>
                             <div className="col-md-8">
                                 <button

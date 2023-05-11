@@ -5664,6 +5664,9 @@ box-shadow: none !important;
     position: relative;
 }
 
+.step-label {
+  color: #fff;
+}
 .multi-steps > li.is-active:before, .multi-steps > li.is-active ~ li:before {
   content: counter(stepNum);
   font-family: inherit;

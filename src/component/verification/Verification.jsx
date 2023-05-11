@@ -67,26 +67,26 @@ const Verification = () => {
                 console.log("verifing email", res)
                 if (res.code == 200) {
                     toast.success("Email verification successful",
-                        { position: "top-right", autoClose: 2000, theme: "colored" })
+                        { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
                     localStorage.setItem('token', res.access_token)
                     setLoading(false)
                     navigate('/send-money')
                 }else if(res.code == "400"){
                     toast.error(res.message,
-                    { position: "top-right", autoClose: 2000, theme: "colored" });
+                    { position:"bottom-right", autoClose: 2000, hideProgressBar: true });
                     setLoading(false)
                 }            
             }).catch((error) => {
                 console.log(error.response)
                 if (error.response.status == 400) {
                     toast.error(error.response.data.message,
-                        { position: "top-right", autoClose: 2000, theme: "colored" });
+                        { position:"bottom-right", autoClose: 2000, hideProgressBar: true });
                 }
                 setLoading(false)
             })
         } else {
 
-            toast.error("Please enter 6 digit O.T.P", { position: "top-right", autoClose: 2000, theme: "colored" })
+            toast.error("Please enter 6 digit O.T.P", { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
         }
     }
 

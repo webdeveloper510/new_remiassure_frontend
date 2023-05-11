@@ -146,16 +146,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
 
 
-  const handleClear = () => {
-    setData({
-      bank: "", acc_name: "", acc_no: "",
-      f_name: "", l_name: "", m_name: "",
-      email: "", mobile: "", flat: "",
-      build_no: "", street: "", city: "",
-      post_code: "", state: "", country: "",
-      reason: ""
-    })
-    formik.resetForm()
+  const handleCancel = () => {
+    localStorage.removeItem("transfer_data")
+    localStorage.removeItem("send-step")
+    window.location.reload(true)
   }
   const handleKeyDown = (e, max) => {
     if (e.key === "Backspace") {
@@ -275,18 +269,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <input
                   type="text"
                   name="m_name"
+                  className='form-control'
                   value={data.m_name}
                   onKeyDown={(e) => { handleKeyDown(e, 25) }}
-
                   {...formik.getFieldProps("m_name")}
-
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.m_name && formik.errors.m_name },
-                    {
-                      'is-valid': formik.touched.m_name && !formik.errors.m_name,
-                    }
-                  )}
                 />
               </div>
             </div>
@@ -538,7 +524,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
           </div>
           <div className="row">
             <div className="col-md-4">
-              <button type="button" className="start-form-button" onClick={() => handleClear()}>Clear</button>
+              <button type="button" className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
             </div>
             <div className="col-md-8">
               <button type="submit" className="form-button">Continue</button>
@@ -551,7 +537,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
 
       <Modal show={show} onHide={() => setShow(false)}
-        centereds
+        centered
       >
         <Modal.Header closeButton>
           <Modal.Title>Recipient details Summary</Modal.Title>
@@ -603,7 +589,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <tr>
                 <>
                 </>
-                <th>Reason For Sending Money</th>
+                <th>Reason</th>
                 <td>{data.reason}</td>
               </tr>
             </tbody>

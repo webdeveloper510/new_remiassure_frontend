@@ -1,5 +1,5 @@
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import global from '../../utils/global'
@@ -13,14 +13,12 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [modal, setModal] = useState(false)
   const payRef = useRef(null)
   const navigate = useNavigate()
-
   const handleChange = (e) => {
     setData({ ...data, payment_type: e.target.value })
   }
 
   const handlePayType = () => {
     if (data.payment_type !== "Debit/Credit Card") {
-      toast.warn("Only debit/credit card option available at the momment")
     } else {
       setModal(true)
     }
@@ -34,6 +32,12 @@ const PaymentDetails = ({ handleStep, step }) => {
     }
     localStorage.setItem("send-step", Number(step) - 1)
     handleStep(Number(step) - 1)
+  }
+
+  const handleCancel = () => {
+    localStorage.removeItem("transfer_data")
+    localStorage.removeItem("send-step")
+    window.location.reload(true)
   }
 
   return (
@@ -70,7 +74,6 @@ const PaymentDetails = ({ handleStep, step }) => {
                 defaultChecked={data.payment_type == "Debit/Credit Card"}
                 value="Debit/Credit Card"
                 onChange={handleChange}
-
               />
               <span className="checkmark"></span>
             </label>
@@ -94,23 +97,30 @@ const PaymentDetails = ({ handleStep, step }) => {
         </div>
         <div className="row">
           <div className="col-md-4">
-            <button className="start-form-button" onClick={() => handlePrevious()}>Previous</button>
+            <button className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
           </div>
           <div className="col-md-8">
             <div>
               <button className="form-button" onClick={() => handlePayType()}>Continue</button>
+              <button className="form-button" onClick={() => handlePrevious()}>Previous</button>
             </div>
           </div>
         </div>
       </div>
 
-      <Modal className="modal-card" show={modal} onHide={() => setModal(false)}>
+      <Modal className="modal-card" show={modal} onHide={() => setModal(false)} centered>
         <Modal.Header>
-          <Modal.Title><i className='bi bi-stripe'></i> Payment</Modal.Title>
+          <Modal.Title className='fs-5'>Debit/Credit Card</Modal.Title>
         </Modal.Header>
         <Modal.Body className='my-4'>
           <Elements stripe={stripePromise}>
-            <CheckoutForm payRef={payRef} method={data.payment_type} handleStep={handleStep} step={step} handleModal={() => setModal(false)} />
+            <CheckoutForm
+              payRef={payRef}
+              method={data.payment_type}
+              handleStep={handleStep}
+              step={step}
+              handleModal={() => setModal(false)}
+            />
           </Elements>
         </Modal.Body>
         <Modal.Footer>
@@ -119,14 +129,6 @@ const PaymentDetails = ({ handleStep, step }) => {
           </Button>
           <Button type="submit" variant="primary" onClick={() => payRef.current.click()}>
             Continue
-            {/* {loading ? <>
-              <div className="loader-overly">
-                <div className="loader" >
-
-                </div>
-
-              </div>
-            </> : <></>} */}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -146,16 +148,21 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
       return;
     }
     const token = await stripe.createToken(elements.getElement(CardElement))
-    handleModal()
-    const local = JSON.parse(localStorage.getItem("transfer_data"))
-    local.payment = { ...token, payment_type: method }
-    localStorage.removeItem("transfer_data")
-    localStorage.setItem("transfer_data", JSON.stringify(local))
-    if (localStorage.getItem("send-step")) {
-      localStorage.removeItem("send-step")
+    if (token.token) {
+      handleModal()
+      const local = JSON.parse(localStorage.getItem("transfer_data"))
+      local.payment = { ...token, payment_type: method }
+      localStorage.removeItem("transfer_data")
+      localStorage.setItem("transfer_data", JSON.stringify(local))
+      if (localStorage.getItem("send-step")) {
+        localStorage.removeItem("send-step")
+      }
+      localStorage.setItem("send-step", Number(step) + 1)
+      handleStep(Number(step) + 1)
+    } else {
+      toast.error("Enter card details to continue", { position:"bottom-right", hideProgressBar: true, autoClose: 2000 })
     }
-    localStorage.setItem("send-step", Number(step) + 1)
-    handleStep(Number(step) + 1)
+
   };
 
   return (

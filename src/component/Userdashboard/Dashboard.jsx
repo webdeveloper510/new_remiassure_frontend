@@ -42,7 +42,8 @@ const Dashboard = () => {
     const [data, setData] = useState([]);
     const [recipientData, setRecipientData] = useState([]);
     const [dataLength, setDataLength] = useState("")
-
+    const [total_amount, setTotalAmount] = useState(0)
+    const [total_recipients, setTotalRecipients] = useState(0)
 
     const [isActive, setActive] = useState("false");
 
@@ -55,8 +56,15 @@ const Dashboard = () => {
     const transHistory = () => {
         transactionHistory().then((response) => {
             // console.log("payment-transaction-history----------====", response)
-            if (response.code == 200) {
-                setTransactionData(response);
+            if (response.code == "200") {
+                setTransactionData(response.data);
+                let d = response.data
+                    let amount = 0
+                    for (let i = 0; i < d.length; i++) {
+                        amount = Number(amount) + Number(d[i].amount)
+                    }
+                    setTotalAmount(amount)
+                    setLoading(false)
             }
         }).catch((error) => {
             // console.log(error.response)
@@ -74,12 +82,13 @@ const Dashboard = () => {
             .then(function (response) {
                 if (response.data.code == "200") {
                     setRecipientData(response.data.data);
+                    setTotalRecipients(response.data.data.length)
                     setLoading(false)
                 }
             })
             .catch(function (error) {
-               console.log(error)
-               setLoading(false)
+                console.log(error)
+                setLoading(false)
             })
     }
 
@@ -131,9 +140,11 @@ const Dashboard = () => {
                                                         </div>
 
                                                         <div className="icon">
-                                                            <NavLink to={"/add-new-recipient"} >
+                                                            {/* <NavLink to={"/add-new-recipient"} > */}
                                                                 <BsFillPersonPlusFill />
-                                                            </NavLink>
+                                                            {/* </NavLink> */}
+                                                            <br/>
+                                                            <b className="text-light">{total_recipients} Recipients</b>
                                                         </div>
 
                                                     </div>
@@ -161,6 +172,8 @@ const Dashboard = () => {
                                                         </div>
                                                         <div className="icon">
                                                             <BiTransfer />
+                                                            <br/>
+                                                            <b className="text-light">{total_amount}</b>
                                                         </div>
                                                     </div>
                                                     <div className="mt-3">
@@ -235,7 +248,7 @@ const Dashboard = () => {
 
                                                         <tbody>
                                                             {
-                                                                transactionData.data?.map((res, index) => {
+                                                                transactionData?.map((res, index) => {
                                                                     //console.log(items, "itemnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
                                                                     return (
                                                                         <tr>

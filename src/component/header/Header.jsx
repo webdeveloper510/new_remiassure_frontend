@@ -46,7 +46,7 @@ const Header = () => {
   const handleLogout = (event) => {
     event.preventDefault();
     localStorage.clear();
-    toast.success('Logout Successfully', { position: "top-right", autoClose: 2000, theme: "colored" });
+    toast.success('Logout Successfully', { position:"bottom-right", autoClose: 2000, hideProgressBar: true });
     navigate('/login')
   }
 

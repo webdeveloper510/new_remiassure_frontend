@@ -24,7 +24,7 @@ const Signup = () => {
 
     const search = useLocation()
     const [show, setShow] = useState(false);
-    const [modalShow, setModalShow] = useState({ toggle: false, value: "", type: "", navigate:""})
+    const [modalShow, setModalShow] = useState({ toggle: false, value: "", type: "", navigate: "" })
 
     const initialValues = {
         location: "",
@@ -58,16 +58,19 @@ const Signup = () => {
             userRegister(data).then((res) => {
                 // console.log('vija-----', res)
                 if (res.code === "200") {
-                    setModalShow({ toggle: true, value: "Registration successful", type: "success", navigate:"/verification" })
+                    // setModalShow({ toggle: true, value: "Registration successful", type: "success", navigate:"/verification" })
                     localStorage.setItem("remi-user-dt", JSON.stringify(res?.data))
-             
+                    toast.success("Registration Successful", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+                    navigate("/verification", { state: { email: values.email } })
+
                 } else if (res.code == '400') {
-                    setModalShow({ toggle: true, value: res.message, type: "error" })
+                    toast.error(res.message + ", please login", { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
+
                 }
                 else if (res.code == '201') {
-                    setModalShow({ toggle: true, value: res.message + ", please login", type: "error", navigate:"/login" })
-                    // toast.error(res.message + ", please login", { position: "top-right", autoClose: 2000, theme: "colored" });
-                    // navigate("/login")
+                    // setModalShow({ toggle: true, value: res.message + ", please login", type: "error", navigate:"/login" })
+                    toast.error(res.message + ", please login", { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
+                    navigate("/login")
                 }
 
                 setLoading(false)
@@ -140,16 +143,16 @@ const Signup = () => {
         }
         // console.log("checked " + checked);
     };
-    const handleHide = () =>{
-        setModalShow({...modalShow, toggle:false})
-        if(modalShow.navigate){
-            if(modalShow.navigate==="login"){
-                navigate("/login")
-            } else {
-                navigate("/verification",{state:{email:formik.values.email}})
-            }
-        }
-    }
+    // const handleHide = () =>{
+    //     setModalShow({...modalShow, toggle:false})
+    //     if(modalShow.navigate){
+    //         if(modalShow.navigate==="login"){
+    //             navigate("/login")
+    //         } else {
+    //             navigate("/verification",{state:{email:formik.values.email}})
+    //         }
+    //     }
+    // }
 
     return (
         <>
@@ -368,15 +371,15 @@ const Signup = () => {
                         </div>
                     </div>
                 </div>
-                <Modal show={modalShow.toggle} onHide={() => {handleHide()}}
-                centered
+                {/* <Modal show={modalShow.toggle} onHide={() => { handleHide() }}
+                    centered
                 >
-                    
+
                     <Modal.Body className="text-success text-center py-5">
-                    <BsCheckCircleFill color="green" className="fs-1"/>
+                        <BsCheckCircleFill color="green" className="fs-1" />
                         <p className="fs-5 text-success text-center fw-bold mt-3">{modalShow.value}</p>
                     </Modal.Body>
-                </Modal>
+                </Modal> */}
             </section>
             {/* </>
                 )
