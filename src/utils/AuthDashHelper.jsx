@@ -7,7 +7,6 @@ const authDashHelper = (checkType) => {
     if (login != null && user == null) {
       return false
     } else {
-      console.log("++++++++++++++++++++", login , user)
       return true
     }
   } else if (checkType === 'dashCheck') {

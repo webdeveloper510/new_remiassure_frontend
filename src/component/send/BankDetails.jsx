@@ -47,7 +47,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
       }
     }
 
-  }, [step])
+  }, [])
 
   const bankSchema = Yup.object().shape({
     bank: Yup.string()

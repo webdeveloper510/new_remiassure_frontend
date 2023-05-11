@@ -47,22 +47,18 @@ const SendMoney = () => {
   useEffect(() => {
 
     if (authDashHelper('dashCheck')) {
-      console.log("if---------------------------------------------------")
       navigate("/user-send-money")
     } else if (!authDashHelper('authCheck')) {
-      console.log("elseif----------------------------------------")
       navigate("/login")
     } else {
-      
-      console.log("else---------------------------------",authDashHelper('authCheck'))
       localStorage.removeItem("send-step")
       localStorage.removeItem("transfer_data")
-      // setInterval(() => {
-      //   // console.log("time")
-      //   localStorage.removeItem("send-step");
-      //   localStorage.removeItem("transfer_data");
-      //   window.location.reload(true)
-      // }, 15 * 60 * 1000);
+      setInterval(() => {
+        // console.log("time")
+        localStorage.removeItem("send-step");
+        localStorage.removeItem("transfer_data");
+        window.location.reload(true)
+      }, 15 * 60 * 1000);
     }
   }, [])
 

@@ -7,29 +7,26 @@ import countryList from 'react-select-country-list';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Axios } from 'axios';
-import { useRef } from 'react';
 
 const SenderDetails = ({ handleStep, step }) => {
 
   const userd = JSON.parse(localStorage.getItem("remi-user-dt"))
   const tdata = JSON.parse(localStorage.getItem("transfer_data"))
-  const [display, setDisplay] = useState("none")
-  const digitalRef = useRef(null)
 
   const [data, setData] = useState({
-    f_name: "", m_name: "", l_name: "",
-    gender: "Male", country_of_birth: "",
-    dob: "", flat: "", build_no: "",
-    street: "", city: "", country: "",
+    f_name:  "", m_name:  "", l_name: "",
+    gender:"Male", country_of_birth:"",
+    dob:  "", flat: "", build_no: "",
+    street: "", city:"", country: "",
     post_code: "", state: "", email: userd.email, mobile: userd.mobile,
     customer_id: userd.customer_id
   })
 
   const initialValues = {
-    f_name: "", m_name: "", l_name: "",
-    gender: "Male", country_of_birth: "",
-    dob: "", flat: "", build_no: "",
-    street: "", city: "", country: "",
+    f_name:  "", m_name:  "", l_name: "",
+    gender:"Male", country_of_birth:"",
+    dob:  "", flat: "", build_no: "",
+    street: "", city:"", country: "",
     post_code: "", state: "", email: userd.email, mobile: userd.mobile,
     customer_id: userd.customer_id
   }
@@ -86,13 +83,6 @@ const SenderDetails = ({ handleStep, step }) => {
         } else {
           setData({ ...data, mobile: event.target.value })
           formik.setFieldValue('mobile', event.target.value)
-          formik.validateForm().then(res => {
-            if (res) {
-              setDisplay("block")
-            console.log("form valid")
-
-            }
-          })
         }
       }
     }
@@ -114,13 +104,6 @@ const SenderDetails = ({ handleStep, step }) => {
         } else {
           setData({ ...data, post_code: event.target.value })
           formik.setFieldValue('post_code', event.target.value)
-          formik.validateForm().then(res => {
-            if (res) {
-              setDisplay("block")
-            console.log("form valid")
-
-            }
-          })
         }
       }
     }
@@ -128,13 +111,6 @@ const SenderDetails = ({ handleStep, step }) => {
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value })
-    formik.validateForm().then(res => {
-      if (res) {
-        setDisplay("block")
-        console.log("form valid")
-
-      }
-    })
   }
   const countryOptions = useMemo(() => countryList().getData(), [])
   const verificationValue = localStorage.getItem("DigitalCode")
@@ -155,12 +131,7 @@ const SenderDetails = ({ handleStep, step }) => {
         setData({ ...data, [e.target.name]: e.target.value })
         formik.setFieldValue(`${[e.target.name]}`, e.target.value)
         formik.setFieldTouched(`${[e.target.name]}`, true)
-        formik.validateForm().then(res => {
-          if (res) {
-            setDisplay("block")
-            console.log("form valid")
-          }
-        })
+
       }
     }
   }
@@ -189,36 +160,27 @@ const SenderDetails = ({ handleStep, step }) => {
           formik.handleSubmit()
         },
         onClick: function () {
+          // console.log(3, "log")
         },
         onKeepAlive: function () {
           // console.log(4, "log")
         }
       });
+
     }
 
   }, []);
 
   useEffect(() => {
     if (localStorage.getItem("transfer_data")) {
-      let tdata = JSON.parse(localStorage.getItem("transfer_data"))
-      if (tdata?.sender) {
-        setData(tdata?.sender)
-        formik.setValues({ ...tdata?.sender })
-      }
+        let tdata = JSON.parse(localStorage.getItem("transfer_data"))
+        if (tdata?.sender) {
+            setData(tdata?.sender)
+            formik.setValues({ ...tdata?.sender })
+        }
     }
 
-  }, [step])
-
-  // const valid = () => {
-    // formik.validateForm().then(res => {
-    //   if (res) {
-    //     // setDisplay("block")
-    //     digitalRef.current.click()
-
-    //   }
-    // })
-  // }
-
+}, [step])
 
   const handleClear = () => {
     localStorage.removeItem("transfer_data")
@@ -226,7 +188,6 @@ const SenderDetails = ({ handleStep, step }) => {
     localStorage.removeItem("DigitalCode")
     window.location.reload(true)
   }
-
 
   return (
     <div className="form_body">
@@ -296,8 +257,14 @@ const SenderDetails = ({ handleStep, step }) => {
               <input
                 type="text"
                 value={data.customer_id}
-                className='form-control'
                 readOnly
+                className={clsx(
+                  'form-control bg-transparent',
+                  { 'is-invalid': formik.touched.dob && formik.errors.dob },
+                  {
+                    'is-valid': formik.touched.dob && !formik.errors.dob,
+                  }
+                )}
               />
             </div>
           </div>
@@ -389,10 +356,17 @@ const SenderDetails = ({ handleStep, step }) => {
               <input
                 type="email"
                 value={data.email}
-                className='form-control'
                 readOnly
                 onKeyDown={(e) => { handleKeyDown(e, 50) }}
                 {...formik.getFieldProps("email")}
+
+                className={clsx(
+                  'form-control bg-transparent',
+                  { 'is-invalid': formik.touched.email && formik.errors.email },
+                  {
+                    'is-valid': formik.touched.email && !formik.errors.email,
+                  }
+                )}
               />
             </div>
           </div>
@@ -402,10 +376,15 @@ const SenderDetails = ({ handleStep, step }) => {
               <input
                 type="text"
                 value={data.mobile}
-                className='form-control'
-                readOnly
                 onKeyDown={(e) => handleMobile(e)}
                 {...formik.getFieldProps("mobile")}
+                className={clsx(
+                  'form-control bg-transparent',
+                  { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                  {
+                    'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                  }
+                )}
               />
 
             </div>
@@ -572,14 +551,7 @@ const SenderDetails = ({ handleStep, step }) => {
         </div>
         <div className="col-md-10 new_buttons">
           {!verificationValue ? (
-            <>
-              <div className='digital_verification ' style={{ display: `${display == "none" ? "none" : "block"}` }}>
-                <div id="digitalid-verify"></div>
-              </div>
-              {/* <button onCLick={() => { valid() }} style={{ display: `${display == "block" ? "none" : "block"}`, border: "1px solid rgb(0, 53, 166)", backgroundColor: "rgb(0, 69, 216)", width: "280px", height: "50px", borderRadius: "5px", padding: "10px", boxShadow: "rgba(11, 11, 11, 0.49) 0px 2px 4px 0px", cursor: "pointer" }} >
-                <img src="https://digitalid-sandbox.com/sdk/images/verify-with-digital-id.svg" alt="Verify with Digital ID" style={{ marginTop: "3px", height: "22px" }} />
-              </button> */}
-            </>
+            <div id="digitalid-verify"></div>
           ) : (
             <>
               <button type='button' className="form-button" onClick={() => formik.handleSubmit()}> Continue</button>
