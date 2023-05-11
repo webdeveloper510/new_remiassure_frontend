@@ -18,22 +18,18 @@ const SendMoney = () => {
   const data = useLocation()?.state
 
   const [step, setStep] = useState(0)
-  const [titles, setTitles] = useState(["Amount & Delivery", "Recipient Bank Details", "Payment Details", "Sender Details", "Payment Summary", "Thank you"])
 
   const [amt_detail, setAmtDetail] = useState({
     send_amt: data?.send_amt || "", exchange_amt: data?.exchange_amt || "", from_type: data?.from_type || "", to_type: data?.to_type || "", recieve_meth: data?.recieve_meth || "", payout_part: ""
   })
-
 
   const [bank_detail, setBankDetail] = useState({
     bank: "", acc_name: "", acc_no: "", f_name: "", l_name: "", m_name: "", email: "", mobile: "",
     flat: "", build_no: "", street: "", city: "", post: "", state: "", country: "", reason: ""
   })
 
-  const [pay_detail, setPayDetail] = useState({
-    payment_type: ""
-  })
-
+  const [seconds, setSeconds] = useState(60);
+  const [minutes, setMinutes] = useState(14);
 
   const handleAmtDetail = (data) => {
     setAmtDetail(data)
@@ -55,24 +51,14 @@ const SendMoney = () => {
     } else if (!authDashHelper('authCheck')) {
       navigate("/login")
     } else {
-      if (localStorage.getItem("send-step")) {
-        setStep(Number(localStorage.getItem("send-step")))
-      }
-      if (localStorage.getItem("transfer_data")) {
-        const local = JSON.parse(localStorage.getItem("transfer_data"))
-        if (local?.amount) {
-          setAmtDetail(local.amount)
-        }
-        if (local?.recipient) {
-          setBankDetail(local.recipient)
-        }
-      }
-      setInterval(() => {
-        // console.log("time")
-        localStorage.removeItem("send-step");
-        localStorage.removeItem("transfer_data");
-        window.location.reload(true)
-      }, 15 * 60 * 1000);
+      localStorage.removeItem("send-step")
+      localStorage.removeItem("transfer_data")
+      // setInterval(() => {
+      //   // console.log("time")
+      //   localStorage.removeItem("send-step");
+      //   localStorage.removeItem("transfer_data");
+      //   window.location.reload(true)
+      // }, 15 * 60 * 1000);
     }
   }, [])
 
@@ -103,6 +89,18 @@ const SendMoney = () => {
     setActiveStep(Number(s) + 1)
   }, [step])
 
+  useEffect(() => {
+    seconds > 0 && setTimeout(() => setSeconds(seconds - 1), 1000);
+
+  }, [seconds]);
+
+  useEffect(() => {
+    minutes > 0 && setTimeout(() => setMinutes(minutes - 1), 60 * 1000);
+    setSeconds(60)
+  }, [minutes])
+
+
+
   return (
     <>
       <div>
@@ -127,7 +125,7 @@ const SendMoney = () => {
                         </li>
                         <li className={`step ${activeStep === 2 ? "is-active" : ""}`}>
                           <div className="step-label text-light">
-                            Recipient Details 
+                            Recipient Details
                             <div className="progress-bar progress-bar--success">
                               <div
                                 className="progress-bar__bar"
@@ -178,23 +176,25 @@ const SendMoney = () => {
                                   step === 4 ? <PaymentSummary handleStep={handleStep} step={step} />
                                     : <></>
                           // step === 5 ? <>
-                            // <div className="form_body">
-                            //   <div className="header">
-                            //     <h1>Thank you</h1>
-                            //   </div>
-                            //   <div className="col-md-12 align-center">
-                            //     <img className="verifies-img" src={verified} alt="verified" />
-                            //     <p>Thanks for choosing RemitAssure</p>
-                            //     <NavLink to="/dashboard">
-                            //       <button type="submit" className="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
-                            //   </div>
+                          // <div className="form_body">
+                          //   <div className="header">
+                          //     <h1>Thank you</h1>
+                          //   </div>
+                          //   <div className="col-md-12 align-center">
+                          //     <img className="verifies-img" src={verified} alt="verified" />
+                          //     <p>Thanks for choosing RemitAssure</p>
+                          //     <NavLink to="/dashboard">
+                          //       <button type="submit" className="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
+                          //   </div>
 
-                            // </div>
+                          // </div>
                           // </>
                           //   : ""
                         }
                       </div>
                       <div className="col-md-4">
+                        <div>Form auto closes in ⇒ {minutes < 10 ? "0" + minutes : minutes} : {seconds < 10 ? "0" + seconds : seconds}</div>
+
                         <Table>
                           {
                             step > 0 && step < 4 ? (
@@ -204,7 +204,7 @@ const SendMoney = () => {
                                 <tbody>
                                   <tr>
                                     <th>Amount</th>
-                                    <td>{amt_detail?.from_type + amt_detail?.send_amt + " ⇒ " + amt_detail?.to_type  + amt_detail?.exchange_amt}</td>
+                                    <td>{amt_detail?.from_type + amt_detail?.send_amt + " ⇒ " + amt_detail?.to_type + amt_detail?.exchange_amt}</td>
                                   </tr>
                                   <tr>
                                     <th>Received Method</th>

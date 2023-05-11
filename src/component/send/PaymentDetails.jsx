@@ -167,7 +167,7 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <CardElement />
+      <CardElement options={{ hidePostalCode: true }} />
 
       <button type="submit" ref={payRef} style={{ display: "none" }} disabled={!stripe || !elements}>
         Pay

@@ -550,7 +550,7 @@ const SenderDetails = ({ handleStep, step }) => {
           <button className="start-form-button" onClick={() => handleClear()}>Cancel</button>
         </div>
         <div className="col-md-10 new_buttons">
-          {!verificationValue ? (
+          {!verificationValue && formik.validateOnMount ?  (
             <div id="digitalid-verify"></div>
           ) : (
             <>

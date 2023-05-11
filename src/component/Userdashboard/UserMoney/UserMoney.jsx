@@ -42,18 +42,8 @@ const SendMoney = () => {
             navigate("/send-money")
         }
         else {
-            if (localStorage.getItem("send-step")) {
-                setStep(Number(localStorage.getItem("send-step")))
-            }
-            if (localStorage.getItem("transfer_data")) {
-                const local = JSON.parse(localStorage.getItem("transfer_data"))
-                if (local?.amount) {
-                    setAmtDetail(local.amount)
-                }
-                if (local?.recipient) {
-                    setBankDetail(local.recipient)
-                }
-            }
+          localStorage.removeItem("send-step")
+          localStorage.removeItem("transfer_data")
         }
         setInterval(() => {
             localStorage.removeItem("send-step");

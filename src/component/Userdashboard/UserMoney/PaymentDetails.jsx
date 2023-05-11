@@ -164,7 +164,9 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
             localStorage.removeItem("send-step")
           }
           toast.success("Payment Successful", { position: "bottom-right", hideProgressBar: true })
-          window.location.reload()
+          setInterval(() => {
+            window.location.reload()
+          }, 2 * 1000)
         }
       }).catch((err) => {
         localStorage.removeItem("transfer_data")
@@ -172,16 +174,18 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
           localStorage.removeItem("send-step")
         }
         toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-        window.location.reload()
+        setInterval(() => {
+          window.location.reload()
+        }, 2 * 1000)
       })
     } else {
-      toast.error("Enter card details to continue", { position:"bottom-right", hideProgressBar: true, autoClose: 2000 })
+      toast.error("Enter card details to continue", { position: "bottom-right", hideProgressBar: true, autoClose: 2000 })
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <CardElement />
+      <CardElement options={{ hidePostalCode: true }} />
 
       <button type="submit" ref={payRef} style={{ display: "none" }} disabled={!stripe || !elements}>
         Pay
