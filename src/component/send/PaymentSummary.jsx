@@ -116,7 +116,7 @@ const PaymentSummary = ({ handleStep, step }) => {
         localStorage.setItem("transaction_id", res?.data?.data?.transaction_id)
         const user = JSON.parse(localStorage.getItem("remi-user-dt"))
         // localStorage.removeItem("remi-user-dt")
-        user.digital_id_verified = true
+        user.digital_id_verified = "true"
         localStorage.setItem("remi-user-dt", JSON.stringify(user))
         if (localStorage.getItem("send-step")) {
           localStorage.removeItem("send-step")
