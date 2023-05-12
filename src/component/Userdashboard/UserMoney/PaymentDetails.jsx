@@ -24,10 +24,10 @@ const PaymentDetails = ({ handleStep, step }) => {
 useEffect(()=>{
 if(transaction.id){
        setModalView(true)
-  setTimeout(() => {
-    navigate("/dashboard")
+  // setTimeout(() => {
+  //   navigate("/dashboard")
 
-  }, 10 * 1000)
+  // }, 10 * 1000)
 }
 },[transaction])
 

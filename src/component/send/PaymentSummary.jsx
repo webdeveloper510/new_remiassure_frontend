@@ -124,9 +124,9 @@ const PaymentSummary = ({ handleStep, step }) => {
         localStorage.removeItem("transfer_data")
         localStorage.removeItem("DigitalCode")
         setModalView(true)
-        setTimeout(() => {
-          navigate("/dashboard")
-        }, 10 * 1000)
+        // setTimeout(() => {
+        //   navigate("/dashboard")
+        // }, 10 * 1000)
       }
       setLoader(false)
     }).catch((err) => {
@@ -253,8 +253,8 @@ const PaymentSummary = ({ handleStep, step }) => {
             <div className="col-md-12 align-center">
               {/* <img className="verifies-img" src={verified} alt="verified" /> */}
               <p>Thanks for choosing RemitAssure</p>
-              <NavLink to="/transactions">
-                <button type="button" className="form-button" style={{ "width": '100%' }}>View All Transactions</button></NavLink>
+              <NavLink to="/dashboard">
+                <button type="button" className="form-button" style={{ "width": '100%' }}>View Dashboard</button></NavLink>
             </div>
 
           </div>
