@@ -219,9 +219,7 @@ const Home = () => {
     }, [carouselItems])
     const amountSchema = Yup.object().shape({
         send_amt: Yup.number()
-            .required('Amount is required'),
-        recieve_meth: Yup.string().oneOf(['1', '2'])
-            .required("Payment method is required")
+            .required('Amount is required')
     })
     const initialValues = {
         send_amt: '',
@@ -547,7 +545,8 @@ const Home = () => {
                                                         {
                                                             'is-valid': formik.touched.recieve_meth && !formik.errors.recieve_meth,
                                                         }
-                                                    )} aria-label="Select a reason">
+                                                    )} 
+                                                    aria-label="Select a reason">
                                                     <option value="Bank Transfer">Bank Transfer</option>
                                                     <option value="Mobile Wallet">Mobile Wallet</option>
                                                 </select>

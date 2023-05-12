@@ -118,7 +118,7 @@ const Editrecipientuser = () => {
     account_name: Yup.string().min(2).max(50).required(),
     account_number: Yup.string().min(10).max(17).required(),
     first_name: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("First name is required"),
-    middle_name: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("Middle Name is required"),
+    middle_name: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter"),
     last_name: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("Last name is required"),
     email: Yup.string().email().min(6, "Minimum 6 Letter").max(50, "Maximum 50 letter").required("Email is required"),
     mobile: Yup.string().min(7).max(15).required(),
@@ -649,7 +649,7 @@ const Editrecipientuser = () => {
 
   const formik = useFormik({
     initialValues,
-    // validationSchema: recipientSchema,
+    validationSchema: recipientSchema,
     onSubmit: async (values) => {
       console.log("pppppppppppppppppp", id , values)
       let data = {

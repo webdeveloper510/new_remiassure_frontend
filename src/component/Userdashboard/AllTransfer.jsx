@@ -118,7 +118,7 @@ const AllTranfer = ({ status, data, length }) => {
                 </> : <></>} */}
             {/* End------- Loader functionalty */}
               <span>
-                {transactionData?.length != 0 ? (
+                {transactionData?.length > 0 ? (
                   <Table className="table table-responsive-md card-table previous-transaction">
                     <thead>
                       <tr>
