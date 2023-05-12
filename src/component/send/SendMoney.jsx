@@ -47,8 +47,10 @@ const SendMoney = () => {
   useEffect(() => {
 
     if (authDashHelper('dashCheck')) {
+      console.log("---------------dash")
       navigate("/user-send-money")
     } else if (!authDashHelper('authCheck')) {
+      console.log("---------------auth")
       navigate("/login")
     } else {
       localStorage.removeItem("send-step")
@@ -167,7 +169,7 @@ const SendMoney = () => {
                       </div>
                        
                        <div className='col-3'>
-                       <div className='timer-row sendmoney-timer'>Form auto closes in ⇒  <label> <span> {minutes < 10 ? "0" + minutes : minutes}</span><p>Minutes</p> </label> <label className='timerdots'>:</label>  <label><span> {seconds < 10 ? "0" + seconds : seconds}</span> <p>Seconds</p> </label></div>
+                       {/* <div className='timer-row sendmoney-timer'>Form auto closes in ⇒  <label> <span> {minutes < 10 ? "0" + minutes : minutes}</span><p>Minutes</p> </label> <label className='timerdots'>:</label>  <label><span> {seconds < 10 ? "0" + seconds : seconds}</span> <p>Seconds</p> </label></div> */}
                        </div>
                       <div className="col-md-8">
                         {
