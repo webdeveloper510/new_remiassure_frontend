@@ -45,6 +45,7 @@ const PaymentSummary = ({ handleStep, step }) => {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
     }).then(res => {
+      localStorage.removeItem("DigitalCode")
       return true
     })
 

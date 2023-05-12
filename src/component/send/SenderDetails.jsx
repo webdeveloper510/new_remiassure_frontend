@@ -149,6 +149,7 @@ const SenderDetails = ({ handleStep, step }) => {
         setDisplay("block")
         console.log("form valid")
       } else {
+        console.log("else------------------------------")
         setDisplay("none")
       }
     })

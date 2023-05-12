@@ -304,7 +304,7 @@ const Home = () => {
     const inputvalidation = (event) => {
         // console.log("dfjghfguh---------------", event.key)
         const pattern = /^[0-9.,]+$/;
-        if (event.key === 'Backspace'||event.key === 'Enter'||event.key === 'Tab'|| event.key ==='Shift'||event.key==='ArrowLeft'||event.key==="ArrowRight") {
+        if (event.key === 'Backspace'||event.key === 'Enter'||event.key === 'Tab'|| event.key ==='Shift'||event.key==='ArrowLeft'||event.key==="ArrowRight"||event.key==="Escape") {
 
         }
         else if (!pattern.test(event.key)) {
@@ -398,9 +398,9 @@ const Home = () => {
    
     const handleReset = () => {
         formik.resetForm({
-            values: { amount: "", paymentMethod: "", totalAmount: "" }
+            values: { send_amt: "", recieve_meth: "", exchange_amt: "" }
         })
-        setData({ amt2: "" })
+        setData({ exchange_amt: "" })
     }
 
     return (

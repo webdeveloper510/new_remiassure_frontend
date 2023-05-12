@@ -65,7 +65,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const inputvalidation = (event) => {
         console.log("dfjghfguh---------------", event.key)
         const pattern = /^[0-9.,]+$/;
-        if (event.key === 'Backspace'||event.key === 'Enter'||event.key === 'Tab'|| event.key ==='Shift'||event.key==='ArrowLeft'||event.key==="ArrowRight") {
+        if (event.key === 'Backspace'||event.key === 'Enter'||event.key === 'Tab'|| event.key ==='Shift'||event.key==='ArrowLeft'||event.key==="ArrowRight"||event.key==="Escape"||event.key==="Escape") {
 
         } else {
             let value = event.target.value.toString()
