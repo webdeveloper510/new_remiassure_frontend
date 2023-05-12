@@ -26,7 +26,7 @@ const SenderDetails = ({ handleStep, step }) => {
   })
 
   const initialValues = {
-    f_name: "", m_name: " ", l_name: "",
+    f_name: "", m_name: "", l_name: "",
     gender: "Male", country_of_birth: "",
     dob: "", flat: "", build_no: "",
     street: "", city: "", country: "",

@@ -216,9 +216,14 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal, handleTra
       }).then(res => {
         console.log(res, "-------------------------------")
         if (res.data.code == "200") {
-          const local = JSON.parse(localStorage.getItem("transfer_data"))
-          handleTransaction({id:res.data.data.transaction_id, status:"completed", amount:local?.amount?.send_amt, curr:local?.amount?.from_type})
-          // toast.success("Payment Successful", { position: "bottom-right", hideProgressBar: true })
+          localStorage.removeItem("transfer_data")
+          if (localStorage.getItem("send-step")) {
+            localStorage.removeItem("send-step")
+          }
+          toast.success("Payment Successful", { position: "bottom-right", hideProgressBar: true })
+          setTimeout(() => {
+            window.location.reload()
+          }, 2 * 1000)
         }
       }).catch((err) => {
         localStorage.removeItem("transfer_data")
@@ -226,7 +231,7 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal, handleTra
           localStorage.removeItem("send-step")
         }
         toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-        setInterval(() => {
+        setTimeout(() => {
           window.location.reload()
         }, 2 * 1000)
       })

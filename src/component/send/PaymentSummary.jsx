@@ -258,17 +258,17 @@ const PaymentSummary = ({ handleStep, step }) => {
         localStorage.removeItem("transfer_data")
         localStorage.removeItem("DigitalCode")
         setModalView(true)
-        setInterval(() => {
+        setTimeout(() => {
           navigate("/dashboard")
         }, 10 * 1000)
       }
       setLoader(false)
     }).catch((err) => {
       console.log(err)
-      toast.error("Somthing went wrong, please try again later", {position:"bottom-right", hideProgressBar:true})
-      setInterval(()=>{
+      toast.error("Somthing went wrong, please try again later", { position: "bottom-right", hideProgressBar: true })
+      setTimeout(() => {
         navigate("/")
-      },2000)
+      }, 2000)
       setLoader(false)
     })
   }
