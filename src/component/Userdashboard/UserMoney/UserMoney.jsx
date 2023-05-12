@@ -11,7 +11,7 @@ const SendMoney = () => {
     const data = useLocation()?.state
     const [step, setStep] = useState(0)
     const [seconds, setSeconds] = useState(60);
-    const [minutes, setMinutes] = useState(14);
+    const [minutes, setMinutes] = useState(29);
 
     const navigate = useNavigate()
 
@@ -31,7 +31,7 @@ const SendMoney = () => {
             localStorage.removeItem("send-step");
             localStorage.removeItem("transfer_data");
             window.location.reload(true)
-        }, 15 * 60 * 1000);
+        }, 30 * 60 * 1000);
 
     }, [])
 

@@ -204,11 +204,13 @@ const Home = () => {
 
     const [carouselItems, setCarouselItems] = useState(items);
 
-    const [data, setData] = useState({ send_amt: '',
-    exchange_amt: '',
-    from_type: "AUD",
-    to_type: "NZD",
-    recieve_meth: ""})
+    const [data, setData] = useState({
+        send_amt: '',
+        exchange_amt: '',
+        from_type: "AUD",
+        to_type: "NZD",
+        recieve_meth: "Bank Transfer"
+    })
 
 
 
@@ -226,7 +228,7 @@ const Home = () => {
         exchange_amt: '',
         from_type: "AUD",
         to_type: "NZD",
-        recieve_meth: ""
+        recieve_meth: "Bank Transfer"
     }
     const [loading, setLoading] = useState(false);
     const [total_rates, setTotal_rates] = useState('');
@@ -235,14 +237,14 @@ const Home = () => {
     const nzd_opt = ["AUD", "USD", "EUR", "CAD"]
     const aud_opt = ["NZD", "USD", "EUR", "CAD"]
 
-    useEffect(()=>{
-        exchangeRate({ amount: "1", from: "AUD", to: "NZD" }).then(res=>{
+    useEffect(() => {
+        exchangeRate({ amount: "1", from: "AUD", to: "NZD" }).then(res => {
             setTotal_rates(res.rate)
             localStorage.removeItem("exchange_curr")
-            let obj = {send_amt:"1",from_type:"AUD", to_type:"NZD", exchange_amt:res.amount, exch_rate:res.rate}
+            let obj = { send_amt: "1", from_type: "AUD", to_type: "NZD", exchange_amt: res.amount, exch_rate: res.rate }
             localStorage.setItem("exchange_curr", JSON.stringify(obj))
         })
-    },[])
+    }, [])
 
     const formik = useFormik({
         initialValues,
@@ -256,11 +258,11 @@ const Home = () => {
                 // localStorage.setItem("exchangeAmount", res.amount)
                 if (token) {
                     if (userdt?.digital_id_verified) {
-                       
-                        navigate("/user-send-money", { state: {...values, exch_rate:total_rates} })
+
+                        navigate("/user-send-money", { state: { ...values, exch_rate: total_rates } })
                     } else {
-                        
-                        navigate("/send-money", { state: {...values, exch_rate:total_rates} })
+
+                        navigate("/send-money", { state: { ...values, exch_rate: total_rates } })
                     }
                 } else {
                     navigate("/login")
@@ -283,7 +285,7 @@ const Home = () => {
         let length = event.target.value.toString()
         if (length.length > 0) {
             setLoading(true);
-            exchangeRate({ amount: event.target.value, from: formik.values.from_type, to: formik.values.to_type, paymentMethod:formik.values.recieve_meth })
+            exchangeRate({ amount: event.target.value, from: formik.values.from_type, to: formik.values.to_type, paymentMethod: formik.values.recieve_meth })
                 .then((res) => {
                     console.log(res)
                     setData({ ...data, exchange_amt: res.amount })
@@ -304,16 +306,32 @@ const Home = () => {
     const inputvalidation = (event) => {
         // console.log("dfjghfguh---------------", event.key)
         const pattern = /^[0-9.,]+$/;
-        if (event.key === 'Backspace'||event.key === 'Enter'||event.key === 'Tab'|| event.key ==='Shift'||event.key==='ArrowLeft'||event.key==="ArrowRight"||event.key==="Escape") {
-
-        }
-        else if (!pattern.test(event.key)) {
-            event.preventDefault();
-            event.stopPropagation()
-        } else {
+        if (event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape") {
             setData({ ...data, send_amt: event.target.value })
             formik.setFieldValue('send_amt', event.target.value)
             formik.setFieldTouched('send_amt', true)
+        } else if (event.key === 'Backspace' || event.key === "Delete") {
+            formik.setFieldValue("exchange_amt", "")
+            formik.setFieldTouched("exchange_amt", false)
+            setData({ ...data, exchange_amt: "" })
+        } else if (event.key === 'Enter') {
+            myExchangeTotalAmount(event)
+        } else {
+            let value = event.target.value.toString()
+            if (value.length < 7) {
+                if (!pattern.test(event.key)) {
+                    event.preventDefault();
+                    event.stopPropagation()
+                } else {
+                    console.log("----------------------------", event.target.value)
+                    setData({ ...data, send_amt: event.target.value })
+                    formik.setFieldValue('send_amt', event.target.value)
+                    formik.setFieldTouched('send_amt', true)
+                }
+            } else {
+                event.preventDefault();
+                event.stopPropagation()
+            }
         }
     }
 
@@ -371,7 +389,7 @@ const Home = () => {
         }
     }
 
-    
+
 
     const myTotalAmountTo = (e) => {
         console.log(e.target.value, formik.values.send_amt)
@@ -395,7 +413,7 @@ const Home = () => {
             })
     }
 
-   
+
     const handleReset = () => {
         formik.resetForm({
             values: { send_amt: "", recieve_meth: "", exchange_amt: "" }
@@ -530,9 +548,8 @@ const Home = () => {
                                                             'is-valid': formik.touched.recieve_meth && !formik.errors.recieve_meth,
                                                         }
                                                     )} aria-label="Select a reason">
-                                                    <option value="0">Select Method</option>
-                                                    <option value="1">Bank Transfer</option>
-                                                    <option value="2">Mobile Wallet</option>
+                                                    <option value="Bank Transfer">Bank Transfer</option>
+                                                    <option value="Mobile Wallet">Mobile Wallet</option>
                                                 </select>
                                                 {formik.touched.recieve_meth && formik.errors.recieve_meth && (
                                                     <div className='fv-plugins-message-container mt-1 home-error'>

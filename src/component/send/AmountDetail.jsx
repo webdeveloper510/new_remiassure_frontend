@@ -62,13 +62,38 @@ const AmountDetail = ({ handleStep, step }) => {
         },
     })
 
+    const myTotalAmount = (event) => {
+
+        event.preventDefault();
+        if (event.target.value > 0)
+            setLoader(true)
+        exchangeRate({ amount: event.target.value, from: formik.values.from_type, to: formik.values.to_type })
+            .then(function (response) {
+                setLoader(false)
+                setExchRate(response.rate)
+                formik.setFieldValue("exchange_amt", response.amount)
+                setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+            })
+            .catch(function (error, message) {
+                console.log(error.response)
+                setLoader(false)
+
+            })
+    }
+
     const inputvalidation = (event) => {
         console.log("dfjghfguh---------------", event.key)
         const pattern = /^[0-9.,]+$/;
-        if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape" || event.key === "Escape") {
+        if (event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape") {
             setAmtDetail({ ...amt_detail, send_amt: event.target.value })
             formik.setFieldValue('send_amt', event.target.value)
             formik.setFieldTouched('send_amt', true)
+        } else if (event.key === 'Backspace' || event.key === "Delete") {
+            formik.setFieldValue("exchange_amt", "")
+            formik.setFieldTouched("exchange_amt", false)
+            setAmtDetail({ ...amt_detail, exchange_amt: "" })
+        }else if (event.key === 'Enter') {
+            myTotalAmount(event)
         } else {
             let value = event.target.value.toString()
             if (value.length < 7) {
@@ -88,24 +113,7 @@ const AmountDetail = ({ handleStep, step }) => {
         }
     }
 
-    const myTotalAmount = (event) => {
 
-        event.preventDefault();
-        if (event.target.value > 0)
-            setLoader(true)
-        exchangeRate({ amount: event.target.value, from: formik.values.from_type, to: formik.values.to_type })
-            .then(function (response) {
-                setLoader(false)
-                setExchRate(response.rate)
-                formik.setFieldValue("exchange_amt", response.amount)
-                setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
-            })
-            .catch(function (error, message) {
-                console.log(error.response)
-                setLoader(false)
-
-            })
-    }
 
     const myTotalAmountFrom = (e) => {
         console.log(e.target.value)

@@ -64,7 +64,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     build_no: Yup.string().min(2).max(30).required(),
     street: Yup.string().min(2).max(30).required(),
     city: Yup.string().min(2).max(35).required(),
-    post_code: Yup.string().min(2).max(20).required(),
+    post_code: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
     reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
@@ -116,7 +116,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     } else {
 
       let value = event.target.value.toString()
-      if (value.length >= 18) {
+      if (value.length > 3) {
         event.stopPropagation()
         event.preventDefault()
       } else {
@@ -163,7 +163,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     window.location.reload(true)
   }
   const handleKeyDown = (e, max) => {
-    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight") {
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key==="ArrowRight"||e.key==="Escape"||e.key==="Delete") {
       setData({ ...data, [e.target.name]: e.target.value })
       formik.setFieldValue(`${[e.target.name]}`, e.target.value)
       formik.setFieldTouched(`${[e.target.name]}`, true)
@@ -190,7 +190,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   }
 
   const handleEmail = (e, max) => {
-    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight") {
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key==="ArrowRight"||e.key==="Escape"||e.key==="Delete") {
       setData({ ...data, [e.target.name]: e.target.value })
       formik.setFieldValue(`${[e.target.name]}`, e.target.value)
       formik.setFieldTouched(`${[e.target.name]}`, true)
@@ -412,7 +412,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             </div>
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Building/Unit No.<span style={{ color: 'red' }} >*</span></p>
+                <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
                 <input
                   type="text"
                   name="build_no"
@@ -436,7 +436,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="street"
                   value={data.street}
-                  onKeyDown={(e) => { handleKeyDown(e, 50) }}
+                  onKeyDown={(e) => { handleEmail(e, 50) }}
                   {...formik.getFieldProps("street")}
 
                   className={clsx(

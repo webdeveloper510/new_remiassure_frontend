@@ -43,7 +43,7 @@ const SenderDetails = ({ handleStep, step }) => {
     build_no: Yup.string().min(2).max(30).required(),
     street: Yup.string().min(2).max(30).required(),
     city: Yup.string().min(2).max(35).required(),
-    post_code: Yup.string().min(2).max(20).required(),
+    post_code: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
     dob: Yup.date().required(),
@@ -95,7 +95,7 @@ const SenderDetails = ({ handleStep, step }) => {
 
     } else {
       let value = event.target.value.toString()
-      if (value.length >= 18) {
+      if (value.length > 3) {
         event.stopPropagation()
         event.preventDefault()
       } else {
@@ -122,7 +122,7 @@ const SenderDetails = ({ handleStep, step }) => {
   const verificationValue = localStorage.getItem("DigitalCode")
 
   const handleKeyDown = (e, max) => {
-    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight") {
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key==="ArrowRight"||e.key==="Escape"||e.key==="Delete") {
       setData({ ...data, [e.target.name]: e.target.value })
       formik.setFieldValue(`${[e.target.name]}`, e.target.value)
       formik.setFieldTouched(`${[e.target.name]}`, true)
@@ -148,7 +148,7 @@ const SenderDetails = ({ handleStep, step }) => {
     }
   }
   const handleEmail = (e, max) => {
-    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight") {
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key==="ArrowRight"||e.key==="Escape"||e.key==="Delete") {
       setData({ ...data, [e.target.name]: e.target.value })
       formik.setFieldValue(`${[e.target.name]}`, e.target.value)
       formik.setFieldTouched(`${[e.target.name]}`, true)
@@ -169,7 +169,7 @@ const SenderDetails = ({ handleStep, step }) => {
   useEffect(() => {
     formik.validateForm().then(res => {
       if (Object.keys(res).length == 0) {
-        console.log(Object.keys(res).length || Object.keys(res).length == 1 && res.m_name)
+        console.log(Object.keys(res).length || (Object.keys(res).length == 1 && res.m_name))
         setDisplay("block")
         console.log("form valid")
       } else {
@@ -436,7 +436,7 @@ const SenderDetails = ({ handleStep, step }) => {
           </div>
           <div className="col-md-4">
             <div className="input_field">
-              <p className="get-text">Building No./Name<span style={{ color: 'red' }} >*</span></p>
+              <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
                 name="build_no"
@@ -461,7 +461,7 @@ const SenderDetails = ({ handleStep, step }) => {
                 type="text"
                 name="street"
                 value={data.street}
-                onKeyDown={(e) => { handleKeyDown(e, 30) }}
+                onKeyDown={(e) => { handleEmail(e, 30) }}
                 {...formik.getFieldProps("street")}
 
                 className={clsx(

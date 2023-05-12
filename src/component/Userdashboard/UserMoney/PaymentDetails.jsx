@@ -24,7 +24,7 @@ const PaymentDetails = ({ handleStep, step }) => {
 useEffect(()=>{
 if(transaction.id){
        setModalView(true)
-  setInterval(() => {
+  setTimeout(() => {
     navigate("/dashboard")
 
   }, 10 * 1000)
@@ -233,7 +233,7 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal, handleTra
         toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         setTimeout(() => {
           window.location.reload()
-        }, 2 * 1000)
+        }, 3 * 1000)
       })
     } else {
       toast.error("Enter card details to continue", { position: "bottom-right", hideProgressBar: true, autoClose: 2000 })

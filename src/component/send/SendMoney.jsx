@@ -29,7 +29,7 @@ const SendMoney = () => {
   })
 
   const [seconds, setSeconds] = useState(60);
-  const [minutes, setMinutes] = useState(14);
+  const [minutes, setMinutes] = useState(29);
 
   const handleAmtDetail = (data) => {
     setAmtDetail(data)
@@ -60,7 +60,7 @@ const SendMoney = () => {
         localStorage.removeItem("send-step");
         localStorage.removeItem("transfer_data");
         window.location.reload(true)
-      }, 15 * 60 * 1000);
+      }, 30 * 60 * 1000);
     }
   }, [])
 
@@ -114,63 +114,63 @@ const SendMoney = () => {
                   <div className="container">
                     <div className="row">
                       <div className='col-9'>
-                      <ul className="multi-steps">
-                        <li className={`step ${activeStep === 1 ? "is-active" : ""}`}>
-                          <div className="step-label text-light">
-                            Amount & Delivery
-                            <div className="progress-bar progress-bar--success">
-                              <div
-                                className="progress-bar__bar"
-                                ref={(ref) => (progressBarRefs.current[0] = ref)}
-                              ></div>
+                        <ul className="multi-steps">
+                          <li className={`step ${activeStep === 1 ? "is-active" : ""}`}>
+                            <div className="step-label text-light">
+                              Amount & Delivery
+                              <div className="progress-bar progress-bar--success">
+                                <div
+                                  className="progress-bar__bar"
+                                  ref={(ref) => (progressBarRefs.current[0] = ref)}
+                                ></div>
+                              </div>
                             </div>
-                          </div>
-                        </li>
-                        <li className={`step ${activeStep === 2 ? "is-active" : ""}`}>
-                          <div className="step-label text-light">
-                            Recipient Details
-                            <div className="progress-bar progress-bar--success">
-                              <div
-                                className="progress-bar__bar"
-                                ref={(ref) => (progressBarRefs.current[1] = ref)}
-                              ></div>
+                          </li>
+                          <li className={`step ${activeStep === 2 ? "is-active" : ""}`}>
+                            <div className="step-label text-light">
+                              Recipient Details
+                              <div className="progress-bar progress-bar--success">
+                                <div
+                                  className="progress-bar__bar"
+                                  ref={(ref) => (progressBarRefs.current[1] = ref)}
+                                ></div>
+                              </div>
                             </div>
-                          </div>
-                        </li>
-                        <li className={`step ${activeStep === 3 ? "is-active" : ""}`}>
-                          <div className="step-label text-light">
-                            Payment Method
-                            <div className="progress-bar progress-bar--success">
-                              <div
-                                className="progress-bar__bar"
-                                ref={(ref) => (progressBarRefs.current[2] = ref)}
-                              ></div>
+                          </li>
+                          <li className={`step ${activeStep === 3 ? "is-active" : ""}`}>
+                            <div className="step-label text-light">
+                              Payment Method
+                              <div className="progress-bar progress-bar--success">
+                                <div
+                                  className="progress-bar__bar"
+                                  ref={(ref) => (progressBarRefs.current[2] = ref)}
+                                ></div>
+                              </div>
                             </div>
-                          </div>
-                        </li>
-                        <li className={`step ${activeStep === 4 ? "is-active" : ""}`}>
-                          <div className="step-label text-light">
-                            Sender Details
-                            <div className="progress-bar progress-bar--success">
-                              <div
-                                className="progress-bar__bar"
-                                ref={(ref) => (progressBarRefs.current[3] = ref)}
-                              ></div>
+                          </li>
+                          <li className={`step ${activeStep === 4 ? "is-active" : ""}`}>
+                            <div className="step-label text-light">
+                              Sender Details
+                              <div className="progress-bar progress-bar--success">
+                                <div
+                                  className="progress-bar__bar"
+                                  ref={(ref) => (progressBarRefs.current[3] = ref)}
+                                ></div>
+                              </div>
                             </div>
-                          </div>
-                        </li>
-                        <li className={`step ${activeStep === 5 ? "is-active" : ""}`}>
-                          <div className="step-label text-light">
-                            Summary
-                          </div>
-                        </li>
-                      </ul>
-                      
+                          </li>
+                          <li className={`step ${activeStep === 5 ? "is-active" : ""}`}>
+                            <div className="step-label text-light">
+                              Summary
+                            </div>
+                          </li>
+                        </ul>
+
                       </div>
-                       
-                       <div className='col-3'>
-                       {/* <div className='timer-row sendmoney-timer'>Form auto closes in ⇒  <label> <span> {minutes < 10 ? "0" + minutes : minutes}</span><p>Minutes</p> </label> <label className='timerdots'>:</label>  <label><span> {seconds < 10 ? "0" + seconds : seconds}</span> <p>Seconds</p> </label></div> */}
-                       </div>
+
+                      <div className='col-3'>
+                        {/* <div className='timer-row sendmoney-timer'>Form auto closes in ⇒  <label> <span> {minutes < 10 ? "0" + minutes : minutes}</span><p>Minutes</p> </label> <label className='timerdots'>:</label>  <label><span> {seconds < 10 ? "0" + seconds : seconds}</span> <p>Seconds</p> </label></div> */}
+                      </div>
                       <div className="col-md-8">
                         {
                           step === 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
@@ -183,31 +183,16 @@ const SendMoney = () => {
                                   :
                                   step === 4 ? <PaymentSummary handleStep={handleStep} step={step} />
                                     : <></>
-                          // step === 5 ? <>
-                          // <div className="form_body">
-                          //   <div className="header">
-                          //     <h1>Thank you</h1>
-                          //   </div>
-                          //   <div className="col-md-12 align-center">
-                          //     <img className="verifies-img" src={verified} alt="verified" />
-                          //     <p>Thanks for choosing RemitAssure</p>
-                          //     <NavLink to="/dashboard">
-                          //       <button type="submit" className="form-button" style={{ "width": '100%' }}>Go back to Dashboard</button></NavLink>
-                          //   </div>
-
-                          // </div>
-                          // </>
-                          //   : ""
                         }
                       </div>
                       <div className="col-md-4">
-                      
+
 
                         <Table>
                           {
                             step > 0 && step < 4 ? (
                               <div className="summary">
-                                <BsCheckCircleFill />
+                                <BsCheckCircleFill color='#6414E9' />
                                 <h5>Summary</h5>
                                 <tbody>
                                   <tr>
@@ -232,7 +217,7 @@ const SendMoney = () => {
                           {
                             step > 1 && step < 4 && bank_detail?.bank != '' ? (
                               <div className="summary1">
-                                <BsCheckCircleFill />
+                                <BsCheckCircleFill color='#6414E9' />
                                 <h5>Recipient details Summary</h5>
                                 <tbody>
                                   <tr>

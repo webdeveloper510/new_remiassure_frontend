@@ -67,7 +67,6 @@ const Signup = () => {
                 if (res.code === "200") {
                     // setModalShow({ toggle: true, value: "Registration successful", type: "success", navigate:"/verification" })
                     localStorage.setItem("remi-user-dt", JSON.stringify(res?.data))
-                    toast.success("Registration Successful", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                     navigate("/verification", { state: { email: values.email } })
 
                 } else if (res.code == '400') {

@@ -16,7 +16,7 @@ const PaymentSummary = ({ handleStep, step }) => {
 
   const [data, setData] = useState({
     send_amount: "", to: "", recieve_amount: "", account_number: "", account_name: "", bank_name: "",
-    total_amount: "", from: "", send_method: ""
+    total_amount: "", from: "", send_method: "", beneficiary_name:""
   })
 
   const navigate = useNavigate()
@@ -36,7 +36,8 @@ const PaymentSummary = ({ handleStep, step }) => {
       account_name: local?.recipient?.acc_name,
       account_number: local?.recipient?.acc_no,
       bank_name: local?.recipient?.bank,
-      send_method: local?.payment?.payment_type
+      send_method: local?.payment?.payment_type,
+      beneficiary_name:local?.recipient?.f_name+" "+local?.recipient?.l_name
     })
 
     axios.post("http://54.193.130.43:8000/digital-verification/", { code: localStorage.getItem("DigitalCode") }, {
@@ -54,186 +55,51 @@ const PaymentSummary = ({ handleStep, step }) => {
   const handleFinalStep = () => {
     const local = JSON.parse(localStorage.getItem("transfer_data"))
     // console.log(local)
-    let data = {}
-    if (local.sender.m_name == "") {
-      data = {
-        sender: {
-          first_name: local?.sender?.f_name,
-          last_name: local?.sender?.l_name,
-          date_of_birth: local?.sender?.dob,
-          gender: local?.sender?.gender,
-          flat: local?.sender?.flat,
-          building: local?.sender?.build_no,
-          street: local?.sender?.street,
-          postcode: local?.sender?.post_code,
-          city: local?.sender?.city,
-          state: local?.sender?.state,
-          country: local?.sender?.country
-        },
-        recipient: {
-          first_name: local?.recipient?.f_name,
-          middle_name: local?.recipient?.m_name,
-          last_name: local?.recipient?.l_name,
-          email: local?.recipient?.email,
-          mobile: local?.recipient?.mobile,
-          flat: local?.recipient?.flat,
-          building: local?.recipient?.build_no,
-          street: local?.recipient?.street,
-          postcode: local?.recipient?.post_code,
-          city: local?.recipient?.city,
-          state: local?.recipient?.state,
-          country: local?.recipient?.country
-        },
-        bank_details: {
-          bank_name: local?.recipient?.bank,
-          account_name: local?.recipient?.acc_name,
-          account_number: local?.recipient?.acc_no
-        },
-        amount: {
-          send_amount: local?.amount?.send_amt,
-          recieve_amount: local?.amount?.exchange_amt,
-          send_currency: local?.amount?.from_type,
-          recieve_currency: local?.amount?.to_type,
-          send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
-          recieve_method: local?.amount?.recieve_meth,
-          reason: local?.recipient?.reason,
-          card_token: local?.payment?.token?.id
-        }
-      }
-    } else if (local.recipient.m_name == "") {
-      data = {
-        sender: {
-          first_name: local?.sender?.f_name,
-          middle_name: local?.sender?.m_name,
-          last_name: local?.sender?.l_name,
-          date_of_birth: local?.sender?.dob,
-          gender: local?.sender?.gender,
-          flat: local?.sender?.flat,
-          building: local?.sender?.build_no,
-          street: local?.sender?.street,
-          postcode: local?.sender?.post_code,
-          city: local?.sender?.city,
-          state: local?.sender?.state,
-          country: local?.sender?.country
-        },
-        recipient: {
-          first_name: local?.recipient?.f_name,
-          last_name: local?.recipient?.l_name,
-          email: local?.recipient?.email,
-          mobile: local?.recipient?.mobile,
-          flat: local?.recipient?.flat,
-          building: local?.recipient?.build_no,
-          street: local?.recipient?.street,
-          postcode: local?.recipient?.post_code,
-          city: local?.recipient?.city,
-          state: local?.recipient?.state,
-          country: local?.recipient?.country
-        },
-        bank_details: {
-          bank_name: local?.recipient?.bank,
-          account_name: local?.recipient?.acc_name,
-          account_number: local?.recipient?.acc_no
-        },
-        amount: {
-          send_amount: local?.amount?.send_amt,
-          recieve_amount: local?.amount?.exchange_amt,
-          send_currency: local?.amount?.from_type,
-          recieve_currency: local?.amount?.to_type,
-          send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
-          recieve_method: local?.amount?.recieve_meth,
-          reason: local?.recipient?.reason,
-          card_token: local?.payment?.token?.id
-        }
-      }
-    } else if (local.recipient.m_name == "" && local.sender.m_name == "") {
-      data = {
-        sender: {
-          first_name: local?.sender?.f_name,
-          last_name: local?.sender?.l_name,
-          date_of_birth: local?.sender?.dob,
-          gender: local?.sender?.gender,
-          flat: local?.sender?.flat,
-          building: local?.sender?.build_no,
-          street: local?.sender?.street,
-          postcode: local?.sender?.post_code,
-          city: local?.sender?.city,
-          state: local?.sender?.state,
-          country: local?.sender?.country
-        },
-        recipient: {
-          first_name: local?.recipient?.f_name,
-          last_name: local?.recipient?.l_name,
-          email: local?.recipient?.email,
-          mobile: local?.recipient?.mobile,
-          flat: local?.recipient?.flat,
-          building: local?.recipient?.build_no,
-          street: local?.recipient?.street,
-          postcode: local?.recipient?.post_code,
-          city: local?.recipient?.city,
-          state: local?.recipient?.state,
-          country: local?.recipient?.country
-        },
-        bank_details: {
-          bank_name: local?.recipient?.bank,
-          account_name: local?.recipient?.acc_name,
-          account_number: local?.recipient?.acc_no
-        },
-        amount: {
-          send_amount: local?.amount?.send_amt,
-          recieve_amount: local?.amount?.exchange_amt,
-          send_currency: local?.amount?.from_type,
-          recieve_currency: local?.amount?.to_type,
-          send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
-          recieve_method: local?.amount?.recieve_meth,
-          reason: local?.recipient?.reason,
-          card_token: local?.payment?.token?.id
-        }
-      }
-    } else {
-      data = {
-        sender: {
-          first_name: local?.sender?.f_name,
-          middle_name: local?.sender?.m_name,
-          last_name: local?.sender?.l_name,
-          date_of_birth: local?.sender?.dob,
-          gender: local?.sender?.gender,
-          flat: local?.sender?.flat,
-          building: local?.sender?.build_no,
-          street: local?.sender?.street,
-          postcode: local?.sender?.post_code,
-          city: local?.sender?.city,
-          state: local?.sender?.state,
-          country: local?.sender?.country
-        },
-        recipient: {
-          first_name: local?.recipient?.f_name,
-          middle_name: local?.recipient?.m_name,
-          last_name: local?.recipient?.l_name,
-          email: local?.recipient?.email,
-          mobile: local?.recipient?.mobile,
-          flat: local?.recipient?.flat,
-          building: local?.recipient?.build_no,
-          street: local?.recipient?.street,
-          postcode: local?.recipient?.post_code,
-          city: local?.recipient?.city,
-          state: local?.recipient?.state,
-          country: local?.recipient?.country
-        },
-        bank_details: {
-          bank_name: local?.recipient?.bank,
-          account_name: local?.recipient?.acc_name,
-          account_number: local?.recipient?.acc_no
-        },
-        amount: {
-          send_amount: local?.amount?.send_amt,
-          recieve_amount: local?.amount?.exchange_amt,
-          send_currency: local?.amount?.from_type,
-          recieve_currency: local?.amount?.to_type,
-          send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
-          recieve_method: local?.amount?.recieve_meth,
-          reason: local?.recipient?.reason,
-          card_token: local?.payment?.token?.id
-        }
+    let data = {
+      sender: {
+        First_name: local?.sender?.f_name,
+        Middle_name: local?.sender?.m_name,
+        Last_name: local?.sender?.l_name,
+        Date_of_birth: local?.sender?.dob,
+        Gender: local?.sender?.gender
+      },
+      sender_address: {
+        flat: local?.sender?.flat,
+        building: local?.sender?.build_no,
+        street: local?.sender?.street,
+        postcode: local?.sender?.post_code,
+        city: local?.sender?.city,
+        state: local?.sender?.state,
+        country: local?.sender?.country
+      },
+      recipient: {
+        first_name: local?.recipient?.f_name,
+        middle_name: local?.recipient?.m_name,
+        last_name: local?.recipient?.l_name,
+        email: local?.recipient?.email,
+        mobile: local?.recipient?.mobile,
+        flat: local?.recipient?.flat,
+        building: local?.recipient?.build_no,
+        street: local?.recipient?.street,
+        postcode: local?.recipient?.post_code,
+        city: local?.recipient?.city,
+        state: local?.recipient?.state,
+        country: local?.recipient?.country
+      },
+      bank_details: {
+        bank_name: local?.recipient?.bank,
+        account_name: local?.recipient?.acc_name,
+        account_number: local?.recipient?.acc_no
+      },
+      amount: {
+        send_amount: local?.amount?.send_amt,
+        recieve_amount: local?.amount?.exchange_amt,
+        send_currency: local?.amount?.from_type,
+        recieve_currency: local?.amount?.to_type,
+        send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
+        recieve_method: local?.amount?.recieve_meth,
+        reason: local?.recipient?.reason,
+        card_token: local?.payment?.token?.id
       }
     }
     setLoader(true)
@@ -315,6 +181,10 @@ const PaymentSummary = ({ handleStep, step }) => {
               </tr>
             </thead>
             <tbody>
+            <tr>
+                <td>Beneficiary Name:</td>
+                <td>{data?.beneficiary_name}</td>
+              </tr>
               <tr>
                 <td>Account No.</td>
                 <td>{data?.account_number}</td>

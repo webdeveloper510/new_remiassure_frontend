@@ -159,7 +159,7 @@ const BankDetails = ({ handleStep, step }) => {
 
     } else {
       let value = event.target.value.toString()
-      if (value.length >= 18) {
+      if (value.length > 3) {
         event.stopPropagation()
         event.preventDefault()
       } else {
@@ -423,6 +423,7 @@ const BankDetails = ({ handleStep, step }) => {
                     <input
                       type="text"
                       name="m_name"
+                      className='form-control'
                       value={data.m_name}
                       onKeyDown={(e) => { handleKeyDown(e, 25) }}
 
@@ -519,7 +520,7 @@ const BankDetails = ({ handleStep, step }) => {
                 </div>
                 <div className="col-md-4">
                   <div className="input_field">
-                    <p className="get-text">Building/Unit No.<span style={{ color: 'red' }} >*</span></p>
+                    <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
                     <input
                       type="text"
                       name="build_no"
