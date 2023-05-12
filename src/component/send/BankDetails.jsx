@@ -84,7 +84,9 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   const handleMobile = (event) => {
     const pattern = /^[0-9.,]+$/;
     if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
-
+      setData({ ...data, mobile: event.target.value })
+      formik.setFieldValue('mobile', event.target.value)
+      formik.setFieldTouched('mobile', true)
     } else {
       let value = event.target.value.toString()
       if (value.length >= 18) {
@@ -97,6 +99,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
         } else {
           setData({ ...data, mobile: event.target.value })
           formik.setFieldValue('mobile', event.target.value)
+          formik.setFieldTouched('mobile', true)
+
         }
       }
     }
@@ -106,8 +110,11 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     const pattern = /^[0-9.,]+$/;
     console.log("------------------------------------------------------++++", event.key)
     if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
-
+      setData({ ...data, post_code: event.target.value })
+      formik.setFieldValue('post_code', event.target.value)
+      formik.setFieldTouched('post_code', true)
     } else {
+
       let value = event.target.value.toString()
       if (value.length >= 18) {
         event.stopPropagation()
@@ -119,6 +126,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
         } else {
           setData({ ...data, post_code: event.target.value })
           formik.setFieldValue('post_code', event.target.value)
+          formik.setFieldTouched('post_code', true)
         }
       }
     }
@@ -155,8 +163,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     window.location.reload(true)
   }
   const handleKeyDown = (e, max) => {
-    if (e.key === "Backspace") {
-
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight") {
+      setData({ ...data, [e.target.name]: e.target.value })
+      formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+      formik.setFieldTouched(`${[e.target.name]}`, true)
     } else {
       const value = e.target.value.toString()
 
@@ -166,14 +176,38 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
         e.preventDefault()
 
       } else {
-
-        setData({ ...data, [e.target.name]: e.target.value })
-        formik.setFieldValue(`${[e.target.name]}`, e.target.value)
-        formik.setFieldTouched(`${[e.target.name]}`, true)
-
+        const pattern = /^[A-z]+$/;
+        if (!pattern.test(e.key)) {
+          e.preventDefault();
+          e.stopPropagation()
+        } else {
+          setData({ ...data, [e.target.name]: e.target.value })
+          formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+          formik.setFieldTouched(`${[e.target.name]}`, true)
+        }
       }
     }
   }
+
+  const handleEmail = (e, max) => {
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight") {
+      setData({ ...data, [e.target.name]: e.target.value })
+      formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+      formik.setFieldTouched(`${[e.target.name]}`, true)
+    } else {
+      const value = e.target.value.toString()
+      if (value.length >= max) {
+        e.stopPropagation()
+        e.preventDefault()
+
+      } else {
+        setData({ ...data, [e.target.name]: e.target.value })
+        formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+        formik.setFieldTouched(`${[e.target.name]}`, true)
+      }
+    }
+  }
+
 
   return (
     <div>
@@ -232,7 +266,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="acc_no"
                   value={data?.acc_no}
-                  onKeyDown={(e) => { handleKeyDown(e, 20) }}
+                  onKeyDown={(e) => { handleEmail(e, 20) }}
                   {...formik.getFieldProps("acc_no")}
                   className={clsx(
                     'form-control bg-transparent',
@@ -309,7 +343,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="email"
                   name="email"
                   value={data.email}
-                  onKeyDown={(e) => { handleKeyDown(e, 50) }}
+                  onKeyDown={(e) => { handleEmail(e, 50) }}
 
                   {...formik.getFieldProps("email")}
 
@@ -362,7 +396,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="flat"
                   value={data.flat}
-                  onKeyDown={(e) => { handleKeyDown(e, 15) }}
+                  onKeyDown={(e) => { handleEmail(e, 15) }}
 
                   {...formik.getFieldProps("flat")}
 
@@ -383,7 +417,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="build_no"
                   value={data.build_no}
-                  onKeyDown={(e) => { handleKeyDown(e, 30) }}
+                  onKeyDown={(e) => { handleEmail(e, 30) }}
                   {...formik.getFieldProps("build_no")}
                   className={clsx(
                     'form-control bg-transparent',

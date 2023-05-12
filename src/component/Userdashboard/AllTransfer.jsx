@@ -151,7 +151,7 @@ const AllTranfer = ({ status, data, length }) => {
                               <td><span className="btn btn-outline-success btn-rounded" >{res.status}</span></td>
                               <td>
                                 <a href={`${global.serverUrl}/payment/receipt/${res.id}`} target="_blank">
-                                <Button variant="outline-success">Download</Button>
+                                <span className="btn btn-outline-success btn-rounded" >Download</span>
                                 </a>
                                 </td>
                               {/* onClick={() => { getStatusDataSummary(res.status) }} */}

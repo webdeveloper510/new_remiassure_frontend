@@ -112,6 +112,7 @@ const SenderDetails = ({ handleStep, step }) => {
   }
 
   const handleChange = (e) => {
+    console.log(e.target.name + "=" + e.target.value)
     setData({ ...data, [e.target.name]: e.target.value })
     formik.setFieldValue(`${[e.target.name]}`, e.target.value)
     formik.setFieldTouched(`${[e.target.name]}`, true)
@@ -121,8 +122,10 @@ const SenderDetails = ({ handleStep, step }) => {
   const verificationValue = localStorage.getItem("DigitalCode")
 
   const handleKeyDown = (e, max) => {
-    if (e.key === "Backspace") {
-
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight") {
+      setData({ ...data, [e.target.name]: e.target.value })
+      formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+      formik.setFieldTouched(`${[e.target.name]}`, true)
     } else {
       const value = e.target.value.toString()
 
@@ -132,12 +135,33 @@ const SenderDetails = ({ handleStep, step }) => {
         e.preventDefault()
 
       } else {
-        console.log("---------------------------", formik.isValidating, formik.isValid)
+        const pattern = /^[A-z]+$/;
+        if (!pattern.test(e.key)) {
+          e.preventDefault();
+          e.stopPropagation()
+        } else {
+          setData({ ...data, [e.target.name]: e.target.value })
+          formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+          formik.setFieldTouched(`${[e.target.name]}`, true)
+        }
+      }
+    }
+  }
+  const handleEmail = (e, max) => {
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight") {
+      setData({ ...data, [e.target.name]: e.target.value })
+      formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+      formik.setFieldTouched(`${[e.target.name]}`, true)
+    } else {
+      const value = e.target.value.toString()
+      if (value.length >= max) {
+        e.stopPropagation()
+        e.preventDefault()
 
+      } else {
         setData({ ...data, [e.target.name]: e.target.value })
         formik.setFieldValue(`${[e.target.name]}`, e.target.value)
         formik.setFieldTouched(`${[e.target.name]}`, true)
-
       }
     }
   }
@@ -336,7 +360,7 @@ const SenderDetails = ({ handleStep, step }) => {
             <div className="input_field">
               <p className="get-text">Country of Birth<span style={{ color: 'red' }} >*</span></p>
               <select
-                value={data.country}
+                value={data.country_of_birth}
                 name="country_of_birth"
                 onChange={(e) => handleChange(e)}
                 className={clsx(
@@ -398,7 +422,7 @@ const SenderDetails = ({ handleStep, step }) => {
                 type="text"
                 name="flat"
                 value={data.flat}
-                onKeyDown={(e) => { handleKeyDown(e, 15) }}
+                onKeyDown={(e) => { handleEmail(e, 15) }}
                 {...formik.getFieldProps("flat")}
                 className={clsx(
                   'form-control bg-transparent',
@@ -417,7 +441,7 @@ const SenderDetails = ({ handleStep, step }) => {
                 type="text"
                 name="build_no"
                 value={data.build_no}
-                onKeyDown={(e) => { handleKeyDown(e, 30) }}
+                onKeyDown={(e) => { handleEmail(e, 30) }}
                 {...formik.getFieldProps("build_no")}
 
                 className={clsx(

@@ -1,6 +1,6 @@
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
 import React, { useState } from 'react'
-import { Button, Modal } from 'react-bootstrap'
+import { Button, Modal, Table } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import global from '../../../utils/global'
 import { loadStripe } from '@stripe/stripe-js'
@@ -8,6 +8,9 @@ import { useRef } from 'react'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
 import { BiXCircle } from 'react-icons/bi'
+import { NavLink } from 'react-router-dom'
+import { BsCheckCircleFill } from 'react-icons/bs'
+import { useEffect } from 'react'
 
 const PaymentDetails = ({ handleStep, step }) => {
 
@@ -15,6 +18,18 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [modal, setModal] = useState(false)
   const payRef = useRef(null)
   const navigate = useNavigate()
+  const [transaction, setTransaction] =useState({id:"", status:"", amount:"", curr:""})
+  const [modalView, setModalView] = useState(false)
+
+useEffect(()=>{
+if(transaction.id){
+       setModalView(true)
+  setInterval(() => {
+    navigate("/dashboard")
+
+  }, 10 * 1000)
+}
+},[transaction])
 
   const handleChange = (e) => {
     setData({ ...data, payment_type: e.target.value })
@@ -26,6 +41,9 @@ const PaymentDetails = ({ handleStep, step }) => {
     } else {
       setModal(true)
     }
+  }
+  const handleTransaction = (values) =>{
+    setTransaction(values)
   }
 
   const local = JSON.parse(localStorage.getItem("transfer_data"))
@@ -50,8 +68,8 @@ const PaymentDetails = ({ handleStep, step }) => {
         </h2>
       </div>
       <div className="form_body">
-        <p className='float-end text-capitalize col-12' style={{color:"#6414E9"}}> Sending ⇒  {local?.amount?.from_type}{local?.amount?.send_amt}</p>
-        <p className='float-end text-capitalize col-12' style={{color:"#6414E9"}}> To  ⇒ {local?.recipient?.first_name} {local?.recipient.last_name}</p>
+        <p className='float-end text-capitalize col-12 fw-bold' style={{color:"#6414E9"}}> Sending ⇒  {local?.amount?.from_type}{local?.amount?.send_amt}</p>
+        <p className='float-end text-capitalize col-12 fw-bold' style={{color:"#6414E9"}}> To  ⇒ {local?.recipient?.first_name} {local?.recipient.last_name}</p>
         <br></br>
         <br></br>
         <div className="row each-row">
@@ -116,7 +134,7 @@ const PaymentDetails = ({ handleStep, step }) => {
         </Modal.Header>
         <Modal.Body className='my-4'>
           <Elements stripe={stripePromise}>
-            <CheckoutForm payRef={payRef} method={data.payment_type} handleStep={handleStep} step={step} handleModal={() => setModal(false)} />
+            <CheckoutForm payRef={payRef} method={data.payment_type} handleStep={handleStep} step={step} handleModal={() => setModal(false)} handleTransaction={handleTransaction} />
           </Elements>
         </Modal.Body>
         <Modal.Footer>
@@ -129,11 +147,43 @@ const PaymentDetails = ({ handleStep, step }) => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Modal show={modalView} onHide={() => navigate("/dashboard")}>
+        <Modal.Body>
+          <div className="form_body">
+            <div className="header">
+              <h1 className='text-success'><BsCheckCircleFill />Transaction Successful</h1>
+            </div>
+            <Table>
+              <tbody>
+                <tr>
+                  <th>Transaction Id:</th>
+                  <td>{transaction?.id}</td>
+                </tr>
+                <tr>
+                  <th>Transacted Amount</th>
+                  <td>{transaction.curr}{transaction.amount}</td>
+                </tr>
+                <tr>
+                  <th>Transaction Status:</th>
+                  <td>{transaction?.status}</td>
+                </tr>
+              </tbody>
+            </Table>
+            <div className="col-md-12 align-center">
+              {/* <img className="verifies-img" src={verified} alt="verified" /> */}
+              {/* <p>Thanks for choosing RemitAssure</p> */}
+              <NavLink to="/transactions">
+                <button type="button" className="form-button" style={{ "width": '100%' }}>View All Transactions</button></NavLink>
+            </div>
+
+          </div>
+        </Modal.Body>
+      </Modal>
     </section>
   )
 }
 
-const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
+const CheckoutForm = ({ payRef, method, step, handleStep, handleModal, handleTransaction }) => {
   const navigate = useNavigate()
 
   const stripe = useStripe();
@@ -166,14 +216,9 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
       }).then(res => {
         console.log(res, "-------------------------------")
         if (res.data.code == "200") {
-          localStorage.removeItem("transfer_data")
-          if (localStorage.getItem("send-step")) {
-            localStorage.removeItem("send-step")
-          }
-          toast.success("Payment Successful", { position: "bottom-right", hideProgressBar: true })
-          setInterval(() => {
-            window.location.reload()
-          }, 2 * 1000)
+          const local = JSON.parse(localStorage.getItem("transfer_data"))
+          handleTransaction({id:res.data.data.transaction_id, status:"completed", amount:local?.amount?.send_amt, curr:local?.amount?.from_type})
+          // toast.success("Payment Successful", { position: "bottom-right", hideProgressBar: true })
         }
       }).catch((err) => {
         localStorage.removeItem("transfer_data")
@@ -191,6 +236,7 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
   };
 
   return (
+    <>
     <form onSubmit={handleSubmit}>
       <CardElement options={{ hidePostalCode: true }} />
 
@@ -198,6 +244,8 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
         Pay
       </button>
     </form>
+   
+    </>
   );
 };
 

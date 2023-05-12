@@ -65,8 +65,10 @@ const AmountDetail = ({ handleStep, step }) => {
     const inputvalidation = (event) => {
         console.log("dfjghfguh---------------", event.key)
         const pattern = /^[0-9.,]+$/;
-        if (event.key === 'Backspace'||event.key === 'Enter'||event.key === 'Tab'|| event.key ==='Shift'||event.key==='ArrowLeft'||event.key==="ArrowRight"||event.key==="Escape"||event.key==="Escape") {
-
+        if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape" || event.key === "Escape") {
+            setAmtDetail({ ...amt_detail, send_amt: event.target.value })
+            formik.setFieldValue('send_amt', event.target.value)
+            formik.setFieldTouched('send_amt', true)
         } else {
             let value = event.target.value.toString()
             if (value.length < 7) {

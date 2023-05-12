@@ -128,7 +128,7 @@ const UserCardLists = () => {
                             </div>
                             {!loading ? (
                                 <span>
-                                    {carddata?.length != 0 ? (
+                                    {carddata?.length > 0 ? (
                                         <div className="col-lg-12">
                                             <div className="card">
                                                 <div className="card-body">
