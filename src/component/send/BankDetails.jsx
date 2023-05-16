@@ -3,20 +3,15 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import clsx from 'clsx';
 import { useState } from 'react';
-import Select from "react-select";
 import { Modal, Table } from 'react-bootstrap';
-import { useMemo } from 'react';
-import countryList from 'react-select-country-list';
-import { useNavigate } from 'react-router';
+import countryList from "../../utils/recipientCountries.json"
 import { useEffect } from 'react';
 
 import PhoneInput from "react-phone-input-2";
 
 const BankDetails = ({ handleBankDetail, handleStep, step }) => {
-
-  const navigate = useNavigate();
-  const tdata = localStorage.getItem("transfer_data")
-  const [loader, setLoader] = useState(false)
+  const [city_list, setCityList] = useState([])
+  const [state_list, setStateList] = useState([])
 
   const [data, setData] = useState({
     bank: "", acc_name: "", acc_no: "",
@@ -24,7 +19,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
     post_code: "", state: "", country: "",
-    reason: ""
+    reason: "", country_code: "GH"
   })
 
   const initialValues = {
@@ -49,92 +44,71 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   }, [])
 
+  useEffect(() => {
+    const value = data.country !== "" ? data.country : countryList[0]?.name
+    if (data.country == "") {
+      setData({ ...data, country: countryList[0]?.name, country_code: countryList[0]?.iso2 })
+      formik.setFieldValue("country", countryList[0]?.name)
+    }
+    countryList?.map((item) => {
+      if (item?.name === value) {
+        setStateList(item?.states);
+        setData({ ...data, state: item?.states[0].name })
+        formik.setFieldValue("state", item?.states[0].name)
+      }
+    })
+  }, [data.country])
+
+  useEffect(() => {
+    const value = data.state !== "" ? data.state : state_list[0]?.name
+    state_list?.map((item) => {
+      if (item?.name === value) {
+        setCityList(item?.cities);
+        setData({ ...data, city: item?.cities[0].name })
+        formik.setFieldValue("city", item?.cities[0].name)
+      }
+    })
+  }, [data.state])
+
+
   const bankSchema = Yup.object().shape({
     bank: Yup.string()
       .min(5, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
       .required('Email is required'),
-    acc_name: Yup.string().min(3).max(50).required(),
+    acc_name: Yup.string().min(1).max(50).required(),
     acc_no: Yup.string().min(9).max(20).required(),
-    f_name: Yup.string().min(2).max(25).required(),
-    l_name: Yup.string().min(2).max(25).required(),
-    email: Yup.string().email().max(50).required(),
-    mobile: Yup.string().min(7).max(18).required(),
-    flat: Yup.string().min(2).max(15).required(),
-    build_no: Yup.string().min(2).max(30).required(),
-    street: Yup.string().min(2).max(30).required(),
-    city: Yup.string().min(2).max(35).required(),
+    f_name: Yup.string().min(1).max(25).required(),
+    l_name: Yup.string().min(1).max(25).required(),
+    email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
+    mobile: Yup.string().min(10).max(18).required(),
+    flat: Yup.string().min(1).max(15).required(),
+    build_no: Yup.string().min(1).max(30).required(),
+    street: Yup.string().min(1).max(30).required(),
+    city: Yup.string().min(1).max(35).required(),
     post_code: Yup.string().length(4).required(),
-    state: Yup.string().min(2).max(35).required(),
+    state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
-    reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
+    reason: Yup.string().min(2).max(30).required()
   })
 
   const formik = useFormik({
     initialValues,
     validationSchema: bankSchema,
     onSubmit: async (values) => {
-      setData(values)
+      setData({ ...values, country_code: data.country_code })
       handleBankDetail(data)
       setShow(true)
 
     }
   })
 
-  const handleMobile = (event) => {
-    const pattern = /^[0-9.,]+$/;
-    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
-      setData({ ...data, mobile: event.target.value })
-      formik.setFieldValue('mobile', event.target.value)
-      formik.setFieldTouched('mobile', true)
-    } else {
-      let value = event.target.value.toString()
-      if (value.length >= 18) {
-        event.stopPropagation()
-        event.preventDefault()
-      } else {
-        if (!pattern.test(event.key)) {
-          event.preventDefault();
-          event.stopPropagation()
-        } else {
-          setData({ ...data, mobile: event.target.value })
-          formik.setFieldValue('mobile', event.target.value)
-          formik.setFieldTouched('mobile', true)
-
-        }
-      }
-    }
+  const handlePhone = (e, coun) => {
+    formik.setFieldValue('mobile', e);
+    formik.setFieldTouched('mobile', true);
+    formik.setFieldValue('country', coun.name)
+    setData({ ...data, country: coun.name, mobile: e })
   }
-
-  const handlePostCode = (event) => {
-    const pattern = /^[0-9.,]+$/;
-    console.log("------------------------------------------------------++++", event.key)
-    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
-      setData({ ...data, post_code: event.target.value })
-      formik.setFieldValue('post_code', event.target.value)
-      formik.setFieldTouched('post_code', true)
-    } else {
-
-      let value = event.target.value.toString()
-      if (value.length > 3) {
-        event.stopPropagation()
-        event.preventDefault()
-      } else {
-        if (!pattern.test(event.key)) {
-          event.preventDefault();
-          event.stopPropagation()
-        } else {
-          setData({ ...data, post_code: event.target.value })
-          formik.setFieldValue('post_code', event.target.value)
-          formik.setFieldTouched('post_code', true)
-        }
-      }
-    }
-  }
-  const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
-  }
-  const countryOptions = useMemo(() => countryList().getData(), [])
 
   const handleReciept = (e) => {
     const local = JSON.parse(localStorage.getItem("transfer_data"))
@@ -147,6 +121,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     localStorage.setItem("send-step", Number(step) + 1)
     handleStep(Number(step) + 1)
   }
+
   const handlePrevious = () => {
     if (localStorage.getItem("send-step")) {
       localStorage.removeItem("send-step")
@@ -156,14 +131,28 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   }
 
 
-
   const handleCancel = () => {
     localStorage.removeItem("transfer_data")
     localStorage.removeItem("send-step")
     window.location.reload(true)
   }
+
+  const handleChange = (e) => {
+    if (e.target.name === 'country') {
+      countryList.map((item) => {
+
+        if (item.name === e.target.value) {
+          setData({ ...data, country_code: item.iso2 })
+        }
+      })
+    }
+    setData({ ...data, [e.target.name]: e.target.value })
+    formik.setFieldValue(e.target.name, e.target.value)
+    formik.setFieldTouched(e.target.name, true)
+  }
+
   const handleKeyDown = (e, max) => {
-    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key==="ArrowRight"||e.key==="Escape"||e.key==="Delete") {
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete" || e.key === " ") {
       setData({ ...data, [e.target.name]: e.target.value })
       formik.setFieldValue(`${[e.target.name]}`, e.target.value)
       formik.setFieldTouched(`${[e.target.name]}`, true)
@@ -190,7 +179,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   }
 
   const handleEmail = (e, max) => {
-    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key==="ArrowRight"||e.key==="Escape"||e.key==="Delete") {
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete") {
       setData({ ...data, [e.target.name]: e.target.value })
       formik.setFieldValue(`${[e.target.name]}`, e.target.value)
       formik.setFieldTouched(`${[e.target.name]}`, true)
@@ -204,6 +193,31 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
         setData({ ...data, [e.target.name]: e.target.value })
         formik.setFieldValue(`${[e.target.name]}`, e.target.value)
         formik.setFieldTouched(`${[e.target.name]}`, true)
+      }
+    }
+  }
+
+  const handlePostCode = (event, max) => {
+    const pattern = /^[0-9.,]+$/;
+    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
+      setData({ ...data, [event.target.name]: event.target.value })
+      formik.setFieldValue(event.target.name, event.target.value)
+      formik.setFieldTouched(event.target.name, true)
+    } else {
+
+      let value = event.target.value.toString()
+      if (value.length > max) {
+        event.stopPropagation()
+        event.preventDefault()
+      } else {
+        if (!pattern.test(event.key)) {
+          event.preventDefault();
+          event.stopPropagation()
+        } else {
+          setData({ ...data, [event.target.name]: event.target.value })
+          formik.setFieldValue(event.target.name, event.target.value)
+          formik.setFieldTouched(event.target.name, true)
+        }
       }
     }
   }
@@ -224,6 +238,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <input
                 type="text"
                 name="bank"
+                value={data?.bank}
                 onKeyDown={(e) => { handleKeyDown(e, 50) }}
                 {...formik.getFieldProps("bank")}
                 className={clsx(
@@ -261,12 +276,12 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
           <div className="row each-row">
             <div className="col-md-12">
               <div className="input_field">
-                <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
+                <p className="get-text">Account Number<span style={{ color: 'red' }} >*</span></p>
                 <input
                   type="text"
                   name="acc_no"
                   value={data?.acc_no}
-                  onKeyDown={(e) => { handleEmail(e, 20) }}
+                  onKeyDown={(e) => { handlePostCode(e, 19) }}
                   {...formik.getFieldProps("acc_no")}
                   className={clsx(
                     'form-control bg-transparent',
@@ -368,13 +383,14 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <div className="input_field">
                 <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                 <PhoneInput
-                  onlyCountries={["au", "nz"]}
-                  country={"au"}
+                  onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
+                  country={data.country_code ? data.country_code.toLowerCase() : "gh"}
                   name="mobile"
+                  value={formik.values.mobile}
                   inputStyle={{ border: "none", margin: "none" }}
                   inputClass="phoneInp"
-                  defaultCountry={"au"}
-                  onChange={mno => { formik.setFieldValue('mobile', mno); formik.setFieldTouched('mobile', true) }}
+                  defaultCountry={"gh"}
+                  onChange={(val, coun) => { handlePhone(val, coun) }}
                   className={clsx(
                     'form-control form-control-sm bg-transparent',
                     { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
@@ -382,7 +398,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                       'is-valid': formik.touched.mobile && !formik.errors.mobile,
                     }
                   )}
-
                 />
               </div>
             </div>
@@ -395,11 +410,9 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <input
                   type="text"
                   name="flat"
-                  value={data.flat}
+                  value={data?.flat}
                   onKeyDown={(e) => { handleEmail(e, 15) }}
-
                   {...formik.getFieldProps("flat")}
-
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.flat && formik.errors.flat },
@@ -453,12 +466,12 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
           <div className="row each-row">
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Postcode<span style={{ color: 'red' }} >*</span></p>
+                <p className="get-text">Postal Code<span style={{ color: 'red' }} >*</span></p>
                 <input
                   type="text"
                   name="post_code"
                   value={data.post_code}
-                  onKeyDown={(e) => handlePostCode(e)}
+                  onKeyDown={(e) => handlePostCode(e, 3)}
                   {...formik.getFieldProps("post_code")}
                   className={clsx(
                     'form-control bg-transparent',
@@ -474,40 +487,75 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             <div className="col-md-4">
               <div className="input_field">
                 <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="text"
-                  name="city"
-                  value={data.city}
-                  onKeyDown={(e) => { handleKeyDown(e, 35) }}
-                  {...formik.getFieldProps("city")}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.city && formik.errors.city },
-                    {
-                      'is-valid': formik.touched.city && !formik.errors.city,
-                    }
-                  )}
-                />
+                {
+                  city_list && city_list.length > 0 ? (
+                    <select
+                      value={data.city}
+                      name="city"
+                      onChange={(e) => handleChange(e)}
+                      className='form-control form-select bg-transparent'
+                    >
 
+                      {city_list?.map((opt) => {
+                        return (
+                          <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                        )
+                      })
+                      }
+                    </select>
+                  ) : (
+                    <input
+                      type="text"
+                      name="city"
+                      value={data.city}
+                      onKeyDown={(e) => { handleKeyDown(e, 35) }}
+                      {...formik.getFieldProps("city")}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.city && formik.errors.city },
+                        {
+                          'is-valid': formik.touched.city && !formik.errors.city,
+                        }
+                      )}
+                    />
+                  )
+                }
               </div>
             </div>
             <div className="col-md-4">
               <div className="input_field">
                 <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="text"
-                  name="state"
-                  value={data.state}
-                  onKeyDown={(e) => { handleKeyDown(e, 30) }}
-                  {...formik.getFieldProps("state")}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.state && formik.errors.state },
-                    {
-                      'is-valid': formik.touched.state && !formik.errors.state,
-                    }
-                  )}
-                />
+                {
+                  state_list && state_list.length > 0 ?
+                    (<select
+                      value={data.state}
+                      name="state"
+                      onChange={(e) => handleChange(e)}
+                      className='form-control form-select bg-transparent'
+                    >
+
+                      {state_list?.map((opt) => {
+                        return (
+                          <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                        )
+                      })
+                      }
+                    </select>) :
+                    (<input
+                      type="text"
+                      name="state"
+                      value={data.state}
+                      onKeyDown={(e) => { handleKeyDown(e, 30) }}
+                      {...formik.getFieldProps("state")}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.state && formik.errors.state },
+                        {
+                          'is-valid': formik.touched.state && !formik.errors.state,
+                        }
+                      )}
+                    />)
+                }
               </div>
             </div>
           </div>
@@ -519,21 +567,13 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   value={data.country}
                   name="country"
                   onChange={(e) => handleChange(e)}
-                  {...formik.getFieldProps("country")}
-                  className={clsx(
-                    'form-control form-select bg-transparent',
-                    { 'is-invalid': formik.touched.country && formik.errors.country },
-                    {
-                      'is-valid': formik.touched.country && !formik.errors.country,
-                    }
-                  )}
+                  className='form-control form-select bg-transparent'
                 >
-                  <option>Select a country</option>
                   {
-                    countryOptions && countryOptions.length > 0 ?
-                      countryOptions?.map((opt) => {
+                    countryList && countryList.length > 0 ?
+                      countryList?.map((opt) => {
                         return (
-                          <option value={opt.label}>{opt.label}</option>
+                          <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
                         )
                       }) : ""
                   }
@@ -546,10 +586,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <select
                   aria-label="Select a reason"
                   name="reason"
-                  value={data.reason}
+                  value={data.reason ? data.reason : "Family Support"}
                   onChange={(e) => handleChange(e)}
-                  {...formik.getFieldProps("reason")}
-
                   className={clsx(
                     'form-control form-select bg-transparent',
                     { 'is-invalid': formik.touched.reason && formik.errors.reason },
@@ -558,7 +596,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                     }
                   )}
                 >
-                  <option>Select a reason</option>
                   <option value="Family Support">Family Support</option>
                   <option value="Education">Education</option>
                   <option value="Tax Payment">Tax Payment</option>

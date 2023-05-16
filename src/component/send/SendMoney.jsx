@@ -6,8 +6,7 @@ import BankDetails from './BankDetails'
 import PaymentDetails from './PaymentDetails'
 import SenderDetails from './SenderDetails'
 import PaymentSummary from './PaymentSummary'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
-import verified from '../../assets/img/userdashboard/3.png';
+import { useLocation, useNavigate } from 'react-router-dom'
 import authDashHelper from '../../utils/AuthDashHelper'
 
 const SendMoney = () => {
@@ -55,12 +54,12 @@ const SendMoney = () => {
     } else {
       localStorage.removeItem("send-step")
       localStorage.removeItem("transfer_data")
-      setInterval(() => {
-        // console.log("time")
-        localStorage.removeItem("send-step");
-        localStorage.removeItem("transfer_data");
-        window.location.reload(true)
-      }, 30 * 60 * 1000);
+      // setInterval(() => {
+      //   // console.log("time")
+      //   localStorage.removeItem("send-step");
+      //   localStorage.removeItem("transfer_data");
+      //   window.location.reload(true)
+      // }, 30 * 60 * 1000);
     }
   }, [])
 
@@ -80,13 +79,11 @@ const SendMoney = () => {
       }
     }
     const s = step;
-    if (s > 0) {
-      let n = s;
-      while (n != 0) {
-        console.log(n)
-        progressBarRefs.current[n - 1].style.transform = "translateX(100%)";
-        n--
-      }
+    let n = s;
+    while (n > 0) {
+      console.log(n)
+      progressBarRefs.current[n - 1].style.transform = "translateX(100%)";
+      n--
     }
     setActiveStep(Number(s) + 1)
   }, [step])
@@ -113,7 +110,7 @@ const SendMoney = () => {
                 <section className="why-us section-bgba user_dashboard_banner">
                   <div className="container">
                     <div className="row">
-                      <div className='col-9'>
+                      <div className='col-12'>
                         <ul className="multi-steps">
                           <li className={`step ${activeStep === 1 ? "is-active" : ""}`}>
                             <div className="step-label text-light">
@@ -167,10 +164,11 @@ const SendMoney = () => {
                         </ul>
 
                       </div>
-
-                      <div className='col-3'>
-                        {/* <div className='timer-row sendmoney-timer'>Form auto closes in ⇒  <label> <span> {minutes < 10 ? "0" + minutes : minutes}</span><p>Minutes</p> </label> <label className='timerdots'>:</label>  <label><span> {seconds < 10 ? "0" + seconds : seconds}</span> <p>Seconds</p> </label></div> */}
-                      </div>
+                      {/* <div className='col-3'>
+                        <div className='timer-row sendmoney-timer'>Form auto closes in ⇒  <label> <span> {minutes < 10 ? "0" + minutes : minutes}</span><p>Minutes</p> </label> <label className='timerdots'>:</label>  <label><span> {seconds < 10 ? "0" + seconds : seconds}</span> <p>Seconds</p> </label></div>
+                      </div> */}
+                    </div>
+                    <div className={`row ${step === 0 || step === 4? "d-flex justify-content-center" : ""}`}>
                       <div className="col-md-8">
                         {
                           step === 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
@@ -185,7 +183,7 @@ const SendMoney = () => {
                                     : <></>
                         }
                       </div>
-                      <div className="col-md-4">
+                      <div className={step > 0 ? "col-md-4" : ""}>
 
 
                         <Table>

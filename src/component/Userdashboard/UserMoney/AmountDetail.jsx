@@ -46,12 +46,11 @@ const AmountDetail = ({ handleStep, step }) => {
         initialValues,
         validationSchema: amtSchema,
         onSubmit: async (values) => {
-            console.log("Amount Details---------------", values)
             let local = {}
             if (localStorage.getItem("transfer_data")) {
                 local = JSON.parse(localStorage.getItem("transfer_data"))
             }
-            local.amount = values
+            local.amount = {...values, exchange_rate:exch_rate}
 
             localStorage.setItem("transfer_data", JSON.stringify(local))
             if (localStorage.getItem("send-step")) {
@@ -214,6 +213,7 @@ const AmountDetail = ({ handleStep, step }) => {
             if (tdata?.amount) {
                 setAmtDetail(tdata?.amount)
                 formik.setValues({ ...tdata?.amount })
+                setExchRate(tdata?.amount?.exchange_rate)
             }
         } else if (locationState) {
             let data = locationState

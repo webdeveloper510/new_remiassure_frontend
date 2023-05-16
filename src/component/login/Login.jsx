@@ -20,13 +20,9 @@ const Login = () => {
 
     const loginSchema = Yup.object().shape({
         email: Yup.string()
-            .email('Wrong email format')
-            .min(3, 'Minimum 3 symbols')
-            .max(50, 'Maximum 50 symbols')
+            .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format")
             .required('Email is required'),
         password: Yup.string()
-            .min(6, 'Minimum 3 symbols')
-            .max(50, 'Maximum 50 symbols')
             .required('Password is required'),
     })
 
@@ -108,7 +104,6 @@ const Login = () => {
                                                         <Form.Label>Your Email<span style={{ color: 'red' }} >*</span></Form.Label>
                                                         <Form.Control type="email"
                                                             {...formik.getFieldProps('email')}
-                                                            maxLength="50"
                                                             className={clsx(
                                                                 'form-control bg-transparent',
                                                                 { 'is-invalid': formik.touched.email && formik.errors.email },
@@ -141,9 +136,9 @@ const Login = () => {
                                                                 {
                                                                     'is-invalid': formik.touched.password && formik.errors.password,
                                                                 },
-                                                                {
-                                                                    'is-valid': formik.touched.password && !formik.errors.password,
-                                                                }
+                                                                // {
+                                                                //     'is-valid': formik.touched.password && !formik.errors.password,
+                                                                // }
                                                             )}
                                                             placeholder="Password"
                                                         />

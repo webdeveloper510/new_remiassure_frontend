@@ -1,17 +1,11 @@
 import Axios from "axios";
 import global from './global';
 
-let signupToken = localStorage.getItem("signup_token")
-console.log(signupToken)
 const token = localStorage.getItem("token")
-console.log("token", token)
 const token_forgot = localStorage.getItem("token_forgot")
-const customerId_forgot = localStorage.getItem("customerId_forgot");
-// console.log("token_forgot", token_forgot)
 Axios.defaults.baseURL = `${global.serverUrl}`;
 
 export const userRegister = async (data) => {
-  // console.log(data)
   const response = await Axios.post("/register/", data).then(res => {
     return res.data
   })
@@ -19,7 +13,6 @@ export const userRegister = async (data) => {
 }
 
 export const userLogin = async (data) => {
-  // console.log("login-data" , data)
   const response = await Axios.post("/login/", data).then(res => {
     return res.data
   })
@@ -27,7 +20,6 @@ export const userLogin = async (data) => {
 }
 
 export const verifyEmail = async (data) => {
-  // console.log("data++++",data)
   const response = await Axios.post("/verify-email/",data)
     .then(res => {
       return res.data
@@ -35,9 +27,9 @@ export const verifyEmail = async (data) => {
   return response
 }
 
-// /resend-otp/
+
 export const resendOtp = async (data) => {
-  // console.log("data++++",data)
+
   const response = await Axios.post("/resend-otp/",data)
     .then(res => {
       return res.data
@@ -72,7 +64,6 @@ export const resetEmail = async (data) => {
 }
 
 export const resetPassword = async (data) => {
-  // console.log("data+++" , data)
   const response = await Axios.post("/reset-password/", data).then(res => {
     return res.data
   })
@@ -80,7 +71,6 @@ export const resetPassword = async (data) => {
 }
 
 export const updateProfile = async (data) => {
-  console.log("signup",signupToken ,token)
   const response = await Axios.post("/update-profile/", data, {
     headers: {
       'Content-Type': 'application/json',
@@ -123,7 +113,7 @@ export const paymentSummary = async (data) => {
   return response
 }
 
-// http://3.101.154.87:8000/payment/transaction-history/
+
 export const transactionHistory = async (data) => {
   const response = await Axios.post("/payment/transaction-history/", data,{
     headers: {
@@ -147,7 +137,7 @@ export const pendingPayment = async (data) => {
   return response
 }
 
-// payment/completed-transactions/
+
 export const completedPayment = async (data) => {
   const response = await Axios.post("/payment/completed-transactions/", data,{
     headers: {
@@ -159,7 +149,7 @@ export const completedPayment = async (data) => {
   return response
 }
 
-// payment/recipient-create/
+
 export const createRecipient = async (data) => {
   const response = await Axios.post("/payment/recipient-create/", data,{
     headers: {
@@ -171,11 +161,7 @@ export const createRecipient = async (data) => {
   return response
 }
 
-// payment/card-list/
-
-// payment/card/
 export const getCardData = async (id) => {
-  console.log(id,"id-------", token)
   const response = await Axios.post(`/payment/card/${id}`,{},{
     headers: {
       "Authorization": `Bearer ${token}`,
@@ -198,9 +184,8 @@ export const updateCardUser = async (id, data) => {
   return response
 }
 
-// payment/recipient-update/
+
 export const getUserRecipient = async (id) => {
-  console.log("id", id)
   const response = await Axios.get(`/payment/recipient-update/${id}`,{
     headers: {
       "Authorization": `Bearer ${token}`,
@@ -213,7 +198,6 @@ export const getUserRecipient = async (id) => {
 
 
 export const updateUserRecipient = async (id ,data) => {
-  console.log("data---------",data)
   const response = await Axios.post(`/payment/recipient-update/${id}`,data,{
     headers: {
       "Authorization": `Bearer ${token}`,
@@ -224,9 +208,8 @@ export const updateUserRecipient = async (id ,data) => {
   return response
 }
 
-// payment/card-list
+
 export const cardList = async (data) => {
-  console.log("data---------")
   const response = await Axios.post("/payment/card-list/",data,{
     headers: {
       "Authorization": `Bearer ${token}`,
@@ -237,9 +220,8 @@ export const cardList = async (data) => {
   return response
 }
 
-// payment/recipient-list/
+
 export const recipientList = async (data) => {
-  console.log("data---------")
   const response = await Axios.post("/payment/recipient-list/",data,{
     headers: {
       "Authorization": `Bearer ${token}`,

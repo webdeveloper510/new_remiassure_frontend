@@ -13,16 +13,10 @@ const Transaction = () => {
     const navigate = useNavigate();
 
     const [data, setData] = useState([])
-    const [dataLength, setDataLength] = useState("")
     const [loading, setLoading] = useState(false)
-    // const [error, setError] = useState(false)
-
-    const handleLoading = () => {
-        setLoading(!loading)
-    }
 
     useEffect(() => {
-        if (!authDashHelper('dashCheck')) {
+        if (authDashHelper('dashCheck') === false) {
             navigate("/send-money")
         } else {
             setLoading(true)
@@ -32,21 +26,13 @@ const Transaction = () => {
                     setData(res.data)
                     setLoading(false)
                 } else {
-                    // setDataLength("none")
                     setLoading(false)
                 }
             }).catch(err => {
-                console.log("transfer-------------", err)
-                // setDataLength("none")
                 setLoading(false)
-                // setError(true)
             })
         }
     }, [])
-    console.log("data----------------------", data)
-
-    /**************************Feild of state ************************ */
-
 
     return (
         <>
@@ -63,13 +49,13 @@ const Transaction = () => {
                                     <>
                                         <Tabs defaultActiveKey="AllTransaction" id="uncontrolled-tab-example" className="mb-3 tarnsfer-tabs">
                                             <Tab eventKey="AllTransaction" title="All Transactions">
-                                                <AllTransfer status={"all"} data={data} length={dataLength} />
+                                                <AllTransfer status={"all"} data={data} />
                                             </Tab>
                                             <Tab eventKey="Pending" title="Pending">
-                                                <AllTransfer status={"pending"} data={data} length={dataLength} />
+                                                <AllTransfer status={"pending"} data={data} />
                                             </Tab>
                                             <Tab eventKey="Completed" title="Completed">
-                                                <AllTransfer status={"completed"} data={data} length={dataLength} />
+                                                <AllTransfer status={"completed"} data={data} />
                                             </Tab>
                                         </Tabs>
                                     </>

@@ -9,52 +9,24 @@ import axios from "axios";
 import authDashHelper from "../../utils/AuthDashHelper";
 import global from "../../utils/global";
 
-const AllTranfer = ({ status, data, length }) => {
+const AllTranfer = ({ status, data }) => {
 
-  console.log("data*****************************", data)
-  // Start page show hide condtion page s
   const token = localStorage.getItem("token");
-  // console.log("TOKEN", token); 
-
- 
 
   const Total_amount = localStorage.getItem("Total_amount");
- 
 
   const TransactionHistoryStatus = localStorage.getItem("TransactionHistoryStatus");
 
-
-
   const [transactionData, setTransactionData] = useState([]);
 
-  /*************************SummeryData State************************ */
   const [summeryData, setSummeryData] = useState([]);
 
-
-  // const LoadEdit = (id) => {
-  //   navigate(`/edit-recipient-user/${id}`);
-  // }
-
-  // const LoadinglProfile = (id) => {
-  //   navigate(`/profile-single-data/${id}`);
-  // }
-
-  // const getStatusDataSummary = (value) => {
-  //   localStorage.setItem("TransactionHistoryStatus", value)
-  //   // console.log('getSummeryDataID=================>', value)
-
-  //   handleShow();
-  // }
-
   const navigate = useNavigate();
-
-  console.log("summeryData--------", summeryData)
-
 
   const paymetTransactionId = localStorage.getItem("paymetTransactionId");
 
   useEffect(() => {
-    if (!authDashHelper('dashCheck')) {
+    if (authDashHelper('dashCheck') === false) {
       navigate("/send-money")
     }
     if (data?.length != 0) {
@@ -94,29 +66,14 @@ const AllTranfer = ({ status, data, length }) => {
       })
   }
 
-
-  /*********************** Start- Design *********************/
-
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
-
-
   return (
     <>
-      {/* {
-        !loading ? ( */}
       <div className="card">
         <div className="card-body">
           <div className="tabs-recipent-new">
-            {/* Start------- Loader functionalty */}
-            {/* {loading ? <>
-                  <div className="loader-overly">
-                    <div className="loader" >
-                    </div>
-                  </div>
-                </> : <></>} */}
-            {/* End------- Loader functionalty */}
               <span>
                 {transactionData?.length > 0 ? (
                   <Table className="table table-responsive-md card-table previous-transaction">
@@ -126,35 +83,26 @@ const AllTranfer = ({ status, data, length }) => {
                         <th>Amount</th>
                         <th>Date</th>
                         <th>Reason</th>
-                        {/* <th>TransactionId</th> */}
                         <th>Status</th>
                       </tr>
                     </thead>
                     <tbody>
                       {
                         transactionData?.map((res, index) => {
-                          //console.log(items, "itemnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
                           return (
                             <tr key={index}>
                               <td>
                                 <h6 className="fs-16 font-w600 mb-0">{res.recipient_name}</h6>
                               </td>
-                              {/* <td>{res.date}</td> */}
                               <td className="transaction-icon"><span className="text-uppercase">{res.send_currency} </span> {res.amount} </td>
-                              {/* <td>{res.customer_id}</td> */}
                               <td>{res.date}</td>
                               <td>{res.reason}</td>
-                              {/* <td>{res.send_currency}</td>
-                          <td>{res.recieve_currency}</td> */}
-                              {/* <td>{res.send_method}</td> */}
-                              {/* <td>{res.transaction_id}</td> */}
                               <td><span className="btn btn-outline-success btn-rounded" >{res.status}</span></td>
                               <td>
                                 <a href={`${global.serverUrl}/payment/receipt/${res.id}`} target="_blank">
                                 <span className="btn btn-outline-success btn-rounded" >Download</span>
                                 </a>
                                 </td>
-                              {/* onClick={() => { getStatusDataSummary(res.status) }} */}
                             </tr>
                           )
                         })}
@@ -165,7 +113,6 @@ const AllTranfer = ({ status, data, length }) => {
                     <div className="no-data">
                       <img src={nodata} alt="no-data" height="400px" />
                       <div className="col-md-12">
-                        {/* <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p> */}
                       </div>
                       <div className="col-md-12">
                         <a href="#/user-send-money" className="send_money">Send Money</a>
@@ -192,16 +139,7 @@ const AllTranfer = ({ status, data, length }) => {
                       </div>
                     </div>
                     <div className="my-auto transac-text">
-                      {/* <h4>Send Money */}
                       <span className="text-white fs-6 pb-2">Transaction ID -{paymetTransactionId}</span>
-                      {/* </h4>  */}
-
-                      {/* <span className="text-white fs-5 pb-2">
-                          {summeryData.send_amount} <span>{summeryData.send_currency}</span>
-                        </span>
-                        <span className="text-white">
-                          {Total_amount}<span>{summeryData.recieve_currency}</span>
-                        </span> */}
                       <span className="fs-6 pt-1 statuspopup">Status - <span className="badge bg-success"> {TransactionHistoryStatus}</span>
                       </span>
                     </div>
@@ -209,14 +147,7 @@ const AllTranfer = ({ status, data, length }) => {
                 </div>
                 <div className="col-md-12">
                   <hr></hr>
-                  {/* <p>Your transaction is complete and we hope to see your again.</p>
-                    <MultiStepProgressBar /> */}
                 </div>
-                {/* <div className="col-md-12 m-top">
-                    <div className="justify-content-between trackicons">
-                      <h6>Track your transfer</h6>
-                    </div>
-                  </div> */}
                 <div className="col-md-12">
                   <div className="justify-content-between recipent-detailpopup">
                     <h6>Recipient Detail</h6>
@@ -279,40 +210,14 @@ const AllTranfer = ({ status, data, length }) => {
                     </ul>
                   </div>
                 </div>
-
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>ok</Button>
               </Modal.Footer>
             </Modal>
-
-            {/* {length == "none" ? (
-                  <div className="no-data">
-                    <img src={nodata} alt="no-data" />
-                    <div className="col-md-12">
-                      <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p>
-                    </div>
-                    <div className="col-md-12">
-                      <a href="#/user-send-money" className="send_money">Send Money</a>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                  </>
-                )
-                } */}
           </div>
         </div>
       </div>
-      {/* ) : (
-          <>
-            <div className="loader-overly">
-              <div className="loader" >
-              </div>
-            </div>
-          </>
-        )
-      } */}
     </>
   )
 }

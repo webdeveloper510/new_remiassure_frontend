@@ -1,134 +1,55 @@
 
-import React, { useState, useContext, useEffect, useRef, useMemo } from "react";
-import Accordion from 'react-bootstrap/Accordion';
-import Button from 'react-bootstrap/Button';
+import React, { useState, useEffect } from "react";
 import Form from 'react-bootstrap/Form';
-import { Links, NavLink, useNavigate, useParams } from 'react-router-dom';
-import CountryDropdown from 'country-dropdown-with-flags-for-react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
-import { API } from "../../config/API";
-import axios from "axios";
-import UserRecipient from "../Userdashboard/UserRecipient";
-import norecipients from '../../assets/img/userdashboard/hidden.avif';
-import { BsFillPersonPlusFill } from "react-icons/bs";
-import { BsFillPencilFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import Select from "react-select";
-import countryList from 'react-select-country-list'
-import Page404 from "../pageNotfound/Page404";
+import countryList from '../../utils/recipientCountries.json'
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import clsx from "clsx";
 import { getUserRecipient, updateUserRecipient } from "../../utils/Api";
-
-// start css
-const myStyle = {
-  color: "red",
-  fontSize: "13px",
-  textTransform: "capitalize"
-}
+import authDashHelper from "../../utils/AuthDashHelper";
 
 
 const Editrecipientuser = () => {
 
-  /**************************token ************************ */
-  const token = localStorage.getItem("token");
-  // console.log("TOKEN", token);
-
-  const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-  // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
-
-  const signup_token = localStorage.getItem("signup_token")
-  // console.log("signup_token", signup_token);
-
-  const verification_otp = localStorage.getItem("verification_otp");
-  // console.log("Verification Message", verification_otp);
-
-  const DigitalCode = localStorage.getItem("DigitalCode");
-  // console.log("DigitalCode", DigitalCode);
-
-  const AmountValue = localStorage.getItem("AmountValue");
-  // console.log("AmountValue", AmountValue)
-
-  const Total_amount = localStorage.getItem("Total_amount");
-  // console.log("Amonut", Total_amount);
+  let { id } = useLocation()?.state;
 
 
-
-  const RecipientUserName = localStorage.getItem("RecipientUserName");
-  // console.log("RecipientUserName", RecipientUserName);
-
-
-
-  //Get data of update value 
-
-
-
-
-  /*************data get ************/
-  let { id } = useParams();
-  // alert(id)
-  // console.log("========================>", id);
-
-
-  /************ Start -Recipient Bank Details state***************/
-  const [errorUserRecipient, setErrorUserRecipient] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  /************ Start -messageText state***************/
-  const [BankNameText, setBankNameText] = useState('');
-  // const [userRecipientData, setUserRecipientData] = useState('');
-  const [RecepientsData, setRecepientsData] = useState('');
-
-  /************ Start -Recipient Bank Details state***************/
-  const [bank_name, setBank_name] = useState('');
-  const [account_name, setAccount_name] = useState('');
-  const [account_number, setAccount_number] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [middleName, setMiddleName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [flat, setFlat] = useState('');
-  const [gender, setGender] = useState('');
-  const [building, setBuilding] = useState('');
-  const [street, setStreet] = useState('');
-  const [postcode, setPostcode] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [country_code, setCountry_code] = useState('');
-  const [country, setCountry] = useState('');
-  const [Date_of_birth, setDate_of_birth] = useState('');
-  const [Countrybirth, setCountrybirth] = useState('');
-  const [reasonMoney, setReasonMoney] = useState('');
-  const [customer_id, setCustomer_id] = useState('');
-
   const [data, setData] = useState({
-    id:"",
+    id: "",
     bank_name: '', account_name: '', account_number: '', first_name: '', middle_name: '',
-    last_name: '', email: '', mobile: '', country: '', flat:"", street:"", building:"",
-    city:"", state:""
+    last_name: '', email: '', mobile: '', country: '', flat: "", street: "", building: "",
+    city: "", state: "", country_code: "GH"
   });
 
-  const recipientSchema = Yup.object().shape({
-    bank_name: Yup.string().min(2).max(50).required(),
-    account_name: Yup.string().min(2).max(50).required(),
-    account_number: Yup.string().min(10).max(17).required(),
-    first_name: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("First name is required"),
-    middle_name: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter"),
-    last_name: Yup.string().min(1, "Minimum 1 Letter").max(100, "Maximum 100 letter").required("Last name is required"),
-    email: Yup.string().email().min(6, "Minimum 6 Letter").max(50, "Maximum 50 letter").required("Email is required"),
-    mobile: Yup.string().min(7).max(15).required(),
-    flat: Yup.string().min(1, "Minimum 1 Letter").max(200, "Maximum 200 letter").required("Flat No. is required"),
-    building: Yup.string().min(1, "Minimum 1 Letter").max(200, "Maximum 200 letter").required("Building No. is required"),
-    street: Yup.string().min(1, "Minimum 1 Letter").max(200, "Maximum 200 letter").required("Street is required"),
-    city: Yup.string().min(1, "Minimum 1 Letter").max(200, "Maximum 200 letter").required("City is required"),
-    state: Yup.string().min(1, "Minimum 1 Letter").max(200, "Maximum 200 letter").required("State is required"),
-    country: Yup.string().required("Country is required"),
+  const [city_list, setCityList] = useState([])
+  const [state_list, setStateList] = useState([])
 
+  const recipientSchema = Yup.object().shape({
+    bank_name: Yup.string()
+      .min(5, 'Minimum 3 symbols')
+      .max(50, 'Maximum 50 symbols')
+      .required('Email is required'),
+    account_name: Yup.string().min(3).max(50).required(),
+    account_number: Yup.string().min(9).max(20).required(),
+    first_name: Yup.string().min(1).max(25).required(),
+    last_name: Yup.string().min(1).max(25).required(),
+    email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
+    mobile: Yup.string().min(9).max(18).required(),
+    flat: Yup.string().min(1).max(15).required(),
+    building: Yup.string().min(1).max(30).required(),
+    street: Yup.string().min(1).max(30).required(),
+    city: Yup.string().min(1).max(35).required(),
+    postcode: Yup.string().length(4).required(),
+    state: Yup.string().min(1).max(35).required(),
+    country: Yup.string().min(2).max(30).required(),
   })
 
   const initialValues = {
@@ -146,512 +67,65 @@ const Editrecipientuser = () => {
     city: '',
     state: '',
     country: '',
-
   }
 
+  const navigate = useNavigate()
 
-  const countries = [
-    { name: 'Afghanistan', code: 'AF' },
-    { name: 'Åland Islands', code: 'AX' },
-    { name: 'Albania', code: 'AL' },
-    { name: 'Algeria', code: 'DZ' },
-    { name: 'American Samoa', code: 'AS' },
-    { name: 'AndorrA', code: 'AD' },
-    { name: 'Angola', code: 'AO' },
-    { name: 'Anguilla', code: 'AI' },
-    { name: 'Antarctica', code: 'AQ' },
-    { name: 'Antigua and Barbuda', code: 'AG' },
-    { name: 'Argentina', code: 'AR' },
-    { name: 'Armenia', code: 'AM' },
-    { name: 'Aruba', code: 'AW' },
-    { name: 'Australia', code: 'AU' },
-    { name: 'Austria', code: 'AT' },
-    { name: 'Azerbaijan', code: 'AZ' },
-    { name: 'Bahamas', code: 'BS' },
-    { name: 'Bahrain', code: 'BH' },
-    { name: 'Bangladesh', code: 'BD' },
-    { name: 'Barbados', code: 'BB' },
-    { name: 'Belarus', code: 'BY' },
-    { name: 'Belgium', code: 'BE' },
-    { name: 'Belize', code: 'BZ' },
-    { name: 'Benin', code: 'BJ' },
-    { name: 'Bermuda', code: 'BM' },
-    { name: 'Bhutan', code: 'BT' },
-    { name: 'Bolivia', code: 'BO' },
-    { name: 'Bosnia and Herzegovina', code: 'BA' },
-    { name: 'Botswana', code: 'BW' },
-    { name: 'Bouvet Island', code: 'BV' },
-    { name: 'Brazil', code: 'BR' },
-    { name: 'British Indian Ocean Territory', code: 'IO' },
-    { name: 'Brunei Darussalam', code: 'BN' },
-    { name: 'Bulgaria', code: 'BG' },
-    { name: 'Burkina Faso', code: 'BF' },
-    { name: 'Burundi', code: 'BI' },
-    { name: 'Cambodia', code: 'KH' },
-    { name: 'Cameroon', code: 'CM' },
-    { name: 'Canada', code: 'CA' },
-    { name: 'Cape Verde', code: 'CV' },
-    { name: 'Cayman Islands', code: 'KY' },
-    { name: 'Central African Republic', code: 'CF' },
-    { name: 'Chad', code: 'TD' },
-    { name: 'Chile', code: 'CL' },
-    { name: 'China', code: 'CN' },
-    { name: 'Christmas Island', code: 'CX' },
-    { name: 'Cocos (Keeling) Islands', code: 'CC' },
-    { name: 'Colombia', code: 'CO' },
-    { name: 'Comoros', code: 'KM' },
-    { name: 'Congo', code: 'CG' },
-    { name: 'Congo, The Democratic Republic of the', code: 'CD' },
-    { name: 'Cook Islands', code: 'CK' },
-    { name: 'Costa Rica', code: 'CR' },
-    { name: 'Cote D\'Ivoire', code: 'CI' },
-    { name: 'Croatia', code: 'HR' },
-    { name: 'Cuba', code: 'CU' },
-    { name: 'Cyprus', code: 'CY' },
-    { name: 'Czech Republic', code: 'CZ' },
-    { name: 'Denmark', code: 'DK' },
-    { name: 'Djibouti', code: 'DJ' },
-    { name: 'Dominica', code: 'DM' },
-    { name: 'Dominican Republic', code: 'DO' },
-    { name: 'Ecuador', code: 'EC' },
-    { name: 'Egypt', code: 'EG' },
-    { name: 'El Salvador', code: 'SV' },
-    { name: 'Equatorial Guinea', code: 'GQ' },
-    { name: 'Eritrea', code: 'ER' },
-    { name: 'Estonia', code: 'EE' },
-    { name: 'Ethiopia', code: 'ET' },
-    { name: 'Falkland Islands (Malvinas)', code: 'FK' },
-    { name: 'Faroe Islands', code: 'FO' },
-    { name: 'Fiji', code: 'FJ' },
-    { name: 'Finland', code: 'FI' },
-    { name: 'France', code: 'FR' },
-    { name: 'French Guiana', code: 'GF' },
-    { name: 'French Polynesia', code: 'PF' },
-    { name: 'French Southern Territories', code: 'TF' },
-    { name: 'Gabon', code: 'GA' },
-    { name: 'Gambia', code: 'GM' },
-    { name: 'Georgia', code: 'GE' },
-    { name: 'Germany', code: 'DE' },
-    { name: 'Ghana', code: 'GH' },
-    { name: 'Gibraltar', code: 'GI' },
-    { name: 'Greece', code: 'GR' },
-    { name: 'Greenland', code: 'GL' },
-    { name: 'Grenada', code: 'GD' },
-    { name: 'Guadeloupe', code: 'GP' },
-    { name: 'Guam', code: 'GU' },
-    { name: 'Guatemala', code: 'GT' },
-    { name: 'Guernsey', code: 'GG' },
-    { name: 'Guinea', code: 'GN' },
-    { name: 'Guinea-Bissau', code: 'GW' },
-    { name: 'Guyana', code: 'GY' },
-    { name: 'Haiti', code: 'HT' },
-    { name: 'Heard Island and Mcdonald Islands', code: 'HM' },
-    { name: 'Holy See (Vatican City State)', code: 'VA' },
-    { name: 'Honduras', code: 'HN' },
-    { name: 'Hong Kong', code: 'HK' },
-    { name: 'Hungary', code: 'HU' },
-    { name: 'Iceland', code: 'IS' },
-    { name: 'India', code: 'IN' },
-    { name: 'Indonesia', code: 'ID' },
-    { name: 'Iran, Islamic Republic Of', code: 'IR' },
-    { name: 'Iraq', code: 'IQ' },
-    { name: 'Ireland', code: 'IE' },
-    { name: 'Isle of Man', code: 'IM' },
-    { name: 'Israel', code: 'IL' },
-    { name: 'Italy', code: 'IT' },
-    { name: 'Jamaica', code: 'JM' },
-    { name: 'Japan', code: 'JP' },
-    { name: 'Jersey', code: 'JE' },
-    { name: 'Jordan', code: 'JO' },
-    { name: 'Kazakhstan', code: 'KZ' },
-    { name: 'Kenya', code: 'KE' },
-    { name: 'Kiribati', code: 'KI' },
-    { name: 'Korea, Democratic People\'S Republic of', code: 'KP' },
-    { name: 'Korea, Republic of', code: 'KR' },
-    { name: 'Kuwait', code: 'KW' },
-    { name: 'Kyrgyzstan', code: 'KG' },
-    { name: 'Lao People\'S Democratic Republic', code: 'LA' },
-    { name: 'Latvia', code: 'LV' },
-    { name: 'Lebanon', code: 'LB' },
-    { name: 'Lesotho', code: 'LS' },
-    { name: 'Liberia', code: 'LR' },
-    { name: 'Libyan Arab Jamahiriya', code: 'LY' },
-    { name: 'Liechtenstein', code: 'LI' },
-    { name: 'Lithuania', code: 'LT' },
-    { name: 'Luxembourg', code: 'LU' },
-    { name: 'Macao', code: 'MO' },
-    { name: 'Macedonia, The Former Yugoslav Republic of', code: 'MK' },
-    { name: 'Madagascar', code: 'MG' },
-    { name: 'Malawi', code: 'MW' },
-    { name: 'Malaysia', code: 'MY' },
-    { name: 'Maldives', code: 'MV' },
-    { name: 'Mali', code: 'ML' },
-    { name: 'Malta', code: 'MT' },
-    { name: 'Marshall Islands', code: 'MH' },
-    { name: 'Martinique', code: 'MQ' },
-    { name: 'Mauritania', code: 'MR' },
-    { name: 'Mauritius', code: 'MU' },
-    { name: 'Mayotte', code: 'YT' },
-    { name: 'Mexico', code: 'MX' },
-    { name: 'Micronesia, Federated States of', code: 'FM' },
-    { name: 'Moldova, Republic of', code: 'MD' },
-    { name: 'Monaco', code: 'MC' },
-    { name: 'Mongolia', code: 'MN' },
-    { name: 'Montserrat', code: 'MS' },
-    { name: 'Morocco', code: 'MA' },
-    { name: 'Mozambique', code: 'MZ' },
-    { name: 'Myanmar', code: 'MM' },
-    { name: 'Namibia', code: 'NA' },
-    { name: 'Nauru', code: 'NR' },
-    { name: 'Nepal', code: 'NP' },
-    { name: 'Netherlands', code: 'NL' },
-    { name: 'Netherlands Antilles', code: 'AN' },
-    { name: 'New Caledonia', code: 'NC' },
-    { name: 'New Zealand', code: 'NZ' },
-    { name: 'Nicaragua', code: 'NI' },
-    { name: 'Niger', code: 'NE' },
-    { name: 'Nigeria', code: 'NG' },
-    { name: 'Niue', code: 'NU' },
-    { name: 'Norfolk Island', code: 'NF' },
-    { name: 'Northern Mariana Islands', code: 'MP' },
-    { name: 'Norway', code: 'NO' },
-    { name: 'Oman', code: 'OM' },
-    { name: 'Pakistan', code: 'PK' },
-    { name: 'Palau', code: 'PW' },
-    { name: 'Palestinian Territory, Occupied', code: 'PS' },
-    { name: 'Panama', code: 'PA' },
-    { name: 'Papua New Guinea', code: 'PG' },
-    { name: 'Paraguay', code: 'PY' },
-    { name: 'Peru', code: 'PE' },
-    { name: 'Philippines', code: 'PH' },
-    { name: 'Pitcairn', code: 'PN' },
-    { name: 'Poland', code: 'PL' },
-    { name: 'Portugal', code: 'PT' },
-    { name: 'Puerto Rico', code: 'PR' },
-    { name: 'Qatar', code: 'QA' },
-    { name: 'Reunion', code: 'RE' },
-    { name: 'Romania', code: 'RO' },
-    { name: 'Russian Federation', code: 'RU' },
-    { name: 'RWANDA', code: 'RW' },
-    { name: 'Saint Helena', code: 'SH' },
-    { name: 'Saint Kitts and Nevis', code: 'KN' },
-    { name: 'Saint Lucia', code: 'LC' },
-    { name: 'Saint Pierre and Miquelon', code: 'PM' },
-    { name: 'Saint Vincent and the Grenadines', code: 'VC' },
-    { name: 'Samoa', code: 'WS' },
-    { name: 'San Marino', code: 'SM' },
-    { name: 'Sao Tome and Principe', code: 'ST' },
-    { name: 'Saudi Arabia', code: 'SA' },
-    { name: 'Senegal', code: 'SN' },
-    { name: 'Serbia and Montenegro', code: 'CS' },
-    { name: 'Seychelles', code: 'SC' },
-    { name: 'Sierra Leone', code: 'SL' },
-    { name: 'Singapore', code: 'SG' },
-    { name: 'Slovakia', code: 'SK' },
-    { name: 'Slovenia', code: 'SI' },
-    { name: 'Solomon Islands', code: 'SB' },
-    { name: 'Somalia', code: 'SO' },
-    { name: 'South Africa', code: 'ZA' },
-    { name: 'South Georgia and the South Sandwich Islands', code: 'GS' },
-    { name: 'Spain', code: 'ES' },
-    { name: 'Sri Lanka', code: 'LK' },
-    { name: 'Sudan', code: 'SD' },
-    { name: 'Suriname', code: 'SR' },
-    { name: 'Svalbard and Jan Mayen', code: 'SJ' },
-    { name: 'Swaziland', code: 'SZ' },
-    { name: 'Sweden', code: 'SE' },
-    { name: 'Switzerland', code: 'CH' },
-    { name: 'Syrian Arab Republic', code: 'SY' },
-    { name: 'Taiwan, Province of China', code: 'TW' },
-    { name: 'Tajikistan', code: 'TJ' },
-    { name: 'Tanzania, United Republic of', code: 'TZ' },
-    { name: 'Thailand', code: 'TH' },
-    { name: 'Timor-Leste', code: 'TL' },
-    { name: 'Togo', code: 'TG' },
-    { name: 'Tokelau', code: 'TK' },
-    { name: 'Tonga', code: 'TO' },
-    { name: 'Trinidad and Tobago', code: 'TT' },
-    { name: 'Tunisia', code: 'TN' },
-    { name: 'Turkey', code: 'TR' },
-    { name: 'Turkmenistan', code: 'TM' },
-    { name: 'Turks and Caicos Islands', code: 'TC' },
-    { name: 'Tuvalu', code: 'TV' },
-    { name: 'Uganda', code: 'UG' },
-    { name: 'Ukraine', code: 'UA' },
-    { name: 'United Arab Emirates', code: 'AE' },
-    { name: 'United Kingdom', code: 'GB' },
-    { name: 'United States', code: 'US' },
-    { name: 'United States Minor Outlying Islands', code: 'UM' },
-    { name: 'Uruguay', code: 'UY' },
-    { name: 'Uzbekistan', code: 'UZ' },
-    { name: 'Vanuatu', code: 'VU' },
-    { name: 'Venezuela', code: 'VE' },
-    { name: 'Viet Nam', code: 'VN' },
-    { name: 'Virgin Islands, British', code: 'VG' },
-    { name: 'Virgin Islands, U.S.', code: 'VI' },
-    { name: 'Wallis and Futuna', code: 'WF' },
-    { name: 'Western Sahara', code: 'EH' },
-    { name: 'Yemen', code: 'YE' },
-    { name: 'Zambia', code: 'ZM' },
-    { name: 'Zimbabwe', code: 'ZW' }
-  ]
-  /************ Start - Edi-Recipient Bank Details function***************/
-  const handleBankNameValue = (event) => {
-    const regex = /^[a-zA-Z]+$/; // regex pattern to allow only alphabets
-    if (event.target.value === '' || regex.test(event.target.value)) {
-      setBank_name(event.target.value);
-    }
-  };
-
-
-  const handleAccountNameValue = (event) => {
-    const regex = /^[a-zA-Z]+$/; // regex pattern to allow only alphabets
-    if (event.target.value === '' || regex.test(event.target.value)) {
-      setAccount_name(event.target.value);
-    }
-  };
-
-  const handleAccountNumberValue = (event) => {
-    const newValue = event.target.value.replace(/\D/, ""); // remove non-numeric characters
-    setAccount_number(newValue);
-
-  };
-
-
-
-
-  /************ Start - Cancel Recipient Bank Details function***************/
-  const handlRecipientBankDetails = (e) => {
-    e.preventDefault();
-    window.location.reload(false);
-
-    console.log("handle request ");
+  const handleCancel = () => {
+    navigate("/user-recipients")
   }
-
-  /****************** select country *******************/
-  const [countryValue, setcountryValue] = useState('')
-  const countryoptions = useMemo(() => countryList().getData(), [])
-
-  const changeHandler = countryValue => {
-    setcountryValue(countryValue)
-  }
-
-  /* start-- useRef is used for focusing on inputbox */
-  const input_location = useRef(null);
-
-  // Start page show hide condtion page
-  const navigate = useNavigate('');
-
-  /**********************Design function************ */
-  const [isActive, setActive] = useState("false");
-
-  const handleToggle = () => {
-    setActive(!isActive);
-  };
-
-  /********************** Start- form-validation ***********************/
-  const input_bankName = useRef(null);
-  const input_accountName = useRef(null);
-  const input_accountNumber = useRef(null);
-  const input_firstName = useRef(null);
-  const input_middleName = useRef(null);
-  const input_lastName = useRef(null);
-  const input_email = useRef(null);
-  const input_mobile = useRef(null);
-  const input_flat = useRef(null);
-  const input_building = useRef(null);
-  const input_street = useRef(null);
-  const input_city = useRef(null);
-  const input_state = useRef(null);
-  const input_country = useRef(null);
-
-
-  /**********************Localstorage getting data*********** */
-
-  // function handleDataStore(){
-
-  //   var courses =JSON.parse(localStorage.getItem('RecepientsData') || "[]")
-  //   var course ={
-  //     account_name:formValue.account_name,
-  //     // account_name:account_name
-  //   }
-  //   courses.push(course)
-
-  //   localStorage.setItem('courses', JSON.stringify(courses))
-  // }
-
-  /**************************************************************************
-   * ************** Start  Recipient Bank Details ****************************
-   * ***********************************************************************/
-
-  /* start-- useRef is used for focusing on inputbox */
 
   useEffect(() => {
-    console.log("Data=========>", id)
-
-    setLoading(true); // Set loading before sending API requestssss
-    getUserRecipient(id).then((response) => {
-      console.log(response)
-
-      if (response.code == 200) {
-        let value = response.data
-        setData({
-          ...data,
-          id: value.id,
-          bank_name: value.bank_name,
-          account_name: value.account_name,
-          account_number: value.account_number,
-          first_name: value.first_name,
-          middle_name: value.middle_name,
-          last_name: value.last_name,
-          email: value.email,
-          mobile: value.mobile,
-          country: value.country,
-          flat: value.flat,
-          street: value.street,
-          building: value.building,
-          state: value.state,
-          city: value.city
-        })
-        formik.setFieldValue("bank_name", value.bank_name)
-        formik.setFieldValue("account_name", value.account_name)
-        formik.setFieldValue("account_number", value.account_number)
-        formik.setFieldValue("first_name", value.first_name)
-        formik.setFieldValue("middle_name", value.middle_name)
-        formik.setFieldValue("last_name", value.last_name)
-        formik.setFieldValue("email", value.email)
-        formik.setFieldValue("mobile", value.mobile)
-        formik.setFieldValue("flat", value.flat)
-        formik.setFieldValue("building", value.building)
-        formik.setFieldValue("state", value.state)
-        formik.setFieldValue("city", value.city)
-        formik.setFieldValue("street", value.street)
-        formik.setFieldValue("country", value.country)
+    const value = data.country !== "" ? data.country : countryList[0]?.name
+    if (data.country == "") {
+      setData({ ...data, country: countryList[0]?.name, country_code: countryList[0]?.iso2 })
+      formik.setFieldValue("country", countryList[0]?.name)
+    }
+    countryList?.map((item) => {
+      if (item?.name === value) {
+        setStateList(item?.states);
+        setData({ ...data, state: item?.states[0].name })
+        formik.setFieldValue("state", item?.states[0].name)
       }
-      setLoading(false)
-    }).catch((error) => {
-      console.log(error.response)
-      setLoading(false)
     })
-    // axios.get(API.BASE_URL + `payment/recipient-update/${id}`, {
-    //   headers: {
-    //     "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-    //   },
-    // })
-    //   .then(function (response) {
-    //     console.log(response);
-    //     let value = response.data.data
+  }, [data.country])
 
-    //     //  setLoading(false); // Stop loading   
+  useEffect(() => {
+    const value = data.state !== "" ? data.state : state_list[0]?.name
+    state_list?.map((item) => {
+      if (item?.name === value) {
+        setCityList(item?.cities);
+        setData({ ...data, city: item?.cities[0].name })
+        formik.setFieldValue("city", item?.cities[0].name)
+      }
+    })
+  }, [data.state])
 
-    //   .catch(function (error, message) {
-    //     console.log(error.response);
-    //     //  setLoading(false); // Stop loading in case of error
-    //     // setBankNameText(error.response.data); 
-
-    //   })
-
+  useEffect(() => {
+    if (authDashHelper('dashCheck') === false) {
+      navigate("/send-money")
+    } else {
+      setLoading(true);
+      getUserRecipient(id).then((response) => {
+        console.log(response)
+        if (response.code == "200") {
+          let values = response.data
+          setData(values)
+          formik.setValues({ ...values })
+        }
+        setLoading(false)
+      }).catch((error) => {
+        console.log(error.response)
+        setLoading(false)
+      })
+    }
   }, [])
-
-
-  /**************************************************************************
-    * ************** Start  Recipient Bank Details ****************************
-    * ***********************************************************************/
-
-  /* start-- useRef is used for focusing on inputbox */
-  // const handleRecipientBankDetails = (value) => {
-
-
-  // if (bank_name.length == 0) {
-  //   input_bankName.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (account_name.length == 0) {
-  //   input_accountName.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (account_number.length == 0) {
-  //   input_accountNumber.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (firstName.length == 0) {
-  //   input_firstName.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (middleName.length == 0) {
-  //   input_middleName.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (lastName.length == 0) {
-  //   input_lastName.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (email.length == 0) {
-  //   input_firstName.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (mobile.length == 0) {
-  //   input_mobile.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (flat.length == 0) {
-  //   input_flat.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (building.length == 0) {
-  //   input_building.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (street.length == 0) {
-  //   input_street.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (city.length == 0) {
-  //   input_city.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (state.length == 0) {
-  //   input_state.current.focus();
-  //   setErrorUserRecipient(true);
-  // } else if (country.length == 0) {
-  //   input_country.current.focus();
-  //   setErrorUserRecipient(true);
-  // }
-  // else {
-  //   console.log("============>token", token)
-
-  //   //useRef is used for focusing on inputbox
-  //   // event.preventDefault();
-  //   setLoading(true); // Set loading before sending API requestssss
-  //   axios.post(API.BASE_URL + `payment/recipient-update/${value}`, {
-  //     bank_name: bank_name,
-  //     account_name: account_name,
-  //     account_number: account_number,
-  //     first_name: firstName,
-  //     middle_name: middleName,
-  //     last_name: lastName,
-  //     email: email,
-  //     mobile: mobile,
-  //     flat: flat,
-  //     building: building,
-  //     street: street,
-  //     city: city,
-  //     state: state,
-  //     country: countryValue.label,
-
-  //   }, {
-  //     headers: {
-  //       "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-  //     },
-  //   })
-  //     .then(function (response) {
-  //       console.log(response);
-  //       setLoading(false); // Stop loading 
-  //       navigate('/user-recipients');
-
-  //     })
-  //     .catch(function (error, message) {
-  //       console.log(error.response);
-  //       setLoading(false); // Stop loading in case of error
-  //       // setBankNameText(error.response.data);
-
-  //     })
-  // }
-  // }
 
   const formik = useFormik({
     initialValues,
     validationSchema: recipientSchema,
     onSubmit: async (values) => {
-      console.log("pppppppppppppppppp", id , values)
+      console.log("pppppppppppppppppp", id, values)
       let data = {
         bank_name: values.bank_name,
         account_name: values.account_name,
@@ -669,7 +143,7 @@ const Editrecipientuser = () => {
         country: values.country
       }
 
-      if(values.middle_name == ""){
+      if (values.middle_name == "") {
         data = {
           bank_name: values.bank_name,
           account_name: values.account_name,
@@ -687,17 +161,17 @@ const Editrecipientuser = () => {
         }
       }
       setLoading(true)
-      updateUserRecipient(id ,data).then((response) => {
+      updateUserRecipient(id, data).then((response) => {
         console.log("rescipient+++++++++++++++", response)
-        if(response.code == "200"){
-          toast.success("Successfully updated", { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
+        if (response.code == "200") {
+          toast.success("Successfully updated", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         }
         setLoading(false)
       }).catch((error) => {
         console.log(error.response)
         setLoading(false)
         if (error.response.data.code == "400") {
-          toast.error(error.response.data.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
+          toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         }
 
       })
@@ -705,6 +179,97 @@ const Editrecipientuser = () => {
     }
   })
 
+  const handleChange = (e) => {
+    if (e.target.name === 'country') {
+      countryList.map((item) => {
+        if (item.name === e.target.value) {
+          setData({ ...data, country_code: item.iso2 })
+        }
+      })
+    }
+    setData({ ...data, [e.target.name]: e.target.value })
+    formik.setFieldValue(e.target.name, e.target.value)
+    formik.setFieldTouched(e.target.name, true)
+  }
+
+  const handleKeyDown = (e, max) => {
+    console.log(e.key)
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete" || e.key === " ") {
+      setData({ ...data, [e.target.name]: e.target.value })
+      formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+      formik.setFieldTouched(`${[e.target.name]}`, true)
+    } else {
+      const value = e.target.value.toString()
+
+      if (value.length >= max) {
+
+        e.stopPropagation()
+        e.preventDefault()
+
+      } else {
+        const pattern = /^[A-z]+$/;
+        if (!pattern.test(e.key)) {
+          e.preventDefault();
+          e.stopPropagation()
+        } else {
+          setData({ ...data, [e.target.name]: e.target.value })
+          formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+          formik.setFieldTouched(`${[e.target.name]}`, true)
+        }
+      }
+    }
+  }
+
+  const handleEmail = (e, max) => {
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete") {
+      setData({ ...data, [e.target.name]: e.target.value })
+      formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+      formik.setFieldTouched(`${[e.target.name]}`, true)
+    } else {
+      const value = e.target.value.toString()
+      if (value.length >= max) {
+        e.stopPropagation()
+        e.preventDefault()
+
+      } else {
+        setData({ ...data, [e.target.name]: e.target.value })
+        formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+        formik.setFieldTouched(`${[e.target.name]}`, true)
+      }
+    }
+  }
+
+  const handlePostCode = (event, max) => {
+    const pattern = /^[0-9.,]+$/;
+    console.log("------------------------------------------------------++++", event.key)
+    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
+      setData({ ...data, [event.target.name]: event.target.value })
+      formik.setFieldValue(event.target.name, event.target.value)
+      formik.setFieldTouched(event.target.name, true)
+    } else {
+
+      let value = event.target.value.toString()
+      if (value.length > max) {
+        event.stopPropagation()
+        event.preventDefault()
+      } else {
+        if (!pattern.test(event.key)) {
+          event.preventDefault();
+          event.stopPropagation()
+        } else {
+          setData({ ...data, [event.target.name]: event.target.value })
+          formik.setFieldValue(event.target.name, event.target.value)
+          formik.setFieldTouched(event.target.name, true)
+        }
+      }
+    }
+  }
+
+  const handlePhone = (e, coun) => {
+    formik.setFieldValue('mobile', e);
+    formik.setFieldTouched('mobile', true);
+    formik.setFieldValue('country', coun.name)
+  }
 
 
   return (
@@ -724,8 +289,6 @@ const Editrecipientuser = () => {
                     </button>
                   </NavLink>
                 </h2></div>
-              <span style={myStyle}>{BankNameText.Accountnumberexist ? BankNameText.Accountnumberexist : ''}</span>
-              <span style={myStyle}>{BankNameText.userrecipient ? BankNameText.userrecipient : ''}</span>
               <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
                 <div className="card">
                   <div className="card-body">
@@ -737,12 +300,10 @@ const Editrecipientuser = () => {
                           <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
                           <input
                             type="text"
-                            autoComplete='off'
-                            placeholder="Enter Bank Name"
-                            value={data.bank_name}
                             name="bank_name"
-                            onChange={(e) => setData({ ...data, bank_name: e.target.value })}
-                            {...formik.getFieldProps('bank_name')}
+                            value={data.bank_name}
+                            onKeyDown={(e) => { handleKeyDown(e, 50) }}
+                            {...formik.getFieldProps("bank_name")}
                             className={clsx(
                               'form-control bg-transparent',
                               { 'is-invalid': formik.touched.bank_name && formik.errors.bank_name },
@@ -751,25 +312,17 @@ const Editrecipientuser = () => {
                               }
                             )}
                           />
-                          {errorUserRecipient && bank_name.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Bank Name </span> : ""}
-
-                          <span style={myStyle}>{BankNameText.Enterbankname ? BankNameText.Enterbankname : ''}</span>
-
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
                           <input
-
                             type="text"
-                            autoComplete='off'
-                            placeholder="Enter Account Name"
-                            value={data.account_name}
                             name="account_name"
-                            onChange={(e) => setData({ ...data, account_name: e.target.value })}
-                            {...formik.getFieldProps('account_name')}
+                            value={data?.account_name}
+                            onKeyDown={(e) => { handleKeyDown(e, 50) }}
+                            {...formik.getFieldProps("account_name")}
                             className={clsx(
                               'form-control bg-transparent',
                               { 'is-invalid': formik.touched.account_name && formik.errors.account_name },
@@ -778,11 +331,6 @@ const Editrecipientuser = () => {
                               }
                             )}
                           />
-                          {errorUserRecipient && account_name.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Account Name </span> : ""}
-
-                          <span style={myStyle}>{BankNameText.Enteraccountname ? BankNameText.Enteraccountname : ''}</span>
-
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -790,12 +338,10 @@ const Editrecipientuser = () => {
                           <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>
                           <input
                             type="text"
-                            autoComplete='off'
-                            placeholder="Enter Account Number"
-                            value={data.account_number}
                             name="account_number"
-                            onChange={(e) => setData({ ...data, account_number: e.target.value })}
-                            {...formik.getFieldProps('account_number')}
+                            value={data?.account_number}
+                            onKeyDown={(e) => { handlePostCode(e, 19) }}
+                            {...formik.getFieldProps("account_number")}
                             className={clsx(
                               'form-control bg-transparent',
                               { 'is-invalid': formik.touched.account_number && formik.errors.account_number },
@@ -804,11 +350,6 @@ const Editrecipientuser = () => {
                               }
                             )}
                           />
-                          {errorUserRecipient && account_number.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Account number </span> : ""}
-
-                          <span style={myStyle}>{BankNameText.Enteraccountnumber ? BankNameText.Enteraccountnumber : ''}</span>
-                          <span style={myStyle}>{BankNameText.Accountnumberexist ? BankNameText.Accountnumberexist : ''}</span>
                         </div>
                       </div>
                     </div>
@@ -819,12 +360,10 @@ const Editrecipientuser = () => {
                           <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
                           <input
                             type="text"
-                            autoComplete='off'
-                            placeholder="Enter first name"
-                            value={data.first_name}
                             name="first_name"
-                            onChange={(e) => setData({ ...data, first_name: e.target.value })}
-                            {...formik.getFieldProps('first_name')}
+                            value={data.first_name}
+                            onKeyDown={(e) => { handleKeyDown(e, 25) }}
+                            {...formik.getFieldProps("first_name")}
                             className={clsx(
                               'form-control bg-transparent',
                               { 'is-invalid': formik.touched.first_name && formik.errors.first_name },
@@ -833,10 +372,6 @@ const Editrecipientuser = () => {
                               }
                             )}
                           />
-                          {errorUserRecipient && firstName.length <= 0 ?
-                            <span style={myStyle}>Please Enter the First Name </span> : ""}
-
-                          <span style={myStyle}>{BankNameText.first_name ? BankNameText.first_name : ''}</span>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -844,18 +379,12 @@ const Editrecipientuser = () => {
                           <p className="get-text">Middle Name</p>
                           <input
                             type="text"
-                            className='rate_input form-control'
-                            placeholder="Enter middle name"
-                            autoComplete='off'
-                            value={data.middle_name}
                             name="middle_name"
-                            onChange={(e) => setData({ ...data, middle_name: e.target.value })}
-                            {...formik.getFieldProps('middle_name')}
+                            className='form-control'
+                            value={data.middle_name}
+                            onKeyDown={(e) => { handleKeyDown(e, 25) }}
+                            {...formik.getFieldProps("middle_name")}
                           />
-                          {errorUserRecipient && middleName.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Middle Name </span> : ""}
-
-                          <span style={myStyle}>{BankNameText.middle_name ? BankNameText.middle_name : ''}</span>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -863,12 +392,10 @@ const Editrecipientuser = () => {
                           <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
                           <input
                             type="text"
-                            placeholder="Enter last name"
-                            autoComplete='off'
-                            value={data.last_name}
                             name="last_name"
-                            onChange={(e) => setData({ ...data, last_name: e.target.value })}
-                            {...formik.getFieldProps('last_name')}
+                            value={data.last_name}
+                            onKeyDown={(e) => { handleKeyDown(e, 25) }}
+                            {...formik.getFieldProps("last_name")}
                             className={clsx(
                               'form-control bg-transparent',
                               { 'is-invalid': formik.touched.last_name && formik.errors.last_name },
@@ -877,10 +404,6 @@ const Editrecipientuser = () => {
                               }
                             )}
                           />
-                          {errorUserRecipient && lastName.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Last Name </span> : ""}
-
-                          <span style={myStyle}>{BankNameText.last_name ? BankNameText.last_name : ''}</span>
                         </div>
                       </div>
                     </div>
@@ -890,11 +413,10 @@ const Editrecipientuser = () => {
                           <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
                           <input
                             type="email"
-                            placeholder="Enter email"
-                            autoComplete='off'
-                            value={data.email}
                             name="email"
-                            onChange={(e) => setData({ data, email: e.target.value })}
+                            value={data.email}
+                            onKeyDown={(e) => { handleEmail(e, 50) }}
+                            {...formik.getFieldProps("email")}
                             className={clsx(
                               'form-control bg-transparent',
                               { 'is-invalid': formik.touched.email && formik.errors.email },
@@ -903,25 +425,27 @@ const Editrecipientuser = () => {
                               }
                             )}
                           />
-                          {errorUserRecipient && email.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Email Address </span> : ""}
-
-                          <span style={myStyle}>{BankNameText.email ? BankNameText.email : ''}</span>
-                          <span style={myStyle}>{BankNameText.Emailinvalid ? BankNameText.Emailinvalid : ''}</span>
-
+                          {formik.touched.email && formik.errors.email && (
+                            <div className='fv-plugins-message-container mt-1'>
+                              <div className='fv-help-block'>
+                                <span role='alert' className="text-danger">{formik.errors.email}</span>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="input_field">
                           <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                           <PhoneInput
-                            enableSearch={true}
+                            onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
+                            country={data.country_code ? data.country_code.toLowerCase() : "gh"}
                             name="mobile"
+                            value={formik.values.mobile}
                             inputStyle={{ border: "none", margin: "none" }}
                             inputClass="phoneInp"
-                            defaultCountry={"au"}
-                            value={data.mobile}
-                            onChange={mno => { formik.setFieldValue('mobile', mno); formik.setFieldTouched('mobile', true) }}
+                            defaultCountry={"gh"}
+                            onChange={(val, coun) => { handlePhone(val, coun) }}
                             className={clsx(
                               'form-control form-control-sm bg-transparent',
                               { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
@@ -930,13 +454,6 @@ const Editrecipientuser = () => {
                               }
                             )}
                           />
-                          {errorUserRecipient && mobile.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Mobile Number </span> : ""}
-
-                          <span style={myStyle}>{BankNameText.mobile ? BankNameText.mobile : ''}</span>
-                          <span style={myStyle}>{BankNameText.Entervalidmobile ? BankNameText.Entervalidmobile : ''}</span>
-                          <span style={myStyle}>{BankNameText.Mobileexist ? BankNameText.Mobileexist : ''}</span>
-                          <span style={myStyle}>{BankNameText.Validmobile ? BankNameText.Validmobile : ''}</span>
                         </div>
                       </div>
                     </div>
@@ -946,14 +463,12 @@ const Editrecipientuser = () => {
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
                           <p className="get-text">Flat/Unit No.<span style={{ color: 'red' }} >*</span></p>
-                          <Form.Control
+                          <input
                             type="text"
-                            placeholder="Enter Flat No."
-                            autoComplete='off'
-                            value={data.flat}
                             name="flat"
-                            onChange={(e) => setData({ ...data, flat: e.target.value })}
-                            {...formik.getFieldProps('flat')}
+                            value={data.flat}
+                            onKeyDown={(e) => { handleEmail(e, 15) }}
+                            {...formik.getFieldProps("flat")}
                             className={clsx(
                               'form-control bg-transparent',
                               { 'is-invalid': formik.touched.flat && formik.errors.flat },
@@ -962,22 +477,17 @@ const Editrecipientuser = () => {
                               }
                             )}
                           />
-                          {errorUserRecipient && flat.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Flat Name</span> : ""}
-
                         </Form.Group>
                       </div>
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
-                          <p className="get-text">Building/Unit No.<span style={{ color: 'red' }} >*</span></p>
-                          <Form.Control
+                          <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
+                          <input
                             type="text"
-                            autoComplete='off'
-                            placeholder="Enter building no."
-                            value={data.building}
                             name="building"
-                            onChange={(e) => setData({ ...data, building: e.target.value })}
-                            {...formik.getFieldProps('building')}
+                            value={data.building}
+                            onKeyDown={(e) => { handleEmail(e, 30) }}
+                            {...formik.getFieldProps("building")}
                             className={clsx(
                               'form-control bg-transparent',
                               { 'is-invalid': formik.touched.building && formik.errors.building },
@@ -986,21 +496,17 @@ const Editrecipientuser = () => {
                               }
                             )}
                           />
-                          {errorUserRecipient && building.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Building Name</span> : ""}
                         </Form.Group>
                       </div>
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
                           <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
-                          <Form.Control
+                          <input
                             type="text"
-                            placeholder="Enter street"
-                            autoComplete='off'
-                            value={data.street}
                             name="street"
-                            onChange={(e) => setData({ ...data, street: e.target.value })}
-                            {...formik.getFieldProps('street')}
+                            value={data.street}
+                            onKeyDown={(e) => { handleEmail(e, 50) }}
+                            {...formik.getFieldProps("street")}
                             className={clsx(
                               'form-control bg-transparent',
                               { 'is-invalid': formik.touched.street && formik.errors.street },
@@ -1009,8 +515,6 @@ const Editrecipientuser = () => {
                               }
                             )}
                           />
-                          {errorUserRecipient && street.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Street Name</span> : ""}
                         </Form.Group>
                       </div>
                     </div>
@@ -1018,76 +522,93 @@ const Editrecipientuser = () => {
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
                           <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter City"
-                            autoComplete='off'
-                            value={data.city}
-                            name="city"
-                            onChange={(e) => setData({ ...data, city: e.target.value })}
-                            {...formik.getFieldProps('city')}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.city && formik.errors.city },
-                              {
-                                'is-valid': formik.touched.city && !formik.errors.city,
-                              }
-                            )}
-                          />
-                          {errorUserRecipient && city.length <= 0 ?
-                            <span style={myStyle}>Please Enter the City Name</span> : ""}
+                          {
+                            city_list && city_list.length > 0 ? (
+                              <select
+                                value={data.city}
+                                name="city"
+                                onChange={(e) => handleChange(e)}
+                                className='form-control form-select bg-transparent'
+                              >
+                                {city_list?.map((opt) => {
+                                  return (
+                                    <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                                  )
+                                })
+                                }
+                              </select>
+                            ) : (
+                              <input
+                                type="text"
+                                name="city"
+                                value={data.city}
+                                onKeyDown={(e) => { handleKeyDown(e, 35) }}
+                                {...formik.getFieldProps("city")}
+                                className={clsx(
+                                  'form-control bg-transparent',
+                                  { 'is-invalid': formik.touched.city && formik.errors.city },
+                                  {
+                                    'is-valid': formik.touched.city && !formik.errors.city,
+                                  }
+                                )}
+                              />
+                            )
+                          }
                         </Form.Group>
                       </div>
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
                           <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter State"
-                            autoComplete='off'
-                            value={data.state}
-                            name="state"
-                            onChange={(e) => setData({ ...data, state: e.target.value })}
-                            {...formik.getFieldProps('state')}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.state && formik.errors.state },
-                              {
-                                'is-valid': formik.touched.state && !formik.errors.state,
-                              }
-                            )}
-                          />
-                          {errorUserRecipient && state.length <= 0 ?
-                            <span style={myStyle}>Please Enter the State Name</span> : ""}
+                          {
+                            state_list && state_list.length > 0 ?
+                              (<select
+                                value={data.state}
+                                name="state"
+                                onChange={(e) => handleChange(e)}
+                                className='form-control form-select bg-transparent'
+                              >
+                                {state_list?.map((opt) => {
+                                  return (
+                                    <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                                  )
+                                })
+                                }
+                              </select>) :
+                              (<input
+                                type="text"
+                                name="state"
+                                value={data.state}
+                                onKeyDown={(e) => { handleKeyDown(e, 30) }}
+                                {...formik.getFieldProps("state")}
+                                className={clsx(
+                                  'form-control bg-transparent',
+                                  { 'is-invalid': formik.touched.state && formik.errors.state },
+                                  {
+                                    'is-valid': formik.touched.state && !formik.errors.state,
+                                  }
+                                )}
+                              />)
+                          }
                         </Form.Group>
                       </div>
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
                           <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
-                          <Form.Select
-                            name="country"
+                          <select
                             value={data.country}
-                            onChange={(e) => setData({ ...data, country: e.target.value })}
-                            {...formik.getFieldProps('country')}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.country && formik.errors.country },
-                              {
-                                'is-valid': formik.touched.country && !formik.errors.country,
-                              }
-                            )}
+                            name="country"
+                            onChange={(e) => handleChange(e)}
+                            className='form-control form-select bg-transparent'
                           >
-                            <option value="">Select country</option>
                             {
-                              countries.map((location) => {
-                                return (
-                                  <option value={location.code}>{location.name}</option>
-                                )
-                              })
+                              countryList && countryList.length > 0 ?
+                                countryList?.map((opt) => {
+                                  return (
+                                    <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                                  )
+                                }) : ""
                             }
-                          </Form.Select>
-                          {errorUserRecipient && country.length <= 0 ?
-                            <span style={myStyle}>Please Enter the Country Name</span> : ""}
+                          </select>
                         </Form.Group>
                       </div>
                     </div>
@@ -1099,9 +620,9 @@ const Editrecipientuser = () => {
                         <button
                           type="submit"
                           className="start-form-button"
-                          onClick={handlRecipientBankDetails}
+                          onClick={() => handleCancel()}
                         >
-                          Clear
+                          Cancel
                         </button>
                       </div>
                       <div className="col-md-8">

@@ -214,6 +214,7 @@ const AmountDetail = ({ handleStep, step }) => {
             if (tdata?.amount) {
                 setAmtDetail(tdata?.amount)
                 formik.setValues({ ...tdata?.amount })
+                setExchRate(tdata?.amount?.rates)
             }
         } else if (locationState) {
             let data = locationState

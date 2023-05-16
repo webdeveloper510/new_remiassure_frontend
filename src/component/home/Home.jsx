@@ -235,6 +235,8 @@ const Home = () => {
     const nzd_opt = ["AUD", "USD", "EUR", "CAD"]
     const aud_opt = ["NZD", "USD", "EUR", "CAD"]
 
+
+
     useEffect(() => {
         exchangeRate({ amount: "1", from: "AUD", to: "NZD" }).then(res => {
             setTotal_rates(res.rate)
@@ -339,7 +341,7 @@ const Home = () => {
         formik.setFieldValue("from_type", e.target.value)
         formik.setFieldTouched("from_type", true)
         setLoading(true)
-        const amt = formik.values.send_amt != 0 ? formik.values.send_amt : "1"
+        const amt = formik.values.send_amt != 0 || formik.values.send_amt != undefined ? formik.values.send_amt : "1"
         if (e.target.value == "AUD" && formik.values.to_type == "AUD") {
             formik.setFieldValue("to_type", "NZD")
             exchangeRate({ amount: amt, from: e.target.value, to: "NZD" })
@@ -413,10 +415,14 @@ const Home = () => {
 
 
     const handleReset = () => {
+        const data = JSON.parse(localStorage.getItem("exchange_curr"))
+
         formik.resetForm({
-            values: { send_amt: "", recieve_meth: "", exchange_amt: "" }
+            values: { send_amt: "", recieve_meth: "Bank Transfer", exchange_amt: "", from_type: "AUD", to_type: "NZD" }
+
         })
-        setData({ exchange_amt: "" })
+        setTotal_rates(data.exch_rate)
+
     }
 
     return (
@@ -482,6 +488,7 @@ const Home = () => {
                                                     <select
                                                         className="form-select mb-3 home-select-method"
                                                         aria-label="Select a reason"
+                                                        value={formik.values.from_type}
                                                         onChange={(e) => { myTotalAmountFrom(e) }}
                                                     // {...formik.getFieldProps('from_type')}
                                                     >
@@ -505,17 +512,13 @@ const Home = () => {
                                                         autoComplete='off'
                                                         value={formik.values.exchange_amt}
                                                         readOnly
-                                                        className={clsx(
-                                                            'form-control bg-transparent mb-3 new_input',
-                                                            { 'is-invalid': formik.touched.exchange_amt && formik.errors.exchange_amt },
-                                                            {
-                                                                'is-valid': formik.touched.exchange_amt && !formik.errors.exchange_amt,
-                                                            }
-                                                        )}
+                                                        className='form-control bg-transparent mb-3 new_input'
+
                                                     />
                                                     <select
                                                         className="form-select form-control mb-3 home-select-method"
                                                         aria-label="Select a reason"
+                                                        value={formik.values.to_type}
                                                         onChange={(e) => { myTotalAmountTo(e) }}
                                                     >
                                                         {
@@ -539,24 +542,11 @@ const Home = () => {
                                                 <p className="get-text">Receive method</p>
                                                 <select
                                                     {...formik.getFieldProps('recieve_meth')}
-                                                    className={clsx(
-                                                        'form-select rate_input form-control mb-3 home-select-method bg-transparent',
-                                                        { 'is-invalid': formik.touched.recieve_meth && formik.errors.recieve_meth },
-                                                        {
-                                                            'is-valid': formik.touched.recieve_meth && !formik.errors.recieve_meth,
-                                                        }
-                                                    )} 
+                                                    className='form-select rate_input form-control mb-3 home-select-method bg-transparent'
                                                     aria-label="Select a reason">
                                                     <option value="Bank Transfer">Bank Transfer</option>
                                                     <option value="Mobile Wallet">Mobile Wallet</option>
                                                 </select>
-                                                {formik.touched.recieve_meth && formik.errors.recieve_meth && (
-                                                    <div className='fv-plugins-message-container mt-1 home-error'>
-                                                        <div className='fv-help-block'>
-                                                            <span role='alert' className="text-danger">{formik.errors.recieve_meth}</span>
-                                                        </div>
-                                                    </div>
-                                                )}
                                             </div>
                                             <div className="col-12 text-center">
                                                 <button

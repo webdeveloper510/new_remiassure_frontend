@@ -1,17 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import { Links, NavLink, useNavigate } from 'react-router-dom';
-import Accordion from 'react-bootstrap/Accordion';
-import { toast } from "react-toastify";
+import {NavLink, useNavigate } from 'react-router-dom';
 import { API } from "../../config/API";
 import axios from "axios";
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
-import Page404 from "../pageNotfound/Page404";
 import authDashHelper from "../../utils/AuthDashHelper";
 import { recipientList } from "../../utils/Api";
 
@@ -26,7 +23,6 @@ const UserRecipients = () => {
     const handleClose = () => setShow(false);
     const [isActive, setActive] = useState("false");
     const [data, setData] = useState([]);
-    const [RecepientsData, setRecepientsData] = useState('');
     const [loading, setLoading] = useState(true);
 
     const handleShow = (key) => {
@@ -34,16 +30,8 @@ const UserRecipients = () => {
         setDelete_Id(key)
     }
 
-    const handleToggle = () => {
-        setActive(!isActive);
-    };
-
     const LoadEdit = (id) => {
-        navigate(`/edit-recipient-user/${id}`);
-    }
-
-    const LoadSinglProfile = (id) => {
-        navigate(`/profile-single-data/${id}`);
+        navigate(`/edit-recipient-user`, { state: { id: id } });
     }
 
     const getList = () => {
@@ -59,27 +47,23 @@ const UserRecipients = () => {
     }
 
     useEffect(() => {
-        if (!authDashHelper('dashCheck')) {
+        if (authDashHelper('dashCheck') === false) {
             navigate("/send-money")
         }
         getList();
     }, [])
 
-    let id;
-
     const handleRemoveRecipientBankDetails = (value) => {
-        console.log("==============>======456768768", value)
         axios.delete(API.BASE_URL + `payment/recipient-update/${value}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
         })
             .then(function (response) {
-                console.log("=======success", response);
                 handleClose()
                 getList();
             })
-            .catch(function (error, message) {
+            .catch(function (error) {
                 console.log(error.response)
             })
     }
@@ -91,7 +75,6 @@ const UserRecipients = () => {
                 <div className="tabs-page">
                     <Sidebar />
                     <div className="content-body">
-                        {/* Start------- Loader functionalty */}
                         {loading ? <>
                             <div class="loader-overly">
                                 <div class="loader" >
@@ -99,7 +82,6 @@ const UserRecipients = () => {
 
                             </div>
                         </> : <></>}
-                        {/* End------- Loader functionalty */}
                         {
                             !loading ? (
                                 <span>
@@ -115,21 +97,7 @@ const UserRecipients = () => {
                                                     </NavLink>
                                                 </h2>
                                             </div>
-
-
                                             <div className="col-lg-12">
-                                                {/* loader start */}
-
-                                                {/* {loading ? <>
-                                                    <div class="loader-overly">
-                                                        <div class="loader" >
-
-                                                        </div>
-
-                                                    </div>
-                                                </> : <></>} */}
-                                                {/* loader End */}
-
                                                 <div className="card">
                                                     <div className="card-body">
 
@@ -146,11 +114,8 @@ const UserRecipients = () => {
                                                             <tbody>
                                                                 {
                                                                     data?.map((item, index) => {
-                                                                        //console.log(items, "itemnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
                                                                         return (
-
                                                                             <tr key={item.id}>
-
                                                                                 <td>{index + 1}</td>
                                                                                 <td>{item.first_name} {item.last_name}</td>
                                                                                 <td>{item.country}</td>
@@ -159,16 +124,11 @@ const UserRecipients = () => {
                                                                                     <button className="btn btn-danger" onClick={() => handleShow(item.id)}><i class="fa fa-trash"></i></button>
                                                                                     <button className="btn btn-primary" onClick={() => { LoadEdit(item.id) }}><i class="fa fa-pencil color-muted"></i></button>
                                                                                 </td>
-
                                                                             </tr>
-
                                                                         )
                                                                     })}
-
-
                                                             </tbody>
                                                         </Table>
-
 
                                                         <Modal show={show} onHide={handleClose}>
                                                             <Modal.Header closeButton>
@@ -185,12 +145,9 @@ const UserRecipients = () => {
                                                             </Modal.Footer>
                                                         </Modal>
 
-
-
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </section>
                                     ) : (
                                         <>
@@ -201,13 +158,12 @@ const UserRecipients = () => {
                                                 <div className="card">
                                                     <div className="card-body">
                                                         <div className="add-rec-new">
-                                                        <h6 className="my-2">No Recipient Found</h6>
+                                                            <h6 className="my-2">No Recipient Found</h6>
                                                             <img src={norecipients} alt="empty" />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className={isActive ? "add-recipent-section" : "remove-add-recipent-section"}>
-
                                                     <div className="col-md-12 align-center">
                                                         <NavLink to="/add-new-recipient">
                                                             <button className="form-button addsingle_recepient" >
@@ -227,48 +183,13 @@ const UserRecipients = () => {
                                     <div class="loader-overly">
                                         <div class="loader" >
                                         </div>
-
                                     </div>
                                 </>
                             )
                         }
-                        {/* {data?.length == 0 ? (
-                                <>
-                                 <section>
-                                        <div class="form-head mb-4">
-                                            <h2 class="text-black font-w600 mb-0"><b>Add Recipient</b></h2>
-                                        </div>
-                                        <div className="card">
-                                            <div className="card-body">
-                                                <div className="add-rec-new">
-                                                    <img src={norecipients} alt="empty" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className={isActive ? "add-recipent-section" : "remove-add-recipent-section"}>
-
-                                            <div className="col-md-12 align-center">
-                                                <NavLink to="/addnewrecipient">
-                                                    <button className="form-button addsingle_recepient" >
-                                                        <BsFillPersonPlusFill />
-                                                        Add New Recepients
-                                                    </button>
-                                                </NavLink>
-                                            </div>
-                                        </div>
-                                </section>
-                                </>
-                            ) : (
-                                <>
-                                </>
-                            )
-                            } */}
                     </div>
                 </div>
             </div>
-
-            {/* <!-- ======= Recept RemitAssure-Section End ======= --> */}
-
         </>
     )
 }

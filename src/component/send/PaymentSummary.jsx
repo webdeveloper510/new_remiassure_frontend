@@ -70,7 +70,9 @@ const PaymentSummary = ({ handleStep, step }) => {
         postcode: local?.sender?.post_code,
         city: local?.sender?.city,
         state: local?.sender?.state,
-        country: local?.sender?.country
+        country: local?.sender?.country,
+        country_code:local?.sender?.country_code
+
       },
       recipient: {
         first_name: local?.recipient?.f_name,
@@ -84,7 +86,8 @@ const PaymentSummary = ({ handleStep, step }) => {
         postcode: local?.recipient?.post_code,
         city: local?.recipient?.city,
         state: local?.recipient?.state,
-        country: local?.recipient?.country
+        country: local?.recipient?.country,
+        country_code:local?.recipient?.country_code
       },
       bank_details: {
         bank_name: local?.recipient?.bank,
@@ -99,7 +102,8 @@ const PaymentSummary = ({ handleStep, step }) => {
         send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
         recieve_method: local?.amount?.recieve_meth,
         reason: local?.recipient?.reason,
-        card_token: local?.payment?.token?.id
+        card_token: local?.payment?.token?.id,
+        exchange_rate:local?.amount?.rates
       }
     }
     setLoader(true)
@@ -232,7 +236,7 @@ const PaymentSummary = ({ handleStep, step }) => {
         <Modal.Body>
           <div className="form_body">
             <div className="header">
-              <h1 className='text-success'><BsCheckCircleFill /> First Transaction Successful</h1>
+              <h1 className='text-success'><BsCheckCircleFill />Transaction Successful</h1>
             </div>
             <Table>
               <tbody>

@@ -100,7 +100,7 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
-        if (!authDashHelper('dashCheck')) {
+        if (authDashHelper('dashCheck') === false) {
             navigate("/send-money")
         } else {
             userProfile().then((response) => {

@@ -128,9 +128,9 @@ if(transaction.id){
           </div>
         </div>
       </div>
-      <Modal className="modal-card" show={modal} onHide={() => setModal(false)}>
+      <Modal className="modal-card" show={modal} onHide={() => setModal(false)} backdrop="static">
         <Modal.Header>
-          <Modal.Title><i className='bi bi-stripe'></i> Payment</Modal.Title>
+          <Modal.Title>Debit/Credit Card</Modal.Title>
         </Modal.Header>
         <Modal.Body className='my-4'>
           <Elements stripe={stripePromise}>
@@ -207,7 +207,8 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal, handleTra
         send_amount: local?.amount?.send_amt,
         recieve_amount: local?.amount?.exchange_amt,
         reason: "Family Support",
-        card_token: token?.token?.id
+        card_token: token?.token?.id,
+        exchange_rate: local?.amount?.exchange_rate
       }
       axios.post(`${global.serverUrl}/payment/stripe-charge/`, data, {
         headers: {

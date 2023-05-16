@@ -108,7 +108,7 @@ const PaymentDetails = ({ handleStep, step }) => {
         </div>
       </div>
 
-      <Modal className="modal-card" show={modal} onHide={() => setModal(false)} centered>
+      <Modal className="modal-card" show={modal} onHide={() => setModal(false)} centered backdrop="static">
         <Modal.Header>
           <Modal.Title className='fs-5'>Debit/Credit Card</Modal.Title>
         </Modal.Header>

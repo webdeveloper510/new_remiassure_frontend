@@ -29,7 +29,6 @@ import UserProfile from './component/Userdashboard/UserProfile';
 import ChangePassword from './component/Userdashboard/ChangePassword';
 import UserRecipient from './component/Userdashboard/UserRecipient';
 import Dashboard from './component/Userdashboard/Dashboard';
-import Sidebar from './component/Userdashboard/Sidebar';
 import ReferralData from './component/referralData/ReferralData';
 import Editrecipientuser from './component/Userdashboard/EditUserRecipient';
 import SingleRecipientProfile from './component/Userdashboard/SingleRecipientProfile';
@@ -39,7 +38,6 @@ import EditCardUser from './component/Userdashboard/EditUserCard';
 import SingleCardProfile from './component/Userdashboard/SingleCardProfile';
 import Page404 from './component/pageNotfound/Page404';
 import UserMoney from "./component/Userdashboard/UserMoney/UserMoney"
-import GoToTop from './GoToTop';
 
 
 const routes = [
@@ -67,48 +65,27 @@ const routes = [
 
   {
     path: '/',
-    // element: <HomeLayout />,
     guard: AuthProtect,
     children: [
 
       { path: '/multiple', element: <Multiple /> },
-      // { path: '/user-recipients', element: <Recipients /> },
       { path: '/send-money', element: <SendMoney /> },
       { path: '/referral-data', element: <ReferralData /> },
-      // { path: '/user-dashboard', element: <UserDashboard /> },
-      // { path: '/user-send-money', element: <UserSendMoney /> },
-      // { path: '/add-new-recipient', element: <AddNewRecipient /> },
-      // { path: '/user-profile', element: <UserProfile /> },
-      // { path: '/user-recipients', element: <UserRecipient /> },
-      // { path: '/change-password', element: <ChangePassword /> },
-      // { path: '/dashboard', element: <Dashboard /> },
-      // { path: '/edit-recipient-user/:id', element: <Editrecipientuser /> },
-      // { path: '/profile-single-data/:id', element: <SingleRecipientProfile /> },
-      // { path: '/user-card-list', element: <UserCardLists /> },
-      // { path: '/add-new-card', element: <Addnewcard /> },
-      // { path: '/edit-card-user/:id', element: <EditCardUser /> },
-      // { path: '/single-card-data/:id', element: <SingleCardProfile /> },
-      // { path: '404', element: <Page404 /> },
-      // { path: '*', element: <Navigate to="/404" /> },
-
     ]
   },
 
-  //Protected Dashboard
   {
     path: '/',
-    // element: <HomeLayout />,
     guard: AuthDashProtect,
     children: [
       { path: '/transactions', element: <Transfer /> },
-      // { path: '/user-send-money', element: <UserSendMoney /> },
       { path: '/user-send-money', element: <UserMoney/> },
       { path: '/add-new-recipient', element: <AddNewRecipient /> },
       { path: '/user-profile', element: <UserProfile /> },
       { path: '/user-recipients', element: <UserRecipient /> },
       { path: '/change-password', element: <ChangePassword /> },
       { path: '/dashboard', element: <Dashboard /> },
-      { path: '/edit-recipient-user/:id', element: <Editrecipientuser /> },
+      { path: '/edit-recipient-user', element: <Editrecipientuser /> },
       { path: '/profile-single-data/:id', element: <SingleRecipientProfile /> },
       { path: '/user-card-list', element: <UserCardLists /> },
       { path: '/add-new-card', element: <Addnewcard /> },
@@ -121,12 +98,7 @@ const routes = [
   },
 ]
 
-
 export default routes;
-
-
-
-// import React from 'react';
 // import { Navigate } from 'react-router-dom';
 
 // //AuthProtect

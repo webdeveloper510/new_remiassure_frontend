@@ -20,18 +20,18 @@ const SendMoney = () => {
     }
 
     useEffect(() => {
-        if (!authDashHelper('dashCheck')) {
+        if (authDashHelper('dashCheck') === false) {
             navigate("/send-money")
         }
         else {
             localStorage.removeItem("send-step")
             localStorage.removeItem("transfer_data")
         }
-        setInterval(() => {
-            localStorage.removeItem("send-step");
-            localStorage.removeItem("transfer_data");
-            window.location.reload(true)
-        }, 30 * 60 * 1000);
+        // setInterval(() => {
+        //     localStorage.removeItem("send-step");
+        //     localStorage.removeItem("transfer_data");
+        //     window.location.reload(true)
+        // }, 30 * 60 * 1000);
 
     }, [])
 

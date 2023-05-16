@@ -29,7 +29,7 @@ const UserDashboard = () => {
   const navigate = useNavigate()
 
 useEffect(()=>{
-  if (!authDashHelper('dashCheck')) {
+  if (authDashHelper('dashCheck') === false) {
     navigate("/send-money")
  }
 },[])
