@@ -1,27 +1,13 @@
-import React, { useState, useContext, useEffect } from "react";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import CountryDropdown from 'country-dropdown-with-flags-for-react';
-import { Links, NavLink, useNavigate } from 'react-router-dom';
-
-import { toast } from "react-toastify";
-import { API } from "../../config/API";
-import axios from "axios";
-import { FcCurrencyExchange } from "react-icons/fc";
-import { FcCheckmark } from "react-icons/fc";
-import { FcProcess } from "react-icons/fc";
-import { FcCancel } from "react-icons/fc";
-import { BiDollarCircle } from "react-icons/bi";
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from 'react-router-dom';
 import { MdRemoveRedEye } from "react-icons/md";
 import { BiTransfer } from "react-icons/bi";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import authDashHelper from "../../utils/AuthDashHelper";
-
 import Sidebar from './Sidebar';
-import Page404 from "../pageNotfound/Page404";
 import nodata from '../../assets/img/userdashboard/nodata.avif';
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
-import { completedPayment, transactionHistory, userProfile } from "../../utils/Api";
+import {  recipientList, transactionHistory, userProfile } from "../../utils/Api";
 
 
 const Dashboard = () => {
@@ -31,33 +17,17 @@ const Dashboard = () => {
     /**************************token ************************ */
     const token = localStorage.getItem("token");
 
-    /**************************transaction of state ************************ */
-
     const [transactionData, setTransactionData] = useState([]);
-    const [RecepientsData, setRecepientsData] = useState('');
     const [loading, setLoading] = useState(true);
-
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('')
-    /**************************Recipient of state ************************ */
-    const [data, setData] = useState([]);
     const [recipientData, setRecipientData] = useState([]);
-    const [dataLength, setDataLength] = useState("")
-    const [total_amount, setTotalAmount] = useState(0)
+   const [total_amount, setTotalAmount] = useState(0)
     const [total_recipients, setTotalRecipients] = useState(0)
-
-    const [isActive, setActive] = useState("false");
-
-    const handleToggle = () => {
-        setActive(!isActive);
-    };
-
-    console.log("transation----------------", transactionData)
 
 
     const transHistory = () => {
         transactionHistory().then((response) => {
-            // console.log("payment-transaction-history----------====", response)
             if (response.code == "200") {
                 setTransactionData(response.data);
                 let d = response.data
@@ -72,7 +42,6 @@ const Dashboard = () => {
                 setLoading(false)
             }
         }).catch((error) => {
-            // console.log(error.response)
             setLoading(false)
 
         })
@@ -81,18 +50,13 @@ const Dashboard = () => {
 
 
     const getList = () => {
-        axios.post(API.BASE_URL + 'payment/recipient-list/', {}, {
-            headers: {
-                "Authorization": `Bearer ${token}`,
+        recipientList({}).then(function (response) {
+            if (response.code == "200") {
+                setRecipientData(response.data);
+                setTotalRecipients(response.data.length)
+                setLoading(false)
             }
         })
-            .then(function (response) {
-                if (response.data.code == "200") {
-                    setRecipientData(response.data.data);
-                    setTotalRecipients(response.data.data.length)
-                    setLoading(false)
-                }
-            })
             .catch(function (error) {
                 console.log(error)
                 setLoading(false)
@@ -148,9 +112,7 @@ const Dashboard = () => {
                                                         </div>
 
                                                         <div className="icon">
-                                                            {/* <NavLink to={"/add-new-recipient"} > */}
                                                             <BsFillPersonPlusFill />
-                                                            {/* </NavLink> */}
 
                                                         </div>
 
@@ -222,7 +184,6 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                             </div>
-                            {/* loader start */}
 
                             {loading ? <>
                                 <div class="loader-overly">
@@ -231,7 +192,6 @@ const Dashboard = () => {
 
                                 </div>
                             </> : <></>}
-                            {/* loader End */}
 
                             {!loading ? (
                                 <>
@@ -258,7 +218,6 @@ const Dashboard = () => {
                                                         <tbody>
                                                             {
                                                                 transactionData?.map((res, index) => {
-                                                                    //console.log(items, "itemnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
                                                                     return (
                                                                         <tr>
                                                                             <td>
@@ -377,7 +336,6 @@ const Dashboard = () => {
                                 </>
                             ) : (
                                 <>
-                                    {/* <Page404 /> */}
                                     <div className="loader-overly">
                                         <div className="loader" >
                                         </div>

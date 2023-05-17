@@ -1,22 +1,12 @@
 
 import React, { useState, useContext, useEffect, useRef } from "react";
 import Table from 'react-bootstrap/Table';
-import Accordion from 'react-bootstrap/Accordion';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { Links, NavLink, useNavigate, useParams } from 'react-router-dom';
-import CountryDropdown from 'country-dropdown-with-flags-for-react';
-import { toast } from "react-toastify";
-import { API } from "../../config/API";
 import axios from "axios";
-import UserRecipient from "../Userdashboard/UserRecipient";
 import profileimage from '../../assets/img/userdashboard/card_bg.png';
-
-import { BsFillPersonPlusFill } from "react-icons/bs";
-import { BsFillPencilFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import Page404 from "../pageNotfound/Page404";
+import global from "../../utils/global";
 // start css
 const myStyle = {
   color: "red",
@@ -115,7 +105,7 @@ const SingleCardProfile = () => {
 
     // event.preventDefault();
     //  setLoading(true); // Set loading before sending API requestssss
-    axios.post(API.BASE_URL + `payment/card/${id}`, {}, {
+    axios.post(global.serverUrl + `/payment/card/${id}`, {}, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
       },

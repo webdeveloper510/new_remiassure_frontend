@@ -40,7 +40,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       beneficiary_name:local?.recipient?.f_name+" "+local?.recipient?.l_name
     })
 
-    axios.post("http://54.193.130.43:8000/digital-verification/", { code: localStorage.getItem("DigitalCode") }, {
+    axios.post(`${global.serverUrl}/digital-verification/`, { code: localStorage.getItem("DigitalCode") }, {
       headers: {
         'Content-Type': 'application/json',
         "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -61,7 +61,8 @@ const PaymentSummary = ({ handleStep, step }) => {
         Middle_name: local?.sender?.m_name,
         Last_name: local?.sender?.l_name,
         Date_of_birth: local?.sender?.dob,
-        Gender: local?.sender?.gender
+        Gender: local?.sender?.gender,
+        Country_of_birth:local?.sender?.country_of_birth
       },
       sender_address: {
         flat: local?.sender?.flat,
@@ -116,8 +117,8 @@ const PaymentSummary = ({ handleStep, step }) => {
       console.log(res)
       if (res.data.code == "200") {
         setLoader(false)
-        setTransaction({ status: "Completed", id: res?.data?.data?.transaction_id })
-        localStorage.setItem("transaction_id", res?.data?.data?.transaction_id)
+        setTransaction({ status: "Completed", id: res?.data?.data?.payment_id })
+        localStorage.setItem("transaction_id", res?.data?.data?.payment_id)
         const user = JSON.parse(localStorage.getItem("remi-user-dt"))
         // localStorage.removeItem("remi-user-dt")
         user.digital_id_verified = "true"
@@ -232,7 +233,7 @@ const PaymentSummary = ({ handleStep, step }) => {
           </div>
         </> : ""}
       </div>
-      <Modal show={modalView} onHide={() => navigate("/dashboard")}>
+      <Modal show={modalView} onHide={() => navigate("/dashboard")} centered>
         <Modal.Body>
           <div className="form_body">
             <div className="header">
@@ -256,7 +257,7 @@ const PaymentSummary = ({ handleStep, step }) => {
             </Table>
             <div className="col-md-12 align-center">
               {/* <img className="verifies-img" src={verified} alt="verified" /> */}
-              <p>Thanks for choosing RemitAssure</p>
+              <p>Thanks for choosing Remit Assure</p>
               <NavLink to="/dashboard">
                 <button type="button" className="form-button" style={{ "width": '100%' }}>View Dashboard</button></NavLink>
             </div>

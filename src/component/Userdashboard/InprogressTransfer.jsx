@@ -72,7 +72,7 @@ const InprogressTransfer = () => {
 
   const PendingTransactionHistory = () => {
     setLoading(true); // Set loading before sending API request
-    axios.post(API.BASE_URL + 'payment/pending-transactions/', {}, {
+    axios.post(API.BASE_URL + '/payment/pending-transactions/', {}, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
       }

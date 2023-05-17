@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ReferralScrollbar from '../referralscrollbar/ReferralScrollbar';
 
-import { API } from "../../config/API";
+import  global  from "../../utils/global";
 import axios from "axios";
 
 
@@ -58,7 +58,7 @@ const [dataRefferal, setDataRefferal] = useState([]);
    * ***********************************************************************/
 
     useEffect(() => {
-        axios.post(API.BASE_URL + 'referral-link/',{}, {
+        axios.post(global.serverUrl + '/referral-link/',{}, {
             headers: {
                 "Authorization" : `Bearer ${signup_token ? signup_token : token}`,
             }

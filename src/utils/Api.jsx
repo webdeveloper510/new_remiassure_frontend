@@ -41,7 +41,7 @@ export const changePassword = async (data) => {
   const response = await Axios.post("/change-password/", data, {
     headers: {
       'Content-Type': 'application/json',
-      "Authorization": `Bearer ${token}`
+      "Authorization": `Bearer ${localStorage.getItem("token")}`
     }
   }).then(res => {
     return res.data
@@ -74,7 +74,7 @@ export const updateProfile = async (data) => {
   const response = await Axios.post("/update-profile/", data, {
     headers: {
       'Content-Type': 'application/json',
-      "Authorization": `Bearer ${token}`
+      "Authorization": `Bearer ${localStorage.getItem("token")}`
     }
   }).then(res => {
     return res.data
@@ -86,7 +86,7 @@ export const userProfile = async (data) => {
   const response = await Axios.post("/user-profile/", data, {
     headers: {
       'Content-Type': 'application/json',
-      "Authorization": `Bearer ${token}`
+      "Authorization": `Bearer ${localStorage.getItem("token")}`
     }
   }).then(res => {
     return res.data
@@ -105,7 +105,7 @@ export const exchangeRate = async (data) => {
 export const paymentSummary = async (data) => {
   const response = await Axios.post("/payment/summary/", {transaction_id:data},{
     headers: {
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
     return res.data
@@ -117,7 +117,7 @@ export const paymentSummary = async (data) => {
 export const transactionHistory = async (data) => {
   const response = await Axios.post("/payment/transaction-history/", data,{
     headers: {
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
     return res.data
@@ -129,7 +129,7 @@ export const transactionHistory = async (data) => {
 export const pendingPayment = async (data) => {
   const response = await Axios.post("/payment/pending-transactions/", data,{
     headers: {
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
     return res.data
@@ -141,7 +141,7 @@ export const pendingPayment = async (data) => {
 export const completedPayment = async (data) => {
   const response = await Axios.post("/payment/completed-transactions/", data,{
     headers: {
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
     return res.data
@@ -153,7 +153,7 @@ export const completedPayment = async (data) => {
 export const createRecipient = async (data) => {
   const response = await Axios.post("/payment/recipient-create/", data,{
     headers: {
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
     return res.data
@@ -164,7 +164,7 @@ export const createRecipient = async (data) => {
 export const getCardData = async (id) => {
   const response = await Axios.post(`/payment/card/${id}`,{},{
     headers: {
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
     return res.data
@@ -176,7 +176,7 @@ export const updateCardUser = async (id, data) => {
   const response = await Axios.patch(`/payment/card/${id}`,data,{
     headers: {
       'Content-Type': 'application/json',
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
     return res.data
@@ -188,7 +188,7 @@ export const updateCardUser = async (id, data) => {
 export const getUserRecipient = async (id) => {
   const response = await Axios.get(`/payment/recipient-update/${id}`,{
     headers: {
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
     return res.data
@@ -200,7 +200,7 @@ export const getUserRecipient = async (id) => {
 export const updateUserRecipient = async (id ,data) => {
   const response = await Axios.post(`/payment/recipient-update/${id}`,data,{
     headers: {
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
     return res.data
@@ -212,7 +212,7 @@ export const updateUserRecipient = async (id ,data) => {
 export const cardList = async (data) => {
   const response = await Axios.post("/payment/card-list/",data,{
     headers: {
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
     return res.data
@@ -224,7 +224,7 @@ export const cardList = async (data) => {
 export const recipientList = async (data) => {
   const response = await Axios.post("/payment/recipient-list/",data,{
     headers: {
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
     return res.data

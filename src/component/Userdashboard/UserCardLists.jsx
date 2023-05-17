@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Links, NavLink, useNavigate, useParams } from 'react-router-dom';
 import Accordion from 'react-bootstrap/Accordion';
 import { toast } from "react-toastify";
-import { API } from "../../config/API";
+import global from "../../utils/global"
 import axios from "axios";
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
 import { BsFillPersonPlusFill } from "react-icons/bs";
@@ -93,7 +93,7 @@ const UserCardLists = () => {
     const handleRemovecardDetails = (value) => {
         console.log("========>Delete", value)
 
-        axios.delete(API.BASE_URL + `payment/card/${value}`, {
+        axios.delete(global.serverUrl + `/payment/card/${value}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },

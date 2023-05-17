@@ -22,7 +22,6 @@ import Verification from './component/verification/Verification';
 import Multiple from './component/profile/Multiple';
 import SendMoney from './component/send/SendMoney';
 import Transfer from './component/Userdashboard/Transfer';
-import UserSendMoney from './component/Userdashboard/UserSendMoney';
 import UserDashboard from './component/Userdashboard/UserDashboard';
 import AddNewRecipient from './component/Userdashboard/AddNewRecipient';
 import UserProfile from './component/Userdashboard/UserProfile';

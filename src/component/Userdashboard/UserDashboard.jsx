@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 
-import UserSendMoney from "./UserSendMoney";
+import UserMoney from "./UserMoney/UserMoney"
 import UserProfile from "./UserProfile";
 import AddNewRecipient from "./AddNewRecipient";
 import ChangePassword from "./ChangePassword";
@@ -76,7 +76,7 @@ useEffect(()=>{
                     </Tab.Pane>
                     <Tab.Pane eventKey="second">
 
-                      <div className="user-sendmoney"> <UserSendMoney /></div>
+                      <div className="user-sendmoney"> <UserMoney /></div>
                     </Tab.Pane>
                     <Tab.Pane eventKey="third">
                       <div className="user-sendmoney"><UserProfile /></div>

@@ -10,9 +10,9 @@ import nodata from '../../assets/img/userdashboard/nodata.avif';
 import Modal from 'react-bootstrap/Modal';
 import playicon from '../../assets/img/home/Group 01.svg';
 import playicon2 from '../../assets/img/home/Group 02.svg';
-import { API } from "../../config/API";
 import axios from "axios";
 import Page404 from "../pageNotfound/Page404";
+import global from "../../utils/global";
 
 
 const CompletedTransaction = () => {
@@ -72,7 +72,7 @@ const CompletedTransaction = () => {
 
   const CompleteTransationHistory = () => {
     setLoading(true); // Set loading before sending API request
-    axios.post(API.BASE_URL + 'payment/completed-transactions/', {}, {
+    axios.post(global.serverUrl + '/payment/completed-transactions/', {}, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
       }
@@ -112,7 +112,7 @@ const CompletedTransaction = () => {
 
   const Summarysingledata = () => {
     setLoading(true); // Set loading before sending API request
-    axios.post(API.BASE_URL + 'payment/summary/', {
+    axios.post(global.serverUrl + 'payment/summary/', {
       transaction_id: paymetTransactionId
     }, {
       headers: {

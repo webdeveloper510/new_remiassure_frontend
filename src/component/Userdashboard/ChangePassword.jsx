@@ -22,7 +22,7 @@ const Profile = () => {
   const updateSchema = Yup.object().shape({
     old_password: Yup.string().required("Current password is required"),
     new_password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
-    confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required")
+    confirmPassword: Yup.string().oneOf([Yup.ref("new_password")], "Passwords did not match").required("Password confirmation is required")
   })
 
   const initialValues = {
@@ -93,6 +93,13 @@ const Profile = () => {
                                   }
                                 )}
                               />
+                               {formik.touched.old_password && formik.errors.old_password && (
+                                <div className='fv-plugins-message-container mt-1'>
+                                  <div className='fv-help-block'>
+                                    <span role='alert' className="text-danger">{formik.errors.old_password}</span>
+                                  </div>
+                                </div>
+                              )}
                             </Form.Group>
                           </div>
                           <div className="col-md-4">

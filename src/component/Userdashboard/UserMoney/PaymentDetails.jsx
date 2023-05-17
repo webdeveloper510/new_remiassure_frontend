@@ -18,18 +18,19 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [modal, setModal] = useState(false)
   const payRef = useRef(null)
   const navigate = useNavigate()
-  const [transaction, setTransaction] =useState({id:"", status:"", amount:"", curr:""})
+  const [transaction, setTransaction] = useState({ id: "", status: "", amount: "", curr: "" })
   const [modalView, setModalView] = useState(false)
+  const [loader, setLoader] = useState(false)
 
-useEffect(()=>{
-if(transaction.id){
-       setModalView(true)
-  // setTimeout(() => {
-  //   navigate("/dashboard")
+  useEffect(() => {
+    if (transaction.id) {
+      setModalView(true)
+      // setTimeout(() => {
+      //   navigate("/dashboard")
 
-  // }, 10 * 1000)
-}
-},[transaction])
+      // }, 10 * 1000)
+    }
+  }, [transaction])
 
   const handleChange = (e) => {
     setData({ ...data, payment_type: e.target.value })
@@ -42,7 +43,7 @@ if(transaction.id){
       setModal(true)
     }
   }
-  const handleTransaction = (values) =>{
+  const handleTransaction = (values) => {
     setTransaction(values)
   }
 
@@ -62,128 +63,142 @@ if(transaction.id){
   }
 
   return (
-    <section>
-      <div class="form-head mb-4">
-        <h2 class="text-black font-w600 mb-0"><b>Payment details</b>
-        </h2>
-      </div>
-      <div className="form_body">
-        <p className='float-end text-capitalize col-12 fw-bold' style={{color:"#6414E9"}}> Sending ⇒  {local?.amount?.from_type}{local?.amount?.send_amt}</p>
-        <p className='float-end text-capitalize col-12 fw-bold' style={{color:"#6414E9"}}> To  ⇒ {local?.recipient?.first_name} {local?.recipient.last_name}</p>
-        <br></br>
-        <br></br>
-        <div className="row each-row">
-          <h5>Payment type</h5>
-          <div className="col-md-12">
-            <label class="container-new">
-              <span className="radio-tick">Osko</span>
-              <input
-                className="form-check-input"
-                type="radio"
-                name="Payment Type"
-                defaultChecked={data.payment_type == "Oslo"}
-                value="Oslo"
-                onChange={handleChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-          </div>
-          <div className="col-md-12">
-            <label class="container-new">
-              <span className="radio-tick">Debit/Credit Card</span>
-              <input
-                className="form-check-input"
-                type="radio"
-                name="Payment Type"
-                defaultChecked={data.payment_type == "Debit/Credit Card"}
-                value="Debit/Credit Card"
-                onChange={handleChange}
+    <>
+      {
+        !loader ?
+          (
+            <section>
+              <div class="form-head mb-4">
+                <h2 class="text-black font-w600 mb-0"><b>Payment details</b>
+                </h2>
+              </div>
+              <div className="form_body">
+                <p className='float-end text-capitalize col-12 fw-bold' style={{ color: "#6414E9" }}> Sending ⇒  {local?.amount?.from_type}{local?.amount?.send_amt}</p>
+                <p className='float-end text-capitalize col-12 fw-bold' style={{ color: "#6414E9" }}> To  ⇒ {local?.recipient?.first_name} {local?.recipient.last_name}</p>
+                <br></br>
+                <br></br>
+                <div className="row each-row">
+                  <h5>Payment type</h5>
+                  <div className="col-md-12">
+                    <label class="container-new">
+                      <span className="radio-tick">Osko</span>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="Payment Type"
+                        defaultChecked={data.payment_type == "Oslo"}
+                        value="Oslo"
+                        onChange={handleChange}
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+                  </div>
+                  <div className="col-md-12">
+                    <label class="container-new">
+                      <span className="radio-tick">Debit/Credit Card</span>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="Payment Type"
+                        defaultChecked={data.payment_type == "Debit/Credit Card"}
+                        value="Debit/Credit Card"
+                        onChange={handleChange}
 
-              />
-              <span className="checkmark"></span>
-            </label>
-          </div>
-          <div className="col-md-12">
-            <label class="container-new">
-              <span className="radio-tick">PoLI Internet Banking</span>
-              <input
-                className="form-check-input"
-                type="radio"
-                name="Payment Type"
-                defaultChecked={data.payment_type == "PoLI Internet Banking"}
-                value="PoLI Internet Banking"
-                onChange={handleChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-4">
-            <button type="button" className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
-          </div>
-          <div className="col-md-8">
-            <button className="form-button" onClick={() => handlePayType()}>Continue</button>
-            <button className="form-button" onClick={() => handlePrevious()}>Previous</button>
-          </div>
-        </div>
-      </div>
-      <Modal className="modal-card" show={modal} onHide={() => setModal(false)} backdrop="static">
-        <Modal.Header>
-          <Modal.Title>Debit/Credit Card</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className='my-4'>
-          <Elements stripe={stripePromise}>
-            <CheckoutForm payRef={payRef} method={data.payment_type} handleStep={handleStep} step={step} handleModal={() => setModal(false)} handleTransaction={handleTransaction} />
-          </Elements>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setModal(false)} >
-            Cancel
-          </Button>
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+                  </div>
+                  <div className="col-md-12">
+                    <label class="container-new">
+                      <span className="radio-tick">PoLI Internet Banking</span>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="Payment Type"
+                        defaultChecked={data.payment_type == "PoLI Internet Banking"}
+                        value="PoLI Internet Banking"
+                        onChange={handleChange}
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-4">
+                    <button type="button" className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
+                  </div>
+                  <div className="col-md-8">
+                    <button className="form-button" onClick={() => handlePayType()}>Continue</button>
+                    <button className="form-button" onClick={() => handlePrevious()}>Previous</button>
+                  </div>
+                </div>
+              </div>
 
-          <Button type="submit" variant="primary" onClick={() => payRef.current.click()}>
-            Continue
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <Modal show={modalView} onHide={() => navigate("/dashboard")}>
-        <Modal.Body>
-          <div className="form_body">
-            <div className="header">
-              <h1 className='text-success'><BsCheckCircleFill />Transaction Successful</h1>
+              {/* ---------------STRIPE------------- */}
+              <Modal className="modal-card" show={modal} onHide={() => setModal(false)} backdrop="static" centered>
+                <Modal.Header>
+                  <Modal.Title>Debit/Credit Card</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className='my-4'>
+                  <Elements stripe={stripePromise}>
+                    <CheckoutForm payRef={payRef} method={data.payment_type} handleStep={handleStep} step={step} handleModal={() => setModal(false)} handleTransaction={handleTransaction} handleLoader={(value) => { setLoader(value) }} />
+                  </Elements>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={() => setModal(false)} >
+                    Cancel
+                  </Button>
+
+                  <Button type="submit" variant="primary" onClick={() => payRef.current.click()}>
+                    Continue
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+
+              {/* ----------------- transaction result----------------- */}
+              <Modal show={modalView} onHide={() => navigate("/dashboard")} centered> 
+                <Modal.Body>
+                  <div className="form_body">
+                    <div className="header">
+                      <h1 className='text-success'><BsCheckCircleFill />Transaction Successful</h1>
+                    </div>
+                    <Table>
+                      <tbody>
+                        <tr>
+                          <th>Transaction Id:</th>
+                          <td>{transaction?.id}</td>
+                        </tr>
+                        <tr>
+                          <th>Transacted Amount</th>
+                          <td>{transaction.curr}{transaction.amount}</td>
+                        </tr>
+                        <tr>
+                          <th>Transaction Status:</th>
+                          <td>{transaction?.status}</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                    <div className="col-md-12 align-center">
+                        <button type="button" className="form-button" onClick={()=>navigate("/transactions")} style={{ "width": '100%' }}>View All Transactions</button>
+                    </div>
+
+                  </div>
+                </Modal.Body>
+              </Modal>
+
+            </section>
+          ) : (
+            <div class="loader-overly">
+              <div class="loader" >
+              </div>
             </div>
-            <Table>
-              <tbody>
-                <tr>
-                  <th>Transaction Id:</th>
-                  <td>{transaction?.id}</td>
-                </tr>
-                <tr>
-                  <th>Transacted Amount</th>
-                  <td>{transaction.curr}{transaction.amount}</td>
-                </tr>
-                <tr>
-                  <th>Transaction Status:</th>
-                  <td>{transaction?.status}</td>
-                </tr>
-              </tbody>
-            </Table>
-            <div className="col-md-12 align-center">
-              {/* <img className="verifies-img" src={verified} alt="verified" /> */}
-              {/* <p>Thanks for choosing RemitAssure</p> */}
-              <NavLink to="/transactions">
-                <button type="button" className="form-button" style={{ "width": '100%' }}>View All Transactions</button></NavLink>
-            </div>
-
-          </div>
-        </Modal.Body>
-      </Modal>
-    </section>
+          )
+      }
+    </>
   )
 }
 
-const CheckoutForm = ({ payRef, method, step, handleStep, handleModal, handleTransaction }) => {
+const CheckoutForm = ({ payRef, handleModal, handleTransaction, handleLoader }) => {
   const navigate = useNavigate()
 
   const stripe = useStripe();
@@ -195,11 +210,12 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal, handleTra
       return;
     }
     const token = await stripe.createToken(elements.getElement(CardElement))
+    console.log("---++++++++++---", token)
     if (token.token) {
       handleModal()
       const local = JSON.parse(localStorage.getItem("transfer_data"))
       const data = {
-        name: local?.recipient?.First_name,
+        // name: local?.recipient?.First_name,
         send_currency: local?.amount?.from_type,
         recieve_currency: local?.amount?.to_type,
         destination: local?.recipient?.country,
@@ -210,23 +226,27 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal, handleTra
         card_token: token?.token?.id,
         exchange_rate: local?.amount?.exchange_rate
       }
+      console.log("----------data-------------", data)
+      handleLoader(true)
       axios.post(`${global.serverUrl}/payment/stripe-charge/`, data, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },
       }).then(res => {
-        console.log(res, "-------------------------------")
         if (res.data.code == "200") {
           localStorage.removeItem("transfer_data")
           if (localStorage.getItem("send-step")) {
             localStorage.removeItem("send-step")
           }
-          toast.success("Payment Successful", { position: "bottom-right", hideProgressBar: true })
-          setTimeout(() => {
-            window.location.reload()
-          }, 2 * 1000)
+          handleLoader(false)
+          handleTransaction({ id: res.data.data.payment_id, status: "Completed", amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+          // setTimeout(() => {
+          //   window.location.reload()
+          // }, 2 * 1000)
         }
+        handleLoader(false)
       }).catch((err) => {
+        handleLoader(false)
         localStorage.removeItem("transfer_data")
         if (localStorage.getItem("send-step")) {
           localStorage.removeItem("send-step")
@@ -243,14 +263,14 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal, handleTra
 
   return (
     <>
-    <form onSubmit={handleSubmit}>
-      <CardElement options={{ hidePostalCode: true }} />
+      <form onSubmit={handleSubmit}>
+        <CardElement options={{ hidePostalCode: true }} />
 
-      <button type="submit" ref={payRef} style={{ display: "none" }} disabled={!stripe || !elements}>
-        Pay
-      </button>
-    </form>
-   
+        <button type="submit" ref={payRef} style={{ display: "none" }} disabled={!stripe || !elements}>
+          Pay
+        </button>
+      </form>
+
     </>
   );
 };

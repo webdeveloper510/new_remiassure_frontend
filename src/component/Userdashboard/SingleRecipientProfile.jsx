@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import { Links, NavLink, useNavigate, useParams } from 'react-router-dom';
 import CountryDropdown from 'country-dropdown-with-flags-for-react';
 import { toast } from "react-toastify";
-import { API } from "../../config/API";
+import global from "../../utils/global"
 import axios from "axios";
 import UserRecipient from "../Userdashboard/UserRecipient";
 import profileimage from '../../assets/img/userdashboard/images.png';
@@ -114,7 +114,7 @@ const SingleRecipientProfile = () => {
 
     // event.preventDefault();
     //  setLoading(true); // Set loading before sending API requestssss
-    axios.get(API.BASE_URL + `payment/recipient-update/${id}`, {
+    axios.get(global.serverUrl + `/payment/recipient-update/${id}`, {
       headers: {
         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
       },

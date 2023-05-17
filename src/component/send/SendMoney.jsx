@@ -51,16 +51,15 @@ const SendMoney = () => {
     } else if (!authDashHelper('authCheck')) {
       console.log("---------------auth")
       navigate("/login")
-    } else {
-      localStorage.removeItem("send-step")
-      localStorage.removeItem("transfer_data")
-      // setInterval(() => {
-      //   // console.log("time")
-      //   localStorage.removeItem("send-step");
-      //   localStorage.removeItem("transfer_data");
-      //   window.location.reload(true)
-      // }, 30 * 60 * 1000);
     }
+    localStorage.removeItem("send-step")
+    localStorage.removeItem("transfer_data")
+    // setTimeout(() => {
+    //   // console.log("time")
+    //   localStorage.removeItem("send-step");
+    //   localStorage.removeItem("transfer_data");
+    //   window.location.reload(true)
+    // }, 30 * 60 * 1000);
   }, [])
 
   useEffect(() => {
@@ -168,7 +167,7 @@ const SendMoney = () => {
                         <div className='timer-row sendmoney-timer'>Form auto closes in ⇒  <label> <span> {minutes < 10 ? "0" + minutes : minutes}</span><p>Minutes</p> </label> <label className='timerdots'>:</label>  <label><span> {seconds < 10 ? "0" + seconds : seconds}</span> <p>Seconds</p> </label></div>
                       </div> */}
                     </div>
-                    <div className={`row ${step === 0 || step === 4? "d-flex justify-content-center" : ""}`}>
+                    <div className={`row ${(step === 0 || step === 4) ? "d-flex justify-content-center" : ""}`}>
                       <div className="col-md-8">
                         {
                           step === 0 ? <AmountDetail handleAmtDetail={handleAmtDetail} handleStep={handleStep} step={step} />
@@ -183,7 +182,7 @@ const SendMoney = () => {
                                     : <></>
                         }
                       </div>
-                      <div className={step > 0 ? "col-md-4" : ""}>
+                      <div className={step > 0 && step < 4 ? "col-md-4" : ""}>
 
 
                         <Table>

@@ -43,7 +43,7 @@ const Editrecipientuser = () => {
     last_name: Yup.string().min(1).max(25).required(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(9).max(18).required(),
-    flat: Yup.string().min(1).max(15).required(),
+    flat: Yup.string().min(1).max(15).notRequired(),
     building: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
     city: Yup.string().min(1).max(35).required(),
@@ -75,6 +75,29 @@ const Editrecipientuser = () => {
     navigate("/user-recipients")
   }
 
+
+
+  useEffect(() => {
+    if (authDashHelper('dashCheck') === false) {
+      navigate("/send-money")
+    } else {
+      setLoading(true);
+      getUserRecipient(id).then((response) => {
+        console.log(response)
+        if (response.code == "200") {
+          let values = response.data
+
+          setData(values)
+          formik.setValues({ ...values })
+        }
+        setLoading(false)
+      }).catch((error) => {
+        console.log(error.response)
+        setLoading(false)
+      })
+    }
+  }, [])
+
   useEffect(() => {
     const value = data.country !== "" ? data.country : countryList[0]?.name
     if (data.country == "") {
@@ -101,70 +124,26 @@ const Editrecipientuser = () => {
     })
   }, [data.state])
 
-  useEffect(() => {
-    if (authDashHelper('dashCheck') === false) {
-      navigate("/send-money")
-    } else {
-      setLoading(true);
-      getUserRecipient(id).then((response) => {
-        console.log(response)
-        if (response.code == "200") {
-          let values = response.data
-          setData(values)
-          formik.setValues({ ...values })
-        }
-        setLoading(false)
-      }).catch((error) => {
-        console.log(error.response)
-        setLoading(false)
-      })
-    }
-  }, [])
-
   const formik = useFormik({
     initialValues,
     validationSchema: recipientSchema,
     onSubmit: async (values) => {
-      console.log("pppppppppppppppppp", id, values)
-      let data = {
-        bank_name: values.bank_name,
-        account_name: values.account_name,
-        account_number: values.account_number,
-        first_name: values.first_name,
-        middle_name: values.middle_name,
-        last_name: values.last_name,
-        email: values.email,
-        mobile: values.mobile,
-        flat: values.flat,
-        building: values.building,
-        street: values.street,
-        city: values.city,
-        state: values.state,
-        country: values.country
+      // console.log("pppppppppppppppppp", id, values)
+      let d = values
+      if (values.middle_name == "" || values.middle_name == undefined) {
+        delete d["middle_name"]
       }
-
-      if (values.middle_name == "") {
-        data = {
-          bank_name: values.bank_name,
-          account_name: values.account_name,
-          account_number: values.account_number,
-          first_name: values.first_name,
-          last_name: values.last_name,
-          email: values.email,
-          mobile: values.mobile,
-          flat: values.flat,
-          building: values.building,
-          street: values.street,
-          city: values.city,
-          state: values.state,
-          country: values.country
-        }
+      if (values.flat == "" || values.flat == undefined) {
+        delete d["flat"]
       }
+      d.country_code = data.country_code
       setLoading(true)
-      updateUserRecipient(id, data).then((response) => {
-        console.log("rescipient+++++++++++++++", response)
+      updateUserRecipient(id, d).then((response) => {
         if (response.code == "200") {
           toast.success("Successfully updated", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+          setTimeout(() => {
+            navigate("/user-recipients")
+          }, 2 * 1000)
         }
         setLoading(false)
       }).catch((error) => {
@@ -183,13 +162,17 @@ const Editrecipientuser = () => {
     if (e.target.name === 'country') {
       countryList.map((item) => {
         if (item.name === e.target.value) {
-          setData({ ...data, country_code: item.iso2 })
+          setData({ ...data, [e.target.name]: e.target.value, country_code: item.iso2 })
+          formik.setFieldValue(e.target.name, e.target.value)
+          formik.setFieldTouched(e.target.name, true)
         }
       })
+    } else {
+      setData({ ...data, [e.target.name]: e.target.value })
+      formik.setFieldValue(e.target.name, e.target.value)
+      formik.setFieldTouched(e.target.name, true)
     }
-    setData({ ...data, [e.target.name]: e.target.value })
-    formik.setFieldValue(e.target.name, e.target.value)
-    formik.setFieldTouched(e.target.name, true)
+
   }
 
   const handleKeyDown = (e, max) => {
@@ -240,7 +223,7 @@ const Editrecipientuser = () => {
   }
 
   const handlePostCode = (event, max) => {
-    const pattern = /^[0-9.,]+$/;
+    const pattern = /^[0-9]+$/;
     console.log("------------------------------------------------------++++", event.key)
     if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
       setData({ ...data, [event.target.name]: event.target.value })
@@ -269,6 +252,7 @@ const Editrecipientuser = () => {
     formik.setFieldValue('mobile', e);
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
+    setData({ ...data, country: coun.name })
   }
 
 
@@ -439,7 +423,7 @@ const Editrecipientuser = () => {
                           <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                           <PhoneInput
                             onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
-                            country={data.country_code ? data.country_code.toLowerCase() : "gh"}
+                            country={data.country_code ? data?.country_code?.toLowerCase(): "gh"}
                             name="mobile"
                             value={formik.values.mobile}
                             inputStyle={{ border: "none", margin: "none" }}
@@ -462,20 +446,14 @@ const Editrecipientuser = () => {
                       <h5>Address</h5>
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
-                          <p className="get-text">Flat/Unit No.<span style={{ color: 'red' }} >*</span></p>
+                          <p className="get-text">Flat/Unit No.</p>
                           <input
                             type="text"
                             name="flat"
                             value={data.flat}
                             onKeyDown={(e) => { handleEmail(e, 15) }}
                             {...formik.getFieldProps("flat")}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.flat && formik.errors.flat },
-                              {
-                                'is-valid': formik.touched.flat && !formik.errors.flat,
-                              }
-                            )}
+                            className='form-control bg-transparent'
                           />
                         </Form.Group>
                       </div>

@@ -44,7 +44,7 @@ const Addnewrecipient = () => {
     if (authDashHelper('dashCheck') === false) {
       navigate("/send-money")
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     const value = data.country !== "" ? data.country : countryList[0]?.name
@@ -84,7 +84,7 @@ const Addnewrecipient = () => {
     last_name: Yup.string().min(1).max(25).required(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(9).max(18).required(),
-    flat: Yup.string().min(1).max(15).required(),
+    flat: Yup.string().min(1).max(15).notRequired(),
     building: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
     city: Yup.string().min(1).max(35).required(),
@@ -105,8 +105,17 @@ const Addnewrecipient = () => {
     validationSchema: recipientSchema,
     onSubmit: async (values) => {
       setLoading(true)
-      createRecipient({...values, country_code:data.country_code}).then((res) => {
-        console.log("rescipient+++++++++++++++", res)
+      let d=  values
+      if(d.flat == ""|| d.flat== undefined){
+        delete d["flat"]
+      }
+      createRecipient({ ...d, country_code: data.country_code }).then((res) => {
+        if (res.code === "200") {
+          toast.success("Successfuly added new recipient", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+          setTimeout(() => {
+            navigate("/user-recipients")
+          }, 2 * 1000)
+        }
         setLoading(false)
       }).catch((error) => {
         console.log(error.response)
@@ -135,8 +144,8 @@ const Addnewrecipient = () => {
       })
     }
     setData({ ...data, [e.target.name]: e.target.value })
-    formik.setFieldValue(e.target.name, e.target.value)
-    formik.setFieldTouched(e.target.name, true)
+    formik.setFieldValue(`${e.target.name}`, e.target.value)
+    formik.setFieldTouched(`${e.target.name}`, true)
   }
 
   const handleKeyDown = (e, max) => {
@@ -376,8 +385,8 @@ const Addnewrecipient = () => {
                       <div className="input_field">
                         <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                         <PhoneInput
-                           onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
-                           country={data.country_code ? data.country_code.toLowerCase() : "gh"}
+                          onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
+                          country={data.country_code ? data.country_code.toLowerCase() : "gh"}
                           name="mobile"
                           value={formik.values.mobile}
                           inputStyle={{ border: "none", margin: "none" }}
@@ -399,20 +408,14 @@ const Addnewrecipient = () => {
                     <h5>Address</h5>
                     <div className="col-md-4">
                       <Form.Group className="form_label" controlId="Firstname">
-                        <p className="get-text">Flat/Unit No.<span style={{ color: 'red' }} >*</span></p>
+                        <p className="get-text">Flat/Unit No.</p>
                         <input
                           type="text"
                           name="flat"
                           value={data.flat}
                           onKeyDown={(e) => { handleEmail(e, 15) }}
                           {...formik.getFieldProps("flat")}
-                          className={clsx(
-                            'form-control bg-transparent',
-                            { 'is-invalid': formik.touched.flat && formik.errors.flat },
-                            {
-                              'is-valid': formik.touched.flat && !formik.errors.flat,
-                            }
-                          )}
+                          className='form-control bg-transparent'
                         />
                       </Form.Group>
                     </div>
@@ -578,6 +581,7 @@ const Addnewrecipient = () => {
                           name="reason"
                           value={data.reason}
                           onChange={(e) => handleChange(e)}
+                          {...formik.getFieldProps('reason')}
                           className={clsx(
                             'form-control form-select bg-transparent',
                             { 'is-invalid': formik.touched.reason && formik.errors.reason },

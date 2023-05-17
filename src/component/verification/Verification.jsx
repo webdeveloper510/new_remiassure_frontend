@@ -1,16 +1,7 @@
-import React, { useState, useContext } from "react";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-
+import React, { useState } from "react";
 import OtpInput from "react18-input-otp";
-
 import { toast } from "react-toastify";
-import { API } from "../../config/API";
-import axios from "axios";
-import CountryDropdown from 'country-dropdown-with-flags-for-react';
-import { Navigate, useLocation, useNavigate } from "react-router";
-import { NavLink } from "react-router-dom";
-import Page404 from "../pageNotfound/Page404";
+import { useLocation, useNavigate } from "react-router";
 import { resendOtp, verifyEmail } from "../../utils/Api";
 
 

@@ -60,14 +60,14 @@ const BankDetails = ({ handleStep, step }) => {
     l_name: Yup.string().min(2).max(25).required(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(9).max(18).required(),
-    flat: Yup.string().min(1).max(15).required(),
+    flat: Yup.string().min(1).max(15).notRequired(),
     build_no: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
     city: Yup.string().min(1).max(35).required(),
     post_code: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
-    reason: Yup.string().min(2).max(30).required()
+    reason: Yup.string().min(2).max(30).oneOf(["Family Support" ,"Utility Payment","Travel Payment","Loan Payment","Tax Payment","Education"]).required()
   })
 
   const formik = useFormik({
@@ -76,8 +76,7 @@ const BankDetails = ({ handleStep, step }) => {
     onSubmit: async (values) => {
       console.log(values, data.label)
       setLoading(true)
-      axios.post(`${global.serverUrl}/payment/recipient-create/`, {
-        bank_name: values.bank,
+      const d = { bank_name: values.bank,
         account_name: values.acc_name,
         account_number: values.acc_no,
         first_name: values.f_name,
@@ -93,9 +92,13 @@ const BankDetails = ({ handleStep, step }) => {
         state: values.state,
         country_code: data.country_code,
         country: values.country,
-        reason: values.reason,
-
-      }, {
+        reason: values.reason
+      }
+      if (d.flat === "" || d.flat === undefined || d.flat === " ") {
+        delete d['flat'];
+      }
+      
+      axios.post(`${global.serverUrl}/payment/recipient-create/`, d, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },
@@ -196,7 +199,7 @@ const BankDetails = ({ handleStep, step }) => {
     }
   }
   const handlePostCode = (event, max) => {
-    const pattern = /^[0-9.,]+$/;
+    const pattern = /^[0-9]+$/;
     console.log("------------------------------------------------------++++", event.key)
     if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
       setData({ ...data, [event.target.name]: event.target.value })
@@ -545,20 +548,14 @@ const BankDetails = ({ handleStep, step }) => {
                 <h5>Address</h5>
                 <div className="col-md-4">
                   <div className="input_field">
-                    <p className="get-text">Flat/Unit No.<span style={{ color: 'red' }} >*</span></p>
+                    <p className="get-text">Flat/Unit No.</p>
                     <input
                       type="text"
                       name="flat"
                       value={data.flat}
                       onKeyDown={(e) => { handleEmail(e, 15) }}
                       {...formik.getFieldProps("flat")}
-                      className={clsx(
-                        'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.flat && formik.errors.flat && formik.values.flat != "" || undefined },
-                        {
-                          'is-valid': formik.touched.flat && !formik.errors.flat && formik.values.flat != "" || undefined
-                        }
-                      )}
+                      className='form-control bg-transparent'
                     />
                   </div>
                 </div>
@@ -727,7 +724,6 @@ const BankDetails = ({ handleStep, step }) => {
                       value={data.reason? data.reason : "Family Support"}
                       onChange={(e) => handleChange(e)}
                       {...formik.getFieldProps("reason")}
-
                       className={clsx(
                         'form-control form-select bg-transparent',
                         { 'is-invalid': formik.touched.reason && formik.errors.reason },

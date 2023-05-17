@@ -99,16 +99,20 @@ const Profile = () => {
     initialValues,
     validationSchema: profileSchema,
     onSubmit: async (values) => {
-      let data = { ...values, country_code: data.country_code }
+      console.log(data.country_code)
+      let d = values
+      d.country_code = data.country_code
+      d.location = values.country
+      delete d['country']
       if (values.Middle_name === "" || values.Middle_name === undefined || values.Middle_name === " ") {
-        delete data['Middle_name'];
+        delete d['Middle_name'];
       }
       if (values.flat === "" || values.flat === undefined || values.flat === " ") {
-        delete data['flat'];
-
+        delete d['flat'];
       }
       setLoading(true)
-      updateProfile(data).then(res => {
+      console.log(d)
+      updateProfile(d).then(res => {
         if (res.code === "200") {
           localStorage.removeItem("remi-user-dt")
           let local = { ...res.data, digital_id_verified: "true" }
@@ -127,14 +131,10 @@ const Profile = () => {
 
   useEffect(() => {
     const value = data.country !== "" ? data.country : countryList[0]?.name
-    if (data.country == "") {
-      setData({ ...data, country: countryList[0]?.name, country_code: countryList[0]?.iso2 })
-      formik.setFieldValue("country", countryList[0]?.name)
-    }
     countryList?.map((item) => {
       if (item?.name === value) {
         setStateList(item?.states);
-        setData({ ...data, state: item?.states[0].name })
+        setData({ ...data, state: item?.states[0].name, country_code: item?.iso2 })
         formik.setFieldValue("state", item?.states[0].name)
       }
     })
@@ -252,7 +252,7 @@ const Profile = () => {
                           <input
                             type="text"
                             name="First_name"
-                            value={data.First_name}
+                            value={formik.values.First_name}
                             onKeyDown={(e) => { handleKeyDown(e, 25) }}
                             {...formik.getFieldProps("First_name")}
                             className={clsx(
@@ -509,7 +509,7 @@ const Profile = () => {
 
                                 {city_list?.map((opt) => {
                                   return (
-                                    <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                                    <option value={opt?.name} key={opt?.id}>{opt?.name}</option>
                                   )
                                 })
                                 }
@@ -547,7 +547,7 @@ const Profile = () => {
 
                                 {state_list?.map((opt) => {
                                   return (
-                                    <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                                    <option value={opt?.name} key={opt?.id}>{opt?.name}</option>
                                   )
                                 })
                                 }
@@ -584,7 +584,7 @@ const Profile = () => {
                               countryList && countryList.length > 0 ?
                                 countryList?.map((opt) => {
                                   return (
-                                    <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                                    <option value={opt?.name} key={opt?.id}>{opt?.name}</option>
                                   )
                                 }) : ""
                             }

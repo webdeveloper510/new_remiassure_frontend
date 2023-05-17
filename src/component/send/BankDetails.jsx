@@ -82,14 +82,14 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     l_name: Yup.string().min(1).max(25).required(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(10).max(18).required(),
-    flat: Yup.string().min(1).max(15).required(),
+    flat: Yup.string().min(1).max(15).notRequired(),
     build_no: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
     city: Yup.string().min(1).max(35).required(),
     post_code: Yup.string().length(4).required(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
-    reason: Yup.string().min(2).max(30).required()
+    reason: Yup.string().min(2).max(30).oneOf(["Family Support" ,"Utility Payment","Travel Payment","Loan Payment","Tax Payment","Education"]).required()
   })
 
   const formik = useFormik({
@@ -198,7 +198,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   }
 
   const handlePostCode = (event, max) => {
-    const pattern = /^[0-9.,]+$/;
+    const pattern = /^[0-9]+$/;
     if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
       setData({ ...data, [event.target.name]: event.target.value })
       formik.setFieldValue(event.target.name, event.target.value)
@@ -406,20 +406,14 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             <h5>Address</h5>
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Flat/Unit No.<span style={{ color: 'red' }} >*</span></p>
+                <p className="get-text">Flat/Unit No.</p>
                 <input
                   type="text"
                   name="flat"
                   value={data?.flat}
                   onKeyDown={(e) => { handleEmail(e, 15) }}
                   {...formik.getFieldProps("flat")}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.flat && formik.errors.flat },
-                    {
-                      'is-valid': formik.touched.flat && !formik.errors.flat,
-                    }
-                  )}
+                  className='form-control bg-transparent'
                 />
               </div>
             </div>
@@ -586,8 +580,9 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <select
                   aria-label="Select a reason"
                   name="reason"
-                  value={data.reason ? data.reason : "Family Support"}
+                  value={data.reason }
                   onChange={(e) => handleChange(e)}
+                  {...formik.getFieldProps("reason")}
                   className={clsx(
                     'form-control form-select bg-transparent',
                     { 'is-invalid': formik.touched.reason && formik.errors.reason },
@@ -596,6 +591,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                     }
                   )}
                 >
+                  <option value="none">Select a reason</option>
                   <option value="Family Support">Family Support</option>
                   <option value="Education">Education</option>
                   <option value="Tax Payment">Tax Payment</option>

@@ -3,9 +3,9 @@ import Table from 'react-bootstrap/Table';
 import {Links, NavLink, useNavigate} from 'react-router-dom';
 import Accordion from 'react-bootstrap/Accordion';
 import { toast } from "react-toastify";
-import { API } from "../../config/API";
 import axios from "axios";
 import MultiStepProgressBar from "./MultiStepProgressBar";
+import global from "../../utils/global";
 
 const Recipients =() =>{
 
@@ -34,7 +34,7 @@ const Recipients =() =>{
 
     useEffect(() => {
         setLoading(true); // Set loading before sending API request
-        axios.post(API.BASE_URL + 'recipient-list/',{}, {
+        axios.post(global.serverUrl + '/recipient-list/',{}, {
             headers: {
                 "Authorization" : `Bearer ${token}`,
             }

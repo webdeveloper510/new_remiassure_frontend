@@ -4,10 +4,10 @@ import Button from 'react-bootstrap/Button';
 import nodata from '../../assets/img/userdashboard/nodata.avif';
 import Modal from 'react-bootstrap/Modal';
 import { useNavigate } from 'react-router-dom';
-import { API } from "../../config/API";
+import  global from "../../utils/global"
 import axios from "axios";
 import authDashHelper from "../../utils/AuthDashHelper";
-import global from "../../utils/global";
+
 
 const AllTranfer = ({ status, data }) => {
 
@@ -50,7 +50,7 @@ const AllTranfer = ({ status, data }) => {
 
 
   const summrySingleData = () => {
-    axios.post(API.BASE_URL + 'payment/summary/', {
+    axios.post(global.serverUrl + '/payment/summary/', {
       transaction_id: paymetTransactionId
     }, {
       headers: {

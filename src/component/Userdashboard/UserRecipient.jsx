@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 import {NavLink, useNavigate } from 'react-router-dom';
-import { API } from "../../config/API";
+import global from "../../utils/global"
 import axios from "axios";
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
 import { BsFillPersonPlusFill } from "react-icons/bs";
@@ -26,6 +26,7 @@ const UserRecipients = () => {
     const [loading, setLoading] = useState(true);
 
     const handleShow = (key) => {
+        console.log("-----key--------",key)
         setShow(true);
         setDelete_Id(key)
     }
@@ -53,8 +54,8 @@ const UserRecipients = () => {
         getList();
     }, [])
 
-    const handleRemoveRecipientBankDetails = (value) => {
-        axios.delete(API.BASE_URL + `payment/recipient-update/${value}`, {
+    const handleRemoveRecipientBankDetails = () => {
+        axios.delete(`${global.serverUrl}/payment/recipient-update/${delete_id}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
@@ -130,16 +131,15 @@ const UserRecipients = () => {
                                                             </tbody>
                                                         </Table>
 
-                                                        <Modal show={show} onHide={handleClose}>
-                                                            <Modal.Header closeButton>
-                                                                <Modal.Title>Delete Recipient</Modal.Title>
+                                                        <Modal show={show} onHide={handleClose} backdrop="static" >
+                                                            <Modal.Header>
                                                             </Modal.Header>
                                                             <Modal.Body>Are you sure you want to delete ?</Modal.Body>
                                                             <Modal.Footer>
-                                                                <Button variant="secondary" onClick={handleClose}>
+                                                                <Button variant="secondary" onClick={()=>handleClose()}>
                                                                     Close
                                                                 </Button>
-                                                                <Button className="delete_recipient" variant="danger" onClick={() => { handleRemoveRecipientBankDetails(delete_id) }} >
+                                                                <Button className="delete_recipient" variant="danger" onClick={() => { handleRemoveRecipientBankDetails() }} >
                                                                     Delete
                                                                 </Button>
                                                             </Modal.Footer>

@@ -4,7 +4,6 @@ import Form from 'react-bootstrap/Form';
 import {Links, NavLink, useLocation, useNavigate, useParams} from 'react-router-dom';
 
 import { toast } from "react-toastify";
-import {API} from "../../config/API";
 import axios from 'axios';
 import UserContext from '../context/UserContext';
 import Page404 from "../pageNotfound/Page404";

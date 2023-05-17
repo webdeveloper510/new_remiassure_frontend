@@ -3,10 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import CountryDropdown from 'country-dropdown-with-flags-for-react';
-
-import {API} from "../../config/API";
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import global from "../../utils/global";
 
 
 const ReferralData = () => {
@@ -71,7 +70,7 @@ const ReferralData = () => {
     const handleSignupApi = (event) => {
         event.preventDefault();
         setLoading(true); // Set loading before sending API request
-        axios.post(API.BASE_URL + 'register/', {
+        axios.post(global.serverUrl + '/register/', {
             email: email,
             mobile: mobile,
             password: password,
@@ -104,52 +103,7 @@ const ReferralData = () => {
         })
     }
 
-
-
-    //Start Referal code ApI
-
-
-
-    // const  myReferalCode = (event) =>{   
-    //     event.preventDefault();
-    //     setLoading(true); // Set loading before sending API request
-    //     axios.post(API.BASE_URL + 'register/', {
-    //         // referral_code: !referral_code? referral_code: null, 
-         
-    //     }, {
-    //         headers: {
-    //             // "Authorization" : `Bearer ${token}`,
-    //             'Content-Type': 'application/json',
-    //         },
-          
-    //     })
-    //     .then(function(response) {
-    //         console.log(response);
-    //         // localStorage.setItem("signup_message", response.data.msg);
-         
-    //         setLoading(false); // Stop loading
-    //             // notify();
-    //             // navigate('/verification');   
-    //             // console.log(navigate, "jkfjkdkvnfkvnfkvnfkvnvknvknvkvnkvnvknknvknvknk")
-    //     })
-    //     .catch(function(error, message) {
-    //         console.log(error.response)
-    //         setLoading(false); // Stop loading in case of error
-    //         if(error.response.data.status){
-    //             toast.error(error.response.data.detail);
-    //         } 
-    //         console.log(error, "klnklnklnknnnnnnnnnnnn");   
-    //     })
-    // }
-    // //End Referal code ApI
-
-
- 
-
-
-
-
-
+    
     return(
         <>
          {/* <!-- ======= help Remitassure Support-Section  start======= --> */}

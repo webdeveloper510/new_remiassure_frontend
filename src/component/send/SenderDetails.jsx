@@ -18,7 +18,7 @@ const SenderDetails = ({ handleStep, step }) => {
     f_name: "", m_name: "", l_name: "",
     gender: "Male", country_of_birth: "",
     dob: "", flat: "", build_no: "",
-    street: "", city: "", country: "",
+    street: "", city: "", country: "Australia",
     post_code: "", state: "", email: userd.email, mobile: userd.mobile,
     customer_id: userd.customer_id, country_code: "AU"
   })
@@ -27,7 +27,7 @@ const SenderDetails = ({ handleStep, step }) => {
     f_name: "", m_name: "", l_name: "",
     gender: "Male", country_of_birth: "",
     dob: "", flat: "", build_no: "",
-    street: "", city: "", country: "",
+    street: "", city: "", country: "Australia",
     post_code: "", state: "", email: userd.email, mobile: userd.mobile,
     customer_id: userd.customer_id
   }
@@ -36,13 +36,13 @@ const SenderDetails = ({ handleStep, step }) => {
   const senderSchema = Yup.object().shape({
     f_name: Yup.string().min(1).max(25).required(),
     l_name: Yup.string().min(1).max(25).required(),
-    flat: Yup.string().min(1).max(15).required(),
+    flat: Yup.string().min(1).max(15).notRequired(),
     build_no: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
     city: Yup.string().min(1).max(35).required(),
     post_code: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required(),
-    country: Yup.string().min(2).max(30).required(),
+    country: Yup.string().min(2).max(30).notRequired(),
     dob: Yup.date().required(),
     gender: Yup.string().required(),
     country_of_birth: Yup.string().required()
@@ -71,7 +71,19 @@ const SenderDetails = ({ handleStep, step }) => {
   const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
   useEffect(() => {
+    if (localStorage.getItem("transfer_data")) {
+      let tdata = JSON.parse(localStorage.getItem("transfer_data"))
+      if (tdata?.sender) {
+        setData(tdata?.sender)
+        formik.setValues({ ...tdata?.sender })
+      }
+    }
+
+  }, [step])
+
+  useEffect(() => {
     const value = data.country !== "" ? data.country : countryList[0]?.name
+    console.log(data.country,"--------------------")
     if (data.country == "") {
       setData({ ...data, country: countryList[0]?.name, country_code: countryList[0]?.iso2 })
       formik.setFieldValue("country", countryList[0]?.name)
@@ -92,14 +104,18 @@ const SenderDetails = ({ handleStep, step }) => {
         setCityList(item?.cities);
         setData({ ...data, city: item?.cities[0].name })
         formik.setFieldValue("city", item?.cities[0].name)
+        formik.setFieldTouched("city", true)
+
       }
     })
   }, [data.state])
 
   const handlePostCode = (event) => {
-    const pattern = /^[0-9.,]+$/;
+    const pattern = /^[0-9]+$/;
     if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
-
+      setData({ ...data, post_code: event.target.value })
+      formik.setFieldValue('post_code', event.target.value)
+      formik.setFieldTouched('post_code', true)
     } else {
       let value = event.target.value.toString()
       if (value.length > 3) {
@@ -121,14 +137,15 @@ const SenderDetails = ({ handleStep, step }) => {
   const handleChange = (e) => {
     if (e.target.name === 'country') {
       countryList.map((item) => {
+
         if (item.name === e.target.value) {
           setData({ ...data, country_code: item.iso2 })
         }
       })
     }
     setData({ ...data, [e.target.name]: e.target.value })
-    formik.setFieldValue(`${[e.target.name]}`, e.target.value)
-    formik.setFieldTouched(`${[e.target.name]}`, true)
+    formik.setFieldValue(e.target.name, e.target.value)
+    formik.setFieldTouched(e.target.name, true)
   }
 
 
@@ -179,7 +196,8 @@ const SenderDetails = ({ handleStep, step }) => {
 
   useEffect(() => {
     formik.validateForm().then(res => {
-      if (Object.keys(res).length == 0) {
+
+      if (Object.keys(res).length == 0 || (Object.keys(res).length == 1 && data.post_code.length>=3)) {
         setDisplay("block")
       } else {
         setDisplay("none")
@@ -228,16 +246,7 @@ const SenderDetails = ({ handleStep, step }) => {
     document.getElementById("dob").setAttribute('min', minDate);
   }, []);
 
-  useEffect(() => {
-    if (localStorage.getItem("transfer_data")) {
-      let tdata = JSON.parse(localStorage.getItem("transfer_data"))
-      if (tdata?.sender) {
-        setData(tdata?.sender)
-        formik.setValues({ ...tdata?.sender })
-      }
-    }
-
-  }, [step])
+  
 
 
   const handleClear = () => {
@@ -430,20 +439,14 @@ const SenderDetails = ({ handleStep, step }) => {
           <h5>Address</h5>
           <div className="col-md-4">
             <div className="input_field">
-              <p className="get-text">Flat/Unit No.<span style={{ color: 'red' }} >*</span></p>
+              <p className="get-text">Flat/Unit No.</p>
               <input
                 type="text"
                 name="flat"
                 value={data.flat}
                 onKeyDown={(e) => { handleEmail(e, 15) }}
                 {...formik.getFieldProps("flat")}
-                className={clsx(
-                  'form-control bg-transparent',
-                  { 'is-invalid': formik.touched.flat && formik.errors.flat },
-                  {
-                    'is-valid': formik.touched.flat && !formik.errors.flat,
-                  }
-                )}
+                className='form-control bg-transparent'
               />
             </div>
           </div>

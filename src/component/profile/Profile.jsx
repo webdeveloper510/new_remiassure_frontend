@@ -5,8 +5,8 @@ import CountryDropdown from 'country-dropdown-with-flags-for-react';
 import {Links, NavLink, useNavigate} from 'react-router-dom';
 
 import { toast } from "react-toastify";
-import { API } from "../../config/API";
 import axios from "axios";
+import global from "../../utils/global";
 
 
 const Profile = () => {
@@ -84,7 +84,7 @@ const Profile = () => {
     // const handleProfileDetaills =(event) =>{
     //   event.preventDefault();
     useEffect(() =>{
-      axios.post(API.BASE_URL + 'user-profile/', {
+      axios.post(global.serverUrl + '/user-profile/', {
 
       }, {
         headers: {

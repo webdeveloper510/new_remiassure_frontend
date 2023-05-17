@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { Links, NavLink, Navigate, useNavigate } from 'react-router-dom';
 import CountryDropdown from 'country-dropdown-with-flags-for-react';
 import { toast } from "react-toastify";
-import { API } from "../../config/API";
+import  global  from "../../utils/global";
 import axios from "axios";
 import UserRecipient from "../Userdashboard/UserRecipient";
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
@@ -122,8 +122,8 @@ const Addnewcard = () => {
     event.preventDefault();
 
 
-    setLoading(true); // Set loading before sending API request
-    axios.post(API.BASE_URL + 'payment/recipient-create/', {
+    setLoading(true); // Set loading before sending api request
+    axios.post(global.serverUrl + '/payment/recipient-create/', {
       bank_name: formValue.bankName,
       account_name: formValue.accountName,
       account_number: formValue.accountNumber,
