@@ -67,7 +67,7 @@ const BankDetails = ({ handleStep, step }) => {
     post_code: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
-    reason: Yup.string().min(2).max(30).oneOf(["Family Support" ,"Utility Payment","Travel Payment","Loan Payment","Tax Payment","Education"]).required()
+    reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
   })
 
   const formik = useFormik({
@@ -76,7 +76,8 @@ const BankDetails = ({ handleStep, step }) => {
     onSubmit: async (values) => {
       console.log(values, data.label)
       setLoading(true)
-      const d = { bank_name: values.bank,
+      const d = {
+        bank_name: values.bank,
         account_name: values.acc_name,
         account_number: values.acc_no,
         first_name: values.f_name,
@@ -97,7 +98,7 @@ const BankDetails = ({ handleStep, step }) => {
       if (d.flat === "" || d.flat === undefined || d.flat === " ") {
         delete d['flat'];
       }
-      
+
       axios.post(`${global.serverUrl}/payment/recipient-create/`, d, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -285,9 +286,9 @@ const BankDetails = ({ handleStep, step }) => {
 
   useEffect(() => {
     const value = data.country !== "" ? data.country : countryList[0]?.name
-    if(data.country==""){
-     setData({...data, country:countryList[0]?.name , country_code:countryList[0]?.iso2})
-      formik.setFieldValue("country",countryList[0]?.name)
+    if (data.country == "") {
+      setData({ ...data, country: countryList[0]?.name, country_code: countryList[0]?.iso2 })
+      formik.setFieldValue("country", countryList[0]?.name)
     }
     countryList?.map((item) => {
       if (item?.name === value) {
@@ -524,8 +525,8 @@ const BankDetails = ({ handleStep, step }) => {
                   <div className="input_field">
                     <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                     <PhoneInput
-                        onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
-                        country={data.country_code ? data.country_code.toLowerCase() : "gh"}
+                      onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
+                      country={data.country_code ? data.country_code.toLowerCase() : "gh"}
                       name="mobile"
                       value={formik.values.mobile}
                       inputStyle={{ border: "none", margin: "none" }}
@@ -721,7 +722,7 @@ const BankDetails = ({ handleStep, step }) => {
                     <select
                       aria-label="Select a reason"
                       name="reason"
-                      value={data.reason? data.reason : "Family Support"}
+                      value={data.reason}
                       onChange={(e) => handleChange(e)}
                       {...formik.getFieldProps("reason")}
                       className={clsx(
@@ -732,6 +733,7 @@ const BankDetails = ({ handleStep, step }) => {
                         }
                       )}
                     >
+                      <option>Select a reason</option>
                       <option value="Family Support">Family Support</option>
                       <option value="Education">Education</option>
                       <option value="Tax Payment">Tax Payment</option>

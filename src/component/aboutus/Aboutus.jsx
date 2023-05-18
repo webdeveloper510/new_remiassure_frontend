@@ -39,17 +39,17 @@ const Aboutus = () => {
          {
             id: 2,
             vission_src:"assets/img/about/02nd_icons.svg",
-            vission_content:"Our essence is to serve our customers. We are committed to going above and beyond in our quest to ensure the satisfaction of our customers.",
+            vission_content:"RemitAssure offers customers secure, efficient and cost-effective remittance services.",
          },
          {
             id: 3,
             vission_src:"assets/img/about/03thired_icons.svg",
-            vission_content:"Our essence is to serve our customers. We are committed to going above and beyond in our quest to ensure the satisfaction of our customers.",
+            vission_content:"We offer very competitive foreign exchange rates due to our lean business model.",
          },
          {
             id: 4,
             vission_src:"assets/img/about/04four_icons.svg",
-            vission_content:"Our essence is to serve our customers. We are committed to going above and beyond in our quest to ensure the satisfaction of our customers.",
+            vission_content:"Through our digital channels we are able to serve customers irrespective of their location, 24 hours a day, 7 days a week (24/7).",
          },
          
       ];
@@ -196,20 +196,11 @@ const Aboutus = () => {
                <div className="vl about_v1">
                   <h1 className="vl-heading">About Us</h1>
                   <div className="vl-content about_content">
-                     <p className="our_vission">Our vission and mission statement will go here</p>
-                     <p className="our_vission01">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Etiam 
-                      erat velit scelerisque in dictum. Pellentesque massa placerat duis ultricies
-                      lacus sed turpis tincidunt id. Ornare suspendisse sed nisi lacus sed viverra 
-                      tellus in. Morbi tincidunt ornare massa eget egestas purus viverra accumsan. 
-                      Metus dictum at tempor commodo ullamcorper a lacus vestibulum sed. Convallis
-                      convallis tellus id interdum velit laoreet id. Nunc non blandit massa enim nec
-                      dui nunc mattis enim. Consequat id porta nibh venenatis cras. Faucibus et molestie
-                      ac feugiat sed lectus vestibulum. Adipiscing diam donec adipiscing tristique risus nec
-                      feugiat in fermentum. Nulla facilisi etiam dignissim diam quis. Ultrices dui sapien eget
-                       mi proin sed. Fermentum et sollicitudin ac orci. Faucibus scelerisque eleifend donec 
-                       pretium. Sed sed risus pretium quam. Lectus quam id leo in vitae. Vulputate eu scelerisque
-                        felis imperdiet proin fermentum leo vel orci.</p>
+                     {/* <p className="our_vission">Our vission and mission statement will go here</p> */}
+                     <br/>
+                     <p className="our_vission01">RemitAssure is an innovative Fintech that offers disruptive digital peer-to-peer (P2P) remittance services across the globe.</p>
+                        <p className="our_vission01">Underpinning our Services is our industry leading remittance platform purpose-built to offer robust and scalable digital payment solutions to our clients.</p>
+                        <p className="our_vission01">Leveraging digital technology and emerging service-sharing models, we offer international remittances at very competitive rates. Our lean business structure and exchanging rate hedging know-how affords us marginal cost savings that we happily pass through to customers.</p>
                   </div>
                </div>
             </div>

@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.fdda821a.css",
-    "main.js": "/static/js/main.471b58b8.js",
+    "main.css": "/static/css/main.a36ee508.css",
+    "main.js": "/static/js/main.082bfe8b.js",
     "static/media/top-main.svg": "/static/media/top-main.7aa33f93ba5e8a134984.svg",
     "static/media/boxicons.svg": "/static/media/boxicons.61829f134e586c0c9e89.svg",
     "static/media/boxicons.eot": "/static/media/boxicons.65a8ce52fc5427e8f94d.eot",
@@ -16,7 +16,6 @@
     "static/media/about_banner.png": "/static/media/about_banner.61ae790492bcdbda7428.png",
     "static/media/flags.png": "/static/media/flags.3f9d4c2eaac6057ce601.png",
     "static/media/bg05.jpg": "/static/media/bg05.de6f74ba6b500aac800d.jpg",
-    "static/media/mastercard.png": "/static/media/mastercard.3c61f5d09a9019c59476.png",
     "static/media/nocard.jpg": "/static/media/nocard.150f7b195a2e104758ac.jpg",
     "static/media/card_bg.png": "/static/media/card_bg.6223b18401b02f749a67.png",
     "static/media/images.png": "/static/media/images.6820eef2cdf81b5b0d2b.png",
@@ -31,11 +30,11 @@
     "static/media/login-light-bg.svg": "/static/media/login-light-bg.b913f8a2add096d8c695.svg",
     "index.html": "/index.html",
     "static/media/search.svg": "/static/media/search.270e03caf8d0167303f2.svg",
-    "main.fdda821a.css.map": "/static/css/main.fdda821a.css.map",
-    "main.471b58b8.js.map": "/static/js/main.471b58b8.js.map"
+    "main.a36ee508.css.map": "/static/css/main.a36ee508.css.map",
+    "main.082bfe8b.js.map": "/static/js/main.082bfe8b.js.map"
   },
   "entrypoints": [
-    "static/css/main.fdda821a.css",
-    "static/js/main.471b58b8.js"
+    "static/css/main.a36ee508.css",
+    "static/js/main.082bfe8b.js"
   ]
 }

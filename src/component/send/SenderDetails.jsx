@@ -196,7 +196,6 @@ const SenderDetails = ({ handleStep, step }) => {
 
   useEffect(() => {
     formik.validateForm().then(res => {
-
       if (Object.keys(res).length == 0 || (Object.keys(res).length == 1 && data.post_code.length>=3)) {
         setDisplay("block")
       } else {

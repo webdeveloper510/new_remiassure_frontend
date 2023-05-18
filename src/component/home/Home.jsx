@@ -432,21 +432,22 @@ const Home = () => {
                     <div className="row">
                         <div className="col-lg-6 no-padding banner-content">
                             <div className="vl">
-                                <h1 className="vl-heading">A Better Way</h1>
-                                <h1 className="vl-heading01">To Send Money</h1>
+                                <h1 className="vl-heading">Welcome</h1>
+                                <h1 className="vl-heading01">To Remittance 2.0</h1>
                             </div>
                             <div className="vl-content">
                                 <p className="vl-paragraph">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat cras fermentum <br />
-                                    malesuada ultrices dictum. Eu id sit malesuada quam et tincidunt eu dolor convallis
+                                    We have re-imagined international money transfer to provide reliable, efficient and<br />
+                                    cost effective services to our customers.
                                 </p>
                                 <p className="vl-paragraph">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat cras fermentum <br />
-                                    malesuada ultrices dictum. Eu id sit malesuada quam et tincidunt eu dolor convallis
+                                    Leveraging cutting edge digital technologies and an ecosystem of proven global <br />
+                                    partners, we are ushering in a new world of seamless, secure and speedy global<br />
+                                    payments.
                                 </p>
                                 <p className="vl-paragraph">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat cras fermentum <br />
-                                    malesuada ultrices dictum. Eu id sit malesuada quam et tincidunt eu dolor convallis
+                                    We invite you to come onboard and enjoy the unparalleled experience provided by our<br />
+                                    platform.
                                 </p>
                             </div>
                         </div>
