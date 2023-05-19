@@ -110,29 +110,6 @@ const SenderDetails = ({ handleStep, step }) => {
     })
   }, [data.state])
 
-  const handlePostCode = (event) => {
-    const pattern = /^[0-9]+$/;
-    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
-      setData({ ...data, post_code: event.target.value })
-      formik.setFieldValue('post_code', event.target.value)
-      formik.setFieldTouched('post_code', true)
-    } else {
-      let value = event.target.value.toString()
-      if (value.length > 3) {
-        event.stopPropagation()
-        event.preventDefault()
-      } else {
-        if (!pattern.test(event.key)) {
-          event.preventDefault();
-          event.stopPropagation()
-        } else {
-          setData({ ...data, post_code: event.target.value })
-          formik.setFieldValue('post_code', event.target.value)
-          formik.setFieldTouched('post_code', true)
-        }
-      }
-    }
-  }
 
   const handleChange = (e) => {
     if (e.target.name === 'country') {
@@ -147,7 +124,6 @@ const SenderDetails = ({ handleStep, step }) => {
     formik.setFieldValue(e.target.name, e.target.value)
     formik.setFieldTouched(e.target.name, true)
   }
-
 
   const handleKeyDown = (e, max) => {
     if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete" || e.key === " ") {
@@ -175,28 +151,11 @@ const SenderDetails = ({ handleStep, step }) => {
       }
     }
   }
-  const handleEmail = (e, max) => {
-    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete") {
-      setData({ ...data, [e.target.name]: e.target.value })
-      formik.setFieldValue(`${[e.target.name]}`, e.target.value)
-      formik.setFieldTouched(`${[e.target.name]}`, true)
-    } else {
-      const value = e.target.value.toString()
-      if (value.length >= max) {
-        e.stopPropagation()
-        e.preventDefault()
-
-      } else {
-        setData({ ...data, [e.target.name]: e.target.value })
-        formik.setFieldValue(`${[e.target.name]}`, e.target.value)
-        formik.setFieldTouched(`${[e.target.name]}`, true)
-      }
-    }
-  }
 
   useEffect(() => {
     formik.validateForm().then(res => {
-      if (Object.keys(res).length == 0 || (Object.keys(res).length == 1 && data.post_code.length>=3)) {
+      console.log(res)
+      if (Object.keys(res).length == 0 ) {
         setDisplay("block")
       } else {
         setDisplay("none")
@@ -245,8 +204,26 @@ const SenderDetails = ({ handleStep, step }) => {
     document.getElementById("dob").setAttribute('min', minDate);
   }, []);
 
-  
+  const handleOnlyAplha = (event) => {
+    const result = event.target.value.replace(/[^a-z ]/gi,"");
+        setData({...data , [event.target.name] : result})
+        formik.setFieldValue(event.target.name , result)
+        formik.setFieldTouched(event.target.name , true)
+  }
 
+  const handleNumericOnly = (event) => {
+    const result = event.target.value.replace(/[^0-9]/,"");
+    setData({...data , [event.target.name] : result})
+    formik.setFieldValue(event.target.name , result)
+    formik.setFieldTouched(event.target.name , true)
+  }
+
+  const handleAddress = (event) => {
+    const result = event.target.value.replace(/[^0-9A-z- /#._]/,"");
+    setData({...data , [event.target.name] : result})
+    formik.setFieldValue(event.target.name , result)
+    formik.setFieldTouched(event.target.name , true)
+  }
 
   const handleClear = () => {
     localStorage.removeItem("transfer_data")
@@ -270,8 +247,8 @@ const SenderDetails = ({ handleStep, step }) => {
                 type="text"
                 name="f_name"
                 value={data.f_name}
-                onKeyDown={(e) => { handleKeyDown(e, 25) }}
-                {...formik.getFieldProps("f_name")}
+                maxLength="25"
+                onChange={handleOnlyAplha} 
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.f_name && formik.errors.f_name },
@@ -291,8 +268,8 @@ const SenderDetails = ({ handleStep, step }) => {
                 name="m_name"
                 className='form-control'
                 value={data.m_name}
-                onKeyDown={(e) => { handleKeyDown(e, 25) }}
-                {...formik.getFieldProps("m_name")}
+                maxLength="25"
+                onChange={handleOnlyAplha} 
               />
             </div>
           </div>
@@ -303,9 +280,8 @@ const SenderDetails = ({ handleStep, step }) => {
                 type="text"
                 name="l_name"
                 value={data.l_name}
-                onKeyDown={(e) => { handleKeyDown(e, 25) }}
-                {...formik.getFieldProps("l_name")}
-
+                maxLength="25"
+                onChange={handleOnlyAplha} 
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.l_name && formik.errors.l_name },
@@ -443,8 +419,8 @@ const SenderDetails = ({ handleStep, step }) => {
                 type="text"
                 name="flat"
                 value={data.flat}
-                onKeyDown={(e) => { handleEmail(e, 15) }}
-                {...formik.getFieldProps("flat")}
+                onChange={handleAddress}
+                maxLength="10"
                 className='form-control bg-transparent'
               />
             </div>
@@ -456,8 +432,8 @@ const SenderDetails = ({ handleStep, step }) => {
                 type="text"
                 name="build_no"
                 value={data.build_no}
-                onKeyDown={(e) => { handleEmail(e, 30) }}
-                {...formik.getFieldProps("build_no")}
+                onChange={handleAddress}
+                maxLength="30"
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.build_no && formik.errors.build_no },
@@ -475,9 +451,8 @@ const SenderDetails = ({ handleStep, step }) => {
                 type="text"
                 name="street"
                 value={data.street}
-                onKeyDown={(e) => { handleEmail(e, 30) }}
-                {...formik.getFieldProps("street")}
-
+                onChange={handleAddress}
+                maxLength="30"
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.street && formik.errors.street },
@@ -497,9 +472,8 @@ const SenderDetails = ({ handleStep, step }) => {
                 type="text"
                 name="post_code"
                 value={data.post_code}
-                onKeyDown={(e) => handlePostCode(e)}
-                {...formik.getFieldProps("post_code")}
-
+                maxLength="4"
+                onChange={handleNumericOnly}
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.post_code && formik.errors.post_code },

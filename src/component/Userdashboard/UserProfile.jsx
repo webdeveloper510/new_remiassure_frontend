@@ -117,9 +117,11 @@ const Profile = () => {
           localStorage.removeItem("remi-user-dt")
           let local = { ...res.data, digital_id_verified: "true" }
           localStorage.setItem("remi-user-dt", JSON.stringify(local))
+          setLoading(false)
           toast.success("Profile Update Successful", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+        } else {
+          setLoading(false)
         }
-        setLoading(false)
       }).catch((err) => {
         setLoading(false)
         toast.error(err.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
