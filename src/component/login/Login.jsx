@@ -7,8 +7,17 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import clsx from "clsx";
+import * as CountryData from "country-codes-list";
 
 const Login = () => {
+
+
+    const [isMobile, setIsMobile] = useState(true)
+    const [promo_marketing, setPromo_marketing] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const toggleShowPassword = () => setShowPassword(prevState => !prevState);
+    const [countryCode, setCountryCode] = useState("+61")
 
     useEffect(() => {
         exchangeRate({ amount: "1", from: "AUD", to: "NZD" }).then(res => {
@@ -20,7 +29,6 @@ const Login = () => {
 
     const loginSchema = Yup.object().shape({
         email: Yup.string()
-            .matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format")
             .required('Email is required'),
         password: Yup.string()
             .required('Password is required'),
@@ -36,17 +44,25 @@ const Login = () => {
         validationSchema: loginSchema,
         onSubmit: async (values) => {
             setLoading(true);
-            userLogin({ email: values.email, password: values.password }).then((res) => {
+            let data = {}
+            if (isMobile === true) {
+                data.mobile = countryCode + values.email
+            } else {
+                data.email = values.email
+            }
+            data.password = values.password
+            userLogin(data).then((res) => {
                 console.log(res, "--------------------------------------")
                 if (res.code == "200") {
-                    toast.success('Login Successfully', { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
-                    localStorage.setItem("token", res?.access_token)
+                    toast.success(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
+                    // localStorage.setItem("token", res?.access_token)
                     localStorage.setItem("remi-user-dt", JSON.stringify(res?.data))
-                    if (res?.data?.digital_id_verified) {
-                        navigate("/dashboard")
-                    } else {
-                        navigate('/send-money')
-                    }
+                    navigate("/verification", { state: data })
+                    // if (res?.data?.digital_id_verified) {
+                    //     navigate("/dashboard")
+                    // } else {
+                    //     navigate('/send-money')
+                    // }
                 } else if (res.code == "201") {
                     console.log("---------------------", res)
                     toast.warn("Please check your mail for otp", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
@@ -68,10 +84,6 @@ const Login = () => {
     })
 
 
-    const [promo_marketing, setPromo_marketing] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
-    const toggleShowPassword = () => setShowPassword(prevState => !prevState);
 
     const navigate = useNavigate();
 
@@ -83,6 +95,27 @@ const Login = () => {
             Active: checked
         }));
     };
+
+
+
+    const myCountryList = CountryData.customArray({ name: '{countryCallingCode} ({countryCode})', value: '{countryCode}' })
+
+    const handleChange = (e) => {
+        let element = e.target.value
+        if (element.length > 0) {
+            let pattern = /^\d+$/
+            let result = pattern.test(element)
+            if (result) {
+                setIsMobile(true)
+            } else {
+                setIsMobile(false)
+            }
+        } else {
+            setIsMobile(true)
+        }
+        formik.setFieldValue("email", element)
+        formik.setFieldTouched("email", true)
+    }
 
     return (
         <>
@@ -101,28 +134,43 @@ const Login = () => {
                                             <div className="form_login">
                                                 <form onSubmit={formik.handleSubmit} noValidate>
                                                     <Form.Group className="mb-3 form_label">
-                                                        <Form.Label>Your Email<span style={{ color: 'red' }} >*</span></Form.Label>
-                                                        <Form.Control type="email"
-                                                            {...formik.getFieldProps('email')}
-                                                            className={clsx(
-                                                                'form-control bg-transparent',
-                                                                { 'is-invalid': formik.touched.email && formik.errors.email },
-                                                                {
-                                                                    'is-valid': formik.touched.email && !formik.errors.email,
-                                                                }
-                                                            )}
-                                                            name='email'
-                                                            autoComplete='off'
-                                                            placeholder="Enter email"
-                                                        />
-                                                        {formik.touched.email && formik.errors.email && (
-                                                            <div className='fv-plugins-message-container mt-1'>
-                                                                <div className='fv-help-block'>
-                                                                    <span role='alert' className="text-danger">{formik.errors.email}</span>
-                                                                </div>
+                                                        <Form.Label>Your Email/Mobile Number<span style={{ color: 'red' }} >*</span></Form.Label>
+                                                        <div className="row">
+                                                            {
+                                                                isMobile ? (
+                                                                    <div className="col-md-4 pe-1">
+                                                                        <Form.Select value={countryCode} onChange={(e) => setCountryCode(e.target.value)}>
+                                                                            {/* {
+                                                                                myCountryList && myCountryList.length > 0 ?
+                                                                                    myCountryList.map((item) => {
+                                                                                        return (
+                                                                                            <option value={item?.value}>+{item?.name}</option>
+                                                                                        )
+                                                                                    }) : <option>N/A</option>
+                                                                            } */}
+                                                                            <option value="+61">+61 (AU)</option>
+                                                                            <option value="+64">+64 (NZ)</option>
+                                                                        </Form.Select>
+                                                                    </div>
+                                                                ) : ""
+                                                            }
+                                                            <div className={`${isMobile ? "col-md-8" : "col-md-12"} ps-1`}>
+                                                                <Form.Control
+                                                                    type={'text'}
+                                                                    autoComplete='off'
+                                                                    name="id"
+                                                                    maxLength={isMobile ? "10" : "50"}
+                                                                    onChange={handleChange}
+                                                                    className={clsx(
+                                                                        'form-control bg-transparent',
+                                                                        {
+                                                                            'is-invalid': formik.touched.email && formik.errors.email
+                                                                        }
+                                                                    )}
+                                                                    placeholder="Email/Mobile"
+                                                                />
                                                             </div>
-                                                        )}
-
+                                                        </div>
                                                     </Form.Group>
 
                                                     <Form.Group className="mb-3 form_label">
@@ -135,10 +183,7 @@ const Login = () => {
                                                                 'form-control bg-transparent',
                                                                 {
                                                                     'is-invalid': formik.touched.password && formik.errors.password,
-                                                                },
-                                                                // {
-                                                                //     'is-valid': formik.touched.password && !formik.errors.password,
-                                                                // }
+                                                                }
                                                             )}
                                                             placeholder="Password"
                                                         />

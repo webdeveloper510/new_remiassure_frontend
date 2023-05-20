@@ -48,15 +48,16 @@ const Signup = () => {
         validationSchema: signSchema,
         onSubmit: async (values) => {
             setLoading(true)
-            let data = {...values, promo_marketing:promo_marketing, country_code:country_code}
+            let data = {...values, promo_marketing:promo_marketing, country_code:country_code , mobile:"+"+values.mobile}
             if (referral_code == "") {
                 delete data["referral_code"]
             }
             userRegister(data).then((res) => {
+                console.log("------------------------",res)
                 if (res.code === "200") {
                     const data = {...res?.data, digital_id_verified:"false"}
                     localStorage.setItem("remi-user-dt", JSON.stringify(data))
-                    navigate("/verification", { state: { email: values.email } })
+                    navigate("/verification", { state: { mobile: "+"+values.mobile } })
 
                 } else if (res.code == '400') {
                     toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
@@ -64,7 +65,7 @@ const Signup = () => {
                 }
                 else if (res.code == '201') {
                     toast.warn(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
-                    navigate("/verification", { state: { email: values.email } })
+                    navigate("/verification", { state: { mobile: values.mobile } })
                 }
                 setLoading(false)
             }).catch((error) => {
@@ -126,6 +127,7 @@ const Signup = () => {
     }
 
     const handlePhone = (e, coun) => {
+        console.log("phone", e)
         formik.setFieldValue('mobile', e);
          formik.setFieldTouched('mobile', true);
          formik.setFieldValue('location', coun.name)

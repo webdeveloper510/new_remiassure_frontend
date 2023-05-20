@@ -33,7 +33,7 @@ const Verification = () => {
     const [otp, setOtp] = useState("");
 
     const location = useLocation()
-    const { email } = location.state
+    const data = location.state
 
     // start Error mesasge states
     const [EnterOtpText, setEnterOtpText] = useState('');
@@ -54,14 +54,25 @@ const Verification = () => {
 
         if(length.length == 6){
             setLoading(true)
-            verifyEmail({ email_otp: otp, email: email }).then((res) => {
+            let obj = {}
+            if (Object.keys(data) == 'email') {
+                obj.email = data.email
+            } else {
+                obj.mobile = data.mobile
+            }
+            obj.otp = otp
+            verifyEmail(obj).then((res) => {
                 console.log("verifing email", res)
                 if (res.code == 200) {
-                    toast.success("Email verification successful",
+                    toast.success("verification successful",
                         { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
                     localStorage.setItem('token', res.access_token)
                     setLoading(false)
-                    navigate('/send-money')
+                     if (res?.data?.digital_id_verified && res?.data.digital_id_verified == "true") {
+                        navigate("/dashboard")
+                    } else {
+                        navigate('/send-money')
+                    }
                 }else if(res.code == "400"){
                     toast.error(res.message,
                     { position:"bottom-right", autoClose: 2000, hideProgressBar: true });
@@ -84,7 +95,14 @@ const Verification = () => {
     const handleResendOtp =(e)=>{
         e.preventDefault()
         setLoading(true)
-        resendOtp({type:"email", email: email})
+        let obj = {}
+        if (Object.keys(data) == 'email') {
+            obj.email = data.email
+        } else {
+            obj.mobile = data.mobile
+        }
+        obj.type = "email"
+        resendOtp(obj)
         .then((res)=>{
             console.log("resend-otp-----", res)
             setLoading(false)
