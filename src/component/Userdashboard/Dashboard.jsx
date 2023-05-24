@@ -287,7 +287,7 @@ const Dashboard = () => {
                                                                         <tr key={res.id}>
                                                                             <td>
                                                                                 <div class="me-auto">
-                                                                                    <h6 class="fs-16 font-w600 mb-0">{res.first_name} {res.last_name}</h6>
+                                                                                    <h6 class="fs-16 font-w600 mb-0">{res.first_name}&nbsp;{res.last_name}</h6>
                                                                                     <span class="fs-12">{res.date}</span>
                                                                                 </div>
                                                                             </td>

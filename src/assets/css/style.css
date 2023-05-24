@@ -2661,6 +2661,18 @@ button.continue_button {
   font-size: 16px;
 }
 
+button.cancel_button {
+  width: 354px;
+  height: 48px;
+  background: red;
+  border-radius: 10px;
+  text-align: center;
+  color: #fff;
+  margin-top: 20px;
+  font-size: 16px;
+  border: red;
+}
+
 .card-verification p {
   text-align: center;
   margin-top: 35px;
@@ -5840,4 +5852,24 @@ label.timerdots {
   margin-top: 92px;
   background: #DCC8FC !important;
   font-size: 14px;
+}
+a.resend_otp_link.nav-link {
+  text-align: right;
+  margin-top: 12px;
+  color: #6414e9;
+  text-decoration: underline;
+}
+
+.Verify_pop {
+  display: flex;
+  justify-content: center;
+  width: 60%;
+  margin: 0 auto;
+}
+.Verify_pop button {
+  margin-right: 10px;
+}
+.session_modal {
+    min-height: 155px;
+    text-align: center
 }

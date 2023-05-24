@@ -1,28 +1,31 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { Modal, Table } from 'react-bootstrap'
+import { Modal, NavLink, Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router'
 import global from '../../utils/global'
 import Axios from "axios"
 import axios from 'axios'
 import verified from '../../assets/img/userdashboard/3.png';
 import { BsCheckCircleFill } from 'react-icons/bs'
-import { NavLink } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import PopVerify from '../verification/PopVerify'
 
 
 const PaymentSummary = ({ handleStep, step }) => {
 
   const [data, setData] = useState({
     send_amount: "", to: "", recieve_amount: "", account_number: "", account_name: "", bank_name: "",
-    total_amount: "", from: "", send_method: "", beneficiary_name:""
+    total_amount: "", from: "", send_method: "", beneficiary_name: ""
   })
+
+  const [open_modal, setOpenModal] = useState(false)
 
   const navigate = useNavigate()
   const [modalView, setModalView] = useState(false)
   const [loader, setLoader] = useState(false)
-  const [transaction, setTransaction] = useState({ id: "", status: "" })
+  const [transaction, setTransaction] = useState({ id: "", status: "" , pay_id:""})
+  const [is_otp_verified, setIsOtpVerfied] = useState(null)
 
   useEffect(() => {
     const local = JSON.parse(localStorage.getItem("transfer_data"));
@@ -37,7 +40,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       account_number: local?.recipient?.acc_no,
       bank_name: local?.recipient?.bank,
       send_method: local?.payment?.payment_type,
-      beneficiary_name:local?.recipient?.f_name+" "+local?.recipient?.l_name
+      beneficiary_name: local?.recipient?.f_name + " " + local?.recipient?.l_name
     })
 
     axios.post(`${global.serverUrl}/digital-verification/`, { code: localStorage.getItem("DigitalCode") }, {
@@ -62,7 +65,7 @@ const PaymentSummary = ({ handleStep, step }) => {
         Last_name: local?.sender?.l_name,
         Date_of_birth: local?.sender?.dob,
         Gender: local?.sender?.gender,
-        Country_of_birth:local?.sender?.country_of_birth
+        Country_of_birth: local?.sender?.country_of_birth
       },
       sender_address: {
         flat: local?.sender?.flat,
@@ -72,7 +75,7 @@ const PaymentSummary = ({ handleStep, step }) => {
         city: local?.sender?.city,
         state: local?.sender?.state,
         country: local?.sender?.country,
-        country_code:local?.sender?.country_code
+        country_code: local?.sender?.country_code
 
       },
       recipient: {
@@ -88,7 +91,7 @@ const PaymentSummary = ({ handleStep, step }) => {
         city: local?.recipient?.city,
         state: local?.recipient?.state,
         country: local?.recipient?.country,
-        country_code:local?.recipient?.country_code
+        country_code: local?.recipient?.country_code
       },
       bank_details: {
         bank_name: local?.recipient?.bank,
@@ -97,14 +100,14 @@ const PaymentSummary = ({ handleStep, step }) => {
       },
       amount: {
         send_amount: local?.amount?.send_amt,
-        recieve_amount: local?.amount?.exchange_amt,
+        receive_amount: local?.amount?.exchange_amt,
         send_currency: local?.amount?.from_type,
-        recieve_currency: local?.amount?.to_type,
+        receive_currency: local?.amount?.to_type,
         send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
-        recieve_method: local?.amount?.recieve_meth,
+        receive_method: local?.amount?.recieve_meth,
         reason: local?.recipient?.reason,
         card_token: local?.payment?.token?.id,
-        exchange_rate:local?.amount?.rates
+        exchange_rate: local?.amount?.rates
       }
     }
     setLoader(true)
@@ -117,7 +120,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       console.log(res)
       if (res.data.code == "200") {
         setLoader(false)
-        setTransaction({ status: "Completed", id: res?.data?.data?.payment_id })
+        setTransaction({ status: "Completed", id: res?.data?.data?.transaction_id, pay_id : res?.data?.data?.payment_id})
         localStorage.setItem("transaction_id", res?.data?.data?.payment_id)
         const user = JSON.parse(localStorage.getItem("remi-user-dt"))
         // localStorage.removeItem("remi-user-dt")
@@ -144,10 +147,19 @@ const PaymentSummary = ({ handleStep, step }) => {
     })
   }
 
+  useEffect(()=>{
+    if(is_otp_verified) {
+      handleFinalStep()
+    }
+  },[is_otp_verified])
   const handleCancel = () => {
     localStorage.removeItem("transfer_data")
     localStorage.removeItem("send-step")
     window.location.reload(true)
+  }
+
+  const handleOtpVerified = (value) => {
+    setIsOtpVerfied(value)
   }
 
   return (
@@ -186,7 +198,7 @@ const PaymentSummary = ({ handleStep, step }) => {
               </tr>
             </thead>
             <tbody>
-            <tr>
+              <tr>
                 <td>Beneficiary Name:</td>
                 <td>{data?.beneficiary_name}</td>
               </tr>
@@ -222,7 +234,7 @@ const PaymentSummary = ({ handleStep, step }) => {
           </div>
           <div className="col-md-8">
             <div>
-              <button className="form-button" onClick={() => handleFinalStep()}>Continue</button>
+              <button className="form-button" onClick={() => setOpenModal(true)}>Continue</button>
             </div>
           </div>
         </div>
@@ -233,6 +245,7 @@ const PaymentSummary = ({ handleStep, step }) => {
           </div>
         </> : ""}
       </div>
+      {/* -------------------- PAYMENT RECIEPT----------------- */}
       <Modal show={modalView} onHide={() => navigate("/dashboard")} centered>
         <Modal.Body>
           <div className="form_body">
@@ -243,7 +256,7 @@ const PaymentSummary = ({ handleStep, step }) => {
               <tbody>
                 <tr>
                   <th>Transaction Id:</th>
-                  <td>{transaction?.id}</td>
+                  <td>{transaction?.pay_id}</td>
                 </tr>
                 <tr>
                   <th>Transacted Amount</th>
@@ -258,12 +271,16 @@ const PaymentSummary = ({ handleStep, step }) => {
             <div className="col-md-12 align-center">
               {/* <img className="verifies-img" src={verified} alt="verified" /> */}
               <p>Thanks for choosing Remit Assure</p>
-              <NavLink to="/dashboard">
-                <button type="button" className="form-button" style={{ "width": '100%' }}>View Dashboard</button></NavLink>
+              <NavLink target='_blank' href={`${global.serverUrl}/payment/receipt/${transaction.id}`}>
+                <button type="button" className="form-button" style={{ "width": '100%' }} onClick={()=>{navigate("/dashboard")}}>View Reciept</button></NavLink>
             </div>
 
           </div>
         </Modal.Body>
+      </Modal>
+      {/* -------------------- OTP CONFIRMATION---------------- */}
+      <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
+        <PopVerify handler={handleOtpVerified} close={() => setOpenModal(false)} />
       </Modal>
     </>
   )

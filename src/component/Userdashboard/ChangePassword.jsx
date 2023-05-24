@@ -8,10 +8,14 @@ import * as Yup from "yup"
 import clsx from "clsx";
 import { changePassword } from "../../utils/Api";
 import authDashHelper from "../../utils/AuthDashHelper";
+import { Modal } from "react-bootstrap";
+import PopVerify from "../verification/PopVerify";
 
 const Profile = () => {
 
   const [loading, setLoading] = useState(false);
+  const [open_modal, setOpenModal] = useState(false)
+  const [is_otp_verified, setIsOtpVerfied] = useState(false)
 
   useEffect(() => {
     if (authDashHelper('dashCheck') === false) {
@@ -52,9 +56,33 @@ const Profile = () => {
     }
   })
 
-  const handleCancel = () => {
-    formik.setValues({old_password:"", new_password:"", confirmPassword:""})
+  const handleOtpVerification = (value) => {
+    setIsOtpVerfied(value)
   }
+
+  const handleCancel = () => {
+    formik.setValues({ old_password: "", new_password: "", confirmPassword: "" })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    formik.validateForm().then(res => {
+      console.log(res)
+      if (Object.keys(res).length == 0) {
+        setOpenModal(true)
+
+      } else {
+        formik.setErrors(res)
+      }
+    })
+
+  }
+
+  useEffect(()=>{
+    if(is_otp_verified){
+      formik.handleSubmit()
+    }
+  },[is_otp_verified])
 
   const navigate = useNavigate();
 
@@ -75,7 +103,7 @@ const Profile = () => {
                   <div className="card-body">
                     <div className="update-profile">
 
-                      <form onSubmit={formik.handleSubmit} noValidate >
+                      <form onSubmit={handleSubmit} noValidate >
                         <div className="row each-row">
                           <div className="col-md-4">
                             <Form.Group className="form_label" controlId="Firstname">
@@ -93,7 +121,7 @@ const Profile = () => {
                                   }
                                 )}
                               />
-                               {formik.touched.old_password && formik.errors.old_password && (
+                              {formik.touched.old_password && formik.errors.old_password && (
                                 <div className='fv-plugins-message-container mt-1'>
                                   <div className='fv-help-block'>
                                     <span role='alert' className="text-danger">{formik.errors.old_password}</span>
@@ -158,7 +186,7 @@ const Profile = () => {
                             <button
                               type="button"
                               className="start-form-button"
-                              onClick={()=>handleCancel()}
+                              onClick={() => handleCancel()}
                             >Cancel</button>
                           </div>
                           <div className="col-md-8">
@@ -185,6 +213,9 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
+        <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} />
+      </Modal>
     </>
   )
 }

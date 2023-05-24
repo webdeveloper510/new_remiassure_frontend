@@ -1,12 +1,24 @@
 import React, { useEffect } from 'react';
 import routes from './routes';
-import { useRoutes, useLocation } from 'react-router-dom';
+import IdleTimeOutHandler from './component/idle/IdleTimeOutHandler'
+import { useState } from 'react';
+import { useRoutes, useLocation, useNavigate } from 'react-router-dom';
 import Header from './component/header/Header';
 import Footer from './component/footer/Footer';
 
 const App = () => {
   const routing = useRoutes(routes);
   const location = useLocation()
+  const [isActive, setIsActive] = useState(true)
+  const [loader, setLoader] = useState(false)
+  const navigate = useNavigate()
+
+  const onLogOut = () => {
+    setLoader(true)
+    localStorage.clear()
+    navigate("/login")
+  }
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -19,6 +31,12 @@ const App = () => {
 
   return (
     <>
+      <IdleTimeOutHandler
+        onActive={() => { setIsActive(true) }}
+        onIdle={() => { setIsActive(false) }}
+        onLogout={() => { onLogOut() }}
+        timeOutInterval={(30*60*1000)}
+      />
       <Header />
       {routing}
       <Footer />

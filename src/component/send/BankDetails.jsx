@@ -77,7 +77,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
       .max(50, 'Maximum 50 symbols')
       .required('Email is required'),
     acc_name: Yup.string().min(1).max(50).required(),
-    acc_no: Yup.string().min(9).max(20).required(),
+    acc_no: Yup.string().min(5).max(18).required(),
     f_name: Yup.string().min(1).max(25).required(),
     l_name: Yup.string().min(1).max(25).required(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
@@ -86,7 +86,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     build_no: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
     city: Yup.string().min(1).max(35).required(),
-    post_code: Yup.string().length(4).required(),
+    post_code: Yup.string().length(4).notRequired(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
     reason: Yup.string().min(2).max(30).oneOf(["Family Support" ,"Utility Payment","Travel Payment","Loan Payment","Tax Payment","Education"]).required()
@@ -281,7 +281,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="acc_no"
                   value={data?.acc_no}
-                  onKeyDown={(e) => { handlePostCode(e, 19) }}
+                  onKeyDown={(e) => { handlePostCode(e, 17) }}
                   {...formik.getFieldProps("acc_no")}
                   className={clsx(
                     'form-control bg-transparent',
@@ -460,7 +460,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
           <div className="row each-row">
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Postal Code<span style={{ color: 'red' }} >*</span></p>
+                <p className="get-text">Postal Code</p>
                 <input
                   type="text"
                   name="post_code"

@@ -8,19 +8,23 @@ import { useRef } from 'react'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
 import { BiXCircle } from 'react-icons/bi'
-import { NavLink } from 'react-router-dom'
+import {NavLink} from 'react-bootstrap'
 import { BsCheckCircleFill } from 'react-icons/bs'
 import { useEffect } from 'react'
+import PopVerify from '../../verification/PopVerify'
 
 const PaymentDetails = ({ handleStep, step }) => {
 
   const [data, setData] = useState({ payment_type: "Debit/Credit Card" })
   const [modal, setModal] = useState(false)
+  const [open_modal, setOpenModal] = useState(false)
+  const [is_otp_verified, setIsOtpVerfied] = useState(false)
   const payRef = useRef(null)
   const navigate = useNavigate()
-  const [transaction, setTransaction] = useState({ id: "", status: "", amount: "", curr: "" })
+  const [transaction, setTransaction] = useState({ id: "", status: "", amount: "", curr: "", pay_id:"" })
   const [modalView, setModalView] = useState(false)
   const [loader, setLoader] = useState(false)
+  const [token , setToken ] = useState({})
 
   useEffect(() => {
     if (transaction.id) {
@@ -47,6 +51,10 @@ const PaymentDetails = ({ handleStep, step }) => {
     setTransaction(values)
   }
 
+  const handleOtpVerification = (value) => {
+    setIsOtpVerfied(value)
+  }
+
   const local = JSON.parse(localStorage.getItem("transfer_data"))
 
   const stripePromise = loadStripe(`${global.stripe_p_key}`);
@@ -61,6 +69,61 @@ const PaymentDetails = ({ handleStep, step }) => {
     localStorage.setItem("send-step", Number(step) - 1)
     handleStep(Number(step) - 1);
   }
+
+  const handleModals = () => {
+    setModal(!modal)
+    setOpenModal(true)
+  }
+
+  useEffect(() => {
+    if (is_otp_verified) {
+      const local = JSON.parse(localStorage.getItem("transfer_data"))
+      const data = {
+        // name: local?.recipient?.First_name,
+        send_currency: local?.amount?.from_type,
+        receive_currency: local?.amount?.to_type,
+        destination: local?.recipient?.country,
+        recipient_id: local?.recipient?.id,
+        send_amount: local?.amount?.send_amt,
+        receive_amount: local?.amount?.exchange_amt,
+        reason: "Family Support",
+        card_token:token?.id,
+        exchange_rate: local?.amount?.exchange_rate
+      }
+      console.log("----------data-------------", data)
+      setLoader(true)
+      axios.post(`${global.serverUrl}/payment/stripe-charge/`, data, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+      }).then(res => {
+        if (res.data.code == "200") {
+          localStorage.removeItem("transfer_data")
+          if (localStorage.getItem("send-step")) {
+            localStorage.removeItem("send-step")
+          }
+          setIsOtpVerfied(false)
+          setLoader(false)
+          setTransaction({ id: res.data.data.transaction_id, pay_id:res.data.data.payment_id, status: "Completed", amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+          // setTimeout(() => {
+          //   window.location.reload()
+          // }, 2 * 1000)
+        }
+        setLoader(false)
+      }).catch((err) => {
+        setLoader(false)
+        setIsOtpVerfied(false)
+        localStorage.removeItem("transfer_data")
+        if (localStorage.getItem("send-step")) {
+          localStorage.removeItem("send-step")
+        }
+        toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+        setTimeout(() => {
+          window.location.reload()
+        }, 3 * 1000)
+      })
+    }
+  }, [is_otp_verified])
 
   return (
     <>
@@ -141,7 +204,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                 </Modal.Header>
                 <Modal.Body className='my-4'>
                   <Elements stripe={stripePromise}>
-                    <CheckoutForm payRef={payRef} method={data.payment_type} handleStep={handleStep} step={step} handleModal={() => setModal(false)} handleTransaction={handleTransaction} handleLoader={(value) => { setLoader(value) }} />
+                    <CheckoutForm payRef={payRef} handleModal={()=>handleModals()} handleToken={(value)=>setToken(value)} />
                   </Elements>
                 </Modal.Body>
                 <Modal.Footer>
@@ -156,7 +219,7 @@ const PaymentDetails = ({ handleStep, step }) => {
               </Modal>
 
               {/* ----------------- transaction result----------------- */}
-              <Modal show={modalView} onHide={() => navigate("/dashboard")} centered> 
+              <Modal show={modalView} onHide={() => navigate("/dashboard")} centered>
                 <Modal.Body>
                   <div className="form_body">
                     <div className="header">
@@ -166,7 +229,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                       <tbody>
                         <tr>
                           <th>Transaction Id:</th>
-                          <td>{transaction?.id}</td>
+                          <td>{transaction?.pay_id}</td>
                         </tr>
                         <tr>
                           <th>Transacted Amount</th>
@@ -179,11 +242,17 @@ const PaymentDetails = ({ handleStep, step }) => {
                       </tbody>
                     </Table>
                     <div className="col-md-12 align-center">
-                        <button type="button" className="form-button" onClick={()=>navigate("/transactions")} style={{ "width": '100%' }}>View All Transactions</button>
+                    <NavLink target='_blank' href={`${global.serverUrl}/payment/receipt/${transaction.id}`}>
+                <button type="button" className="form-button" style={{ "width": '100%' }} onClick={()=>{navigate("/dashboard")}}>View Reciept</button></NavLink>
                     </div>
 
                   </div>
                 </Modal.Body>
+              </Modal>
+
+              {/* -----------OTP verification */}
+              <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
+                <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} />
               </Modal>
 
             </section>
@@ -198,8 +267,7 @@ const PaymentDetails = ({ handleStep, step }) => {
   )
 }
 
-const CheckoutForm = ({ payRef, handleModal, handleTransaction, handleLoader }) => {
-  const navigate = useNavigate()
+const CheckoutForm = ({ payRef, handleModal, handleToken}) => {
 
   const stripe = useStripe();
   const elements = useElements();
@@ -212,50 +280,9 @@ const CheckoutForm = ({ payRef, handleModal, handleTransaction, handleLoader }) 
     const token = await stripe.createToken(elements.getElement(CardElement))
     console.log("---++++++++++---", token)
     if (token.token) {
+      handleToken(token.token)
       handleModal()
-      const local = JSON.parse(localStorage.getItem("transfer_data"))
-      const data = {
-        // name: local?.recipient?.First_name,
-        send_currency: local?.amount?.from_type,
-        recieve_currency: local?.amount?.to_type,
-        destination: local?.recipient?.country,
-        recipient_id: local?.recipient?.id,
-        send_amount: local?.amount?.send_amt,
-        recieve_amount: local?.amount?.exchange_amt,
-        reason: "Family Support",
-        card_token: token?.token?.id,
-        exchange_rate: local?.amount?.exchange_rate
-      }
-      console.log("----------data-------------", data)
-      handleLoader(true)
-      axios.post(`${global.serverUrl}/payment/stripe-charge/`, data, {
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem("token")}`,
-        },
-      }).then(res => {
-        if (res.data.code == "200") {
-          localStorage.removeItem("transfer_data")
-          if (localStorage.getItem("send-step")) {
-            localStorage.removeItem("send-step")
-          }
-          handleLoader(false)
-          handleTransaction({ id: res.data.data.payment_id, status: "Completed", amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
-          // setTimeout(() => {
-          //   window.location.reload()
-          // }, 2 * 1000)
-        }
-        handleLoader(false)
-      }).catch((err) => {
-        handleLoader(false)
-        localStorage.removeItem("transfer_data")
-        if (localStorage.getItem("send-step")) {
-          localStorage.removeItem("send-step")
-        }
-        toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-        setTimeout(() => {
-          window.location.reload()
-        }, 3 * 1000)
-      })
+
     } else {
       toast.error("Enter card details to continue", { position: "bottom-right", hideProgressBar: true, autoClose: 2000 })
     }

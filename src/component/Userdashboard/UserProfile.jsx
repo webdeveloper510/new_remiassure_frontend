@@ -12,13 +12,16 @@ import * as Yup from "yup"
 import clsx from "clsx";
 import { userProfile, updateProfile } from "../../utils/Api";
 import authDashHelper from "../../utils/AuthDashHelper";
+import { Modal } from "react-bootstrap";
+import PopVerify from "../verification/PopVerify";
 
 
 
 const Profile = () => {
 
   const navigate = useNavigate('')
-
+  const [open_modal, setOpenModal] = useState(false)
+  const [is_otp_verified , setIsOtpVerfied] = useState(false)
   const [loading, setLoading] = React.useState(false);
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
@@ -40,7 +43,6 @@ const Profile = () => {
     customer_id: ""
   }
 
-
   const profileSchema = Yup.object().shape({
     First_name: Yup.string().min(2).max(25).required(),
     Last_name: Yup.string().min(2).max(25).required(),
@@ -55,6 +57,11 @@ const Profile = () => {
     Gender: Yup.string().required(),
     Country_of_birth: Yup.string().required()
   })
+
+
+  const handleOtpVerification = (value) => {
+    setIsOtpVerfied(value)
+  }
 
   useEffect(() => {
     if (authDashHelper('dashCheck') === false) {
@@ -83,7 +90,7 @@ const Profile = () => {
         setLoading(false)
         let num = res.data.mobile;
         let num_length = num.length;
-        let phone = num.substring(0, 2) + "-" + num.substring(2, num_length);
+        let phone = num.substring(0, 3) + "-" + num.substring(3, num_length);
         setData({ ...res.data, mobile: phone })
         formik.setValues({ ...res.data, mobile: phone })
       }
@@ -234,6 +241,25 @@ const Profile = () => {
     }
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    formik.validateForm().then(res => {
+      console.log(res)
+      if (Object.keys(res).length == 0) {
+        setOpenModal(true)
+
+      } else {
+        formik.setErrors(res)
+      }
+    })
+  }
+
+  useEffect(()=>{
+    if(is_otp_verified){
+      formik.handleSubmit()
+    }
+  },[is_otp_verified])
+
   return (
     <>
       <div className="margin-set">
@@ -243,7 +269,7 @@ const Profile = () => {
             <section className="edit_recipient_section">
               <div className="form-head mb-4">
                 <h2 className="text-black font-w600 mb-0"><b>Profile Update</b></h2></div>
-              <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
+              <form onSubmit={handleSubmit} noValidate className="single-recipient">
                 <div className="card">
                   <div className="card-body">
                     <div className="row each-row">
@@ -331,7 +357,7 @@ const Profile = () => {
                           <p className="get-text">Mobile</p>
                           <input
                             type="email"
-                            value={"+" + data.mobile}
+                            value={data.mobile}
                             placeholder="Enter Mobile"
                             autoComplete='off'
                             readOnly
@@ -620,6 +646,9 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      <Modal show={open_modal} onHide={()=>setOpenModal(false)} backdrop="static" centered>
+<PopVerify handler={handleOtpVerification} close={()=>{setOpenModal(false)}}/>
+      </Modal>
     </>
   )
 }

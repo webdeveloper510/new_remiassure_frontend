@@ -79,7 +79,7 @@ const Addnewrecipient = () => {
       .max(50, 'Maximum 50 symbols')
       .required('Email is required'),
     account_name: Yup.string().min(3).max(50).required(),
-    account_number: Yup.string().min(9).max(20).required(),
+    account_number: Yup.string().min(5).max(18).required(),
     first_name: Yup.string().min(1).max(25).required(),
     last_name: Yup.string().min(1).max(25).required(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
@@ -88,7 +88,7 @@ const Addnewrecipient = () => {
     building: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
     city: Yup.string().min(1).max(35).required(),
-    postcode: Yup.string().length(4).required(),
+    postcode: Yup.string().length(4).notRequired(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
     reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
@@ -106,9 +106,15 @@ const Addnewrecipient = () => {
     onSubmit: async (values) => {
       setLoading(true)
       let d=  values
-      if(d.flat == ""|| d.flat== undefined){
+      if(d.flat == ""|| d.flat== undefined|| d.flat === " "){
         delete d["flat"]
       }
+      if (d.postcode === "" || d.postcode === undefined || d.postcode === " ") {
+        delete d['postcode'];
+      } 
+      if (d.middle_name === "" || d.middle_name === undefined || d.middle_name === " ") {
+        delete d['middle_name'];
+      } 
       createRecipient({ ...d, country_code: data.country_code }).then((res) => {
         if (res.code === "200") {
           toast.success("Successfuly added new recipient", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
@@ -287,7 +293,7 @@ const Addnewrecipient = () => {
                           type="text"
                           name="account_number"
                           value={data?.account_number}
-                          onKeyDown={(e) => { handlePostCode(e, 19) }}
+                          onKeyDown={(e) => { handlePostCode(e, 17) }}
                           {...formik.getFieldProps("account_number")}
                           className={clsx(
                             'form-control bg-transparent',
@@ -461,7 +467,7 @@ const Addnewrecipient = () => {
                   <div className="row each-row">
                     <div className="col-md-4">
                       <Form.Group className="form_label" controlId="Firstname">
-                        <p className="get-text">Postal Code<span style={{ color: 'red' }} >*</span></p>
+                        <p className="get-text">Postal Code</p>
                         <input
                           type="text"
                           name="postcode"
@@ -470,10 +476,7 @@ const Addnewrecipient = () => {
                           {...formik.getFieldProps("postcode")}
                           className={clsx(
                             'form-control bg-transparent',
-                            { 'is-invalid': formik.touched.postcode && formik.errors.postcode },
-                            {
-                              'is-valid': formik.touched.postcode && !formik.errors.postcode,
-                            }
+                            { 'is-invalid': formik.touched.postcode && formik.errors.postcode }
                           )}
                         />
 

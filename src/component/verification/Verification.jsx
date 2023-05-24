@@ -69,8 +69,14 @@ const Verification = () => {
                     localStorage.setItem('token', res.access_token)
                     setLoading(false)
                      if (res?.data?.digital_id_verified && res?.data.digital_id_verified == "true") {
+                        const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+                        user.digital_id_verified = "true"
+                        localStorage.setItem("remi-user-dt",JSON.stringify(user))
                         navigate("/dashboard")
                     } else {
+                        const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+                        user.digital_id_verified = "false"
+                        localStorage.setItem("remi-user-dt",JSON.stringify(user))
                         navigate('/send-money')
                     }
                 }else if(res.code == "400"){
@@ -123,7 +129,7 @@ const Verification = () => {
                                 <div className="card-body">
                                     <span style={successStyle}>{AlreadyverifiedText ? AlreadyverifiedText : ""}</span>
                                     <h5 className="Sign-heading">Verify your Account</h5>
-                                    <p>A verification code sent to your email. Please enter the code to continue.</p>
+                                    <p>A verification code sent to your number. Please enter the code to continue.</p>
                                     <div className="form_verification">
                                         <form onSubmit={handleEmailVerification} >
                                             <OtpInput

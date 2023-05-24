@@ -25,7 +25,7 @@ const Editrecipientuser = () => {
   const [data, setData] = useState({
     id: "",
     bank_name: '', account_name: '', account_number: '', first_name: '', middle_name: '',
-    last_name: '', email: '', mobile: '', country: '', flat: "", street: "", building: "",
+    last_name: '', email: '', mobile: '', country: '', flat: "", street: "",postcode:"", building: "",
     city: "", state: "", country_code: "GH"
   });
 
@@ -38,7 +38,7 @@ const Editrecipientuser = () => {
       .max(50, 'Maximum 50 symbols')
       .required('Email is required'),
     account_name: Yup.string().min(3).max(50).required(),
-    account_number: Yup.string().min(9).max(20).required(),
+    account_number: Yup.string().min(5).max(18).required(),
     first_name: Yup.string().min(1).max(25).required(),
     last_name: Yup.string().min(1).max(25).required(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
@@ -47,7 +47,7 @@ const Editrecipientuser = () => {
     building: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
     city: Yup.string().min(1).max(35).required(),
-    postcode: Yup.string().length(4).required(),
+    postcode: Yup.string().length(4).notRequired(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
   })
@@ -64,6 +64,7 @@ const Editrecipientuser = () => {
     flat: "",
     building: "",
     street: "",
+    postcode:"",
     city: '',
     state: '',
     country: '',
@@ -128,7 +129,6 @@ const Editrecipientuser = () => {
     initialValues,
     validationSchema: recipientSchema,
     onSubmit: async (values) => {
-      // console.log("pppppppppppppppppp", id, values)
       let d = values
       if (values.middle_name == "" || values.middle_name == undefined) {
         delete d["middle_name"]
@@ -136,6 +136,9 @@ const Editrecipientuser = () => {
       if (values.flat == "" || values.flat == undefined) {
         delete d["flat"]
       }
+      if (d.postcode === "" || d.postcode === undefined || d.postcode === " ") {
+        delete d['postcode'];
+      } 
       d.country_code = data.country_code
       setLoading(true)
       updateUserRecipient(id, d).then((response) => {
@@ -324,7 +327,7 @@ const Editrecipientuser = () => {
                             type="text"
                             name="account_number"
                             value={data?.account_number}
-                            onKeyDown={(e) => { handlePostCode(e, 19) }}
+                            onKeyDown={(e) => { handlePostCode(e, 17) }}
                             {...formik.getFieldProps("account_number")}
                             className={clsx(
                               'form-control bg-transparent',
@@ -497,6 +500,23 @@ const Editrecipientuser = () => {
                       </div>
                     </div>
                     <div className="row each-row">
+                    <div className="col-md-4">
+                      <Form.Group className="form_label" controlId="Firstname">
+                        <p className="get-text">Postal Code</p>
+                        <input
+                          type="text"
+                          name="postcode"
+                          value={data.postcode}
+                          onKeyDown={(e) => handlePostCode(e, 3)}
+                          {...formik.getFieldProps("postcode")}
+                          className={clsx(
+                            'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.postcode && formik.errors.postcode }
+                          )}
+                        />
+
+                      </Form.Group>
+                    </div>
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
                           <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>

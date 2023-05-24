@@ -138,7 +138,7 @@ const Login = () => {
                                                         <div className="row">
                                                             {
                                                                 isMobile ? (
-                                                                    <div className="col-md-4 pe-1">
+                                                                    <div className="col-md-5 pe-1">
                                                                         <Form.Select value={countryCode} onChange={(e) => setCountryCode(e.target.value)}>
                                                                             {/* {
                                                                                 myCountryList && myCountryList.length > 0 ?
@@ -154,7 +154,7 @@ const Login = () => {
                                                                     </div>
                                                                 ) : ""
                                                             }
-                                                            <div className={`${isMobile ? "col-md-8" : "col-md-12"} ps-1`}>
+                                                            <div className={`${isMobile ? "col-md-7" : "col-md-12"} ps-1`}>
                                                                 <Form.Control
                                                                     type={'text'}
                                                                     autoComplete='off'

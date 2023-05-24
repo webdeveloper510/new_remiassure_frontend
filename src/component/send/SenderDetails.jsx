@@ -83,7 +83,7 @@ const SenderDetails = ({ handleStep, step }) => {
 
   useEffect(() => {
     const value = data.country !== "" ? data.country : countryList[0]?.name
-    console.log(data.country,"--------------------")
+    console.log(data.country, "--------------------")
     if (data.country == "") {
       setData({ ...data, country: countryList[0]?.name, country_code: countryList[0]?.iso2 })
       formik.setFieldValue("country", countryList[0]?.name)
@@ -155,7 +155,7 @@ const SenderDetails = ({ handleStep, step }) => {
   useEffect(() => {
     formik.validateForm().then(res => {
       console.log(res)
-      if (Object.keys(res).length == 0 ) {
+      if (Object.keys(res).length == 0) {
         setDisplay("block")
       } else {
         setDisplay("none")
@@ -205,24 +205,24 @@ const SenderDetails = ({ handleStep, step }) => {
   }, []);
 
   const handleOnlyAplha = (event) => {
-    const result = event.target.value.replace(/[^a-z ]/gi,"");
-        setData({...data , [event.target.name] : result})
-        formik.setFieldValue(event.target.name , result)
-        formik.setFieldTouched(event.target.name , true)
+    const result = event.target.value.replace(/[^a-z ]/gi, "");
+    setData({ ...data, [event.target.name]: result })
+    formik.setFieldValue(event.target.name, result)
+    formik.setFieldTouched(event.target.name, true)
   }
 
   const handleNumericOnly = (event) => {
-    const result = event.target.value.replace(/[^0-9]/,"");
-    setData({...data , [event.target.name] : result})
-    formik.setFieldValue(event.target.name , result)
-    formik.setFieldTouched(event.target.name , true)
+    const result = event.target.value.replace(/[^0-9]/, "");
+    setData({ ...data, [event.target.name]: result })
+    formik.setFieldValue(event.target.name, result)
+    formik.setFieldTouched(event.target.name, true)
   }
 
   const handleAddress = (event) => {
-    const result = event.target.value.replace(/[^0-9A-z- /#._]/,"");
-    setData({...data , [event.target.name] : result})
-    formik.setFieldValue(event.target.name , result)
-    formik.setFieldTouched(event.target.name , true)
+    const result = event.target.value.replace(/[^0-9A-z- /#._]/, "");
+    setData({ ...data, [event.target.name]: result })
+    formik.setFieldValue(event.target.name, result)
+    formik.setFieldTouched(event.target.name, true)
   }
 
   const handleClear = () => {
@@ -248,7 +248,7 @@ const SenderDetails = ({ handleStep, step }) => {
                 name="f_name"
                 value={data.f_name}
                 maxLength="25"
-                onChange={handleOnlyAplha} 
+                onChange={handleOnlyAplha}
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.f_name && formik.errors.f_name },
@@ -269,7 +269,7 @@ const SenderDetails = ({ handleStep, step }) => {
                 className='form-control'
                 value={data.m_name}
                 maxLength="25"
-                onChange={handleOnlyAplha} 
+                onChange={handleOnlyAplha}
               />
             </div>
           </div>
@@ -281,7 +281,7 @@ const SenderDetails = ({ handleStep, step }) => {
                 name="l_name"
                 value={data.l_name}
                 maxLength="25"
-                onChange={handleOnlyAplha} 
+                onChange={handleOnlyAplha}
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.l_name && formik.errors.l_name },
@@ -467,7 +467,7 @@ const SenderDetails = ({ handleStep, step }) => {
         <div className="row each-row">
           <div className="col-md-4">
             <div className="input_field">
-              <p className="get-text">Postcode<span style={{ color: 'red' }} >*</span></p>
+              <p className="get-text">Postal Code<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
                 name="post_code"
@@ -587,7 +587,7 @@ const SenderDetails = ({ handleStep, step }) => {
           <button className="start-form-button" onClick={() => handleClear()}>Cancel</button>
         </div>
         <div className="col-md-10 new_buttons">
-          {!verificationValue && digital_id_verified === "false" ? (
+          {!verificationValue && (!digital_id_verified || digital_id_verified === "false") ? (
             <>
               <div className='digital_verification ' style={{ display: `${display == "none" ? "none" : "block"}` }}>
                 <div id="digitalid-verify"></div>

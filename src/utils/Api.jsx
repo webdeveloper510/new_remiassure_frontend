@@ -50,14 +50,7 @@ export const changePassword = async (data) => {
 }
 
 export const resetEmail = async (data) => {
-  const response = await Axios.post("/send-password-reset-email/", {
-    email: data
-  }, {
-    header: {
-      'Content-Type': 'application/json',
-      "Authorization": `Bearer ${token_forgot}`
-    }
-  }).then(res => {
+  const response = await Axios.post("/send-password-reset-email/", data).then(res => {
     return res.data
   })
   return response
