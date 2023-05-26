@@ -132,8 +132,8 @@ const AllTranfer = ({ status, data }) => {
                   <div className="d-flex justify-content-between">
                     <div className="d-flex">
                       <div className="trsnsfer-process">
-                        <h4 className="text-capitalize">Recipient Name-{summeryData.recipient_name}</h4>
-                        <span>SENT- {summeryData.date}</span>
+                        <h4 className="text-capitalize">Recipient Name-{summeryData?.recipient_name}</h4>
+                        <span>SENT- {summeryData?.date}</span>
                       </div>
                     </div>
                     <div className="my-auto transac-text">
@@ -153,15 +153,15 @@ const AllTranfer = ({ status, data }) => {
                     <ul>
                       <li>
                         <label>Recipient Name</label>
-                        <p>{summeryData.recipient_name}</p>
+                        <p>{summeryData?.recipient_name}</p>
                       </li>
                       <li>
                         <label>Recipient Phone</label>
-                        <p>{summeryData.recipient_mobile}</p>
+                        <p>{summeryData?.recipient_mobile}</p>
                       </li>
                       <li>
                         <label>Reason For Sending</label>
-                        <p>{summeryData.reason}</p>
+                        <p>{summeryData?.reason}</p>
                       </li>
                     </ul>
                   </div>
@@ -174,19 +174,19 @@ const AllTranfer = ({ status, data }) => {
                     <ul>
                       <li>
                         <label>Amount</label>
-                        <p>{summeryData.send_amount} <span>{summeryData.send_currency}</span></p>
+                        <p>{summeryData?.send_amount} <span>{summeryData?.send_currency}</span></p>
                       </li>
                       <li>
                         <label>They Receive</label>
-                        <p>{Total_amount}<span>{summeryData.recieve_currency}</span></p>
+                        <p>{Total_amount}<span>{summeryData?.receive_currency}</span></p>
                       </li>
                       <li>
                         <label>Sent on</label>
-                        <p>{summeryData.date}</p>
+                        <p>{summeryData?.date}</p>
                       </li>
                       <li>
                         <label>Received Method</label>
-                        <p>{summeryData.send_method}</p>
+                        <p>{summeryData?.send_method}</p>
                       </li>
                     </ul>
                   </div>
@@ -199,11 +199,11 @@ const AllTranfer = ({ status, data }) => {
                     <ul>
                       <li>
                         <label>Payment type</label>
-                        <p>{summeryData.send_method}</p>
+                        <p>{summeryData?.send_method}</p>
                       </li>
                       <li>
                         <label>Name on your account</label>
-                        <p>{summeryData.account_name}</p>
+                        <p>{summeryData?.account_name}</p>
                       </li>
                     </ul>
                   </div>

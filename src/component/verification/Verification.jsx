@@ -125,12 +125,16 @@ const Verification = () => {
             obj.mobile = data.mobile
         }
         obj.type = "email"
+        setLoading(true)
         resendOtp(obj).then((res) => {
             if (res.code == "200") {
                 setShowAlert(2)
+            }else {
+                setShowAlert(3)
             }
             setLoading(false)
         }).catch((error) => {
+            setShowAlert(3)
             setLoading(false)
         })
         setLoading(false)

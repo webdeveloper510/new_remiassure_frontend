@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import OtpInput from "react18-input-otp";
 import { toast } from "react-toastify";
 import { resendOtp, verifyEmail } from "../../utils/Api";
-import { NavLink } from "react-bootstrap";
+import { NavLink, Alert } from "react-bootstrap";
 
 
 
@@ -34,10 +34,18 @@ const PopVerify = ({ handler, close }) => {
     const [EnterOtpText, setEnterOtpText] = useState('');
     const [InvalidotpText, setInvalidotpText] = useState('');
     const [AlreadyverifiedText, setAlreadyverifiedText] = useState('');
+    const [show_alert, setShowAlert] = useState(1)
 
     const handleChange = (enteredOtp) => {
         setOtp(enteredOtp);
     };
+
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShowAlert(0)
+        }, 5000)
+    }, [show_alert])
 
     const handleVerification = (event) => {
         event.preventDefault();
@@ -58,7 +66,7 @@ const PopVerify = ({ handler, close }) => {
                     toast.error(res.message,
                         { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
                     setLoading(false)
-                setOtp()
+                    setOtp()
                     handler(false)
                 }
             }).catch((error) => {
@@ -79,13 +87,19 @@ const PopVerify = ({ handler, close }) => {
         let obj = {}
         obj.mobile = mobile
         obj.type = "email"
-        resendOtp(obj)
-            .then(() => {
-                setLoading(false)
-            })
-            .catch(() => {
-                setLoading(false)
-            })
+        setLoading(true)
+        resendOtp(obj).then((res) => {
+            if (res.code == "200") {
+                setShowAlert(2)
+            }else {
+                setShowAlert(3)
+            }
+            setLoading(false)
+        }).catch((error) => {
+            setShowAlert(3)
+            setLoading(false)
+        })
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -104,8 +118,29 @@ const PopVerify = ({ handler, close }) => {
     return (
         <div className="card-body">
             <span style={successStyle}>{AlreadyverifiedText ? AlreadyverifiedText : ""}</span>
-            <h5 className="Sign-heading">Verify your Account</h5>
-            <p style= {{textAlign:"center",paddingTop: "6px"}}>A verification code sent to your number. Please enter the code to continue.</p>
+            <h5 className="Sign-heading mb-4">Verify your Account</h5>
+            {
+                show_alert === 1 ? (
+                    <Alert className="m-0" >
+                        {/*onClose={() => setShowAlert(0)} dismissible  */}
+                        <span>
+                            A verification code has been sent to your number.
+                        </span>
+                    </Alert>
+                ) : show_alert === 2 ? (
+                    <Alert className="m-0" >
+                        <span>The verification code has been resent.</span>
+                    </Alert>
+                ) : show_alert === 3 ? (
+                    <Alert className="m-0" >
+                        <span>There might be an issue in resending, please try again.</span>
+                    </Alert>
+                ) : (
+                    <Alert className="m-0" >
+                        <span> Please enter the verification code to continue.</span>
+                    </Alert>
+                )
+            }
             <div className="form_verification">
                 <form onSubmit={handleVerification} >
                     <OtpInput
@@ -121,7 +156,7 @@ const PopVerify = ({ handler, close }) => {
                     />
                     <span style={myStyle}>{EnterOtpText ? EnterOtpText : ""}</span>
                     <span style={myStyle}>{InvalidotpText ? InvalidotpText : ""}</span>
-                    <NavLink className="resend_otp_link" onClick={()=>{handleResendOtp()}}>
+                    <NavLink className="resend_otp_link" onClick={() => { handleResendOtp() }}>
                         Resend OTP
                         {
                             loading ? <>

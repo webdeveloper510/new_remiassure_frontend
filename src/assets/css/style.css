@@ -2664,13 +2664,14 @@ button.continue_button {
 button.cancel_button {
   width: 354px;
   height: 48px;
-  background: red;
+  background: #fff;
   border-radius: 10px;
   text-align: center;
-  color: #fff;
+  color: #000;
   margin-top: 20px;
   font-size: 16px;
-  border: red;
+  border: 1px solid #ced4da;
+  font-weight: 500;
 }
 
 .card-verification p {

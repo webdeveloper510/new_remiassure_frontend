@@ -6,6 +6,9 @@ import { useState } from 'react';
 import birthCountryList from 'react-select-country-list';
 import { useEffect } from 'react';
 import countryList from '../../utils/senderCountries.json';
+import axios from 'axios';
+import global from '../../utils/global';
+import { toast } from 'react-toastify';
 
 const SenderDetails = ({ handleStep, step }) => {
 
@@ -178,8 +181,23 @@ const SenderDetails = ({ handleStep, step }) => {
         },
         onComplete: function (res, error, onComplete) {
           if(res.code != undefined || null){
-            localStorage.setItem("DigitalCode", res.code)
-            formik.handleSubmit()
+            axios.post(`${global.serverUrl}/digital-verification/`, { code: res.code}, {
+              headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+              }
+            }).then(res => {
+              console.log("digi--------",res)
+              if(res?.data?.code == "200") {
+                console.log("gello")
+                toast.success("Digital Id successfully verified", {position:"bottom-right" , hideProgressBar:true})
+                formik.handleSubmit()
+              } else {
+                toast.error("Digital Id verification failed",{position:"bottom-right" , hideProgressBar:true} )
+              }
+            }).catch((error)=>{
+              toast.error("Digital Id verification failed",{position:"bottom-right" , hideProgressBar:true} )
+            })
           }
         },
         onClick: function () {
@@ -302,7 +320,8 @@ const SenderDetails = ({ handleStep, step }) => {
               <input
                 type="text"
                 value={data.customer_id}
-                className='form-control'
+                className='form-control'                
+                style={{backgroundColor: "rgba(252, 253, 255, 0.81)"}}
                 readOnly
               />
             </div>
@@ -394,6 +413,7 @@ const SenderDetails = ({ handleStep, step }) => {
               <input
                 type="email"
                 value={data.email}
+                style={{backgroundColor: "rgba(252, 253, 255, 0.81)"}}
                 className='form-control'
                 readOnly
               />
@@ -404,6 +424,7 @@ const SenderDetails = ({ handleStep, step }) => {
               <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
+                style={{backgroundColor: "rgba(252, 253, 255, 0.81)"}}
                 value={data.mobile}
                 className='form-control'
                 readOnly

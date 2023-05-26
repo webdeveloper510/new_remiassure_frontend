@@ -332,6 +332,7 @@ const Profile = () => {
                           <input
                             type="text"
                             value={data.customer_id}
+                            style={{backgroundColor: "rgba(252, 253, 255, 0.81)"}}
                             className='form-control'
                             readOnly
                           />
@@ -343,6 +344,7 @@ const Profile = () => {
                           <input
                             type="email"
                             value={data.email}
+                            style={{backgroundColor: "rgba(252, 253, 255, 0.81)"}}
                             className='form-control'
                             readOnly
                           />
@@ -355,6 +357,7 @@ const Profile = () => {
                           <input
                             type="email"
                             value={data.mobile}
+                            style={{backgroundColor: "rgba(252, 253, 255, 0.81)"}}
                             placeholder="Enter Mobile"
                             autoComplete='off'
                             readOnly

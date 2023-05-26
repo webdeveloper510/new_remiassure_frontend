@@ -19,6 +19,12 @@ const App = () => {
     navigate("/login")
   }
 
+  useEffect(()=>{
+    if(!localStorage.getItem("token")&& !localStorage.getItem("remi-user-dt")){
+      navigate("/login")
+    }
+  },[])
+
   useEffect(() => {
     window.scrollTo({
       top: 0,

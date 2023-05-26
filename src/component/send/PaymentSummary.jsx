@@ -43,16 +43,6 @@ const PaymentSummary = ({ handleStep, step }) => {
       beneficiary_name: local?.recipient?.f_name + " " + local?.recipient?.l_name
     })
 
-    axios.post(`${global.serverUrl}/digital-verification/`, { code: localStorage.getItem("DigitalCode") }, {
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      }
-    }).then(res => {
-      localStorage.removeItem("DigitalCode")
-      return true
-    })
-
   }, [])
 
   const handleFinalStep = () => {
@@ -129,7 +119,6 @@ const PaymentSummary = ({ handleStep, step }) => {
           localStorage.removeItem("send-step")
         }
         localStorage.removeItem("transfer_data")
-        localStorage.removeItem("DigitalCode")
         setModalView(true)
         // setTimeout(() => {
         //   navigate("/dashboard")
@@ -137,10 +126,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       }
       setLoader(false)
     }).catch((err) => {
-      toast.error("Somthing went wrong, please try again later", { position: "bottom-right", hideProgressBar: true })
-      setTimeout(() => {
-        navigate("/")
-      }, 2000)
+      toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
       setLoader(false)
     })
   }

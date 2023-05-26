@@ -37,7 +37,7 @@ const Login = () => {
 
     const loginSchema = Yup.object().shape({
         email: Yup.string()
-            .required('Email is required'),
+            .required('required'),
         password: Yup.string()
             .required('Password is required'),
     })
@@ -145,7 +145,7 @@ const Login = () => {
                                                                             } */}
                                                                             <option value="+61">+61 (AU)</option>
                                                                             <option value="+64">+64 (NZ)</option>
-                                                                            <option value="+91">+91 (IN)</option>
+                                                                            {/* <option value="+91">+91 (IN)</option> */}
                                                                         </Form.Select>
                                                                     </div>
                                                                 ) : ""
@@ -153,10 +153,9 @@ const Login = () => {
                                                             <div className={`${isMobile ? "col-md-8" : "col-md-12"} ps-1`}>
                                                                 <Form.Control
                                                                     type={'text'}
-                                                                    autoComplete='off'
+                                                                    autoComplete="off"
                                                                     name="id"
                                                                     size="lg"
-                                                                    maxLength={isMobile ? "10" : "50"}
                                                                     onChange={handleChange}
                                                                     onBlurCapture={()=>formik.setFieldTouched("email", true)}
                                                                     className={clsx(
