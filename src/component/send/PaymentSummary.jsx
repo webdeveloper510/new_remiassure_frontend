@@ -117,7 +117,6 @@ const PaymentSummary = ({ handleStep, step }) => {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
     }).then((res) => {
-      console.log(res)
       if (res.data.code == "200") {
         setLoader(false)
         setTransaction({ status: "Completed", id: res?.data?.data?.transaction_id, pay_id : res?.data?.data?.payment_id})
@@ -138,7 +137,6 @@ const PaymentSummary = ({ handleStep, step }) => {
       }
       setLoader(false)
     }).catch((err) => {
-      console.log(err)
       toast.error("Somthing went wrong, please try again later", { position: "bottom-right", hideProgressBar: true })
       setTimeout(() => {
         navigate("/")

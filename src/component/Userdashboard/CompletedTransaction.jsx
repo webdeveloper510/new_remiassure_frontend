@@ -78,7 +78,6 @@ const CompletedTransaction = () => {
       }
     })
       .then(function (response) {
-        console.log("Recipients APIIIII payment/completed-transactions", response.data);
         setTransactionCompletedData(response.data);
         localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
         setLoading(false); // Stop loading
@@ -88,22 +87,12 @@ const CompletedTransaction = () => {
         // // notify();
       })
       .catch(function (error) {
-        console.log(error);
-        console.log(error.response);
         setLoading(false); // Stop loading in case of error
 
       })
   }
 
-  // console.log(transactionCompletedData.data?.length,  "transactionCompletedDatatransactionCompletedData")
-  console.log(transactionCompletedData.data, " transactionCompletedDatatransactionCompletedData")
-
-
-  /**************************************************************************
- * ************** Start  Get DataSummery Lists ****************************
- * ***********************************************************************/
   const paymetTransactionId = localStorage.getItem("paymetTransactionId");
-  console.log("paymetTransactionId ====================>", paymetTransactionId);
 
   useEffect(() => {
 
@@ -122,45 +111,27 @@ const CompletedTransaction = () => {
 
     })
       .then(function (response) {
-        console.log("Recipients APIIIII", response.data);
         setSummeryData(response.data.data);
-        console.log(summeryData, "summeryData==========>")
-        setLoading(false); // Stop loading
-
-
-        //   if (response.status)
-        // // notify();
+        setLoading(false);
       })
       .catch(function (error) {
-        console.log(error);
-        console.log(error.response);
-        setLoading(false); // Stop loading in case of error
+        setLoading(false);
 
       })
   }
 
-
-  console.log(summeryData, " summeryData==========>")
-
-
-  /**************** start-Design **********************/
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
 
   return (
     <>
 
      {
         LoginDigitalidVerified == 'true' || DigitalCode != undefined || '' ? (
-
         <div className="card">
-          
           <div className="card-body">
             <div className="tabs-recipent-new">
-              {/* Start------- Loader functionalty */}
                   {loading ? <>
                     <div className="loader-overly">
                       <div className="loader" >

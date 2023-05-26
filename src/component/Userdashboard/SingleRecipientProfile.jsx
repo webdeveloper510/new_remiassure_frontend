@@ -1,116 +1,35 @@
 
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState,useEffect } from "react";
 import Table from 'react-bootstrap/Table';
-import Accordion from 'react-bootstrap/Accordion';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { Links, NavLink, useNavigate, useParams } from 'react-router-dom';
-import CountryDropdown from 'country-dropdown-with-flags-for-react';
-import { toast } from "react-toastify";
+import {  NavLink, useNavigate, useParams } from 'react-router-dom';
 import global from "../../utils/global"
 import axios from "axios";
-import UserRecipient from "../Userdashboard/UserRecipient";
 import profileimage from '../../assets/img/userdashboard/images.png';
-
-import { BsFillPersonPlusFill } from "react-icons/bs";
-import { BsFillPencilFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import Page404 from "../pageNotfound/Page404";
-// start css
-const myStyle = {
-  color: "red",
-  fontSize: "13px",
-  textTransform: "capitalize"
-}
 
 const SingleRecipientProfile = () => {
 
-  /*********************Start page show hide condtion page ****************************/
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
-
   const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
-
   const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp)
-
   const RecipientUserName = localStorage.getItem("RecipientUserName");
-  console.log("RecipientUserName", RecipientUserName);
-
   const signup_token = localStorage.getItem("signup_token")
-  console.log("signup_token", signup_token);
-
   const DigitalCode = localStorage.getItem("DigitalCode");
-  console.log("DigitalCode", DigitalCode);
 
-
-
-
-  /*************data get ************/
   let { id } = useParams();
-  // alert(id)
-  console.log("========================>", id);
 
-
-  /************ Start -Recipient Bank Details state***************/
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = React.useState(false);
-
-  /************ Start -messageText state***************/
   const [senderDetailData, setSenderDetailData] = React.useState('');
-  // const [userRecipientData, setUserRecipientData] = useState('');
-
-  /************ Start -Recipient Bank Details state***************/
-
+ 
   const [formValue, setFormValue] = React.useState({
     bankName: '', accountName: '', accountNumber: '', firstName: '', middleName: '',
     lastName: '', email: '', mobile: '', address: '', reasonMoney: ''
   });
 
-  /************ Start -Recipient Bank Details function***************/
-  const handleStep2InputChange = (e, key) => {
-    console.log(e.target.value)
-    console.log(key)
-    let valueForm = formValue
-    valueForm[key] = e.target.value
-    setFormValue(valueForm)
-    console.log(formValue)
-  }
-  /************ Start - Cancel Recipient Bank Details function***************/
-  const handlRecipientBankDetails = (e) => {
-    e.preventDefault();
-    window.location.reload(false);
-
-    console.log("handle request ");
-  }
-
-
-
-  // Start page show hide condtion page
-
-  const navigate = useNavigate('');
-
-
-  // const search = useLocation()
-
-
-  /**********************Design function************ */
   const [isActive, setActive] = useState("false");
 
-  const handleToggle = () => {
-    setActive(!isActive);
-  };
-
-
-  /**************************************************************************
-    * ************** Start  Recipient Bank Details ****************************
-    * ***********************************************************************/
-
-  /* start-- useRef is used for focusing on inputbox */
   useEffect(() => {
-    console.log("Data=========>", id)
 
     // event.preventDefault();
     //  setLoading(true); // Set loading before sending API requestssss
@@ -120,12 +39,10 @@ const SingleRecipientProfile = () => {
       },
     })
       .then(function (response) {
-        console.log(response);
         setSenderDetailData(response.data.data);
         //  setLoading(false); // Stop loading   
       })
       .catch(function (error, message) {
-        console.log(error.response);
         //  setLoading(false); // Stop loading in case of error
         // setBankNameText(error.response.data); 
 

@@ -7,7 +7,6 @@ import authChecker from '../utils/AuthHelper';
 // ----------------------------------------------------------------------
 
 function AuthProtect({ children }) {
-// console.log("=-----------------------------Auth")
   const auth = authChecker('authCheck');
   if (auth) {
     return <Navigate to={children} />;

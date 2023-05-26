@@ -26,7 +26,6 @@ const UserRecipients = () => {
     const [loading, setLoading] = useState(true);
 
     const handleShow = (key) => {
-        console.log("-----key--------",key)
         setShow(true);
         setDelete_Id(key)
     }
@@ -38,11 +37,9 @@ const UserRecipients = () => {
     const getList = () => {
         setLoading(true);
         recipientList().then((res) => {
-            console.log("response=====", res)
             setData(res.data)
             setLoading(false)
         }).catch((error) => {
-            console.log(error.response)
             setLoading(false)
         })
     }
@@ -65,7 +62,6 @@ const UserRecipients = () => {
                 getList();
             })
             .catch(function (error) {
-                console.log(error.response)
             })
     }
 

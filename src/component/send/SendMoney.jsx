@@ -46,10 +46,8 @@ const SendMoney = () => {
   useEffect(() => {
 
     if (authDashHelper('dashCheck')) {
-      console.log("---------------dash")
       navigate("/user-send-money")
     } else if (!authDashHelper('authCheck')) {
-      console.log("---------------auth")
       navigate("/login")
     }
     localStorage.removeItem("send-step")
@@ -80,7 +78,6 @@ const SendMoney = () => {
     const s = step;
     let n = s;
     while (n > 0) {
-      console.log(n)
       progressBarRefs.current[n - 1].style.transform = "translateX(100%)";
       n--
     }

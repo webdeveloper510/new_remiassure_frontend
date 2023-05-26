@@ -58,7 +58,6 @@ const Dashboard = () => {
             }
         })
             .catch(function (error) {
-                console.log(error)
                 setLoading(false)
             })
     }
@@ -68,13 +67,11 @@ const Dashboard = () => {
             navigate("/send-money")
         } else {
             userProfile().then((response) => {
-                console.log("user-profile----------====", response)
                 if (response.code == 200) {
                     setFirstName(response.data.First_name);
                     setLastName(response.data.Last_name)
                 }
             }).catch((error) => {
-                console.log(error.response)
             })
         }
     }, [])

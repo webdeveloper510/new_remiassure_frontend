@@ -74,14 +74,12 @@ const AmountDetail = ({ handleStep, step }) => {
                 setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
             })
             .catch(function (error, message) {
-                console.log(error.response)
                 setLoader(false)
 
             })
     }
 
     const inputvalidation = (event) => {
-        console.log("dfjghfguh---------------", event.key)
         const pattern = /^[0-9.,]+$/;
         if (event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape") {
             setAmtDetail({ ...amt_detail, send_amt: event.target.value })
@@ -100,7 +98,6 @@ const AmountDetail = ({ handleStep, step }) => {
                     event.preventDefault();
                     event.stopPropagation()
                 } else {
-                    console.log("----------------------------", event.target.value)
                     setAmtDetail({ ...amt_detail, send_amt: event.target.value })
                     formik.setFieldValue('send_amt', event.target.value)
                     formik.setFieldTouched('send_amt', true)
@@ -115,7 +112,6 @@ const AmountDetail = ({ handleStep, step }) => {
 
 
     const myTotalAmountFrom = (e) => {
-        console.log(e.target.value)
         setAmtDetail({ ...amt_detail, from_type: e.target.value })
         formik.setFieldValue("from_type", e.target.value)
         formik.setFieldTouched("from_type", true)
@@ -134,7 +130,6 @@ const AmountDetail = ({ handleStep, step }) => {
                     setLoader(false)
                 })
                 .catch(function (error, message) {
-                    console.log(error.response)
                     setLoader(false)
                 })
         } else if (e.target.value == "NZD" && formik.values.to_type == "NZD") {
@@ -149,7 +144,6 @@ const AmountDetail = ({ handleStep, step }) => {
                     setLoader(false)
                 })
                 .catch(function (error, message) {
-                    console.log(error.response)
                     setLoader(false)
                 })
         } else {
@@ -163,14 +157,12 @@ const AmountDetail = ({ handleStep, step }) => {
                     setLoader(false)
                 })
                 .catch(function (error, message) {
-                    console.log(error.response)
                     setLoader(false)
                 })
         }
     }
 
     const myTotalAmountTo = (e) => {
-        console.log(e.target.value, formik.values.send_amt)
         setAmtDetail({ ...amt_detail, to_type: e.target.value })
         formik.setFieldValue("to_type", e.target.value)
         formik.setFieldTouched("to_type", true)
@@ -187,7 +179,6 @@ const AmountDetail = ({ handleStep, step }) => {
                 setLoader(false)
             })
             .catch(function (error, message) {
-                console.log(error.response)
                 setLoader(false)
             })
     }

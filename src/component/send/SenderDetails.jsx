@@ -45,7 +45,7 @@ const SenderDetails = ({ handleStep, step }) => {
     country: Yup.string().min(2).max(30).notRequired(),
     dob: Yup.date().required(),
     gender: Yup.string().required(),
-    country_of_birth: Yup.string().required()
+    country_of_birth: Yup.string().required().notOneOf(["none"])
   })
 
   const formik = useFormik({
@@ -83,7 +83,6 @@ const SenderDetails = ({ handleStep, step }) => {
 
   useEffect(() => {
     const value = data.country !== "" ? data.country : countryList[0]?.name
-    console.log(data.country, "--------------------")
     if (data.country == "") {
       setData({ ...data, country: countryList[0]?.name, country_code: countryList[0]?.iso2 })
       formik.setFieldValue("country", countryList[0]?.name)
@@ -154,7 +153,6 @@ const SenderDetails = ({ handleStep, step }) => {
 
   useEffect(() => {
     formik.validateForm().then(res => {
-      console.log(res)
       if (Object.keys(res).length == 0) {
         setDisplay("block")
       } else {
@@ -179,8 +177,10 @@ const SenderDetails = ({ handleStep, step }) => {
         onLoadComplete: function () {
         },
         onComplete: function (res, error, onComplete) {
-          localStorage.setItem("DigitalCode", res.code)
-          formik.handleSubmit()
+          if(res.code != undefined || null){
+            localStorage.setItem("DigitalCode", res.code)
+            formik.handleSubmit()
+          }
         },
         onClick: function () {
         },
@@ -193,7 +193,7 @@ const SenderDetails = ({ handleStep, step }) => {
     var dtToday = new Date();
     var month = dtToday.getMonth() + 1;
     var day = dtToday.getDate();
-    var year = dtToday.getFullYear();
+    var year = dtToday.getFullYear() - 18;
     if (month < 10)
       month = '0' + month.toString();
     if (day < 10)
@@ -202,6 +202,8 @@ const SenderDetails = ({ handleStep, step }) => {
     var minDate = year - 100 - (year % 10) + '-' + month + "-" + day
     document.getElementById("dob").setAttribute('max', maxDate);
     document.getElementById("dob").setAttribute('min', minDate);
+    setData({ ...data, dob: maxDate })
+    formik.setFieldValue("dob", maxDate)
   }, []);
 
   const handleOnlyAplha = (event) => {
@@ -372,7 +374,7 @@ const SenderDetails = ({ handleStep, step }) => {
                   }
                 )}
               >
-                <option>Select a country</option>
+                <option value="none">Select a country</option>
                 {
                   countryOptions && countryOptions.length > 0 ?
                     countryOptions?.map((opt) => {

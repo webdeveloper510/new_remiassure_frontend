@@ -74,7 +74,6 @@ const BankDetails = ({ handleStep, step }) => {
     initialValues,
     validationSchema: bankSchema,
     onSubmit: async (values) => {
-      console.log(values, data.label)
       setLoading(true)
       const d = {
         bank_name: values.bank,
@@ -109,7 +108,6 @@ const BankDetails = ({ handleStep, step }) => {
 
       })
         .then(function (response) {
-          console.log(response)
           if (response.data.code == "200") {
             setData({
               bank: "", acc_name: "", acc_no: "",
@@ -128,7 +126,6 @@ const BankDetails = ({ handleStep, step }) => {
           }
         })
         .catch(function (error, message) {
-          console.log(error.response);
           setLoading(false);
         })
 
@@ -157,7 +154,6 @@ const BankDetails = ({ handleStep, step }) => {
   }
 
   const handleKeyDown = (e, max) => {
-    console.log(e.key)
     if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete" || e.key === " ") {
       setData({ ...data, [e.target.name]: e.target.value })
       formik.setFieldValue(`${[e.target.name]}`, e.target.value)
@@ -204,7 +200,6 @@ const BankDetails = ({ handleStep, step }) => {
   }
   const handlePostCode = (event, max) => {
     const pattern = /^[0-9]+$/;
-    console.log("------------------------------------------------------++++", event.key)
     if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
       setData({ ...data, [event.target.name]: event.target.value })
       formik.setFieldValue(event.target.name, event.target.value)
@@ -274,15 +269,12 @@ const BankDetails = ({ handleStep, step }) => {
       }
     })
       .then((res) => {
-        console.log("Recipients APIIIII=-----------------------------------", res);
         if (res.data.code == 200) {
           setList(res.data.data);
         }
         setLoading(false);
       })
       .catch(function (error) {
-        console.log(error);
-        console.log(error.response);
         setLoading(false);
       })
   }, [isActive])
@@ -296,7 +288,6 @@ const BankDetails = ({ handleStep, step }) => {
     countryList?.map((item) => {
       if (item?.name === value) {
         setStateList(item?.states);
-        console.log("--------------------------------", item.states)
         setData({ ...data, state: item?.states[0].name })
         formik.setFieldValue("state", item?.states[0].name)
       }

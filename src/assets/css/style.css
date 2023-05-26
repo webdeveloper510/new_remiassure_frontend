@@ -3064,6 +3064,7 @@ margin-top: 15px;
   font-family: var(--font-family) !important;
   font-weight: 600;
 }.row h5
+
 .user_dashboard_banner .rate_input {
   border: 1px solid #ced4da;
 }
@@ -5872,4 +5873,50 @@ a.resend_otp_link.nav-link {
 .session_modal {
     min-height: 155px;
     text-align: center
+}
+
+.login-card-body {
+  padding : 0
+}
+
+.login-heading {
+  font-family: var(--font-family) !important;
+font-style: normal;
+font-weight: 600 !important;
+font-size: 24px !important;
+line-height: 25px;
+text-align: center;
+color: #6414E9;
+text-transform: capitalize;
+}
+
+.login-code-select {
+  padding: 8px 8px;
+    height: 45px;
+    border: 1px solid #E4EAF4;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.email-mobile-input{
+  height: 45px;
+  line-height: 46px;
+  border-radius: 6px;
+  border: 1px solid #E4EAF4;
+  font-size: 15px;
+  letter-spacing: -0.12px;
+}
+
+.login_pass_icons {
+  float: right;
+  margin-right: 32px;
+  margin-top: -29px;
+  position: relative;
+  z-index: 2;
+}
+
+.alert-primary {
+  --bs-alert-color: #6414E9;
+  --bs-alert-bg: none!important;
+  --bs-alert-border-color: #6414E9;
 }

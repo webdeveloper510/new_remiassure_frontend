@@ -24,8 +24,7 @@ import { useNavigate } from "react-router";
 const UserDashboard = () => {
 
   /**************************token ************************ */
-  const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
+  const token = localStorage.getItem("token")
   const navigate = useNavigate()
 
 useEffect(()=>{

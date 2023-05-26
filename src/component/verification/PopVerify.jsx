@@ -58,11 +58,10 @@ const PopVerify = ({ handler, close }) => {
                     toast.error(res.message,
                         { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
                     setLoading(false)
-                    close()
+                setOtp()
                     handler(false)
                 }
             }).catch((error) => {
-                console.log(error.response)
                 if (error.response.status == 400) {
                     toast.error(error.response.data.message,
                         { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
@@ -119,8 +118,6 @@ const PopVerify = ({ handler, close }) => {
                         separator={<span></span>}
                         separateAfter={3}
                         className="verification_input"
-                        onSubmit={console.log(otp)}
-
                     />
                     <span style={myStyle}>{EnterOtpText ? EnterOtpText : ""}</span>
                     <span style={myStyle}>{InvalidotpText ? InvalidotpText : ""}</span>

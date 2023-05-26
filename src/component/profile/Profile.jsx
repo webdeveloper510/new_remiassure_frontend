@@ -255,7 +255,7 @@ const Profile = () => {
                       <div className="col-md-4">
                         <Form.Group className="mb-3 form_label" controlId="Firstname">
                         <p className="get-text">Country</p>
-                          <CountryDropdown id="UNIQUE_ID" className='YOUR_CSS_CLASS rate_input form-control' preferredCountries={['gb', 'us' ]} value="" handleChange={e=> console.log(e.target.value)}></CountryDropdown>
+                          <CountryDropdown id="UNIQUE_ID" className='YOUR_CSS_CLASS rate_input form-control' preferredCountries={['gb', 'us' ]} value=""></CountryDropdown>
                         </Form.Group>
                       </div>
                     </div>

@@ -55,7 +55,6 @@ const Addnewrecipient = () => {
     countryList?.map((item) => {
       if (item?.name === value) {
         setStateList(item?.states);
-        console.log("--------------------------------", item.states)
         setData({ ...data, state: item?.states[0].name })
         formik.setFieldValue("state", item?.states[0].name)
       }
@@ -124,7 +123,6 @@ const Addnewrecipient = () => {
         }
         setLoading(false)
       }).catch((error) => {
-        console.log(error.response)
         if (error.response.data.code == "400") {
           toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         }
@@ -155,7 +153,6 @@ const Addnewrecipient = () => {
   }
 
   const handleKeyDown = (e, max) => {
-    console.log(e.key)
     if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete" || e.key === " ") {
       setData({ ...data, [e.target.name]: e.target.value })
       formik.setFieldValue(`${[e.target.name]}`, e.target.value)
@@ -203,7 +200,6 @@ const Addnewrecipient = () => {
 
   const handlePostCode = (event, max) => {
     const pattern = /^[0-9.,]+$/;
-    console.log("------------------------------------------------------++++", event.key)
     if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
       setData({ ...data, [event.target.name]: event.target.value })
       formik.setFieldValue(event.target.name, event.target.value)

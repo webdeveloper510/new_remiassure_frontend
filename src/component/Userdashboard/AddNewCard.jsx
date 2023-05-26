@@ -55,19 +55,14 @@ const Addnewcard = () => {
 
   /************ Start -Recipient Bank Details function***************/
   const handleStep2InputChange = (e, key) => {
-    console.log(e)
-    console.log(key)
     let valueForm = formValue
     valueForm[key] = e.target.value
     setFormValue(valueForm)
-    console.log(formValue)
   }
   /************ Start - Cancel Recipient Bank Details function***************/
   const handlRecipientBankDetails = (e) => {
     e.preventDefault();
     window.location.reload(false);
-
-    console.log("handle request ");
   }
 
 
@@ -149,14 +144,12 @@ const Addnewcard = () => {
 
     })
       .then(function (response) {
-        console.log(response);
         setLoading(false); // Stop loading  
         navigate('/user-recipients');
 
 
       })
       .catch(function (error, message) {
-        console.log(error.response);
         setLoading(false); // Stop loading in case of error
         setBankNameText(error.response.data);
 
@@ -426,17 +419,7 @@ const Addnewcard = () => {
                                 value={countryValue}
                                 onChange={changeHandler}
                               />
-                              {/* <CountryDropdown 
-                      id="UNIQUE_ID"
-                      name="country"
-                       className='YOUR_CSS_CLASS rate_input form-control'
-                        preferredCountries={['gb', 'us' ]}
-                         value="" handleChange={e=> console.log(e.target.value)}
-                         defaultValue={formValue.country}
-                         onChange={(e)=> handleStep2InputChange(e,'country')}
-                         >
-
-                         </CountryDropdown> */}
+                        
                             </Form.Group>
                           </div>
                           <div className="col-md-4">

@@ -58,11 +58,9 @@ const AllTranfer = ({ status, data }) => {
       },
     })
       .then(function (response) {
-        console.log("Recipients APIIIII==========", response);
         setSummeryData(response.data.data);
       })
       .catch(function (error) {
-        console.log(error.response);
       })
   }
 

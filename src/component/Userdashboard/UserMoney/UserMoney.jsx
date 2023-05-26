@@ -40,7 +40,6 @@ const SendMoney = () => {
             behavior: "instant"
         })
         localStorage.setItem("send-step", step)
-        console.log("step---------------------------", step)
     }, [step])
 
     useEffect(() => {

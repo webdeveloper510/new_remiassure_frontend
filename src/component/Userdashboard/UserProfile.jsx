@@ -21,7 +21,7 @@ const Profile = () => {
 
   const navigate = useNavigate('')
   const [open_modal, setOpenModal] = useState(false)
-  const [is_otp_verified , setIsOtpVerfied] = useState(false)
+  const [is_otp_verified, setIsOtpVerfied] = useState(false)
   const [loading, setLoading] = React.useState(false);
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
@@ -106,7 +106,6 @@ const Profile = () => {
     initialValues,
     validationSchema: profileSchema,
     onSubmit: async (values) => {
-      console.log(data.country_code)
       let d = values
       d.country_code = data.country_code
       d.location = values.country
@@ -118,7 +117,6 @@ const Profile = () => {
         delete d['flat'];
       }
       setLoading(true)
-      console.log(d)
       updateProfile(d).then(res => {
         if (res.code === "200") {
           localStorage.removeItem("remi-user-dt")
@@ -244,7 +242,6 @@ const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     formik.validateForm().then(res => {
-      console.log(res)
       if (Object.keys(res).length == 0) {
         setOpenModal(true)
 
@@ -254,11 +251,11 @@ const Profile = () => {
     })
   }
 
-  useEffect(()=>{
-    if(is_otp_verified){
+  useEffect(() => {
+    if (is_otp_verified) {
       formik.handleSubmit()
     }
-  },[is_otp_verified])
+  }, [is_otp_verified])
 
   return (
     <>
@@ -646,8 +643,8 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <Modal show={open_modal} onHide={()=>setOpenModal(false)} backdrop="static" centered>
-<PopVerify handler={handleOtpVerification} close={()=>{setOpenModal(false)}}/>
+      <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
+        <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} />
       </Modal>
     </>
   )

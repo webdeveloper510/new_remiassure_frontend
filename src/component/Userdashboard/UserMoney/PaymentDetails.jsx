@@ -90,7 +90,6 @@ const PaymentDetails = ({ handleStep, step }) => {
         card_token:token?.id,
         exchange_rate: local?.amount?.exchange_rate
       }
-      console.log("----------data-------------", data)
       setLoader(true)
       axios.post(`${global.serverUrl}/payment/stripe-charge/`, data, {
         headers: {
@@ -278,7 +277,6 @@ const CheckoutForm = ({ payRef, handleModal, handleToken}) => {
       return;
     }
     const token = await stripe.createToken(elements.getElement(CardElement))
-    console.log("---++++++++++---", token)
     if (token.token) {
       handleToken(token.token)
       handleModal()

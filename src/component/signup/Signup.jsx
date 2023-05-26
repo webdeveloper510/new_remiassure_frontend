@@ -41,6 +41,14 @@ const Signup = () => {
             localStorage.removeItem("exchange_curr")
             localStorage.setItem("exchange_curr", JSON.stringify(data))
         })
+        if (localStorage.getItem("token") && localStorage.getItem("remi-user-dt")) {
+            let user = JSON.parse(localStorage.getItem("remi-user-dt"));
+            if (user?.digital_id_verified && user.digital_id_verified === "true") {
+                navigate("/dashboard")
+            } else {
+                navigate("/send-money")
+            }
+        }
     }, [])
 
     const formik = useFormik({
@@ -48,20 +56,16 @@ const Signup = () => {
         validationSchema: signSchema,
         onSubmit: async (values) => {
             setLoading(true)
-            let data = {...values, promo_marketing:promo_marketing, country_code:country_code , mobile:"+"+values.mobile}
+            let data = { ...values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + values.mobile }
             if (referral_code == "") {
                 delete data["referral_code"]
             }
             userRegister(data).then((res) => {
-                console.log("------------------------",res)
                 if (res.code === "200") {
-                    const data = {...res?.data, digital_id_verified:"false"}
-                    localStorage.setItem("remi-user-dt", JSON.stringify(data))
-                    navigate("/verification", { state: { mobile: "+"+values.mobile } })
+                    navigate("/verification", { state: { mobile: "+" + values.mobile } })
 
                 } else if (res.code == '400') {
                     toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
-
                 }
                 else if (res.code == '201') {
                     toast.warn(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
@@ -69,7 +73,6 @@ const Signup = () => {
                 }
                 setLoading(false)
             }).catch((error) => {
-                console.log(error.response)
                 if (error.response.code == "400") {
                     toast.error(error.response.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                 }
@@ -121,16 +124,15 @@ const Signup = () => {
         formik.setFieldTouched("location", true)
         countryList.map((item) => {
             if (item.name === e.target.value) {
-                setCountryCode( item.iso2)
+                setCountryCode(item.iso2)
             }
         })
     }
 
     const handlePhone = (e, coun) => {
-        console.log("phone", e)
         formik.setFieldValue('mobile', e);
-         formik.setFieldTouched('mobile', true);
-         formik.setFieldValue('location', coun.name)
+        formik.setFieldTouched('mobile', true);
+        formik.setFieldValue('location', coun.name)
     }
 
     return (

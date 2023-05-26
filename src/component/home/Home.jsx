@@ -252,7 +252,6 @@ const Home = () => {
         onSubmit: async (values) => {
             setLoading(true)
             exchangeRate({ amount: values.send_amt, from: values.from_type, to: values.to_type, paymentMethod: values.recieve_meth }).then((res) => {
-                console.log(res)
                 setLoading(false)
                 // localStorage.setItem("amount", data.amt1)
                 // localStorage.setItem("exchangeAmount", res.amount)
@@ -268,7 +267,6 @@ const Home = () => {
                     navigate("/login")
                 }
             }).catch((error) => {
-                // console.log(error.response)
                 if (error.response.data.code == "400") {
                     toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                 }
@@ -287,7 +285,6 @@ const Home = () => {
             setLoading(true);
             exchangeRate({ amount: event.target.value, from: formik.values.from_type, to: formik.values.to_type, paymentMethod: formik.values.recieve_meth })
                 .then((res) => {
-                    console.log(res)
                     setData({ ...data, exchange_amt: res.amount })
                     formik.setFieldValue("exchange_amt", res.amount)
                     setTotal_rates(res.rate)
@@ -323,7 +320,6 @@ const Home = () => {
                     event.preventDefault();
                     event.stopPropagation()
                 } else {
-                    console.log("----------------------------", event.target.value)
                     setData({ ...data, send_amt: event.target.value })
                     formik.setFieldValue('send_amt', event.target.value)
                     formik.setFieldTouched('send_amt', true)
@@ -336,7 +332,6 @@ const Home = () => {
     }
 
     const myTotalAmountFrom = (e) => {
-        console.log(e.target.value)
         setData({ ...data, from_type: e.target.value })
         formik.setFieldValue("from_type", e.target.value)
         formik.setFieldTouched("from_type", true)
@@ -354,7 +349,6 @@ const Home = () => {
                     setLoading(false)
                 })
                 .catch(function (error, message) {
-                    console.log(error.response)
                     setLoading(false)
                 })
         } else if (e.target.value == "NZD" && formik.values.to_type == "NZD") {
@@ -369,7 +363,6 @@ const Home = () => {
                     setLoading(false)
                 })
                 .catch(function (error, message) {
-                    console.log(error.response)
                     setLoading(false)
                 })
         } else {
@@ -383,7 +376,6 @@ const Home = () => {
                     setLoading(false)
                 })
                 .catch(function (error, message) {
-                    console.log(error.response)
                     setLoading(false)
                 })
         }
@@ -392,7 +384,6 @@ const Home = () => {
 
 
     const myTotalAmountTo = (e) => {
-        console.log(e.target.value, formik.values.send_amt)
         setData({ ...data, to_type: e.target.value })
         formik.setFieldValue("to_type", e.target.value)
         formik.setFieldTouched("to_type", true)
@@ -408,7 +399,6 @@ const Home = () => {
                 setLoading(false)
             })
             .catch(function (error, message) {
-                console.log(error.response)
                 setLoading(false)
             })
     }

@@ -47,7 +47,6 @@ const Profile = () => {
         }
         setLoading(false)
       }).catch((error) => {
-        console.log(error.response)
         if (error.response.code == "400") {
           toast.error(error.response.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
         }
@@ -67,7 +66,6 @@ const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     formik.validateForm().then(res => {
-      console.log(res)
       if (Object.keys(res).length == 0) {
         setOpenModal(true)
 

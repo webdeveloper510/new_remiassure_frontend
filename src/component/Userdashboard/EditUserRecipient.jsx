@@ -84,7 +84,6 @@ const Editrecipientuser = () => {
     } else {
       setLoading(true);
       getUserRecipient(id).then((response) => {
-        console.log(response)
         if (response.code == "200") {
           let values = response.data
 
@@ -93,7 +92,6 @@ const Editrecipientuser = () => {
         }
         setLoading(false)
       }).catch((error) => {
-        console.log(error.response)
         setLoading(false)
       })
     }
@@ -150,7 +148,6 @@ const Editrecipientuser = () => {
         }
         setLoading(false)
       }).catch((error) => {
-        console.log(error.response)
         setLoading(false)
         if (error.response.data.code == "400") {
           toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
@@ -179,7 +176,6 @@ const Editrecipientuser = () => {
   }
 
   const handleKeyDown = (e, max) => {
-    console.log(e.key)
     if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete" || e.key === " ") {
       setData({ ...data, [e.target.name]: e.target.value })
       formik.setFieldValue(`${[e.target.name]}`, e.target.value)
@@ -227,7 +223,6 @@ const Editrecipientuser = () => {
 
   const handlePostCode = (event, max) => {
     const pattern = /^[0-9]+$/;
-    console.log("------------------------------------------------------++++", event.key)
     if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
       setData({ ...data, [event.target.name]: event.target.value })
       formik.setFieldValue(event.target.name, event.target.value)

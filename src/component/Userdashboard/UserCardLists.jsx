@@ -1,52 +1,34 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import { Links, NavLink, useNavigate, useParams } from 'react-router-dom';
-import Accordion from 'react-bootstrap/Accordion';
-import { toast } from "react-toastify";
+import {useNavigate } from 'react-router-dom';
 import global from "../../utils/global"
 import axios from "axios";
-import norecipients from '../../assets/img/userdashboard/hidden.avif';
-import { BsFillPersonPlusFill } from "react-icons/bs";
 import Sidebar from './Sidebar';
 import nocard from "../../assets/img/userdashboard/nocard.jpg";
-import Page404 from "../pageNotfound/Page404";
 import { cardList } from "../../utils/Api";
 
 
 const UserCardLists = () => {
 
-    /***************************Start page show hide condtion pages ************************/
     const token = localStorage.getItem("token");
 
-    // Start page show hide condtion page
     const [carddata, setCarddata] = useState([]);
-    const [RecepientsData, setRecepientsData] = useState('');
     const [loading, setLoading] = useState(true);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const [delete_id, setDelete_Id] = useState('');
 
     const handleShow = (key) => {
-        console.log("=========>cardDelete", key)
         setShow(true);
         setDelete_Id(key)
     }
 
-    const [isActive, setActive] = useState("false");
-
-    const handleToggle = () => {
-        setActive(!isActive);
-    };
 
     const LoadEditCard = (id) => {
         navigate(`/edit-card-user/${id}`);
-    }
-
-    const LoadSinglCardData = (id) => {
-        navigate(`/single-card-data/${id}`);
     }
 
     const navigate = useNavigate();
@@ -57,41 +39,17 @@ const UserCardLists = () => {
     }, [])
 
     const getList = () => {
-        setLoading(true); // Set loading before sending API request
+        setLoading(true);
         cardList().then((res)=>{
-            console.log("response=====",res)
             setCarddata(res)
             setLoading(false)
         }).catch((error)=>{
-            console.log(error.response)
             setLoading(false)
         })
-        // axios.post(API.BASE_URL + 'payment/card-list/', {}, {
-        //     headers: {
-        //         "Authorization": `Bearer ${token}`,
-        //     }
-        // })
-        //     .then(function (response) {
-        //         console.log("Recipients APIIIII", response.data);
-        //         setCarddata(response.data);
-        //         console.log(carddata)
-        //         localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
-        //         setLoading(false); // Stop loading
-        //         //   if (response.status)
-        //         // // notify();
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //         console.log(error.response);
-        //         setLoading(false); // Stop loading in case of error
-        //     })
+        
     }
-    console.log("setCarddata",carddata)
 
-
-    {/* start- delete function */ }
     const handleRemovecardDetails = (value) => {
-        console.log("========>Delete", value)
 
         axios.delete(global.serverUrl + `/payment/card/${value}`, {
             headers: {
@@ -99,7 +57,6 @@ const UserCardLists = () => {
             },
         })
             .then(function (response) {
-                console.log(response);
                 handleClose()
                 getList();
             })
