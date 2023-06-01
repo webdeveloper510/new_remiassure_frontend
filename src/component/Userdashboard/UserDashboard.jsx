@@ -49,7 +49,7 @@ useEffect(()=>{
                       <Nav.Link eventKey="first"><RxDashboard />Dashboard</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="second"><BsCurrencyExchange />Send Money</Nav.Link>
+                      <Nav.Link eventKey="second"><BsCurrencyExchange />New Transfer</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                       <Nav.Link eventKey="third"><BsFilePersonFill />Profile Information</Nav.Link>

@@ -5921,3 +5921,20 @@ text-transform: capitalize;
   --bs-alert-bg: none!important;
   --bs-alert-border-color: #6414E9;
 }
+
+.image_idle_time {
+  background-repeat: no-repeat;
+  background-position: center;
+  backdrop-filter: blur(5px);
+}
+
+button.session_logOut.btn.btn-primary{
+border : 1px solid #6414E9 !important;
+color: #6414E9 !important;
+background-color: #fff !important;
+}
+
+button.session_cont.btn.btn-primary {
+background-color: #6414E9 !important;
+border : 1px solid #6414E9 !important
+}

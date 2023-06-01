@@ -15,13 +15,13 @@ const AmountDetail = ({ handleStep, step }) => {
         send_amt: "",
         exchange_amt: "",
         from_type: "AUD",
-        to_type: "NZD",
+        to_type: "USD",
         recieve_meth: "Bank Transfer",
         payout_part: "Bank"
     })
 
-    const nzd_opt = ["AUD", "USD", "EUR", "CAD"]
-    const aud_opt = ["NZD", "USD", "EUR", "CAD"]
+    const curr_out = ["USD", "NGN", "GHC", "KHS", "PHP", "THB", "VND"]
+
 
     const amtSchema = Yup.object().shape({
         send_amt: Yup.string()
@@ -36,7 +36,7 @@ const AmountDetail = ({ handleStep, step }) => {
         send_amt: "",
         exchange_amt: "",
         from_type: "AUD",
-        to_type: "NZD",
+        to_type: "USD",
         recieve_meth: "Bank Transfer",
         payout_part: "Bank"
     }
@@ -117,36 +117,6 @@ const AmountDetail = ({ handleStep, step }) => {
         formik.setFieldTouched("from_type", true)
         setLoader(true)
         const amt = formik.values.send_amt != undefined && formik.values.send_amt != 0 && formik.values.send_amt != "" ? formik.values.send_amt : "1"
-
-        if (e.target.value == "AUD" && formik.values.to_type == "AUD") {
-            formik.setFieldValue("to_type", "NZD")
-            exchangeRate({ amount: amt, from: e.target.value, to: "NZD" })
-                .then(function (response) {
-                    setExchRate(response.rate)
-                    if (formik.values.send_amt != 0 && formik.values.send_amt != "" && formik.values.send_amt != undefined) {
-                        formik.setFieldValue("exchange_amt", response.amount)
-                        setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
-                    }
-                    setLoader(false)
-                })
-                .catch(function (error, message) {
-                    setLoader(false)
-                })
-        } else if (e.target.value == "NZD" && formik.values.to_type == "NZD") {
-            formik.setFieldValue("to_type", "AUD")
-            exchangeRate({ amount: amt, from: e.target.value, to: "AUD" })
-                .then(function (response) {
-                    setExchRate(response.rate)
-                    if (formik.values.send_amt != 0 && formik.values.send_amt != "" && formik.values.send_amt != undefined) {
-                        formik.setFieldValue("exchange_amt", response.amount)
-                        setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
-                    }
-                    setLoader(false)
-                })
-                .catch(function (error, message) {
-                    setLoader(false)
-                })
-        } else {
             exchangeRate({ amount: amt, from: e.target.value, to: formik.values.to_type })
                 .then(function (response) {
                     setExchRate(response.rate)
@@ -159,7 +129,6 @@ const AmountDetail = ({ handleStep, step }) => {
                 .catch(function (error, message) {
                     setLoader(false)
                 })
-        }
     }
 
     const myTotalAmountTo = (e) => {
@@ -168,7 +137,6 @@ const AmountDetail = ({ handleStep, step }) => {
         formik.setFieldTouched("to_type", true)
         setLoader(true)
         const amt = formik.values.send_amt != undefined && formik.values.send_amt != 0 && formik.values.send_amt != "" ? formik.values.send_amt : "1"
-
         exchangeRate({ amount: amt, from: formik.values.from_type, to: e.target.value })
             .then(function (response) {
                 setExchRate(response.rate)
@@ -262,13 +230,7 @@ const AmountDetail = ({ handleStep, step }) => {
                             // {...formik.getFieldProps('to_type')}
                             >
                                 {
-                                    formik.values.from_type === "AUD" ?
-                                        aud_opt.map((item, index) => {
-                                            return (
-                                                <option value={item}>{item}</option>
-                                            )
-                                        }) :
-                                        nzd_opt.map((item) => {
+                                        curr_out.map((item) => {
                                             return (
                                                 <option value={item}>{item}</option>
                                             )

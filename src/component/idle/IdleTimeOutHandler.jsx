@@ -9,6 +9,7 @@ import timeOut from "../../assets/img/home/session_timeout.png"
 const IdleTimeOutHandler = (props) => {
     const [showModal, setShowModal] = useState(false)
     const [isLogout, setLogout] = useState(false)
+
     let timer = undefined;
     const events = ['click', 'load', 'keydown']
     const eventHandler = (eventType) => {
@@ -42,10 +43,12 @@ const IdleTimeOutHandler = (props) => {
             setTimeout(() => {
                 setShowModal(false)
                 localStorage.clear()
-                navigate("/login")
-            }, 30 * 1000)
+                window.reload()
+            }, 2 * 60 * 1000)
         }
     }, [showModal])
+
+
 
     const startTimer = () => {
         if (timer) {
@@ -100,7 +103,6 @@ const IdleTimeOutHandler = (props) => {
         setLogout(true)
         props.onLogout();
         setShowModal(false)
-
     }
 
     return (
@@ -119,23 +121,40 @@ const IdleTimeOutHandler = (props) => {
 
 const IdleTimeOutModal = ({ showModal, handleContinue, handleLogout, remainingTime }) => {
 
+    const [seconds, setSeconds] = useState(0);
+    const [minutes, setMinutes] = useState(2);
+
+    useEffect(() => {
+        if (showModal) {
+            if (seconds == 0 && minutes > 0) {
+                minutes > 0 && setMinutes(minutes - 1);
+                setSeconds(59)
+            } else {
+                seconds > 0 && setTimeout(() => setSeconds(seconds - 1), 1000);
+            }
+        } else {
+            setMinutes(2)
+            setSeconds(0)
+        }
+    }, [seconds, showModal]);
+
     return (
         <Modal show={showModal} onHide={handleContinue} backdrop="static" centered>
             <Modal.Header closeButton>
                 <Modal.Title>You Have Been Idle!</Modal.Title>
             </Modal.Header>
             <Modal.Body className="session_modal">
-                <p>Your session is Timed Out. You want to stay?</p>
-                <p>
-                    <img src={timeOut} />
+                <p>You will get automatically <b style={{color:"#6414E9"}}>loged out</b> in:</p>
+                <p className='image_idle_time  py-5' style={{ backgroundImage: `url(${timeOut})` }}>
+                    <span className="display-3 fw-semibold text-danger">{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</span>
                 </p>
-
+                <p>Click on <b style={{color:"#6414E9"}}>Continue Session</b> to stay.</p>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" onClick={handleLogout}>
+                <Button className='session_logOut' onClick={()=>handleLogout()}>
                     Logout
                 </Button>
-                <Button variant="primary" onClick={handleContinue}>
+                <Button className='session_cont' onClick={()=>handleContinue()}>
                     Continue Session
                 </Button>
             </Modal.Footer>

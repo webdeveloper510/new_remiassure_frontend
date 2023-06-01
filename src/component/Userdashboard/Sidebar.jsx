@@ -49,11 +49,11 @@ const sidebar = () => {
         <nav>
           <ul>
             <li><NavLink to="/dashboard"><RxDashboard />Dashboard</NavLink></li>
-            <li><NavLink to="/user-send-money"><BsCurrencyExchange />Send Money</NavLink></li>
+            <li><NavLink to="/user-send-money"><BsCurrencyExchange />New Transfer</NavLink></li>
             <li><NavLink to="/user-profile"><BsFilePersonFill />Profile Information</NavLink></li>
-            <li><NavLink to="/transactions"><BiTransfer />Transaction</NavLink></li>
+            <li><NavLink to="/transactions"><BiTransfer />Transactions</NavLink></li>
             <li><NavLink to="/user-recipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
-            <li><NavLink to="/user-card-list"><FaRegCreditCard />Card</NavLink></li>
+            <li><NavLink to="/user-card-list"><FaRegCreditCard />Cards</NavLink></li>
             <li><NavLink to="/change-password"><RiLockPasswordLine />Password</NavLink></li>
           </ul>
         </nav>

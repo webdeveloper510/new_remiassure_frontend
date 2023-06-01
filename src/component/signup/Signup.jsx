@@ -36,8 +36,8 @@ const Signup = () => {
     })
 
     useEffect(() => {
-        exchangeRate({ amount: "1", from: "AUD", to: "NZD" }).then(res => {
-            const data = { send_amt: "1", exchange_amt: res.amount, from_type: "AUD", to_type: "NZD", exch_rate: res.rate }
+        exchangeRate({ amount: "1", from: "AUD", to: "USD" }).then(res => {
+            const data = { send_amt: "1", exchange_amt: res.amount, from_type: "AUD", to_type: "USD", exch_rate: res.rate }
             localStorage.removeItem("exchange_curr")
             localStorage.setItem("exchange_curr", JSON.stringify(data))
         })
