@@ -10,12 +10,16 @@ import { changePassword } from "../../utils/Api";
 import authDashHelper from "../../utils/AuthDashHelper";
 import { Modal } from "react-bootstrap";
 import PopVerify from "../verification/PopVerify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Profile = () => {
 
   const [loading, setLoading] = useState(false);
   const [open_modal, setOpenModal] = useState(false)
   const [is_otp_verified, setIsOtpVerfied] = useState(false)
+  const [show_old, setShowOld] = useState(false)
+  const [show_new, setShowNew] = useState(false);
+  const [show_confirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     if (authDashHelper('dashCheck') === false) {
@@ -39,19 +43,7 @@ const Profile = () => {
     initialValues,
     validationSchema: updateSchema,
     onSubmit: async (values) => {
-      setLoading(true)
-      changePassword(values).then((response) => {
-        if (response.code == "200") {
-          toast.success('Password Succesfully Updated', { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
-
-        }
-        setLoading(false)
-      }).catch((error) => {
-        if (error.response.code == "400") {
-          toast.error(error.response.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
-        }
-        setLoading(false)
-      })
+      setOpenModal(true)
     }
   })
 
@@ -63,24 +55,33 @@ const Profile = () => {
     formik.setValues({ old_password: "", new_password: "", confirmPassword: "" })
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    formik.validateForm().then(res => {
-      if (Object.keys(res).length == 0) {
-        setOpenModal(true)
+  const handleSubmit = () => {
+    setLoading(true)
+    changePassword(formik.values).then((response) => {
+      if (response.code == "200") {
+        toast.success('Password Succesfully Updated', { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
 
-      } else {
-        formik.setErrors(res)
+      } else if (response.code == "400") {
+
+        toast.error(response.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
       }
-    })
+      setLoading(false)
+      formik.resetForm()
+    }).catch((error) => {
+      if (error.response.code == "400") {
 
+        toast.error(error.response.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
+      }
+      setLoading(false)
+    })
   }
 
-  useEffect(()=>{
-    if(is_otp_verified){
-      formik.handleSubmit()
+  useEffect(() => {
+    if (is_otp_verified === true) {
+      handleSubmit()
+      setIsOtpVerfied(false)
     }
-  },[is_otp_verified])
+  }, [is_otp_verified])
 
   const navigate = useNavigate();
 
@@ -93,21 +94,21 @@ const Profile = () => {
             <div className="col-md-12">
               <section className="change-password">
 
-                <div class="form-head mb-4">
-                  <h2 class="text-black font-w600 mb-0"><b>Change Password</b>
+                <div className="form-head mb-4">
+                  <h2 className="text-black font-w600 mb-0"><b>Change Password</b>
                   </h2>
                 </div>
                 <div className="card">
                   <div className="card-body">
                     <div className="update-profile">
 
-                      <form onSubmit={handleSubmit} noValidate >
+                      <form onSubmit={formik.handleSubmit} noValidate >
                         <div className="row each-row">
                           <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
+                            <Form.Group className="form_label" >
                               <p className="get-text">Current Password<span style={{ color: 'red' }} >*</span></p>
                               <Form.Control
-                                type="password"
+                                type={show_old ? "text" : "password"}
                                 placeholder="Current password"
                                 autoComplete='off'
                                 {...formik.getFieldProps('old_password')}
@@ -119,6 +120,9 @@ const Profile = () => {
                                   }
                                 )}
                               />
+                              <span onClick={() => setShowOld(!show_old)} className="eye_iconn">
+                                {show_old ? <FaEyeSlash /> : <FaEye />}
+                              </span>
                               {formik.touched.old_password && formik.errors.old_password && (
                                 <div className='fv-plugins-message-container mt-1'>
                                   <div className='fv-help-block'>
@@ -129,10 +133,10 @@ const Profile = () => {
                             </Form.Group>
                           </div>
                           <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
+                            <Form.Group className="form_label" >
                               <p className="get-text">New Password<span style={{ color: 'red' }} >*</span></p>
                               <Form.Control
-                                type="password"
+                                type={show_new ? "text" : "password"}
                                 placeholder="New password"
                                 autoComplete='off'
                                 {...formik.getFieldProps('new_password')}
@@ -144,6 +148,9 @@ const Profile = () => {
                                   }
                                 )}
                               />
+                              <span onClick={() => setShowNew(!show_new)} className="eye_iconn">
+                                {show_new ? <FaEyeSlash /> : <FaEye />}
+                              </span>
                               {formik.touched.new_password && formik.errors.new_password && (
                                 <div className='fv-plugins-message-container mt-1'>
                                   <div className='fv-help-block'>
@@ -154,10 +161,10 @@ const Profile = () => {
                             </Form.Group>
                           </div>
                           <div className="col-md-4">
-                            <Form.Group className="form_label" controlId="Firstname">
+                            <Form.Group className="form_label" >
                               <p className="get-text">Confirm Password<span style={{ color: 'red' }} >*</span></p>
                               <Form.Control
-                                type="password"
+                                type={show_confirm ? "text" : "password"}
                                 placeholder="Confirm password"
                                 autoComplete='off'
                                 {...formik.getFieldProps('confirmPassword')}
@@ -169,6 +176,9 @@ const Profile = () => {
                                   }
                                 )}
                               />
+                              <span onClick={() => setShowConfirm(!show_confirm)} className="eye_iconn">
+                                {show_confirm ? <FaEyeSlash /> : <FaEye />}
+                              </span>
                               {formik.touched.confirmPassword && formik.errors.confirmPassword && (
                                 <div className='fv-plugins-message-container mt-1'>
                                   <div className='fv-help-block'>
@@ -179,7 +189,7 @@ const Profile = () => {
                             </Form.Group>
                           </div>
                         </div>
-                        <div class="row each-row">
+                        <div className="row each-row">
                           <div className="col-md-4">
                             <button
                               type="button"
@@ -194,8 +204,8 @@ const Profile = () => {
                             >
                               Change Password
                               {loading ? <>
-                                <div class="loader-overly">
-                                  <div class="loader" >
+                                <div className="loader-overly">
+                                  <div className="loader" >
                                   </div>
                                 </div>
                               </> : <></>}

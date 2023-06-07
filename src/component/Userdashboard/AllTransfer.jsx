@@ -3,8 +3,8 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import nodata from '../../assets/img/userdashboard/nodata.avif';
 import Modal from 'react-bootstrap/Modal';
-import { useNavigate } from 'react-router-dom';
-import  global from "../../utils/global"
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import global from "../../utils/global"
 import axios from "axios";
 import authDashHelper from "../../utils/AuthDashHelper";
 
@@ -22,7 +22,6 @@ const AllTranfer = ({ status, data }) => {
   const [summeryData, setSummeryData] = useState([]);
 
   const navigate = useNavigate();
-
   const paymetTransactionId = localStorage.getItem("paymetTransactionId");
 
   useEffect(() => {
@@ -44,7 +43,7 @@ const AllTranfer = ({ status, data }) => {
       } else {
         setTransactionData(data)
       }
-    } 
+    }
     summrySingleData();
   }, [data])
 
@@ -72,54 +71,60 @@ const AllTranfer = ({ status, data }) => {
       <div className="card">
         <div className="card-body">
           <div className="tabs-recipent-new">
-              <span>
-                {transactionData?.length > 0 ? (
-                  <Table className="table table-responsive-md card-table previous-transaction">
-                    <thead>
-                      <tr>
-                        <th>Recipient</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Reason</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        transactionData?.map((res, index) => {
-                          return (
-                            <tr key={index}>
-                              <td>
-                                <h6 className="fs-16 font-w600 mb-0">{res.recipient_name}</h6>
-                              </td>
-                              <td className="transaction-icon"><span className="text-uppercase">{res.send_currency} </span> {res.amount} </td>
-                              <td>{res.date}</td>
-                              <td>{res.reason}</td>
-                              <td><span className="btn btn-outline-success btn-rounded" >{res.status}</span></td>
-                              <td>
-                                <a href={`${global.serverUrl}/payment/receipt/${res.id}`} target="_blank">
+            <span>
+              {transactionData?.length > 0 ? (
+                <Table className="table table-responsive-md card-table previous-transaction">
+                  <thead>
+                    <tr>
+                      <th>Recipient</th>
+                      <th>Amount</th>
+                      <th>Date</th>
+                      <th>Reason</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      transactionData?.map((res, index) => {
+                        return (
+                          <tr key={index}>
+                            <td>
+                              <h6 className="fs-16 font-w600 mb-0">{res.recipient_name}</h6>
+                            </td>
+                            <td className="transaction-icon"><span className="text-uppercase">{res.send_currency} </span> {res.amount} </td>
+                            <td>{res.date}</td>
+                            <td>{res.reason}</td>
+                            <td><span className="btn btn-outline-success btn-rounded" >{res.status}</span></td>
+                            <td>
+                              <a href={`${global.serverUrl}/payment/receipt/${res.id}`} target="_blank">
                                 <span className="btn btn-outline-success btn-rounded" >Download</span>
-                                </a>
-                                </td>
-                            </tr>
-                          )
-                        })}
-                    </tbody>
-                  </Table>
-                ) : (
-                  <>
-                    <div className="no-data">
-                      <img src={nodata} alt="no-data" height="400px" />
-                      <div className="col-md-12">
-                      </div>
-                      <div className="col-md-12">
-                        <a href="#/user-send-money" className="send_money">Send Money</a>
-                      </div>
+                              </a>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                  </tbody>
+                </Table>
+              ) : (
+                <>
+                  <div className="no-data">
+                    <img src={nodata} alt="no-data" height="400px" />
+                    <div className="col-md-12">
                     </div>
-                  </>
-                )
-                }
-              </span>
+                    <div className="col-md-12">
+                      {
+                        status === "completed" || "all" ? (
+                          <NavLink to="/user-send-money" className="send_money">Send Money</NavLink>
+                        ) : (
+                         <></>
+                        )
+                      }
+                    </div>
+                  </div>
+                </>
+              )
+              }
+            </span>
 
             <Modal show={show} onHide={handleClose}
               centered

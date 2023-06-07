@@ -35,18 +35,18 @@ const Editrecipientuser = () => {
     bank_name: Yup.string()
       .min(5, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
-      .required('Email is required'),
-    account_name: Yup.string().min(3).max(50).required(),
+      .required('Email is required').trim(),
+    account_name: Yup.string().min(3).max(50).required().trim(),
     account_number: Yup.string().min(5).max(18).required(),
-    first_name: Yup.string().min(1).max(25).required(),
-    last_name: Yup.string().min(1).max(25).required(),
+    first_name: Yup.string().min(1).max(25).required().trim(),
+    last_name: Yup.string().min(1).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(9).max(18).required(),
-    flat: Yup.string().min(1).max(15).notRequired(),
-    building: Yup.string().min(1).max(30).required(),
-    street: Yup.string().min(1).max(30).required(),
-    city: Yup.string().min(1).max(35).required(),
-    post_code: isAfrican === true ? Yup.string().length(4).notRequired() : Yup.string().length(4).required(),
+    flat: Yup.string().min(1).max(15).notRequired().trim(),
+    building: Yup.string().min(1).max(30).required().trim(),
+    street: Yup.string().min(1).max(30).required().trim(),
+    city: Yup.string().min(1).max(35).required().trim(),
+    postcode: isAfrican === true ? Yup.string().length(4).notRequired() : Yup.string().length(4).required(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
   })
@@ -136,7 +136,7 @@ const Editrecipientuser = () => {
       if (values.flat == "" || values.flat == undefined) {
         delete d["flat"]
       }
-      if (d.postcode === "" || d.postcode === undefined || d.postcode === " ") {
+      if (d.postcode === "" || d.postcode === undefined ) {
         delete d['postcode'];
       }
       d.country_code = data.country_code
@@ -191,7 +191,7 @@ const Editrecipientuser = () => {
         e.preventDefault()
 
       } else {
-        const pattern = /^[A-z]+$/;
+        const pattern = /^[A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
         if (!pattern.test(e.key)) {
           e.preventDefault();
           e.stopPropagation()
@@ -264,8 +264,8 @@ const Editrecipientuser = () => {
           <Sidebar />
           <div className="content-body">
             <section className="edit_recipient_section">
-              <div class="form-head mb-4">
-                <h2 class="text-black font-w600 mb-0"><b>Update Recipient </b>
+              <div className="form-head mb-4">
+                <h2 className="text-black font-w600 mb-0"><b>Update Recipient </b>
                   <NavLink to="/user-recipients">
                     <button className="start-form-button back-btn" >
                       <MdOutlineKeyboardBackspace />
@@ -446,7 +446,7 @@ const Editrecipientuser = () => {
                     <div className="row each-row">
                       <h5>Address</h5>
                       <div className="col-md-4">
-                        <Form.Group className="form_label" controlId="Firstname">
+                        <Form.Group className="form_label" >
                           <p className="get-text">Flat/Unit No.</p>
                           <input
                             type="text"
@@ -459,7 +459,7 @@ const Editrecipientuser = () => {
                         </Form.Group>
                       </div>
                       <div className="col-md-4">
-                        <Form.Group className="form_label" controlId="Firstname">
+                        <Form.Group className="form_label" >
                           <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
                           <input
                             type="text"
@@ -478,7 +478,7 @@ const Editrecipientuser = () => {
                         </Form.Group>
                       </div>
                       <div className="col-md-4">
-                        <Form.Group className="form_label" controlId="Firstname">
+                        <Form.Group className="form_label" >
                           <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
                           <input
                             type="text"
@@ -499,7 +499,7 @@ const Editrecipientuser = () => {
                     </div>
                     <div className="row each-row">
                       <div className="col-md-4">
-                        <Form.Group className="form_label" controlId="Firstname">
+                        <Form.Group className="form_label" >
                           <p className="get-text">
                             Postal Code
                             {
@@ -518,14 +518,17 @@ const Editrecipientuser = () => {
                             {...formik.getFieldProps("postcode")}
                             className={clsx(
                               'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.postcode && formik.errors.postcode }
+                              { 'is-invalid': formik.touched.postcode && formik.errors.postcode },
+                              {
+                                'is-valid': formik.touched.postcode && !formik.errors.postcode,
+                              }
                             )}
                           />
 
                         </Form.Group>
                       </div>
                       <div className="col-md-4">
-                        <Form.Group className="form_label" controlId="Firstname">
+                        <Form.Group className="form_label" >
                           <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
                           {
                             city_list && city_list.length > 0 ? (
@@ -537,7 +540,7 @@ const Editrecipientuser = () => {
                               >
                                 {city_list?.map((opt) => {
                                   return (
-                                    <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                                    <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
                                   )
                                 })
                                 }
@@ -562,7 +565,7 @@ const Editrecipientuser = () => {
                         </Form.Group>
                       </div>
                       <div className="col-md-4">
-                        <Form.Group className="form_label" controlId="Firstname">
+                        <Form.Group className="form_label" >
                           <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
                           {
                             state_list && state_list.length > 0 ?
@@ -574,7 +577,7 @@ const Editrecipientuser = () => {
                               >
                                 {state_list?.map((opt) => {
                                   return (
-                                    <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                                    <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
                                   )
                                 })
                                 }
@@ -597,7 +600,7 @@ const Editrecipientuser = () => {
                         </Form.Group>
                       </div>
                       <div className="col-md-4">
-                        <Form.Group className="form_label" controlId="Firstname">
+                        <Form.Group className="form_label" >
                           <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                           <select
                             value={data.country}
@@ -609,7 +612,7 @@ const Editrecipientuser = () => {
                               countryList && countryList.length > 0 ?
                                 countryList?.map((opt) => {
                                   return (
-                                    <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                                    <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
                                   )
                                 }) : ""
                             }
@@ -638,8 +641,8 @@ const Editrecipientuser = () => {
                           Update Recipient
 
                           {loading ? <>
-                            <div class="loader-overly">
-                              <div class="loader" >
+                            <div className="loader-overly">
+                              <div className="loader" >
                               </div>
                             </div>
                           </> : <></>}

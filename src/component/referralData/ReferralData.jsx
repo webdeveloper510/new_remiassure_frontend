@@ -212,8 +212,8 @@ const ReferralData = () => {
                                          className="signup_button ">
                                             Signup
                                           {loading ? <>
-                                                <div class="loader-overly"> 
-                                                <div class="loader" > 
+                                                <div className="loader-overly"> 
+                                                <div className="loader" > 
                                                 
                                                 </div>
                                                 

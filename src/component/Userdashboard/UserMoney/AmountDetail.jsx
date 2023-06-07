@@ -359,8 +359,8 @@ const AmountDetail = ({ handleStep, step }) => {
                                 >
                                     Continue
                                     {loader ? <>
-                                        <div class="loader-overly">
-                                            <div class="loader" >
+                                        <div className="loader-overly">
+                                            <div className="loader" >
                                             </div>
                                         </div>
                                     </> : ""}

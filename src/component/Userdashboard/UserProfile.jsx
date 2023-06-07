@@ -46,14 +46,14 @@ const Profile = () => {
   }
 
   const profileSchema = Yup.object().shape({
-    First_name: Yup.string().min(2).max(25).required(),
-    Last_name: Yup.string().min(2).max(25).required(),
+    First_name: Yup.string().min(2).max(25).required().trim(),
+    Last_name: Yup.string().min(2).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(9).max(18).required(),
-    flat: Yup.string().min(1).max(15).notRequired(),
-    building: Yup.string().min(1).max(30).required(),
-    street: Yup.string().min(1).max(30).required(),
-    city: Yup.string().min(1).max(35).required(),
+    flat: Yup.string().min(1).max(15).notRequired().trim(),
+    building: Yup.string().min(1).max(30).required().trim(),
+    street: Yup.string().min(1).max(30).required().trim(),
+    city: Yup.string().min(1).max(35).required().trim(),
     postcode: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
@@ -77,7 +77,6 @@ const Profile = () => {
           setLoading(false)
           let p = res.data.mobile
           let phone = p.split("+"); 
-          console.log(phone)
           setData({...res.data, mobile:phone[1]})
           formik.setValues({ ...res.data, mobile:phone[1] })
           setIsUpdate({ email: res.data.email, mobile:phone[1] })
@@ -195,7 +194,7 @@ const Profile = () => {
         e.preventDefault()
 
       } else {
-        const pattern = /^[A-z]+$/;
+        const pattern = /^[A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
         if (!pattern.test(e.key)) {
           e.preventDefault();
           e.stopPropagation()
@@ -266,6 +265,7 @@ const Profile = () => {
   useEffect(() => {
     if (is_otp_verified === true) {
       handleSubmit()
+      setIsOtpVerfied(false)
     }
   }, [is_otp_verified])
 

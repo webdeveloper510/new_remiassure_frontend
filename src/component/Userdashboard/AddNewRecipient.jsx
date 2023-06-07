@@ -82,17 +82,17 @@ const Addnewrecipient = () => {
     bank_name: Yup.string()
       .min(5, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
-      .required('Email is required'),
-    account_name: Yup.string().min(3).max(50).required(),
+      .required('Email is required').trim(),
+    account_name: Yup.string().min(3).max(50).required().trim(),
     account_number: Yup.string().min(5).max(18).required(),
-    first_name: Yup.string().min(1).max(25).required(),
-    last_name: Yup.string().min(1).max(25).required(),
+    first_name: Yup.string().min(1).max(25).required().trim(),
+    last_name: Yup.string().min(1).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(9).max(18).required(),
-    flat: Yup.string().min(1).max(15).notRequired(),
-    building: Yup.string().min(1).max(30).required(),
-    street: Yup.string().min(1).max(30).required(),
-    city: Yup.string().min(1).max(35).required(),
+    flat: Yup.string().min(1).max(15).notRequired().trim(),
+    building: Yup.string().min(1).max(30).required().trim(),
+    street: Yup.string().min(1).max(30).required().trim(),
+    city: Yup.string().min(1).max(35).required().trim(),
     post_code: isAfrican === true ? Yup.string().length(4).notRequired() : Yup.string().length(4).required(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
@@ -172,7 +172,7 @@ const Addnewrecipient = () => {
         e.preventDefault()
 
       } else {
-        const pattern = /^[A-z]+$/;
+        const pattern = /^[A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
         if (!pattern.test(e.key)) {
           e.preventDefault();
           e.stopPropagation()
@@ -634,8 +634,8 @@ const Addnewrecipient = () => {
                       >
                         Create Recipient
                         {loading ? <>
-                          <div class="loader-overly">
-                            <div class="loader" >
+                          <div className="loader-overly">
+                            <div className="loader" >
                             </div>
                           </div>
                         </> : <></>}

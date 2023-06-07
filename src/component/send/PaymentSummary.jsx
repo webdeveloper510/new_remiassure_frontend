@@ -24,7 +24,7 @@ const PaymentSummary = ({ handleStep, step }) => {
   const navigate = useNavigate()
   const [modalView, setModalView] = useState(false)
   const [loader, setLoader] = useState(false)
-  const [transaction, setTransaction] = useState({ id: "", status: "" , pay_id:""})
+  const [transaction, setTransaction] = useState({ id: "", status: "", pay_id: "" })
   const [is_otp_verified, setIsOtpVerfied] = useState(null)
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const PaymentSummary = ({ handleStep, step }) => {
     }).then((res) => {
       if (res.data.code == "200") {
         setLoader(false)
-        setTransaction({ status: "Completed", id: res?.data?.data?.transaction_id, pay_id : res?.data?.data?.payment_id})
+        setTransaction({ status: "Completed", id: res?.data?.data?.transaction_id, pay_id: res?.data?.data?.payment_id })
         localStorage.setItem("transaction_id", res?.data?.data?.payment_id)
         const user = JSON.parse(localStorage.getItem("remi-user-dt"))
         // localStorage.removeItem("remi-user-dt")
@@ -131,11 +131,11 @@ const PaymentSummary = ({ handleStep, step }) => {
     })
   }
 
-  useEffect(()=>{
-    if(is_otp_verified) {
+  useEffect(() => {
+    if (is_otp_verified) {
       handleFinalStep()
     }
-  },[is_otp_verified])
+  }, [is_otp_verified])
   const handleCancel = () => {
     localStorage.removeItem("transfer_data")
     localStorage.removeItem("send-step")
@@ -223,8 +223,8 @@ const PaymentSummary = ({ handleStep, step }) => {
           </div>
         </div>
         {loader ? <>
-          <div class="loader-overly">
-            <div class="loader" >
+          <div className="loader-overly">
+            <div className="loader" >
             </div>
           </div>
         </> : ""}
@@ -255,8 +255,17 @@ const PaymentSummary = ({ handleStep, step }) => {
             <div className="col-md-12 align-center">
               {/* <img className="verifies-img" src={verified} alt="verified" /> */}
               <p>Thanks for choosing Remit Assure</p>
-              <NavLink target='_blank' href={`${global.serverUrl}/payment/receipt/${transaction.id}`}>
-                <button type="button" className="form-button" style={{ "width": '100%' }} onClick={()=>{navigate("/dashboard")}}>View Reciept</button></NavLink>
+              <div className='row text-center'>
+                <div className="col-md-6">
+                  <NavLink target='_blank' href={`${global.serverUrl}/payment/receipt/${transaction.id}`}>
+                    <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>View Reciept</button>
+                  </NavLink>
+                </div>
+                <div className="col-md-6">
+                  <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>Go To Dashboard</button>
+                </div>
+              </div>
+
             </div>
 
           </div>

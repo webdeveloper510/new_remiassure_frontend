@@ -73,8 +73,8 @@ const UserRecipients = () => {
                     <Sidebar />
                     <div className="content-body">
                         {loading ? <>
-                            <div class="loader-overly">
-                                <div class="loader" >
+                            <div className="loader-overly">
+                                <div className="loader" >
                                 </div>
 
                             </div>
@@ -176,8 +176,8 @@ const UserRecipients = () => {
                                 </span>
                             ) : (
                                 <>
-                                    <div class="loader-overly">
-                                        <div class="loader" >
+                                    <div className="loader-overly">
+                                        <div className="loader" >
                                         </div>
                                     </div>
                                 </>

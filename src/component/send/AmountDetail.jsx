@@ -232,7 +232,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                 {
                                         curr_out.map((item) => {
                                             return (
-                                                <option value={item}>{item}</option>
+                                                <option key={item} value={item}>{item}</option>
                                             )
                                         })
                                 }
@@ -363,8 +363,8 @@ const AmountDetail = ({ handleStep, step }) => {
                         </button>
                     </div>
                     {loader ? <>
-                        <div class="loader-overly">
-                            <div class="loader" >
+                        <div className="loader-overly">
+                            <div className="loader" >
                             </div>
                         </div>
                     </> : ""}

@@ -47,7 +47,8 @@ const SendMoney = () => {
 
     if (authDashHelper('dashCheck')) {
       navigate("/user-send-money")
-    } else if (!authDashHelper('authCheck')) {
+    } else if (authDashHelper('authCheck')) {
+      console.log(authDashHelper('authCheck'))
       navigate("/login")
     }
     localStorage.removeItem("send-step")

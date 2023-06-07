@@ -54,17 +54,17 @@ const BankDetails = ({ handleStep, step }) => {
     bank: Yup.string()
       .min(5, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
-      .required('Email is required'),
-    acc_name: Yup.string().min(3).max(50).required(),
+      .required('Email is required').trim(),
+    acc_name: Yup.string().min(3).max(50).required().trim(),
     acc_no: Yup.string().min(5).max(18).required(),
-    f_name: Yup.string().min(2).max(25).required(),
-    l_name: Yup.string().min(2).max(25).required(),
+    f_name: Yup.string().min(2).max(25).required().trim(),
+    l_name: Yup.string().min(2).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(9).max(18).required(),
-    flat: Yup.string().min(1).max(15).notRequired(),
-    build_no: Yup.string().min(1).max(30).required(),
-    street: Yup.string().min(1).max(30).required(),
-    city: Yup.string().min(1).max(35).required(),
+    flat: Yup.string().min(1).max(15).notRequired().trim(),
+    build_no: Yup.string().min(1).max(30).required().trim(),
+    street: Yup.string().min(1).max(30).required().trim(),
+    city: Yup.string().min(1).max(35).required().trim(),
     post_code: isAfrican === true ? Yup.string().length(4).notRequired() : Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
@@ -168,7 +168,7 @@ const BankDetails = ({ handleStep, step }) => {
         e.preventDefault()
 
       } else {
-        const pattern = /^[A-z]+$/;
+        const pattern =/^[A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
         if (!pattern.test(e.key)) {
           e.preventDefault();
           e.stopPropagation()
@@ -317,8 +317,8 @@ const BankDetails = ({ handleStep, step }) => {
       <div className={isActive ? "col-md-12 add-recipent-section" : "col-md-12 remove-add-recipent-section"}>
 
         {loading ? <>
-          <div class="loader-overly">
-            <div class="loader" >
+          <div className="loader-overly">
+            <div className="loader" >
             </div>
           </div></> :
           <>
@@ -762,8 +762,8 @@ const BankDetails = ({ handleStep, step }) => {
                 </div>
                 <div className="col-md-8">
                   <button type="submit" className="form-button">Continue  {loading ? <>
-                    <div class="loader-overly">
-                      <div class="loader" >
+                    <div className="loader-overly">
+                      <div className="loader" >
                       </div>
                     </div></> : ""}</button>
                 </div>

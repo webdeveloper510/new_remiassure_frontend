@@ -82,16 +82,16 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     bank: Yup.string()
       .min(5, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
-      .required('Email is required'),
-    acc_name: Yup.string().min(1).max(50).required(),
+      .required('Email is required').trim(),
+    acc_name: Yup.string().min(1).max(50).required().trim(),
     acc_no: Yup.string().min(5).max(18).required(),
-    f_name: Yup.string().min(1).max(25).required(),
-    l_name: Yup.string().min(1).max(25).required(),
+    f_name: Yup.string().min(1).max(25).required().trim(),
+    l_name: Yup.string().min(1).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(10).max(18).required(),
-    flat: Yup.string().min(1).max(15).notRequired(),
-    build_no: Yup.string().min(1).max(30).required(),
-    street: Yup.string().min(1).max(30).required(),
+    flat: Yup.string().min(1).max(15).notRequired().trim(),
+    build_no: Yup.string().min(1).max(30).required().trim(),
+    street: Yup.string().min(1).max(30).required().trim(),
     city: Yup.string().min(1).max(35).required(),
     post_code: isAfrican === true ? Yup.string().length(4).notRequired() : Yup.string().length(4).required(),
     state: Yup.string().min(1).max(35).required(),
@@ -172,7 +172,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
         e.preventDefault()
 
       } else {
-        const pattern = /^[A-z]+$/;
+        const pattern = /^[A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
         if (!pattern.test(e.key)) {
           e.preventDefault();
           e.stopPropagation()
@@ -509,7 +509,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
                       {city_list?.map((opt) => {
                         return (
-                          <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                          <option value={opt?.name} id={opt?.id} key={opt?.id}>{opt?.name}</option>
                         )
                       })
                       }
@@ -548,7 +548,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
                       {state_list?.map((opt) => {
                         return (
-                          <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                          <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
                         )
                       })
                       }
@@ -586,7 +586,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                     countryList && countryList.length > 0 ?
                       countryList?.map((opt) => {
                         return (
-                          <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                          <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
                         )
                       }) : ""
                   }

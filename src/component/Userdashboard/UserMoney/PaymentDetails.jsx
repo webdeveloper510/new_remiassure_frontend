@@ -8,7 +8,7 @@ import { useRef } from 'react'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
 import { BiXCircle } from 'react-icons/bi'
-import {NavLink} from 'react-bootstrap'
+import { NavLink } from 'react-bootstrap'
 import { BsCheckCircleFill } from 'react-icons/bs'
 import { useEffect } from 'react'
 import PopVerify from '../../verification/PopVerify'
@@ -21,10 +21,10 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [is_otp_verified, setIsOtpVerfied] = useState(false)
   const payRef = useRef(null)
   const navigate = useNavigate()
-  const [transaction, setTransaction] = useState({ id: "", status: "", amount: "", curr: "", pay_id:"" })
+  const [transaction, setTransaction] = useState({ id: "", status: "", amount: "", curr: "", pay_id: "" })
   const [modalView, setModalView] = useState(false)
   const [loader, setLoader] = useState(false)
-  const [token , setToken ] = useState({})
+  const [token, setToken] = useState({})
 
   useEffect(() => {
     if (transaction.id) {
@@ -87,7 +87,7 @@ const PaymentDetails = ({ handleStep, step }) => {
         send_amount: local?.amount?.send_amt,
         receive_amount: local?.amount?.exchange_amt,
         reason: "Family Support",
-        card_token:token?.id,
+        card_token: token?.id,
         exchange_rate: local?.amount?.exchange_rate
       }
       setLoader(true)
@@ -103,7 +103,7 @@ const PaymentDetails = ({ handleStep, step }) => {
           }
           setIsOtpVerfied(false)
           setLoader(false)
-          setTransaction({ id: res.data.data.transaction_id, pay_id:res.data.data.payment_id, status: "Completed", amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+          setTransaction({ id: res.data.data.transaction_id, pay_id: res.data.data.payment_id, status: "Completed", amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
           // setTimeout(() => {
           //   window.location.reload()
           // }, 2 * 1000)
@@ -203,7 +203,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                 </Modal.Header>
                 <Modal.Body className='my-4'>
                   <Elements stripe={stripePromise}>
-                    <CheckoutForm payRef={payRef} handleModal={()=>handleModals()} handleToken={(value)=>setToken(value)} />
+                    <CheckoutForm payRef={payRef} handleModal={() => handleModals()} handleToken={(value) => setToken(value)} />
                   </Elements>
                 </Modal.Body>
                 <Modal.Footer>
@@ -240,9 +240,15 @@ const PaymentDetails = ({ handleStep, step }) => {
                         </tr>
                       </tbody>
                     </Table>
-                    <div className="col-md-12 align-center">
-                    <NavLink target='_blank' href={`${global.serverUrl}/payment/receipt/${transaction.id}`}>
-                <button type="button" className="form-button" style={{ "width": '100%' }} onClick={()=>{navigate("/dashboard")}}>View Reciept</button></NavLink>
+                    <div className='row text-center'>
+                      <div className="col-md-6">
+                        <NavLink target='_blank' href={`${global.serverUrl}/payment/receipt/${transaction.id}`}>
+                          <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>View Reciept</button>
+                        </NavLink>
+                      </div>
+                      <div className="col-md-6">
+                        <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>Go To Dashboard</button>
+                      </div>
                     </div>
 
                   </div>
@@ -256,8 +262,8 @@ const PaymentDetails = ({ handleStep, step }) => {
 
             </section>
           ) : (
-            <div class="loader-overly">
-              <div class="loader" >
+            <div className="loader-overly">
+              <div className="loader" >
               </div>
             </div>
           )
@@ -266,7 +272,7 @@ const PaymentDetails = ({ handleStep, step }) => {
   )
 }
 
-const CheckoutForm = ({ payRef, handleModal, handleToken}) => {
+const CheckoutForm = ({ payRef, handleModal, handleToken }) => {
 
   const stripe = useStripe();
   const elements = useElements();

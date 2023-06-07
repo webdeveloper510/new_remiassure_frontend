@@ -16,6 +16,7 @@ const SenderDetails = ({ handleStep, step }) => {
   const [display, setDisplay] = useState("none")
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
+  const [loader, setLoader] = useState(false)
 
   const [data, setData] = useState({
     f_name: "", m_name: "", l_name: "",
@@ -37,12 +38,12 @@ const SenderDetails = ({ handleStep, step }) => {
 
 
   const senderSchema = Yup.object().shape({
-    f_name: Yup.string().min(1).max(25).required(),
-    l_name: Yup.string().min(1).max(25).required(),
-    flat: Yup.string().min(1).max(15).notRequired(),
-    build_no: Yup.string().min(1).max(30).required(),
-    street: Yup.string().min(1).max(30).required(),
-    city: Yup.string().min(1).max(35).required(),
+    f_name: Yup.string().min(1).max(25).required().trim(),
+    l_name: Yup.string().min(1).max(25).required().trim(),
+    flat: Yup.string().min(1).max(15).notRequired().trim(),
+    build_no: Yup.string().min(1).max(30).required().trim(),
+    street: Yup.string().min(1).max(30).required().trim(),
+    city: Yup.string().min(1).max(35).required().trim(),
     post_code: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required(),
     country: Yup.string().min(2).max(30).notRequired(),
@@ -141,7 +142,7 @@ const SenderDetails = ({ handleStep, step }) => {
         e.preventDefault()
 
       } else {
-        const pattern = /^[A-z]+$/;
+        const pattern = /^[A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
         if (!pattern.test(e.key)) {
           e.preventDefault();
           e.stopPropagation()
@@ -169,6 +170,7 @@ const SenderDetails = ({ handleStep, step }) => {
     const script = document.createElement('script');
 
     script.src = 'https://digitalid-sandbox.com/sdk/app.js';
+
     script.async = true;
 
     document.body.appendChild(script);
@@ -178,25 +180,28 @@ const SenderDetails = ({ handleStep, step }) => {
         clientId: 'ctid2poVwlVfjH2PAnWEAB2l4v',
         uxMode: 'popup',
         onLoadComplete: function () {
+          console.log("load complete")
         },
-        onComplete: function (res, error, onComplete) {
-          if(res.code != undefined || null){
-            axios.post(`${global.serverUrl}/digital-verification/`, { code: res.code}, {
+        onComplete: function (res) {
+
+          if (res.code != undefined || null) {
+            setLoader(true)
+            axios.post(`${global.serverUrl}/digital-verification/`, { code: res.code }, {
               headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
               }
             }).then(res => {
-              console.log("digi--------",res)
-              if(res?.data?.code == "200") {
-                console.log("gello")
-                toast.success("Digital Id successfully verified", {position:"bottom-right" , hideProgressBar:true})
+              if (res?.data?.code == "200") {
+                toast.success("Digital Id successfully verified", { position: "bottom-right", hideProgressBar: true })
                 formik.handleSubmit()
               } else {
-                toast.error("Digital Id verification failed",{position:"bottom-right" , hideProgressBar:true} )
+                toast.error("Digital Id verification failed", { position: "bottom-right", hideProgressBar: true })
               }
-            }).catch((error)=>{
-              toast.error("Digital Id verification failed",{position:"bottom-right" , hideProgressBar:true} )
+              setLoader(false)
+            }).catch((error) => {
+              toast.error("Digital Id verification failed", { position: "bottom-right", hideProgressBar: true })
+              setLoader(false)
             })
           }
         },
@@ -206,7 +211,6 @@ const SenderDetails = ({ handleStep, step }) => {
         }
       });
     }
-
 
     var dtToday = new Date();
     var month = dtToday.getMonth() + 1;
@@ -268,7 +272,8 @@ const SenderDetails = ({ handleStep, step }) => {
                 name="f_name"
                 value={data.f_name}
                 maxLength="25"
-                onChange={handleOnlyAplha}
+                onKeyDown={(e) => { handleKeyDown(e, 25) }}
+                {...formik.getFieldProps("f_name")}
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.f_name && formik.errors.f_name },
@@ -289,7 +294,8 @@ const SenderDetails = ({ handleStep, step }) => {
                 className='form-control'
                 value={data.m_name}
                 maxLength="25"
-                onChange={handleOnlyAplha}
+                onKeyDown={(e) => { handleKeyDown(e, 25) }}
+                {...formik.getFieldProps("m_name")}
               />
             </div>
           </div>
@@ -301,7 +307,8 @@ const SenderDetails = ({ handleStep, step }) => {
                 name="l_name"
                 value={data.l_name}
                 maxLength="25"
-                onChange={handleOnlyAplha}
+                onKeyDown={(e) => { handleKeyDown(e, 25) }}
+                {...formik.getFieldProps("l_name")}
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.l_name && formik.errors.l_name },
@@ -320,8 +327,8 @@ const SenderDetails = ({ handleStep, step }) => {
               <input
                 type="text"
                 value={data.customer_id}
-                className='form-control'                
-                style={{backgroundColor: "rgba(252, 253, 255, 0.81)"}}
+                className='form-control'
+                style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
                 readOnly
               />
             </div>
@@ -413,7 +420,7 @@ const SenderDetails = ({ handleStep, step }) => {
               <input
                 type="email"
                 value={data.email}
-                style={{backgroundColor: "rgba(252, 253, 255, 0.81)"}}
+                style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
                 className='form-control'
                 readOnly
               />
@@ -424,7 +431,7 @@ const SenderDetails = ({ handleStep, step }) => {
               <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
-                style={{backgroundColor: "rgba(252, 253, 255, 0.81)"}}
+                style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
                 value={data.mobile}
                 className='form-control'
                 readOnly
@@ -627,6 +634,12 @@ const SenderDetails = ({ handleStep, step }) => {
           }
         </div>
       </div>
+      {loader ? <>
+        <div className="loader-overly">
+          <div className="loader" >
+          </div>
+        </div>
+      </> : ""}
     </div>
   )
 }
