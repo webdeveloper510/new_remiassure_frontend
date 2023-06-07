@@ -69,6 +69,10 @@ const IdleTimeOutHandler = (props) => {
                     props.onIdle();
                     setShowModal(true)
                 }
+                // if(diff.days == (24 * 60 * 60 * 1000)){
+                //     localStorage.clear()
+                //     navigate("/login")
+                // }
             }
 
         }, props.timeOutInterval ? props.timeOutInterval : 6000)

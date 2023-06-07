@@ -29,6 +29,7 @@ import EditCardUser from './component/Userdashboard/EditUserCard';
 import SingleCardProfile from './component/Userdashboard/SingleCardProfile';
 import Page404 from './component/pageNotfound/Page404';
 import UserMoney from "./component/Userdashboard/UserMoney/UserMoney"
+import EmailVerify from './component/verification/EmailVerify';
 
 const routes = [
   {
@@ -62,7 +63,7 @@ const routes = [
     guard: AuthDashProtect,
     children: [
       { path: '/transactions', element: <Transfer /> },
-      { path: '/user-send-money', element: <UserMoney/> },
+      { path: '/user-send-money', element: <UserMoney /> },
       { path: '/add-new-recipient', element: <AddNewRecipient /> },
       { path: '/user-profile', element: <UserProfile /> },
       { path: '/user-recipients', element: <UserRecipient /> },
@@ -78,6 +79,12 @@ const routes = [
       { path: '*', element: <Navigate to="/404" /> },
     ]
   },
+  {
+    path: "/",
+    children: [
+      { path: "/remi-user-email-verification/:id", element: <EmailVerify /> }
+    ]
+  }
 ]
 
 export default routes;

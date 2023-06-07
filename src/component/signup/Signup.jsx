@@ -62,14 +62,14 @@ const Signup = () => {
             }
             userRegister(data).then((res) => {
                 if (res.code === "200") {
-                    navigate("/verification", { state: { mobile: "+" + values.mobile } })
+                    navigate("/verification", { state: { mobile: "+" + values.mobile, component:"register" } })
 
                 } else if (res.code == '400') {
                     toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
                 }
                 else if (res.code == '201') {
                     toast.warn(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
-                    navigate("/verification", { state: { mobile: values.mobile } })
+                    navigate("/verification", { state: { mobile: values.mobile, component:"register"  } })
                 }
                 setLoading(false)
             }).catch((error) => {
@@ -203,6 +203,7 @@ const Signup = () => {
                                                             inputStyle={{ border: "none", margin: "none" }}
                                                             inputClass="phoneInp"
                                                             defaultCountry={"au"}
+                                                            countryCodeEditable={false}
                                                             onChange={(val, coun) => { handlePhone(val, coun) }}
                                                             className={clsx(
                                                                 'form-control form-control-sm bg-transparent',

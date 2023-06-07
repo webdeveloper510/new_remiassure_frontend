@@ -20,6 +20,7 @@ const Addnewrecipient = () => {
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
   const navigate = useNavigate()
+  const [isAfrican, setIsAfrican] = useState(false)
 
 
   const [data, setData] = useState({
@@ -59,6 +60,11 @@ const Addnewrecipient = () => {
         formik.setFieldValue("state", item?.states[0].name)
       }
     })
+    if (value === "Ghana" || value === "Nigeria" || value === "Kenya") {
+      setIsAfrican(true)
+    } else {
+      setIsAfrican(false)
+    }
   }, [data.country])
 
   useEffect(() => {
@@ -87,7 +93,7 @@ const Addnewrecipient = () => {
     building: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
     city: Yup.string().min(1).max(35).required(),
-    postcode: Yup.string().length(4).notRequired(),
+    post_code: isAfrican === true ? Yup.string().length(4).notRequired() : Yup.string().length(4).required(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
     reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
@@ -104,16 +110,16 @@ const Addnewrecipient = () => {
     validationSchema: recipientSchema,
     onSubmit: async (values) => {
       setLoading(true)
-      let d=  values
-      if(d.flat == ""|| d.flat== undefined|| d.flat === " "){
+      let d = values
+      if (d.flat == "" || d.flat == undefined || d.flat === " ") {
         delete d["flat"]
       }
       if (d.postcode === "" || d.postcode === undefined || d.postcode === " ") {
         delete d['postcode'];
-      } 
+      }
       if (d.middle_name === "" || d.middle_name === undefined || d.middle_name === " ") {
         delete d['middle_name'];
-      } 
+      }
       createRecipient({ ...d, country_code: data.country_code }).then((res) => {
         if (res.code === "200") {
           toast.success("Successfuly added new recipient", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
@@ -394,6 +400,7 @@ const Addnewrecipient = () => {
                           inputStyle={{ border: "none", margin: "none" }}
                           inputClass="phoneInp"
                           defaultCountry={"gh"}
+                          countryCodeEditable={false}
                           onChange={(val, coun) => { handlePhone(val, coun) }}
                           className={clsx(
                             'form-control form-control-sm bg-transparent',
@@ -463,7 +470,16 @@ const Addnewrecipient = () => {
                   <div className="row each-row">
                     <div className="col-md-4">
                       <Form.Group className="form_label" controlId="Firstname">
-                        <p className="get-text">Postal Code</p>
+                        <p className="get-text">
+                          Postal Code
+                          {
+                            isAfrican === true ? (
+                              <></>
+                            ) : (
+                              <span style={{ color: 'red' }} >*</span>
+                            )
+                          }
+                        </p>
                         <input
                           type="text"
                           name="postcode"

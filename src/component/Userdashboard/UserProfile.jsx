@@ -10,6 +10,7 @@ import birthCountryList from 'react-select-country-list';
 import countryList from '../../utils/senderCountries.json';
 import * as Yup from "yup"
 import clsx from "clsx";
+import PhoneInput from "react-phone-input-2";
 import { userProfile, updateProfile } from "../../utils/Api";
 import authDashHelper from "../../utils/AuthDashHelper";
 import { Modal } from "react-bootstrap";
@@ -25,6 +26,7 @@ const Profile = () => {
   const [loading, setLoading] = React.useState(false);
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
+  const [is_update, setIsUpdate] = useState({ email: "", mobile: "" })
   const [data, setData] = useState({
     First_name: "", Middle_name: "", Last_name: "",
     Gender: "Male", Country_of_birth: "",
@@ -46,6 +48,8 @@ const Profile = () => {
   const profileSchema = Yup.object().shape({
     First_name: Yup.string().min(2).max(25).required(),
     Last_name: Yup.string().min(2).max(25).required(),
+    email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
+    mobile: Yup.string().min(9).max(18).required(),
     flat: Yup.string().min(1).max(15).notRequired(),
     building: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
@@ -68,7 +72,22 @@ const Profile = () => {
       navigate("/send-money")
     } else {
       setLoading(true)
-      getUserData()
+      userProfile().then((res) => {
+        if (res.code == "200") {
+          setLoading(false)
+          let p = res.data.mobile
+          let phone = p.split("+"); 
+          console.log(phone)
+          setData({...res.data, mobile:phone[1]})
+          formik.setValues({ ...res.data, mobile:phone[1] })
+          setIsUpdate({ email: res.data.email, mobile:phone[1] })
+        }
+      }).catch((error) => {
+        if (error.response.data.code == "400") {
+          toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+        }
+        setLoading(false)
+      })
       var dtToday = new Date();
       var month = dtToday.getMonth() + 1;
       var day = dtToday.getDate();
@@ -84,53 +103,11 @@ const Profile = () => {
     }
   }, [])
 
-  const getUserData = () => {
-    userProfile().then((res) => {
-      if (res.code == "200") {
-        setLoading(false)
-        let num = res.data.mobile;
-        let num_length = num.length;
-        let phone = num.substring(0, 3) + "-" + num.substring(3, num_length);
-        setData({ ...res.data, mobile: phone })
-        formik.setValues({ ...res.data, mobile: phone })
-      }
-    }).catch((error) => {
-      if (error.response.data.code == "400") {
-        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-      }
-      setLoading(false)
-    })
-  }
-
   const formik = useFormik({
     initialValues,
     validationSchema: profileSchema,
     onSubmit: async (values) => {
-      let d = values
-      d.country_code = data.country_code
-      d.location = values.country
-      delete d['country']
-      if (values.Middle_name === "" || values.Middle_name === undefined || values.Middle_name === " ") {
-        delete d['Middle_name'];
-      }
-      if (values.flat === "" || values.flat === undefined || values.flat === " ") {
-        delete d['flat'];
-      }
-      setLoading(true)
-      updateProfile(d).then(res => {
-        if (res.code === "200") {
-          localStorage.removeItem("remi-user-dt")
-          let local = { ...res.data, digital_id_verified: "true" }
-          localStorage.setItem("remi-user-dt", JSON.stringify(local))
-          setLoading(false)
-          toast.success("Profile Update Successful", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-        } else {
-          setLoading(false)
-        }
-      }).catch((err) => {
-        setLoading(false)
-        toast.error(err.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-      })
+      setOpenModal(true)
     }
   })
 
@@ -138,10 +115,14 @@ const Profile = () => {
 
   useEffect(() => {
     const value = data.country !== "" ? data.country : countryList[0]?.name
+    if (data.country == "") {
+      setData({ ...data, country: countryList[0]?.name, country_code: countryList[0]?.iso2 })
+      formik.setFieldValue("country", countryList[0]?.name)
+    }
     countryList?.map((item) => {
       if (item?.name === value) {
         setStateList(item?.states);
-        setData({ ...data, state: item?.states[0].name, country_code: item?.iso2 })
+        setData({ ...data, state: item?.states[0].name })
         formik.setFieldValue("state", item?.states[0].name)
       }
     })
@@ -193,6 +174,12 @@ const Profile = () => {
     formik.setFieldTouched(`${[e.target.name]}`, true)
   }
 
+  const handlePhone = (e, coun) => {
+    formik.setFieldValue('mobile', e);
+    formik.setFieldTouched('mobile', true);
+    formik.setFieldValue('country', coun.name)
+    setData({ ...data, country: coun.name, mobile: "+" + e })
+  }
 
   const handleKeyDown = (e, max) => {
     if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete" || e.key === " ") {
@@ -239,21 +226,46 @@ const Profile = () => {
     }
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    formik.validateForm().then(res => {
-      if (Object.keys(res).length == 0) {
-        setOpenModal(true)
-
+  const handleSubmit = () => {
+    let d = formik.values
+    d.country_code = data.country_code
+    d.location = formik.values.country
+    delete d['country']
+    if (formik.values.Middle_name === "" || formik.values.Middle_name === undefined || formik.values.Middle_name === " ") {
+      delete d['Middle_name'];
+    }
+    if (formik.values.flat === "" || formik.values.flat === undefined || formik.values.flat === " ") {
+      delete d['flat'];
+    }
+    if (is_update.email === d.email) {
+      delete d['email']
+    }
+    if (is_update.mobile === d.mobile) {
+      delete d['mobile']
+    } else {
+      d.mobile = "+"+d.mobile
+    }
+    setLoading(true)
+    updateProfile(d).then(res => {
+      if (res.code === "200") {
+        localStorage.removeItem("remi-user-dt")
+        let local = { ...res.data, digital_id_verified: "true" }
+        localStorage.setItem("remi-user-dt", JSON.stringify(local))
+        setLoading(false)
+        toast.success("Profile Update Successful", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
       } else {
-        formik.setErrors(res)
+        setLoading(false)
       }
+    }).catch((err) => {
+      setLoading(false)
+      toast.error(err.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
     })
+
   }
 
   useEffect(() => {
-    if (is_otp_verified) {
-      formik.handleSubmit()
+    if (is_otp_verified === true) {
+      handleSubmit()
     }
   }, [is_otp_verified])
 
@@ -266,7 +278,7 @@ const Profile = () => {
             <section className="edit_recipient_section">
               <div className="form-head mb-4">
                 <h2 className="text-black font-w600 mb-0"><b>Profile Update</b></h2></div>
-              <form onSubmit={handleSubmit} noValidate className="single-recipient">
+              <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
                 <div className="card">
                   <div className="card-body">
                     <div className="row each-row">
@@ -332,7 +344,7 @@ const Profile = () => {
                           <input
                             type="text"
                             value={data.customer_id}
-                            style={{backgroundColor: "rgba(252, 253, 255, 0.81)"}}
+                            style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
                             className='form-control'
                             readOnly
                           />
@@ -340,28 +352,43 @@ const Profile = () => {
                       </div>
                       <div className="col-md-4">
                         <div className="input_field">
-                          <p className="get-text">Email</p>
+                          <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
                           <input
                             type="email"
                             value={data.email}
-                            style={{backgroundColor: "rgba(252, 253, 255, 0.81)"}}
-                            className='form-control'
-                            readOnly
+                            style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
+                            onKeyDown={(e) => { handleEmail(e, 50) }}
+                            {...formik.getFieldProps("email")}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.email && formik.errors.email },
+                              {
+                                'is-valid': formik.touched.email && !formik.errors.email,
+                              }
+                            )}
                           />
                         </div>
                       </div>
-
                       <div className="col-md-4">
                         <div className="input_field">
-                          <p className="get-text">Mobile</p>
-                          <input
-                            type="email"
+                          <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
+                          <PhoneInput
+                            onlyCountries={["au", "nz"]}
+                            country={data?.country_code ? data?.country_code?.toLowerCase() : "au"}
+                            name="mobile"
                             value={data.mobile}
-                            style={{backgroundColor: "rgba(252, 253, 255, 0.81)"}}
-                            placeholder="Enter Mobile"
-                            autoComplete='off'
-                            readOnly
-                            className='form-control bg-transparent'
+                            inputStyle={{ border: "none", margin: "none" }}
+                            inputClass="userPhone w-100"
+                            defaultCountry={"au"}
+                            countryCodeEditable={false}
+                            onChange={(val, coun) => { handlePhone(val, coun) }}
+                            className={clsx(
+                              'form-control form-control-sm bg-transparent w-100 p-0',
+                              { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                              {
+                                'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                              }
+                            )}
                           />
                         </div>
                       </div>
@@ -647,7 +674,7 @@ const Profile = () => {
         </div>
       </div>
       <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
-        <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} />
+        <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} phone={"+"+is_update.mobile} new_mobile={is_update.mobile != data.mobile ? "+"+data.mobile : null} />
       </Modal>
     </>
   )

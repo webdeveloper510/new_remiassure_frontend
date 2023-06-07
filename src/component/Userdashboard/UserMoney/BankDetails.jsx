@@ -18,13 +18,10 @@ const BankDetails = ({ handleStep, step }) => {
   const [isActive, setActive] = useState("false");
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
-
-  const handleToggle = () => {
-    setActive(!isActive);
-  };
-  const HandleRecipientlist = () => {
-    setActive(!isActive);
-  };
+  const [show, setShow] = useState(false)
+  const [list, setList] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [isAfrican, setIsAfrican] = useState(false)
 
   const [data, setData] = useState({
     bank: "", acc_name: "", acc_no: "",
@@ -35,9 +32,6 @@ const BankDetails = ({ handleStep, step }) => {
     reason: "", country_code: "GH"
   })
 
-  const [list, setList] = useState([])
-  const [loading, setLoading] = useState(false)
-
   const initialValues = {
     bank: "", acc_name: "", acc_no: "",
     f_name: "", l_name: "", m_name: "",
@@ -47,7 +41,14 @@ const BankDetails = ({ handleStep, step }) => {
     reason: ""
   }
 
-  const [show, setShow] = useState(false)
+  const handleToggle = () => {
+    setActive(!isActive);
+  };
+  const HandleRecipientlist = () => {
+    setActive(!isActive);
+  };
+
+
 
   const bankSchema = Yup.object().shape({
     bank: Yup.string()
@@ -64,7 +65,7 @@ const BankDetails = ({ handleStep, step }) => {
     build_no: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
     city: Yup.string().min(1).max(35).required(),
-    post_code: Yup.string().length(4).notRequired(),
+    post_code: isAfrican === true ? Yup.string().length(4).notRequired() : Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
     reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
@@ -292,6 +293,11 @@ const BankDetails = ({ handleStep, step }) => {
         formik.setFieldValue("state", item?.states[0].name)
       }
     })
+    if (value === "Ghana" || value === "Nigeria" || value === "Kenya") {
+      setIsAfrican(true)
+    } else {
+      setIsAfrican(false)
+    }
   }, [data.country])
 
   useEffect(() => {
@@ -526,6 +532,7 @@ const BankDetails = ({ handleStep, step }) => {
                       inputStyle={{ border: "none", margin: "none" }}
                       inputClass="phoneInp"
                       defaultCountry={"gh"}
+                      countryCodeEditable={false}
                       onChange={(val, coun) => { handlePhone(val, coun) }}
                       className={clsx(
                         'form-control form-control-sm bg-transparent',
@@ -597,7 +604,16 @@ const BankDetails = ({ handleStep, step }) => {
               <div className="row each-row">
                 <div className="col-md-4">
                   <div className="input_field">
-                    <p className="get-text">Postal Code</p>
+                    <p className="get-text">
+                      Postal Code
+                      {
+                        isAfrican === true ? (
+                          <></>
+                        ) : (
+                          <span style={{ color: 'red' }} >*</span>
+                        )
+                      }
+                    </p>
                     <input
                       type="text"
                       name="post_code"

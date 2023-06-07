@@ -33,6 +33,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   const [show, setShow] = useState(false)
 
+  const [isAfrican, setIsAfrican] = useState(false)
+
   useEffect(() => {
     if (localStorage.getItem("transfer_data")) {
       let tdata = JSON.parse(localStorage.getItem("transfer_data"))
@@ -57,6 +59,11 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
         formik.setFieldValue("state", item?.states[0].name)
       }
     })
+    if (value === "Ghana" || value === "Nigeria" || value === "Kenya") {
+      setIsAfrican(true)
+    } else {
+      setIsAfrican(false)
+    }
   }, [data.country])
 
   useEffect(() => {
@@ -86,10 +93,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     build_no: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
     city: Yup.string().min(1).max(35).required(),
-    post_code: Yup.string().length(4).notRequired(),
+    post_code: isAfrican === true ? Yup.string().length(4).notRequired() : Yup.string().length(4).required(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
-    reason: Yup.string().min(2).max(30).oneOf(["Family Support" ,"Utility Payment","Travel Payment","Loan Payment","Tax Payment","Education"]).required()
+    reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
   })
 
   const formik = useFormik({
@@ -390,6 +397,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   inputStyle={{ border: "none", margin: "none" }}
                   inputClass="phoneInp"
                   defaultCountry={"gh"}
+                  countryCodeEditable={false}
                   onChange={(val, coun) => { handlePhone(val, coun) }}
                   className={clsx(
                     'form-control form-control-sm bg-transparent',
@@ -458,60 +466,33 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             </div>
           </div>
           <div className="row each-row">
-          <div className="col-md-4">
-              <div className="input_field">
-                <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
-                <select
-                  value={data.country}
-                  name="country"
-                  onChange={(e) => handleChange(e)}
-                  className='form-control form-select bg-transparent'
-                >
-                  {
-                    countryList && countryList.length > 0 ?
-                      countryList?.map((opt) => {
-                        return (
-                          <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
-                        )
-                      }) : ""
-                  }
-                </select>
-              </div>
-            </div>
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
-                {
-                  state_list && state_list.length > 0 ?
-                    (<select
-                      value={data.state}
-                      name="state"
-                      onChange={(e) => handleChange(e)}
-                      className='form-control form-select bg-transparent'
-                    >
+                <p className="get-text">
+                  Postal Code
+                  {
+                    isAfrican === true ? (
+                      <></>
+                    ) : (
+                      <span style={{ color: 'red' }} >*</span>
+                    )
+                  }
+                </p>
+                <input
+                  type="text"
+                  name="post_code"
+                  value={data.post_code}
+                  onKeyDown={(e) => handlePostCode(e, 3)}
+                  {...formik.getFieldProps("post_code")}
+                  className={clsx(
+                    'form-control bg-transparent',
+                    { 'is-invalid': formik.touched.post_code && formik.errors.post_code },
+                    {
+                      'is-valid': formik.touched.post_code && !formik.errors.post_code,
+                    }
+                  )}
+                />
 
-                      {state_list?.map((opt) => {
-                        return (
-                          <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
-                        )
-                      })
-                      }
-                    </select>) :
-                    (<input
-                      type="text"
-                      name="state"
-                      value={data.state}
-                      onKeyDown={(e) => { handleKeyDown(e, 30) }}
-                      {...formik.getFieldProps("state")}
-                      className={clsx(
-                        'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.state && formik.errors.state },
-                        {
-                          'is-valid': formik.touched.state && !formik.errors.state,
-                        }
-                      )}
-                    />)
-                }
               </div>
             </div>
             <div className="col-md-4">
@@ -551,28 +532,65 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   )
                 }
               </div>
+
             </div>
-           
+            <div className="col-md-4">
+              <div className="input_field">
+                <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
+                {
+                  state_list && state_list.length > 0 ?
+                    (<select
+                      value={data.state}
+                      name="state"
+                      onChange={(e) => handleChange(e)}
+                      className='form-control form-select bg-transparent'
+                    >
+
+                      {state_list?.map((opt) => {
+                        return (
+                          <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                        )
+                      })
+                      }
+                    </select>) :
+                    (<input
+                      type="text"
+                      name="state"
+                      value={data.state}
+                      onKeyDown={(e) => { handleKeyDown(e, 30) }}
+                      {...formik.getFieldProps("state")}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.state && formik.errors.state },
+                        {
+                          'is-valid': formik.touched.state && !formik.errors.state,
+                        }
+                      )}
+                    />)
+                }
+              </div>
+            </div>
+
           </div>
           <div className="row each-row">
-          <div className="col-md-4">
+            <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">Postal Code</p>
-                <input
-                  type="text"
-                  name="post_code"
-                  value={data.post_code}
-                  onKeyDown={(e) => handlePostCode(e, 3)}
-                  {...formik.getFieldProps("post_code")}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.post_code && formik.errors.post_code },
-                    {
-                      'is-valid': formik.touched.post_code && !formik.errors.post_code,
-                    }
-                  )}
-                />
-
+                <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
+                <select
+                  value={data.country}
+                  name="country"
+                  onChange={(e) => handleChange(e)}
+                  className='form-control form-select bg-transparent'
+                >
+                  {
+                    countryList && countryList.length > 0 ?
+                      countryList?.map((opt) => {
+                        return (
+                          <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
+                        )
+                      }) : ""
+                  }
+                </select>
               </div>
             </div>
             <div className="col-md-4">
@@ -581,7 +599,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <select
                   aria-label="Select a reason"
                   name="reason"
-                  value={data.reason }
+                  value={data.reason}
                   onChange={(e) => handleChange(e)}
                   {...formik.getFieldProps("reason")}
                   className={clsx(

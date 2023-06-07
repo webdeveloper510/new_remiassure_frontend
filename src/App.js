@@ -9,6 +9,7 @@ import Footer from './component/footer/Footer';
 const App = () => {
   const routing = useRoutes(routes);
   const location = useLocation()
+  const [path, setPath] = useState()
   const [isActive, setIsActive] = useState(true)
   const [loader, setLoader] = useState(false)
   const navigate = useNavigate()
@@ -34,7 +35,18 @@ const App = () => {
     })
     if (localStorage.getItem("send-step")) { localStorage.removeItem("send-step") }
     if (localStorage.getItem("transfer_data")) { localStorage.removeItem("transfer_data") }
+    const p = location.pathname.split("/")
+    setPath(p[1])
+
+    var d = new Date();
+    d.setDate(d.getDate() - 1);
+   let expTime = localStorage.getItem("tkn-exp");
+    if(d == expTime){
+      onLogOut()
+    } 
+
   }, [location.pathname])
+
 
   return (
     <>
@@ -42,11 +54,22 @@ const App = () => {
         onActive={() => { setIsActive(true) }}
         onIdle={() => { setIsActive(false) }}
         onLogout={() => { onLogOut() }}
-        timeOutInterval={(30*60*1000)}
+        timeOutInterval={(30 * 60 * 1000)}
       />
-      <Header />
-      {routing}
-      <Footer />
+      {
+        path == "remi-user-email-verification" ? (
+          <>
+            {routing}
+          </>
+        ) : (
+          <>
+            <Header />
+            {routing}
+            <Footer />
+          </>
+        )
+      }
+
     </>
   )
 }

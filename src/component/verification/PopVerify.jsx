@@ -23,7 +23,7 @@ const successStyle = {
     textAlign: "center"
 }
 
-const PopVerify = ({ handler, close }) => {
+const PopVerify = ({ handler, close,phone, new_mobile }) => {
 
     const [loading, setLoading] = useState(false);
     const [otp, setOtp] = useState("");
@@ -54,10 +54,18 @@ const PopVerify = ({ handler, close }) => {
         if (length.length == 6) {
             setLoading(true)
             let obj = {}
-            obj.mobile = mobile
+            if(phone == null || undefined || "") {
+                obj.mobile = mobile
+            } else {
+                console.log("helloo")
+                obj.mobile = phone
+            }
+        
             obj.otp = otp
             verifyEmail(obj).then((res) => {
                 if (res.code == 200) {
+                    let tknexp = new Date()
+                    localStorage.setItem('tkn-exp', tknexp)
                     localStorage.setItem('token', res.access_token)
                     setLoading(false)
                     close()
@@ -85,7 +93,15 @@ const PopVerify = ({ handler, close }) => {
     const handleResendOtp = () => {
         setLoading(true)
         let obj = {}
-        obj.mobile = mobile
+        if(phone == null || undefined || "") {
+            obj.mobile = mobile
+        } else {
+            console.log("helloo")
+            obj.mobile = phone
+        }
+        if(new_mobile !== null) {
+            obj.new_mobile = new_mobile
+        }
         obj.type = "email"
         setLoading(true)
         resendOtp(obj).then((res) => {
@@ -104,7 +120,15 @@ const PopVerify = ({ handler, close }) => {
 
     useEffect(() => {
         let obj = {}
-        obj.mobile = mobile
+        if(phone == null || undefined || "") {
+            obj.mobile = mobile
+        } else {
+            console.log("helloo")
+            obj.mobile = phone
+        }
+        if(new_mobile !== null) {
+            obj.new_mobile = new_mobile
+        }
         obj.type = "email"
         resendOtp(obj)
             .then(() => {

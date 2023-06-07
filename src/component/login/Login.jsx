@@ -25,7 +25,7 @@ const Login = () => {
             localStorage.removeItem("exchange_curr")
             localStorage.setItem("exchange_curr", JSON.stringify(data))
         })
-        if(localStorage.getItem("token")&&localStorage.getItem("remi-user-dt")){
+        if (localStorage.getItem("token") != undefined) {
             let user = JSON.parse(localStorage.getItem("remi-user-dt"));
             if (user?.digital_id_verified && user.digital_id_verified === "true") {
                 navigate("/dashboard")
@@ -58,13 +58,17 @@ const Login = () => {
             } else {
                 data.email = values.email
             }
-            userLogin({...data, password:values.password}).then((res) => {
+            userLogin({ ...data, password: values.password }).then((res) => {
                 if (res.code == "200") {
                     toast.success(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
                     navigate("/verification", { state: data })
                 } else if (res.code == "201") {
-                    toast.warn("Please check your mail for otp", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-                    navigate('/verification', { state: { mobile: values.email } })
+                    if (res.data.is_verified != "False") {
+                        toast.warn(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+                        navigate('/verification', { state: { mobile: values.email } })
+                    } else {
+                        toast.error("Please check your inbox to verify email.", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+                    }
                 } else if (res.code == "400") {
                     toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                 }
@@ -157,7 +161,7 @@ const Login = () => {
                                                                     name="id"
                                                                     size="lg"
                                                                     onChange={handleChange}
-                                                                    onBlurCapture={()=>formik.setFieldTouched("email", true)}
+                                                                    onBlurCapture={() => formik.setFieldTouched("email", true)}
                                                                     className={clsx(
                                                                         'form-control email-mobile-input',
                                                                         {

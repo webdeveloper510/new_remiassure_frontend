@@ -18,20 +18,19 @@ import authDashHelper from "../../utils/AuthDashHelper";
 const Editrecipientuser = () => {
 
   let { id } = useLocation()?.state;
-
-
+  
   const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState({
     id: "",
     bank_name: '', account_name: '', account_number: '', first_name: '', middle_name: '',
-    last_name: '', email: '', mobile: '', country: '', flat: "", street: "",postcode:"", building: "",
+    last_name: '', email: '', mobile: '', country: '', flat: "", street: "", postcode: "", building: "",
     city: "", state: "", country_code: "GH"
   });
 
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
-
+  const [isAfrican, setIsAfrican] = useState(false)
   const recipientSchema = Yup.object().shape({
     bank_name: Yup.string()
       .min(5, 'Minimum 3 symbols')
@@ -47,7 +46,7 @@ const Editrecipientuser = () => {
     building: Yup.string().min(1).max(30).required(),
     street: Yup.string().min(1).max(30).required(),
     city: Yup.string().min(1).max(35).required(),
-    postcode: Yup.string().length(4).notRequired(),
+    post_code: isAfrican === true ? Yup.string().length(4).notRequired() : Yup.string().length(4).required(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
   })
@@ -64,7 +63,7 @@ const Editrecipientuser = () => {
     flat: "",
     building: "",
     street: "",
-    postcode:"",
+    postcode: "",
     city: '',
     state: '',
     country: '',
@@ -75,8 +74,6 @@ const Editrecipientuser = () => {
   const handleCancel = () => {
     navigate("/user-recipients")
   }
-
-
 
   useEffect(() => {
     if (authDashHelper('dashCheck') === false) {
@@ -110,6 +107,11 @@ const Editrecipientuser = () => {
         formik.setFieldValue("state", item?.states[0].name)
       }
     })
+    if (value === "Ghana" || value === "Nigeria" || value === "Kenya") {
+      setIsAfrican(true)
+    } else {
+      setIsAfrican(false)
+    }
   }, [data.country])
 
   useEffect(() => {
@@ -136,7 +138,7 @@ const Editrecipientuser = () => {
       }
       if (d.postcode === "" || d.postcode === undefined || d.postcode === " ") {
         delete d['postcode'];
-      } 
+      }
       d.country_code = data.country_code
       setLoading(true)
       updateUserRecipient(id, d).then((response) => {
@@ -421,12 +423,13 @@ const Editrecipientuser = () => {
                           <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                           <PhoneInput
                             onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
-                            country={data.country_code ? data?.country_code?.toLowerCase(): "gh"}
+                            country={data.country_code ? data?.country_code?.toLowerCase() : "gh"}
                             name="mobile"
                             value={formik.values.mobile}
                             inputStyle={{ border: "none", margin: "none" }}
                             inputClass="phoneInp"
                             defaultCountry={"gh"}
+                            countryCodeEditable={false}
                             onChange={(val, coun) => { handlePhone(val, coun) }}
                             className={clsx(
                               'form-control form-control-sm bg-transparent',
@@ -495,23 +498,32 @@ const Editrecipientuser = () => {
                       </div>
                     </div>
                     <div className="row each-row">
-                    <div className="col-md-4">
-                      <Form.Group className="form_label" controlId="Firstname">
-                        <p className="get-text">Postal Code</p>
-                        <input
-                          type="text"
-                          name="postcode"
-                          value={data.postcode}
-                          onKeyDown={(e) => handlePostCode(e, 3)}
-                          {...formik.getFieldProps("postcode")}
-                          className={clsx(
-                            'form-control bg-transparent',
-                            { 'is-invalid': formik.touched.postcode && formik.errors.postcode }
-                          )}
-                        />
+                      <div className="col-md-4">
+                        <Form.Group className="form_label" controlId="Firstname">
+                          <p className="get-text">
+                            Postal Code
+                            {
+                              isAfrican === true ? (
+                                <></>
+                              ) : (
+                                <span style={{ color: 'red' }} >*</span>
+                              )
+                            }
+                          </p>
+                          <input
+                            type="text"
+                            name="postcode"
+                            value={data.postcode}
+                            onKeyDown={(e) => handlePostCode(e, 3)}
+                            {...formik.getFieldProps("postcode")}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.postcode && formik.errors.postcode }
+                            )}
+                          />
 
-                      </Form.Group>
-                    </div>
+                        </Form.Group>
+                      </div>
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="Firstname">
                           <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>

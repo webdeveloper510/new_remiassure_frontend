@@ -53,16 +53,16 @@ const Verification = () => {
         setTimeout(() => {
             setShowAlert(0)
         }, 5000)
-        if(localStorage.getItem("token")&&localStorage.getItem("remi-user-dt")){
+        if (localStorage.getItem("token") && localStorage.getItem("remi-user-dt")) {
             let user = JSON.parse(localStorage.getItem("remi-user-dt"));
             if (user?.digital_id_verified && user.digital_id_verified === "true") {
                 navigate("/dashboard")
-            } 
+            }
             else {
                 navigate("/send-money")
             }
         }
-        
+
     }, [show_alert])
 
 
@@ -79,10 +79,15 @@ const Verification = () => {
                 obj.mobile = data.mobile
             }
             obj.otp = otp
+            if (keys.length == 2 && keys[1] == 'component') {
+                obj.page = 'register'
+            }
             verifyEmail(obj).then((res) => {
                 if (res.code == 200) {
                     toast.success("verification successful",
                         { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+                    let tknexp = new Date()
+                    localStorage.setItem('tkn-exp', tknexp)
                     localStorage.setItem('token', res.access_token)
                     setLoading(false)
                     if (res?.data?.digital_id_verified && res?.data.digital_id_verified == "true") {
@@ -129,7 +134,7 @@ const Verification = () => {
         resendOtp(obj).then((res) => {
             if (res.code == "200") {
                 setShowAlert(2)
-            }else {
+            } else {
                 setShowAlert(3)
             }
             setLoading(false)

@@ -96,6 +96,7 @@ const ForgotPassword = () => {
                                                             inputStyle={{ border: "none", margin: "none" }}
                                                             inputClass="phoneInp"
                                                             defaultCountry={"au"}
+                                                            countryCodeEditable={false}
                                                             onChange={(val) => { handlePhone(val) }}
                                                             className={clsx(
                                                                 'form-control form-control-sm bg-transparent',
