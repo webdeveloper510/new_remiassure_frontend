@@ -221,7 +221,7 @@ const Dashboard = () => {
                                                                                 <h6 className="fs-16 text-black font-w400 mb-0">{res.date}</h6>
                                                                             </td>
                                                                             <td>
-                                                                                <h6 className="fs-16 font-w600 mb-0"><a href="/transactions-details/" className="text-black">{res.recipient_name}</a></h6>
+                                                                                <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res.recipient_name}</span></h6>
 
                                                                             </td>
                                                                             <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res.send_currency} </span> {res.amount}</span></td>
