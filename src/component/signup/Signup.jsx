@@ -31,8 +31,8 @@ const Signup = () => {
         email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").min(6).max(50).required("Email is required"),
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
-        referral_code: show ? Yup.string().length(7).required() : Yup.string().length(7).notRequired(),
-        mobile: Yup.string().min(10).max(18).required()
+        referral_code: show ? Yup.string().length(6, "Referral code must contain 6 characters").required("Referral Code is required"): Yup.string().length(6, "Referral code must contain 6 characters").notRequired(),
+        mobile: Yup.string().min(12).max(18).required()
     })
 
     useEffect(() => {
@@ -57,7 +57,7 @@ const Signup = () => {
         onSubmit: async (values) => {
             setLoading(true)
             let data = { ...values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + values.mobile }
-            if (referral_code == "") {
+            if (data.referral_code == "") {
                 delete data["referral_code"]
             }
             userRegister(data).then((res) => {
@@ -134,6 +134,16 @@ const Signup = () => {
         formik.setFieldTouched('mobile', true);
         formik.setFieldValue('location', coun.name)
     }
+
+    const handleRef = (event) => {
+        const result = event.target.value.replace(/[^A-z0-9_-]/gi, "")
+        formik.setFieldValue(event.target.name, result)
+        formik.setFieldTouched(event.target.name, true)
+        // if(result.length == 6){
+        //     formik.setErrors({...formik.errors, referral_code:""})
+        // }
+      }
+    
 
     return (
         <>
@@ -280,18 +290,28 @@ const Signup = () => {
                                                     {show && <div>
                                                         <Form.Group className="mb-3 form_label">
                                                             <Form.Label>Your Referral Code</Form.Label>
-                                                            <Form.Control
+                                                            <input
                                                                 type="text"
-                                                                {...formik.getFieldProps('referral_code')}
+                                                                maxLength="6"
+                                                                name="referral_code"
+                                                                value={formik.values.referral_code}
+                                                                onChange={handleRef}
                                                                 className={show ? clsx(
                                                                     'form-control bg-transparent',
                                                                     { 'is-invalid': formik.touched.referral_code && formik.errors.referral_code },
                                                                     {
-                                                                        'is-valid': formik.values.referral_code.length == 7,
+                                                                        'is-valid':  formik.touched.referral_code && !formik.errors.referral_code ,
                                                                     }
                                                                 ) : ""}
                                                                 placeholder="Enter Referral Code"
                                                             />
+                                                               {formik.touched.referral_code && formik.errors.referral_code && (
+                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                <div className='fv-help-block'>
+                                                                    <span role='alert' className="text-danger">{formik.errors.referral_code}</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                         </Form.Group>
                                                     </div>}
                                                     <Form.Group className="mb-3 form_checkbox">

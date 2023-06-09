@@ -108,7 +108,6 @@ const SenderDetails = ({ handleStep, step }) => {
         setData({ ...data, city: item?.cities[0].name })
         formik.setFieldValue("city", item?.cities[0].name)
         formik.setFieldTouched("city", true)
-
       }
     })
   }, [data.state])
@@ -185,7 +184,7 @@ const SenderDetails = ({ handleStep, step }) => {
         onComplete: function (res) {
 
           if (res.code != undefined || null) {
-            setLoader(true)
+            formik.handleSubmit()
             axios.post(`${global.serverUrl}/digital-verification/`, { code: res.code }, {
               headers: {
                 'Content-Type': 'application/json',
@@ -194,7 +193,7 @@ const SenderDetails = ({ handleStep, step }) => {
             }).then(res => {
               if (res?.data?.code == "200") {
                 toast.success("Digital Id successfully verified", { position: "bottom-right", hideProgressBar: true })
-                formik.handleSubmit()
+
               } else {
                 toast.error("Digital Id verification failed", { position: "bottom-right", hideProgressBar: true })
               }

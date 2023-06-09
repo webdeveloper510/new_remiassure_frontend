@@ -38,12 +38,12 @@ const App = () => {
     const p = location.pathname.split("/")
     setPath(p[1])
 
-    var d = new Date();
-    d.setDate(d.getDate() - 1);
-   let expTime = localStorage.getItem("tkn-exp");
-    if(d == expTime){
-      onLogOut()
-    } 
+  //   var d = new Date();
+  //   d.setDate(d.getDate() - 1);
+  //  let expTime = localStorage.getItem("tkn-exp");
+  //   if(d == expTime){
+  //     onLogOut()
+  //   } 
 
   }, [location.pathname])
 

@@ -163,7 +163,7 @@ const PaymentSummary = ({ handleStep, step }) => {
               <tr>
                 <td>Amount Sending</td>
                 <td>
-                  <span>{data?.from}</span>
+                  <span>{data?.from}</span>&nbsp;
                   {data?.send_amount}
                 </td>
               </tr>
@@ -201,7 +201,7 @@ const PaymentSummary = ({ handleStep, step }) => {
               <tr>
                 <td>Amount Receiving</td>
                 <td>
-                  <span>{data?.to}</span>
+                  <span>{data?.to}</span>&nbsp;
                   {data?.recieve_amount}
                 </td>
               </tr>
@@ -244,7 +244,7 @@ const PaymentSummary = ({ handleStep, step }) => {
                 </tr>
                 <tr>
                   <th>Transacted Amount</th>
-                  <td>{data.from}{data.send_amount}</td>
+                  <td>{data.from}&nbsp;{data.send_amount}</td>
                 </tr>
                 <tr>
                   <th>Transaction Status:</th>
@@ -258,7 +258,7 @@ const PaymentSummary = ({ handleStep, step }) => {
               <div className='row text-center'>
                 <div className="col-md-6">
                   <NavLink target='_blank' href={`${global.serverUrl}/payment/receipt/${transaction.id}`}>
-                    <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>View Reciept</button>
+                    <button type="button" className="form-button" style={{ "width": '100%' }}>View Reciept</button>
                   </NavLink>
                 </div>
                 <div className="col-md-6">

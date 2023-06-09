@@ -232,7 +232,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                         </tr>
                         <tr>
                           <th>Transacted Amount</th>
-                          <td>{transaction.curr}{transaction.amount}</td>
+                          <td>{transaction.curr}&nbsp;{transaction.amount}</td>
                         </tr>
                         <tr>
                           <th>Transaction Status:</th>
@@ -243,7 +243,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                     <div className='row text-center'>
                       <div className="col-md-6">
                         <NavLink target='_blank' href={`${global.serverUrl}/payment/receipt/${transaction.id}`}>
-                          <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>View Reciept</button>
+                          <button type="button" className="form-button" style={{ "width": '100%' }}>View Reciept</button>
                         </NavLink>
                       </div>
                       <div className="col-md-6">
