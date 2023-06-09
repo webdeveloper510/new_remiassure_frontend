@@ -23,7 +23,7 @@ const successStyle = {
     textAlign: "center"
 }
 
-const PopVerify = ({ handler, close,phone, new_mobile }) => {
+const PopVerify = ({ handler, close, phone, new_mobile }) => {
 
     const [loading, setLoading] = useState(false);
     const [otp, setOtp] = useState("");
@@ -54,18 +54,19 @@ const PopVerify = ({ handler, close,phone, new_mobile }) => {
         if (length.length == 6) {
             setLoading(true)
             let obj = {}
-            if(phone == null || undefined || "") {
+            if (phone == null || undefined || "") {
                 obj.mobile = mobile
             } else {
                 console.log("helloo")
                 obj.mobile = phone
             }
-        
+
             obj.otp = otp
             verifyEmail(obj).then((res) => {
                 if (res.code == 200) {
-                    let tknexp = new Date()
-                    localStorage.setItem('tkn-exp', tknexp)
+                    let d = new Date()
+                    d.setDate(d.getDate() + 1);
+                    localStorage.setItem('tkn-exp', d)
                     localStorage.setItem('token', res.access_token)
                     setLoading(false)
                     close()
@@ -93,13 +94,13 @@ const PopVerify = ({ handler, close,phone, new_mobile }) => {
     const handleResendOtp = () => {
         setLoading(true)
         let obj = {}
-        if(phone == null || undefined || "") {
+        if (phone == null || undefined || "") {
             obj.mobile = mobile
         } else {
             console.log("helloo")
             obj.mobile = phone
         }
-        if(new_mobile !== null) {
+        if (new_mobile !== null) {
             obj.new_mobile = new_mobile
         }
         obj.type = "email"
@@ -107,7 +108,7 @@ const PopVerify = ({ handler, close,phone, new_mobile }) => {
         resendOtp(obj).then((res) => {
             if (res.code == "200") {
                 setShowAlert(2)
-            }else {
+            } else {
                 setShowAlert(3)
             }
             setLoading(false)
@@ -120,13 +121,13 @@ const PopVerify = ({ handler, close,phone, new_mobile }) => {
 
     useEffect(() => {
         let obj = {}
-        if(phone == null || undefined || "") {
+        if (phone == null || undefined || "") {
             obj.mobile = mobile
         } else {
             console.log("helloo")
             obj.mobile = phone
         }
-        if(new_mobile !== null) {
+        if (new_mobile !== null) {
             obj.new_mobile = new_mobile
         }
         obj.type = "email"

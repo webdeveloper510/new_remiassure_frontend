@@ -18,23 +18,8 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const toggleShowPassword = () => setShowPassword(prevState => !prevState);
     const [countryCode, setCountryCode] = useState("+61")
-
-    useEffect(() => {
-        exchangeRate({ amount: "1", from: "AUD", to: "USD" }).then(res => {
-            const data = { send_amt: "1", exchange_amt: res.amount, from_type: "AUD", to_type: "USD", exch_rate: res.rate }
-            localStorage.removeItem("exchange_curr")
-            localStorage.setItem("exchange_curr", JSON.stringify(data))
-        })
-        if (localStorage.getItem("token") != undefined) {
-            let user = JSON.parse(localStorage.getItem("remi-user-dt"));
-            if (user?.digital_id_verified && user.digital_id_verified === "true") {
-                navigate("/dashboard")
-            } else {
-                navigate("/send-money")
-            }
-        }
-    }, [])
-
+    
+    
     const loginSchema = Yup.object().shape({
         email: Yup.string()
             .required('required'),

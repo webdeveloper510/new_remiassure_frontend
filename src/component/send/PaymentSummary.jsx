@@ -173,7 +173,8 @@ const PaymentSummary = ({ handleStep, step }) => {
               </tr>
               <tr>
                 <td>Amount Exchanged</td>
-                <td>{data?.recieve_amount}</td>
+                <td><span>{data?.to}</span>&nbsp;
+                  {data?.recieve_amount}</td>
               </tr>
             </tbody>
             <thead>

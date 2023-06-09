@@ -64,6 +64,7 @@ const PaymentDetails = ({ handleStep, step }) => {
     localStorage.removeItem("transfer_data")
     window.location.reload()
   }
+  
   const handlePrevious = () => {
     localStorage.removeItem("send-step")
     localStorage.setItem("send-step", Number(step) - 1)

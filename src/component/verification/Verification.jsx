@@ -86,8 +86,10 @@ const Verification = () => {
                 if (res.code == 200) {
                     toast.success("verification successful",
                         { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-                    let tknexp = new Date()
-                    localStorage.setItem('tkn-exp', tknexp)
+                    let d = new Date()
+                    d.setDate(d.getDate() + 1);
+                    console.log(d)
+                    localStorage.setItem('tkn-exp', d)
                     localStorage.setItem('token', res.access_token)
                     setLoading(false)
                     if (res?.data?.digital_id_verified && res?.data.digital_id_verified == "true") {
