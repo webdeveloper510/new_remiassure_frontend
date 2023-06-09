@@ -1,213 +1,167 @@
-import React, { useState, useEffect } from "react";
-import Button from 'react-bootstrap/Button';
+import React, { useState } from "react";
 import Form from 'react-bootstrap/Form';
-import { Links, NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
-
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
-import axios from 'axios';
-import UserContext from '../context/UserContext';
-import Page404 from "../pageNotfound/Page404";
 import { resetPassword } from "../../utils/Api";
-import validate from "../../pages/FormValidationRules";
-
-const myStyle = {
-    color: "red",
-    fontSize: "13px",
-    textTransform: "capitalize",
-    marginTop: "4px",
-    display: "block",
-    textAlign: "center"
-}
+import { useFormik } from "formik";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import * as Yup from "yup";
+import clsx from "clsx";
 
 const RecentPassword = () => {
 
-    /**************************token ************************ */
-    const token = localStorage.getItem("token");
-    //   console.log("TOKEN", token);
-
-    const signup_token = localStorage.getItem("signup_token")
-    // console.log("signup_token", signup_token);
-
-    const verification_otp = localStorage.getItem("verification_otp");
-    //   console.log("Verification Message", verification_otp);
-
-    const DigitalCode = localStorage.getItem("DigitalCode");
-    //   console.log("DigitalCode", DigitalCode);
-
-    const customerId_forgot = localStorage.getItem("customerId_forgot");
-    //   console.log("customerId_forgot", customerId_forgot);
-
-    /**************************transaction of state ************************ */
-    const [data, setData] = useState({ reset_password_otp: "", password: "", confirmPassword: "" })
-
-    const [loading, setLoading] = useState(false);
-    const [active, setActive] = useState(false);
-    const [error, setError] = useState({
-        otpErr: "", passwordErr: "", confirmPasswordErr: ""
-    })
-    /*********************Start Validation state Text************** */
-    const [EnterotpText, setEnterotpText] = useState('');
-    const [InvalidotpText, setInvalidotpText] = useState('');
-    const [EnterpasswordText, setEnterpasswordText] = useState('');
-
-    // const {id} = useParams();
-
-    const handleResetpasswordotp = (e) => {
-        setData({ ...data, reset_password_otp: e.target.value })
-        let value = e.target.value
-        let validateErr = validate({
-            reset_password_otp: value
-        })
-        if (value == "") {
-            setError({ ...data, otpErr: validateErr })
-        } else {
-            setError({ ...data, otpErr: "" })
-        }
-    }
-    const handlePassword = (e) => {
-        setData({ ...data, password: e.target.value })
-
-        let value = e.target.value
-        let validateErr = validate({
-            password: value
-        })
-        if (value == "") {
-            setError({ ...data, passwordErr: validateErr })
-        } else {
-            setError({ ...data, passwordErr: "" })
-        }
-    }
-    const handleConfirmPassword = (e) => {
-        setData({ ...data, confirmPassword: e.target.value })
-        let value = e.target.value
-        let validateErr = validate({
-            confirmPasswordErr: value
-        })
-        if (value == "") {
-            setError({ ...data, confirmPasswordErr: validateErr })
-        } else {
-            setError({ ...data, confirmPasswordErr: "" })
-        }
-    }
-
-
-    const token_forgot = localStorage.getItem("token_forgot");
-
-    const notify = () => toast.success("Check your email to Reset Password");
-    const wrongData = () => toast.warm("This E-mail is not our records, please try again");
-    const passError = () => toast.error("Reset Password Not Successfully")
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [loading, setLoading] = useState(false)
+    const { customer_id } = useLocation().state
     const navigate = useNavigate();
-    const customer_id = useLocation().state
-    const handleRecent = (event) => {
-        event.preventDefault();
-        let validateErr = validate({
-            reset_password_otp: data.reset_password_otp,
-            password: data.password,
-            confirm_pass: data.confirmPassword
-        })
-        setError({ otpErr: validateErr, passwordErr: validateErr, confirmPasswordErr: validateErr })
-        setActive(false)
 
-        if (Object.keys(validateErr).length == 0) {
-            data.customer_id = customerId_forgot
-            resetPassword({ customer_id: customer_id, password: data.password, confirm_Pass: data.reset_password_otp }).then((res) => {
-                setLoading(false); // Stop loading
-                navigate('/login')
-                localStorage.setItem("verification_otp", data.reset_password_otp)
-                if (res.code == "200") {
-                    toast.success("Password Reset Successfully", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+
+    const toggleShowPassword = () => setShowPassword(prevState => !prevState);
+    const toggleShowConfirmPassword = () => setShowConfirmPassword(prevState => !prevState)
+
+    const loginSchema = Yup.object().shape({
+        reset_password_otp: Yup.string().length(6, "O.T.P must be of 6 digits")
+            .required('required'),
+        password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
+        confirm_password: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
+    })
+
+    const initialValues = {
+        reset_password_otp: '',
+        password: '',
+        confirm_password: ""
+    }
+
+    const formik = useFormik({
+        initialValues,
+        validationSchema: loginSchema,
+        onSubmit: async (values) => {
+            setLoading(true);
+            resetPassword({ customer_id: customer_id, password: values.password, reset_password_otp: values.reset_password_otp }).then((res) => {
+                setLoading(false)
+                if (res.code === "200") {
+                    toast.success("Password Reset Successfully, please login to continue", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+                    formik.resetForm()
+                } else if(res.code === "400"){
+                    toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
                 }
             }).catch((error) => {
+                console.log(error)
                 if (error.response.code) {
                     toast.error(error.response.message || error.response.non_field_errors);
                 }
-                if (error.response.status == 400) {
+                if (error.response.status === 400) {
                     toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
                 }
                 setLoading(false)
             })
-        }
+        },
+    })
 
-    }
-
-    useEffect(() => {
-        if (localStorage.getItem("token") && localStorage.getItem("remi-user-dt")) {
-            let user = JSON.parse(localStorage.getItem("remi-user-dt"));
-            if (user?.digital_id_verified && user.digital_id_verified === "true") {
-                navigate("/dashboard")
-            } else {
-                navigate("/send-money")
-            }
-        }
-    }, [])
 
     return (
         <>
             <section className="why-us section-bgba recent_banner">
                 <div className="container">
                     <div className="row">
-
                         <div className="col-lg-12">
-                            {/* start-- card */}
                             <div className="row">
                                 <div className="col-lg-12">
                                     <div className="card card-recent-password">
                                         <div className="card-body">
                                             <h5 className="Sign-heading">Reset Password </h5>
-
                                             <div className="form_login">
-                                                <form>
-
-                                                    <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
+                                                <form onSubmit={formik.handleSubmit}>
+                                                    <Form.Group className="mb-3 form_label" >
                                                         <Form.Label>Reset Password Otp<span style={{ color: 'red' }} >*</span></Form.Label>
-                                                        <Form.Control
+                                                        <input
                                                             type="text"
-                                                            value={data.reset_password_otp}
-                                                            onChange={(e) => handleResetpasswordotp(e)}
                                                             placeholder="Enter Reset password otp"
+                                                            name="reset_password_otp"
+                                                            autoComplete="off"
+                                                            {...formik.getFieldProps("reset_password_otp")}
+                                                            maxLength="6"
+                                                            className={clsx(
+                                                                'form-control bg-transparent',
+                                                                { 'is-invalid': formik.touched.reset_password_otp && formik.errors.reset_password_otp },
+                                                                {
+                                                                    'is-valid': formik.touched.reset_password_otp && !formik.errors.reset_password_otp,
+                                                                }
+                                                            )}
                                                         />
-                                                        <span style={myStyle}>{error.otpErr?.reset_password_otp ? error.otpErr.reset_password_otp : ""}</span>
-                                                        <span style={myStyle}>{EnterotpText ? EnterotpText : ''}</span>
-                                                        <span style={myStyle}>{InvalidotpText ? InvalidotpText : ''}</span>
-
+                                                        {formik.touched.reset_password_otp && formik.errors.reset_password_otp && (
+                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                <div className='fv-help-block'>
+                                                                    <span role='alert' className="text-danger">{formik.errors.reset_password_otp}</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                     </Form.Group>
-
-                                                    <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
+                                                    <Form.Group className="mb-3 form_label" >
                                                         <Form.Label>New Password<span style={{ color: 'red' }} >*</span></Form.Label>
                                                         <Form.Control
-                                                            type="password"
-                                                            value={data.password}
-                                                            onChange={(e) => handlePassword(e)}
-                                                            placeholder="Enter New Password"
+                                                            type={showPassword ? 'text' : 'password'}
+                                                            id="password"
+                                                            name="password"
+                                                            autoComplete="off"
+                                                            {...formik.getFieldProps('password')}
+                                                            placeholder="Password"
+                                                            className={clsx(
+                                                                'form-control bg-transparent',
+                                                                { 'is-invalid': formik.touched.password && formik.errors.password },
+                                                                {
+                                                                    'is-valid': formik.touched.password && !formik.errors.password,
+                                                                }
+                                                            )}
                                                         />
-                                                        <span style={myStyle}>{error.passwordErr?.password ? error.passwordErr.password : ""}</span>
-                                                        <span style={myStyle}>{EnterpasswordText ? EnterpasswordText : ''}</span>
+                                                        <span onClick={toggleShowPassword} className="pass_icons">
+                                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                                        </span>
+                                                        {formik.touched.password && formik.errors.password && (
+                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                <div className='fv-help-block'>
+                                                                    <span role='alert' className="text-danger">{formik.errors.password}</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                     </Form.Group>
-
-                                                    <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
+                                                    <Form.Group className="mb-3 form_label" >
                                                         <Form.Label>Confirm Password<span style={{ color: 'red' }} >*</span></Form.Label>
                                                         <Form.Control
-                                                            type="password"
-                                                            value={data.confirmPassword}
-                                                            onChange={(e) => handleConfirmPassword(e)}
+                                                            type={showConfirmPassword ? 'text' : 'password'}
+                                                            name="confirm Password"
+                                                            autoComplete="off"
                                                             placeholder="Confirm Password"
+                                                            {...formik.getFieldProps('confirm_password')}
+                                                            className={`${clsx(
+                                                                'form-control bg-transparent',
+                                                                { 'is-invalid': formik.touched.confirm_password && formik.errors.confirm_password },
+                                                                {
+                                                                    'is-valid': formik.touched.confirm_password && !formik.errors.confirm_password,
+                                                                }
+                                                            )} rate_input form-control`}
                                                         />
-                                                        <span style={myStyle}>{error.confirmPasswordErr?.confirm_pass ? error.confirmPasswordErr.confirm_pass : ""}</span>
-                                                        <span className={active == true ? 'not_match' : 'hide'}>Passwords do not match</span>
+                                                        <span onClick={toggleShowConfirmPassword} className="pass_icons">
+                                                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                                        </span>
+                                                        {formik.touched.confirm_password && formik.errors.confirm_password && (
+                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                <div className='fv-help-block'>
+                                                                    <span role='alert' className="text-danger">{formik.errors.confirm_password}</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                     </Form.Group>
-
                                                     <button variant="primary"
                                                         type="submit"
                                                         className="login_button"
-                                                        onClick={handleRecent}
                                                     >
-                                                        Recent Password
+                                                        Reset Password
                                                         {loading ? <>
                                                             <div className="loader-overly">
                                                                 <div className="loader" >
-
                                                                 </div>
-
                                                             </div>
                                                         </> : <></>}
                                                     </button>
@@ -217,7 +171,6 @@ const RecentPassword = () => {
                                     </div>
                                 </div>
                             </div>
-                            {/* End-- card */}
                         </div>
                     </div>
                 </div>

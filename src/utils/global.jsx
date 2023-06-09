@@ -6,7 +6,7 @@ const global = {
         stripe_p_key: 'pk_test_51LP6MMSCnvWG1d6Fq3POi6yEd3yO304Dvw5TfHOewgPGd9bNOKXqS7UV6f7xHQbEPnjWopouupJvevCXwXi43qpS00ndH68wiW'
 
         //Client side url
-        
+        //787878777 878787
         // serverUrl: "http://3.101.154.87:8000/"
 
   };

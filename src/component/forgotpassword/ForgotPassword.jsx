@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
@@ -19,9 +19,9 @@ const ForgotPassword = () => {
 
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate('');
-    const initialValues = {mobile:""}
+    const initialValues = { mobile: "" }
 
-  
+
 
     const handlePhone = (val) => {
         formik.setFieldValue('mobile', val);
@@ -39,8 +39,8 @@ const ForgotPassword = () => {
         }, 3000
     );
 
-    useEffect(()=>{
-        if(localStorage.getItem("token")&&localStorage.getItem("remi-user-dt")){
+    useEffect(() => {
+        if (localStorage.getItem("token") && localStorage.getItem("remi-user-dt")) {
             let user = JSON.parse(localStorage.getItem("remi-user-dt"));
             if (user?.digital_id_verified && user.digital_id_verified === "true") {
                 navigate("/dashboard")
@@ -48,25 +48,25 @@ const ForgotPassword = () => {
                 navigate("/send-money")
             }
         }
-    },[])
+    }, [])
 
     const formik = useFormik({
         initialValues,
         validationSchema: forgetSchema,
         onSubmit: async (values) => {
             setLoading(true);
-            resetEmail({ mobile: "+"+values.mobile}).then((res) => {
+            resetEmail({ mobile: "+" + values.mobile }).then((res) => {
                 setLoading(false);
-                localStorage.setItem("token_forgot", res.token)
-                localStorage.setItem("customerId_forgot", res.customer_id);
-                navigate('/reset-password', { state: { customer_id: res.data.customer_id } })
-                if (res.code == "200") {
-                    toast.success("Please Check For Otp", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-                }
-                else if( res.code=="400"){
+                localStorage.setItem("token_forgot", res.data.token)
+                if (res.data.code == "200") {
+                    toast.success(res.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+                    navigate('/reset-password', { state: { customer_id: res.data.data.customer_id } })
+                } else if (res.data.code === "400") {
+                    toast.error(res.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                 }
             }).catch((err) => {
                 setLoading(false)
+                console.log(err)
             })
         }
     })

@@ -18,10 +18,10 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const toggleShowPassword = () => setShowPassword(prevState => !prevState);
     const [countryCode, setCountryCode] = useState("+61")
-    
-    
+
+
     const loginSchema = Yup.object().shape({
-        email: Yup.string()
+        email: Yup.string().trim("no spaces allowed").matches(/^[A-Za-z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/)
             .required('required'),
         password: Yup.string()
             .required('Password is required'),
@@ -85,20 +85,27 @@ const Login = () => {
     const myCountryList = CountryData.customArray({ name: '{countryCallingCode} ({countryCode})', value: '{countryCode}' })
 
     const handleChange = (e) => {
-        let element = e.target.value
-        if (element.length > 0) {
-            let pattern = /^\d+$/
-            let result = pattern.test(element)
-            if (result) {
-                setIsMobile(true)
-            } else {
-                setIsMobile(false)
-            }
+        if (e.key === " ") {
+            e.stopPropagation()
+            e.preventDefault()
         } else {
-            setIsMobile(true)
+            let element = e.target.value
+            if (element.length > 0) {
+                let pattern = /^\d+$/
+                let result = pattern.test(element)
+                if (result) {
+                    setIsMobile(true)
+                } else {
+                    setIsMobile(false)
+                }
+            } else {
+                setIsMobile(true)
+            }
+           
+            formik.setFieldValue("email", element)
+            formik.setFieldTouched("email", true)
         }
-        formik.setFieldValue("email", element)
-        formik.setFieldTouched("email", true)
+
     }
 
     return (
@@ -145,8 +152,8 @@ const Login = () => {
                                                                     autoComplete="off"
                                                                     name="id"
                                                                     size="lg"
-                                                                    onChange={handleChange}
-                                                                    onBlurCapture={() => formik.setFieldTouched("email", true)}
+                                                                    onKeyDown={handleChange}
+                                                                    onBlurCapture={(e) => {formik.setFieldTouched("email", true); formik.setFieldValue("email", e.target.value)}}
                                                                     className={clsx(
                                                                         'form-control email-mobile-input',
                                                                         {

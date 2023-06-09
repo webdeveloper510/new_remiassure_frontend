@@ -53,7 +53,7 @@ export const changePassword = async (data) => {
 
 export const resetEmail = async (data) => {
   const response = await Axios.post("/send-password-reset-email/", data).then(res => {
-    return res.data
+    return res
   })
   return response
 }
