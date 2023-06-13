@@ -20,12 +20,12 @@ import PopVerify from "../verification/PopVerify";
 
 const Profile = () => {
 
-  const navigate = useNavigate('')
+  const navigate = useNavigate()
   const [open_modal, setOpenModal] = useState(false)
   const [is_otp_verified, setIsOtpVerfied] = useState(false)
   const [loading, setLoading] = React.useState(false);
-  const [city_list, setCityList] = useState([])
-  const [state_list, setStateList] = useState([])
+  const [city_list, setCityList] = useState([null])
+  const [state_list, setStateList] = useState([null])
   const [is_update, setIsUpdate] = useState({ email: "", mobile: "" })
   const [data, setData] = useState({
     First_name: "", Middle_name: "", Last_name: "",
@@ -76,10 +76,10 @@ const Profile = () => {
         if (res.code == "200") {
           setLoading(false)
           let p = res.data.mobile
-          let phone = p.split("+"); 
-          setData({...res.data, mobile:phone[1]})
-          formik.setValues({ ...res.data, mobile:phone[1] })
-          setIsUpdate({ email: res.data.email, mobile:phone[1] })
+          let phone = p.split("+");
+          setData({ ...res.data, mobile: phone[1] })
+          formik.setValues({ ...res.data, mobile: phone[1] })
+          setIsUpdate({ email: res.data.email, mobile: phone[1] })
         }
       }).catch((error) => {
         if (error.response.data.code == "400") {
@@ -242,7 +242,7 @@ const Profile = () => {
     if (is_update.mobile === d.mobile) {
       delete d['mobile']
     } else {
-      d.mobile = "+"+d.mobile
+      d.mobile = "+" + d.mobile
     }
     setLoading(true)
     updateProfile(d).then(res => {
@@ -674,7 +674,7 @@ const Profile = () => {
         </div>
       </div>
       <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
-        <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} phone={"+"+is_update.mobile} new_mobile={is_update.mobile != data.mobile ? "+"+data.mobile : null} />
+        <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} phone={"+" + is_update.mobile} new_mobile={is_update.mobile != data.mobile ? "+" + data.mobile : null} />
       </Modal>
     </>
   )

@@ -31,7 +31,7 @@ const Signup = () => {
         email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").min(6).max(50).required("Email is required"),
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
-        referral_code: show ? Yup.string().length(6, "Referral code must contain 6 characters").required("Referral Code is required"): Yup.string().length(6, "Referral code must contain 6 characters").notRequired(),
+        referral_code: show ? Yup.string().length(6, "Referral code must contain 6 characters").required("Referral Code is required") : Yup.string().notRequired(),
         mobile: Yup.string().min(12).max(18).required()
     })
 
@@ -57,19 +57,20 @@ const Signup = () => {
         onSubmit: async (values) => {
             setLoading(true)
             let data = { ...values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + values.mobile }
-            if (data.referral_code == "") {
+            if (data.referral_code === "" || show === false) {
                 delete data["referral_code"]
             }
+            console.log(data)
             userRegister(data).then((res) => {
                 if (res.code === "200") {
-                    navigate("/verification", { state: { mobile: "+" + values.mobile, component:"register" } })
+                    navigate("/verification", { state: { mobile: "+" + values.mobile, component: "register" } })
 
                 } else if (res.code == '400') {
                     toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
                 }
                 else if (res.code == '201') {
-                    toast.warn(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
-                    navigate("/verification", { state: { mobile: values.mobile, component:"register"  } })
+                    toast.success(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
+                    navigate("/verification", { state: { mobile: "+" + values.mobile, component: "register" } })
                 }
                 setLoading(false)
             }).catch((error) => {
@@ -87,12 +88,6 @@ const Signup = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [referral_code, setrReferral_code] = useState('');
     const [promo_marketing, setPromo_marketing] = useState("0");
-
-    useEffect(() => {
-        if (show == false) {
-            setrReferral_code("")
-        }
-    })
 
     const navigate = useNavigate();
     const toggleShowPassword = () => setShowPassword(prevState => !prevState);
@@ -142,8 +137,8 @@ const Signup = () => {
         // if(result.length == 6){
         //     formik.setErrors({...formik.errors, referral_code:""})
         // }
-      }
-    
+    }
+
 
     return (
         <>
@@ -300,18 +295,18 @@ const Signup = () => {
                                                                     'form-control bg-transparent',
                                                                     { 'is-invalid': formik.touched.referral_code && formik.errors.referral_code },
                                                                     {
-                                                                        'is-valid':  formik.touched.referral_code && !formik.errors.referral_code ,
+                                                                        'is-valid': formik.touched.referral_code && !formik.errors.referral_code,
                                                                     }
                                                                 ) : ""}
                                                                 placeholder="Enter Referral Code"
                                                             />
-                                                               {formik.touched.referral_code && formik.errors.referral_code && (
-                                                            <div className='fv-plugins-message-container mt-1'>
-                                                                <div className='fv-help-block'>
-                                                                    <span role='alert' className="text-danger">{formik.errors.referral_code}</span>
+                                                            {formik.touched.referral_code && formik.errors.referral_code && (
+                                                                <div className='fv-plugins-message-container mt-1'>
+                                                                    <div className='fv-help-block'>
+                                                                        <span role='alert' className="text-danger">{formik.errors.referral_code}</span>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        )}
+                                                            )}
                                                         </Form.Group>
                                                     </div>}
                                                     <Form.Group className="mb-3 form_checkbox">

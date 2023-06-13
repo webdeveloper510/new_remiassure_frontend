@@ -54,8 +54,11 @@ const PaymentSummary = ({ handleStep, step }) => {
         Middle_name: local?.sender?.m_name,
         Last_name: local?.sender?.l_name,
         Date_of_birth: local?.sender?.dob,
-        Gender: local?.sender?.gender,
-        Country_of_birth: local?.sender?.country_of_birth
+        Gender: "m",
+        Country_of_birth: local?.sender?.country_of_birth,
+        occupation: local?.sender?.occupation,
+        payment_per_annum: local?.sender?.payment_per_annum,
+        value_per_annum: local?.sender?.value_per_annum,
       },
       sender_address: {
         flat: local?.sender?.flat,
@@ -231,11 +234,11 @@ const PaymentSummary = ({ handleStep, step }) => {
         </> : ""}
       </div>
       {/* -------------------- PAYMENT RECIEPT----------------- */}
-      <Modal show={modalView} onHide={() => navigate("/dashboard")} centered>
+      <Modal show={modalView} backdrop="static" centered>
         <Modal.Body>
           <div className="form_body">
             <div className="header">
-              <h1 className='text-success'><BsCheckCircleFill />Transaction Successful</h1>
+              <h1 className='text-success'><BsCheckCircleFill />Transaction Being Processed</h1>
             </div>
             <Table>
               <tbody>

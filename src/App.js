@@ -47,14 +47,14 @@ const App = () => {
 
     let expTime = localStorage.getItem("tkn-exp");
 
-    if(expTime){
+    if (expTime) {
       var d = new Date();
       if (d == expTime) {
         localStorage.clear()
         navigate("/login")
       }
     }
-  
+
     if (p[1] == "login" || p[1] == "sign-up" || p[1] == "verification" || p[1] == "forgot-password") {
       if (localStorage.getItem("token")) {
         let user = JSON.parse(localStorage.getItem("remi-user-dt"));
@@ -64,7 +64,7 @@ const App = () => {
           navigate("/send-money")
         }
       }
-    } 
+    }
 
   }, [location.pathname])
 

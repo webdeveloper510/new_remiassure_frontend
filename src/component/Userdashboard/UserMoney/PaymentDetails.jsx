@@ -64,7 +64,7 @@ const PaymentDetails = ({ handleStep, step }) => {
     localStorage.removeItem("transfer_data")
     window.location.reload()
   }
-  
+
   const handlePrevious = () => {
     localStorage.removeItem("send-step")
     localStorage.setItem("send-step", Number(step) - 1)
@@ -219,11 +219,11 @@ const PaymentDetails = ({ handleStep, step }) => {
               </Modal>
 
               {/* ----------------- transaction result----------------- */}
-              <Modal show={modalView} onHide={() => navigate("/dashboard")} centered>
+              <Modal show={modalView} backdrop="static" centered>
                 <Modal.Body>
                   <div className="form_body">
                     <div className="header">
-                      <h1 className='text-success'><BsCheckCircleFill />Transaction Successful</h1>
+                      <h1 className='text-success'><BsCheckCircleFill />Transaction Being Processed</h1>
                     </div>
                     <Table>
                       <tbody>

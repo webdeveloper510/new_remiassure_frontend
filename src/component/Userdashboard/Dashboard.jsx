@@ -7,7 +7,7 @@ import authDashHelper from "../../utils/AuthDashHelper";
 import Sidebar from './Sidebar';
 import nodata from '../../assets/img/userdashboard/nodata.avif';
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
-import {  recipientList, transactionHistory, userProfile } from "../../utils/Api";
+import { recipientList, transactionHistory, userProfile } from "../../utils/Api";
 
 
 const Dashboard = () => {
@@ -22,7 +22,7 @@ const Dashboard = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('')
     const [recipientData, setRecipientData] = useState([]);
-   const [total_amount, setTotalAmount] = useState(0)
+    const [total_amount, setTotalAmount] = useState(0)
     const [total_recipients, setTotalRecipients] = useState(0)
 
 
@@ -130,7 +130,7 @@ const Dashboard = () => {
                                                     <div className="d-flex justify-content-between">
                                                         <div className="">
                                                             <div className="top-content">
-                                                                <h3>Send Money</h3>
+                                                                <h3>New Transfer</h3>
                                                             </div>
                                                             <div class="user-count">
                                                                 <span class="text-uppercase-edit"> Easy way to send money</span>
@@ -144,7 +144,7 @@ const Dashboard = () => {
                                                     </div>
                                                     <div className="mt-3">
                                                         <NavLink to="/user-send-money" className="btn btn-outline-dark btn-rounded">
-                                                            View
+                                                            Send Money
                                                         </NavLink>
                                                         <span className="text-light custom-number">Amount Sent ⇒ {total_amount}</span>
                                                     </div>
@@ -226,7 +226,7 @@ const Dashboard = () => {
                                                                             </td>
                                                                             <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res.send_currency} </span> {res.amount}</span></td>
                                                                             <td>
-                                                                                <span className="text-success fs-16 font-w500 d-block"> <a href="javascript:void(0)" className="btn btn-outline-success btn-rounded">{res.status}</a></span>
+                                                                                <span className="text-success fs-16 font-w500 d-block"> <span className="btn btn-outline-success btn-rounded">{res.payment_status}</span></span>
                                                                             </td>
                                                                         </tr>
                                                                     )

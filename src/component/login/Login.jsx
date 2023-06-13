@@ -181,7 +181,7 @@ const Login = () => {
                                                             placeholder="Password"
                                                         />
 
-                                                        <span className="login_pass_icons" type="button" onClick={toggleShowPassword}>
+                                                        <span className="login_pass_icons" type="button" onClick={()=>toggleShowPassword()}>
                                                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                         </span>
                                                         {formik.touched.password && formik.errors.password && (

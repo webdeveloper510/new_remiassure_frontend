@@ -131,7 +131,6 @@ const Verification = () => {
         } else {
             obj.mobile = data.mobile
         }
-        obj.type = "email"
         setLoading(true)
         resendOtp(obj).then((res) => {
             if (res.code == "200") {

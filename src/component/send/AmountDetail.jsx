@@ -26,7 +26,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const amtSchema = Yup.object().shape({
         send_amt: Yup.string()
             .min(1, 'Minimum 3 symbols')
-            .max(7, 'Maximum 50 symbols')
+            .max(6, 'Maximum 50 symbols')
             .required('Email is required'),
         from_type: Yup.string().oneOf(["AUD", "NZD"]),
         to_type: Yup.string().required()
@@ -89,7 +89,7 @@ const AmountDetail = ({ handleStep, step }) => {
             formik.setFieldValue("exchange_amt", "")
             formik.setFieldTouched("exchange_amt", false)
             setAmtDetail({ ...amt_detail, exchange_amt: "" })
-        }else if (event.key === 'Enter') {
+        } else if (event.key === 'Enter') {
             myTotalAmount(event)
         } else {
             let value = event.target.value.toString()
@@ -117,18 +117,18 @@ const AmountDetail = ({ handleStep, step }) => {
         formik.setFieldTouched("from_type", true)
         setLoader(true)
         const amt = formik.values.send_amt != undefined && formik.values.send_amt != 0 && formik.values.send_amt != "" ? formik.values.send_amt : "1"
-            exchangeRate({ amount: amt, from: e.target.value, to: formik.values.to_type })
-                .then(function (response) {
-                    setExchRate(response.rate)
-                    if (formik.values.send_amt != 0 && formik.values.send_amt != "" && formik.values.send_amt != undefined) {
-                        formik.setFieldValue("exchange_amt", response.amount)
-                        setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
-                    }
-                    setLoader(false)
-                })
-                .catch(function (error, message) {
-                    setLoader(false)
-                })
+        exchangeRate({ amount: amt, from: e.target.value, to: formik.values.to_type })
+            .then(function (response) {
+                setExchRate(response.rate)
+                if (formik.values.send_amt != 0 && formik.values.send_amt != "" && formik.values.send_amt != undefined) {
+                    formik.setFieldValue("exchange_amt", response.amount)
+                    setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+                }
+                setLoader(false)
+            })
+            .catch(function (error, message) {
+                setLoader(false)
+            })
     }
 
     const myTotalAmountTo = (e) => {
@@ -230,11 +230,11 @@ const AmountDetail = ({ handleStep, step }) => {
                             // {...formik.getFieldProps('to_type')}
                             >
                                 {
-                                        curr_out.map((item) => {
-                                            return (
-                                                <option key={item} value={item}>{item}</option>
-                                            )
-                                        })
+                                    curr_out.map((item) => {
+                                        return (
+                                            <option key={item} value={item}>{item}</option>
+                                        )
+                                    })
                                 }
                             </select>
                         </div>

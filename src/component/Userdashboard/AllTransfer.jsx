@@ -94,7 +94,7 @@ const AllTranfer = ({ status, data }) => {
                             <td className="transaction-icon"><span className="text-uppercase">{res.send_currency} </span> {res.amount} </td>
                             <td>{res.date}</td>
                             <td>{res.reason}</td>
-                            <td><span className="btn btn-outline-success btn-rounded" >{res.status}</span></td>
+                            <td><span className="btn btn-outline-success btn-rounded" >{res.payment_status}</span></td>
                             <td>
                               <a href={`${global.serverUrl}/payment/receipt/${res.id}`} target="_blank">
                                 <span className="btn btn-outline-success btn-rounded" >Download</span>

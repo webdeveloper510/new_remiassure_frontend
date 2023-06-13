@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { useState } from 'react';
 import birthCountryList from 'react-select-country-list';
 import { useEffect } from 'react';
-import countryList from '../../utils/senderCountries.json';
+import countryList from '../../utils/AuNz.json';
 import axios from 'axios';
 import global from '../../utils/global';
 import { toast } from 'react-toastify';
@@ -17,23 +17,23 @@ const SenderDetails = ({ handleStep, step }) => {
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
   const [loader, setLoader] = useState(false)
-
+  const [postal_list, setPostalList] = useState([])
   const [data, setData] = useState({
     f_name: "", m_name: "", l_name: "",
-    gender: "Male", country_of_birth: "",
+    occupation: "", country_of_birth: "",
     dob: "", flat: "", build_no: "",
-    street: "", city: "", country: "Australia",
-    post_code: "", state: "", email: userd.email, mobile: userd.mobile,
-    customer_id: userd.customer_id, country_code: "AU"
+    street: "", city: "none", country: "none", gender: "Male", occupation: "",
+    post_code: "", state: "none", email: userd.email, mobile: userd.mobile,
+    customer_id: userd.customer_id, country_code: "AU", payment_per_annum: "none", value_per_annum: "none"
   })
 
   const initialValues = {
     f_name: "", m_name: "", l_name: "",
-    gender: "Male", country_of_birth: "",
+    occupation: "", country_of_birth: "",
     dob: "", flat: "", build_no: "",
-    street: "", city: "", country: "Australia",
-    post_code: "", state: "", email: userd.email, mobile: userd.mobile,
-    customer_id: userd.customer_id
+    street: "", city: "none", country: "none", gender: "Male", occupation: "",
+    post_code: "", state: "none", email: userd.email, mobile: userd.mobile,
+    customer_id: userd.customer_id, payment_per_annum: "none", value_per_annum: "none"
   }
 
 
@@ -46,10 +46,12 @@ const SenderDetails = ({ handleStep, step }) => {
     city: Yup.string().min(1).max(35).required().trim(),
     post_code: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required(),
-    country: Yup.string().min(2).max(30).notRequired(),
+    country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
     dob: Yup.date().required(),
-    gender: Yup.string().required(),
-    country_of_birth: Yup.string().required().notOneOf(["none"])
+    occupation: Yup.string().min(1).max(25).required().trim(),
+    country_of_birth: Yup.string().required().notOneOf(["none"]),
+    payment_per_annum: Yup.string().required().notOneOf(["none"]),
+    value_per_annum: Yup.string().required().notOneOf(["none"]),
   })
 
   const formik = useFormik({
@@ -58,7 +60,7 @@ const SenderDetails = ({ handleStep, step }) => {
     onSubmit: async (values) => {
       const local = JSON.parse(localStorage.getItem("transfer_data"))
       const user = JSON.parse(localStorage.getItem("remi-user-dt"))
-      local.sender = { ...values, email: user.email, customer_id: user.customer_id, mobile: user.mobile, country_code: data.country_code }
+      local.sender = { ...values, email: user.email, customer_id: user.customer_id, mobile: user.mobile, country_code: data.country_code, gender: "Male" }
       localStorage.removeItem("transfer_data")
       localStorage.setItem("transfer_data", JSON.stringify(local))
       if (localStorage.getItem("send-step")) {
@@ -85,43 +87,7 @@ const SenderDetails = ({ handleStep, step }) => {
 
   }, [step])
 
-  useEffect(() => {
-    const value = data.country !== "" ? data.country : countryList[0]?.name
-    if (data.country == "") {
-      setData({ ...data, country: countryList[0]?.name, country_code: countryList[0]?.iso2 })
-      formik.setFieldValue("country", countryList[0]?.name)
-    }
-    countryList?.map((item) => {
-      if (item?.name === value) {
-        setStateList(item?.states);
-        setData({ ...data, state: item?.states[0].name })
-        formik.setFieldValue("state", item?.states[0].name)
-      }
-    })
-  }, [data.country])
-
-  useEffect(() => {
-    const value = data.state !== "" ? data.state : state_list[0]?.name
-    state_list?.map((item) => {
-      if (item?.name === value) {
-        setCityList(item?.cities);
-        setData({ ...data, city: item?.cities[0].name })
-        formik.setFieldValue("city", item?.cities[0].name)
-        formik.setFieldTouched("city", true)
-      }
-    })
-  }, [data.state])
-
-
   const handleChange = (e) => {
-    if (e.target.name === 'country') {
-      countryList.map((item) => {
-
-        if (item.name === e.target.value) {
-          setData({ ...data, country_code: item.iso2 })
-        }
-      })
-    }
     setData({ ...data, [e.target.name]: e.target.value })
     formik.setFieldValue(e.target.name, e.target.value)
     formik.setFieldTouched(e.target.name, true)
@@ -179,7 +145,6 @@ const SenderDetails = ({ handleStep, step }) => {
         clientId: 'ctid2poVwlVfjH2PAnWEAB2l4v',
         uxMode: 'popup',
         onLoadComplete: function () {
-          console.log("load complete")
         },
         onComplete: function (res) {
 
@@ -227,12 +192,48 @@ const SenderDetails = ({ handleStep, step }) => {
     formik.setFieldValue("dob", maxDate)
   }, []);
 
-  const handleOnlyAplha = (event) => {
-    const result = event.target.value.replace(/[^a-z ]/gi, "");
-    setData({ ...data, [event.target.name]: result })
-    formik.setFieldValue(event.target.name, result)
-    formik.setFieldTouched(event.target.name, true)
-  }
+  useEffect(() => {
+    if (data.country !== "none") {
+      let array_1 = countryList?.filter((item) => {
+        return item?.name === data.country
+      })
+      let array = array_1[0]?.states;
+      setData({ ...data, country_code: array_1[0]?.iso2, state: "none", city: "none", post_code: "" })
+      array.sort((a, b) => (a.state > b.state) ? 1 : -1);
+      setStateList(array);
+    }
+  }, [data.country])
+
+  useEffect(() => {
+    if (data.state !== "none") {
+      let array = state_list.filter((item) => {
+        return item?.state === data?.state
+      })
+      array.sort((a, b) => (a.city > b.city) ? 1 : -1);
+
+      setCityList(array);
+    }
+
+  }, [data.state])
+
+  useEffect(() => {
+    if (data.city !== "none") {
+      let postals = city_list.filter((item) => {
+        return item?.city === data?.city && item?.state === data?.state
+      })
+      setPostalList(postals)
+      setData({ ...data, post_code: postals[0]?.post_code })
+      formik.setValues({ ...formik.values, post_code: postals[0]?.post_code })
+    }
+
+  }, [data.city])
+
+  // const handleOnlyAplha = (event) => {
+  //   const result = event.target.value.replace(/[^a-z ]/gi, "");
+  //   setData({ ...data, [event.target.name]: result })
+  //   formik.setFieldValue(event.target.name, result)
+  //   formik.setFieldTouched(event.target.name, true)
+  // }
 
   const handleNumericOnly = (event) => {
     const result = event.target.value.replace(/[^0-9]/, "");
@@ -255,13 +256,14 @@ const SenderDetails = ({ handleStep, step }) => {
     window.location.reload(true)
   }
 
-
   return (
     <div className="form_body">
       <div className="header">
         <h1>Sender Details </h1>
       </div>
-      <form autoComplete='mukul' >
+      <form autoComplete='off' >
+
+        {/* -------------------------first , middle , last */}
         <div className="row each-row">
           <div className="col-md-4">
             <div className="input_field">
@@ -319,19 +321,9 @@ const SenderDetails = ({ handleStep, step }) => {
             </div>
           </div>
         </div>
+
+        {/* --------------------------------dob , cob , occup */}
         <div className="row each-row">
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">Customer ID<span style={{ color: 'red' }} >*</span></p>
-              <input
-                type="text"
-                value={data.customer_id}
-                className='form-control'
-                style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
-                readOnly
-              />
-            </div>
-          </div>
           <div className="col-md-4">
             <div className="input_field">
               <p className="get-text">Date of birth<span style={{ color: 'red' }} >*</span></p>
@@ -353,46 +345,13 @@ const SenderDetails = ({ handleStep, step }) => {
           </div>
           <div className="col-md-4">
             <div className="input_field">
-              <p className="get-text">Gender<span style={{ color: 'red' }} >*</span></p>
-              <div className="inline-flex">
-                <label className="container-new form-gender">
-                  <span className="radio-tick">Male</span>
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="gender"
-                    value="Male"
-                    checked={data.gender === "Male"}
-                    onChange={(e) => { handleChange(e) }}
-                  />
-                  <span className="checkmark"></span>
-                </label>
-                <label className="container-new form-gender">
-                  <span className="radio-tick">Female</span>
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="gender"
-                    value="Female"
-                    checked={data.gender === "Female"}
-                    onChange={(e) => { handleChange(e) }}
-                  />
-                  <span className="checkmark"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row each-row">
-          <div className="col-md-6">
-            <div className="input_field">
               <p className="get-text">Country of Birth<span style={{ color: 'red' }} >*</span></p>
               <select
                 value={data.country_of_birth}
                 name="country_of_birth"
                 onChange={(e) => handleChange(e)}
                 className={clsx(
-                  'form-control w-75 form-select bg-transparent',
+                  'form-control form-select bg-transparent',
                   { 'is-invalid': formik.touched.country_of_birth && formik.errors.country_of_birth },
                   {
                     'is-valid': formik.touched.country_of_birth && !formik.errors.country_of_birth,
@@ -411,8 +370,78 @@ const SenderDetails = ({ handleStep, step }) => {
               </select>
             </div>
           </div>
+          <div className="col-md-4">
+            <div className="input_field">
+              <p className="get-text">Occupation<span style={{ color: 'red' }} >*</span></p>
+              <input
+                type="text"
+                name="occupation"
+                value={data.occupation}
+                id="occupation"
+                onKeyDown={(e) => handleKeyDown(e)}
+                {...formik.getFieldProps("occupation")}
+                className={clsx(
+                  'form-control bg-transparent',
+                  { 'is-invalid': formik.touched.occupation && formik.errors.occupation },
+                  {
+                    'is-valid': formik.touched.occupation && !formik.errors.occupation,
+                  }
+                )}
+              />
+            </div>
+          </div>
         </div>
+
+        {/*-------------------------------- account usage */}
         <div className="row each-row">
+          <h5>Account Usage</h5>
+          <div className="col-md-6">
+            <div className="input_field">
+              <p className="get-text">Projected frequency of the payments per annum<span style={{ color: 'red' }} >*</span></p>
+              <select
+                value={data.payment_per_annum}
+                name="payment_per_annum"
+                onChange={(e) => handleChange(e)}
+                className={clsx(
+                  'form-control form-select bg-transparent',
+                  { 'is-invalid': formik.touched.payment_per_annum && formik.errors.payment_per_annum },
+                  {
+                    'is-valid': formik.touched.payment_per_annum && !formik.errors.payment_per_annum,
+                  }
+                )}
+              >
+                <option value="none" key="none">Select a frequency</option>
+                <option value="Less than 5 times" key="Less than 5 times">Less than 5 times</option>
+                <option value="5-10 times" key="5-10 times">5-10 times</option>
+                <option value="Greater then 10 times" key="Greater then 10 times">Greater then 10 times</option>
+              </select>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="input_field">
+              <p className="get-text">Projected frequency of the value per annum<span style={{ color: 'red' }} >*</span></p>
+              <select
+                value={data.value_per_annum}
+                name="value_per_annum"
+                onChange={(e) => handleChange(e)}
+                className={clsx(
+                  'form-control form-select bg-transparent',
+                  { 'is-invalid': formik.touched.value_per_annum && formik.errors.value_per_annum },
+                  {
+                    'is-valid': formik.touched.value_per_annum && !formik.errors.value_per_annum,
+                  }
+                )}
+              >
+                <option value="none" key="none">Select a frequency</option>
+                <option value="Less than $30,000" key="Less than $30,000">Less than $30,000</option>
+                <option value="$30,000-$100,000" key="$30,000-$100,000">$30,000-$100,000</option>
+                <option value="Greater than $100,000" key="Greater than $100,000">Greater than $100,000</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* <div className="row each-row">
           <div className="col-md-6">
             <div className="input_field">
               <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
@@ -438,10 +467,126 @@ const SenderDetails = ({ handleStep, step }) => {
 
             </div>
           </div>
-        </div>
+        </div> */}
+
+        {/*-------------------------------- Address */}
         <div className="row each-row">
           <h5>Address</h5>
-          <div className="col-md-4">
+          <div className="col-md-4 mb-3">
+            <div className="input_field">
+              <p className="get-text">Country Name<span style={{ color: 'red' }} >*</span></p>
+              <select
+                value={data.country}
+                name="country"
+                onChange={(e) => handleChange(e)}
+                className='form-control form-select bg-transparent'
+              >
+                <option value={"none"} >Select a country</option>
+                <option value={"Australia"} >Australia</option>
+                <option value={"New Zealand"} >New Zealand</option>
+              </select>
+            </div>
+          </div>
+          {
+            data.country !== "none" ? (
+              <>
+                <div className="col-md-4 mb-3">
+                  <div className="input_field">
+                    <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
+                    {
+                      state_list && state_list?.length > 0 ?
+                        (<select
+                          value={data?.state}
+                          name="state"
+                          onChange={(e) => handleChange(e)}
+                          className='form-control form-select bg-transparent'
+                        >
+                          <option value={"none"} key={"none"}>Select a state</option>
+                          {state_list?.map((opt, index) => {
+
+
+                            if (opt?.state !== state_list[index - 1]?.state) {
+                              console.log("in")
+                              return (
+                                <option value={opt?.state} key={index}>{opt?.state}</option>
+                              )
+                            }
+                          })
+                          }
+                        </select>) :
+                        (<input
+                          type="text"
+                          placeholder='No country selected'
+                          className='form-control'
+                          readOnly
+                        />)
+                    }
+                  </div>
+                </div>
+                <div className="col-md-4 mb-3">
+                  <div className="input_field">
+                    <p className="get-text ">City/Suburb<span style={{ color: 'red' }} >*</span></p>
+                    {
+                      city_list && city_list.length > 0 ? (
+                        <select
+                          value={data.city}
+                          name="city"
+                          onChange={(e) => handleChange(e)}
+                          className='form-control form-select bg-transparent'
+                        >
+                          <option value="none" key="none">Select a city</option>
+                          {city_list?.map((opt, index) => {
+                            if (city_list[index]?.city !== city_list[index - 1]?.city && opt?.city !== "") {
+                              return (
+                                <option value={opt?.city} key={index}>{opt?.city}</option>
+                              )
+                            }
+                          })
+                          }
+                        </select>
+                      ) : (
+                        <input
+                          type="text"
+                          name="city"
+                          value='No state selected'
+                          className='form-control'
+                          readOnly
+                        />
+                      )
+                    }
+                  </div>
+                </div>
+                <div className="col-md-4 mb-3">
+                  <div className="input_field">
+                    <p className="get-text">Zip/Postal Code<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="post_code"
+                      value={data.post_code}
+                      maxLength="4"
+                      list='postal_list'
+                      onChange={handleNumericOnly}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.post_code && formik.errors.post_code },
+                        {
+                          'is-valid': formik.touched.post_code && !formik.errors.post_code,
+                        }
+                      )}
+                    />
+                    <datalist id="postal_list">
+                      {
+                        postal_list.length > 0 && postal_list?.map((opt, index) => {
+                          return <option value={opt.post_code} key={index} />
+                        })
+                      }
+                    </datalist>
+                  </div>
+                </div>
+              </>
+            ) : <></>
+          }
+          <div className="col-md-4 mb-3">
             <div className="input_field">
               <p className="get-text">Flat/Unit No.</p>
               <input
@@ -454,7 +599,7 @@ const SenderDetails = ({ handleStep, step }) => {
               />
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 mb-3">
             <div className="input_field">
               <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
               <input
@@ -493,123 +638,6 @@ const SenderDetails = ({ handleStep, step }) => {
             </div>
           </div>
         </div>
-        <div className="row each-row">
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">Postal Code<span style={{ color: 'red' }} >*</span></p>
-              <input
-                type="text"
-                name="post_code"
-                value={data.post_code}
-                maxLength="4"
-                onChange={handleNumericOnly}
-                className={clsx(
-                  'form-control bg-transparent',
-                  { 'is-invalid': formik.touched.post_code && formik.errors.post_code },
-                  {
-                    'is-valid': formik.touched.post_code && !formik.errors.post_code,
-                  }
-                )}
-              />
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
-              {
-                city_list && city_list.length > 0 ? (
-                  <select
-                    value={data.city}
-                    name="city"
-                    onChange={(e) => handleChange(e)}
-                    className='form-control form-select bg-transparent'
-                  >
-
-                    {city_list?.map((opt) => {
-                      return (
-                        <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
-                      )
-                    })
-                    }
-                  </select>
-                ) : (
-                  <input
-                    type="text"
-                    name="city"
-                    value={data.city}
-                    onKeyDown={(e) => { handleKeyDown(e, 35) }}
-                    {...formik.getFieldProps("city")}
-                    className={clsx(
-                      'form-control bg-transparent',
-                      { 'is-invalid': formik.touched.city && formik.errors.city },
-                      {
-                        'is-valid': formik.touched.city && !formik.errors.city,
-                      }
-                    )}
-                  />
-                )
-              }
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
-              {
-                state_list && state_list.length > 0 ?
-                  (<select
-                    value={data.state}
-                    name="state"
-                    onChange={(e) => handleChange(e)}
-                    className='form-control form-select bg-transparent'
-                  >
-
-                    {state_list?.map((opt) => {
-                      return (
-                        <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
-                      )
-                    })
-                    }
-                  </select>) :
-                  (<input
-                    type="text"
-                    name="state"
-                    value={data.state}
-                    onKeyDown={(e) => { handleKeyDown(e, 30) }}
-                    {...formik.getFieldProps("state")}
-                    className={clsx(
-                      'form-control bg-transparent',
-                      { 'is-invalid': formik.touched.state && formik.errors.state },
-                      {
-                        'is-valid': formik.touched.state && !formik.errors.state,
-                      }
-                    )}
-                  />)
-              }
-            </div>
-          </div>
-        </div>
-        <div className="row each-row">
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">Country Name<span style={{ color: 'red' }} >*</span></p>
-              <select
-                value={data.country}
-                name="country"
-                onChange={(e) => handleChange(e)}
-                className='form-control form-select bg-transparent'
-              >
-                {
-                  countryList && countryList.length > 0 ?
-                    countryList?.map((opt) => {
-                      return (
-                        <option value={opt?.name} id={opt?.id}>{opt?.name}</option>
-                      )
-                    }) : ""
-                }
-              </select>
-            </div>
-          </div>
-        </div>
       </form>
       <div className="row each-row">
         <div className="col-md-2 new_buttonss">
@@ -621,9 +649,6 @@ const SenderDetails = ({ handleStep, step }) => {
               <div className='digital_verification ' style={{ display: `${display == "none" ? "none" : "block"}` }}>
                 <div id="digitalid-verify"></div>
               </div>
-              {/* <button onCLick={() => { valid() }} style={{ display: `${display == "block" ? "none" : "block"}`, border: "1px solid rgb(0, 53, 166)", backgroundColor: "rgb(0, 69, 216)", width: "280px", height: "50px", borderRadius: "5px", padding: "10px", boxShadow: "rgba(11, 11, 11, 0.49) 0px 2px 4px 0px", cursor: "pointer" }} >
-                <img src="https://digitalid-sandbox.com/sdk/images/verify-with-digital-id.svg" alt="Verify with Digital ID" style={{ marginTop: "3px", height: "22px" }} />
-              </button> */}
             </>
           ) : (
             <>
