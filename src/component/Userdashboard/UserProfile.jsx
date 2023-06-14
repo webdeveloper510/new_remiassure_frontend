@@ -150,6 +150,12 @@ const Profile = () => {
       setData({ ...data, country_code: array_1[0]?.iso2, state: "none", city: "none", postcode: "" })
       array.sort((a, b) => (a.state > b.state) ? 1 : -1);
       setStateList(array);
+    } else if (data.country === "none") {
+      setData({ ...data, city: "none", postcode: "", state: "none" })
+      formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none" })
+      setCityList([])
+      setStateList([])
+      setPostalList([])
     }
   }, [data.country])
 
@@ -161,6 +167,10 @@ const Profile = () => {
       array.sort((a, b) => (a.city > b.city) ? 1 : -1);
 
       setCityList(array);
+    } else if (data.state === "none") {
+      setData({ ...data, city: "none", postcode: "" })
+      formik.setValues({ ...formik.values, city: "none", postcode: "" })
+      setCityList([])
     }
 
   }, [data.state, state_list])
@@ -173,9 +183,28 @@ const Profile = () => {
       setPostalList(postals)
       setData({ ...data, postcode: postals[0]?.post_code })
       formik.setValues({ ...formik.values, postcode: postals[0]?.post_code })
+    } else if (data.city === "none") {
+      setData({ ...data, postcode: "" })
+      formik.setValues({ ...formik.values, postcode: "" })
+      setPostalList([])
     }
 
   }, [data.city, city_list])
+
+  // useEffect(() => {
+  //   if (data.postcode !== "") {
+  //     console
+  //     if (data.postcode.length === 4) {
+  //       let array = state_list.filter((item) => {
+  //         return item.post_code === data?.postcode
+  //       })
+  //       array.sort((a, b) => (a.city > b.city) ? 1 : -1);
+  //       setCityList(array)
+  //       setData({ ...data, city: array[0]?.city, state: array[0]?.state })
+  //       formik.setValues({ ...formik.values, city: array[0]?.city, state: array[0]?.state })
+  //     }
+  //   }
+  // }, [data.postcode])
 
 
   const handleNumericOnly = (event) => {
@@ -543,7 +572,13 @@ const Profile = () => {
                             value={data.country}
                             name="country"
                             onChange={(e) => handleChange(e)}
-                            className='form-control form-select bg-transparent'
+                            className={clsx(
+                              'form-control form-select bg-transparent',
+                              { 'is-invalid': formik.touched.country && formik.errors.country },
+                              {
+                                'is-valid': formik.touched.country && !formik.errors.country,
+                              }
+                            )}
                           >
                             <option value={"none"} >Select a country</option>
                             <option value={"Australia"} >Australia</option>
@@ -560,7 +595,13 @@ const Profile = () => {
                                 value={data.state}
                                 name="state"
                                 onChange={(e) => handleChange(e)}
-                                className='form-control form-select bg-transparent'
+                                className={clsx(
+                                  'form-control form-select bg-transparent',
+                                  { 'is-invalid': formik.touched.state && formik.errors.state },
+                                  {
+                                    'is-valid': formik.touched.state && !formik.errors.state,
+                                  }
+                                )}
                               >
                                 <option value={"none"} key={"none"}>Select a state</option>
                                 {state_list?.map((opt, index) => {
@@ -575,7 +616,13 @@ const Profile = () => {
                               (<input
                                 type="text"
                                 placeholder='No country selected'
-                                className='form-control'
+                                className={clsx(
+                                  'form-control form-select bg-transparent',
+                                  { 'is-invalid': formik.touched.state && formik.errors.state },
+                                  {
+                                    'is-valid': formik.touched.state && !formik.errors.state,
+                                  }
+                                )}
                                 readOnly
                               />)
                           }
@@ -590,7 +637,13 @@ const Profile = () => {
                                 value={data.city}
                                 name="city"
                                 onChange={(e) => handleChange(e)}
-                                className='form-control form-select bg-transparent'
+                                className={clsx(
+                                  'form-control form-select bg-transparent',
+                                  { 'is-invalid': formik.touched.city && formik.errors.city },
+                                  {
+                                    'is-valid': formik.touched.city && !formik.errors.city,
+                                  }
+                                )}
                               >
                                 <option value="none" key="none">Select a city</option>
                                 {city_list?.map((opt, index) => {
@@ -606,8 +659,14 @@ const Profile = () => {
                               <input
                                 type="text"
                                 name="city"
-                                value='No state selected'
-                                className='form-control'
+                                placeholder='No state selected'
+                                className={clsx(
+                                  'form-control form-select bg-transparent',
+                                  { 'is-invalid': formik.touched.city && formik.errors.city },
+                                  {
+                                    'is-valid': formik.touched.city && !formik.errors.city,
+                                  }
+                                )}
                                 readOnly
                               />
                             )
