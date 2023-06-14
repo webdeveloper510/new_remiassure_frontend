@@ -60,7 +60,7 @@ const BankDetails = ({ handleStep, step }) => {
     f_name: Yup.string().min(2).max(25).required().trim(),
     l_name: Yup.string().min(2).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
-    mobile: Yup.string().min(9).max(18).required(),
+    mobile: Yup.string().min(11).max(18).required(),
     flat: Yup.string().min(1).max(15).notRequired().trim(),
     build_no: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(30).required().trim(),
@@ -168,7 +168,7 @@ const BankDetails = ({ handleStep, step }) => {
         e.preventDefault()
 
       } else {
-        const pattern =/^[A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
+        const pattern = /^[A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
         if (!pattern.test(e.key)) {
           e.preventDefault();
           e.stopPropagation()
@@ -530,12 +530,12 @@ const BankDetails = ({ handleStep, step }) => {
                       name="mobile"
                       value={formik.values.mobile}
                       inputStyle={{ border: "none", margin: "none" }}
-                      inputClass="phoneInp"
+                      inputClass="userPhone w-100"
                       defaultCountry={"gh"}
                       countryCodeEditable={false}
                       onChange={(val, coun) => { handlePhone(val, coun) }}
                       className={clsx(
-                        'form-control form-control-sm bg-transparent',
+                        'form-control form-control-sm bg-transparent py-0',
                         { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
                         {
                           'is-valid': formik.touched.mobile && !formik.errors.mobile,
@@ -605,7 +605,7 @@ const BankDetails = ({ handleStep, step }) => {
                 <div className="col-md-4">
                   <div className="input_field">
                     <p className="get-text">
-                      Postal Code
+                      Zip/Postal Code
                       {
                         isAfrican === true ? (
                           <></>
@@ -632,7 +632,7 @@ const BankDetails = ({ handleStep, step }) => {
                 </div>
                 <div className="col-md-4">
                   <div className="input_field">
-                    <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
+                    <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
                     {
                       city_list && city_list.length > 0 ? (
                         <select

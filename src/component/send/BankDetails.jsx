@@ -88,7 +88,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     f_name: Yup.string().min(1).max(25).required().trim(),
     l_name: Yup.string().min(1).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
-    mobile: Yup.string().min(10).max(18).required(),
+    mobile: Yup.string().min(11).max(18).required(),
     flat: Yup.string().min(1).max(15).notRequired().trim(),
     build_no: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(30).required().trim(),
@@ -395,12 +395,12 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   name="mobile"
                   value={formik.values.mobile}
                   inputStyle={{ border: "none", margin: "none" }}
-                  inputClass="phoneInp"
+                  inputClass="userPhone w-100"
                   defaultCountry={"gh"}
                   countryCodeEditable={false}
                   onChange={(val, coun) => { handlePhone(val, coun) }}
                   className={clsx(
-                    'form-control form-control-sm bg-transparent',
+                    'form-control form-control-sm bg-transparent py-0',
                     { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
                     {
                       'is-valid': formik.touched.mobile && !formik.errors.mobile,
@@ -469,7 +469,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             <div className="col-md-4">
               <div className="input_field">
                 <p className="get-text">
-                  Postal Code
+                  Zip/Postal Code
                   {
                     isAfrican === true ? (
                       <></>
@@ -488,7 +488,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.post_code && formik.errors.post_code },
                     {
-                      'is-valid': formik.touched.post_code && !formik.errors.post_code,
+                      'is-valid': formik.touched.post_code && !formik.errors.post_code && !isAfrican,
                     }
                   )}
                 />
@@ -497,7 +497,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             </div>
             <div className="col-md-4">
               <div className="input_field">
-                <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
+                <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
                 {
                   city_list && city_list.length > 0 ? (
                     <select
@@ -545,7 +545,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                       onChange={(e) => handleChange(e)}
                       className='form-control form-select bg-transparent'
                     >
-
                       {state_list?.map((opt) => {
                         return (
                           <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
@@ -570,7 +569,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 }
               </div>
             </div>
-
           </div>
           <div className="row each-row">
             <div className="col-md-4">

@@ -18,7 +18,7 @@ import authDashHelper from "../../utils/AuthDashHelper";
 const Editrecipientuser = () => {
 
   let { id } = useLocation()?.state;
-  
+
   const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState({
@@ -41,7 +41,7 @@ const Editrecipientuser = () => {
     first_name: Yup.string().min(1).max(25).required().trim(),
     last_name: Yup.string().min(1).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
-    mobile: Yup.string().min(9).max(18).required(),
+    mobile: Yup.string().min(10).max(18).required(),
     flat: Yup.string().min(1).max(15).notRequired().trim(),
     building: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(30).required().trim(),
@@ -136,7 +136,7 @@ const Editrecipientuser = () => {
       if (values.flat == "" || values.flat == undefined) {
         delete d["flat"]
       }
-      if (d.postcode === "" || d.postcode === undefined ) {
+      if (d.postcode === "" || d.postcode === undefined) {
         delete d['postcode'];
       }
       d.country_code = data.country_code
@@ -432,7 +432,7 @@ const Editrecipientuser = () => {
                             countryCodeEditable={false}
                             onChange={(val, coun) => { handlePhone(val, coun) }}
                             className={clsx(
-                              'form-control form-control-sm bg-transparent',
+                              'form-control form-control-sm bg-transparent py-0',
                               { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
                               {
                                 'is-valid': formik.touched.mobile && !formik.errors.mobile,
@@ -501,7 +501,7 @@ const Editrecipientuser = () => {
                       <div className="col-md-4">
                         <Form.Group className="form_label" >
                           <p className="get-text">
-                            Postal Code
+                            Zip/Postal Code
                             {
                               isAfrican === true ? (
                                 <></>
@@ -529,7 +529,7 @@ const Editrecipientuser = () => {
                       </div>
                       <div className="col-md-4">
                         <Form.Group className="form_label" >
-                          <p className="get-text">City/Town<span style={{ color: 'red' }} >*</span></p>
+                          <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
                           {
                             city_list && city_list.length > 0 ? (
                               <select
@@ -599,7 +599,7 @@ const Editrecipientuser = () => {
                           }
                         </Form.Group>
                       </div>
-                      <div className="col-md-4">
+                      <div className="col-md-4 mt-3">
                         <Form.Group className="form_label" >
                           <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                           <select

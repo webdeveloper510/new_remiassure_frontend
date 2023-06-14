@@ -22,7 +22,7 @@ const SenderDetails = ({ handleStep, step }) => {
     f_name: "", m_name: "", l_name: "",
     occupation: "", country_of_birth: "",
     dob: "", flat: "", build_no: "",
-    street: "", city: "none", country: "none", gender: "Male", occupation: "",
+    street: "", city: "none", country: "none", occupation: "",
     post_code: "", state: "none", email: userd.email, mobile: userd.mobile,
     customer_id: userd.customer_id, country_code: "AU", payment_per_annum: "none", value_per_annum: "none"
   })
@@ -31,7 +31,7 @@ const SenderDetails = ({ handleStep, step }) => {
     f_name: "", m_name: "", l_name: "",
     occupation: "", country_of_birth: "",
     dob: "", flat: "", build_no: "",
-    street: "", city: "none", country: "none", gender: "Male", occupation: "",
+    street: "", city: "none", country: "none", occupation: "",
     post_code: "", state: "none", email: userd.email, mobile: userd.mobile,
     customer_id: userd.customer_id, payment_per_annum: "none", value_per_annum: "none"
   }
@@ -43,9 +43,9 @@ const SenderDetails = ({ handleStep, step }) => {
     flat: Yup.string().min(1).max(15).notRequired().trim(),
     build_no: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(30).required().trim(),
-    city: Yup.string().min(1).max(35).required().trim(),
+    city: Yup.string().required().notOneOf(["none"]),
     post_code: Yup.string().length(4).required(),
-    state: Yup.string().min(2).max(35).required(),
+    state: Yup.string().required().notOneOf(["none"]),
     country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
     dob: Yup.date().required(),
     occupation: Yup.string().min(1).max(25).required().trim(),
@@ -60,7 +60,7 @@ const SenderDetails = ({ handleStep, step }) => {
     onSubmit: async (values) => {
       const local = JSON.parse(localStorage.getItem("transfer_data"))
       const user = JSON.parse(localStorage.getItem("remi-user-dt"))
-      local.sender = { ...values, email: user.email, customer_id: user.customer_id, mobile: user.mobile, country_code: data.country_code, gender: "Male" }
+      local.sender = { ...values, email: user.email, customer_id: user.customer_id, mobile: user.mobile, country_code: data.country_code }
       localStorage.removeItem("transfer_data")
       localStorage.setItem("transfer_data", JSON.stringify(local))
       if (localStorage.getItem("send-step")) {
@@ -199,6 +199,7 @@ const SenderDetails = ({ handleStep, step }) => {
       })
       let array = array_1[0]?.states;
       setData({ ...data, country_code: array_1[0]?.iso2, state: "none", city: "none", post_code: "" })
+      formik.setValues({ ...formik.values, state: "none", city: "none", post_code: "" })
       array.sort((a, b) => (a.state > b.state) ? 1 : -1);
       setStateList(array);
     }
@@ -212,6 +213,9 @@ const SenderDetails = ({ handleStep, step }) => {
       array.sort((a, b) => (a.city > b.city) ? 1 : -1);
 
       setCityList(array);
+    } else if (data.state === "none") {
+      setData({ ...data, city: "none", post_code: "" })
+      formik.setValues({ ...formik.values, city: "none", post_code: "" })
     }
 
   }, [data.state])
@@ -224,16 +228,18 @@ const SenderDetails = ({ handleStep, step }) => {
       setPostalList(postals)
       setData({ ...data, post_code: postals[0]?.post_code })
       formik.setValues({ ...formik.values, post_code: postals[0]?.post_code })
+    } else if (data.city === "none") {
+      setData({ ...data, post_code: "" })
+      formik.setValues({ ...formik.values, post_code: "" })
     }
-
   }, [data.city])
 
-  // const handleOnlyAplha = (event) => {
-  //   const result = event.target.value.replace(/[^a-z ]/gi, "");
-  //   setData({ ...data, [event.target.name]: result })
-  //   formik.setFieldValue(event.target.name, result)
-  //   formik.setFieldTouched(event.target.name, true)
-  // }
+  const handleOnlyAplha = (event) => {
+    const result = event.target.value.replace(/[^A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/? ]/gi, "");
+    setData({ ...data, [event.target.name]: result })
+    formik.setFieldValue(event.target.name, result)
+    formik.setFieldTouched(event.target.name, true)
+  }
 
   const handleNumericOnly = (event) => {
     const result = event.target.value.replace(/[^0-9]/, "");
@@ -273,8 +279,7 @@ const SenderDetails = ({ handleStep, step }) => {
                 name="f_name"
                 value={data.f_name}
                 maxLength="25"
-                onKeyDown={(e) => { handleKeyDown(e, 25) }}
-                {...formik.getFieldProps("f_name")}
+                onChange={handleOnlyAplha}
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.f_name && formik.errors.f_name },
@@ -295,8 +300,7 @@ const SenderDetails = ({ handleStep, step }) => {
                 className='form-control'
                 value={data.m_name}
                 maxLength="25"
-                onKeyDown={(e) => { handleKeyDown(e, 25) }}
-                {...formik.getFieldProps("m_name")}
+                onChange={handleOnlyAplha}
               />
             </div>
           </div>
@@ -308,8 +312,7 @@ const SenderDetails = ({ handleStep, step }) => {
                 name="l_name"
                 value={data.l_name}
                 maxLength="25"
-                onKeyDown={(e) => { handleKeyDown(e, 25) }}
-                {...formik.getFieldProps("l_name")}
+                onChange={handleOnlyAplha}
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.l_name && formik.errors.l_name },
@@ -378,8 +381,7 @@ const SenderDetails = ({ handleStep, step }) => {
                 name="occupation"
                 value={data.occupation}
                 id="occupation"
-                onKeyDown={(e) => handleKeyDown(e)}
-                {...formik.getFieldProps("occupation")}
+                onChange={(e) => handleOnlyAplha(e)}
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.occupation && formik.errors.occupation },
@@ -479,7 +481,13 @@ const SenderDetails = ({ handleStep, step }) => {
                 value={data.country}
                 name="country"
                 onChange={(e) => handleChange(e)}
-                className='form-control form-select bg-transparent'
+                className={clsx(
+                  'form-control bg-transparent',
+                  { 'is-invalid': formik.touched.country && formik.errors.country },
+                  {
+                    'is-valid': formik.touched.country && !formik.errors.country,
+                  }
+                )}
               >
                 <option value={"none"} >Select a country</option>
                 <option value={"Australia"} >Australia</option>
@@ -499,14 +507,17 @@ const SenderDetails = ({ handleStep, step }) => {
                           value={data?.state}
                           name="state"
                           onChange={(e) => handleChange(e)}
-                          className='form-control form-select bg-transparent'
+                          className={clsx(
+                            'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.state && formik.errors.state },
+                            {
+                              'is-valid': formik.touched.state && !formik.errors.state,
+                            }
+                          )}
                         >
                           <option value={"none"} key={"none"}>Select a state</option>
                           {state_list?.map((opt, index) => {
-
-
                             if (opt?.state !== state_list[index - 1]?.state) {
-                              console.log("in")
                               return (
                                 <option value={opt?.state} key={index}>{opt?.state}</option>
                               )
@@ -532,7 +543,13 @@ const SenderDetails = ({ handleStep, step }) => {
                           value={data.city}
                           name="city"
                           onChange={(e) => handleChange(e)}
-                          className='form-control form-select bg-transparent'
+                          className={clsx(
+                            'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.city && formik.errors.city },
+                            {
+                              'is-valid': formik.touched.city && !formik.errors.city,
+                            }
+                          )}
                         >
                           <option value="none" key="none">Select a city</option>
                           {city_list?.map((opt, index) => {

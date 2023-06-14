@@ -5682,7 +5682,9 @@ outline: none !important;
 box-shadow: none !important;
 }
 input.form-control.userPhone.w-100 {
-  padding-right: 40px !important;
+  padding-right: 0px !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 
