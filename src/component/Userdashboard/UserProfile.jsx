@@ -211,7 +211,6 @@ const Profile = () => {
     const result = event.target.value.replace(/[^0-9]/, "");
     setData({ ...data, [event.target.name]: result })
     formik.setFieldValue(event.target.name, result)
-    formik.setFieldTouched(event.target.name, true)
   }
 
   const handleChange = (e) => {

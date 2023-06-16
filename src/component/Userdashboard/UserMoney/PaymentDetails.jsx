@@ -7,18 +7,19 @@ import { loadStripe } from '@stripe/stripe-js'
 import { useRef } from 'react'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
-import { BiXCircle } from 'react-icons/bi'
 import { NavLink } from 'react-bootstrap'
 import { BsCheckCircleFill } from 'react-icons/bs'
 import { useEffect } from 'react'
 import PopVerify from '../../verification/PopVerify'
+import clsx from 'clsx'
 
 const PaymentDetails = ({ handleStep, step }) => {
 
-  const [data, setData] = useState({ payment_type: "Debit/Credit Card" })
+  const [data, setData] = useState({ payment_type: "Debit/Credit Card", reason: localStorage.getItem("reason") ? localStorage.getItem("reason") : "none" })
   const [modal, setModal] = useState(false)
   const [open_modal, setOpenModal] = useState(false)
   const [is_otp_verified, setIsOtpVerfied] = useState(false)
+  const [error, setError] = useState(false)
   const payRef = useRef(null)
   const navigate = useNavigate()
   const [transaction, setTransaction] = useState({ id: "", status: "", amount: "", curr: "", pay_id: "" })
@@ -37,16 +38,26 @@ const PaymentDetails = ({ handleStep, step }) => {
   }, [transaction])
 
   const handleChange = (e) => {
-    setData({ ...data, payment_type: e.target.value })
+    if (e.target.name === "reason") {
+      if (e.target.value === "none") {
+        setError(true)
+      } else {
+        setError(false)
+      }
+      setData({ ...data, reason: e.target.value })
+    } else {
+      setData({ ...data, payment_type: e.target.value })
+    }
   }
 
   const handlePayType = () => {
-    if (data.payment_type !== "Debit/Credit Card") {
-      toast.warn("Only debit/credit card option available at the momment")
-    } else {
+    if (data.reason !== "none" && data.payment_type === "Debit/Credit Card") {
       setModal(true)
+    } else {
+      setError(true)
     }
   }
+
   const handleTransaction = (values) => {
     setTransaction(values)
   }
@@ -62,6 +73,7 @@ const PaymentDetails = ({ handleStep, step }) => {
   const handleCancel = () => {
     localStorage.removeItem("send-step")
     localStorage.removeItem("transfer_data")
+    localStorage.removeItem("reason")
     window.location.reload()
   }
 
@@ -79,7 +91,7 @@ const PaymentDetails = ({ handleStep, step }) => {
   useEffect(() => {
     if (is_otp_verified) {
       const local = JSON.parse(localStorage.getItem("transfer_data"))
-      const data = {
+      const d = {
         // name: local?.recipient?.First_name,
         send_currency: local?.amount?.from_type,
         receive_currency: local?.amount?.to_type,
@@ -87,12 +99,12 @@ const PaymentDetails = ({ handleStep, step }) => {
         recipient_id: local?.recipient?.id,
         send_amount: local?.amount?.send_amt,
         receive_amount: local?.amount?.exchange_amt,
-        reason: "Family Support",
+        reason: data.reason ? data.reason : "Family Support",
         card_token: token?.id,
         exchange_rate: local?.amount?.exchange_rate
       }
       setLoader(true)
-      axios.post(`${global.serverUrl}/payment/stripe-charge/`, data, {
+      axios.post(`${global.serverUrl}/payment/stripe-charge/`, d, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },
@@ -184,6 +196,28 @@ const PaymentDetails = ({ handleStep, step }) => {
                       />
                       <span className="checkmark"></span>
                     </label>
+                  </div>
+                </div>
+                <div className="row each-row mb-3">
+                  <div className="col-md-5">
+                    <div className="input_field">
+                      <h5>Reason For Sending Money<span style={{ color: 'red' }} >*</span></h5>
+                      <select
+                        aria-label="Select a reason"
+                        name="reason"
+                        value={data.reason}
+                        onChange={(e) => handleChange(e)}
+                        className={`${error && data.reason === "none" ? "is-invalid" : !error && data.reason !== "none" ? "is-valid" : ""} form-control form-select`}
+                      >
+                        <option value="none">Select a reason</option>
+                        <option value="Family Support">Family Support</option>
+                        <option value="Education">Education</option>
+                        <option value="Tax Payment">Tax Payment</option>
+                        <option value="Loan Payment">Loan Payment</option>
+                        <option value="Travel Payment">Travel Payment</option>
+                        <option value="Utility Payment">Utility Payment</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
                 <div className="row">
