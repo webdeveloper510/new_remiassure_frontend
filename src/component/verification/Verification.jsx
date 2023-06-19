@@ -3,7 +3,7 @@ import OtpInput from "react18-input-otp";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router";
 import { resendOtp, verifyEmail } from "../../utils/Api";
-import { Alert } from "react-bootstrap";
+import { Alert, Button, Modal, ModalBody } from "react-bootstrap";
 import { useEffect } from "react";
 
 
@@ -33,8 +33,9 @@ const Verification = () => {
 
     const [loading, setLoading] = useState(false);
     const [otp, setOtp] = useState("");
-
+    const [count_invalid, setCountInvalid] = useState(0);
     const location = useLocation()
+    const [open_modal, setOpenModal] = useState(false)
     const data = location.state
 
     // start Error mesasge states
@@ -48,6 +49,13 @@ const Verification = () => {
     };
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (count_invalid === 3) {
+            setOpenModal(true)
+            setOtp("")
+        }
+    }, [count_invalid])
 
     useEffect(() => {
         setTimeout(() => {
@@ -106,6 +114,7 @@ const Verification = () => {
                 } else if (res.code == "400") {
                     toast.error(res.message,
                         { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
+                    setCountInvalid(count_invalid + 1)
                     setLoading(false)
                 }
             }).catch((error) => {
@@ -185,6 +194,7 @@ const Verification = () => {
                                                 value={otp}
                                                 onChange={handleChange}
                                                 numInputs={6}
+                                                isInputNum={true}
                                                 isSuccessed={true}
                                                 successStyle="success"
                                                 separator={<span></span>}
@@ -194,9 +204,10 @@ const Verification = () => {
                                             <span style={myStyle}>{EnterOtpText ? EnterOtpText : ""}</span>
                                             <span style={myStyle}>{InvalidotpText ? InvalidotpText : ""}</span>
                                             <div className="text-center pt-3">
-                                                <button variant="primary"
+                                                <button variant={count_invalid === 3 ? "secondary" : "primary"}
                                                     type="submit"
                                                     className="continue_button w-75"
+                                                    disabled={count_invalid === 3 ? true : false}
                                                 >
                                                     Continue
                                                     {
@@ -232,6 +243,15 @@ const Verification = () => {
                         </div>
                     </div>
                 </div>
+                <Modal show={open_modal} centered backdrop="static">
+                    <Modal.Header>Maximum limit reached</Modal.Header>
+                    <ModalBody>
+                        <h5>Please contact our Customer Service to continue</h5>
+                    </ModalBody>
+                    <Modal.Footer>
+                        <Button onClick={() => setOpenModal(false)}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
             </section>
         </>
     )

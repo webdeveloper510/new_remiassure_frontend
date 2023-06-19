@@ -380,7 +380,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 {formik.touched.email && formik.errors.email && (
                   <div className='fv-plugins-message-container mt-1'>
                     <div className='fv-help-block'>
-                      <span role='alert' className="text-danger">{formik.errors.email}</span>
+                      <span role='alert' className="text-danger" style={{ fontSize: "13px" }}>{formik.errors.email}</span>
                     </div>
                   </div>
                 )}
@@ -412,90 +412,62 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
           </div>
           <div className="row each-row">
             <h5>Address</h5>
-            <div className="col-md-4">
+            <div className="col-md-4" id="country">
               <div className="input_field">
-                <p className="get-text">Flat/Unit No.</p>
-                <input
-                  type="text"
-                  name="flat"
-                  value={data?.flat}
-                  onKeyDown={(e) => { handleEmail(e, 15) }}
-                  {...formik.getFieldProps("flat")}
-                  className='form-control bg-transparent'
-                />
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="input_field">
-                <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="text"
-                  name="build_no"
-                  value={data.build_no}
-                  onKeyDown={(e) => { handleEmail(e, 30) }}
-                  {...formik.getFieldProps("build_no")}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.build_no && formik.errors.build_no },
-                    {
-                      'is-valid': formik.touched.build_no && !formik.errors.build_no,
-                    }
-                  )}
-                />
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="input_field">
-                <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="text"
-                  name="street"
-                  value={data.street}
-                  onKeyDown={(e) => { handleEmail(e, 50) }}
-                  {...formik.getFieldProps("street")}
-
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.street && formik.errors.street },
-                    {
-                      'is-valid': formik.touched.street && !formik.errors.street,
-                    }
-                  )}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="row each-row">
-            <div className="col-md-4">
-              <div className="input_field">
-                <p className="get-text">
-                  Zip/Postal Code
+                <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
+                <select
+                  value={data.country}
+                  name="country"
+                  onChange={(e) => handleChange(e)}
+                  className='form-control form-select bg-transparent'
+                >
                   {
-                    isAfrican === true ? (
-                      <></>
-                    ) : (
-                      <span style={{ color: 'red' }} >*</span>
-                    )
+                    countryList && countryList.length > 0 ?
+                      countryList?.map((opt) => {
+                        return (
+                          <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
+                        )
+                      }) : ""
                   }
-                </p>
-                <input
-                  type="text"
-                  name="post_code"
-                  value={data.post_code}
-                  onKeyDown={(e) => handlePostCode(e, 3)}
-                  {...formik.getFieldProps("post_code")}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.post_code && formik.errors.post_code },
-                    {
-                      'is-valid': formik.touched.post_code && !formik.errors.post_code && !isAfrican,
-                    }
-                  )}
-                />
-
+                </select>
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-4" id="state">
+              <div className="input_field">
+                <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
+                {
+                  state_list && state_list.length > 0 ?
+                    (<select
+                      value={data.state}
+                      name="state"
+                      onChange={(e) => handleChange(e)}
+                      className='form-control form-select bg-transparent'
+                    >
+                      {state_list?.map((opt) => {
+                        return (
+                          <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
+                        )
+                      })
+                      }
+                    </select>) :
+                    (<input
+                      type="text"
+                      name="state"
+                      value={data.state}
+                      onKeyDown={(e) => { handleKeyDown(e, 30) }}
+                      {...formik.getFieldProps("state")}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.state && formik.errors.state },
+                        {
+                          'is-valid': formik.touched.state && !formik.errors.state,
+                        }
+                      )}
+                    />)
+                }
+              </div>
+            </div>
+            <div className="col-md-4" id="city">
               <div className="input_field">
                 <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
                 {
@@ -534,64 +506,92 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               </div>
 
             </div>
-            <div className="col-md-4">
+          </div>
+          <div className="row each-row">
+            <div className="col-md-4" id="post">
               <div className="input_field">
-                <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
-                {
-                  state_list && state_list.length > 0 ?
-                    (<select
-                      value={data.state}
-                      name="state"
-                      onChange={(e) => handleChange(e)}
-                      className='form-control form-select bg-transparent'
-                    >
-                      {state_list?.map((opt) => {
-                        return (
-                          <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
-                        )
-                      })
-                      }
-                    </select>) :
-                    (<input
-                      type="text"
-                      name="state"
-                      value={data.state}
-                      onKeyDown={(e) => { handleKeyDown(e, 30) }}
-                      {...formik.getFieldProps("state")}
-                      className={clsx(
-                        'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.state && formik.errors.state },
-                        {
-                          'is-valid': formik.touched.state && !formik.errors.state,
-                        }
-                      )}
-                    />)
-                }
+                <p className="get-text">
+                  Zip/Postal Code
+                  {
+                    isAfrican === true ? (
+                      <></>
+                    ) : (
+                      <span style={{ color: 'red' }} >*</span>
+                    )
+                  }
+                </p>
+                <input
+                  type="text"
+                  name="post_code"
+                  value={data.post_code}
+                  onKeyDown={(e) => handlePostCode(e, 3)}
+                  {...formik.getFieldProps("post_code")}
+                  className={clsx(
+                    'form-control bg-transparent',
+                    { 'is-invalid': formik.touched.post_code && formik.errors.post_code },
+                    {
+                      'is-valid': formik.touched.post_code && !formik.errors.post_code && !isAfrican,
+                    }
+                  )}
+                />
+
+              </div>
+            </div>
+            <div className="col-md-4" id="street">
+              <div className="input_field">
+                <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
+                <input
+                  type="text"
+                  name="street"
+                  value={data.street}
+                  onKeyDown={(e) => { handleEmail(e, 50) }}
+                  {...formik.getFieldProps("street")}
+
+                  className={clsx(
+                    'form-control bg-transparent',
+                    { 'is-invalid': formik.touched.street && formik.errors.street },
+                    {
+                      'is-valid': formik.touched.street && !formik.errors.street,
+                    }
+                  )}
+                />
+              </div>
+            </div>
+            <div className="col-md-4" id='flat'>
+              <div className="input_field">
+                <p className="get-text">Flat/Unit No.</p>
+                <input
+                  type="text"
+                  name="flat"
+                  value={data?.flat}
+                  onKeyDown={(e) => { handleEmail(e, 15) }}
+                  {...formik.getFieldProps("flat")}
+                  className='form-control bg-transparent'
+                />
               </div>
             </div>
           </div>
           <div className="row each-row">
-            <div className="col-md-4">
+            <div className="col-md-4" id="build">
               <div className="input_field">
-                <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
-                <select
-                  value={data.country}
-                  name="country"
-                  onChange={(e) => handleChange(e)}
-                  className='form-control form-select bg-transparent'
-                >
-                  {
-                    countryList && countryList.length > 0 ?
-                      countryList?.map((opt) => {
-                        return (
-                          <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
-                        )
-                      }) : ""
-                  }
-                </select>
+                <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
+                <input
+                  type="text"
+                  name="build_no"
+                  value={data.build_no}
+                  onKeyDown={(e) => { handleEmail(e, 30) }}
+                  {...formik.getFieldProps("build_no")}
+                  className={clsx(
+                    'form-control bg-transparent',
+                    { 'is-invalid': formik.touched.build_no && formik.errors.build_no },
+                    {
+                      'is-valid': formik.touched.build_no && !formik.errors.build_no,
+                    }
+                  )}
+                />
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-4" id="reason">
               <div className="input_field">
                 <p className="get-text">Reason For Sending Money<span style={{ color: 'red' }} >*</span></p>
                 <select
@@ -626,7 +626,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             <div className="col-md-8">
               <button type="submit" className="form-button">Continue</button>
               <button type="button" className="form-button" onClick={() => { handlePrevious() }}>Previous</button>
-
             </div>
           </div>
         </div>

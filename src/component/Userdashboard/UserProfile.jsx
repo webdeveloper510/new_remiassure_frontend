@@ -147,7 +147,7 @@ const Profile = () => {
         return item?.name === data.country
       })
       let array = array_1[0]?.states;
-      setData({ ...data, country_code: array_1[0]?.iso2, state: "none", city: "none", postcode: "" })
+      setData({ ...data, state: "none", city: "none", postcode: "" })
       array.sort((a, b) => (a.state > b.state) ? 1 : -1);
       setStateList(array);
     } else if (data.country === "none") {
@@ -429,12 +429,12 @@ const Profile = () => {
                           <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                           <PhoneInput
                             onlyCountries={["au", "nz"]}
-                            country={data?.country_code ? data?.country_code?.toLowerCase() : "au"}
                             name="mobile"
                             value={data.mobile}
                             inputStyle={{ border: "none", margin: "none" }}
                             inputClass="userPhone w-100"
                             defaultCountry={"au"}
+                            placeholder=""
                             countryCodeEditable={false}
                             onChange={(val, coun) => { handlePhone(val, coun) }}
                             className={clsx(
@@ -703,6 +703,25 @@ const Profile = () => {
                         {/* <p>{formik.errors.postcode}</p> */}
                       </div>
                       <div className="col-md-4">
+                        <Form.Group className="form_label" controlId="street">
+                          <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
+                          <input
+                            type="text"
+                            name="street"
+                            value={data.street}
+                            onKeyDown={(e) => { handleEmail(e, 30) }}
+                            {...formik.getFieldProps("street")}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.street && formik.errors.street },
+                              {
+                                'is-valid': formik.touched.street && !formik.errors.street,
+                              }
+                            )}
+                          />
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-4">
                         <Form.Group className="form_label" controlId="flat">
                           <p className="get-text">Flat/Unit No.</p>
                           <input
@@ -715,6 +734,9 @@ const Profile = () => {
                           />
                         </Form.Group>
                       </div>
+
+                    </div>
+                    <div className="row each-row">
                       <div className="col-md-4">
                         <Form.Group className="form_label" controlId="building">
                           <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
@@ -730,27 +752,6 @@ const Profile = () => {
                               { 'is-invalid': formik.touched.building && formik.errors.building },
                               {
                                 'is-valid': formik.touched.building && !formik.errors.building,
-                              }
-                            )}
-                          />
-                        </Form.Group>
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <div className="col-md-4">
-                        <Form.Group className="form_label" controlId="street">
-                          <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            name="street"
-                            value={data.street}
-                            onKeyDown={(e) => { handleEmail(e, 30) }}
-                            {...formik.getFieldProps("street")}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.street && formik.errors.street },
-                              {
-                                'is-valid': formik.touched.street && !formik.errors.street,
                               }
                             )}
                           />

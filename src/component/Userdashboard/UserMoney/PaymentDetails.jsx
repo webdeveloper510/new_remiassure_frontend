@@ -116,7 +116,7 @@ const PaymentDetails = ({ handleStep, step }) => {
           }
           setIsOtpVerfied(false)
           setLoader(false)
-          setTransaction({ id: res.data.data.transaction_id, pay_id: res.data.data.payment_id, status: "Completed", amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+          setTransaction({ id: res.data.data.transaction_id, pay_id: res.data.data.payment_id, status: "Pending", amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
           // setTimeout(() => {
           //   window.location.reload()
           // }, 2 * 1000)

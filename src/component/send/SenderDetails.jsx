@@ -603,6 +603,25 @@ const SenderDetails = ({ handleStep, step }) => {
               </>
             ) : <></>
           }
+          <div className="col-md-4">
+            <div className="input_field">
+              <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
+              <input
+                type="text"
+                name="street"
+                value={data.street}
+                onChange={handleAddress}
+                maxLength="30"
+                className={clsx(
+                  'form-control bg-transparent',
+                  { 'is-invalid': formik.touched.street && formik.errors.street },
+                  {
+                    'is-valid': formik.touched.street && !formik.errors.street,
+                  }
+                )}
+              />
+            </div>
+          </div>
           <div className="col-md-4 mb-3">
             <div className="input_field">
               <p className="get-text">Flat/Unit No.</p>
@@ -635,25 +654,7 @@ const SenderDetails = ({ handleStep, step }) => {
               />
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
-              <input
-                type="text"
-                name="street"
-                value={data.street}
-                onChange={handleAddress}
-                maxLength="30"
-                className={clsx(
-                  'form-control bg-transparent',
-                  { 'is-invalid': formik.touched.street && formik.errors.street },
-                  {
-                    'is-valid': formik.touched.street && !formik.errors.street,
-                  }
-                )}
-              />
-            </div>
-          </div>
+
         </div>
       </form>
       <div className="row each-row">

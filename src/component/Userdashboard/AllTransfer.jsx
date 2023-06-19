@@ -31,13 +31,13 @@ const AllTranfer = ({ status, data }) => {
     if (data?.length != 0) {
       if (status == "pending") {
         let pending = data.filter((item) => {
-          return item.status == "pending"
+          return item.payment_status === "pending"
         })
         setTransactionData(pending)
 
       } else if (status == "completed") {
         let completed = data.filter((item) => {
-          return item.status == "completed"
+          return item.payment_status === "completed"
         })
         setTransactionData(completed)
       } else {
@@ -81,6 +81,8 @@ const AllTranfer = ({ status, data }) => {
                       <th>Date</th>
                       <th>Reason</th>
                       <th>Status</th>
+                      <th>Receipt</th>
+
                     </tr>
                   </thead>
                   <tbody>
@@ -116,7 +118,7 @@ const AllTranfer = ({ status, data }) => {
                         status === "completed" || "all" ? (
                           <NavLink to="/user-send-money" className="send_money">Send Money</NavLink>
                         ) : (
-                         <></>
+                          <></>
                         )
                       }
                     </div>
