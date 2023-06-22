@@ -1473,6 +1473,7 @@ color: #191970;
   padding-top: 70px;
   z-index: 2;
     position: relative;
+    min-height:400px;
 }
 .card-support{
   /* width: 1180px; */
@@ -5947,4 +5948,7 @@ background-color: #fff !important;
 button.session_cont.btn.btn-primary {
 background-color: #6414E9 !important;
 border : 1px solid #6414E9 !important
+}
+.custom-height{
+  min-height:450px;
 }

@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import { exchangeRate } from '../../../utils/Api';
 import { useNavigate, useLocation } from 'react-router';
+import { toast } from 'react-toastify';
 
 const AmountDetail = ({ handleStep, step }) => {
 
@@ -158,13 +159,25 @@ const AmountDetail = ({ handleStep, step }) => {
     }
 
     const handleRecieveMethod = (e) => {
-        setAmtDetail({ ...amt_detail, recieve_meth: e.target.value })
-        formik.setFieldValue("recieve_meth", e.target.value)
+        if (e.target.value === "Mobile Wallet") {
+            toast.warn("THIS SERVICE OPTION IS CURRENTLY UNAVAILABLE", { hideProgressBar: true, autoClose: 500, position: "bottom-right" })
+            setAmtDetail({ ...amt_detail, recieve_meth: "Bank Transfer" })
+            formik.setFieldValue("recieve_meth", "Bank Transfer")
+        } else {
+            setAmtDetail({ ...amt_detail, recieve_meth: e.target.value })
+            formik.setFieldValue("recieve_meth", e.target.value)
+        }
     }
 
     const handlePayoutPart = (e) => {
-        setAmtDetail({ ...amt_detail, payout_part: e.target.value })
-        formik.setFieldValue("payout_part", e.target.value)
+        if (e.target.value === "Services") {
+            toast.warn("THIS SERVICE OPTION IS CURRENTLY UNAVAILABLE", { hideProgressBar: true, autoClose: 1000, position: "bottom-right" })
+            setAmtDetail({ ...amt_detail, payout_part: "Bank" })
+            formik.setFieldValue("payout_part", "Bank")
+        } else {
+            setAmtDetail({ ...amt_detail, payout_part: e.target.value })
+            formik.setFieldValue("payout_part", e.target.value)
+        }
     }
 
     useEffect(() => {
@@ -289,7 +302,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                             type="radio"
                                             name="recivedMethod"
                                             value="Bank Transfer"
-                                            defaultChecked={amt_detail.recieve_meth == "Bank Transfer"}
+                                            checked={amt_detail.recieve_meth == "Bank Transfer"}
                                             onChange={(e) => { handleRecieveMethod(e) }}
                                         />
                                         <span className="checkmark"></span>

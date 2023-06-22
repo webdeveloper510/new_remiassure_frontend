@@ -155,6 +155,11 @@ const Verification = () => {
         setLoading(false)
     }
 
+    const handleClose = () => {
+        setOpenModal(false)
+        navigate("/help")
+    }
+
     return (
         <>
             <section className="why-us section-bgba verification_banner">
@@ -244,12 +249,12 @@ const Verification = () => {
                     </div>
                 </div>
                 <Modal show={open_modal} centered backdrop="static">
-                    <Modal.Header>Maximum limit reached</Modal.Header>
+                    <Modal.Header><b style={{ color: "#6414E9" }}>Maximum limit reached</b></Modal.Header>
                     <ModalBody>
-                        <h5>Please contact our Customer Service to continue</h5>
+                        <h5>Please contact our <b style={{ color: "#6414E9" }}>Customer Service</b> to continue</h5>
                     </ModalBody>
-                    <Modal.Footer>
-                        <Button onClick={() => setOpenModal(false)}>Close</Button>
+                    <Modal.Footer className="pt-0">
+                        <Button onClick={() => handleClose()} variant="primary" className="continue_button w-50 p-0">Visit Support</Button>
                     </Modal.Footer>
                 </Modal>
             </section>

@@ -236,25 +236,12 @@ const Dashboard = () => {
 
                                                     </table>
                                                 ) : (
-                                                    <>
-                                                    </>
-                                                )
-                                                }
-
-                                                {transactionData?.length == 0 ? (
-                                                    <div className="no-data">
-                                                        <img src={nodata} alt="no-data" />
-                                                        <div className="col-md-12">
-                                                            <p><b>No transfers yet</b><br></br>Once you send money, we'll show you a detailed list of your transfers here.</p>
-                                                        </div>
-                                                        <div className="col-md-12">
-                                                            <NavLink to="/user-send-money" className="send_money">Send Money</NavLink>
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    <>
-
-                                                    </>
+                                                    <table className="table table-responsive-md card-table previous-transactions">
+                                                        <thead>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
                                                 )
                                                 }
                                             </div>
@@ -267,7 +254,7 @@ const Dashboard = () => {
                                                     </div>
                                                 </div>
 
-                                                {recipientData?.length != 0 ? (
+                                                {recipientData?.length > 0 ? (
                                                     <table className="table table-responsive-md card-table previous-transactions">
                                                         <thead>
                                                             <tr>
@@ -303,30 +290,14 @@ const Dashboard = () => {
                                                         </tbody>
                                                     </table>
                                                 ) : (
-                                                    <>
-                                                    </>
+                                                    <table className="table table-responsive-md card-table previous-transactions">
+                                                        <thead>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
                                                 )
                                                 }
-                                                {
-                                                    recipientData?.length == 0 ? (
-                                                        <>
-                                                            <section>
-                                                                <div className="card">
-                                                                    <div className="card-body">
-                                                                        <div className="add-rec-new">
-                                                                            <img src={norecipients} alt="empty" />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </section>
-                                                        </>
-                                                    ) : (
-                                                        <>
-
-                                                        </>
-                                                    )
-                                                }
-
                                             </div>
                                         </div>
                                     </div>

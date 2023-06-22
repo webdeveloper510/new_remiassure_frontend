@@ -20,7 +20,7 @@ const Addnewrecipient = () => {
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
   const navigate = useNavigate()
-  const [isAfrican, setIsAfrican] = useState(false)
+  const [isAfrican, setIsAfrican] = useState(true)
 
 
   const [data, setData] = useState({
@@ -56,15 +56,16 @@ const Addnewrecipient = () => {
     countryList?.map((item) => {
       if (item?.name === value) {
         setStateList(item?.states);
-        setData({ ...data, state: item?.states[0].name })
-        formik.setFieldValue("state", item?.states[0].name)
+        if (item.states.length > 0) {
+          setData({ ...data, state: item?.states[0].name })
+          formik.setFieldValue("state", item?.states[0].name)
+        } else {
+          setData({ ...data, state: "" })
+          formik.setFieldValue("state", "")
+        }
       }
     })
-    if (value === "Ghana" || value === "Nigeria" || value === "Kenya") {
-      setIsAfrican(true)
-    } else {
-      setIsAfrican(false)
-    }
+
   }, [data.country])
 
   useEffect(() => {
@@ -72,8 +73,13 @@ const Addnewrecipient = () => {
     state_list?.map((item) => {
       if (item?.name === value) {
         setCityList(item?.cities);
-        setData({ ...data, city: item?.cities[0].name })
-        formik.setFieldValue("city", item?.cities[0].name)
+        if (item.cities.length > 0) {
+          setData({ ...data, city: item?.cities[0].name })
+          formik.setFieldValue("city", item?.cities[0].name)
+        } else {
+          setData({ ...data, city: "" })
+          formik.setFieldValue("city", "")
+        }
       }
     })
   }, [data.state])
@@ -93,7 +99,7 @@ const Addnewrecipient = () => {
     building: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(30).required().trim(),
     city: Yup.string().min(1).max(35).required().trim(),
-    post_code: isAfrican === true ? Yup.string().length(4).notRequired() : Yup.string().length(4).required(),
+    post_code: Yup.string().length(4).notRequired(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
     reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
@@ -508,6 +514,25 @@ const Addnewrecipient = () => {
                     </div>
                   </div>
                   <div className="row each-row">
+                    <div className="col-md-4" id="street">
+                      <Form.Group className="form_label" controlId="street">
+                        <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+                          name="street"
+                          value={data.street}
+                          onKeyDown={(e) => { handleEmail(e, 50) }}
+                          {...formik.getFieldProps("street")}
+                          className={clsx(
+                            'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.street && formik.errors.street },
+                            {
+                              'is-valid': formik.touched.street && !formik.errors.street,
+                            }
+                          )}
+                        />
+                      </Form.Group>
+                    </div>
                     <div className="col-md-4" id="zip">
                       <Form.Group className="form_label" >
                         <p className="get-text">
@@ -534,40 +559,6 @@ const Addnewrecipient = () => {
 
                       </Form.Group>
                     </div>
-                    <div className="col-md-4" id="street">
-                      <Form.Group className="form_label" controlId="street">
-                        <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
-                        <input
-                          type="text"
-                          name="street"
-                          value={data.street}
-                          onKeyDown={(e) => { handleEmail(e, 50) }}
-                          {...formik.getFieldProps("street")}
-                          className={clsx(
-                            'form-control bg-transparent',
-                            { 'is-invalid': formik.touched.street && formik.errors.street },
-                            {
-                              'is-valid': formik.touched.street && !formik.errors.street,
-                            }
-                          )}
-                        />
-                      </Form.Group>
-                    </div>
-                    <div className="col-md-4" id="flat">
-                      <Form.Group className="form_label" controlId="flat">
-                        <p className="get-text">Flat/Unit No.</p>
-                        <input
-                          type="text"
-                          name="flat"
-                          value={data.flat}
-                          onKeyDown={(e) => { handleEmail(e, 15) }}
-                          {...formik.getFieldProps("flat")}
-                          className='form-control bg-transparent'
-                        />
-                      </Form.Group>
-                    </div>
-                  </div>
-                  <div className="row each-row">
                     <div className="col-md-4" id="build">
                       <Form.Group className="form_label" controlId="build">
                         <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
@@ -584,6 +575,22 @@ const Addnewrecipient = () => {
                               'is-valid': formik.touched.building && !formik.errors.building,
                             }
                           )}
+                        />
+                      </Form.Group>
+                    </div>
+
+                  </div>
+                  <div className="row each-row">
+                    <div className="col-md-4" id="flat">
+                      <Form.Group className="form_label" controlId="flat">
+                        <p className="get-text">Flat/Unit No.</p>
+                        <input
+                          type="text"
+                          name="flat"
+                          value={data.flat}
+                          onKeyDown={(e) => { handleEmail(e, 15) }}
+                          {...formik.getFieldProps("flat")}
+                          className='form-control bg-transparent'
                         />
                       </Form.Group>
                     </div>
