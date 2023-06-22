@@ -1433,7 +1433,7 @@ color: #191970;
 # Help-Section
 --------------------------------------------------------------*/
 .help_banner {
-  background-image: url(../img/about/about_banner.png);
+  background-image: url(../img/about/about_banner.webp);
   /* min-height: 866px; */
   width: 100%;
   background-repeat: no-repeat;
@@ -1441,6 +1441,12 @@ color: #191970;
 }
 .help-accordian {
   margin-bottom: 20px;
+}
+.support_image img {
+  width: 100%;
+}
+.help_support img {
+  width: auto;
 }
 .accrodion_contents button {
   font-family: var(--font-family) !important;
@@ -1861,7 +1867,7 @@ p.already_content a {
   padding-top: 14px !important;
 }
 .about_banner {
-  background-image: url(../img/about/about_banner.png);
+  background-image: url(../img/about/about_banner.webp);
   /* min-height: 866px; */
   width: 100%;
   background-repeat: no-repeat;
@@ -2625,6 +2631,10 @@ span.progress-step {
 .dashboard .no-data img {
   width: 40%;
 }
+.dashboard .no-data-transaction img {
+  width: auto;
+}
+
 .verification_banner{
     width: 100%;
     background: linear-gradient(182deg, #A374F2 1.68%, #6414E9 97.64%);

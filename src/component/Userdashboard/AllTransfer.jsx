@@ -110,7 +110,7 @@ const AllTranfer = ({ status, data }) => {
               ) : (
                 <>
                   <div className="no-data">
-                    <img src={nodata} alt="no-data" height="400px" />
+                    <img src={nodata} alt="no-data no-data-transaction" height="400px" />
                     <div className="col-md-12">
                     </div>
                     <div className="col-md-12">
