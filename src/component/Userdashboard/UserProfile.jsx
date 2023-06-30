@@ -51,7 +51,7 @@ const Profile = () => {
     Last_name: Yup.string().min(2).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(11).max(18).required(),
-    flat: Yup.string().min(1).max(15).notRequired().trim(),
+    flat: Yup.string().min(1).max(30).notRequired(),
     building: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(30).required().trim(),
     city: Yup.string().min(1).max(35).required().trim().notOneOf(["none"]),
@@ -59,7 +59,7 @@ const Profile = () => {
     state: Yup.string().min(2).max(35).required().notOneOf(["none"]),
     country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
     Date_of_birth: Yup.date().required(),
-    occupation: Yup.string().min(1).max(25).required().trim(),
+    occupation: Yup.string().min(1).max(50).required().trim(),
     Country_of_birth: Yup.string().required().notOneOf(["none"]),
     payment_per_annum: Yup.string().required().notOneOf(["none"]),
     value_per_annum: Yup.string().required().notOneOf(["none"]),
@@ -312,6 +312,23 @@ const Profile = () => {
         localStorage.setItem("remi-user-dt", JSON.stringify(local))
         setLoading(false)
         toast.success("Profile Update Successful", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+        formik.resetForm()
+        setLoading(true)
+        userProfile().then((res) => {
+          if (res.code == "200") {
+            setLoading(false)
+            let p = res.data.mobile
+            let phone = p.split("+");
+            setData({ ...res.data, mobile: phone[1] })
+            formik.setValues({ ...res.data, mobile: phone[1] })
+            setIsUpdate({ email: res.data.email, mobile: phone[1] })
+          }
+        }).catch((error) => {
+          if (error.response.data.code == "400") {
+            toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+          }
+          setLoading(false)
+        })
       } else {
         setLoading(false)
       }
@@ -351,6 +368,7 @@ const Profile = () => {
                             name="First_name"
                             value={formik.values.First_name}
                             onChange={handleOnlyAplha}
+                            maxLength="25"
                             className={clsx(
                               'form-control bg-transparent',
                               { 'is-invalid': formik.touched.First_name && formik.errors.First_name },
@@ -368,6 +386,7 @@ const Profile = () => {
                             type="text"
                             name="Middle_name"
                             className='form-control'
+                            maxLength="25"
                             onChange={handleOnlyAplha}
                             {...formik.getFieldProps("Middle_name")}
                           />
@@ -380,6 +399,7 @@ const Profile = () => {
                             type="text"
                             name="Last_name"
                             value={data.Last_name}
+                            maxLength="25"
                             onChange={handleOnlyAplha}
                             className={clsx(
                               'form-control bg-transparent',
@@ -503,6 +523,7 @@ const Profile = () => {
                             name="occupation"
                             value={data.occupation}
                             id="occupation"
+                            maxlength="50"
                             onChange={(e) => handleOnlyAplha(e)}
                             className={clsx(
                               'form-control bg-transparent',

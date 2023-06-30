@@ -30,6 +30,12 @@ import SingleCardProfile from './component/Userdashboard/SingleCardProfile';
 import Page404 from './component/pageNotfound/Page404';
 import UserMoney from "./component/Userdashboard/UserMoney/UserMoney"
 import EmailVerify from './component/verification/EmailVerify';
+import Working from './component/footer/Working';
+import News from './component/footer/News';
+import Privacy from './component/footer/Privacy';
+import T_c from './component/footer/T_c';
+import Mobile from './component/footer/Mobile';
+import AML from './component/footer/Aml';
 
 const routes = [
   {
@@ -37,6 +43,12 @@ const routes = [
     children: [
       { path: '/', element: <Home /> },
       { path: 'about-us', element: <Aboutus /> },
+      { path: 'working', element: <Working /> },
+      { path: 'news', element: <News /> },
+      { path: 'privacy-policy', element: <Privacy /> },
+      { path: 'terms-and-condition', element: <T_c /> },
+      { path: 'apps', element: <Mobile /> },
+      { path: 'aml-policy', element: <AML /> },
       { path: 'help', element: <Help /> },
       { path: 'sign-up', element: <Signup /> },
       { path: 'referral', element: <Referral /> },

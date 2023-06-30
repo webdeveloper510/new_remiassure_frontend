@@ -8,6 +8,7 @@ import { NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import clsx from "clsx";
+import { useRef } from "react";
 import { exchangeRate } from "../../utils/Api";
 
 function WhyRenderingArrayOfObjects() {
@@ -100,84 +101,85 @@ function BankTransferArrayOfObjects() {
     )
 }
 
-function FlagHomeArrayofoObjects() {
-    const flagData = [
-        {
-            id: 1,
-            flag_src: "assets/img/home/Mask group.svg",
-            flag_title: "india",
-            flag_arrow_scr: "assets/img/home/arrow01.svg",
-        },
-        {
-            id: 2,
-            flag_src: "assets/img/home/Mask group.svg",
-            flag_title: "india",
-            flag_arrow_scr: "assets/img/home/arrow01.svg",
-        },
-        {
-            id: 3,
-            flag_src: "assets/img/home/Mask group.svg",
-            flag_title: "india",
-            flag_arrow_scr: "assets/img/home/arrow01.png",
-        },
-        {
-            id: 4,
-            flag_src: "assets/img/home/Mask group.svg",
-            flag_title: "india",
-            flag_arrow_scr: "assets/img/home/arrow01.svg",
-        },
-        {
-            id: 5,
-            flag_src: "assets/img/home/Mask group.svg",
-            flag_title: "india",
-            flag_arrow_scr: "assets/img/home/arrow01.svg",
-        },
-        {
-            id: 6,
-            flag_src: "assets/img/home/Mask group.svg",
-            flag_title: "india",
-            flag_arrow_scr: "assets/img/home/arrow01.svg",
-        },
-    ];
+// function FlagHomeArrayofoObjects() {
+//     const flagData = [
+//         {
+//             id: 1,
+//             flag_src: "assets/img/home/Mask group.svg",
+//             flag_title: "india",
+//             flag_arrow_scr: "assets/img/home/arrow01.svg",
+//         },
+//         {
+//             id: 2,
+//             flag_src: "assets/img/home/Mask group.svg",
+//             flag_title: "india",
+//             flag_arrow_scr: "assets/img/home/arrow01.svg",
+//         },
+//         {
+//             id: 3,
+//             flag_src: "assets/img/home/Mask group.svg",
+//             flag_title: "india",
+//             flag_arrow_scr: "assets/img/home/arrow01.png",
+//         },
+//         {
+//             id: 4,
+//             flag_src: "assets/img/home/Mask group.svg",
+//             flag_title: "india",
+//             flag_arrow_scr: "assets/img/home/arrow01.svg",
+//         },
+//         {
+//             id: 5,
+//             flag_src: "assets/img/home/Mask group.svg",
+//             flag_title: "india",
+//             flag_arrow_scr: "assets/img/home/arrow01.svg",
+//         },
+//         {
+//             id: 6,
+//             flag_src: "assets/img/home/Mask group.svg",
+//             flag_title: "india",
+//             flag_arrow_scr: "assets/img/home/arrow01.svg",
+//         },
+//     ];
 
-    const flagdataItems = flagData.map((flagvalue) => {
-        return (
+//     const flagdataItems = flagData.map((flagvalue) => {
+//         return (
 
-            <li key={flagvalue.id}>
-                <div className="col-lg-12">
-                    <div className="card card-flag01">
-                        <div className="row">
-                            <div className="col-4">
-                                <div className="card-body">
-                                    <img src={flagvalue.flag_src} alt="flag_icons" className="flag_icons" />
-                                </div>
-                            </div>
+//             <li key={flagvalue.id}>
+//                 <div className="col-lg-12">
+//                     <div className="card card-flag01">
+//                         <div className="row">
+//                             <div className="col-4">
+//                                 <div className="card-body">
+//                                     <img src={flagvalue.flag_src} alt="flag_icons" className="flag_icons" />
+//                                 </div>
+//                             </div>
 
-                            <div className="col-4">
-                                <p className="india-text">{flagvalue.flag_title}</p>
-                            </div>
+//                             <div className="col-4">
+//                                 <p className="india-text">{flagvalue.flag_title}</p>
+//                             </div>
 
-                            <div className="col-4">
-                                <img src={flagvalue.flag_arrow_scr} alt="arrow_icons" className="arrow_icons" />
-                            </div>
-                        </div>
+//                             <div className="col-4">
+//                                 <img src={flagvalue.flag_arrow_scr} alt="arrow_icons" className="arrow_icons" />
+//                             </div>
+//                         </div>
 
-                    </div>
-                </div>
-            </li>
+//                     </div>
+//                 </div>
+//             </li>
 
-        )
-    })
-    return (
-        <div>
-            {flagdataItems}
-        </div>
-    )
-}
+//         )
+//     })
+//     return (
+//         <div>
+//             {flagdataItems}
+//         </div>
+//     )
+// }
 
 
 const Home = () => {
 
+    const currency_ref = useRef()
     const token = localStorage.getItem("token");
     const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
     const items = [
@@ -212,15 +214,17 @@ const Home = () => {
         recieve_meth: "Bank Transfer"
     })
 
-
+    const [currency, setCurrency] = useState(null)
 
     useEffect(() => {
         document.documentElement.style.setProperty('--num', carouselItems.length);
     }, [carouselItems])
+
     const amountSchema = Yup.object().shape({
         send_amt: Yup.number()
             .required('Amount is required')
     })
+
     const initialValues = {
         send_amt: '',
         exchange_amt: '',
@@ -228,6 +232,7 @@ const Home = () => {
         to_type: "USD",
         recieve_meth: "Bank Transfer"
     }
+
     const [loading, setLoading] = useState(false);
     const [total_rates, setTotal_rates] = useState('');
     const navigate = useNavigate();
@@ -245,6 +250,28 @@ const Home = () => {
             localStorage.setItem("exchange_curr", JSON.stringify(obj))
         })
     }, [])
+
+
+    useEffect(() => {
+        if (currency !== null) {
+            setLoading(true);
+            currency_ref.current.focus()
+            exchangeRate({ amount: "100", from: formik.values.from_type, to: currency })
+                .then((res) => {
+                    setData({ ...data, exchange_amt: res.amount, send_amt: "100", to_type: currency })
+                    formik.setValues({ ...formik.values, exchange_amt: res.amount, send_amt: "100", to_type: currency })
+                    setTotal_rates(res.rate)
+                    setLoading(false)
+
+                }).catch((error) => {
+                    // console.log(error.response)
+                    if (error.response.data.code == "400") {
+                        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+                    }
+                    setLoading(false)
+                })
+        }
+    }, [currency])
 
     const formik = useFormik({
         initialValues,
@@ -472,6 +499,7 @@ const Home = () => {
                                                     <input
                                                         autoComplete='off'
                                                         value={formik.values.exchange_amt}
+                                                        ref={currency_ref}
                                                         readOnly
                                                         className='form-control bg-transparent mb-3 new_input'
 
@@ -483,12 +511,12 @@ const Home = () => {
                                                         onChange={(e) => { myTotalAmountTo(e) }}
                                                     >
                                                         {
-                                                            
-                                                                curr_out.map((item) => {
-                                                                    return (
-                                                                        <option value={item}>{item}</option>
-                                                                    )
-                                                                })
+
+                                                            curr_out.map((item) => {
+                                                                return (
+                                                                    <option value={item}>{item}</option>
+                                                                )
+                                                            })
                                                         }
                                                     </select>
                                                 </div>
@@ -655,11 +683,61 @@ const Home = () => {
                                 </div>
                                 <div className="col-lg-6">
                                     <div className="row">
-                                        <ul className="bank_transfer">
-                                            < FlagHomeArrayofoObjects />
-                                        </ul>
+                                        {/* <ul>
+                                             < FlagHomeArrayofoObjects />
+                                            <li></li>
+                                        </ul> */}
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("USD") }}>
+                                                <img src="assets/img/home/nigeria.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6 className="mx">Nigera (USD)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("NGN") }}>
+                                                <img src="assets/img/home/nigeria.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6>Nigera (NGN)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards w-100" onClick={() => { setCurrency("GHC") }}>
+                                                <img src="assets/img/home/ghana.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6>GHANA (GHC)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("KHS") }}>
+                                                <img src="assets/img/home/kenya.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6>KENYA (KHS)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("PHP") }}>
+                                                <img src="assets/img/home/philippines.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6>PHILIPPINES (PHP)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("THB") }}>
+                                                <img src="assets/img/home/thailand.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6>THAILAND (THB)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("VND") }}>
+                                                <img src="assets/img/home/vietnam.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6>VIETNAM (VND)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
                                     </div>
-                                    {
+                                    {/* {
                                         userdt && token ? (
                                             <div className="view-button">
                                                 <NavLink to={"/userdashboard"}>
@@ -675,7 +753,7 @@ const Home = () => {
                                                 </div>
                                             </>
                                         )
-                                    }
+                                    } */}
                                 </div>
                             </div>
                         </div>

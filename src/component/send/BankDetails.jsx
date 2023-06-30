@@ -56,10 +56,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
       if (item?.name === value) {
         setStateList(item?.states);
         if (item.states.length > 0) {
-          setData({ ...data, state: item?.states[0].name, country_code: item?.iso2 })
+          setData({ ...data, state: item?.states[0].name })
           formik.setFieldValue("state", item?.states[0].name)
         } else {
-          setData({ ...data, state: "", country_code: item?.iso2 })
+          setData({ ...data, state: "" })
           formik.setFieldValue("state", "")
         }
       }
@@ -94,7 +94,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     l_name: Yup.string().min(1).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(11).max(18).required(),
-    flat: Yup.string().min(1).max(15).notRequired().trim(),
+    flat: Yup.string().min(1).max(30).notRequired(),
     build_no: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(30).required().trim(),
     city: Yup.string().min(1).max(35).required(),

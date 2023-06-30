@@ -32,7 +32,7 @@ const Signup = () => {
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
         referral_code: show ? Yup.string().length(6, "Referral code must contain 6 characters").required("Referral Code is required") : Yup.string().notRequired(),
-        mobile: Yup.string().min(11).max(18).required()
+        mobile: Yup.string().min(11).required()
     })
 
     useEffect(() => {
@@ -126,7 +126,6 @@ const Signup = () => {
 
     const handlePhone = (e, coun) => {
         formik.setFieldValue('mobile', e);
-        formik.setFieldTouched('mobile', true);
         formik.setFieldValue('location', coun.name)
     }
 
@@ -138,6 +137,10 @@ const Signup = () => {
         //     formik.setErrors({...formik.errors, referral_code:""})
         // }
     }
+    const handleBlur = () => {
+        formik.setFieldTouched('mobile', true)
+    }
+
 
 
     return (
@@ -208,6 +211,7 @@ const Signup = () => {
                                                             inputStyle={{ border: "none", margin: "none" }}
                                                             inputClass="phoneInp"
                                                             defaultCountry={"au"}
+                                                            inputProps={{ required: true }}
                                                             countryCodeEditable={false}
                                                             onChange={(val, coun) => { handlePhone(val, coun) }}
                                                             className={clsx(
@@ -217,6 +221,7 @@ const Signup = () => {
                                                                     'is-valid': formik.touched.mobile && !formik.errors.mobile,
                                                                 }
                                                             )}
+                                                            onBlur={handleBlur}
 
                                                         />
                                                     </Form.Group>
