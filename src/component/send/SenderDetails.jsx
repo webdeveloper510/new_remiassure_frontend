@@ -268,7 +268,6 @@ const SenderDetails = ({ handleStep, step }) => {
         <h1>Sender Details </h1>
       </div>
       <form autoComplete='off' >
-
         {/* -------------------------first , middle , last */}
         <div className="row each-row">
           <div className="col-md-4">

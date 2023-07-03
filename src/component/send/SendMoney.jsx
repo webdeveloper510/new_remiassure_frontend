@@ -7,7 +7,6 @@ import PaymentDetails from './PaymentDetails'
 import SenderDetails from './SenderDetails'
 import PaymentSummary from './PaymentSummary'
 import { useLocation, useNavigate } from 'react-router-dom'
-import authDashHelper from '../../utils/AuthDashHelper'
 
 const SendMoney = () => {
 
@@ -15,6 +14,8 @@ const SendMoney = () => {
   const progressBarRefs = useRef([]);
 
   const data = useLocation()?.state
+
+  const navigate = useNavigate()
 
   const [step, setStep] = useState(0)
 
@@ -27,13 +28,9 @@ const SendMoney = () => {
     flat: "", build_no: "", street: "", city: "", post: "", state: "", country: "", reason: ""
   })
 
-  const [seconds, setSeconds] = useState(60);
-  const [minutes, setMinutes] = useState(29);
-
   const handleAmtDetail = (data) => {
     setAmtDetail(data)
   }
-  const navigate = useNavigate()
 
   const handleBankDetail = (data) => {
     setBankDetail(data)
@@ -45,28 +42,6 @@ const SendMoney = () => {
 
   useEffect(() => {
 
-    if (authDashHelper('dashCheck')) {
-      navigate("/user-send-money")
-    } else if (authDashHelper('authCheck')) {
-      console.log(authDashHelper('authCheck'))
-      navigate("/login")
-    }
-    localStorage.removeItem("send-step")
-    localStorage.removeItem("transfer_data")
-    // setTimeout(() => {
-    //   // console.log("time")
-    //   localStorage.removeItem("send-step");
-    //   localStorage.removeItem("transfer_data");
-    //   window.location.reload(true)
-    // }, 30 * 60 * 1000);
-  }, [])
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "instant"
-    })
     if (localStorage.getItem("transfer_data")) {
       const local = JSON.parse(localStorage.getItem("transfer_data"))
       if (local?.amount) {
@@ -86,14 +61,23 @@ const SendMoney = () => {
   }, [step])
 
   useEffect(() => {
-    seconds > 0 && setTimeout(() => setSeconds(seconds - 1), 1000);
+    let userd = JSON.parse(localStorage.getItem("remi-user-dt"))
+    let token = localStorage.getItem("token")
+    if (token && userd?.digital_id_verified !== "true") {
+      navigate('/send-money');
+    } else if (token === null && userd === null) {
+      navigate('/login');
+    }
+  }, [])
 
-  }, [seconds]);
+  // useEffect(() => {
+  //   seconds > 0 && setTimeout(() => setSeconds(seconds - 1), 1000);
+  // }, [seconds]);
 
-  useEffect(() => {
-    minutes > 0 && setTimeout(() => setMinutes(minutes - 1), 60 * 1000);
-    setSeconds(60)
-  }, [minutes])
+  // useEffect(() => {
+  //   minutes > 0 && setTimeout(() => setMinutes(minutes - 1), 60 * 1000);
+  //   setSeconds(60)
+  // }, [minutes])
 
 
 
@@ -191,15 +175,12 @@ const SendMoney = () => {
                                 <h5>Summary</h5>
                                 <tbody>
                                   <tr>
-                                    {/* <th>Amount</th> */}
-                                    <td><b>Amount : </b>{amt_detail?.from_type +" "+ amt_detail?.send_amt + " ⇒ " + amt_detail?.to_type +" "+ amt_detail?.exchange_amt}</td>
+                                    <td><b>Amount : </b>{amt_detail?.from_type + " " + amt_detail?.send_amt + " ⇒ " + amt_detail?.to_type + " " + amt_detail?.exchange_amt}</td>
                                   </tr>
                                   <tr>
-                                    {/* <th>Received Method</th> */}
                                     <td><b>Received Method : </b>{amt_detail?.recieve_meth}</td>
                                   </tr>
                                   <tr>
-                                    {/* <th>Payout Partners</th> */}
                                     <td><b>Payout Partners : </b>{amt_detail?.payout_part}</td>
                                   </tr>
                                 </tbody>
@@ -216,15 +197,12 @@ const SendMoney = () => {
                                 <h5>Recipient details Summary</h5>
                                 <tbody>
                                   <tr>
-                                    {/* <th>Full Name</th> */}
                                     <td><b>Full Name : </b>{bank_detail?.f_name} <span>{bank_detail?.l_name}</span></td>
                                   </tr>
                                   <tr>
-                                    {/* <th>Mobile</th> */}
                                     <td><b>Mobile : </b>{bank_detail?.mobile}</td>
                                   </tr>
                                   <tr>
-                                    {/* <th>Reason</th> */}
                                     <td><b>Reason : </b>{bank_detail?.reason}</td>
                                   </tr>
                                 </tbody>

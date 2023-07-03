@@ -1,5 +1,5 @@
 
-import React, { useState, useContext, useEffect,  useMemo } from "react";
+import React, { useState, useContext, useEffect, useMemo } from "react";
 import { Links, NavLink, useNavigate, useParams } from 'react-router-dom';
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -146,103 +146,13 @@ const EditCardUser = () => {
     expiry_year: ""
   }
 
-
-  /**************************************************************************
-    * ************** Start  Recipient Bank Details ****************************
-    * ***********************************************************************/
-
-  /* start-- useRef is used for focusing on inputbox */
-
-  // axios.post(API.BASE_URL + `payment/card/${id}`, {}, {
-  //   headers: {
-  //     "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-  //   },
-  // })
-  //   .then(function (response) {
-  //     console.log(response);
-  //     let value = response.data.data
-  //     console.log({
-  //       ...data, name: value.name, card_number: value.card_number,
-  //       expiry_month: value.expiry_month, expiry_year: value.expiry_year
-  //     })
-
-  //     setData({
-  //       ...data,
-  //       name: value.name,
-  //       card_number: value.card_number,
-  //       expiry_month: value.expiry_month,
-  //       expiry_year: value.expiry_year
-  //     })
-
-  //     setLoading(false); // Stop loading   
-  //   })
-  //   .catch(function (error, message) {
-  //     console.log(error.response);
-  //     setLoading(false); // Stop loading in case of error
-  //     // setBankNameText(error.response.data); 
-
-  //   })
-
-
-
-
-  /**************************************************************************
-    * ************** Start  Recipient Bank Details ****************************
-    * ***********************************************************************/
-
-  /* start-- useRef is used for focusing on inputbox */
-  // const handleCardUpdateDetails = (value) => {
-  //   if (name.length == 0) {
-  //     input_name.current.focus();
-  //     setError(true);
-  //   } else if (card_number.length == 0) {
-  //     input_card_number.current.focus();
-  //     setError(true);
-  //   } else if (expiry_month.length == 0) {
-  //     input_expiry_month.current.focus();
-  //     setError(true);
-  //   } else if (expiry_year.length == 0) {
-  //     input_expiry_year.current.focus();
-  //     setError(true);
-  //   }
-  //   else {
-  //     console.log("============>token", token)
-
-  //     // event.preventDefault();
-  //     setLoading(true); // Set loading before sending API requestssss
-  //     axios.patch(API.BASE_URL + `payment/card/${value}`, {
-  //       name: name,
-  //       card_number: card_number,
-  //       expiry_month: expiry_month,
-  //       expiry_year: expiry_year,
-  //     }, {
-  //       headers: {
-  //         "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-  //       },
-  //     })
-  //       .then(function (response) {
-  //         console.log(response);
-  //         setLoading(false); // Stop loading 
-  //         navigate('/userCardLists');
-
-  //       })
-  //       .catch(function (error, message) {
-  //         console.log(error.response);
-  //         setLoading(false); // Stop loading in case of error
-  //         // setBankNameText(error.response.data);
-
-  //       })
-  //   }
-  // }
   useEffect(() => {
-    // console.log("Data=========>", id)
-
-    setLoading(true); // Set loading before sending API requestssss
+    setLoading(true);
     getCardData(id).then((response) => {
       console.log("user-response", response)
       if (response.code == "200") {
         let value = response.data
-        
+
         setData({
           ...data,
           id: value.id,
@@ -264,12 +174,10 @@ const EditCardUser = () => {
   }, [])
 
   const inputvalidation = (event) => {
-    console.log("dfjghfguh---------------", event.key)
     const pattern = /^[0-9]+$/;
     let value = event.target.value
-    console.log("v------",event.target.value)
-    if (event.key === 'Backspace'||event.key === 'Enter'||event.key === 'Tab'|| event.key ==='Shift'||event.key==='ArrowLeft'||event.key==="ArrowRight"||event.key==="Escape"||event.key==="Delete") {
-      console.log("ppppppppppppppppppppppppppppp")
+    console.log("v------", event.target.value)
+    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape" || event.key === "Delete") {
     } else {
       if (value.length < 16) {
         console.log("value-------", value)
@@ -290,9 +198,6 @@ const EditCardUser = () => {
 
   }
   const monthvalidation = (event) => {
-    // return false
-    console.log("dfjghfguh---------------", event.target.value)
-    // const l = event.target.value.toString()
     if (event.target.value > 12) {
       console.log("helllllll")
       event.preventDefault()
@@ -307,7 +212,6 @@ const EditCardUser = () => {
 
   const yearvalidation = (event) => {
     console.log("dfjghfguh---------------", event.target.value)
-    // const l = event.target.value.toString()
     if (event.target.value > 99) {
       console.log("helllllll")
       event.preventDefault()
@@ -334,11 +238,11 @@ const EditCardUser = () => {
       })
         .then((response) => {
           console.log("user update-----", response)
-          if(response.code == "200"){
+          if (response.code == "200") {
             navigate('/user-card-list')
-            toast.success(response.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
-          }else if(response.code == "400"){
-            toast.error(response.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
+            toast.success(response.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+          } else if (response.code == "400") {
+            toast.error(response.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
           }
           setLoading(false)
         })
@@ -350,210 +254,191 @@ const EditCardUser = () => {
   })
 
   return (
-    <>
-      <section>
-        <div className="margin-set">
-          <div className="tabs-page">
-            <Sidebar />
+    <div className="content-body">
+      <section className="edit_recipient_section">
+        <div class="form-head mb-4">
+          <h2 class="text-black font-w600 mb-0"><b>Update Card </b>
+            <NavLink to="/user-card-list">
+              <button className="start-form-button back-btn" >
+                <MdOutlineKeyboardBackspace />
+                Back
+              </button>
+            </NavLink>
+            {/* <button className="form-button addsingle_recepient" ><NavLink to="/userrecipients"><BsFillPersonPlusFill /> Recipients Lists</NavLink></button>  */}
 
-            {/* <div class="form-head mb-4">
-                <h2 ><b>Profile</b>
-                </h2>
-                <NavLink to="/userrecipients">
-                    <button className="form-button addsingle_recepient" ><BsFillPersonPlusFill /> Recipients Lists</button>
-                </NavLink>
-              </div> */}
-
-
-            <div className="content-body">
-              <section className="edit_recipient_section">
-                <div class="form-head mb-4">
-                  <h2 class="text-black font-w600 mb-0"><b>Update Card </b>
-                    <NavLink to="/user-card-list">
-                      <button className="start-form-button back-btn" >
-                        <MdOutlineKeyboardBackspace />
-                        Back
-                      </button>
-                    </NavLink>
-                    {/* <button className="form-button addsingle_recepient" ><NavLink to="/userrecipients"><BsFillPersonPlusFill /> Recipients Lists</NavLink></button>  */}
-
-                  </h2></div>
-                {/* <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span>
+          </h2></div>
+        {/* <span style={myStyle}>{BankNameText.Accountnumberexist? BankNameText.Accountnumberexist: ''}</span>
                   <span style={myStyle}>{BankNameText.userrecipient? BankNameText.userrecipient: ''}</span> */}
-                <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
-                  <div className="card">
-                    <div className="card-body">
+        <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
+          <div className="card">
+            <div className="card-body">
 
-                      <div className="row">
-                        {/* <h5>Bank Information</h5> */}
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Card Name<span style={{ color: 'red' }} >*</span></p>
-                            <input
-                              type="text"
-                              autoComplete='off'
-                              value={data.name}
-                              placeholder="Enter name"
-                              name="name"
-                              onChange={(e) => setData({ ...data, name: e.target.value })}
-                              {...formik.getFieldProps('name')}
-                              className={clsx(
-                                'form-control bg-transparent',
-                                { 'is-invalid': formik.touched.name && formik.errors.name },
-                                {
-                                  'is-valid': formik.touched.name && !formik.errors.name,
-                                }
-                              )}
-                            //  placeholder={RecepientsData.bank_name}
-                            />
-                            {/* {error && name.length <= 0 ?
+              <div className="row">
+                {/* <h5>Bank Information</h5> */}
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Card Name<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      autoComplete='off'
+                      value={data.name}
+                      placeholder="Enter name"
+                      name="name"
+                      onChange={(e) => setData({ ...data, name: e.target.value })}
+                      {...formik.getFieldProps('name')}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.name && formik.errors.name },
+                        {
+                          'is-valid': formik.touched.name && !formik.errors.name,
+                        }
+                      )}
+                    //  placeholder={RecepientsData.bank_name}
+                    />
+                    {/* {error && name.length <= 0 ?
                                   <span style={myStyle}>Please Enter the Card Name </span> : ""} */}
-                            <span style={myStyle}>{BankNameText.name ? BankNameText.name : ''}</span>
+                    <span style={myStyle}>{BankNameText.name ? BankNameText.name : ''}</span>
 
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Card Number<span style={{ color: 'red' }} >*</span></p>
-                            <input
-                              // type="text"
-                              // name="card_number"
-                              // ref={input_card_number}
-                              // value={card_number}
-                              // onChange={handleNumber}
-                              // className='rate_input form-control'
-                              value={data.card_number}
-                              type="text"
-                              autoComplete='off'
-                              // {...formik.getFieldProps('card_number')}
-                              onChange={(e) => setData({ ...data, card_number: e.target.value })}
-                              onKeyDown={(e) => inputvalidation(e)}
-                              name="card_number"
-                              className={clsx(
-                                'mb-3 bg-transparent form-control',
-                                { 'is-invalid': formik.touched.card_number && formik.errors.card_number },
-                                {
-                                  'is-valid': formik.touched.card_number && !formik.errors.card_number,
-                                }
-                              )}
-                            />
-                            {/* {error && card_number.length <= 0 ?
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Card Number<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      // type="text"
+                      // name="card_number"
+                      // ref={input_card_number}
+                      // value={card_number}
+                      // onChange={handleNumber}
+                      // className='rate_input form-control'
+                      value={data.card_number}
+                      type="text"
+                      autoComplete='off'
+                      // {...formik.getFieldProps('card_number')}
+                      onChange={(e) => setData({ ...data, card_number: e.target.value })}
+                      onKeyDown={(e) => inputvalidation(e)}
+                      name="card_number"
+                      className={clsx(
+                        'mb-3 bg-transparent form-control',
+                        { 'is-invalid': formik.touched.card_number && formik.errors.card_number },
+                        {
+                          'is-valid': formik.touched.card_number && !formik.errors.card_number,
+                        }
+                      )}
+                    />
+                    {/* {error && card_number.length <= 0 ?
                                   <span style={myStyle}>Please Enter the Card card_number </span> : ""} */}
 
-                            <span style={myStyle}>{BankNameText.card_number ? BankNameText.card_number : ''}</span>
+                    <span style={myStyle}>{BankNameText.card_number ? BankNameText.card_number : ''}</span>
 
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Card Expiry Month<span style={{ color: 'red' }} >*</span></p>
-                            <input
-                              // type="text"
-                              // name="expiry_month"
-                              // ref={input_expiry_month}
-                              // value={expiry_month}
-                              // onChange={handleExpiryMonth}
-                              // className='rate_input form-control'
-                              value={data.expiry_month}
-                              // name="expiry_month"
-                              type="card_number"
-                              size="2"
-                              maxLength="2"
-                              autoComplete='off'
-                              max="12"
-                              onChange={(e) => monthvalidation(e)}
-                              // {...formik.getFieldProps('expiry_month')}
-                              name="expiry_month"
-                              className={clsx(
-                                'mb-3 bg-transparent form-control',
-                                { 'is-invalid': formik.touched.expiry_month && formik.errors.expiry_month },
-                                {
-                                  'is-valid': formik.touched.expiry_month && !formik.errors.expiry_month,
-                                }
-                              )}
-                            />
-                            {/* {error && expiry_month.length <= 0 ?
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Card Expiry Month<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      // type="text"
+                      // name="expiry_month"
+                      // ref={input_expiry_month}
+                      // value={expiry_month}
+                      // onChange={handleExpiryMonth}
+                      // className='rate_input form-control'
+                      value={data.expiry_month}
+                      // name="expiry_month"
+                      type="card_number"
+                      size="2"
+                      maxLength="2"
+                      autoComplete='off'
+                      max="12"
+                      onChange={(e) => monthvalidation(e)}
+                      // {...formik.getFieldProps('expiry_month')}
+                      name="expiry_month"
+                      className={clsx(
+                        'mb-3 bg-transparent form-control',
+                        { 'is-invalid': formik.touched.expiry_month && formik.errors.expiry_month },
+                        {
+                          'is-valid': formik.touched.expiry_month && !formik.errors.expiry_month,
+                        }
+                      )}
+                    />
+                    {/* {error && expiry_month.length <= 0 ?
                                   <span style={myStyle}>Please Enter the Card Expiry Month </span> : ""} */}
 
-                            <span style={myStyle}>{BankNameText.expiry_month ? BankNameText.expiry_month : ''}</span>
-                            <span style={myStyle}>{BankNameText.Accountnumberexist ? BankNameText.Accountnumberexist : ''}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row each-row">
-                        <div className="col-md-4">
-                          <div className="input_field">
-                            <p className="get-text">Card Expiry Year<span style={{ color: 'red' }} >*</span></p>
-                            <input
-                              // type="text"
-                              // name="expiry_year"
-                              // ref={input_expiry_year}
-                              // value={expiry_year}
-                              // onChange={handleExpiryYear}
-                              // className='rate_input form-control'
-                              // name="expiry_year"
-                              value={data.expiry_year}
-                              type="card_number"
-                              size="2"
-                              maxLength="2"
-                              autoComplete='off'
-                              // {...formik.getFieldProps('expiry_year')}
-                              onChange={(e) => yearvalidation(e)}
-                              className={clsx(
-                                'mb-3 bg-transparent form-control',
-                                { 'is-invalid': formik.touched.expiry_year && formik.errors.expiry_year },
-                                {
-                                  'is-valid': formik.touched.expiry_year && !formik.errors.expiry_year,
-                                }
-                              )}
-                            />
-                            {/* {error && expiry_year.length <= 0 ?
+                    <span style={myStyle}>{BankNameText.expiry_month ? BankNameText.expiry_month : ''}</span>
+                    <span style={myStyle}>{BankNameText.Accountnumberexist ? BankNameText.Accountnumberexist : ''}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="row each-row">
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Card Expiry Year<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      // type="text"
+                      // name="expiry_year"
+                      // ref={input_expiry_year}
+                      // value={expiry_year}
+                      // onChange={handleExpiryYear}
+                      // className='rate_input form-control'
+                      // name="expiry_year"
+                      value={data.expiry_year}
+                      type="card_number"
+                      size="2"
+                      maxLength="2"
+                      autoComplete='off'
+                      // {...formik.getFieldProps('expiry_year')}
+                      onChange={(e) => yearvalidation(e)}
+                      className={clsx(
+                        'mb-3 bg-transparent form-control',
+                        { 'is-invalid': formik.touched.expiry_year && formik.errors.expiry_year },
+                        {
+                          'is-valid': formik.touched.expiry_year && !formik.errors.expiry_year,
+                        }
+                      )}
+                    />
+                    {/* {error && expiry_year.length <= 0 ?
                                   <span style={myStyle}>Please Enter the Card Expiry Year </span> : ""} */}
 
-                            <span style={myStyle}>{BankNameText.expiry_year ? BankNameText.expiry_year : ''}</span>
-                            <span style={myStyle}>{BankNameText.Accountnumberexist ? BankNameText.Accountnumberexist : ''}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-md-4">
-                          <button
-                            type="submit"
-                            className="start-form-button"
-                            onClick={handlRecipientBankDetails}
-                          >
-                            Clear
-                          </button>
-                        </div>
-                        <div className="col-md-8">
-                          <button
-                            type="submit"
-                            className="form-button"
-                          // onClick={() => handleCardUpdateDetails(id)}
-                          >
-                            Update Card
-
-                            {loading ? <>
-                              <div className="loader-overly">
-                                <div className="loader" >
-
-                                </div>
-
-                              </div>
-                            </> : <></>}
-
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                    <span style={myStyle}>{BankNameText.expiry_year ? BankNameText.expiry_year : ''}</span>
+                    <span style={myStyle}>{BankNameText.Accountnumberexist ? BankNameText.Accountnumberexist : ''}</span>
                   </div>
-                </form>
-              </section>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-4">
+                  <button
+                    type="submit"
+                    className="start-form-button"
+                    onClick={handlRecipientBankDetails}
+                  >
+                    Clear
+                  </button>
+                </div>
+                <div className="col-md-8">
+                  <button
+                    type="submit"
+                    className="form-button"
+                  // onClick={() => handleCardUpdateDetails(id)}
+                  >
+                    Update Card
+
+                    {loading ? <>
+                      <div className="loader-overly">
+                        <div className="loader" >
+
+                        </div>
+
+                      </div>
+                    </> : <></>}
+
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </form>
       </section>
-    </>
+    </div>
   )
 }
 

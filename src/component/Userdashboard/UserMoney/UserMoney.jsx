@@ -23,8 +23,8 @@ const SendMoney = () => {
         if (authDashHelper('dashCheck') === false) {
             navigate("/send-money")
         }
-            localStorage.removeItem("send-step")
-            localStorage.removeItem("transfer_data")
+        localStorage.removeItem("send-step")
+        localStorage.removeItem("transfer_data")
         // setTimeout(() => {
         //     localStorage.removeItem("send-step");
         //     localStorage.removeItem("transfer_data");
@@ -53,23 +53,18 @@ const SendMoney = () => {
     }, [minutes])
 
     return (
-        <div className="margin-set">
-            <div className="tabs-page">
-                <Sidebar />
-                <div className="content-body">
-                    {/* <div className='timer-row'>Form auto closes in ⇒  <label> <span> {minutes < 10 ? "0" + minutes : minutes}</span><p>Minutes</p> </label> <label className='timerdots'>:</label>  <label><span> {seconds < 10 ? "0" + seconds : seconds}</span> <p>Seconds</p> </label></div> */}
-                    <div className="col-md-10">
-                        {
-                            step === 0 ? <AmountDetail handleStep={handleStep} step={step} />
-                                :
-                                step === 1 ? <BankDetails handleStep={handleStep} step={step} />
-                                    :
-                                    step === 2 ? <PaymentDetails handleStep={handleStep} step={step} />
-                                        : <></>
+        <div className="content-body">
+            {/* <div className='timer-row'>Form auto closes in ⇒  <label> <span> {minutes < 10 ? "0" + minutes : minutes}</span><p>Minutes</p> </label> <label className='timerdots'>:</label>  <label><span> {seconds < 10 ? "0" + seconds : seconds}</span> <p>Seconds</p> </label></div> */}
+            <div className="col-md-10">
+                {
+                    step === 0 ? <AmountDetail handleStep={handleStep} step={step} />
+                        :
+                        step === 1 ? <BankDetails handleStep={handleStep} step={step} />
+                            :
+                            step === 2 ? <PaymentDetails handleStep={handleStep} step={step} />
+                                : <></>
 
-                        }
-                    </div>
-                </div>
+                }
             </div>
         </div>
     )
