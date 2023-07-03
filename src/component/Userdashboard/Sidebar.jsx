@@ -20,7 +20,7 @@ const sidebar = () => {
             <li><NavLink to="/dashboard/profile"><BsFilePersonFill />Profile Information</NavLink></li>
             <li><NavLink to="/dashboard/transactions"><BiTransfer />Transactions</NavLink></li>
             <li><NavLink to="/dashboard/recipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
-            <li><NavLink to="/dashboard/card-list"><FaRegCreditCard />Cards</NavLink></li>
+            {/* <li><NavLink to="/dashboard/card-list"><FaRegCreditCard />Cards</NavLink></li> */}
             <li><NavLink to="/dashboard/change-password"><RiLockPasswordLine />Password</NavLink></li>
           </ul>
         </nav>

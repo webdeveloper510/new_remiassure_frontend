@@ -64,7 +64,7 @@ const SendMoney = () => {
     let userd = JSON.parse(localStorage.getItem("remi-user-dt"))
     let token = localStorage.getItem("token")
     if (token && userd?.digital_id_verified !== "true") {
-      navigate('/send-money');
+      navigate('/dashboard/new-transfer');
     } else if (token === null && userd === null) {
       navigate('/login');
     }

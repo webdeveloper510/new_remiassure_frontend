@@ -59,8 +59,8 @@ const Footer = () => {
 
                                 <li className="suppot_footer">
                                     <img src="assets/img/footer/phone.svg" alt="phone_icons" className="phone_icons" />
-                                    <a href="tel:+61 1300 284 228">
-                                        <p>+61 1300 284 228</p>
+                                    <a href="tel:1300 284 228">
+                                        <p>1300 284 228</p>
                                     </a>
                                 </li>
                                 <div className="social-links mt-3">
