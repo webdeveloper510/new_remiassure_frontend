@@ -1,297 +1,56 @@
-import React, { useEffect, useState } from "react";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-import Scrollbar from '../scrollbar/Scrollbar';
+import React from "react";
 
 
-// card carousel start
-const Card = (props) => {
-    return (
-        <li className="card li_card ">
-            <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-            <div className="row">
-                <div className="col-lg-4">
-                    <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons" />
-                    <p className="boy_icons_text">Worldtraveler</p>
-                </div>
-                <div className="col-8">
-                    <span className="material-icons">{props.heading}</span>
-                    <p className="material-heading">{props.paragraph}</p>
-                    <img src="assets/img/help/star.png" />
 
-                </div>
-            </div>
-            <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" />
-        </li>
-    )
-}
 
 const AML = () => {
 
-    // Aboutus-Our-Vission-Icons function Start
-    function OurVissionArrayObjects() {
-        const vissionData = [
-            {
-                id: 1,
-                vission_src: "assets/img/about/1st_icons.svg",
-                vission_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            },
-            {
-                id: 2,
-                vission_src: "assets/img/about/02nd_icons.svg",
-                vission_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            },
-            {
-                id: 3,
-                vission_src: "assets/img/about/03thired_icons.svg",
-                vission_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            },
-            {
-                id: 4,
-                vission_src: "assets/img/about/04four_icons.svg",
-                vission_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            },
-
-        ];
-
-        const VissionItems = vissionData.map((vission) => {
-            return (
-                <li key={vission.id}>
-                    <img src={vission.vission_src} className="vission_image" alt="alt_image" />
-                    <p className="vission_content">{vission.vission_content}</p>
-                </li>
-            )
-        })
-        return (
-            <div>
-                {VissionItems}
-            </div>
-        )
-    }
-
-    // Aboutus-Our-Vission-Icons function End
-
-    //    Why Function Start 
-    function WhyIconsRenderingArrayOfObjects() {
-        const whydata = [
-            {
-                id: "1",
-                icon_src: "assets/img/about/Vector01.svg",
-                icon_title: "We’re Secure",
-                icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
-            },
-            {
-                id: "2",
-                icon_src: "assets/img/about/Vector02.svg",
-                icon_title: "We're Fast",
-                icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
-            },
-            {
-                id: "3",
-                icon_src: "assets/img/about/Vector03.svg",
-                icon_title: "We’re Cost-effective",
-                icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
-            },
-            {
-                id: "4",
-                icon_src: "assets/img/about/Vector04.svg",
-                icon_title: "We’re Innovative",
-                icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
-            },
-        ];
-        const ArrayIconsIttems = whydata.map((icon) => {
-            return (
-
-                <li key={icon.id}>
-                    <div className="circle-icons">
-                        <img src={icon.icon_src} alt="circle-image" />
-                    </div>
-                    <div className="circle-content">
-                        <p className="why_text">{icon.icon_title}</p>
-                        <p className="why_texto1">{icon.icon_content}</p>
-                    </div>
-
-                </li>
-
-            )
-        })
-        return (
-            <div>
-                {ArrayIconsIttems}
-            </div>
-        )
-    }
-    //    Why Function End 
-
-
-    //    Carousel  Function Start 
-
-    const items = [
-        {
-            heading: "Best on the market 1.",
-            paragraph: '1.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
-        }, {
-            heading: "Best on the market 2.",
-            paragraph: '2.B.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
-        }, {
-            heading: "Best on the market 3.",
-            paragraph: '3. At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
-        }, {
-            heading: "Best on the market 4.",
-            paragraph: '4.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
-        }, {
-            heading: "Best on the market 5.",
-            paragraph: '5. At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
-        }, {
-            heading: "Best on the market 6.",
-            paragraph: '6. At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
-        }
-    ];
-    const [moveClass, setMoveClass] = useState('');
-    const [carouselItems, setCarouselItems] = useState(items);
-    //console.log(items, "carouselItemscarouselItemscarouselItemscarouselItemscarouselItems")
-
-    useEffect(() => {
-        document.documentElement.style.setProperty('--num', carouselItems.length);
-    }, [carouselItems])
-
-    //  const handleAnimationEnd = () => {
-    //    if(moveClass === 'prev'){
-    //      shiftNext([...carouselItems]);
-    //    }else if(moveClass === 'next'){
-    //      shiftPrev([...carouselItems]);
-    //    }
-    //    setMoveClass('')
-
-    //  }
-
-    //  const shiftPrev = (paragraph) => {
-    //    let lastcard = paragraph.pop();
-    //    paragraph.splice(0, 0, lastcard);
-    //    setCarouselItems(paragraph);
-    //  }
-
-    //  const shiftNext = (paragraph) => {
-    //    let firstcard = paragraph.shift();
-    //    paragraph.splice(paragraph.length, 0, firstcard);
-    //    setCarouselItems(paragraph);
-    //  }
-
-    // End carousel End
-
-
     return (
-        <>
-
-            {/* <!-- ======= AboutUs Our vission and mission-Section  start======= --> */}
-            <section className="why-us section-bgba banner_section about_banner innre_about">
-                <div id="about">
-                    <div className="container">
-                        <div className="row custom-height">
-                            <div className="col-sm-8">
-                                <div className="vl about_v1">
-                                    <h1 className="vl-heading">AML Policy</h1>
-                                    <div className="vl-content about_content">
-                                        {/* <p className="our_vission">Our vission and mission statement will go here</p> */}
-                                        <br />
-                                        <p className="our_vission01">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        <p className="our_vission01">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                                        <p className="our_vission01">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-sm-4 right_side">
-                                <img src="assets/img/about/right_about.svg" />
-                            </div>
-                        </div>
-                        <div className="bottpm_banner">
-                            <div className="row">
-                                <ul className="About_why-content">
-                                    <OurVissionArrayObjects />
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            {/* <!-- ======= AboutUs Our vission and mission-Section  End======= --> */}
-
-            {/* <!-- ======= AboUs Why RemitAssure-Section  start======= --> */}
-            <section className="why-us section-bgba aos-init aos-animate">
-                <div className="container">
-
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="vl about_v1 about_vl about_v1">
-                                <h1 className="vl-heading">Why RemitAssure ?</h1>
-                                <div className="about_why_heading">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-md-12 col-lg-12 secure_content">
-                            <ul className="about_why-ramit-assure page_about-sec">
-                                < WhyIconsRenderingArrayOfObjects />
+        <section className="mt-5">
+            <div className="container">
+                <h3 className="text-center mb-5">Anti-Money Laundering and Counter Terrorism (AML/CTF) Policy</h3>
+                <div>
+                    <div className="my-4">
+                        <p>Smartitude Solutions Pty Ltd (“Smartitude”) is a designated service provider under
+                            Australian AML/CTF Act (“Act”). This Act of parliament passed in 2006 requires all
+                            designated service providers to comply with subsisting AML/CTF regulatory requirements as
+                            governed by AUSTRAC Australian Transaction Reports and Analysis Centre).
+                        </p>
+                        <p className="my-3">
+                            Consequently, Smartitude is committed to fulfilling its regulatory requirements under the
+                            Act. These include allocating adequate resources, including systems and procedures to
+                            identify, mitigate and manage AML/CTF risks in the marketplace. We have developed a
+                            rigorous AML/CTF Program based on the standards prescribed by the International
+                            Compliance Association (ICA) and aligned to the expectations of AUSTRAC.
+                        </p>
+                        <p>
+                            Our uncompromising in our commitment to protecting the interest of our customers,
+                            employees, partners and the community at large. Specific measures in our AML/CTF
+                            Program include:
+                            <ul>
+                                <li>ID Verification and KYC approach</li>
+                                <li>Money Laundering and Terrorism Funding (ML/TF) Risk Management</li>
+                                <li>Rigorous Due Diligence Approach</li>
+                                <li>Ongoing Training Program</li>
+                                <li>Periodic Independent Review of our AML/CTF Program</li>
+                                <li>Systems Capabilities to Meet with AUSTRAC Reporting Obligations</li>
+                                <li>Record Keeping</li>
                             </ul>
-                        </div>
+                        </p>
+                        <p className="my-3">
+                            Smartitude will not transact with customers who fail to prove their identity. Our business
+                            model has been specifically designed to reduce our exposure to ML/TF risk by limiting the
+                            volume and value of transaction(s) a customer can initiate in a given time period.
+                        </p>
+                        <p>Our digital business model lends itself to verification and audit. We do not offer cash-based
+                            transaction either at point of origination or termination. We take money laundering and
+                            terrorism financing seriously and are bound to report all cases to regulatory authorities.
+                            Attempts to use our services to launder funds or finance terrorism exposes you to potential
+                            criminal prosecution.</p>
                     </div>
-
                 </div>
-            </section>
-            {/* <!-- ======= AboUs Why RemitAssure-Section  End======= --> */}
-
-            {/* <!-- ======= Testimonial-Section  start======= --> */}
-            {/* <section className="why-us section-bgba why_banner aos-init aos-animate" data-aos="fade-up" date-aos-delay="200">
-                <div className="container">
-
-                    <div className="row">
-
-                        <div className="testimonial_vl">
-                            <h1 className="chose-heading">What customers say about us</h1>
-
-
-
-                         
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <p className="review_content">We do our best to provide you the best experience ever
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-lg-12">
-
-                            <Scrollbar />
-
-                        
-                        </div>
-
-                    </div>
-                
-
-                </div>
-            </section> */}
-            {/* <!-- ======= Home Testimonial-Section End ======= --> */}
-
-
-
-
-
-
-
-
-        </>
+            </div>
+        </section>
     )
 }
 

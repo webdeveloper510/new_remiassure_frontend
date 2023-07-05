@@ -4,7 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import Scrollbar from '../scrollbar/Scrollbar';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import clsx from "clsx";
@@ -17,19 +17,19 @@ function WhyRenderingArrayOfObjects() {
             id: 1,
             src: "assets/img/home/Vector01.svg",
             circle_heading: "We're Fast",
-            circle_content: "95% of our transfers are ready in minutes..",
+            circle_content: "95% of our transfers are completed in minutes…",
         },
         {
             id: 2,
             src: "assets/img/home/Vector02.svg",
             circle_heading: "We're Safe",
-            circle_content: "We use industry-leading technology to protect your money.",
+            circle_content: "We use industry-leading technology to secure your money.",
         },
         {
             id: 3,
             src: "assets/img/home/Vector03.svg",
-            circle_heading: "We're Low-Cost",
-            circle_content: " conventional banks and money transfer services.",
+            circle_heading: "We're Effective",
+            circle_content: "Our rates are competitive compared to banks and other remittance services.",
         }
     ];
 
@@ -615,7 +615,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-            <section className="why-us section-bgba banner_section05" >
+            {/* <section className="why-us section-bgba banner_section05" >
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
@@ -661,7 +661,7 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
             <section className="why-us section-bgba banner_section01">
                 <div className="container">
                     <div className="row">
@@ -669,16 +669,16 @@ const Home = () => {
                             <div className="row">
                                 <div className="col-lg-6">
                                     <div className="vl02">
-                                        <h1 className="money-heading">Send money to over 130 countries worldwide and choose
-                                            from over 70 currencies</h1>
+                                        <h1 className="money-heading">Our global payment network enables our customers to seamlessly transfer funds to vast
+                                            number of countries</h1>
                                     </div>
                                     <div className="popular-content">
-                                        <h4 className="popular-paragraph01">POPULAR COUNTRIES
+                                        <h4 className="popular-paragraph01">Our most popular payout corridors
                                         </h4>
-                                        <p className="popular-paragraph02">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                        {/* <p className="popular-paragraph02">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                                         </p>
                                         <p className="popular-paragraph02"> incididunt ut labore et dolore magna aliqua. Facilisi morbi tempus iaculis urna.
-                                        </p>
+                                        </p> */}
                                     </div>
                                 </div>
                                 <div className="col-lg-6">
@@ -761,15 +761,17 @@ const Home = () => {
                     {/* main row End*/}
                     <div className="row">
                         <div className="col-lg-12 call_heading">
-                            <h3 className="cal-heading">Call to us</h3>
-                            <p className="call-paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Facilisi morbi tempus iaculis urna.</p>
+                            <h3 className="cal-heading">We are here to help!</h3>
+                            <p className="call-paragraph">Do you need assistance? Our dedicated support centre is purpose-built to
+                                support you.</p>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="view-button">
-                                <a href="tel:+66 2399 1145" className="btn btn call_button">Call Now</a>
+                                <Link to="/help">
+                                    <button className="btn btn call_button">Go to our Support Centre</button>
+                                </Link>
                             </div>
                         </div>
                     </div>

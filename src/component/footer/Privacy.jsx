@@ -1,297 +1,68 @@
-import React, { useEffect, useState } from "react";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-import Scrollbar from '../scrollbar/Scrollbar';
+import React from "react";
 
 
-// card carousel start
-const Card = (props) => {
-    return (
-        <li className="card li_card ">
-            <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-            <div className="row">
-                <div className="col-lg-4">
-                    <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons" />
-                    <p className="boy_icons_text">Worldtraveler</p>
-                </div>
-                <div className="col-8">
-                    <span className="material-icons">{props.heading}</span>
-                    <p className="material-heading">{props.paragraph}</p>
-                    <img src="assets/img/help/star.png" />
 
-                </div>
-            </div>
-            <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" />
-        </li>
-    )
-}
 
 const Privacy = () => {
 
-    // Aboutus-Our-Vission-Icons function Start
-    function OurVissionArrayObjects() {
-        const vissionData = [
-            {
-                id: 1,
-                vission_src: "assets/img/about/1st_icons.svg",
-                vission_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            },
-            {
-                id: 2,
-                vission_src: "assets/img/about/02nd_icons.svg",
-                vission_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            },
-            {
-                id: 3,
-                vission_src: "assets/img/about/03thired_icons.svg",
-                vission_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            },
-            {
-                id: 4,
-                vission_src: "assets/img/about/04four_icons.svg",
-                vission_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            },
-
-        ];
-
-        const VissionItems = vissionData.map((vission) => {
-            return (
-                <li key={vission.id}>
-                    <img src={vission.vission_src} className="vission_image" alt="alt_image" />
-                    <p className="vission_content">{vission.vission_content}</p>
-                </li>
-            )
-        })
-        return (
-            <div>
-                {VissionItems}
-            </div>
-        )
-    }
-
-    // Aboutus-Our-Vission-Icons function End
-
-    //    Why Function Start 
-    function WhyIconsRenderingArrayOfObjects() {
-        const whydata = [
-            {
-                id: "1",
-                icon_src: "assets/img/about/Vector01.svg",
-                icon_title: "We’re Secure",
-                icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
-            },
-            {
-                id: "2",
-                icon_src: "assets/img/about/Vector02.svg",
-                icon_title: "We're Fast",
-                icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
-            },
-            {
-                id: "3",
-                icon_src: "assets/img/about/Vector03.svg",
-                icon_title: "We’re Cost-effective",
-                icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
-            },
-            {
-                id: "4",
-                icon_src: "assets/img/about/Vector04.svg",
-                icon_title: "We’re Innovative",
-                icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
-            },
-        ];
-        const ArrayIconsIttems = whydata.map((icon) => {
-            return (
-
-                <li key={icon.id}>
-                    <div className="circle-icons">
-                        <img src={icon.icon_src} alt="circle-image" />
-                    </div>
-                    <div className="circle-content">
-                        <p className="why_text">{icon.icon_title}</p>
-                        <p className="why_texto1">{icon.icon_content}</p>
-                    </div>
-
-                </li>
-
-            )
-        })
-        return (
-            <div>
-                {ArrayIconsIttems}
-            </div>
-        )
-    }
-    //    Why Function End 
-
-
-    //    Carousel  Function Start 
-
-    const items = [
-        {
-            heading: "Best on the market 1.",
-            paragraph: '1.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
-        }, {
-            heading: "Best on the market 2.",
-            paragraph: '2.B.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
-        }, {
-            heading: "Best on the market 3.",
-            paragraph: '3. At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
-        }, {
-            heading: "Best on the market 4.",
-            paragraph: '4.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
-        }, {
-            heading: "Best on the market 5.",
-            paragraph: '5. At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
-        }, {
-            heading: "Best on the market 6.",
-            paragraph: '6. At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
-        }
-    ];
-    const [moveClass, setMoveClass] = useState('');
-    const [carouselItems, setCarouselItems] = useState(items);
-    //console.log(items, "carouselItemscarouselItemscarouselItemscarouselItemscarouselItems")
-
-    useEffect(() => {
-        document.documentElement.style.setProperty('--num', carouselItems.length);
-    }, [carouselItems])
-
-    //  const handleAnimationEnd = () => {
-    //    if(moveClass === 'prev'){
-    //      shiftNext([...carouselItems]);
-    //    }else if(moveClass === 'next'){
-    //      shiftPrev([...carouselItems]);
-    //    }
-    //    setMoveClass('')
-
-    //  }
-
-    //  const shiftPrev = (paragraph) => {
-    //    let lastcard = paragraph.pop();
-    //    paragraph.splice(0, 0, lastcard);
-    //    setCarouselItems(paragraph);
-    //  }
-
-    //  const shiftNext = (paragraph) => {
-    //    let firstcard = paragraph.shift();
-    //    paragraph.splice(paragraph.length, 0, firstcard);
-    //    setCarouselItems(paragraph);
-    //  }
-
-    // End carousel End
-
-
     return (
-        <>
-
-            {/* <!-- ======= AboutUs Our vission and mission-Section  start======= --> */}
-            <section className="why-us section-bgba banner_section about_banner innre_about">
-                <div id="about">
-                    <div className="container">
-                        <div className="row custom-height">
-                            <div className="col-sm-8">
-                                <div className="vl about_v1">
-                                    <h1 className="vl-heading">Privacy Policy</h1>
-                                    <div className="vl-content about_content">
-                                        {/* <p className="our_vission">Our vission and mission statement will go here</p> */}
-                                        <br />
-                                        <p className="our_vission01">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        <p className="our_vission01">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                                        <p className="our_vission01">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-sm-4 right_side">
-                                <img src="assets/img/about/right_about.svg" />
-                            </div>
-                        </div>
-                        <div className="bottpm_banner">
-                            <div className="row">
-                                <ul className="About_why-content">
-                                    <OurVissionArrayObjects />
-                                </ul>
-                            </div>
-                        </div>
+        <section className="mt-5">
+            <div className="container">
+                <h3 className="text-center mb-5">Privacy Policy</h3>
+                <div>
+                    <div className="my-4">
+                        <p>As a reporting entity under the AML/CTF Act of Australia, RemitAssure is obligated to collect
+                            money transfer details which include the personal information of customers.
+                        </p>
+                        <p>
+                            We would like to assure our customers that we take their privacy very seriously. Our
+                            handling of the personal information of customers is in line with the stipulations of
+                            Australia’s Privacy Act of 1988 (Privacy Act).
+                        </p>
+                        <br />
+                        <p>
+                            This Policy outlines our approach to handling your information. It also highlights your
+                            choices under the act. As used in this Policy, “we”, “our” and “us” refers to RemitAssure.
+                        </p>
+                    </div>
+                    <div className="my-4">
+                        <h6 className="fw-bold"><i>What We Collect</i></h6>
+                        <p>
+                            To use our Service, AML/CTF regulations require that we collect personal data that identifies
+                            you as an individual. Personal data we collect include:
+                            <ol>
+                                <li>First and last name</li>
+                                <li>Address</li>
+                                <li>Phone number</li>
+                                <li>Date of birth</li>
+                                <li>Information required to confirm your identity</li>
+                            </ol>
+                        </p>
+                        <p>
+                            We may also collect additional information such as government identification, country of
+                            birth, etc.
+                        </p>
+                        <p>
+                            Customers are advised not to share sensitive personal information (e.g. racial background,
+                            religion, criminal background, etc.)
+                        </p>
+                    </div>
+                    <div className="my-4">
+                        <h6 className="fw-bold"><i>How We Collect Personal Information</i></h6>
+                        <p>RemitAssure collect customer personal information in several ways, including from:</p>
+                        <p>
+                            <b><i>You:&nbsp;</i></b> when you interact with us either through the Web of Mobile App For, we collect
+                            personal information relating to you or a 3 rd party whom you represent.
+                        </p>
+                        <p>
+                            <b><i>Other sources:&nbsp;</i></b> such as public databases, joint marketing partners, social media platforms
+                            (including from people with whom you are friends or otherwise connected), and from other
+                            third parties.
+                        </p>
                     </div>
                 </div>
-            </section>
-            {/* <!-- ======= AboutUs Our vission and mission-Section  End======= --> */}
-
-            {/* <!-- ======= AboUs Why RemitAssure-Section  start======= --> */}
-            <section className="why-us section-bgba aos-init aos-animate">
-                <div className="container">
-
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="vl about_v1 about_vl about_v1">
-                                <h1 className="vl-heading">Why RemitAssure ?</h1>
-                                <div className="about_why_heading">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-md-12 col-lg-12 secure_content">
-                            <ul className="about_why-ramit-assure page_about-sec">
-                                < WhyIconsRenderingArrayOfObjects />
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-            {/* <!-- ======= AboUs Why RemitAssure-Section  End======= --> */}
-
-            {/* <!-- ======= Testimonial-Section  start======= --> */}
-            {/* <section className="why-us section-bgba why_banner aos-init aos-animate" data-aos="fade-up" date-aos-delay="200">
-                <div className="container">
-
-                    <div className="row">
-
-                        <div className="testimonial_vl">
-                            <h1 className="chose-heading">What customers say about us</h1>
-
-
-
-                         
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <p className="review_content">We do our best to provide you the best experience ever
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-lg-12">
-
-                            <Scrollbar />
-
-                        
-                        </div>
-
-                    </div>
-                
-
-                </div>
-            </section> */}
-            {/* <!-- ======= Home Testimonial-Section End ======= --> */}
-
-
-
-
-
-
-
-
-        </>
+            </div>
+        </section>
     )
 }
 
