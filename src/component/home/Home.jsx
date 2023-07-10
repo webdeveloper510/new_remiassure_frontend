@@ -15,21 +15,27 @@ function WhyRenderingArrayOfObjects() {
     const dataItems = [
         {
             id: 1,
+            src: "assets/img/home/Vector02.svg",
+            circle_heading: "We're Secure",
+            circle_content: "We use industry-leading technology to secure your money.",
+        },
+        {
+            id: 2,
             src: "assets/img/home/Vector01.svg",
             circle_heading: "We're Fast",
             circle_content: "95% of our transfers are completed in minutes…",
         },
         {
-            id: 2,
-            src: "assets/img/home/Vector02.svg",
-            circle_heading: "We're Safe",
-            circle_content: "We use industry-leading technology to secure your money.",
-        },
-        {
             id: 3,
             src: "assets/img/home/Vector03.svg",
-            circle_heading: "We're Effective",
+            circle_heading: "We’re Cost-effective",
             circle_content: "Our rates are competitive compared to banks and other remittance services.",
+        },
+        {
+            id: 4,
+            src: "assets/img/about/Vector04.svg",
+            circle_heading: "We’re Innovative",
+            circle_content: "We're committed to researching new ideas and technology to serve you better.",
         }
     ];
 

@@ -75,34 +75,30 @@ const Aboutus = () => {
    function WhyIconsRenderingArrayOfObjects() {
       const whydata = [
          {
-            id: "1",
-            icon_src: "assets/img/about/Vector01.svg",
-            icon_title: "We’re Secure",
-            icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
+            id: 1,
+            icon_src: "assets/img/home/Vector02.svg",
+            icon_title: "We're Secure",
+            icon_content: "We use industry-leading technology to secure your money.",
          },
          {
-            id: "2",
-            icon_src: "assets/img/about/Vector02.svg",
+            id: 2,
+            icon_src: "assets/img/home/Vector01.svg",
             icon_title: "We're Fast",
-            icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
+            icon_content: "95% of our transfers are completed in minutes…",
          },
          {
-            id: "3",
-            icon_src: "assets/img/about/Vector03.svg",
+            id: 3,
+            icon_src: "assets/img/home/Vector03.svg",
             icon_title: "We’re Cost-effective",
-            icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
+            icon_content: "Our rates are competitive compared to banks and other remittance services.",
          },
          {
-            id: "4",
+            id: 4,
             icon_src: "assets/img/about/Vector04.svg",
             icon_title: "We’re Innovative",
-            icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
-         },
-      ];
+            icon_content: "We're committed to researching new ideas and technology to serve you better.",
+         }
+      ]
       const ArrayIconsIttems = whydata.map((icon) => {
          return (
 
