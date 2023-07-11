@@ -7,8 +7,15 @@ const token_forgot = localStorage.getItem("token_forgot")
 // Axios.defaults.baseURL = `${url}:8000`;
 Axios.defaults.baseURL = `${global.serverUrl}`
 
-export const userRegister = async (data) => {
-  const response = await Axios.post("/register/", data).then(res => {
+export const userRegisterCheck = async (data) => {
+  const response = await Axios.post("/register-check/", data).then(res => {
+    return res.data
+  })
+  return response
+}
+
+export const userRegisterVerify = async (data) => {
+  const response = await Axios.post("/register-verify/", data).then(res => {
     return res.data
   })
   return response

@@ -38,10 +38,6 @@ const Verification = () => {
     const [open_modal, setOpenModal] = useState(false)
     const data = location.state
 
-    // start Error mesasge states
-    const [EnterOtpText, setEnterOtpText] = useState('');
-    const [InvalidotpText, setInvalidotpText] = useState('');
-    const [AlreadyverifiedText, setAlreadyverifiedText] = useState('');
     const [show_alert, setShowAlert] = useState(1)
 
     const handleChange = (enteredOtp) => {
@@ -168,7 +164,6 @@ const Verification = () => {
                         <div className="col-lg-12">
                             <div className="card card-verification">
                                 <div className="card-body">
-                                    <span style={successStyle}>{AlreadyverifiedText ? AlreadyverifiedText : ""}</span>
                                     <h5 className="Sign-heading mb-4">Verify your Account</h5>
                                     {
                                         show_alert === 1 ? (
@@ -206,8 +201,6 @@ const Verification = () => {
                                                 separateAfter={3}
                                                 className="verification_input"
                                             />
-                                            <span style={myStyle}>{EnterOtpText ? EnterOtpText : ""}</span>
-                                            <span style={myStyle}>{InvalidotpText ? InvalidotpText : ""}</span>
                                             <div className="text-center pt-3">
                                                 <button variant={count_invalid === 3 ? "secondary" : "primary"}
                                                     type="submit"
