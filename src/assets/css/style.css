@@ -5962,3 +5962,14 @@ border : 1px solid #6414E9 !important
 .custom-height{
   min-height:450px;
 }
+
+.currency_cards {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.currency_cards h6{
+  margin-top: 12px;
+}

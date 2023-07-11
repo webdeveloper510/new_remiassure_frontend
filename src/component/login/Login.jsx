@@ -37,7 +37,8 @@ const Login = () => {
             setLoading(true);
             let data = {}
             if (isMobile === true) {
-                data.mobile = countryCode + values.email
+                const mobileNumber = parseInt(values.email, 10)
+                data.mobile = countryCode + mobileNumber
             } else {
                 data.email = values.email
             }

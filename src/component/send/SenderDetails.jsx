@@ -40,7 +40,7 @@ const SenderDetails = ({ handleStep, step }) => {
   const senderSchema = Yup.object().shape({
     f_name: Yup.string().min(1).max(25).required().trim(),
     l_name: Yup.string().min(1).max(25).required().trim(),
-    flat: Yup.string().min(1).max(15).notRequired().trim(),
+    flat: Yup.string().min(1).max(30).notRequired(),
     build_no: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(30).required().trim(),
     city: Yup.string().required().notOneOf(["none"]),
@@ -48,7 +48,7 @@ const SenderDetails = ({ handleStep, step }) => {
     state: Yup.string().required().notOneOf(["none"]),
     country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
     dob: Yup.date().required(),
-    occupation: Yup.string().min(1).max(25).required().trim(),
+    occupation: Yup.string().min(1).max(50).required().trim(),
     country_of_birth: Yup.string().required().notOneOf(["none"]),
     payment_per_annum: Yup.string().required().notOneOf(["none"]),
     value_per_annum: Yup.string().required().notOneOf(["none"]),
@@ -249,7 +249,7 @@ const SenderDetails = ({ handleStep, step }) => {
   }
 
   const handleAddress = (event) => {
-    const result = event.target.value.replace(/[^0-9A-z- /#._]/, "");
+    const result = event.target.value.replace(/[^0-9A-z-/#. _]/, "");
     setData({ ...data, [event.target.name]: result })
     formik.setFieldValue(event.target.name, result)
     formik.setFieldTouched(event.target.name, true)
@@ -381,6 +381,7 @@ const SenderDetails = ({ handleStep, step }) => {
                 name="occupation"
                 value={data.occupation}
                 id="occupation"
+                maxLength="50"
                 onChange={(e) => handleOnlyAplha(e)}
                 className={clsx(
                   'form-control bg-transparent',

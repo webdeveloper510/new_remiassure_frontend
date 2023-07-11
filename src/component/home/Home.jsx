@@ -4,31 +4,38 @@ import "react-multi-carousel/lib/styles.css";
 import Scrollbar from '../scrollbar/Scrollbar';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import clsx from "clsx";
+import { useRef } from "react";
 import { exchangeRate } from "../../utils/Api";
 
 function WhyRenderingArrayOfObjects() {
     const dataItems = [
         {
             id: 1,
-            src: "assets/img/home/Vector01.svg",
-            circle_heading: "We're Fast",
-            circle_content: "95% of our transfers are ready in minutes..",
+            src: "assets/img/home/Vector02.svg",
+            circle_heading: "We're Secure",
+            circle_content: "We use industry-leading technology to secure your money.",
         },
         {
             id: 2,
-            src: "assets/img/home/Vector02.svg",
-            circle_heading: "We're Safe",
-            circle_content: "We use industry-leading technology to protect your money.",
+            src: "assets/img/home/Vector01.svg",
+            circle_heading: "We're Fast",
+            circle_content: "95% of our transfers are completed in minutes…",
         },
         {
             id: 3,
             src: "assets/img/home/Vector03.svg",
-            circle_heading: "We're Low-Cost",
-            circle_content: " conventional banks and money transfer services.",
+            circle_heading: "We’re Cost-effective",
+            circle_content: "Our rates are competitive compared to banks and other remittance services.",
+        },
+        {
+            id: 4,
+            src: "assets/img/about/Vector04.svg",
+            circle_heading: "We’re Innovative",
+            circle_content: "We're committed to researching new ideas and technology to serve you better.",
         }
     ];
 
@@ -100,84 +107,85 @@ function BankTransferArrayOfObjects() {
     )
 }
 
-function FlagHomeArrayofoObjects() {
-    const flagData = [
-        {
-            id: 1,
-            flag_src: "assets/img/home/Mask group.svg",
-            flag_title: "india",
-            flag_arrow_scr: "assets/img/home/arrow01.svg",
-        },
-        {
-            id: 2,
-            flag_src: "assets/img/home/Mask group.svg",
-            flag_title: "india",
-            flag_arrow_scr: "assets/img/home/arrow01.svg",
-        },
-        {
-            id: 3,
-            flag_src: "assets/img/home/Mask group.svg",
-            flag_title: "india",
-            flag_arrow_scr: "assets/img/home/arrow01.png",
-        },
-        {
-            id: 4,
-            flag_src: "assets/img/home/Mask group.svg",
-            flag_title: "india",
-            flag_arrow_scr: "assets/img/home/arrow01.svg",
-        },
-        {
-            id: 5,
-            flag_src: "assets/img/home/Mask group.svg",
-            flag_title: "india",
-            flag_arrow_scr: "assets/img/home/arrow01.svg",
-        },
-        {
-            id: 6,
-            flag_src: "assets/img/home/Mask group.svg",
-            flag_title: "india",
-            flag_arrow_scr: "assets/img/home/arrow01.svg",
-        },
-    ];
+// function FlagHomeArrayofoObjects() {
+//     const flagData = [
+//         {
+//             id: 1,
+//             flag_src: "assets/img/home/Mask group.svg",
+//             flag_title: "india",
+//             flag_arrow_scr: "assets/img/home/arrow01.svg",
+//         },
+//         {
+//             id: 2,
+//             flag_src: "assets/img/home/Mask group.svg",
+//             flag_title: "india",
+//             flag_arrow_scr: "assets/img/home/arrow01.svg",
+//         },
+//         {
+//             id: 3,
+//             flag_src: "assets/img/home/Mask group.svg",
+//             flag_title: "india",
+//             flag_arrow_scr: "assets/img/home/arrow01.png",
+//         },
+//         {
+//             id: 4,
+//             flag_src: "assets/img/home/Mask group.svg",
+//             flag_title: "india",
+//             flag_arrow_scr: "assets/img/home/arrow01.svg",
+//         },
+//         {
+//             id: 5,
+//             flag_src: "assets/img/home/Mask group.svg",
+//             flag_title: "india",
+//             flag_arrow_scr: "assets/img/home/arrow01.svg",
+//         },
+//         {
+//             id: 6,
+//             flag_src: "assets/img/home/Mask group.svg",
+//             flag_title: "india",
+//             flag_arrow_scr: "assets/img/home/arrow01.svg",
+//         },
+//     ];
 
-    const flagdataItems = flagData.map((flagvalue) => {
-        return (
+//     const flagdataItems = flagData.map((flagvalue) => {
+//         return (
 
-            <li key={flagvalue.id}>
-                <div className="col-lg-12">
-                    <div className="card card-flag01">
-                        <div className="row">
-                            <div className="col-4">
-                                <div className="card-body">
-                                    <img src={flagvalue.flag_src} alt="flag_icons" className="flag_icons" />
-                                </div>
-                            </div>
+//             <li key={flagvalue.id}>
+//                 <div className="col-lg-12">
+//                     <div className="card card-flag01">
+//                         <div className="row">
+//                             <div className="col-4">
+//                                 <div className="card-body">
+//                                     <img src={flagvalue.flag_src} alt="flag_icons" className="flag_icons" />
+//                                 </div>
+//                             </div>
 
-                            <div className="col-4">
-                                <p className="india-text">{flagvalue.flag_title}</p>
-                            </div>
+//                             <div className="col-4">
+//                                 <p className="india-text">{flagvalue.flag_title}</p>
+//                             </div>
 
-                            <div className="col-4">
-                                <img src={flagvalue.flag_arrow_scr} alt="arrow_icons" className="arrow_icons" />
-                            </div>
-                        </div>
+//                             <div className="col-4">
+//                                 <img src={flagvalue.flag_arrow_scr} alt="arrow_icons" className="arrow_icons" />
+//                             </div>
+//                         </div>
 
-                    </div>
-                </div>
-            </li>
+//                     </div>
+//                 </div>
+//             </li>
 
-        )
-    })
-    return (
-        <div>
-            {flagdataItems}
-        </div>
-    )
-}
+//         )
+//     })
+//     return (
+//         <div>
+//             {flagdataItems}
+//         </div>
+//     )
+// }
 
 
 const Home = () => {
 
+    const currency_ref = useRef()
     const token = localStorage.getItem("token");
     const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
     const items = [
@@ -212,15 +220,17 @@ const Home = () => {
         recieve_meth: "Bank Transfer"
     })
 
-
+    const [currency, setCurrency] = useState(null)
 
     useEffect(() => {
         document.documentElement.style.setProperty('--num', carouselItems.length);
     }, [carouselItems])
+
     const amountSchema = Yup.object().shape({
         send_amt: Yup.number()
             .required('Amount is required')
     })
+
     const initialValues = {
         send_amt: '',
         exchange_amt: '',
@@ -228,6 +238,7 @@ const Home = () => {
         to_type: "USD",
         recieve_meth: "Bank Transfer"
     }
+
     const [loading, setLoading] = useState(false);
     const [total_rates, setTotal_rates] = useState('');
     const navigate = useNavigate();
@@ -245,6 +256,28 @@ const Home = () => {
             localStorage.setItem("exchange_curr", JSON.stringify(obj))
         })
     }, [])
+
+
+    useEffect(() => {
+        if (currency !== null) {
+            setLoading(true);
+            currency_ref.current.focus()
+            exchangeRate({ amount: "100", from: formik.values.from_type, to: currency })
+                .then((res) => {
+                    setData({ ...data, exchange_amt: res.amount, send_amt: "100", to_type: currency })
+                    formik.setValues({ ...formik.values, exchange_amt: res.amount, send_amt: "100", to_type: currency })
+                    setTotal_rates(res.rate)
+                    setLoading(false)
+
+                }).catch((error) => {
+                    // console.log(error.response)
+                    if (error.response.data.code == "400") {
+                        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+                    }
+                    setLoading(false)
+                })
+        }
+    }, [currency])
 
     const formik = useFormik({
         initialValues,
@@ -472,6 +505,7 @@ const Home = () => {
                                                     <input
                                                         autoComplete='off'
                                                         value={formik.values.exchange_amt}
+                                                        ref={currency_ref}
                                                         readOnly
                                                         className='form-control bg-transparent mb-3 new_input'
 
@@ -483,12 +517,12 @@ const Home = () => {
                                                         onChange={(e) => { myTotalAmountTo(e) }}
                                                     >
                                                         {
-                                                            
-                                                                curr_out.map((item) => {
-                                                                    return (
-                                                                        <option value={item}>{item}</option>
-                                                                    )
-                                                                })
+
+                                                            curr_out.map((item) => {
+                                                                return (
+                                                                    <option value={item}>{item}</option>
+                                                                )
+                                                            })
                                                         }
                                                     </select>
                                                 </div>
@@ -587,7 +621,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-            <section className="why-us section-bgba banner_section05" >
+            {/* <section className="why-us section-bgba banner_section05" >
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
@@ -633,7 +667,7 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
             <section className="why-us section-bgba banner_section01">
                 <div className="container">
                     <div className="row">
@@ -641,25 +675,75 @@ const Home = () => {
                             <div className="row">
                                 <div className="col-lg-6">
                                     <div className="vl02">
-                                        <h1 className="money-heading">Send money to over 130 countries worldwide and choose
-                                            from over 70 currencies</h1>
+                                        <h1 className="money-heading">Our global payment network enables our customers to seamlessly transfer funds to vast
+                                            number of countries</h1>
                                     </div>
                                     <div className="popular-content">
-                                        <h4 className="popular-paragraph01">POPULAR COUNTRIES
+                                        <h4 className="popular-paragraph01">Our most popular payout corridors
                                         </h4>
-                                        <p className="popular-paragraph02">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                        {/* <p className="popular-paragraph02">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                                         </p>
                                         <p className="popular-paragraph02"> incididunt ut labore et dolore magna aliqua. Facilisi morbi tempus iaculis urna.
-                                        </p>
+                                        </p> */}
                                     </div>
                                 </div>
                                 <div className="col-lg-6">
                                     <div className="row">
-                                        <ul className="bank_transfer">
-                                            < FlagHomeArrayofoObjects />
-                                        </ul>
+                                        {/* <ul>
+                                             < FlagHomeArrayofoObjects />
+                                            <li></li>
+                                        </ul> */}
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("USD") }}>
+                                                <img src="assets/img/home/nigeria.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6 className="mx">Nigera (USD)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("NGN") }}>
+                                                <img src="assets/img/home/nigeria.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6>Nigera (NGN)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards w-100" onClick={() => { setCurrency("GHC") }}>
+                                                <img src="assets/img/home/ghana.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6>GHANA (GHC)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("KHS") }}>
+                                                <img src="assets/img/home/kenya.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6>KENYA (KHS)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("PHP") }}>
+                                                <img src="assets/img/home/philippines.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6>PHILIPPINES (PHP)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("THB") }}>
+                                                <img src="assets/img/home/thailand.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6>THAILAND (THB)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 my-3">
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("VND") }}>
+                                                <img src="assets/img/home/vietnam.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
+                                                <h6>VIETNAM (VND)</h6>
+                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
+                                            </div>
+                                        </div>
                                     </div>
-                                    {
+                                    {/* {
                                         userdt && token ? (
                                             <div className="view-button">
                                                 <NavLink to={"/userdashboard"}>
@@ -675,7 +759,7 @@ const Home = () => {
                                                 </div>
                                             </>
                                         )
-                                    }
+                                    } */}
                                 </div>
                             </div>
                         </div>
@@ -683,15 +767,17 @@ const Home = () => {
                     {/* main row End*/}
                     <div className="row">
                         <div className="col-lg-12 call_heading">
-                            <h3 className="cal-heading">Call to us</h3>
-                            <p className="call-paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Facilisi morbi tempus iaculis urna.</p>
+                            <h3 className="cal-heading">We are here to help!</h3>
+                            <p className="call-paragraph">Do you need assistance? Our dedicated support centre is purpose-built to
+                                support you.</p>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="view-button">
-                                <a href="tel:+66 2399 1145" className="btn btn call_button">Call Now</a>
+                                <Link to="/help">
+                                    <button className="btn btn call_button">Go to our Support Centre</button>
+                                </Link>
                             </div>
                         </div>
                     </div>

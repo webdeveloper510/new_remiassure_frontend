@@ -61,7 +61,7 @@ const BankDetails = ({ handleStep, step }) => {
     l_name: Yup.string().min(2).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(11).max(18).required(),
-    flat: Yup.string().min(1).max(15).notRequired().trim(),
+    flat: Yup.string().min(1).max(30).notRequired(),
     build_no: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(30).required().trim(),
     city: Yup.string().min(1).max(35).required().trim(),
