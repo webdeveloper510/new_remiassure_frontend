@@ -227,10 +227,12 @@ const Profile = () => {
   }
 
   const handlePhone = (e, coun) => {
-    formik.setFieldValue('mobile', e);
+    let mno = e.substring(2);
+    const mobileNumber = parseInt(mno, 10)
+    formik.setFieldValue('mobile', mobileNumber);
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
-    setData({ ...data, country: coun.name, mobile: "+" + e })
+    setData({ ...data, country: coun.name, mobile: "+" + mobileNumber })
   }
 
   const handleKeyDown = (e, max) => {

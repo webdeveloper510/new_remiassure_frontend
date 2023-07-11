@@ -125,7 +125,9 @@ const Signup = () => {
     }
 
     const handlePhone = (e, coun) => {
-        formik.setFieldValue('mobile', e);
+        let mno = e.substring(2);
+        const mobileNumber = parseInt(mno, 10)
+        formik.setFieldValue('mobile', coun.dialCode + mobileNumber);
         formik.setFieldValue('location', coun.name)
     }
 
