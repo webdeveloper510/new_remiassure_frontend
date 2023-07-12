@@ -253,3 +253,39 @@ export const activEmail = (data) => {
 
   return response
 }
+
+export const userCharge = (data) => {
+  const response = Axios.post(`/payment/stripe/user-charge/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    if (res.data.code == "200") {
+      return true
+    }
+    return false
+  }).catch(error => {
+    return "failed"
+  })
+
+  return response
+}
+
+export const ZaiPayId = (data) => {
+  const response = Axios.post(`/payment/zai-payid/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    if (res.data.code == "200") {
+      return true
+    }
+    return false
+  }).catch(error => {
+    return "failed"
+  })
+
+  return response
+}

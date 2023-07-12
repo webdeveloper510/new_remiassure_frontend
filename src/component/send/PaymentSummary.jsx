@@ -10,6 +10,7 @@ import verified from '../../assets/img/userdashboard/3.png';
 import { BsCheckCircleFill } from 'react-icons/bs'
 import { toast } from 'react-toastify'
 import PopVerify from '../verification/PopVerify'
+import { ZaiPayId, userCharge } from '../../utils/Api'
 
 
 const PaymentSummary = ({ handleStep, step }) => {
@@ -47,7 +48,7 @@ const PaymentSummary = ({ handleStep, step }) => {
 
   const handleFinalStep = () => {
     const local = JSON.parse(localStorage.getItem("transfer_data"))
-    // console.log(local)
+
     let data = {
       sender: {
         First_name: local?.sender?.f_name,
@@ -104,34 +105,55 @@ const PaymentSummary = ({ handleStep, step }) => {
       }
     }
     setLoader(true)
-    Axios.post(`${global.serverUrl}/payment/stripe/user-charge/`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      }
-    }).then((res) => {
-      if (res.data.code == "200") {
-        setLoader(false)
-        setTransaction({ status: "Pending", id: res?.data?.data?.transaction_id, pay_id: res?.data?.data?.payment_id })
-        localStorage.setItem("transaction_id", res?.data?.data?.payment_id)
-        const user = JSON.parse(localStorage.getItem("remi-user-dt"))
-        // localStorage.removeItem("remi-user-dt")
-        user.digital_id_verified = "true"
-        localStorage.setItem("remi-user-dt", JSON.stringify(user))
-        if (localStorage.getItem("send-step")) {
-          localStorage.removeItem("send-step")
+    if (local?.payment.hasOwnProperty("pay_id")) {
+      ZaiPayId(data).then((res) => {
+        if (res.data.code == "200") {
+          setLoader(false)
+          setTransaction({ status: "Pending", id: res?.data?.data?.transaction_id, pay_id: res?.data?.data?.payment_id })
+          localStorage.setItem("transaction_id", res?.data?.data?.payment_id)
+          const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+          // localStorage.removeItem("remi-user-dt")
+          user.digital_id_verified = "true"
+          localStorage.setItem("remi-user-dt", JSON.stringify(user))
+          if (localStorage.getItem("send-step")) {
+            localStorage.removeItem("send-step")
+          }
+          localStorage.removeItem("transfer_data")
+          setModalView(true)
+          // setTimeout(() => {
+          //   navigate("/dashboard")
+          // }, 10 * 1000)
         }
-        localStorage.removeItem("transfer_data")
-        setModalView(true)
-        // setTimeout(() => {
-        //   navigate("/dashboard")
-        // }, 10 * 1000)
-      }
-      setLoader(false)
-    }).catch((err) => {
-      toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
-      setLoader(false)
-    })
+        setLoader(false)
+      }).catch(error => {
+
+      })
+    } else if (local?.payment.hasOwnProperty("token")) {
+      userCharge(data).then((res) => {
+        if (res.data.code == "200") {
+          setLoader(false)
+          setTransaction({ status: "Pending", id: res?.data?.data?.transaction_id, pay_id: res?.data?.data?.payment_id })
+          localStorage.setItem("transaction_id", res?.data?.data?.payment_id)
+          const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+          // localStorage.removeItem("remi-user-dt")
+          user.digital_id_verified = "true"
+          localStorage.setItem("remi-user-dt", JSON.stringify(user))
+          if (localStorage.getItem("send-step")) {
+            localStorage.removeItem("send-step")
+          }
+          localStorage.removeItem("transfer_data")
+          setModalView(true)
+          // setTimeout(() => {
+          //   navigate("/dashboard")
+          // }, 10 * 1000)
+        }
+        setLoader(false)
+      }).catch((err) => {
+        toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
+        setLoader(false)
+      })
+    }
+
   }
 
   useEffect(() => {

@@ -6,11 +6,15 @@ import global from '../../utils/global'
 import { loadStripe } from '@stripe/stripe-js'
 import { useRef } from 'react'
 import { useNavigate } from 'react-router'
+import { useFormik } from 'formik'
+import * as Yup from 'yup';
+import clsx from 'clsx'
 
 const PaymentDetails = ({ handleStep, step }) => {
 
   const [data, setData] = useState({ payment_type: "Debit/Credit Card" })
   const [modal, setModal] = useState(false)
+  const [pay_id_modal, setPayIdModal] = useState(false)
   const payRef = useRef(null)
   const navigate = useNavigate()
   const handleChange = (e) => {
@@ -18,9 +22,10 @@ const PaymentDetails = ({ handleStep, step }) => {
   }
 
   const handlePayType = () => {
-    if (data.payment_type !== "Debit/Credit Card") {
-    } else {
+    if (data.payment_type === "Debit/Credit Card") {
       setModal(true)
+    } else if (data.payment_type === "PayByID") {
+      setPayIdModal(true)
     }
   }
 
@@ -51,19 +56,33 @@ const PaymentDetails = ({ handleStep, step }) => {
 
           <div className="col-md-12">
             <label className="container-new">
-              <span className="radio-tick">Osko</span>
+              <span className="radio-tick">Pay By ID</span>
               <input
                 className="form-check-input"
                 type="radio"
                 name="Payment Type"
-                defaultChecked={data.payment_type == "Oslo"}
-                value="Oslo"
+                defaultChecked={data.payment_type == "PayByID"}
+                value="PayByID"
                 onChange={handleChange}
               />
               <span className="checkmark"></span>
             </label>
           </div>
 
+          <div className="col-md-12">
+            <label className="container-new">
+              <span className="radio-tick">Pay To</span>
+              <input
+                className="form-check-input"
+                type="radio"
+                name="Payment Type"
+                defaultChecked={data.payment_type == "PayTo"}
+                value="PayTo"
+                onChange={handleChange}
+              />
+              <span className="checkmark"></span>
+            </label>
+          </div>
           <div className="col-md-12">
             <label className="container-new">
               <span className="radio-tick">Debit/Credit Card</span>
@@ -78,22 +97,6 @@ const PaymentDetails = ({ handleStep, step }) => {
               <span className="checkmark"></span>
             </label>
           </div>
-
-          <div className="col-md-12">
-            <label className="container-new">
-              <span className="radio-tick">PoLI Internet Banking</span>
-              <input
-                className="form-check-input"
-                type="radio"
-                name="Payment Type"
-                defaultChecked={data.payment_type == "PoLI Internet Banking"}
-                value="PoLI Internet Banking"
-                onChange={handleChange}
-              />
-              <span className="checkmark"></span>
-            </label>
-          </div>
-
         </div>
         <div className="row">
           <div className="col-md-4">
@@ -132,6 +135,8 @@ const PaymentDetails = ({ handleStep, step }) => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <PayIDModal modal={pay_id_modal} handler={(value) => { setPayIdModal(value) }} handleStep={handleStep} step={step} />
     </div>
 
   )
@@ -160,7 +165,7 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
       localStorage.setItem("send-step", Number(step) + 1)
       handleStep(Number(step) + 1)
     } else {
-      toast.error("Enter card details to continue", { position:"bottom-right", hideProgressBar: true, autoClose: 2000 })
+      toast.error("Enter card details to continue", { position: "bottom-right", hideProgressBar: true, autoClose: 2000 })
     }
 
   };
@@ -175,5 +180,72 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
     </form>
   );
 };
+
+const PayIDModal = ({ modal, handler, handleStep, step }) => {
+  const payForm = useFormik({
+    initialValues: {
+      pay_id: ""
+    },
+    validationSchema: Yup.object().shape({
+      pay_id: Yup.string().required("Pay Id is required")
+    }),
+    onSubmit: async (values) => {
+      handler(false)
+      const local = JSON.parse(localStorage.getItem("transfer_data"))
+      local.payment = { pay_id: values.pay_id, payment_type: "PayByID" }
+      localStorage.removeItem("transfer_data")
+      localStorage.setItem("transfer_data", JSON.stringify(local))
+      if (localStorage.getItem("send-step")) {
+        localStorage.removeItem("send-step")
+      }
+      localStorage.setItem("send-step", Number(step) + 1)
+      handleStep(Number(step) + 1)
+    }
+  })
+  return (
+    <Modal className="modal-card" show={modal} onHide={() => handler(false)} centered backdrop="static">
+      <Modal.Header>
+        <Modal.Title className='fs-5'>Pay By ID</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className='my-4'>
+        <form>
+          <div>
+            <div className="input_field">
+              <p className="get-text fs-6 mb-1">Pay ID<span style={{ color: 'red' }} >*</span></p>
+              <input
+                type="text"
+                maxLength="25"
+                {...payForm.getFieldProps("pay_id")}
+                placeholder='Enter Your Pay ID'
+                className={clsx(
+                  'form-control mx-2 w-75',
+                  { 'is-invalid': payForm.touched.pay_id && payForm.errors.pay_id },
+                  {
+                    'is-valid': payForm.touched.pay_id && !payForm.errors.pay_id
+                  }
+                )}
+              />
+              {payForm.touched.pay_id && payForm.errors.pay_id && (
+                <div className='fv-plugins-message-container small mx-2 mt-1'>
+                  <div className='fv-help-block'>
+                    <span role='alert' className="text-danger">{payForm.errors.pay_id}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={() => handler(false)} >
+          Cancel
+        </Button>
+        <Button type="submit" variant="primary" onClick={() => payForm.handleSubmit()}>
+          Continue
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  )
+}
 
 export default PaymentDetails
