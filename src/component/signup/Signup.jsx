@@ -6,7 +6,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { exchangeRate, userRegisterCheck, userRegisterVerify } from "../../utils/Api";
+import { exchangeRate, registerOtpResend, userRegisterCheck, userRegisterVerify } from "../../utils/Api";
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import clsx from "clsx";
@@ -31,9 +31,6 @@ const Signup = () => {
     const navigate = useNavigate();
     const toggleShowPassword = () => setShowPassword(prevState => !prevState);
     const toggleShowConfirmPassword = () => setShowConfirmPassword(prevState => !prevState)
-
-
-
 
     const initialValues = {
         location: "",
@@ -78,11 +75,10 @@ const Signup = () => {
             if (data.referral_code === "" || show === false) {
                 delete data["referral_code"]
             }
-            console.log(data)
             userRegisterCheck(data).then((res) => {
                 if (res.code === "200") {
                     toast.success(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
-                    setIsGetOtp(res.otp)
+                    setIsGetOtp(true)
 
                 } else if (res.code == '400') {
                     toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
@@ -179,7 +175,7 @@ const Signup = () => {
     const handleEmailVerification = (event) => {
         event.preventDefault();
         let length = otp.toString()
-        if (length.length == 6 && otp === isGetOtp) {
+        if (length.length == 6) {
             setLoading(true)
             let data = { ...formik.values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + formik.values.mobile, otp: otp }
             if (data.referral_code === "" || show === false) {
@@ -187,7 +183,6 @@ const Signup = () => {
             }
             userRegisterVerify(data).then((res) => {
                 if (res.code === "200") {
-                    console.log(res)
                     toast.success(res.message,
                         { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                     let d = new Date()
@@ -220,14 +215,9 @@ const Signup = () => {
     const handleResendOtp = (e) => {
         e.preventDefault()
         setLoading(true)
-        let data = { ...formik.values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + formik.values.mobile }
-        if (data.referral_code === "" || show === false) {
-            delete data["referral_code"]
-        }
-        userRegisterCheck(data).then(res => {
+        registerOtpResend({ mobile: "+" + formik.values.mobile }).then(res => {
             if (res.code === "200") {
                 setShowAlert(2)
-                setIsGetOtp(res.otp)
             } else {
                 setShowAlert(3)
             }
@@ -246,13 +236,6 @@ const Signup = () => {
     const handleOtpChange = (enteredOtp) => {
         setOtp(enteredOtp);
     };
-
-
-
-
-
-
-
 
     return (
         <>
@@ -335,7 +318,6 @@ const Signup = () => {
                                                                         }
                                                                     )}
                                                                     onBlur={handleBlur}
-
                                                                 />
                                                             </Form.Group>
                                                             <Form.Group className="mb-3 form_label">
@@ -452,7 +434,6 @@ const Signup = () => {
                                                                 <NavLink to="/login">Log In</NavLink>
                                                             </p>
                                                         </form>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -463,104 +444,101 @@ const Signup = () => {
                         </div>
                     </section>
                 ) : (
-                    <>
-                        <section className="why-us section-bgba verification_banner">
-                            <div className="container">
-                                <div className="row">
-                                    <div className="col-lg-12">
-                                        <div className="card card-verification">
-                                            <div className="card-body">
-                                                <h5 className="Sign-heading mb-4">Verify your Account</h5>
-                                                {
-                                                    show_alert === 1 ? (
-                                                        <Alert className="m-0" >
-                                                            {/*onClose={() => setShowAlert(0)} dismissible  */}
-                                                            <span>
-                                                                A verification code has been sent to your number.
-                                                            </span>
-                                                        </Alert>
-                                                    ) : show_alert === 2 ? (
-                                                        <Alert className="m-0" >
-                                                            <span>The verification code has been resent.</span>
-                                                        </Alert>
-                                                    ) : show_alert === 3 ? (
-                                                        <Alert className="m-0" >
-                                                            <span>There might be an issue in resending, please try again.</span>
-                                                        </Alert>
-                                                    ) : (
-                                                        <Alert className="m-0" >
-                                                            <span> Please enter the verification code to continue.</span>
-                                                        </Alert>
-                                                    )
-                                                }
+                    <section className="why-us section-bgba verification_banner">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    <div className="card card-verification">
+                                        <div className="card-body">
+                                            <h5 className="Sign-heading mb-4">Verify your Account</h5>
+                                            {
+                                                show_alert === 1 ? (
+                                                    <Alert className="m-0" >
+                                                        {/*onClose={() => setShowAlert(0)} dismissible  */}
+                                                        <span>
+                                                            A verification code has been sent to your number.
+                                                        </span>
+                                                    </Alert>
+                                                ) : show_alert === 2 ? (
+                                                    <Alert className="m-0" >
+                                                        <span>The verification code has been resent.</span>
+                                                    </Alert>
+                                                ) : show_alert === 3 ? (
+                                                    <Alert className="m-0" >
+                                                        <span>There might be an issue in resending, please try again.</span>
+                                                    </Alert>
+                                                ) : (
+                                                    <Alert className="m-0" >
+                                                        <span> Please enter the verification code to continue.</span>
+                                                    </Alert>
+                                                )
+                                            }
 
-                                                <div className="form_verification">
-                                                    <form onSubmit={handleEmailVerification} >
-                                                        <OtpInput
-                                                            value={otp}
-                                                            onChange={handleOtpChange}
-                                                            numInputs={6}
-                                                            isInputNum={true}
-                                                            isSuccessed={true}
-                                                            successStyle="success"
-                                                            separator={<span></span>}
-                                                            separateAfter={3}
-                                                            className="verification_input"
-                                                        />
-                                                        <div className="text-center pt-3">
-                                                            <button variant={count_invalid === 3 ? "secondary" : "primary"}
-                                                                type="submit"
-                                                                className="continue_button w-75"
-                                                                disabled={count_invalid === 3 ? true : false}
-                                                            >
-                                                                Continue
-                                                                {
-                                                                    loading ? <>
-                                                                        <div className="loader-overly">
-                                                                            <div className="loader" >
-                                                                            </div>
+                                            <div className="form_verification">
+                                                <form onSubmit={handleEmailVerification} >
+                                                    <OtpInput
+                                                        value={otp}
+                                                        onChange={handleOtpChange}
+                                                        numInputs={6}
+                                                        isInputNum={true}
+                                                        isSuccessed={true}
+                                                        successStyle="success"
+                                                        separator={<span></span>}
+                                                        separateAfter={3}
+                                                        className="verification_input"
+                                                    />
+                                                    <div className="text-center pt-3">
+                                                        <button variant={count_invalid === 3 ? "secondary" : "primary"}
+                                                            type="submit"
+                                                            className="continue_button w-75"
+                                                            disabled={count_invalid === 3 ? true : false}
+                                                        >
+                                                            Continue
+                                                            {
+                                                                loading ? <>
+                                                                    <div className="loader-overly">
+                                                                        <div className="loader" >
                                                                         </div>
-                                                                    </> : <></>
-                                                                }
-                                                            </button>
-                                                            <button variant="primary"
-                                                                type="button"
-                                                                onClick={(e) => { handleResendOtp(e) }}
-                                                                className="continue_button w-75"
-                                                            >
-                                                                Resend OTP
-                                                                {
-                                                                    loading ? <>
-                                                                        <div className="loader-overly">
-                                                                            <div className="loader" >
-                                                                            </div>
+                                                                    </div>
+                                                                </> : <></>
+                                                            }
+                                                        </button>
+                                                        <button variant="primary"
+                                                            type="button"
+                                                            onClick={(e) => { handleResendOtp(e) }}
+                                                            className="continue_button w-75"
+                                                        >
+                                                            Resend OTP
+                                                            {
+                                                                loading ? <>
+                                                                    <div className="loader-overly">
+                                                                        <div className="loader" >
                                                                         </div>
-                                                                    </> : <></>
-                                                                }
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                                                    </div>
+                                                                </> : <></>
+                                                            }
+                                                        </button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
-
                                     </div>
+
                                 </div>
                             </div>
-                            <Modal show={open_modal} centered backdrop="static">
-                                <Modal.Header><b style={{ color: "#6414E9" }}>Maximum limit reached</b></Modal.Header>
-                                <ModalBody>
-                                    <h5>Please contact our <b style={{ color: "#6414E9" }}>Customer Service</b> to continue</h5>
-                                </ModalBody>
-                                <Modal.Footer className="pt-0">
-                                    <Button onClick={() => handleClose()} variant="primary" className="continue_button w-50 p-0">Visit Support</Button>
-                                </Modal.Footer>
-                            </Modal>
-                        </section>
-                    </>
+                        </div>
+                        <Modal show={open_modal} centered backdrop="static">
+                            <Modal.Header><b style={{ color: "#6414E9" }}>Maximum limit reached</b></Modal.Header>
+                            <ModalBody>
+                                <h5>Please contact our <b style={{ color: "#6414E9" }}>Customer Service</b> to continue</h5>
+                            </ModalBody>
+                            <Modal.Footer className="pt-0">
+                                <Button onClick={() => handleClose()} variant="primary" className="continue_button w-50 p-0">Visit Support</Button>
+                            </Modal.Footer>
+                        </Modal>
+                    </section>
                 )
             }
-
         </>
     )
 }

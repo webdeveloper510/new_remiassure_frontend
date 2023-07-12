@@ -21,6 +21,13 @@ export const userRegisterVerify = async (data) => {
   return response
 }
 
+export const registerOtpResend = async (data) => {
+  const response = await Axios.post("/resend-register-otp/", data).then(res => {
+    return res.data
+  })
+  return response
+}
+
 export const userLogin = async (data) => {
   const response = await Axios.post("/login/", data).then(res => {
     return res.data
