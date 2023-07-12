@@ -32,7 +32,7 @@ const Help = () => {
       (element) => {
         return (
 
-          <ul className="list-">
+          <ul className="list- help_ul">
             <li className="">
               <div className="support-image">
                 <img src={element.src} alt="can't show image" />

@@ -176,8 +176,8 @@
     p.already_content {
         font-size: 14px !important;
     }
-    .customers-heading , .chose-heading  ,.vl-heading01 ,.vl-heading , .chose-heading01 ,.money-heading ,.cal-heading{
-        font-size: 28px;
+    .customers-heading , .chose-heading  ,.vl-heading01 ,.vl-heading , .chose-heading01 ,.money-heading ,.cal-heading, .why-heading{
+        font-size: 26px;
     line-height: 41px;
     }
     .custom-list li.bank_lists {
@@ -280,3 +280,67 @@ img.vission_image {
         margin: 30px 0px 0px;
     }
   }
+
+  @media screen and (max-width: 480px) {
+    .banner-content {
+        width: 100% !important;
+    }  
+    .card.card-flag.new_card .col-4 {
+        width: 100%;
+    }
+    ul.About_why-content li {
+        width: 100%;
+        float: left;
+    }
+    .help_ul li {
+        width: 100% !important;
+    }
+    .support_image img {
+        width: 100%;
+    }
+    .support_image {
+        min-height: auto;
+    }
+    .support-image {
+        height: 45px;
+        width: 45px;
+        padding-top: 8px;    
+    }
+    .help_image img {
+        width: 100%;
+    } 
+    .timeline {
+        display: block;
+   
+    } 
+    .timeline-content:nth-child(2) .popup_content {
+        margin-top: 20px;
+    }  
+    .timeline-content:nth-child(4) .popup_content {
+        margin-top: 20px;
+    }
+    .why-ramit-assure li {
+        display: block;
+        width: 50%;
+    } 
+    .gbp_friends {
+        font-size: 29px;
+        line-height: 45px;
+    }
+    .col-lg-6.right_sections01 img {
+        width: 100%;
+    }
+    .login-card-body {
+        padding: 1.5rem 1.875rem 1.25rem;
+    } 
+    .form_body h1 {
+        font-size: 30px;
+        line-height: 25px;
+    }
+    .summary {
+        width: 100%;
+        margin-top: 20px;
+    } 
+}
+
+
