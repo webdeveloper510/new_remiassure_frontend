@@ -137,6 +137,8 @@ const Verification = () => {
             obj.mobile = data.mobile
         }
         setLoading(true)
+        setOtp(null)
+
         resendOtp(obj).then((res) => {
             if (res.code == "200") {
                 setShowAlert(2)

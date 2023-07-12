@@ -71,6 +71,11 @@ const Signup = () => {
         validationSchema: signSchema,
         onSubmit: async (values) => {
             setLoading(true)
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth"
+            })
             let data = { ...values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + values.mobile }
             if (data.referral_code === "" || show === false) {
                 delete data["referral_code"]
@@ -78,6 +83,7 @@ const Signup = () => {
             userRegisterCheck(data).then((res) => {
                 if (res.code === "200") {
                     toast.success(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
+
                     setIsGetOtp(true)
 
                 } else if (res.code == '400') {
@@ -215,6 +221,7 @@ const Signup = () => {
     const handleResendOtp = (e) => {
         e.preventDefault()
         setLoading(true)
+        setOtp(null)
         registerOtpResend({ mobile: "+" + formik.values.mobile }).then(res => {
             if (res.code === "200") {
                 setShowAlert(2)

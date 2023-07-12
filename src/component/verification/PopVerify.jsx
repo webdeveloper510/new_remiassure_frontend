@@ -105,6 +105,8 @@ const PopVerify = ({ handler, close, phone, new_mobile }) => {
         }
         obj.type = "email"
         setLoading(true)
+        setOtp(null)
+
         resendOtp(obj).then((res) => {
             if (res.code == "200") {
                 setShowAlert(2)
