@@ -66,6 +66,12 @@ const Signup = () => {
         }
     }, [])
 
+    useEffect(() => {
+        formik.resetForm()
+        setIsGetOtp(false)
+        console.log("path", search.pathname)
+    }, [search])
+
     const formik = useFormik({
         initialValues,
         validationSchema: signSchema,
