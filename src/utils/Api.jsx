@@ -261,14 +261,10 @@ export const userCharge = (data) => {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
-    if (res.data.code == "200") {
-      return true
-    }
-    return false
+    return res.data
   }).catch(error => {
-    return "failed"
+    return error
   })
-
   return response
 }
 
@@ -279,13 +275,9 @@ export const ZaiPayId = (data) => {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
-    if (res.data.code == "200") {
-      return true
-    }
-    return false
+    return res.data
   }).catch(error => {
-    return "failed"
+    return error
   })
-
   return response
 }

@@ -130,10 +130,10 @@ const PaymentSummary = ({ handleStep, step }) => {
       })
     } else if (local?.payment.hasOwnProperty("token")) {
       userCharge(data).then((res) => {
-        if (res.data.code == "200") {
+        if (res.code == "200") {
           setLoader(false)
-          setTransaction({ status: "Pending", id: res?.data?.data?.transaction_id, pay_id: res?.data?.data?.payment_id })
-          localStorage.setItem("transaction_id", res?.data?.data?.payment_id)
+          setTransaction({ status: "Pending", id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+          localStorage.setItem("transaction_id", res?.data?.payment_id)
           const user = JSON.parse(localStorage.getItem("remi-user-dt"))
           // localStorage.removeItem("remi-user-dt")
           user.digital_id_verified = "true"
