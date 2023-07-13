@@ -262,8 +262,6 @@ export const userCharge = (data) => {
     },
   }).then(res => {
     return res.data
-  }).catch(error => {
-    return error
   })
   return response
 }
@@ -276,8 +274,8 @@ export const ZaiPayId = (data) => {
     },
   }).then(res => {
     return res.data
-  }).catch(error => {
-    return error
+  }).catch(err => {
+    return err
   })
   return response
 }

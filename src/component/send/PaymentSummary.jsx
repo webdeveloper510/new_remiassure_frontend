@@ -4,8 +4,6 @@ import { useState } from 'react'
 import { Modal, NavLink, Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router'
 import global from '../../utils/global'
-import Axios from "axios"
-import axios from 'axios'
 import verified from '../../assets/img/userdashboard/3.png';
 import { BsCheckCircleFill } from 'react-icons/bs'
 import { toast } from 'react-toastify'
@@ -48,69 +46,84 @@ const PaymentSummary = ({ handleStep, step }) => {
 
   const handleFinalStep = () => {
     const local = JSON.parse(localStorage.getItem("transfer_data"))
-
-    let data = {
-      sender: {
-        First_name: local?.sender?.f_name,
-        Middle_name: local?.sender?.m_name,
-        Last_name: local?.sender?.l_name,
-        Date_of_birth: local?.sender?.dob,
-        Gender: "m",
-        Country_of_birth: local?.sender?.country_of_birth,
-        occupation: local?.sender?.occupation,
-        payment_per_annum: local?.sender?.payment_per_annum,
-        value_per_annum: local?.sender?.value_per_annum,
-      },
-      sender_address: {
-        flat: local?.sender?.flat,
-        building: local?.sender?.build_no,
-        street: local?.sender?.street,
-        postcode: local?.sender?.post_code,
-        city: local?.sender?.city,
-        state: local?.sender?.state,
-        country: local?.sender?.country,
-        country_code: local?.sender?.country_code
-
-      },
-      recipient: {
-        first_name: local?.recipient?.f_name,
-        middle_name: local?.recipient?.m_name,
-        last_name: local?.recipient?.l_name,
-        email: local?.recipient?.email,
-        mobile: local?.recipient?.mobile,
-        flat: local?.recipient?.flat,
-        building: local?.recipient?.build_no,
-        street: local?.recipient?.street,
-        postcode: local?.recipient?.post_code,
-        city: local?.recipient?.city,
-        state: local?.recipient?.state,
-        country: local?.recipient?.country,
-        country_code: local?.recipient?.country_code
-      },
-      bank_details: {
-        bank_name: local?.recipient?.bank,
-        account_name: local?.recipient?.acc_name,
-        account_number: local?.recipient?.acc_no
-      },
-      amount: {
-        send_amount: local?.amount?.send_amt,
-        receive_amount: local?.amount?.exchange_amt,
-        send_currency: local?.amount?.from_type,
-        receive_currency: local?.amount?.to_type,
-        send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
-        receive_method: local?.amount?.recieve_meth,
-        reason: local?.recipient?.reason,
-        card_token: local?.payment?.token?.id,
-        exchange_rate: local?.amount?.rates
-      }
-    }
     setLoader(true)
     if (local?.payment.hasOwnProperty("pay_id")) {
+      let data = {
+        pay_id: local?.payment?.pay_id,
+        sender: {
+          First_name: local?.sender?.f_name,
+          Middle_name: local?.sender?.m_name,
+          Last_name: local?.sender?.l_name,
+          Date_of_birth: local?.sender?.dob,
+          Gender: "M",
+          Country_of_birth: local?.sender?.country_of_birth,
+          occupation: local?.sender?.occupation,
+          payment_per_annum: local?.sender?.payment_per_annum,
+          value_per_annum: local?.sender?.value_per_annum,
+        },
+        sender_address: {
+          flat: local?.sender?.flat,
+          building: local?.sender?.build_no,
+          street: local?.sender?.street,
+          postcode: local?.sender?.post_code,
+          city: local?.sender?.city,
+          state: local?.sender?.state,
+          country: local?.sender?.country,
+          country_code: local?.sender?.country_code
+
+        },
+        recipient: {
+          first_name: local?.recipient?.f_name,
+          middle_name: local?.recipient?.m_name,
+          last_name: local?.recipient?.l_name,
+          email: local?.recipient?.email,
+          mobile: local?.recipient?.mobile,
+          flat: local?.recipient?.flat,
+          building: local?.recipient?.build_no,
+          street: local?.recipient?.street,
+          postcode: local?.recipient?.post_code,
+          city: local?.recipient?.city,
+          state: local?.recipient?.state,
+          country: local?.recipient?.country,
+          country_code: local?.recipient?.country_code
+        },
+        bank_details: {
+          bank_name: local?.recipient?.bank,
+          account_name: local?.recipient?.acc_name,
+          account_number: local?.recipient?.acc_no
+        },
+        amount: {
+          send_amount: Number(local?.amount?.send_amt),
+          receive_amount: local?.amount?.exchange_amt,
+          send_currency: local?.amount?.from_type,
+          receive_currency: local?.amount?.to_type,
+          send_method: local?.payment?.payment_type == "stripe",
+          receive_method: local?.amount?.recieve_meth,
+          reason: local?.recipient?.reason,
+          exchange_rate: local?.amount?.rates
+        }
+      }
+      if (data.sender.Middle_name === "" || data.sender.Middle_name === undefined || data.sender.Middle_name === null) {
+        delete data.sender.Middle_name
+      }
+      if (data.sender_address.flat === "" || data.sender_address.flat === null || data.sender_address.flat === undefined) {
+        delete data.sender_address.flat
+      }
+      if (data.recipient.middle_name === null || data.recipient.middle_name === "" || data.recipient.middle_name === undefined) {
+        delete data.recipient.middle_name
+      }
+      if (data.recipient.flat === "" || data.recipient.flat === null || data.recipient.flat === undefined) {
+        delete data.recipient.flat
+      }
+      if (data.recipient.postcode == null || data.recipient.postcode == undefined || data.recipient.postcode === "") {
+        delete data.recipient.postcode
+      }
       ZaiPayId(data).then((res) => {
-        if (res.data.code == "200") {
+        console.log(res)
+        if (res.code === "200") {
           setLoader(false)
-          setTransaction({ status: "Pending", id: res?.data?.data?.transaction_id, pay_id: res?.data?.data?.payment_id })
-          localStorage.setItem("transaction_id", res?.data?.data?.payment_id)
+          setTransaction({ status: "Pending", id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+          localStorage.setItem("transaction_id", res?.data?.payment_id)
           const user = JSON.parse(localStorage.getItem("remi-user-dt"))
           // localStorage.removeItem("remi-user-dt")
           user.digital_id_verified = "true"
@@ -123,12 +136,72 @@ const PaymentSummary = ({ handleStep, step }) => {
           // setTimeout(() => {
           //   navigate("/dashboard")
           // }, 10 * 1000)
+        } else if (res.code == "400") {
+          toast.error(res.message[0], { position: "bottom-right", hideProgressBar: true })
+          setLoader(false)
         }
-        setLoader(false)
-      }).catch(error => {
 
+      }).catch(error => {
+        console.log("error", error)
+        toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
+        setLoader(false)
       })
     } else if (local?.payment.hasOwnProperty("token")) {
+      let data = {
+        sender: {
+          First_name: local?.sender?.f_name,
+          Middle_name: local?.sender?.m_name,
+          Last_name: local?.sender?.l_name,
+          Date_of_birth: local?.sender?.dob,
+          Gender: "m",
+          Country_of_birth: local?.sender?.country_of_birth,
+          occupation: local?.sender?.occupation,
+          payment_per_annum: local?.sender?.payment_per_annum,
+          value_per_annum: local?.sender?.value_per_annum,
+        },
+        sender_address: {
+          flat: local?.sender?.flat,
+          building: local?.sender?.build_no,
+          street: local?.sender?.street,
+          postcode: local?.sender?.post_code,
+          city: local?.sender?.city,
+          state: local?.sender?.state,
+          country: local?.sender?.country,
+          country_code: local?.sender?.country_code
+
+        },
+        recipient: {
+          first_name: local?.recipient?.f_name,
+          middle_name: local?.recipient?.m_name,
+          last_name: local?.recipient?.l_name,
+          email: local?.recipient?.email,
+          mobile: local?.recipient?.mobile,
+          flat: local?.recipient?.flat,
+          building: local?.recipient?.build_no,
+          street: local?.recipient?.street,
+          postcode: local?.recipient?.post_code,
+          city: local?.recipient?.city,
+          state: local?.recipient?.state,
+          country: local?.recipient?.country,
+          country_code: local?.recipient?.country_code
+        },
+        bank_details: {
+          bank_name: local?.recipient?.bank,
+          account_name: local?.recipient?.acc_name,
+          account_number: local?.recipient?.acc_no
+        },
+        amount: {
+          send_amount: local?.amount?.send_amt,
+          receive_amount: local?.amount?.exchange_amt,
+          send_currency: local?.amount?.from_type,
+          receive_currency: local?.amount?.to_type,
+          send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
+          receive_method: local?.amount?.recieve_meth,
+          reason: local?.recipient?.reason,
+          card_token: local?.payment?.token?.id,
+          exchange_rate: local?.amount?.rates
+        }
+      }
       userCharge(data).then((res) => {
         if (res.code == "200") {
           setLoader(false)

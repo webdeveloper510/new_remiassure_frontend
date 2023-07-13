@@ -202,13 +202,15 @@ const PayIDModal = ({ modal, handler, handleStep, step }) => {
       handleStep(Number(step) + 1)
     }
   })
+
+  const payIdRef = useRef()
   return (
     <Modal className="modal-card" show={modal} onHide={() => handler(false)} centered backdrop="static">
       <Modal.Header>
         <Modal.Title className='fs-5'>Pay By ID</Modal.Title>
       </Modal.Header>
       <Modal.Body className='my-4'>
-        <form>
+        <form onSubmit={payForm.handleSubmit} noValidate>
           <div>
             <div className="input_field">
               <p className="get-text fs-6 mb-1">Pay ID<span style={{ color: 'red' }} >*</span></p>
@@ -233,6 +235,7 @@ const PayIDModal = ({ modal, handler, handleStep, step }) => {
                 </div>
               )}
             </div>
+            <button type="submit" ref={payIdRef} style={{ display: "none" }}>submit</button>
           </div>
         </form>
       </Modal.Body>
@@ -240,7 +243,7 @@ const PayIDModal = ({ modal, handler, handleStep, step }) => {
         <Button variant="secondary" onClick={() => handler(false)} >
           Cancel
         </Button>
-        <Button type="submit" variant="primary" onClick={() => payForm.handleSubmit()}>
+        <Button type="click" variant="primary" onClick={() => payIdRef.current.click()}>
           Continue
         </Button>
       </Modal.Footer>
