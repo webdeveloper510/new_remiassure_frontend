@@ -69,7 +69,7 @@ const Sidebar = () => {
 
     <>
      <div className={`Sidebar ${isOpen ? 'open' : ''}`} ref={sidebarRef}>
-      <button className="btn view_mobile_sidebar toggle-button" onClick={handleSidebarToggle}>View Sidebar</button>
+      <button className="btn view_mobile_sidebar toggle-button" onClick={handleSidebarToggle}><RxDashboard /> View Dashboard</button>
 
       <div className="sidebar">
       {isOpen && (
