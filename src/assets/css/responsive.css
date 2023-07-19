@@ -58,6 +58,12 @@
   }
 
   @media screen and (max-width: 992px) {
+    button.start-form-button.full-col {
+        width: 100%;
+        text-align: center;
+        display: block;
+        margin: 0;
+    }
 
     .sidebar{
         display:none;
@@ -227,6 +233,7 @@
     }
     .full-col button {
         width: 100% !important;
+        margin: 10px 0px 0px;
     }
     .user_dashboard_banner .input_field {
         margin-bottom: 18px;
@@ -549,6 +556,9 @@ img.vission_image {
     } */
     button.form-button.col-md-12 {
         width: 100%;
+        TEXT-ALIGN: CENTER;
+        display: block;
+        margin: 10px 0px 0px;
     }
     .progress-bar {
         bottom: calc(50% + 17px);
