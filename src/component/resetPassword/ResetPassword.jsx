@@ -43,7 +43,8 @@ const RecentPassword = () => {
                 if (res.code === "200") {
                     toast.success("Password Reset Successfully, please login to continue", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                     formik.resetForm()
-                } else if(res.code === "400"){
+                    navigate("/login")
+                } else if (res.code === "400") {
                     toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
                 }
             }).catch((error) => {
