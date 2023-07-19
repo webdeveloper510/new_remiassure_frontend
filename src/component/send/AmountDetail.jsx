@@ -27,8 +27,8 @@ const AmountDetail = ({ handleStep, step }) => {
     const amtSchema = Yup.object().shape({
         send_amt: Yup.string()
             .min(1, 'Minimum 3 symbols')
-            .max(6, 'Maximum 50 symbols')
-            .required('Email is required'),
+            .max(7, 'Maximum 50 symbols')
+            .required('Email is required').notOneOf(["."], " "),
         from_type: Yup.string().oneOf(["AUD", "NZD"]),
         to_type: Yup.string().required()
     })
@@ -85,35 +85,61 @@ const AmountDetail = ({ handleStep, step }) => {
     }
 
     const inputvalidation = (event) => {
-        const pattern = /^[0-9.,]+$/;
-        if (event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape") {
-            setAmtDetail({ ...amt_detail, send_amt: event.target.value })
-            formik.setFieldValue('send_amt', event.target.value)
-            formik.setFieldTouched('send_amt', true)
-        } else if (event.key === 'Backspace' || event.key === "Delete") {
-            formik.setFieldValue("exchange_amt", "")
-            formik.setFieldTouched("exchange_amt", false)
-            setAmtDetail({ ...amt_detail, exchange_amt: "" })
-        } else if (event.key === 'Enter') {
-            myTotalAmount(event)
-        } else {
-            let value = event.target.value.toString()
-            if (value.length < 7) {
-                if (!pattern.test(event.key)) {
-                    event.preventDefault();
-                    event.stopPropagation()
+        // const pattern = /^[0-9.]+$/;
+        // if (event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape") {
+        //     setAmtDetail({ ...amt_detail, send_amt: event.target.value })
+        //     formik.setFieldValue('send_amt', event.target.value)
+        //     formik.setFieldTouched('send_amt', true)
+        // } else if (event.key === 'Backspace' || event.key === "Delete") {
+        //     formik.setFieldValue("exchange_amt", "")
+        //     formik.setFieldTouched("exchange_amt", false)
+        //     setAmtDetail({ ...amt_detail, exchange_amt: "" })
+        // } else if (event.key === 'Enter') {
+        //     myTotalAmount(event)
+        // } else {
+        //     let value = event.target.value.toString()
+        //     if (value.length < 7) {
+        //         if (!pattern.test(event.key)) {
+        //             event.preventDefault();
+        //             event.stopPropagation()
+        //         } else {
+        //             setAmtDetail({ ...amt_detail, send_amt: event.target.value })
+        //             formik.setFieldValue('send_amt', event.target.value)
+        //             formik.setFieldTouched('send_amt', true)
+        //         }
+        //     } else {
+        //         event.preventDefault();
+        //         event.stopPropagation()
+        //     }
+        // }
+        var data = event.target.value;
+        if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 || event.charCode == 0) {
+            if (data.indexOf('.') > -1) {
+                if (event.charCode == 46) {
+                    event.preventDefault()
                 } else {
-                    setAmtDetail({ ...amt_detail, send_amt: event.target.value })
                     formik.setFieldValue('send_amt', event.target.value)
                     formik.setFieldTouched('send_amt', true)
+                    setAmtDetail({ ...amt_detail, exchange_amt: "" })
                 }
             } else {
-                event.preventDefault();
-                event.stopPropagation()
+
             }
+        } else {
+            event.preventDefault();
         }
     }
 
+    const amountDown = (e) => {
+        if ((e.key === "Enter" || e.key === "Tab" || e.key === 'Shift') && e.target.value !== ".") {
+            myTotalAmount(e)
+        }
+    }
+    const amountBlur = (e) => {
+        if (e.target.value !== ".") {
+            myTotalAmount(e)
+        }
+    }
 
 
     const myTotalAmountFrom = (e) => {
@@ -208,7 +234,6 @@ const AmountDetail = ({ handleStep, step }) => {
 
     }, [])
 
-
     return (
         <form noValidate>
             <div className="form_body">
@@ -268,7 +293,9 @@ const AmountDetail = ({ handleStep, step }) => {
                                 type="text"
                                 name="amountInput"
                                 value={amt_detail?.send_amt}
-                                onKeyDown={(e) => inputvalidation(e)}
+                                onKeyPress={(e) => inputvalidation(e)}
+                                onKeyDown={(e) => amountDown(e)}
+                                maxLength={7}
                                 {...formik.getFieldProps('send_amt')}
                                 className={clsx(
                                     'mb-3 bg-transparent form-control rate_input',
@@ -277,7 +304,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         'is-valid': formik.touched.send_amt && !formik.errors.send_amt,
                                     }
                                 )}
-                                onBlurCapture={myTotalAmount}
+                                onBlurCapture={amountBlur}
                             />
                         </div>
                     </div>

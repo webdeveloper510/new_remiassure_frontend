@@ -210,7 +210,7 @@ const Addnewrecipient = () => {
   }
 
   const handlePostCode = (event, max) => {
-    const pattern = /^[0-9.,]+$/;
+    const pattern = /^[0-9.]+$/;
     if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
       setData({ ...data, [event.target.name]: event.target.value })
       formik.setFieldValue(event.target.name, event.target.value)

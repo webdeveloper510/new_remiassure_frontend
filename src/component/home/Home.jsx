@@ -227,8 +227,7 @@ const Home = () => {
     }, [carouselItems])
 
     const amountSchema = Yup.object().shape({
-        send_amt: Yup.number()
-            .required('Amount is required')
+        send_amt: Yup.string("Please enter a valid amount").min(1, "minimum 1 dollar is required ").max(7, "amount can't exceed 1000000").required('Amount is required').notOneOf(["."], " ")
     })
 
     const initialValues = {
@@ -335,32 +334,48 @@ const Home = () => {
 
     const inputvalidation = (event) => {
         // console.log("dfjghfguh---------------", event.key)
-        const pattern = /^[0-9.,]+$/;
-        if (event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape") {
-            setData({ ...data, send_amt: event.target.value })
-            formik.setFieldValue('send_amt', event.target.value)
-            formik.setFieldTouched('send_amt', true)
-        } else if (event.key === 'Backspace' || event.key === "Delete") {
-            formik.setFieldValue("exchange_amt", "")
-            formik.setFieldTouched("exchange_amt", false)
-            setData({ ...data, exchange_amt: "" })
-        } else if (event.key === 'Enter') {
-            myExchangeTotalAmount(event)
-        } else {
-            let value = event.target.value.toString()
-            if (value.length < 7) {
-                if (!pattern.test(event.key)) {
-                    event.preventDefault();
-                    event.stopPropagation()
+        // const pattern = /^[0-9.]+$/
+
+        // if (event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape") {
+        //     setData({ ...data, send_amt: event.target.value })
+        //     formik.setFieldValue('send_amt', event.target.value)
+        //     formik.setFieldTouched('send_amt', true)
+        // } else if (event.key === 'Backspace' || event.key === "Delete") {
+        //     formik.setFieldValue("exchange_amt", "")
+        //     formik.setFieldTouched("exchange_amt", false)
+        //     setData({ ...data, exchange_amt: "" })
+        // } else if (event.key === 'Enter') {
+        //     myExchangeTotalAmount(event)
+        // } else {
+        //     let value = event.target.value.toString()
+        //     if (value.length < 7) {
+        //         if (!pattern.test(event.key)) {
+        //             event.preventDefault();
+        //             event.stopPropagation()
+        //         } else {
+        //             setData({ ...data, send_amt: event.target.value })
+        //             formik.setFieldValue('send_amt', event.target.value)
+        //             formik.setFieldTouched('send_amt', true)
+        //         }
+        //     } else {
+        //         event.preventDefault();
+        //         event.stopPropagation()
+        //     }
+        // }
+        var data = event.target.value;
+        if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 || event.charCode == 0) {
+            if (data.indexOf('.') > -1) {
+                if (event.charCode == 46) {
+                    event.preventDefault()
                 } else {
-                    setData({ ...data, send_amt: event.target.value })
                     formik.setFieldValue('send_amt', event.target.value)
                     formik.setFieldTouched('send_amt', true)
                 }
             } else {
-                event.preventDefault();
-                event.stopPropagation()
+
             }
+        } else {
+            event.preventDefault();
         }
     }
 
@@ -406,6 +421,17 @@ const Home = () => {
             })
     }
 
+    const amountDown = (e) => {
+        if ((e.key === "Enter" || e.key === "Tab" || e.key === 'Shift') && e.target.value !== ".") {
+            myExchangeTotalAmount(e)
+        }
+    }
+
+    const amountBlur = (e) => {
+        if (e.target.value !== ".") {
+            myExchangeTotalAmount(e)
+        }
+    }
 
     const handleReset = () => {
         const data = JSON.parse(localStorage.getItem("exchange_curr"))
@@ -465,7 +491,9 @@ const Home = () => {
                                                         name="amount"
                                                         type="text"
                                                         autoComplete='off'
-                                                        onKeyDown={(e) => inputvalidation(e)}
+                                                        onKeyPress={(e) => inputvalidation(e)}
+                                                        onKeyDown={e => amountDown(e)}
+                                                        maxLength={7}
                                                         {...formik.getFieldProps('send_amt')}
                                                         className={clsx(
                                                             'mb-3 bg-transparent form-control',
@@ -475,7 +503,7 @@ const Home = () => {
                                                             }
                                                         )}
                                                         placeholder="Please Enter Amount"
-                                                        onBlur={(e) => myExchangeTotalAmount(e)}
+                                                        onBlur={(e) => amountBlur(e)}
 
                                                     />
 

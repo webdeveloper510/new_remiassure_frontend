@@ -18,13 +18,15 @@ const PaymentDetails = ({ handleStep, step }) => {
   const payRef = useRef(null)
   const navigate = useNavigate()
   const handleChange = (e) => {
+    console.log(e.target.value)
     setData({ ...data, payment_type: e.target.value })
   }
 
   const handlePayType = () => {
     if (data.payment_type === "Debit/Credit Card") {
       setModal(true)
-    } else if (data.payment_type === "PayByID") {
+    } else {
+      console.log(data.payment_type)
       setPayIdModal(true)
     }
   }
@@ -56,7 +58,7 @@ const PaymentDetails = ({ handleStep, step }) => {
 
           <div className="col-md-12">
             <label className="container-new">
-              <span className="radio-tick">Pay By ID</span>
+              <span className="radio-tick">Pay ID</span>
               <input
                 className="form-check-input"
                 type="radio"
@@ -136,7 +138,7 @@ const PaymentDetails = ({ handleStep, step }) => {
         </Modal.Footer>
       </Modal>
 
-      <PayIDModal modal={pay_id_modal} handler={(value) => { setPayIdModal(value) }} handleStep={handleStep} step={step} />
+      <PayIDModal modal={pay_id_modal} handler={(value) => { setPayIdModal(value) }} method={data.payment_type} handleStep={handleStep} step={step} />
     </div>
 
   )
@@ -181,7 +183,7 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
   );
 };
 
-const PayIDModal = ({ modal, handler, handleStep, step }) => {
+const PayIDModal = ({ modal, method, handler, handleStep, step }) => {
   const payForm = useFormik({
     initialValues: {
       pay_id: ""
@@ -192,7 +194,7 @@ const PayIDModal = ({ modal, handler, handleStep, step }) => {
     onSubmit: async (values) => {
       handler(false)
       const local = JSON.parse(localStorage.getItem("transfer_data"))
-      local.payment = { pay_id: values.pay_id, payment_type: "PayByID" }
+      local.payment = { pay_id: values.pay_id, payment_type: method }
       localStorage.removeItem("transfer_data")
       localStorage.setItem("transfer_data", JSON.stringify(local))
       if (localStorage.getItem("send-step")) {
@@ -207,7 +209,7 @@ const PayIDModal = ({ modal, handler, handleStep, step }) => {
   return (
     <Modal className="modal-card" show={modal} onHide={() => handler(false)} centered backdrop="static">
       <Modal.Header>
-        <Modal.Title className='fs-5'>Pay By ID</Modal.Title>
+        <Modal.Title className='fs-5'>Pay ID</Modal.Title>
       </Modal.Header>
       <Modal.Body className='my-4'>
         <form onSubmit={payForm.handleSubmit} noValidate>

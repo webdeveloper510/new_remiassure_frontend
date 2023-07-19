@@ -257,7 +257,7 @@ export const activEmail = (data) => {
 export const userCharge = (data) => {
   const response = Axios.post(`/payment/stripe/user-charge/`, data, {
     headers: {
-      'Content-Type': 'application/json',
+      //'Content-Type': 'application/json',
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
@@ -268,6 +268,20 @@ export const userCharge = (data) => {
 
 export const ZaiPayId = (data) => {
   const response = Axios.post(`/payment/zai-payid/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    return res.data
+  }).catch(err => {
+    return err
+  })
+  return response
+}
+
+export const ZaiPayTo = (data) => {
+  const response = Axios.post(`/payment/zai-payto/`, data, {
     headers: {
       'Content-Type': 'application/json',
       "Authorization": `Bearer ${localStorage.getItem("token")}`,

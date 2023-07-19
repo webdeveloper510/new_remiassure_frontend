@@ -8,7 +8,8 @@ import verified from '../../assets/img/userdashboard/3.png';
 import { BsCheckCircleFill } from 'react-icons/bs'
 import { toast } from 'react-toastify'
 import PopVerify from '../verification/PopVerify'
-import { ZaiPayId, userCharge } from '../../utils/Api'
+import { ZaiPayId, ZaiPayTo, userCharge } from '../../utils/Api'
+import { dataIcon } from '@progress/kendo-svg-icons'
 
 
 const PaymentSummary = ({ handleStep, step }) => {
@@ -97,7 +98,7 @@ const PaymentSummary = ({ handleStep, step }) => {
           receive_amount: local?.amount?.exchange_amt,
           send_currency: local?.amount?.from_type,
           receive_currency: local?.amount?.to_type,
-          send_method: local?.payment?.payment_type == "stripe",
+          send_method: "zai",
           receive_method: local?.amount?.recieve_meth,
           reason: local?.recipient?.reason,
           exchange_rate: local?.amount?.rates
@@ -118,34 +119,66 @@ const PaymentSummary = ({ handleStep, step }) => {
       if (data.recipient.postcode == null || data.recipient.postcode == undefined || data.recipient.postcode === "") {
         delete data.recipient.postcode
       }
-      ZaiPayId(data).then((res) => {
-        console.log(res)
-        if (res.code === "200") {
-          setLoader(false)
-          setTransaction({ status: "Pending", id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
-          localStorage.setItem("transaction_id", res?.data?.payment_id)
-          const user = JSON.parse(localStorage.getItem("remi-user-dt"))
-          // localStorage.removeItem("remi-user-dt")
-          user.digital_id_verified = "true"
-          localStorage.setItem("remi-user-dt", JSON.stringify(user))
-          if (localStorage.getItem("send-step")) {
-            localStorage.removeItem("send-step")
+      console.log(data)
+      if (local?.payment?.payment_type === "PayTo") {
+        ZaiPayTo(data).then((res) => {
+          console.log(res)
+          if (res.code === "200") {
+            setLoader(false)
+            setTransaction({ status: "Pending", id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+            localStorage.setItem("transaction_id", res?.data?.payment_id)
+            const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+            // localStorage.removeItem("remi-user-dt")
+            user.digital_id_verified = "true"
+            localStorage.setItem("remi-user-dt", JSON.stringify(user))
+            if (localStorage.getItem("send-step")) {
+              localStorage.removeItem("send-step")
+            }
+            localStorage.removeItem("transfer_data")
+            setModalView(true)
+            // setTimeout(() => {
+            //   navigate("/dashboard")
+            // }, 10 * 1000)
+          } else if (res.code == "400") {
+            toast.error(res.message[0], { position: "bottom-right", hideProgressBar: true })
+            setLoader(false)
           }
-          localStorage.removeItem("transfer_data")
-          setModalView(true)
-          // setTimeout(() => {
-          //   navigate("/dashboard")
-          // }, 10 * 1000)
-        } else if (res.code == "400") {
-          toast.error(res.message[0], { position: "bottom-right", hideProgressBar: true })
-          setLoader(false)
-        }
 
-      }).catch(error => {
-        console.log("error", error)
-        toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
-        setLoader(false)
-      })
+        }).catch(error => {
+          console.log("error", error)
+          toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
+          setLoader(false)
+        })
+      } else if (local?.payment?.payment_type === "PayByID") {
+        ZaiPayId(data).then((res) => {
+          console.log(res)
+          if (res.code === "200") {
+            setLoader(false)
+            setTransaction({ status: "Pending", id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+            localStorage.setItem("transaction_id", res?.data?.payment_id)
+            const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+            // localStorage.removeItem("remi-user-dt")
+            user.digital_id_verified = "true"
+            localStorage.setItem("remi-user-dt", JSON.stringify(user))
+            if (localStorage.getItem("send-step")) {
+              localStorage.removeItem("send-step")
+            }
+            localStorage.removeItem("transfer_data")
+            setModalView(true)
+            // setTimeout(() => {
+            //   navigate("/dashboard")
+            // }, 10 * 1000)
+          } else if (res.code == "400") {
+            toast.error(res.message[0], { position: "bottom-right", hideProgressBar: true })
+            setLoader(false)
+          }
+
+        }).catch(error => {
+          console.log("error", error)
+          toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
+          setLoader(false)
+        })
+      }
     } else if (local?.payment.hasOwnProperty("token")) {
       let data = {
         sender: {
@@ -195,7 +228,7 @@ const PaymentSummary = ({ handleStep, step }) => {
           receive_amount: local?.amount?.exchange_amt,
           send_currency: local?.amount?.from_type,
           receive_currency: local?.amount?.to_type,
-          send_method: local?.payment?.payment_type == "Debit/Credit Card" ? "stripe" : "",
+          send_method: "stripe",
           receive_method: local?.amount?.recieve_meth,
           reason: local?.recipient?.reason,
           card_token: local?.payment?.token?.id,
