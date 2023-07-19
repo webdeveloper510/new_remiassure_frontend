@@ -369,12 +369,12 @@ const BankDetails = ({ handleStep, step }) => {
                 }
                 <div className="add- row">
                   <div className='col-md-4'>
-                    <button type="button" className="start-form-button" onClick={() => { handleClear() }} style={{ "float": "left" }}>Cancel</button>
+                    <button type="button" className="start-form-button full-col" onClick={() => { handleClear() }} style={{ "float": "left" }}>Cancel</button>
                   </div>
                   <div className='col-md-8'>
-                    <button type="button" className="form-button" onClick={() => handleToggle()} style={{ "float": "right" }}><BsFillPersonPlusFill /> Add Recepients
+                    <button type="button" className="form-button col-md-12" onClick={() => handleToggle()} style={{ "float": "right" }}><BsFillPersonPlusFill /> Add Recepients
                     </button>
-                    <button type="button" className="form-button" onClick={() => { handlePrevious() }} style={{ "float": "right" }}>Previous</button>
+                    <button type="button" className="form-button col-md-12" onClick={() => { handlePrevious() }} style={{ "float": "right" }}>Previous</button>
                   </div>
                 </div>
               </div>
@@ -766,9 +766,9 @@ const BankDetails = ({ handleStep, step }) => {
 
               <div className="row">
                 <div className="col-md-4">
-                  <button type="button" className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
+                  <button type="button" className="start-form-button full-col" onClick={() => handleCancel()}>Cancel</button>
                 </div>
-                <div className="col-md-8">
+                <div className="col-md-8 full-col">
                   <button type="submit" className="form-button">Continue  {loading ? <>
                     <div className="loader-overly">
                       <div className="loader" >

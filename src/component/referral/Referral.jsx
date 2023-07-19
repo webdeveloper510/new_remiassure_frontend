@@ -276,7 +276,7 @@ const [dataRefferal, setDataRefferal] = useState([]);
                 </div>
 
 
-                <div className="timeline"> 
+                <div className="timeline desktop_timeline"> 
                 
                     <div className="timeline-content col-lg-3">
                 <p className="timeline-text odd">Sign up</p>
@@ -304,6 +304,40 @@ const [dataRefferal, setDataRefferal] = useState([]);
                           <p className="signup_content">4</p>
                         </div>  
                         <p class="timeline-text even"> When they sign up and send funds through their account, you both receive a voucher</p>
+                    </div>
+
+                </div>
+
+
+                <div className="timeline mobile_timeline"> 
+                
+                    <div className="timeline-content col-lg-3">
+                <p className="timeline-text odd">Sign up</p>
+                
+                        <div className="popup_content odd-text">
+                          <p className="signup_content">1</p>
+                          
+                        </div>  
+                    </div>
+                    <div className="timeline-content col-lg-3">
+                    <p class="timeline-text odd">Transfer Funds</p>
+                        <div className="popup_content odd-text">
+                          <p className="signup_content">2</p>    
+                        </div>  
+                        
+                    </div>
+                    <div className="timeline-content col-lg-3">
+                    <p class="timeline-text odd"> Share your referral code with family and friends</p>
+                        <div className="popup_content odd-text">
+                          <p className="signup_content">3</p>
+                        </div>  
+                    </div>
+                    <div className="timeline-content col-lg-3">
+                    <p class="timeline-text odd"> When they sign up and send funds through their account, you both receive a voucher</p>
+                        <div className="popup_content odd-text">
+                          <p className="signup_content">4</p>
+                        </div>  
+                        
                     </div>
 
                 </div>
@@ -465,19 +499,21 @@ const [dataRefferal, setDataRefferal] = useState([]);
              </div>
 
                 <div className="row">
-                    <div className="col-lg-3">
-                        <p className="review_content">Reviews 66,081 · Great
+                    <div className="col-lg-12">
+                        <label className="review_content">Reviews 66,081 · Great
                         <span className="line_drow"></span>
-                        </p>
-                    </div>
-                    <div className="col-lg-9">
+                        </label>
                         <img src="assets/img/referral/Group_star.png" alt="group_image" className="group_image" />
-                        <p className="button_rating" >4.1</p>
+                        <label className="button_rating" >4.1</label>
                     </div>
+                    {/* <div className="col-lg-9">
+                        <img src="assets/img/referral/Group_star.png" alt="group_image" className="group_image" />
+                        <label className="button_rating" >4.1</label>
+                    </div> */}
                 </div>
                 {/* carousel start  */}
                 <div className="row">
-                    <div className="col-col-lg-12">
+                    <div className="col-col-lg-12 referal_testimonial">
                     {/* <div className="carouselwrapper module-wrapper">
               
                        

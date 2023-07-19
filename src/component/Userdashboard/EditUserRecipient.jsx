@@ -450,7 +450,7 @@ const Editrecipientuser = () => {
 
                     <div className="row each-row">
                       <h5>Address</h5>
-                      <div className="col-md-4" id="country">
+                      <div className="col-md-4 mb-3" id="country">
                         <Form.Group className="form_label" >
                           <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                           <select
@@ -470,7 +470,7 @@ const Editrecipientuser = () => {
                           </select>
                         </Form.Group>
                       </div>
-                      <div className="col-md-4" id="state">
+                      <div className="col-md-4 mb-3" id="state">
                         <Form.Group className="form_label" >
                           <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
                           {
@@ -505,7 +505,7 @@ const Editrecipientuser = () => {
                           }
                         </Form.Group>
                       </div>
-                      <div className="col-md-4" id="city">
+                      <div className="col-md-4 mb-3" id="city">
                         <Form.Group className="form_label" >
                           <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
                           {
@@ -544,7 +544,7 @@ const Editrecipientuser = () => {
                       </div>
                     </div>
                     <div className="row each-row">
-                      <div className="col-md-4" id="street">
+                      <div className="col-md-4 mb-3" id="street">
                         <Form.Group className="form_label" >
                           <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
                           <input
@@ -563,7 +563,7 @@ const Editrecipientuser = () => {
                           />
                         </Form.Group>
                       </div>
-                      <div className="col-md-4" id="zip">
+                      <div className="col-md-4 mb-3" id="zip">
                         <Form.Group className="form_label" >
                           <p className="get-text">
                             Zip/Postal Code
@@ -589,7 +589,7 @@ const Editrecipientuser = () => {
 
                         </Form.Group>
                       </div>
-                      <div className="col-md-4" id="build">
+                      <div className="col-md-4 mb-3" id="build">
                         <Form.Group className="form_label" >
                           <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
                           <input
@@ -610,7 +610,7 @@ const Editrecipientuser = () => {
                       </div>
                     </div>
                     <div className="row each-row">
-                      <div className="col-md-4" id="flat">
+                      <div className="col-md-4 mb-3" id="flat">
                         <Form.Group className="form_label" >
                           <p className="get-text">Flat/Unit No.</p>
                           <input
@@ -630,13 +630,13 @@ const Editrecipientuser = () => {
                       <div className="col-md-4">
                         <button
                           type="submit"
-                          className="start-form-button"
+                          className="start-form-button full-col"
                           onClick={() => handleCancel()}
                         >
                           Cancel
                         </button>
                       </div>
-                      <div className="col-md-8">
+                      <div className="col-md-8 full-col">
                         <button
                           type="submit"
                           className="form-button"

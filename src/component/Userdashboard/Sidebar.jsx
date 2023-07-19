@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect ,useRef  } from "react";
 import { links, NavLink, useNavigate } from 'react-router-dom';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
@@ -19,7 +19,7 @@ import { FaRegCreditCard } from "react-icons/fa";
 import Page404 from "../pageNotfound/Page404";
 
 
-const sidebar = () => {
+const Sidebar = () => {
 
   /**************************token ************************ */
   const token = localStorage.getItem("token");
@@ -40,12 +40,43 @@ const sidebar = () => {
 
 
   /**************************Feild of state ************************ */
+  const [isOpen, setIsOpen] = useState(false);
+  const sidebarRef = useRef(null);
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
+
+  const handleSidebarToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleCloseSidebar = () => {
+    setIsOpen(false);
+  };
 
   return (
 
     <>
+     <div className={`Sidebar ${isOpen ? 'open' : ''}`} ref={sidebarRef}>
+      <button className="btn view_mobile_sidebar toggle-button" onClick={handleSidebarToggle}>View Sidebar</button>
+
       <div className="sidebar">
+      {isOpen && (
+            <label className="close-sidebar btn-close" onClick={handleCloseSidebar}>
+             
+            </label>
+          )}
         <nav>
           <ul>
             <li><NavLink to="/dashboard"><RxDashboard />Dashboard</NavLink></li>
@@ -58,10 +89,12 @@ const sidebar = () => {
           </ul>
         </nav>
       </div>
+      </div>
+      {isOpen && <div className="overlay" onClick={handleCloseSidebar} />}
     </>
   )
 }
 
 
 
-export default sidebar;
+export default Sidebar;

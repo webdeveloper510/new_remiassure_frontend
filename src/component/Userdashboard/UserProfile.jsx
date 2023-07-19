@@ -587,7 +587,7 @@ const Profile = () => {
                     </div>
                     <div className="row each-row">
                       <h5>Address</h5>
-                      <div className="col-md-4">
+                      <div className="col-md-4 mb-3">
                         <Form.Group className="form_label" controlId="country">
                           <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                           <select
@@ -608,7 +608,7 @@ const Profile = () => {
                           </select>
                         </Form.Group>
                       </div>
-                      <div className="col-md-4">
+                      <div className="col-md-4 mb-3">
                         <Form.Group className="form_label" controlId="state">
                           <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
                           {
@@ -650,7 +650,7 @@ const Profile = () => {
                           }
                         </Form.Group>
                       </div>
-                      <div className="col-md-4">
+                      <div className="col-md-4 mb-3">
                         <Form.Group className="form_label" controlId="city">
                           <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
                           {
@@ -697,7 +697,7 @@ const Profile = () => {
                       </div>
                     </div>
                     <div className="row each-row">
-                      <div className="col-md-4">
+                      <div className="col-md-4 mb-3">
                         <Form.Group className="form_label" controlId="postal">
                           <p className="get-text">Zip/Postal Code<span style={{ color: 'red' }} >*</span></p>
                           <input
@@ -725,7 +725,7 @@ const Profile = () => {
                         </Form.Group>
                         {/* <p>{formik.errors.postcode}</p> */}
                       </div>
-                      <div className="col-md-4">
+                      <div className="col-md-4 mb-3">
                         <Form.Group className="form_label" controlId="street">
                           <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
                           <input
@@ -744,7 +744,7 @@ const Profile = () => {
                           />
                         </Form.Group>
                       </div>
-                      <div className="col-md-4">
+                      <div className="col-md-4 mb-3">
                         <Form.Group className="form_label" controlId="flat">
                           <p className="get-text">Flat/Unit No.</p>
                           <input
@@ -760,7 +760,7 @@ const Profile = () => {
 
                     </div>
                     <div className="row each-row">
-                      <div className="col-md-4">
+                      <div className="col-md-4 mb-3">
                         <Form.Group className="form_label" controlId="building">
                           <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
                           <input
@@ -784,7 +784,7 @@ const Profile = () => {
                     <div className="row">
                       <div className="col-md-4">
                       </div>
-                      <div className="col-md-8">
+                      <div className="col-md-8 full-col">
                         <button
                           type="submit"
                           className="form-button"

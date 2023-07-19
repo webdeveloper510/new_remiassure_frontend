@@ -475,7 +475,7 @@ const SenderDetails = ({ handleStep, step }) => {
         {/*-------------------------------- Address */}
         <div className="row each-row">
           <h5>Address</h5>
-          <div className="col-md-4 mb-3">
+          <div className="col-md-4">
             <div className="input_field">
               <p className="get-text">Country Name<span style={{ color: 'red' }} >*</span></p>
               <select
@@ -499,7 +499,7 @@ const SenderDetails = ({ handleStep, step }) => {
           {
             data.country !== "none" ? (
               <>
-                <div className="col-md-4 mb-3">
+                <div className="col-md-4">
                   <div className="input_field">
                     <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
                     {
@@ -535,7 +535,7 @@ const SenderDetails = ({ handleStep, step }) => {
                     }
                   </div>
                 </div>
-                <div className="col-md-4 mb-3">
+                <div className="col-md-4">
                   <div className="input_field">
                     <p className="get-text ">City/Suburb<span style={{ color: 'red' }} >*</span></p>
                     {
@@ -574,7 +574,7 @@ const SenderDetails = ({ handleStep, step }) => {
                     }
                   </div>
                 </div>
-                <div className="col-md-4 mb-3">
+                <div className="col-md-4">
                   <div className="input_field">
                     <p className="get-text">Zip/Postal Code<span style={{ color: 'red' }} >*</span></p>
                     <input
@@ -623,7 +623,7 @@ const SenderDetails = ({ handleStep, step }) => {
               />
             </div>
           </div>
-          <div className="col-md-4 mb-3">
+          <div className="col-md-4">
             <div className="input_field">
               <p className="get-text">Flat/Unit No.</p>
               <input
@@ -636,7 +636,7 @@ const SenderDetails = ({ handleStep, step }) => {
               />
             </div>
           </div>
-          <div className="col-md-4 mb-3">
+          <div className="col-md-4">
             <div className="input_field">
               <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
               <input

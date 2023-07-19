@@ -398,11 +398,11 @@ const AmountDetail = ({ handleStep, step }) => {
                             <div className="col-md-4">
                                 <button
                                     type='button'
-                                    className="start-form-button"
+                                    className="start-form-button full-col"
                                     onClick={() => handleCancel()}
                                 >Cancel</button>
                             </div>
-                            <div className="col-md-8">
+                            <div className="col-md-8 full-col">
                                 <button
                                     type="button"
                                     onClick={() => formik.handleSubmit()}

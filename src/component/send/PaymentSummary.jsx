@@ -345,13 +345,13 @@ const PaymentSummary = ({ handleStep, step }) => {
           </Table>
         </div>
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-4 half-col">
             <button className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
           </div>
-          <div className="col-md-8">
-            <div>
+          <div className="col-md-8 half-col">
+          
               <button className="form-button" onClick={() => setOpenModal(true)}>Continue</button>
-            </div>
+           
           </div>
         </div>
         {loader ? <>

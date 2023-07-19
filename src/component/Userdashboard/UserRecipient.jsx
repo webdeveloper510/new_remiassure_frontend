@@ -95,9 +95,9 @@ const UserRecipients = () => {
                                                 </h2>
                                             </div>
                                             <div className="col-lg-12">
-                                                <div className="card">
+                                                <div className="card fullwidth">
                                                     <div className="card-body">
-
+                                                     <div className="table-responsive">
                                                         <Table className="table table-responsive-md card-table previous-transaction">
                                                             <thead>
                                                                 <tr>
@@ -126,7 +126,7 @@ const UserRecipients = () => {
                                                                     })}
                                                             </tbody>
                                                         </Table>
-
+                                                        </div>
                                                         <Modal show={show} onHide={handleClose} backdrop="static" >
                                                             <Modal.Header>
                                                             </Modal.Header>

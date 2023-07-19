@@ -73,6 +73,7 @@ const AllTranfer = ({ status, data }) => {
           <div className="tabs-recipent-new">
             <span>
               {transactionData?.length > 0 ? (
+                <div className="table-responsive">
                 <Table className="table table-responsive-md card-table previous-transaction">
                   <thead>
                     <tr>
@@ -107,6 +108,7 @@ const AllTranfer = ({ status, data }) => {
                       })}
                   </tbody>
                 </Table>
+                </div>
               ) : (
                 <>
                   <div className="no-data">

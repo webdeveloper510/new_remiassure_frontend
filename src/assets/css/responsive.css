@@ -8,7 +8,15 @@
 }
 
 @media screen and (max-width: 1199px) {
-   
+    p.get-text{
+        width: auto ;
+    }
+    /* .group_image {
+        margin-left: -70px;
+    } */
+    /* .button_rating{
+        margin-left: 85px;
+    } */
     .right_sections {
         width: 50% !important;
     }
@@ -43,22 +51,106 @@
         margin-right: 7px;
     }
 
-    /********************** about us page ************************/
-
-
     .vl-content.about_content {
         float: left;
         width: 100%;
     }
-
-
-    /******************** help page ***********************/
-
-    
-
   }
 
   @media screen and (max-width: 992px) {
+
+    .sidebar{
+        display:none;
+    }
+    .Sidebar.open {
+        width: 230px;
+      }
+
+      button.btn.view_mobile_sidebar.toggle-button {
+        position: absolute;
+        top: 81px;
+        left: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        display:block;
+      }
+      .Sidebar.open .sidebar {
+        display: block;
+        position: fixed;
+        top: 0;
+        z-index: 99999999 !important;
+        width: 230px;
+        padding-top: 60px;
+        height: 100% !important;
+    }
+    label.close-sidebar.btn-close {
+        position: absolute;
+        top: 16px;
+        right: 10px;
+        color: #fff !important;
+        padding: 8px;
+        opacity: 1;
+    }
+    button.btn.view_mobile_sidebar.toggle-button {
+        font-size: 16px;
+        background: #2f007e;
+        margin-top: 10px;
+        left: 15px;
+        color: #fff;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999999; 
+        background-color: rgba(0, 0, 0, 0.5); 
+      }
+
+      .content-body{
+        height: 100%;
+    float: left;
+      }
+      .col-md-12.add-recipent-section {
+        width: 100%;
+      }
+    .tabs-page {
+        display: block;
+   
+    }
+
+    section.edit_recipient_section {
+        width: 100%;
+        margin-right: auto;
+    }
+
+    .summary , .summary1{
+        width: 100%;
+    }
+    .multi-steps {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+        margin-top: 100px;
+        margin-bottom: 80px;
+        padding:0px;
+    }
+    .progress-bar {
+        bottom: calc(50% + 8px);
+    }
+    ul.multi-steps .step-label {
+        font-size: 14px;
+    }
+    .timeline-content {
+        max-width: 200px;
+    }
+    .timeline:after {
+        width: calc(105% + -270px);
+    }
     #footer .footer-top .footer-links ,#footer .footer-top .footer-info {
         width: 100% !important;
     }
@@ -80,9 +172,6 @@
         width: 230px;
         margin: 0px 5px !important;
     }
-
-
-     /********** about us page ************/
    
     div#about .row .col-sm-8 {
         width: 100% !important;
@@ -113,7 +202,78 @@
   }
 
   @media screen and (max-width: 768px) {
-    
+    .card.fullwidth {
+        width: 100%;
+        margin-top: 30px !important;
+        float: left;
+    }
+    .card.fullwidth .table tr td {
+        min-width: 130px;
+    }
+    button.form-button.addsingle_recepient {
+        font-size: 14px;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .no-data img {
+        width: 60%;
+    }
+    .form-head.mb-4 h2 {
+        font-size: 22px;
+    }
+    .content-body {
+        padding: 0px 15px 30px;
+        float:left;
+    }
+    .full-col button {
+        width: 100% !important;
+    }
+    .user_dashboard_banner .input_field {
+        margin-bottom: 18px;
+    }
+    .group_image{
+        width:100px;
+        margin-left: 8px;
+    }
+
+    .button_rating {
+        margin-left: 8px;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        text-align: center;
+        line-height: 30px;
+        margin-top: -9px;
+    }
+
+   .referal_testimonial button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right, .referal_testimonial button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
+        top: -68px !important;
+        min-width: 22px;
+        min-height: 22px;
+    }
+
+    .timeline-content {
+        max-width: 100%;
+        height: inherit !important;
+    }
+    .vl04 {
+        height: auto;
+    }
+    .timeline:after {
+        width: calc(105% + -270px);
+        transform: rotate(90deg);
+        display:none;
+    }
+
+    .timeline.mobile_timeline {
+        display: block;
+    }
+    .timeline.desktop_timeline {
+        display: none;
+    }
+    .row.social_links_change {
+        margin-top: 0px;
+    }
     .row.each-review {
         flex-direction: column;
     }
@@ -235,9 +395,8 @@
     .notfound-section img{
   width:100%;
     }
-/********** about us page ************/
    
-div#about .row .col-sm-8 {
+  div#about .row .col-sm-8 {
     width: 100% !important;
 }
 .banner-content {
@@ -271,17 +430,11 @@ img.vission_image {
 }
   }
 
-  @media screen and (max-width: 550px) {
-    .bank_transfer li {
-        width: 100%;
-        margin: 0px 0px !important;
-    }
-    .card-flag01 {
-        margin: 30px 0px 0px;
-    }
-  }
+  @media screen and (max-width: 767px) {
 
-  @media screen and (max-width: 480px) {
+    ul.multi-steps .step-label {
+        font-size: 13px;
+    }
     .banner-content {
         width: 100% !important;
     }  
@@ -293,7 +446,7 @@ img.vission_image {
         float: left;
     }
     .help_ul li {
-        width: 100% !important;
+        width: 50% !important;
     }
     .support_image img {
         width: 100%;
@@ -302,9 +455,9 @@ img.vission_image {
         min-height: auto;
     }
     .support-image {
-        height: 45px;
-        width: 45px;
-        padding-top: 8px;    
+        height: 60px;
+        width: 60px;
+        padding-top: 16px;
     }
     .help_image img {
         width: 100%;
@@ -321,8 +474,12 @@ img.vission_image {
     }
     .why-ramit-assure li {
         display: block;
-        width: 50%;
-    } 
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    ul.why-ramit-assure {
+        padding:0px;
+    }
     .gbp_friends {
         font-size: 29px;
         line-height: 45px;
@@ -334,13 +491,98 @@ img.vission_image {
         padding: 1.5rem 1.875rem 1.25rem;
     } 
     .form_body h1 {
-        font-size: 30px;
+        font-size: 22px;
         line-height: 25px;
     }
     .summary {
         width: 100%;
         margin-top: 20px;
     } 
+    /* .need_space {
+        margin-bottom: 30px;
+    } */
+    .summary1 {
+        width: 100%;
+    } 
+    .fv-plugins-message-container.mt-1.home-error {
+        position: relative;
+        top: -15px;
+        font-size: 13px;
+        left: 6px;
+    }
+    .continue-button {
+        margin-top: 11px;
+        width:100%;
+    }
+    .form-control {
+        font-size: .9rem;
+    }
+    .react-tel-input .form-control {
+        width:100%;
+    }
+    .support_image.help_support {
+        margin-top: 65px;
+    }
+    div#align_list {
+        width: 100%;
+    }
+
+    .half-col {
+        width: 50% !important;
+    }
+    .half-col button {
+        width: 100px;
+        padding: 0;
+    }
+    .full-col {
+        display: flex;
+        align-items: center;
+      }
+      
 }
+
+@media screen and (max-width: 645px) {
+    
+    /* .full-col button {
+        width: 50%;
+        margin: 0 2px;
+    } */
+    button.form-button.col-md-12 {
+        width: 100%;
+    }
+    .progress-bar {
+        bottom: calc(50% + 17px);
+    }
+}
+  @media screen and (max-width: 550px) {
+   
+    .multi-steps > li:before{
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+    }
+    ul.multi-steps .step-label {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    .progress-bar {
+        bottom: calc(50% + 11px);
+    }
+    .help_ul li {
+        width: 100% !important;
+    }
+    .search_input {
+        width: 100%;
+    }
+    .bank_transfer li {
+        width: 100%;
+        margin: 0px 0px !important;
+    }
+    .card-flag01 {
+        margin: 30px 0px 0px;
+    }
+  }
+
+ 
 
 

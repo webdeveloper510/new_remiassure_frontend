@@ -263,7 +263,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               />
             </div>
           </div>
-          <div className="row each-row">
+          <div className="row">
             <div className="col-md-12">
               <div className="input_field">
                 <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
@@ -285,7 +285,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               </div>
             </div>
           </div>
-          <div className="row each-row">
+          <div className="row">
             <div className="col-md-12">
               <div className="input_field">
                 <p className="get-text">Account Number<span style={{ color: 'red' }} >*</span></p>
@@ -308,7 +308,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
           </div>
           <div className="row each-row">
             <h5>Recipient Details</h5>
-            <div className="col-md-4">
+            <div className="col-md-4 need_space">
               <div className="input_field">
                 <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
                 <input
@@ -327,7 +327,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 />
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-4 need_space">
               <div className="input_field">
                 <p className="get-text">Middle Name</p>
                 <input
@@ -363,7 +363,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             </div>
           </div>
           <div className="row each-row">
-            <div className="col-md-6">
+            <div className="col-md-6 need_space">
               <div className="input_field">
                 <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
                 <input
@@ -391,7 +391,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 )}
               </div>
             </div>
-            <div className="col-md-6">
+            <div className="col-md-6 need_space">
               <div className="input_field">
                 <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                 <PhoneInput
@@ -417,7 +417,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
           </div>
           <div className="row each-row">
             <h5>Address</h5>
-            <div className="col-md-4" id="country">
+            <div className="col-md-4 need_space" id="country">
               <div className="input_field">
                 <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                 <select
@@ -437,7 +437,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 </select>
               </div>
             </div>
-            <div className="col-md-4" id="state">
+            <div className="col-md-4 need_space" id="state">
               <div className="input_field">
                 <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
                 {
@@ -513,7 +513,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             </div>
           </div>
           <div className="row each-row">
-            <div className="col-md-4" id="street">
+            <div className="col-md-4 need_space" id="street">
               <div className="input_field">
                 <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
                 <input
@@ -533,7 +533,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 />
               </div>
             </div>
-            <div className="col-md-4" id="post">
+            <div className="col-md-4 need_space" id="post">
               <div className="input_field">
                 <p className="get-text">
                   Zip/Postal Code
@@ -583,7 +583,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             </div>
           </div>
           <div className="row each-row">
-            <div className="col-md-4" id='flat'>
+            <div className="col-md-4 need_space" id='flat'>
               <div className="input_field">
                 <p className="get-text">Flat/Unit No.</p>
                 <input
@@ -596,7 +596,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 />
               </div>
             </div>
-            <div className="col-md-4" id="reason">
+            <div className="col-md-4 need_space" id="reason">
               <div className="input_field">
                 <p className="get-text">Reason For Sending Money<span style={{ color: 'red' }} >*</span></p>
                 <select
@@ -625,12 +625,13 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-md-4 need_space">
               <button type="button" className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
             </div>
-            <div className="col-md-8">
-              <button type="submit" className="form-button">Continue</button>
+            <div className="col-md-8 full-col">
+              
               <button type="button" className="form-button" onClick={() => { handlePrevious() }}>Previous</button>
+              <button type="submit" className="form-button">Continue</button>
             </div>
           </div>
         </div>

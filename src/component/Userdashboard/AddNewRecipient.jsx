@@ -420,7 +420,7 @@ const Addnewrecipient = () => {
                   </div>
                   <div className="row each-row">
                     <h5>Address</h5>
-                    <div className="col-md-4" id="country">
+                    <div className="col-md-4 mb-3" id="country">
                       <Form.Group className="form_label" >
                         <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                         <select
@@ -440,7 +440,7 @@ const Addnewrecipient = () => {
                         </select>
                       </Form.Group>
                     </div>
-                    <div className="col-md-4" id="state">
+                    <div className="col-md-4 mb-3" id="state">
                       <Form.Group className="form_label" >
                         <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
                         {
@@ -475,7 +475,7 @@ const Addnewrecipient = () => {
                         }
                       </Form.Group>
                     </div>
-                    <div className="col-md-4" id="city">
+                    <div className="col-md-4 mb-3" id="city">
                       <Form.Group className="form_label" >
                         <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
                         {
@@ -514,7 +514,7 @@ const Addnewrecipient = () => {
                     </div>
                   </div>
                   <div className="row each-row">
-                    <div className="col-md-4" id="street">
+                    <div className="col-md-4 mb-3" id="street">
                       <Form.Group className="form_label" controlId="street">
                         <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
                         <input
@@ -533,7 +533,7 @@ const Addnewrecipient = () => {
                         />
                       </Form.Group>
                     </div>
-                    <div className="col-md-4" id="zip">
+                    <div className="col-md-4 mb-3" id="zip">
                       <Form.Group className="form_label" >
                         <p className="get-text">
                           Zip/Postal Code
@@ -559,7 +559,7 @@ const Addnewrecipient = () => {
 
                       </Form.Group>
                     </div>
-                    <div className="col-md-4" id="build">
+                    <div className="col-md-4 mb-3" id="build">
                       <Form.Group className="form_label" controlId="build">
                         <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
                         <input
@@ -581,7 +581,7 @@ const Addnewrecipient = () => {
 
                   </div>
                   <div className="row each-row">
-                    <div className="col-md-4" id="flat">
+                    <div className="col-md-4 mb-3" id="flat">
                       <Form.Group className="form_label" controlId="flat">
                         <p className="get-text">Flat/Unit No.</p>
                         <input
@@ -594,7 +594,7 @@ const Addnewrecipient = () => {
                         />
                       </Form.Group>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-4 mb-3">
                       <div className="input_field">
                         <p className="get-text">Reason For Sending Money<span style={{ color: 'red' }} >*</span></p>
                         <select
@@ -626,13 +626,13 @@ const Addnewrecipient = () => {
                     <div className="col-md-4">
                       <button
                         type="button"
-                        className="start-form-button"
+                        className="start-form-button full-col"
                         onClick={() => handleCancel()}
                       >
                         Cancel
                       </button>
                     </div>
-                    <div className="col-md-8">
+                    <div className="col-md-8 full-col">
                       <button
                         type="button"
                         className="form-button"

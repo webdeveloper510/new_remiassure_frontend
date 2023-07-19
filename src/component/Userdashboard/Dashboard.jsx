@@ -202,6 +202,7 @@ const Dashboard = () => {
                                                     </div>
                                                 </div>
                                                 {transactionData?.length != 0 ? (
+                                                    <div className="table-responsive">
                                                     <table className="table table-responsive-md card-table previous-transactions">
                                                         <thead>
                                                             <tr>
@@ -235,13 +236,16 @@ const Dashboard = () => {
                                                         </tbody>
 
                                                     </table>
+                                                    </div>
                                                 ) : (
+                                                    <div className="table-responsive">
                                                     <table className="table table-responsive-md card-table previous-transactions">
                                                         <thead>
                                                         </thead>
                                                         <tbody>
                                                         </tbody>
                                                     </table>
+                                                    </div>
                                                 )
                                                 }
                                             </div>
@@ -255,6 +259,7 @@ const Dashboard = () => {
                                                 </div>
 
                                                 {recipientData?.length > 0 ? (
+                                                    <div className="table-responsive">
                                                     <table className="table table-responsive-md card-table previous-transactions">
                                                         <thead>
                                                             <tr>
@@ -289,13 +294,16 @@ const Dashboard = () => {
 
                                                         </tbody>
                                                     </table>
+                                                    </div>
                                                 ) : (
+                                                    <div className="table-responsive">
                                                     <table className="table table-responsive-md card-table previous-transactions">
                                                         <thead>
                                                         </thead>
                                                         <tbody>
                                                         </tbody>
                                                     </table>
+                                                    </div>
                                                 )
                                                 }
                                             </div>

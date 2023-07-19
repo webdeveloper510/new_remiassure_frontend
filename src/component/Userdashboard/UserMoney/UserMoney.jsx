@@ -57,8 +57,9 @@ const SendMoney = () => {
             <div className="tabs-page">
                 <Sidebar />
                 <div className="content-body">
+                   
                     {/* <div className='timer-row'>Form auto closes in ⇒  <label> <span> {minutes < 10 ? "0" + minutes : minutes}</span><p>Minutes</p> </label> <label className='timerdots'>:</label>  <label><span> {seconds < 10 ? "0" + seconds : seconds}</span> <p>Seconds</p> </label></div> */}
-                    <div className="col-md-10">
+                    <div className="col-md-12">
                         {
                             step === 0 ? <AmountDetail handleStep={handleStep} step={step} />
                                 :
