@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import "react-multi-carousel/lib/styles.css";
-import Scrollbar from '../scrollbar/Scrollbar';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import clsx from "clsx";
@@ -59,128 +58,7 @@ function WhyRenderingArrayOfObjects() {
         </div>
     )
 }
-function BankTransferArrayOfObjects() {
-    const bankItems = [
-        {
-            id: 1,
-            home_src: "assets/img/home/home.svg",
-            bank_title: "Bank Transfer",
-            bank_contents: "Send a secure bank transfer Send a secure bank transfer major banks worldwide.",
-        },
-        {
-            id: 2,
-            home_src: "assets/img/home/home.svg",
-            bank_title: "Bank Transfer",
-            bank_contents: "Send a secure bank transfer Send a secure bank transfer major banks worldwide.",
-        },
-        {
-            id: 3,
-            home_src: "assets/img/home/home.svg",
-            bank_title: "Bank Transfer",
-            bank_contents: "Send a secure bank transfer Send a secure bank transfer major banks worldwide.",
-        },
-        {
-            id: 4,
-            home_src: "assets/img/home/home.svg",
-            bank_title: "Bank Transfer",
-            bank_contents: "Send a secure bank transfer Send a secure bank transfer major banks worldwide.",
-        },
-    ];
 
-    const Tranferdata = bankItems.map((bankdata) => {
-        return (
-
-            <li className="bank_lists" key={bankdata.id}>
-                <div className="bank_contents">
-                    <img src={bankdata.home_src} alt="home_icons" className="bank_icons" />
-                    <h3 className="bank_transfer">{bankdata.bank_title}</h3>
-                    <p className="bank_paragraph">{bankdata.bank_contents}</p>
-                </div>
-            </li>
-
-        )
-    })
-    return (
-        <div>
-            {Tranferdata}
-        </div>
-    )
-}
-
-// function FlagHomeArrayofoObjects() {
-//     const flagData = [
-//         {
-//             id: 1,
-//             flag_src: "assets/img/home/Mask group.svg",
-//             flag_title: "india",
-//             flag_arrow_scr: "assets/img/home/arrow01.svg",
-//         },
-//         {
-//             id: 2,
-//             flag_src: "assets/img/home/Mask group.svg",
-//             flag_title: "india",
-//             flag_arrow_scr: "assets/img/home/arrow01.svg",
-//         },
-//         {
-//             id: 3,
-//             flag_src: "assets/img/home/Mask group.svg",
-//             flag_title: "india",
-//             flag_arrow_scr: "assets/img/home/arrow01.png",
-//         },
-//         {
-//             id: 4,
-//             flag_src: "assets/img/home/Mask group.svg",
-//             flag_title: "india",
-//             flag_arrow_scr: "assets/img/home/arrow01.svg",
-//         },
-//         {
-//             id: 5,
-//             flag_src: "assets/img/home/Mask group.svg",
-//             flag_title: "india",
-//             flag_arrow_scr: "assets/img/home/arrow01.svg",
-//         },
-//         {
-//             id: 6,
-//             flag_src: "assets/img/home/Mask group.svg",
-//             flag_title: "india",
-//             flag_arrow_scr: "assets/img/home/arrow01.svg",
-//         },
-//     ];
-
-//     const flagdataItems = flagData.map((flagvalue) => {
-//         return (
-
-//             <li key={flagvalue.id}>
-//                 <div className="col-lg-12">
-//                     <div className="card card-flag01">
-//                         <div className="row">
-//                             <div className="col-4">
-//                                 <div className="card-body">
-//                                     <img src={flagvalue.flag_src} alt="flag_icons" className="flag_icons" />
-//                                 </div>
-//                             </div>
-
-//                             <div className="col-4">
-//                                 <p className="india-text">{flagvalue.flag_title}</p>
-//                             </div>
-
-//                             <div className="col-4">
-//                                 <img src={flagvalue.flag_arrow_scr} alt="arrow_icons" className="arrow_icons" />
-//                             </div>
-//                         </div>
-
-//                     </div>
-//                 </div>
-//             </li>
-
-//         )
-//     })
-//     return (
-//         <div>
-//             {flagdataItems}
-//         </div>
-//     )
-// }
 
 
 const Home = () => {
@@ -227,7 +105,7 @@ const Home = () => {
     }, [carouselItems])
 
     const amountSchema = Yup.object().shape({
-        send_amt: Yup.string("Please enter a valid amount").min(1, "minimum 1 dollar is required ").max(7, "amount can't exceed 1000000").required('Amount is required').notOneOf(["."], " ")
+        send_amt: Yup.string("Please enter a valid amount").min(1, "minimum 1 dollar is required ").max(10, "amount can't exceed 1000000").required('Amount is required').notOneOf(["."], " ")
     })
 
     const initialValues = {
@@ -363,16 +241,23 @@ const Home = () => {
         //     }
         // }
         var data = event.target.value;
-        if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 || event.charCode == 0) {
-            if (data.indexOf('.') > -1) {
-                if (event.charCode == 46) {
-                    event.preventDefault()
+        var decimalIndex = data.indexOf('.');
+
+        if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46 || event.charCode === 0) {
+            if (decimalIndex > -1) {
+                // Check if the user is trying to enter more than 2 digits after the decimal point
+                if (data.length - decimalIndex > 2) { // +1 to account for the decimal point itself
+                    event.preventDefault();
+                } else if (event.charCode === 46) {
+                    event.preventDefault();
                 } else {
-                    formik.setFieldValue('send_amt', event.target.value)
-                    formik.setFieldTouched('send_amt', true)
+                    formik.setFieldValue('send_amt', event.target.value);
+                    formik.setFieldTouched('send_amt', true);
                 }
             } else {
-
+                // If there is no decimal point yet, allow input
+                formik.setFieldValue('send_amt', event.target.value);
+                formik.setFieldTouched('send_amt', true);
             }
         } else {
             event.preventDefault();
@@ -493,7 +378,7 @@ const Home = () => {
                                                         autoComplete='off'
                                                         onKeyPress={(e) => inputvalidation(e)}
                                                         onKeyDown={e => amountDown(e)}
-                                                        maxLength={7}
+                                                        maxLength={10}
                                                         {...formik.getFieldProps('send_amt')}
                                                         className={clsx(
                                                             'mb-3 bg-transparent form-control',

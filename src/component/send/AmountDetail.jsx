@@ -27,7 +27,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const amtSchema = Yup.object().shape({
         send_amt: Yup.string()
             .min(1, 'Minimum 3 symbols')
-            .max(7, 'Maximum 50 symbols')
+            .max(10, 'Maximum 50 symbols')
             .required('Email is required').notOneOf(["."], " "),
         from_type: Yup.string().oneOf(["AUD", "NZD"]),
         to_type: Yup.string().required()
@@ -113,17 +113,25 @@ const AmountDetail = ({ handleStep, step }) => {
         //     }
         // }
         var data = event.target.value;
-        if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 || event.charCode == 0) {
-            if (data.indexOf('.') > -1) {
-                if (event.charCode == 46) {
-                    event.preventDefault()
+        var decimalIndex = data.indexOf('.');
+
+        if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46 || event.charCode === 0) {
+            if (decimalIndex > -1) {
+                // Check if the user is trying to enter more than 2 digits after the decimal point
+                if (data.length - decimalIndex > 2) { // +1 to account for the decimal point itself
+                    event.preventDefault();
+                } else if (event.charCode === 46) {
+                    event.preventDefault();
                 } else {
-                    formik.setFieldValue('send_amt', event.target.value)
-                    formik.setFieldTouched('send_amt', true)
-                    setAmtDetail({ ...amt_detail, exchange_amt: "" })
+                    formik.setFieldValue('send_amt', event.target.value);
+                    formik.setFieldTouched('send_amt', true);
+                    setAmtDetail({ ...amt_detail, send_amt: event.target.value })
                 }
             } else {
-
+                // If there is no decimal point yet, allow input
+                formik.setFieldValue('send_amt', event.target.value);
+                formik.setFieldTouched('send_amt', true);
+                setAmtDetail({ ...amt_detail, send_amt: event.target.value })
             }
         } else {
             event.preventDefault();
@@ -295,7 +303,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                 value={amt_detail?.send_amt}
                                 onKeyPress={(e) => inputvalidation(e)}
                                 onKeyDown={(e) => amountDown(e)}
-                                maxLength={7}
+                                maxLength={10}
                                 {...formik.getFieldProps('send_amt')}
                                 className={clsx(
                                     'mb-3 bg-transparent form-control rate_input',
