@@ -29,7 +29,7 @@ const ForgotPassword = () => {
     }
 
     const forgetSchema = Yup.object().shape({
-        mobile: Yup.string().min(10).max(18).required()
+        mobile: Yup.string().min(11).max(18).required()
     })
 
     let sessionID;
@@ -94,7 +94,7 @@ const ForgotPassword = () => {
                                                             country={"au"}
                                                             name="mobile"
                                                             inputStyle={{ border: "none", margin: "none" }}
-                                                            inputClass="phoneInp"
+                                                            inputClass="userPhone w-100"
                                                             defaultCountry={"au"}
                                                             countryCodeEditable={false}
                                                             onChange={(val) => { handlePhone(val) }}
