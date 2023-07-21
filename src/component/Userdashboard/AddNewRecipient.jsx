@@ -99,7 +99,7 @@ const Addnewrecipient = () => {
     building: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(30).required().trim(),
     city: Yup.string().min(1).max(35).required().trim(),
-    post_code: Yup.string().length(4).notRequired(),
+    post_code: Yup.string().length(5).notRequired(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
     reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
@@ -549,11 +549,10 @@ const Addnewrecipient = () => {
                           type="text"
                           name="postcode"
                           value={data.postcode}
-                          onKeyDown={(e) => handlePostCode(e, 3)}
+                          onKeyDown={(e) => handlePostCode(e, 4)}
                           {...formik.getFieldProps("postcode")}
                           className={clsx(
-                            'form-control bg-transparent',
-                            { 'is-invalid': formik.touched.postcode && formik.errors.postcode }
+                            'form-control bg-transparent'
                           )}
                         />
 

@@ -105,7 +105,7 @@ const Home = () => {
     }, [carouselItems])
 
     const amountSchema = Yup.object().shape({
-        send_amt: Yup.string("Please enter a valid amount").min(1, "minimum 1 dollar is required ").max(10, "amount can't exceed 1000000").required('Amount is required').notOneOf(["."], " ")
+        send_amt: Yup.string("Please enter a valid amount").min(1, "minimum 1 dollar is required ").max(9, "amount can't exceed 1000000").required('Amount is required').notOneOf(["."], " ")
     })
 
     const initialValues = {
@@ -393,7 +393,7 @@ const Home = () => {
                                                         value={formik.values.send_amt}
                                                         onChange={(e) => inputvalidation(e)}
                                                         onKeyDown={e => amountDown(e)}
-                                                        maxLength={10}
+                                                        maxLength={9}
                                                         // {...formik.getFieldProps('send_amt')}
                                                         className={clsx(
                                                             'mb-3 bg-transparent form-control',

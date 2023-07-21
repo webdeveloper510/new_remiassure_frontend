@@ -27,7 +27,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const amtSchema = Yup.object().shape({
         send_amt: Yup.string()
             .min(1, 'Minimum 3 symbols')
-            .max(10, 'Maximum 50 symbols')
+            .max(9, 'Maximum 50 symbols')
             .required('Email is required').notOneOf(["."], " "),
         from_type: Yup.string().oneOf(["AUD", "NZD"]),
         to_type: Yup.string().required()
@@ -111,12 +111,12 @@ const AmountDetail = ({ handleStep, step }) => {
     //     }
     // }
     const inputvalidation = (event) => {
-        console.log(event.target)
+        // console.log(event.target)
         var data = event.target.value;
         var decimalIndex = data.indexOf('.');
 
         if (/^\d*\.?\d{0,2}$/.test(data)) {
-            console.log("sadsadqe2q", event.target)
+            // console.log("sadsadqe2q", event.target)
             formik.setFieldValue('send_amt', data);
             formik.setFieldTouched('send_amt', true);
             setAmtDetail({ ...amt_detail, send_amt: data });
@@ -291,7 +291,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                 value={amt_detail?.send_amt}
                                 onChange={(e) => inputvalidation(e)}
                                 onKeyDown={(e) => amountDown(e)}
-                                maxLength={10}
+                                maxLength={9}
                                 className={clsx(
                                     'mb-3 bg-transparent form-control rate_input',
                                     { 'is-invalid': formik.touched.send_amt && formik.errors.send_amt },

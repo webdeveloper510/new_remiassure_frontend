@@ -27,7 +27,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const amtSchema = Yup.object().shape({
         send_amt: Yup.string()
             .min(1, 'Minimum 3 symbols')
-            .max(10, 'Maximum 50 symbols')
+            .max(9, 'Maximum 50 symbols')
             .required('Email is required').notOneOf(["."], " "),
         from_type: Yup.string().oneOf(["AUD", "NZD"]),
         to_type: Yup.string().required(),
@@ -316,7 +316,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         value={formik.values?.send_amt}
                                         onKeyDown={(e) => amountDown(e)}
                                         onChange={(e) => inputvalidation(e)}
-                                        maxLength={10}
+                                        maxLength={9}
                                         className={clsx(
                                             'mb-3 bg-transparent form-control rate_input',
                                             { 'is-invalid': formik.touched.send_amt && formik.errors.send_amt },

@@ -39,6 +39,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     if (localStorage.getItem("transfer_data")) {
       let tdata = JSON.parse(localStorage.getItem("transfer_data"))
       if (tdata?.recipient) {
+        // console.log("tdata", tdata?.recipient)
         setData(tdata?.recipient)
         formik.setValues({ ...tdata?.recipient })
       }
@@ -306,7 +307,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <input
                 type="text"
                 name="bank"
-                value={data?.bank}
+                value={formik.values?.bank}
                 onChange={validateInput}
                 maxLength={50}
                 // onKeyDown={(e) => { handleKeyDown(e, 50) }}
@@ -328,7 +329,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <input
                   type="text"
                   name="acc_name"
-                  value={data?.acc_name}
+                  value={formik.values?.acc_name}
                   onChange={validateInput}
                   maxLength={50}
                   // onKeyDown={(e) => { handleKeyDown(e, 50) }}
@@ -352,7 +353,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <input
                   type="text"
                   name="acc_no"
-                  value={data?.acc_no}
+                  value={formik.values?.acc_no}
                   onChange={validateNumber}
                   maxLength={18}
                   // onKeyDown={(e) => { handlePostCode(e, 17) }}
@@ -376,7 +377,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <input
                   type="text"
                   name="f_name"
-                  value={data.f_name}
+                  value={formik.values?.f_name}
                   onChange={validateInput}
                   maxLength={25}
                   // onKeyDown={(e) => { handleKeyDown(e, 25) }}
@@ -398,7 +399,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="m_name"
                   className='form-control'
-                  value={data.m_name}
+                  value={formik.values?.m_name}
                   onChange={validateInput}
                   maxLength={25}
 
@@ -413,7 +414,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <input
                   type="text"
                   name="l_name"
-                  value={data.l_name}
+                  value={formik.values?.l_name}
                   onChange={validateInput}
                   maxLength={25}
 
@@ -439,7 +440,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <input
                   type="email"
                   name="email"
-                  value={data.email}
+                  value={formik.values?.email}
                   // onKeyDown={(e) => { handleEmail(e, 50) }}
                   onChange={validateEmail}
                   maxLength={50}
@@ -492,7 +493,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <div className="input_field">
                 <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                 <select
-                  value={data.country}
+                  value={formik.values?.country}
                   name="country"
                   onChange={(e) => handleChange(e)}
                   className='form-control form-select bg-transparent'
@@ -514,7 +515,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 {
                   state_list && state_list.length > 0 ?
                     (<select
-                      value={data.state}
+                      value={formik.values?.state}
                       name="state"
                       onChange={(e) => handleChange(e)}
                       className='form-control form-select bg-transparent'
@@ -529,7 +530,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                     (<input
                       type="text"
                       name="state"
-                      value={data.state}
+                      value={formik.values?.state}
                       onKeyDown={(e) => { handleKeyDown(e, 30) }}
                       {...formik.getFieldProps("state")}
                       className={clsx(
@@ -549,7 +550,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 {
                   city_list && city_list.length > 0 ? (
                     <select
-                      value={data.city}
+                      value={formik.values?.city}
                       name="city"
                       onChange={(e) => handleChange(e)}
                       className='form-control form-select bg-transparent'
@@ -566,7 +567,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                     <input
                       type="text"
                       name="city"
-                      value={data.city}
+                      value={formik.values?.city}
                       onKeyDown={(e) => { handleKeyDown(e, 35) }}
                       {...formik.getFieldProps("city")}
                       className={clsx(
@@ -590,7 +591,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <input
                   type="text"
                   name="street"
-                  value={data.street}
+                  value={formik.values?.street}
                   // onKeyDown={(e) => { handleEmail(e, 50) }}
                   {...formik.getFieldProps("street")}
                   maxLength={30}
@@ -620,7 +621,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <input
                   type="text"
                   name="post_code"
-                  value={data.post_code}
+                  value={formik.values?.post_code}
                   onChange={validateNumber}
                   maxLength={5}
 
@@ -639,7 +640,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <input
                   type="text"
                   name="build_no"
-                  value={data.build_no}
+                  value={formik.values?.build_no}
                   maxLength={30}
                   onKeyDown={(e) => { handleEmail(e, 30) }}
                   {...formik.getFieldProps("build_no")}
@@ -661,7 +662,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <input
                   type="text"
                   name="flat"
-                  value={data?.flat}
+                  value={formik.values?.flat}
                   onChange={validateAddress}
                   maxLength={15}
                   // onKeyDown={(e) => { handleEmail(e, 15) }}
@@ -676,7 +677,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <select
                   aria-label="Select a reason"
                   name="reason"
-                  value={data.reason}
+                  value={formik.values?.reason}
                   onChange={(e) => handleChange(e)}
                   {...formik.getFieldProps("reason")}
                   className={clsx(
