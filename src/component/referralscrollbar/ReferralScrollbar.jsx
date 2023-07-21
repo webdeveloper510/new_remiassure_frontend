@@ -4,16 +4,17 @@ import "react-multi-carousel/lib/styles.css";
 
 const responsive = {
   desktop: {
-    breakpoint: { max: 3000, min: 1024 },
+    breakpoint: { max: 3000, min: 992 },
     items: 3
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
+    breakpoint: { max: 992, min: 420 },
     items: 2
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1
+    breakpoint: { max: 420, min: 0 },
+    items: 1,
+
   }
 };
 
@@ -74,24 +75,25 @@ class Scrollbar extends React.Component {
     return (
         
       <Carousel
-        ssr={false}
-        ref={el => (this.Carousel = el)}
-        partialVisible={false}
-        //customButtonGroup={<CustomSlider />}
-        itemClass="image-item"
-        itemAriaLabel="Image-aria-label"
-        responsive={responsive}
-        containerClass="carousel-container-with-scrollbar"
-        additionalTransfrom={-this.state.additionalTransfrom}
-        beforeChange={nextSlide => {
-          if (nextSlide !== 0 && this.state.additionalTransfrom !== 150) {
-            this.setState({ additionalTransfrom: 150 });
-          }
-          if (nextSlide === 0 && this.state.additionalTransfrom === 150) {
-            this.setState({ additionalTransfrom: 0 });
-          }
-        }}
-      >
+      ssr={false}
+      ref={el => (this.Carousel = el)}
+      partialVisible={false}
+      //customButtonGroup={<CustomSlider />}
+      itemClass="image-item"
+      itemAriaLabel="Image-aria-label"
+      responsive={responsive}
+      containerClass="carousel-container-with-scrollbar"
+      additionalTransfrom={-this.state.additionalTransfrom}
+      beforeChange={nextSlide => {
+        if (nextSlide !== 0 && this.state.additionalTransfrom !== 150) {
+          this.setState({ additionalTransfrom: -0 });
+        }
+        if (nextSlide === 0 && this.state.additionalTransfrom === 150) {
+          this.setState({ additionalTransfrom: 0 });
+        }
+      }}
+    >
+
 
 		
 				<div class="image-container increase-size">

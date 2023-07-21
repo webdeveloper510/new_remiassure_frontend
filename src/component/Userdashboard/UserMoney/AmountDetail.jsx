@@ -420,7 +420,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                 <button
                                     type="button"
                                     onClick={() => formik.handleSubmit()}
-                                    className="form-button"
+                                    className="form-button full-col"
                                 >
                                     Continue
                                     {loader ? <>
