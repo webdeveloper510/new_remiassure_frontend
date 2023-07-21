@@ -433,7 +433,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               </div>
             </div>
           </div>
-          <div className="row each-row">
+          <div className="row each-row remove_mb">
             <div className="col-md-6 need_space">
               <div className="input_field">
                 <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
@@ -584,7 +584,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
             </div>
           </div>
-          <div className="row each-row">
+          <div className="row each-row remove_mb">
             <div className="col-md-4 need_space" id="street">
               <div className="input_field">
                 <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
@@ -701,7 +701,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
           </div>
           <div className="row">
             <div className="col-md-4 need_space">
-              <button type="button" className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
+              <button type="button" className="start-form-button full-col" onClick={() => handleCancel()}>Cancel</button>
             </div>
             <div className="col-md-8 full-col">
 
@@ -773,10 +773,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
           </Table>
         </Modal.Body>
         <Modal.Footer>
-          <button className="start-form-button" variant="secondary" onClick={() => setShow(false)}>
+          <button className="start-form-button full-col" variant="secondary" onClick={() => setShow(false)}>
             Go back to Edit
           </button>
-          <button className="form-button" type="button" variant="primary" onClick={(e) => handleReciept(e)}>Continue</button>
+          <button className="form-button detail_buttoon full-col" type="button" variant="primary" onClick={(e) => handleReciept(e)}>Continue</button>
         </Modal.Footer>
       </Modal>
 

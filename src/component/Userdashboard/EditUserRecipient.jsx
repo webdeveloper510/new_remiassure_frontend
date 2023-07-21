@@ -396,7 +396,7 @@ const Editrecipientuser = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="row each-row">
+                    <div className="row each-row remove_mb">
                       <div className="col-md-6">
                         <div className="input_field">
                           <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
@@ -543,7 +543,7 @@ const Editrecipientuser = () => {
                         </Form.Group>
                       </div>
                     </div>
-                    <div className="row each-row">
+                    <div className="row each-row remove_mb">
                       <div className="col-md-4 mb-3" id="street">
                         <Form.Group className="form_label" >
                           <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
@@ -608,7 +608,7 @@ const Editrecipientuser = () => {
                         </Form.Group>
                       </div>
                     </div>
-                    <div className="row each-row">
+                    <div className="row each-row remove_mb">
                       <div className="col-md-4 mb-3" id="flat">
                         <Form.Group className="form_label" >
                           <p className="get-text">Flat/Unit No.</p>

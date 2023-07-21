@@ -139,7 +139,7 @@ const Login = () => {
                                                                     </div>
                                                                 ) : ""
                                                             }
-                                                            <div className={`${isMobile ? "col-md-8" : "col-md-12"} ps-1`}>
+                                                            <div className={`${isMobile ? "col-md-8" : "col-md-12"} ps-1 mobiletext`}>
                                                                 <Form.Control
                                                                     type={'text'}
                                                                     autoComplete="off"
@@ -158,7 +158,7 @@ const Login = () => {
                                                             </div>
                                                         </div>
                                                     </Form.Group>
-
+                                                    <div className="row">
                                                     <Form.Group className="mb-3 form_label">
                                                         <Form.Label> Your Password<span style={{ color: 'red' }} >*</span></Form.Label>
                                                         <Form.Control
@@ -187,6 +187,7 @@ const Login = () => {
 
 
                                                     </Form.Group>
+                                                    </div>
 
                                                     <div className="row">
                                                         <div className="col-lg-6">

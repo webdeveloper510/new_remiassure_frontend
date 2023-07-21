@@ -222,7 +222,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                 </div>
                 <div className="row">
                   <div className="col-md-4">
-                    <button type="button" className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
+                    <button type="button" className="start-form-button full-col" onClick={() => handleCancel()}>Cancel</button>
                   </div>
                   <div className="col-md-8 full-col">
                     <button className="form-button" onClick={() => handlePrevious()}>Previous</button>

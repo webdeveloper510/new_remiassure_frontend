@@ -326,7 +326,7 @@ const SenderDetails = ({ handleStep, step }) => {
         </div>
 
         {/* --------------------------------dob , cob , occup */}
-        <div className="row each-row">
+        <div className="row">
           <div className="col-md-4">
             <div className="input_field">
               <p className="get-text">Date of birth<span style={{ color: 'red' }} >*</span></p>
@@ -660,7 +660,7 @@ const SenderDetails = ({ handleStep, step }) => {
       </form>
       <div className="row each-row">
         <div className="col-md-2 new_buttonss">
-          <button className="start-form-button" onClick={() => handleClear()}>Cancel</button>
+          <button className="start-form-button full-col" onClick={() => handleClear()}>Cancel</button>
         </div>
         <div className="col-md-10 new_buttons">
           {!verificationValue && (!digital_id_verified || digital_id_verified === "false") ? (
@@ -671,7 +671,7 @@ const SenderDetails = ({ handleStep, step }) => {
             </>
           ) : (
             <>
-              <button type='button' className="form-button" onClick={() => formik.handleSubmit()}> Continue</button>
+              <button type='button' className="form-button full-col" onClick={() => formik.handleSubmit()}> Continue</button>
             </>
           )
           }

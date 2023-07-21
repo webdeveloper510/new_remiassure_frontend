@@ -417,6 +417,8 @@ const [dataRefferal, setDataRefferal] = useState([]);
 
                     ) : (
                         <>
+
+                        
                          <div className="row social_links_change" >
                     <div className="col-lg-12">
                         <p className="share_content">Way to share</p>
