@@ -80,59 +80,74 @@ const AmountDetail = ({ handleStep, step }) => {
             })
     }
 
+    // const inputvalidation = (event) => {
+    //     // const pattern = /^[0-9.]+$/;
+    //     // if (event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape") {
+    //     //     setAmtDetail({ ...amt_detail, send_amt: event.target.value })
+    //     //     formik.setFieldValue('send_amt', event.target.value)
+    //     //     formik.setFieldTouched('send_amt', true)
+    //     // } else if (event.key === 'Backspace' || event.key === "Delete") {
+    //     //     formik.setFieldValue("exchange_amt", "")
+    //     //     formik.setFieldTouched("exchange_amt", false)
+    //     //     setAmtDetail({ ...amt_detail, exchange_amt: "" })
+    //     // } else if (event.key === 'Enter') {
+    //     //     myTotalAmount(event)
+    //     // } else {
+    //     //     let value = event.target.value.toString()
+    //     //     if (value.length < 7) {
+    //     //         if (!pattern.test(event.key)) {
+    //     //             event.preventDefault();
+    //     //             event.stopPropagation()
+    //     //         } else {
+    //     //             setAmtDetail({ ...amt_detail, send_amt: event.target.value })
+    //     //             formik.setFieldValue('send_amt', event.target.value)
+    //     //             formik.setFieldTouched('send_amt', true)
+    //     //         }
+    //     //     } else {
+    //     //         event.preventDefault();
+    //     //         event.stopPropagation()
+    //     //     }
+    //     // }
+    //     var data = event.target.value;
+    //     var decimalIndex = data.indexOf('.');
+
+    //     if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46 || event.charCode === 0) {
+    //         if (decimalIndex > -1) {
+    //             // Check if the user is trying to enter more than 2 digits after the decimal point
+    //             if (data.length - decimalIndex > 2) { // +1 to account for the decimal point itself
+    //                 event.preventDefault();
+    //             } else if (event.charCode === 46) {
+    //                 event.preventDefault();
+    //             } else {
+    //                 formik.setFieldValue('send_amt', event.target.value);
+    //                 formik.setFieldTouched('send_amt', true);
+    //                 setAmtDetail({ ...amt_detail, send_amt: event.target.value })
+    //             }
+    //         } else {
+    //             // If there is no decimal point yet, allow input
+    //             formik.setFieldValue('send_amt', event.target.value);
+    //             formik.setFieldTouched('send_amt', true);
+    //             setAmtDetail({ ...amt_detail, send_amt: event.target.value })
+    //         }
+    //     } else {
+    //         event.preventDefault();
+    //     }
+    // }
+
     const inputvalidation = (event) => {
-        // const pattern = /^[0-9.]+$/;
-        // if (event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape") {
-        //     setAmtDetail({ ...amt_detail, send_amt: event.target.value })
-        //     formik.setFieldValue('send_amt', event.target.value)
-        //     formik.setFieldTouched('send_amt', true)
-        // } else if (event.key === 'Backspace' || event.key === "Delete") {
-        //     formik.setFieldValue("exchange_amt", "")
-        //     formik.setFieldTouched("exchange_amt", false)
-        //     setAmtDetail({ ...amt_detail, exchange_amt: "" })
-        // } else if (event.key === 'Enter') {
-        //     myTotalAmount(event)
-        // } else {
-        //     let value = event.target.value.toString()
-        //     if (value.length < 7) {
-        //         if (!pattern.test(event.key)) {
-        //             event.preventDefault();
-        //             event.stopPropagation()
-        //         } else {
-        //             setAmtDetail({ ...amt_detail, send_amt: event.target.value })
-        //             formik.setFieldValue('send_amt', event.target.value)
-        //             formik.setFieldTouched('send_amt', true)
-        //         }
-        //     } else {
-        //         event.preventDefault();
-        //         event.stopPropagation()
-        //     }
-        // }
+        console.log(event.target)
         var data = event.target.value;
         var decimalIndex = data.indexOf('.');
 
-        if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46 || event.charCode === 0) {
-            if (decimalIndex > -1) {
-                // Check if the user is trying to enter more than 2 digits after the decimal point
-                if (data.length - decimalIndex > 2) { // +1 to account for the decimal point itself
-                    event.preventDefault();
-                } else if (event.charCode === 46) {
-                    event.preventDefault();
-                } else {
-                    formik.setFieldValue('send_amt', event.target.value);
-                    formik.setFieldTouched('send_amt', true);
-                    setAmtDetail({ ...amt_detail, send_amt: event.target.value })
-                }
-            } else {
-                // If there is no decimal point yet, allow input
-                formik.setFieldValue('send_amt', event.target.value);
-                formik.setFieldTouched('send_amt', true);
-                setAmtDetail({ ...amt_detail, send_amt: event.target.value })
-            }
+        if (/^\d*\.?\d{0,2}$/.test(data)) {
+            console.log("sadsadqe2q", event.target)
+            formik.setFieldValue('send_amt', data);
+            formik.setFieldTouched('send_amt', true);
+            setAmtDetail({ ...amt_detail, send_amt: data });
         } else {
             event.preventDefault();
         }
-    }
+    };
 
     const amountDown = (e) => {
         if ((e.key === "Enter" || e.key === "Tab" || e.key === 'Shift') && e.target.value !== ".") {
@@ -300,9 +315,8 @@ const AmountDetail = ({ handleStep, step }) => {
                                         name="amountInput"
                                         value={formik.values?.send_amt}
                                         onKeyDown={(e) => amountDown(e)}
-                                        onKeyPress={(e) => inputvalidation(e)}
+                                        onChange={(e) => inputvalidation(e)}
                                         maxLength={10}
-                                        {...formik.getFieldProps('send_amt')}
                                         className={clsx(
                                             'mb-3 bg-transparent form-control rate_input',
                                             { 'is-invalid': formik.touched.send_amt && formik.errors.send_amt },

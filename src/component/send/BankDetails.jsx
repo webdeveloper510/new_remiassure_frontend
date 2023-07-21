@@ -98,7 +98,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     build_no: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(30).required().trim(),
     city: Yup.string().min(1).max(35).required(),
-    post_code: Yup.string().length(4).notRequired(),
+    post_code: Yup.string().max(5).notRequired(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
     reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
@@ -234,6 +234,62 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     }
   }
 
+  function validateInput(event) {
+    const regex = event.target.name === "bank" ? /^[A-Za-z\s]*$/ : /^[A-Za-z\s\W]*$/;
+    let userInput = event.target.value;
+    if (!regex.test(userInput)) {
+      if (event.target.name === "bank") {
+        const filteredInput = userInput.replace(/[^A-Za-z\s]/g, '');
+        userInput = filteredInput
+      } else {
+        const filteredInput = userInput.replace(/[^A-Za-z\s\W]/g, '');
+        userInput = filteredInput
+      }
+    }
+    setData({ ...data, [event.target.name]: userInput })
+    formik.setFieldValue(event.target.name, userInput)
+    formik.setFieldTouched(event.target.name, true)
+  }
+
+  function validateNumber(event) {
+    const regex = /^[0-9]*$/;
+    let userInput = event.target.value;
+    if (!regex.test(userInput)) {
+      const filteredInput = userInput.replace(/[^0-9]/g, '');
+      userInput = filteredInput
+    }
+    setData({ ...data, [event.target.name]: userInput })
+    formik.setFieldValue(event.target.name, userInput)
+    formik.setFieldTouched(event.target.name, true)
+  }
+
+  function validateAddress(event) {
+    const regex = /^[0-9A-z#-/]*$/;
+    let userInput = event.target.value;
+    if (!regex.test(userInput)) {
+      const filteredInput = userInput.replace(/[^0-9A-z#-/]/g, '');
+      userInput = filteredInput
+    }
+    setData({ ...data, [event.target.name]: userInput })
+    formik.setFieldValue(event.target.name, userInput)
+    formik.setFieldTouched(event.target.name, true)
+  }
+
+  function validateEmail(event) {
+    const regex = /^[A-Za-z0-9._%+-@]*$/;
+    let userInput = event.target.value;
+    if (!regex.test(userInput)) {
+      const filteredInput = userInput.replace(/[^A-Za-z0-9._%+-@]/g, '');
+      userInput = filteredInput;
+    } else {
+      // Remove spaces from the input
+      userInput = userInput.replace(/^[\s]/g, '');
+    }
+    setData({ ...data, [event.target.name]: userInput });
+    formik.setFieldValue(event.target.name, userInput);
+    formik.setFieldTouched(event.target.name, true);
+  }
+
 
   return (
     <div>
@@ -251,8 +307,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 type="text"
                 name="bank"
                 value={data?.bank}
-                onKeyDown={(e) => { handleKeyDown(e, 50) }}
-                {...formik.getFieldProps("bank")}
+                onChange={validateInput}
+                maxLength={50}
+                // onKeyDown={(e) => { handleKeyDown(e, 50) }}
+                // {...formik.getFieldProps("bank")}
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.bank && formik.errors.bank },
@@ -271,8 +329,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="acc_name"
                   value={data?.acc_name}
-                  onKeyDown={(e) => { handleKeyDown(e, 50) }}
-                  {...formik.getFieldProps("acc_name")}
+                  onChange={validateInput}
+                  maxLength={50}
+                  // onKeyDown={(e) => { handleKeyDown(e, 50) }}
+                  // {...formik.getFieldProps("acc_name")}
 
                   className={clsx(
                     'form-control bg-transparent',
@@ -293,8 +353,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="acc_no"
                   value={data?.acc_no}
-                  onKeyDown={(e) => { handlePostCode(e, 17) }}
-                  {...formik.getFieldProps("acc_no")}
+                  onChange={validateNumber}
+                  maxLength={18}
+                  // onKeyDown={(e) => { handlePostCode(e, 17) }}
+                  // {...formik.getFieldProps("acc_no")}
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.acc_no && formik.errors.acc_no },
@@ -315,8 +377,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="f_name"
                   value={data.f_name}
-                  onKeyDown={(e) => { handleKeyDown(e, 25) }}
-                  {...formik.getFieldProps("f_name")}
+                  onChange={validateInput}
+                  maxLength={25}
+                  // onKeyDown={(e) => { handleKeyDown(e, 25) }}
+                  // {...formik.getFieldProps("f_name")}
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.f_name && formik.errors.f_name },
@@ -335,8 +399,11 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   name="m_name"
                   className='form-control'
                   value={data.m_name}
-                  onKeyDown={(e) => { handleKeyDown(e, 25) }}
-                  {...formik.getFieldProps("m_name")}
+                  onChange={validateInput}
+                  maxLength={25}
+
+                // onKeyDown={(e) => { handleKeyDown(e, 25) }}
+                // {...formik.getFieldProps("m_name")}
                 />
               </div>
             </div>
@@ -347,9 +414,12 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="l_name"
                   value={data.l_name}
-                  onKeyDown={(e) => { handleKeyDown(e, 25) }}
+                  onChange={validateInput}
+                  maxLength={25}
 
-                  {...formik.getFieldProps("l_name")}
+                  // onKeyDown={(e) => { handleKeyDown(e, 25) }}
+
+                  // {...formik.getFieldProps("l_name")}
 
                   className={clsx(
                     'form-control bg-transparent',
@@ -370,9 +440,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="email"
                   name="email"
                   value={data.email}
-                  onKeyDown={(e) => { handleEmail(e, 50) }}
-
-                  {...formik.getFieldProps("email")}
+                  // onKeyDown={(e) => { handleEmail(e, 50) }}
+                  onChange={validateEmail}
+                  maxLength={50}
+                  // {...formik.getFieldProps("email")}
 
                   className={clsx(
                     'form-control bg-transparent',
@@ -520,8 +591,9 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="street"
                   value={data.street}
-                  onKeyDown={(e) => { handleEmail(e, 50) }}
+                  // onKeyDown={(e) => { handleEmail(e, 50) }}
                   {...formik.getFieldProps("street")}
+                  maxLength={30}
 
                   className={clsx(
                     'form-control bg-transparent',
@@ -549,14 +621,13 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="post_code"
                   value={data.post_code}
-                  onKeyDown={(e) => handlePostCode(e, 3)}
-                  {...formik.getFieldProps("post_code")}
+                  onChange={validateNumber}
+                  maxLength={5}
+
+                  // onKeyDown={(e) => handlePostCode(e, 3)}
+                  // {...formik.getFieldProps("post_code")}
                   className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.post_code && formik.errors.post_code },
-                    {
-                      'is-valid': formik.touched.post_code && !formik.errors.post_code && !isAfrican,
-                    }
+                    'form-control bg-transparent'
                   )}
                 />
 
@@ -569,6 +640,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="build_no"
                   value={data.build_no}
+                  maxLength={30}
                   onKeyDown={(e) => { handleEmail(e, 30) }}
                   {...formik.getFieldProps("build_no")}
                   className={clsx(
@@ -590,8 +662,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="text"
                   name="flat"
                   value={data?.flat}
-                  onKeyDown={(e) => { handleEmail(e, 15) }}
-                  {...formik.getFieldProps("flat")}
+                  onChange={validateAddress}
+                  maxLength={15}
+                  // onKeyDown={(e) => { handleEmail(e, 15) }}
+                  // {...formik.getFieldProps("flat")}
                   className='form-control bg-transparent'
                 />
               </div>
@@ -629,7 +703,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <button type="button" className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
             </div>
             <div className="col-md-8 full-col">
-              
+
               <button type="button" className="form-button" onClick={() => { handlePrevious() }}>Previous</button>
               <button type="submit" className="form-button">Continue</button>
             </div>
