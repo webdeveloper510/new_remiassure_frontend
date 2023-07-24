@@ -659,13 +659,13 @@ const SenderDetails = ({ handleStep, step }) => {
         </div>
       </form>
       <div className="row each-row">
-        <div className="col-md-2 new_buttonss">
+        <div className="col-md-4 new_buttonss">
           <button className="start-form-button full-col" onClick={() => handleClear()}>Cancel</button>
         </div>
-        <div className="col-md-10 new_buttons">
+        <div className="col-md-8 new_buttons">
           {!verificationValue && (!digital_id_verified || digital_id_verified === "false") ? (
             <>
-              <div className='digital_verification ' style={{ display: `${display == "none" ? "none" : "block"}` }}>
+              <div className='digital_verification full-col' style={{ display: `${display == "none" ? "none" : "block"}` }}>
                 <div id="digitalid-verify"></div>
               </div>
             </>

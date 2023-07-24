@@ -654,7 +654,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               </div>
             </div>
           </div>
-          <div className="row each-row">
+          <div className="row each-row remove_mb">
             <div className="col-md-4 need_space" id='flat'>
               <div className="input_field">
                 <p className="get-text">Flat/Unit No.</p>
@@ -771,11 +771,11 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             </tbody>
           </Table>
         </Modal.Body>
-        <Modal.Footer>
-          <button className="start-form-button full-col" variant="secondary" onClick={() => setShow(false)}>
+        <Modal.Footer className='full-col'>
+          <button className="start-form-button" variant="secondary" onClick={() => setShow(false)}>
             Go back to Edit
           </button>
-          <button className="form-button detail_buttoon full-col" type="button" variant="primary" onClick={(e) => handleReciept(e)}>Continue</button>
+          <button className="form-button detail_buttoon" type="button" variant="primary" onClick={(e) => handleReciept(e)}>Continue</button>
         </Modal.Footer>
       </Modal>
 
