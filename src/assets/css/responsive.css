@@ -548,7 +548,8 @@
         width:100% !important;
     }
    .new_buttons{
-    padding:0px !important;
+    width: 100% !important;
+    display: block;
    }
     ul.multi-steps .step-label {
         font-size: 13px;
