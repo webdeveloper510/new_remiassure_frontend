@@ -95,7 +95,7 @@ const Dashboard = () => {
                                         <h2 class="text-black font-w600 mb-0"><b>Welcome, <span style={{ "color": "#6414e9" }}>{firstName}</span></b></h2>
                                     </div>
                                     <div className="row g-3">
-                                        <div className="col-xl-4 col-lg-4 col-md-6">
+                                        <div className="col-xl-4 col-lg-4 col-md-6 fullwidth">
                                             <div className="dashbord-user dCard-1">
                                                 <div className="dashboard-content">
                                                     <div className="d-flex justify-content-between">
@@ -124,7 +124,7 @@ const Dashboard = () => {
                                             </div>
                                         </div>
 
-                                        <div className="col-xl-4 col-lg-4 col-md-6">
+                                        <div className="col-xl-4 col-lg-4 col-md-6 fullwidth">
                                             <div className="dashbord-user dCard-1 middle-card">
                                                 <div className="dashboard-content">
                                                     <div className="d-flex justify-content-between">
@@ -152,7 +152,7 @@ const Dashboard = () => {
                                             </div>
                                         </div>
 
-                                        <div className="col-xl-4 col-lg-4 col-md-6">
+                                        <div className="col-xl-4 col-lg-4 col-md-6 fullwidth">
                                             <div className="dashbord-user dCard-1">
                                                 <div className="dashboard-content">
                                                     <div className="d-flex justify-content-between">
