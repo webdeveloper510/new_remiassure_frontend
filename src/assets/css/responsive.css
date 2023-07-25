@@ -1,5 +1,29 @@
 /*************************** responsive start *****************/
+@media screen and (max-width: 1325px) {
+    span.text-light.custom-number {
+        font-size: 13px;
+    }
+    .user-count span {
+        font-size: 14px;
+    }
+    .dashboard-content .mt-3 a {
+        font-size: 13px;
+    }
+    .card-header h4 {
+        font-size: 20px;
+    }
+}
+@media screen and (max-width: 1245px) {
+    .fullwidth {
+        width: 50%;
+    }
+    
+}
+
+
+
 @media screen and (max-width: 1199px)and (min-width: 1199px) {
+    
 
     .container,
     .container-sm {
@@ -244,6 +268,9 @@
 }
 
 @media screen and (max-width: 768px) {
+    .fullwidth {
+        width: 100%;
+    }
     .referal_code {
         margin-top: 0px;
     }
