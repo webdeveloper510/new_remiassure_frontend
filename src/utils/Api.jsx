@@ -293,3 +293,31 @@ export const ZaiPayTo = (data) => {
   })
   return response
 }
+
+export const ZaiDashPayTo = (data) => {
+  const response = Axios.post(`/payment/zai-payto-login/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    return res.data
+  }).catch(err => {
+    return err
+  })
+  return response
+}
+
+export const ZaiDashPayId = (data) => {
+  const response = Axios.post(`/payment/zai-payid-login/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    return res.data
+  }).catch(err => {
+    return err
+  })
+  return response
+}

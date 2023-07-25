@@ -15,6 +15,8 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [data, setData] = useState({ payment_type: "Debit/Credit Card" })
   const [modal, setModal] = useState(false)
   const [pay_id_modal, setPayIdModal] = useState(false)
+  const [pay_to_modal, setPayToModal] = useState(false)
+
   const payRef = useRef(null)
   const navigate = useNavigate()
   const handleChange = (e) => {
@@ -25,9 +27,10 @@ const PaymentDetails = ({ handleStep, step }) => {
   const handlePayType = () => {
     if (data.payment_type === "Debit/Credit Card") {
       setModal(true)
-    } else {
-      console.log(data.payment_type)
+    } else if (data.payment_type === "PayByID") {
       setPayIdModal(true)
+    } else {
+      setPayToModal(true)
     }
   }
 
@@ -135,6 +138,7 @@ const PaymentDetails = ({ handleStep, step }) => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <PayToModal modal={pay_to_modal} handler={(value) => { setPayToModal(value) }} method={data.payment_type} handleStep={handleStep} step={step} />
 
       <PayIDModal modal={pay_id_modal} handler={(value) => { setPayIdModal(value) }} method={data.payment_type} handleStep={handleStep} step={step} />
     </div>
@@ -251,4 +255,73 @@ const PayIDModal = ({ modal, method, handler, handleStep, step }) => {
   )
 }
 
+const PayToModal = ({ modal, method, handler, handleStep, step }) => {
+  const payForm = useFormik({
+    initialValues: {
+      pay_id: ""
+    },
+    validationSchema: Yup.object().shape({
+      pay_id: Yup.string().required("Pay Id is required")
+    }),
+    onSubmit: async (values) => {
+      handler(false)
+      const local = JSON.parse(localStorage.getItem("transfer_data"))
+      local.payment = { pay_id: values.pay_id, payment_type: method }
+      localStorage.removeItem("transfer_data")
+      localStorage.setItem("transfer_data", JSON.stringify(local))
+      if (localStorage.getItem("send-step")) {
+        localStorage.removeItem("send-step")
+      }
+      localStorage.setItem("send-step", Number(step) + 1)
+      handleStep(Number(step) + 1)
+    }
+  })
+
+  const payIdRef = useRef()
+  return (
+    <Modal className="modal-card" show={modal} onHide={() => handler(false)} centered backdrop="static">
+      <Modal.Header>
+        <Modal.Title className='fs-5'>Pay To</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className='my-4'>
+        <form onSubmit={payForm.handleSubmit} noValidate>
+          <div>
+            <div className="input_field">
+              <p className="get-text fs-6 mb-1">Pay ID<span style={{ color: 'red' }} >*</span></p>
+              <input
+                type="text"
+                maxLength="25"
+                {...payForm.getFieldProps("pay_id")}
+                placeholder='Enter Your Pay ID'
+                className={clsx(
+                  'form-control mx-2 w-75',
+                  { 'is-invalid': payForm.touched.pay_id && payForm.errors.pay_id },
+                  {
+                    'is-valid': payForm.touched.pay_id && !payForm.errors.pay_id
+                  }
+                )}
+              />
+              {payForm.touched.pay_id && payForm.errors.pay_id && (
+                <div className='fv-plugins-message-container small mx-2 mt-1'>
+                  <div className='fv-help-block'>
+                    <span role='alert' className="text-danger">{payForm.errors.pay_id}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+            <button type="submit" ref={payIdRef} style={{ display: "none" }}>submit</button>
+          </div>
+        </form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={() => handler(false)} >
+          Cancel
+        </Button>
+        <Button type="click" variant="primary" onClick={() => payIdRef.current.click()}>
+          Continue
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  )
+}
 export default PaymentDetails

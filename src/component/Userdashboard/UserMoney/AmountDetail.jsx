@@ -140,7 +140,6 @@ const AmountDetail = ({ handleStep, step }) => {
         var decimalIndex = data.indexOf('.');
 
         if (/^\d*\.?\d{0,2}$/.test(data)) {
-            console.log("sadsadqe2q", event.target)
             formik.setFieldValue('send_amt', data);
             formik.setFieldTouched('send_amt', true);
             setAmtDetail({ ...amt_detail, send_amt: data });
