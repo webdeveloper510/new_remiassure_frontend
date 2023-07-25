@@ -704,9 +704,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <button type="button" className="start-form-button full-col" onClick={() => handleCancel()}>Cancel</button>
             </div>
             <div className="col-md-8 full-col">
-
-              <button type="button" className="form-button" onClick={() => { handlePrevious() }}>Previous</button>
               <button type="submit" className="form-button">Continue</button>
+              <button type="button" className="form-button" onClick={() => { handlePrevious() }}>Previous</button>
             </div>
           </div>
         </div>

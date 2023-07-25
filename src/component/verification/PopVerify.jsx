@@ -195,6 +195,14 @@ const PopVerify = ({ handler, close, phone, new_mobile }) => {
                         }
                     </NavLink>
                     <div className="text-center pt-3 Verify_pop">
+
+                        <button variant="primary"
+                            type="button"
+                            onClick={(e) => { close() }}
+                            className="cancel_button "
+                        >
+                            Cancel
+                        </button>
                         <button variant="primary"
                             type="submit"
                             className="continue_button"
@@ -208,13 +216,6 @@ const PopVerify = ({ handler, close, phone, new_mobile }) => {
                                     </div>
                                 </> : <></>
                             }
-                        </button>
-                        <button variant="primary"
-                            type="button"
-                            onClick={(e) => { close() }}
-                            className="cancel_button "
-                        >
-                            Cancel
                         </button>
                     </div>
                 </form>
