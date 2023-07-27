@@ -14,7 +14,7 @@ import PopVerify from '../../verification/PopVerify'
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import clsx from 'clsx'
-import { ZaiDashPayId, ZaiDashPayTo, userProfile } from '../../../utils/Api'
+import { ZaiDashPayId, ZaiDashPayTo, userProfile, verifyPayId, verifyPayTo } from '../../../utils/Api'
 
 const PaymentDetails = ({ handleStep, step }) => {
 
@@ -28,6 +28,7 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [open_modal, setOpenModal] = useState(false)
   const [is_otp_verified, setIsOtpVerfied] = useState(false)
   const [error, setError] = useState(false)
+  const [message, setMessage] = useState("")
   const payRef = useRef(null)
   const navigate = useNavigate()
   const [transaction, setTransaction] = useState({ id: "", status: "", amount: "", curr: "", pay_id: "" })
@@ -49,8 +50,10 @@ const PaymentDetails = ({ handleStep, step }) => {
     if (e.target.name === "reason") {
       if (e.target.value === "none") {
         setError(true)
+        setMessage("Please select a valid reason")
       } else {
         setError(false)
+        setMessage("")
       }
       setData({ ...data, reason: e.target.value })
     } else {
@@ -68,7 +71,8 @@ const PaymentDetails = ({ handleStep, step }) => {
         setPayToModal(true)
       }
     } else {
-      toast.error("please provide a reason for transfer", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+      setError(true)
+      setMessage("Please select a valid reason")
     }
   }
 
@@ -149,6 +153,7 @@ const PaymentDetails = ({ handleStep, step }) => {
         if (data.payment_type === "PayByID") {
           d.pay_id = pay_id_data.id
           ZaiDashPayId(d).then(res => {
+            console.log("paybyid", res)
             if (res.code == "200") {
               localStorage.removeItem("transfer_data")
               if (localStorage.getItem("send-step")) {
@@ -157,16 +162,27 @@ const PaymentDetails = ({ handleStep, step }) => {
               setIsOtpVerfied(false)
               setLoader(false)
               setTransaction({ id: res.data.transaction_id, pay_id: res.data.payment_id, status: "Pending", amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+            } else {
+              setLoader(false)
+              setIsOtpVerfied(false)
+              toast.error(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
+              localStorage.removeItem("transfer_data")
+              if (localStorage.getItem("send-step")) {
+                localStorage.removeItem("send-step")
+              }
+              setTimeout(() => {
+                window.location.reload()
+              }, 3 * 1000)
             }
-            setLoader(false)
           }).catch((err) => {
+            console.log(err)
             setLoader(false)
             setIsOtpVerfied(false)
+            toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
             localStorage.removeItem("transfer_data")
             if (localStorage.getItem("send-step")) {
               localStorage.removeItem("send-step")
             }
-            toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
             setTimeout(() => {
               window.location.reload()
             }, 3 * 1000)
@@ -174,6 +190,7 @@ const PaymentDetails = ({ handleStep, step }) => {
         } else {
           d.pay_id = pay_to_data.id
           ZaiDashPayTo(d).then(res => {
+            console.log(res)
             if (res.code == "200") {
               localStorage.removeItem("transfer_data")
               if (localStorage.getItem("send-step")) {
@@ -182,16 +199,29 @@ const PaymentDetails = ({ handleStep, step }) => {
               setIsOtpVerfied(false)
               setLoader(false)
               setTransaction({ id: res.data.transaction_id, pay_id: res.data.payment_id, status: "Pending", amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+            } else {
+              setLoader(false)
+              setIsOtpVerfied(false)
+              toast.error(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
+              localStorage.removeItem("transfer_data")
+              if (localStorage.getItem("send-step")) {
+                localStorage.removeItem("send-step")
+              }
+              setTimeout(() => {
+                window.location.reload()
+              }, 3 * 1000)
             }
             setLoader(false)
           }).catch((err) => {
+            console.log(err)
+
             setLoader(false)
             setIsOtpVerfied(false)
+            toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
             localStorage.removeItem("transfer_data")
             if (localStorage.getItem("send-step")) {
               localStorage.removeItem("send-step")
             }
-            toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
             setTimeout(() => {
               window.location.reload()
             }, 3 * 1000)
@@ -235,7 +265,7 @@ const PaymentDetails = ({ handleStep, step }) => {
           if (localStorage.getItem("send-step")) {
             localStorage.removeItem("send-step")
           }
-          toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+          toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
           setTimeout(() => {
             window.location.reload()
           }, 3 * 1000)
@@ -324,6 +354,11 @@ const PaymentDetails = ({ handleStep, step }) => {
                         <option value="Travel Payment">Travel Payment</option>
                         <option value="Utility Payment">Utility Payment</option>
                       </select>
+                    </div>
+                    <div className='fv-plugins-message-container mt-1'>
+                      <div className='fv-help-block'>
+                        <span role='alert' className="text-danger">{message}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -461,9 +496,17 @@ const PayIDModal = ({ modal, handler, setData, otp }) => {
       pay_id: Yup.string().required("Pay Id is required")
     }),
     onSubmit: async (values) => {
-      handler(false)
-      setData(values.pay_id)
-      otp(true)
+      verifyPayId({ pay_id: values.pay_id }).then((res) => {
+        if (res.code === "200") {
+          handler(false)
+          setData(values.pay_id)
+          otp(true)
+        } else {
+          payForm.setErrors({ pay_id: res.message })
+        }
+      }).catch(() => {
+        toast.error("Invalid Pay ID", { autoClose: 2000, position: "bottom-right", hideProgressBar: true })
+      })
     }
   })
 
@@ -480,7 +523,7 @@ const PayIDModal = ({ modal, handler, setData, otp }) => {
               <p className="get-text fs-6 mb-1">Pay ID<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
-                maxLength="25"
+                maxLength="40"
                 {...payForm.getFieldProps("pay_id")}
                 placeholder='Enter Your Pay ID'
                 className={clsx(
@@ -524,9 +567,17 @@ const PayToModal = ({ modal, handler, setData, otp }) => {
       pay_id: Yup.string().required("Pay Id is required")
     }),
     onSubmit: async (values) => {
-      handler(false)
-      otp(true)
-      setData(values.pay_id)
+      verifyPayTo({ pay_id: values.pay_id }).then((res) => {
+        if (res.code === "200") {
+          handler(false)
+          setData(values.pay_id)
+          otp(true)
+        } else {
+          payForm.setErrors({ pay_id: res.message })
+        }
+      }).catch(() => {
+        toast.error("Invalid Pay ID", { autoClose: 2000, position: "bottom-right", hideProgressBar: true })
+      })
     }
   })
 
@@ -543,7 +594,7 @@ const PayToModal = ({ modal, handler, setData, otp }) => {
               <p className="get-text fs-6 mb-1">Pay ID<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
-                maxLength="25"
+                maxLength="40"
                 {...payForm.getFieldProps("pay_id")}
                 placeholder='Enter Your Pay ID'
                 className={clsx(

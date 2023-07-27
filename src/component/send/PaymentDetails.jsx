@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router'
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import clsx from 'clsx'
+import { verifyPayId, verifyPayTo } from '../../utils/Api'
 
 const PaymentDetails = ({ handleStep, step }) => {
 
@@ -194,16 +195,23 @@ const PayIDModal = ({ modal, method, handler, handleStep, step }) => {
       pay_id: Yup.string().required("Pay Id is required")
     }),
     onSubmit: async (values) => {
-      handler(false)
-      const local = JSON.parse(localStorage.getItem("transfer_data"))
-      local.payment = { pay_id: values.pay_id, payment_type: method }
-      localStorage.removeItem("transfer_data")
-      localStorage.setItem("transfer_data", JSON.stringify(local))
-      if (localStorage.getItem("send-step")) {
-        localStorage.removeItem("send-step")
-      }
-      localStorage.setItem("send-step", Number(step) + 1)
-      handleStep(Number(step) + 1)
+      verifyPayId({ pay_id: values.pay_id }).then(res => {
+        if (res.code === "200") {
+          handler(false)
+          const local = JSON.parse(localStorage.getItem("transfer_data"))
+          local.payment = { pay_id: values?.pay_id, payment_type: method }
+          localStorage.removeItem("transfer_data")
+          localStorage.setItem("transfer_data", JSON.stringify(local))
+          if (localStorage.getItem("send-step")) {
+            localStorage.removeItem("send-step")
+          }
+          localStorage.setItem("send-step", Number(step) + 1)
+          handleStep(Number(step) + 1)
+        } else {
+          payForm.setErrors({ pay_id: res.message })
+          // toast.error("Invalid Pay ID", { autoClose: 2000, position: "bottom-right", hideProgressBar: true })
+        }
+      })
     }
   })
 
@@ -220,7 +228,7 @@ const PayIDModal = ({ modal, method, handler, handleStep, step }) => {
               <p className="get-text fs-6 mb-1">Pay ID<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
-                maxLength="25"
+                maxLength="40"
                 {...payForm.getFieldProps("pay_id")}
                 placeholder='Enter Your Pay ID'
                 className={clsx(
@@ -264,16 +272,22 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
       pay_id: Yup.string().required("Pay Id is required")
     }),
     onSubmit: async (values) => {
-      handler(false)
-      const local = JSON.parse(localStorage.getItem("transfer_data"))
-      local.payment = { pay_id: values.pay_id, payment_type: method }
-      localStorage.removeItem("transfer_data")
-      localStorage.setItem("transfer_data", JSON.stringify(local))
-      if (localStorage.getItem("send-step")) {
-        localStorage.removeItem("send-step")
-      }
-      localStorage.setItem("send-step", Number(step) + 1)
-      handleStep(Number(step) + 1)
+      verifyPayTo({ pay_id: values.pay_id }).then(res => {
+        if (res.code === "200") {
+          handler(false)
+          const local = JSON.parse(localStorage.getItem("transfer_data"))
+          local.payment = { pay_id: values?.pay_id, payment_type: method }
+          localStorage.removeItem("transfer_data")
+          localStorage.setItem("transfer_data", JSON.stringify(local))
+          if (localStorage.getItem("send-step")) {
+            localStorage.removeItem("send-step")
+          }
+          localStorage.setItem("send-step", Number(step) + 1)
+          handleStep(Number(step) + 1)
+        } else {
+          payForm.setErrors({ pay_id: res.message })
+        }
+      })
     }
   })
 
@@ -290,7 +304,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
               <p className="get-text fs-6 mb-1">Pay ID<span style={{ color: 'red' }} >*</span></p>
               <input
                 type="text"
-                maxLength="25"
+                maxLength="40"
                 {...payForm.getFieldProps("pay_id")}
                 placeholder='Enter Your Pay ID'
                 className={clsx(
@@ -304,7 +318,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
               {payForm.touched.pay_id && payForm.errors.pay_id && (
                 <div className='fv-plugins-message-container small mx-2 mt-1'>
                   <div className='fv-help-block'>
-                    <span role='alert' className="text-danger">{payForm.errors.pay_id}</span>
+                    <span role='alert' className="text-danger fw-bolder">{payForm.errors.pay_id}</span>
                   </div>
                 </div>
               )}

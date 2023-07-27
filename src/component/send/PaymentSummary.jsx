@@ -136,13 +136,20 @@ const PaymentSummary = ({ handleStep, step }) => {
             }
             localStorage.removeItem("transfer_data")
             setModalView(true)
-            // setTimeout(() => {
-            //   navigate("/dashboard")
-            // }, 10 * 1000)
           } else if (res.code == "400") {
-            toast.error(res.message[0], { position: "bottom-right", hideProgressBar: true })
+            toast.error(res.message, { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
             setLoader(false)
+            setTimeout(() => {
+              window.location.reload()
+            }, 3 * 1000)
+          } else {
+            toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
+            setLoader(false)
+            setTimeout(() => {
+              window.location.reload()
+            }, 3 * 1000)
           }
+          setLoader(false)
 
         }).catch(error => {
           console.log("error", error)
@@ -165,13 +172,20 @@ const PaymentSummary = ({ handleStep, step }) => {
             }
             localStorage.removeItem("transfer_data")
             setModalView(true)
-            // setTimeout(() => {
-            //   navigate("/dashboard")
-            // }, 10 * 1000)
           } else if (res.code == "400") {
-            toast.error(res.message[0], { position: "bottom-right", hideProgressBar: true })
+            toast.error(res.message, { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
             setLoader(false)
+            setTimeout(() => {
+              window.location.reload()
+            }, 3 * 1000)
+          } else {
+            toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
+            setLoader(false)
+            setTimeout(() => {
+              window.location.reload()
+            }, 3 * 1000)
           }
+          setLoader(false)
 
         }).catch(error => {
           console.log("error", error)
@@ -349,9 +363,9 @@ const PaymentSummary = ({ handleStep, step }) => {
             <button className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
           </div>
           <div className="col-md-8 half-col">
-          
-              <button className="form-button" onClick={() => setOpenModal(true)}>Continue</button>
-           
+
+            <button className="form-button" onClick={() => setOpenModal(true)}>Continue</button>
+
           </div>
         </div>
         {loader ? <>

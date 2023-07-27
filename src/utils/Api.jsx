@@ -273,8 +273,10 @@ export const ZaiPayId = (data) => {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
+    console.log(res)
     return res.data
   }).catch(err => {
+    console.log(err)
     return err
   })
   return response
@@ -287,8 +289,10 @@ export const ZaiPayTo = (data) => {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
+    console.log(res)
     return res.data
   }).catch(err => {
+    console.log(err)
     return err
   })
   return response
@@ -301,8 +305,10 @@ export const ZaiDashPayTo = (data) => {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
+    console.log(res)
     return res.data
   }).catch(err => {
+    console.log(err)
     return err
   })
   return response
@@ -315,8 +321,44 @@ export const ZaiDashPayId = (data) => {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
+    console.log(res)
     return res.data
   }).catch(err => {
+    console.log(err)
+    return err
+  })
+  return response
+}
+
+export const verifyPayId = (data) => {
+  console.log(data, localStorage.getItem("token"))
+  const response = Axios.post(`/payment/zai-payid-check/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    console.log(res)
+    return res.data
+  }).catch(err => {
+    console.log(err)
+    return err
+  })
+  return response
+}
+
+export const verifyPayTo = (data) => {
+  console.log(data, localStorage.getItem("token"))
+  const response = Axios.post(`/payment/zai-payto-check/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    console.log(res)
+    return res.data
+  }).catch(err => {
+    console.log(err)
     return err
   })
   return response
