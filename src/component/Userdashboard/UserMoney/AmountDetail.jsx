@@ -128,9 +128,13 @@ const AmountDetail = ({ handleStep, step }) => {
                     setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
                 }
                 setLoader(false)
+                setBlurOff(true)
+
             })
             .catch(function (error, message) {
                 setLoader(false)
+                setBlurOff(true)
+
             })
     }
 
@@ -149,9 +153,13 @@ const AmountDetail = ({ handleStep, step }) => {
                     setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
                 }
                 setLoader(false)
+                setBlurOff(true)
+
             })
             .catch(function (error, message) {
                 setLoader(false)
+                setBlurOff(true)
+
             })
     }
     const handleCancel = () => {

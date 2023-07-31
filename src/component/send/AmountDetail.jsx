@@ -128,9 +128,12 @@ const AmountDetail = ({ handleStep, step }) => {
                     formik.setFieldValue("exchange_amt", response.amount)
                     setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
                 }
+                setBlurOff(true)
                 setLoader(false)
             })
             .catch(function (error, message) {
+                setBlurOff(true)
+
                 setLoader(false)
             })
     }
@@ -149,9 +152,13 @@ const AmountDetail = ({ handleStep, step }) => {
                     setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
                 }
                 setLoader(false)
+                setBlurOff(true)
+
             })
             .catch(function (error, message) {
                 setLoader(false)
+                setBlurOff(true)
+
             })
     }
     const handleClear = () => {

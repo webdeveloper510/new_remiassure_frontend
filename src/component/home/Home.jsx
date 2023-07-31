@@ -290,11 +290,14 @@ const Home = () => {
                 if (formik.values.send_amt != 0) {
                     formik.setFieldValue("exchange_amt", response.amount)
                     setData({ ...data, exchange_amt: response.amount })
+                    setBlurOff(true)
                 }
                 setLoading(false)
             })
             .catch(function (error, message) {
                 setLoading(false)
+                setBlurOff(true)
+
             })
     }
 
@@ -312,11 +315,15 @@ const Home = () => {
                 if (formik.values.send_amt != 0) {
                     formik.setFieldValue("exchange_amt", response.amount)
                     setData({ ...data, exchange_amt: response.amount })
+                    setBlurOff(true)
+
                 }
                 setLoading(false)
             })
             .catch(function (error, message) {
                 setLoading(false)
+                setBlurOff(true)
+
             })
     }
 
