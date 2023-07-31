@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { Links, NavLink, Navigate, useNavigate } from 'react-router-dom';
 import CountryDropdown from 'country-dropdown-with-flags-for-react';
 import { toast } from "react-toastify";
-import  global  from "../../utils/global";
+import global from "../../utils/global";
 import axios from "axios";
 import UserRecipient from "../Userdashboard/UserRecipient";
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
@@ -163,7 +163,7 @@ const Addnewcard = () => {
   return (
     <>
       {
-        userdt?.digital_id_verified && token? (
+        userdt?.digital_id_verified && token ? (
           <div className="margin-set">
             <div className="tabs-page">
               <Sidebar />
@@ -348,7 +348,7 @@ const Addnewcard = () => {
                           </div>
                           <div className="col-md-4">
                             <Form.Group className="form_label" controlId="Firstname">
-                              <p className="get-text">Street</p>
+                              <p className="get-text">Street Name</p>
                               <Form.Control
                                 type="text"
                                 className='rate_input form-control'
@@ -419,7 +419,7 @@ const Addnewcard = () => {
                                 value={countryValue}
                                 onChange={changeHandler}
                               />
-                        
+
                             </Form.Group>
                           </div>
                           <div className="col-md-4">

@@ -727,7 +727,7 @@ const Profile = () => {
                       </div>
                       <div className="col-md-4 mb-3">
                         <Form.Group className="form_label" controlId="street">
-                          <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
+                          <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
                           <input
                             type="text"
                             name="street"

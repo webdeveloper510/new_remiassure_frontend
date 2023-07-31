@@ -546,7 +546,7 @@ const Editrecipientuser = () => {
                     <div className="row each-row remove_mb">
                       <div className="col-md-4 mb-3" id="street">
                         <Form.Group className="form_label" >
-                          <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
+                          <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
                           <input
                             type="text"
                             name="street"

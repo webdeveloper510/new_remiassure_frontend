@@ -4,13 +4,11 @@ import { useFormik } from 'formik';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { exchangeRate } from '../../utils/Api';
-import { useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 
 const AmountDetail = ({ handleStep, step }) => {
 
     const [loader, setLoader] = useState(false)
-    const locationState = useLocation().state
     const [exch_rate, setExchRate] = React.useState("");
     const [amt_detail, setAmtDetail] = useState({
         send_amt: "",
@@ -23,6 +21,7 @@ const AmountDetail = ({ handleStep, step }) => {
 
     const curr_out = ["USD", "NGN", "GHC", "KHS", "PHP", "THB", "VND"]
 
+    const [blur_off, setBlurOff] = useState(false)
 
     const amtSchema = Yup.object().shape({
         send_amt: Yup.string()
@@ -54,7 +53,7 @@ const AmountDetail = ({ handleStep, step }) => {
                 if (localStorage.getItem("transfer_data")) {
                     local = JSON.parse(localStorage.getItem("transfer_data"))
                 }
-                local.amount = { ...values, rates: exch_rate }
+                local.amount = { ...values, exchange_rate: exch_rate }
 
                 localStorage.setItem("transfer_data", JSON.stringify(local))
                 if (localStorage.getItem("send-step")) {
@@ -69,69 +68,48 @@ const AmountDetail = ({ handleStep, step }) => {
     const myTotalAmount = (event) => {
 
         event.preventDefault();
-        if (event.target.value > 0)
+        if (event.target.value.length > 0) {
             setLoader(true)
-        exchangeRate({ amount: event.target.value, from: formik.values.from_type, to: formik.values.to_type })
-            .then(function (response) {
-                setLoader(false)
-                setExchRate(response.rate)
-                formik.setFieldValue("exchange_amt", response.amount)
-                setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
-            })
-            .catch(function (error, message) {
-                setLoader(false)
-
-            })
+            exchangeRate({ amount: event.target.value !== 0 ? event.target.value : "1", from: formik.values.from_type, to: formik.values.to_type })
+                .then(function (response) {
+                    setLoader(false)
+                    setExchRate(response.rate)
+                    formik.setFieldValue("exchange_amt", response.amount)
+                    setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+                    setBlurOff(true)
+                })
+                .catch(function (error, message) {
+                    setLoader(false)
+                    setBlurOff(true)
+                })
+        } else {
+            formik.setFieldValue("exchange_amt", "")
+            setAmtDetail({ ...amt_detail, exchange_amt: "" })
+            setBlurOff(true)
+        }
     }
 
-    // const inputvalidation = (event) => {
-    //     var data = event.target.value;
-    //     var decimalIndex = data.indexOf('.');
 
-    //     if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46 || event.charCode === 0) {
-    //         if (decimalIndex > -1) {
-    //             // Check if the user is trying to enter more than 2 digits after the decimal point
-    //             if (data.length - decimalIndex > 2) { // +1 to account for the decimal point itself
-    //                 event.preventDefault();
-    //             } else if (event.charCode === 46) {
-    //                 event.preventDefault();
-    //             } else {
-    //                 formik.setFieldValue('send_amt', event.target.value);
-    //                 formik.setFieldTouched('send_amt', true);
-    //                 setAmtDetail({ ...amt_detail, send_amt: event.target.value })
-    //             }
-    //         } else {
-    //             // If there is no decimal point yet, allow input
-    //             formik.setFieldValue('send_amt', event.target.value);
-    //             formik.setFieldTouched('send_amt', true);
-    //             setAmtDetail({ ...amt_detail, send_amt: event.target.value })
-    //         }
-    //     } else {
-    //         event.preventDefault();
-    //     }
-    // }
     const inputvalidation = (event) => {
-        // console.log(event.target)
         var data = event.target.value;
-        var decimalIndex = data.indexOf('.');
-
         if (/^\d*\.?\d{0,2}$/.test(data)) {
-            // console.log("sadsadqe2q", event.target)
             formik.setFieldValue('send_amt', data);
             formik.setFieldTouched('send_amt', true);
             setAmtDetail({ ...amt_detail, send_amt: data });
+            setBlurOff(false)
         } else {
             event.preventDefault();
         }
     };
 
     const amountDown = (e) => {
-        if ((e.key === "Enter" || e.key === "Tab" || e.key === 'Shift') && e.target.value !== ".") {
-            myTotalAmount(e)
+        if (e.key === "Enter") {
+            amountBlur(e)
         }
     }
+
     const amountBlur = (e) => {
-        if (e.target.value !== ".") {
+        if (e.target.value !== "." && blur_off === false) {
             myTotalAmount(e)
         }
     }
@@ -207,20 +185,15 @@ const AmountDetail = ({ handleStep, step }) => {
     }
 
     useEffect(() => {
+
         if (localStorage.getItem("transfer_data")) {
             let tdata = JSON.parse(localStorage.getItem("transfer_data"))
             if (tdata?.amount) {
                 setAmtDetail(tdata?.amount)
                 formik.setValues({ ...tdata?.amount })
-                setExchRate(tdata?.amount?.rates)
+                setExchRate(tdata?.amount?.exchange_rate)
             }
-        } else if (locationState) {
-            let data = locationState
-            setAmtDetail({ ...amt_detail, from_type: data.from_type, to_type: data.to_type, send_amt: data.send_amt, exchange_amt: data.exchange_amt })
-            setExchRate(data.exch_rate)
-            formik.setValues({ ...formik.values, from_type: data.from_type, to_type: data.to_type, send_amt: data.send_amt, exchange_amt: data.exchange_amt })
-        }
-        else {
+        } else {
             let data = JSON.parse(localStorage.getItem("exchange_curr"))
             setAmtDetail({ ...amt_detail, from_type: data.from_type, to_type: data.to_type })
             setExchRate(data.exch_rate)

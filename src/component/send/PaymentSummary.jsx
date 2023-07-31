@@ -34,7 +34,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       send_amount: local?.amount?.send_amt,
       to: local?.amount?.to_type,
       from: local?.amount?.from_type,
-      rates: local?.amount?.rates,
+      rates: local?.amount?.exchange_rate,
       recieve_amount: local?.amount?.exchange_amt,
       account_name: local?.recipient?.acc_name,
       account_number: local?.recipient?.acc_no,
@@ -101,7 +101,7 @@ const PaymentSummary = ({ handleStep, step }) => {
           send_method: "zai",
           receive_method: local?.amount?.recieve_meth,
           reason: local?.recipient?.reason,
-          exchange_rate: local?.amount?.rates
+          exchange_rate: local?.amount?.exchange_rate
         }
       }
       if (data.sender.Middle_name === "" || data.sender.Middle_name === undefined || data.sender.Middle_name === null) {
@@ -246,7 +246,7 @@ const PaymentSummary = ({ handleStep, step }) => {
           receive_method: local?.amount?.recieve_meth,
           reason: local?.recipient?.reason,
           card_token: local?.payment?.token?.id,
-          exchange_rate: local?.amount?.rates
+          exchange_rate: local?.amount?.exchange_rate
         }
       }
       userCharge(data).then((res) => {

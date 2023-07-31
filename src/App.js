@@ -34,8 +34,6 @@ const App = () => {
       left: 0,
       behavior: "smooth"
     })
-    if (localStorage.getItem("send-step")) { localStorage.removeItem("send-step") }
-    if (localStorage.getItem("transfer_data")) { localStorage.removeItem("transfer_data") }
     const p = location.pathname.split("/")
     setPath(p[1])
 

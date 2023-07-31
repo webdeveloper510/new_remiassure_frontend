@@ -122,16 +122,24 @@ const Home = () => {
 
     const curr_out = ["USD", "NGN", "GHC", "KHS", "PHP", "THB", "VND"]
 
-
+    const [blur_off, setBlurOff] = useState(false)
 
 
     useEffect(() => {
-        exchangeRate({ amount: "1", from: "AUD", to: "USD" }).then(res => {
-            setTotal_rates(res.rate)
-            localStorage.removeItem("exchange_curr")
-            let obj = { send_amt: "1", from_type: "AUD", to_type: "USD", exchange_amt: res.amount, exch_rate: res.rate }
+        if (localStorage.getItem("transfer_data")) {
+            const tdata = JSON.parse(localStorage.getItem("transfer_data"))
+            formik.setValues({ send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, recieve_meth: tdata?.amount?.recieve_meth, exchange_amt: tdata?.amount?.exchange_amt })
+            setTotal_rates(tdata?.amount?.exchange_rate)
+            let obj = { send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, exchange_amt: tdata?.amount?.exchange_amt, exch_rate: tdata?.amount?.exchange_rate }
             localStorage.setItem("exchange_curr", JSON.stringify(obj))
-        })
+        } else {
+            exchangeRate({ amount: "1", from: "AUD", to: "USD" }).then(res => {
+                setTotal_rates(res.rate)
+                localStorage.removeItem("exchange_curr")
+                let obj = { send_amt: "1", from_type: "AUD", to_type: "USD", exchange_amt: res.amount, exch_rate: res.rate }
+                localStorage.setItem("exchange_curr", JSON.stringify(obj))
+            })
+        }
     }, [])
 
 
@@ -160,36 +168,75 @@ const Home = () => {
         initialValues,
         validationSchema: amountSchema,
         onSubmit: async (values) => {
-            setLoading(true)
-            exchangeRate({ amount: values.send_amt, from: values.from_type, to: values.to_type, paymentMethod: values.recieve_meth }).then((res) => {
-                setLoading(false)
-                // localStorage.setItem("amount", data.amt1)
-                // localStorage.setItem("exchangeAmount", res.amount)
+            console.log("hello")
+            if (blur_off === false) {
+                setLoading(true)
+                exchangeRate({ amount: values.send_amt, from: values.from_type, to: values.to_type, paymentMethod: values.recieve_meth }).then((res) => {
+                    setLoading(false)
+                    if (localStorage.getItem("transfer_data")) {
+                        localStorage.removeItem("transfer_data")
+                    }
+                    localStorage.setItem("transfer_data", JSON.stringify({
+                        amount: {
+                            send_amt: values.send_amt,
+                            exchange_amt: res?.amount,
+                            from_type: values.from_type,
+                            to_type: values.to_type,
+                            recieve_meth: values.recieve_meth,
+                            payout_part: "Bank",
+                            exchange_rate: res?.rate
+                        }
+                    }))
+                    if (token) {
+                        if (userdt?.digital_id_verified) {
+
+                            navigate("/user-send-money")
+                        } else {
+                            navigate("/send-money")
+                        }
+                    } else {
+                        navigate("/login")
+                    }
+
+                }).catch((error) => {
+                    if (error.response.data.code == "400") {
+                        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+                    }
+                    setLoading(false)
+                })
+            } else {
+                if (localStorage.getItem("transfer_data")) {
+                    localStorage.removeItem("transfer_data")
+                }
+                localStorage.setItem("transfer_data", JSON.stringify({
+                    amount: {
+                        send_amt: values.send_amt,
+                        exchange_amt: values?.exchange_amt,
+                        from_type: values.from_type,
+                        to_type: values.to_type,
+                        recieve_meth: values.recieve_meth,
+                        payout_part: "Bank",
+                        exchange_rate: total_rates
+                    }
+                }))
                 if (token) {
                     if (userdt?.digital_id_verified) {
 
-                        navigate("/user-send-money", { state: { ...values, exch_rate: total_rates } })
+                        navigate("/user-send-money")
                     } else {
-
-                        navigate("/send-money", { state: { ...values, exch_rate: total_rates } })
+                        navigate("/send-money")
                     }
                 } else {
                     navigate("/login")
                 }
-            }).catch((error) => {
-                if (error.response.data.code == "400") {
-                    toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-                }
-                setLoading(false)
-            })
+            }
+
         }
     })
 
 
     const myExchangeTotalAmount = (event) => {
         event.preventDefault();
-
-        // console.log({...data, amount:event.target.value})
         let length = event.target.value.toString()
         if (length.length > 0) {
             setLoading(true);
@@ -199,80 +246,33 @@ const Home = () => {
                     formik.setFieldValue("exchange_amt", res.amount)
                     setTotal_rates(res.rate)
                     setLoading(false)
-
+                    setBlurOff(true)
                 }).catch((error) => {
-                    // console.log(error.response)
                     if (error.response.data.code == "400") {
                         toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                     }
+                    setBlurOff(true)
                     setLoading(false)
                 })
+        } else {
+            setData({ ...data, exchange_amt: "" })
+            formik.setFieldValue("exchange_amt", "")
+            setBlurOff(true)
         }
     }
 
-    // const inputvalidation = (event) => {
-    //     // console.log("dfjghfguh---------------", event.key)
-    //     // const pattern = /^[0-9.]+$/
 
-    //     // if (event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape") {
-    //     //     setData({ ...data, send_amt: event.target.value })
-    //     //     formik.setFieldValue('send_amt', event.target.value)
-    //     //     formik.setFieldTouched('send_amt', true)
-    //     // } else if (event.key === 'Backspace' || event.key === "Delete") {
-    //     //     formik.setFieldValue("exchange_amt", "")
-    //     //     formik.setFieldTouched("exchange_amt", false)
-    //     //     setData({ ...data, exchange_amt: "" })
-    //     // } else if (event.key === 'Enter') {
-    //     //     myExchangeTotalAmount(event)
-    //     // } else {
-    //     //     let value = event.target.value.toString()
-    //     //     if (value.length < 7) {
-    //     //         if (!pattern.test(event.key)) {
-    //     //             event.preventDefault();
-    //     //             event.stopPropagation()
-    //     //         } else {
-    //     //             setData({ ...data, send_amt: event.target.value })
-    //     //             formik.setFieldValue('send_amt', event.target.value)
-    //     //             formik.setFieldTouched('send_amt', true)
-    //     //         }
-    //     //     } else {
-    //     //         event.preventDefault();
-    //     //         event.stopPropagation()
-    //     //     }
-    //     // }
-    //     var data = event.target.value;
-    //     var decimalIndex = data.indexOf('.');
-
-    //     if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46 || event.charCode === 0) {
-    //         if (decimalIndex > -1) {
-    //             // Check if the user is trying to enter more than 2 digits after the decimal point
-    //             if (data.length - decimalIndex > 2) { // +1 to account for the decimal point itself
-    //                 event.preventDefault();
-    //             } else if (event.charCode === 46) {
-    //                 event.preventDefault();
-    //             } else {
-    //                 formik.setFieldValue('send_amt', event.target.value);
-    //                 formik.setFieldTouched('send_amt', true);
-    //             }
-    //         } else {
-    //             // If there is no decimal point yet, allow input
-    //             formik.setFieldValue('send_amt', event.target.value);
-    //             formik.setFieldTouched('send_amt', true);
-    //         }
-    //     } else {
-    //         event.preventDefault();
-    //     }
-    // }
 
     const inputvalidation = (event) => {
-        console.log(event.target)
+        // console.log(event.target)
         var data = event.target.value;
         var decimalIndex = data.indexOf('.');
 
         if (/^\d*\.?\d{0,2}$/.test(data)) {
-            console.log("sadsadqe2q", event.target)
+            // console.log("sadsadqe2q", event.target)
             formik.setFieldValue('send_amt', event.target.value);
             formik.setFieldTouched('send_amt', true);
+            setBlurOff(false)
         } else {
             event.preventDefault();
         }
@@ -321,13 +321,13 @@ const Home = () => {
     }
 
     const amountDown = (e) => {
-        if ((e.key === "Enter" || e.key === "Tab" || e.key === 'Shift') && e.target.value !== ".") {
-            myExchangeTotalAmount(e)
+        if ((e.key === "Enter")) {
+            amountBlur(e)
         }
     }
 
     const amountBlur = (e) => {
-        if (e.target.value !== ".") {
+        if (e.target.value !== "." && blur_off === false) {
             myExchangeTotalAmount(e)
         }
     }
@@ -337,8 +337,8 @@ const Home = () => {
 
         formik.resetForm({
             values: { send_amt: "", recieve_meth: "Bank Transfer", exchange_amt: "", from_type: "AUD", to_type: "USD" }
-
         })
+        setBlurOff(false)
         setTotal_rates(data.exch_rate)
 
     }
@@ -394,7 +394,6 @@ const Home = () => {
                                                         onChange={(e) => inputvalidation(e)}
                                                         onKeyDown={e => amountDown(e)}
                                                         maxLength={9}
-                                                        // {...formik.getFieldProps('send_amt')}
                                                         className={clsx(
                                                             'mb-3 bg-transparent form-control',
                                                             { 'is-invalid': formik.touched.send_amt && formik.errors.send_amt },
@@ -412,7 +411,6 @@ const Home = () => {
                                                         aria-label="Select a reason"
                                                         value={formik.values.from_type}
                                                         onChange={(e) => { myTotalAmountFrom(e) }}
-                                                    // {...formik.getFieldProps('from_type')}
                                                     >
                                                         <option value="AUD">AUD</option>
                                                         <option value="NZD">NZD</option>
@@ -454,7 +452,6 @@ const Home = () => {
                                                         }
                                                     </select>
                                                 </div>
-                                                {/* <span className="text-danger">{formik.errors.amount ? formik.errors.amount :""}</span> */}
                                             </div>
                                             <div className="col-4">
                                                 <p className="get-text">Receive method</p>

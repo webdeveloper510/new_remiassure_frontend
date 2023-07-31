@@ -51,8 +51,6 @@ const SendMoney = () => {
       console.log(authDashHelper('authCheck'))
       navigate("/login")
     }
-    localStorage.removeItem("send-step")
-    localStorage.removeItem("transfer_data")
     // setTimeout(() => {
     //   // console.log("time")
     //   localStorage.removeItem("send-step");
@@ -192,7 +190,7 @@ const SendMoney = () => {
                                 <tbody>
                                   <tr>
                                     {/* <th>Amount</th> */}
-                                    <td><b>Amount : </b>{amt_detail?.from_type +" "+ amt_detail?.send_amt + " ⇒ " + amt_detail?.to_type +" "+ amt_detail?.exchange_amt}</td>
+                                    <td><b>Amount : </b>{amt_detail?.from_type + " " + amt_detail?.send_amt + " ⇒ " + amt_detail?.to_type + " " + amt_detail?.exchange_amt}</td>
                                   </tr>
                                   <tr>
                                     {/* <th>Received Method</th> */}

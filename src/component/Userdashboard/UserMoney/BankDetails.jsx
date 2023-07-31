@@ -654,7 +654,7 @@ const BankDetails = ({ handleStep, step }) => {
               <div className="row each-row remove_mb">
                 <div className="col-md-4" id="street">
                   <div className="input_field">
-                    <p className="get-text">Street<span style={{ color: 'red' }} >*</span></p>
+                    <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
                     <input
                       type="text"
                       name="street"

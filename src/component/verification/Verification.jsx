@@ -100,7 +100,11 @@ const Verification = () => {
                         const user = res?.data
                         user.digital_id_verified = "true"
                         localStorage.setItem("remi-user-dt", JSON.stringify(user))
-                        navigate("/dashboard")
+                        if (localStorage.getItem("transfer_data")) {
+                            navigate("/user-send-money")
+                        } else {
+                            navigate("/dashboard")
+                        }
                     } else {
                         const user = res?.data
                         user.digital_id_verified = "false"
