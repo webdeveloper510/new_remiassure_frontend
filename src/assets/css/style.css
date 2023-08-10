@@ -3258,7 +3258,6 @@ th.popup-heading {
   border-left: 1px solid #ced4da;
   font-size: 15px;
   font-weight: 500;
-  text-transform: capitalize;
   word-wrap: break-word;
 }
 
@@ -3274,6 +3273,7 @@ th.popup-heading {
 .modal-content table tr th {
   font-weight: 600;
   font-size: 15px;
+  white-space: nowrap;
 }
 .modal-footer .btn-primary {
   background: #191970 !important;

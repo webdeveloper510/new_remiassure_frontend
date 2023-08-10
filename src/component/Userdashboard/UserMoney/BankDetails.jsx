@@ -102,8 +102,6 @@ const BankDetails = ({ handleStep, step }) => {
         delete d['postcode'];
       }
 
-      localStorage.setItem("reason", values.reason)
-
       axios.post(`${global.serverUrl}/payment/recipient-create/`, d, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,

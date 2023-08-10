@@ -8,19 +8,20 @@ import verified from '../../assets/img/userdashboard/3.png';
 import { BsCheckCircleFill } from 'react-icons/bs'
 import { toast } from 'react-toastify'
 import PopVerify from '../verification/PopVerify'
-import { ZaiPayId, ZaiPayTo, userCharge } from '../../utils/Api'
+import { ZaiPayId, ZaiPayTo, getAgreementList, userCharge } from '../../utils/Api'
 import { dataIcon } from '@progress/kendo-svg-icons'
+import { Line } from 'rc-progress';
 
 
 const PaymentSummary = ({ handleStep, step }) => {
 
   const [data, setData] = useState({
     send_amount: "", to: "", recieve_amount: "", account_number: "", account_name: "", bank_name: "",
-    total_amount: "", from: "", send_method: "", beneficiary_name: ""
+    total_amount: "", from: "", send_method: "", beneficiary_name: "", pay_id: "", bsb_code: "", sender_accno: ""
   })
 
   const [open_modal, setOpenModal] = useState(false)
-
+  const [error_modal, setErrorModal] = useState({ trigger: false, data: {} })
   const navigate = useNavigate()
   const [modalView, setModalView] = useState(false)
   const [loader, setLoader] = useState(false)
@@ -40,7 +41,10 @@ const PaymentSummary = ({ handleStep, step }) => {
       account_number: local?.recipient?.acc_no,
       bank_name: local?.recipient?.bank,
       send_method: local?.payment?.payment_type,
-      beneficiary_name: local?.recipient?.f_name + " " + local?.recipient?.l_name
+      beneficiary_name: local?.recipient?.f_name + " " + local?.recipient?.l_name,
+      pay_id: local?.payment?.pay_id ? local?.payment?.pay_id : "",
+      pay_id: local?.payment?.bsb ? local?.payment?.bsb : "",
+      pay_id: local?.payment?.acc_no ? local?.payment?.acc_no : "",
     })
 
   }, [])
@@ -48,9 +52,9 @@ const PaymentSummary = ({ handleStep, step }) => {
   const handleFinalStep = () => {
     const local = JSON.parse(localStorage.getItem("transfer_data"))
     setLoader(true)
-    if (local?.payment.hasOwnProperty("pay_id")) {
+    if (local?.payment.hasOwnProperty("pay_id") || local?.payment.hasOwnProperty("agreement_uuid")) {
       let data = {
-        pay_id: local?.payment?.pay_id,
+
         sender: {
           First_name: local?.sender?.f_name,
           Middle_name: local?.sender?.m_name,
@@ -121,6 +125,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       }
       console.log(data)
       if (local?.payment?.payment_type === "PayTo") {
+        data.agreement_uuid = local?.payment?.agreement_uuid
         ZaiPayTo(data).then((res) => {
           console.log(res)
           if (res.code === "200") {
@@ -137,11 +142,8 @@ const PaymentSummary = ({ handleStep, step }) => {
             localStorage.removeItem("transfer_data")
             setModalView(true)
           } else if (res.code == "400") {
-            toast.error(res.message, { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
             setLoader(false)
-            setTimeout(() => {
-              window.location.reload()
-            }, 3 * 1000)
+            setErrorModal({ trigger: true, data: data })
           } else {
             toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
             setLoader(false)
@@ -157,6 +159,7 @@ const PaymentSummary = ({ handleStep, step }) => {
           setLoader(false)
         })
       } else if (local?.payment?.payment_type === "PayByID") {
+        data.pay_id = local?.payment?.pay_id
         ZaiPayId(data).then((res) => {
           console.log(res)
           if (res.code === "200") {
@@ -353,7 +356,7 @@ const PaymentSummary = ({ handleStep, step }) => {
               </tr>
               <tr>
                 <td>Receiving By</td>
-                <td>{data?.send_method}</td>
+                <td>{data?.send_method === "PayByID" ? "PayID per user" : data?.send_method}</td>
               </tr>
             </tbody>
           </Table>
@@ -421,8 +424,104 @@ const PaymentSummary = ({ handleStep, step }) => {
       <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
         <PopVerify handler={handleOtpVerified} close={() => setOpenModal(false)} />
       </Modal>
+      <ErrorModal show={error_modal.trigger} data={error_modal.data} handler={(value) => setErrorModal(value)} setModalView={(value) => { setModalView(value) }} setTransaction={(value) => setTransaction(value)} />
     </>
   )
 }
+
+const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
+
+  const [bar_fill, setBarFill] = useState(0)
+  const [loader, setLoader] = useState(false)
+  var timer;
+
+  useEffect(() => {
+    console.log("hhhhh")
+    console.log("hello", bar_fill)
+    if (bar_fill <= 100 && show === true) {
+
+      setTimeout(() => {
+        setBarFill(bar_fill + 1);
+      }, 1200)
+    } else if (show === true) {
+      clearInterval(timer)
+      // handler({ trigger: false, data: {} })
+      // window.location.reload()
+    }
+  }, [bar_fill, show])
+
+  useEffect(() => {
+    let details = data
+    if (show === true) {
+      timer = setInterval(() => {
+        getAgreementList().then(res => {
+          console.log(res)
+          if (res.code === "200") {
+            if (res.data.status === "active") {
+              clearInterval(timer)
+              handler({ trigger: false, data: {} })
+              setLoader(true)
+              ZaiPayTo(details).then(res => {
+                console.log(res)
+                if (res.code === "200") {
+                  setTransaction({ status: "Pending", id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+                  localStorage.setItem("transaction_id", res?.data?.payment_id)
+                  const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+                  user.digital_id_verified = "true"
+                  localStorage.setItem("remi-user-dt", JSON.stringify(user))
+                  if (localStorage.getItem("send-step")) {
+                    localStorage.removeItem("send-step")
+                  }
+                  localStorage.removeItem("transfer_data")
+                  setModalView(true)
+                } else if (res.code === "400") {
+                  toast.error(res.message, { position: "bottom-right", hideProgressBar: true })
+                  // setTimeout(() => {
+                  //   window.location.reload()
+                  // }, 3000)
+
+                } else {
+                  toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
+                  setLoader(false)
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 3 * 1000)
+                }
+              })
+            }
+          }
+        })
+      }, 5000)
+    }
+  }, [show])
+
+  return (
+    <>
+      {
+        !loader ? (
+          <Modal show={show} backdrop="static" centered>
+            <Modal.Body className='text-center ' >
+              <div className='py-5 border'>
+                <h4 style={{ color: "#6414e9" }} className='fw-bold'>Authorization pending</h4>
+                <p className='my-3'>Please authorize your PayTo agreement on your respective banking portal.</p>
+                <div className='my-2 px-2'>
+                  <Line percent={bar_fill} strokeWidth={2} trailWidth={2} strokeColor={"#6414E9"} />
+                </div>
+                <p>Waiting time : <b>2 minutes.</b></p>
+              </div>
+            </Modal.Body>
+          </Modal>
+        ) : (
+          <div className="loader-overly">
+            <div className="loader" >
+            </div>
+          </div>
+        )
+      }
+    </>
+  )
+}
+
+
 
 export default PaymentSummary

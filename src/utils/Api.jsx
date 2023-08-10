@@ -348,8 +348,72 @@ export const verifyPayId = (data) => {
 }
 
 export const verifyPayTo = (data) => {
-  console.log(data, localStorage.getItem("token"))
   const response = Axios.post(`/payment/zai-payto-check/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    console.log(res)
+    return res.data
+  }).catch(err => {
+    console.log(err)
+    return err
+  })
+  return response
+}
+
+export const createPayId = () => {
+  const response = Axios.post(`payment/zai-payid-register/`, {}, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    console.log(res)
+    return res.data
+  }).catch(err => {
+    console.log(err)
+    return err
+  })
+  return response
+}
+
+export const createAgreement = (data) => {
+  const response = Axios.post(`payment/zai-create-agreement/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    console.log(res)
+    return res.data
+  }).catch(err => {
+    console.log(err)
+    return err
+  })
+  return response
+}
+
+export const getAgreementList = () => {
+  const response = Axios.post(`payment/zai-agreement-list/`, {}, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    console.log(res)
+    return res.data
+  }).catch(err => {
+    console.log(err)
+    return err
+  })
+  return response
+
+}
+
+export const updateAgreement = (data) => {
+  const response = Axios.post(`payment/zai-update-agreement/`, data, {
     headers: {
       'Content-Type': 'application/json',
       "Authorization": `Bearer ${localStorage.getItem("token")}`,

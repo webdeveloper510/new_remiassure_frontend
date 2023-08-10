@@ -120,14 +120,14 @@ const Home = () => {
     const [total_rates, setTotal_rates] = useState('');
     const navigate = useNavigate();
 
-    const curr_out = ["USD", "NGN", "GHC", "KHS", "PHP", "THB", "VND"]
+    const curr_out = ["USD", "NGN", "GHS", "KES", "PHP", "THB", "VND"]
 
     const [blur_off, setBlurOff] = useState(false)
 
 
     useEffect(() => {
-        if (localStorage.getItem("transfer_data")) {
-            const tdata = JSON.parse(localStorage.getItem("transfer_data"))
+        if (localStorage.getItem("conversion_data")) {
+            const tdata = JSON.parse(localStorage.getItem("conversion_data"))
             formik.setValues({ send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, recieve_meth: tdata?.amount?.recieve_meth, exchange_amt: tdata?.amount?.exchange_amt })
             setTotal_rates(tdata?.amount?.exchange_rate)
             let obj = { send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, exchange_amt: tdata?.amount?.exchange_amt, exch_rate: tdata?.amount?.exchange_rate }
@@ -187,6 +187,17 @@ const Home = () => {
                             exchange_rate: res?.rate
                         }
                     }))
+                    localStorage.setItem("conversion_data", JSON.stringify({
+                        amount: {
+                            send_amt: values.send_amt,
+                            exchange_amt: res?.amount,
+                            from_type: values.from_type,
+                            to_type: values.to_type,
+                            recieve_meth: values.recieve_meth,
+                            payout_part: "Bank",
+                            exchange_rate: res?.rate
+                        }
+                    }))
                     if (token) {
                         if (userdt?.digital_id_verified) {
 
@@ -209,6 +220,17 @@ const Home = () => {
                     localStorage.removeItem("transfer_data")
                 }
                 localStorage.setItem("transfer_data", JSON.stringify({
+                    amount: {
+                        send_amt: values.send_amt,
+                        exchange_amt: values?.exchange_amt,
+                        from_type: values.from_type,
+                        to_type: values.to_type,
+                        recieve_meth: values.recieve_meth,
+                        payout_part: "Bank",
+                        exchange_rate: total_rates
+                    }
+                }))
+                localStorage.setItem("conversion_data", JSON.stringify({
                     amount: {
                         send_amt: values.send_amt,
                         exchange_amt: values?.exchange_amt,
@@ -257,6 +279,7 @@ const Home = () => {
         } else {
             setData({ ...data, exchange_amt: "" })
             formik.setFieldValue("exchange_amt", "")
+            localStorage.removeItem("conversion_data")
             setBlurOff(true)
         }
     }
@@ -346,6 +369,7 @@ const Home = () => {
             values: { send_amt: "", recieve_meth: "Bank Transfer", exchange_amt: "", from_type: "AUD", to_type: "USD" }
         })
         setBlurOff(false)
+        localStorage.removeItem("conversion_data")
         setTotal_rates(data.exch_rate)
 
     }
@@ -640,16 +664,16 @@ const Home = () => {
                                             </div>
                                         </div>
                                         <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards w-100" onClick={() => { setCurrency("GHC") }}>
+                                            <div className="d-flex currency_cards w-100" onClick={() => { setCurrency("GHS") }}>
                                                 <img src="assets/img/home/ghana.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>GHANA (GHC)</h6>
+                                                <h6>GHANA (GHS)</h6>
                                                 <img src="assets/img/home/arrow01.svg" alt="arrow01" />
                                             </div>
                                         </div>
                                         <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("KHS") }}>
+                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("KES") }}>
                                                 <img src="assets/img/home/kenya.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>KENYA (KHS)</h6>
+                                                <h6>KENYA (KES)</h6>
                                                 <img src="assets/img/home/arrow01.svg" alt="arrow01" />
                                             </div>
                                         </div>

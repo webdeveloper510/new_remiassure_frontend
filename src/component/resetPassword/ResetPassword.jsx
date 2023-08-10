@@ -22,7 +22,7 @@ const RecentPassword = () => {
 
     const loginSchema = Yup.object().shape({
         reset_password_otp: Yup.string().length(6, "O.T.P must be of 6 digits")
-            .required('required'),
+            .required('O.T.P is required'),
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirm_password: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
     })
@@ -60,6 +60,16 @@ const RecentPassword = () => {
         },
     })
 
+    const handleChange = (event) => {
+        const regex = /^[0-9]*$/;
+        let userInput = event.target.value;
+        if (!regex.test(userInput)) {
+            const filteredInput = userInput.replace(/[^0-9]/g, '');
+            userInput = filteredInput
+        }
+        formik.setFieldValue(event.target.name, userInput)
+    }
+
 
     return (
         <>
@@ -80,8 +90,9 @@ const RecentPassword = () => {
                                                             type="text"
                                                             placeholder="Enter Reset password otp"
                                                             name="reset_password_otp"
-                                                            autoComplete="off"
-                                                            {...formik.getFieldProps("reset_password_otp")}
+                                                            value={formik.values.reset_password_otp}
+                                                            onChange={handleChange}
+                                                            onBlur={formik.handleBlur}
                                                             maxLength="6"
                                                             className={clsx(
                                                                 'form-control bg-transparent',

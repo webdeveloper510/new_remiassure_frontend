@@ -22,7 +22,7 @@ const AmountDetail = ({ handleStep, step }) => {
         payout_part: "Bank"
     })
 
-    const curr_out = ["USD", "NGN", "GHC", "KHS", "PHP", "THB", "VND"]
+    const curr_out = ["USD", "NGN", "GHS", "KES", "PHP", "THB", "VND"]
 
     const [blur_off, setBlurOff] = useState(false)
 
@@ -234,6 +234,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                     <select
                                         aria-label="Select a reason"
                                         onChange={(e) => { myTotalAmountFrom(e) }}
+                                        value={formik.values.to_type}
                                         // {...formik.getFieldProps('from_type')}
                                         className='mb-3 bg-transparent form-control form-select rate_input '
                                     >
@@ -249,6 +250,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         aria-label="Select a reason"
                                         className="mb-3 bg-transparent form-control form-select rate_input"
                                         onChange={(e) => { myTotalAmountTo(e) }}
+                                        value={formik.values.to_type}
                                     // {...formik.getFieldProps('to_type')}
                                     >
                                         {

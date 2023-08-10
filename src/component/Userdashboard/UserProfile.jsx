@@ -148,7 +148,9 @@ const Profile = () => {
       })
       let array = array_1[0]?.states;
       setData({ ...data, state: "none", city: "none", postcode: "" })
-      array.sort((a, b) => (a.state > b.state) ? 1 : -1);
+      if (array) {
+        array.sort((a, b) => (a.state > b.state) ? 1 : -1);
+      }
       setStateList(array);
     } else if (data.country === "none") {
       setData({ ...data, city: "none", postcode: "", state: "none" })
@@ -160,7 +162,7 @@ const Profile = () => {
   }, [data.country])
 
   useEffect(() => {
-    if (data.state !== "none" && state_list.length > 0) {
+    if (data.state !== "none" && state_list && state_list.length > 0) {
       let array = state_list.filter((item) => {
         return item?.state === data?.state
       })

@@ -142,7 +142,7 @@ const SenderDetails = ({ handleStep, step }) => {
 
     script.onload = () => {
       window.digitalId.init({
-        clientId: 'ctid2poVwlVfjH2PAnWEAB2l4v',
+        clientId: 'ctid5xTkDsQVgTySwxhMpKWUTE',
         uxMode: 'popup',
         onLoadComplete: function () {
         },
