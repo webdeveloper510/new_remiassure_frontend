@@ -579,7 +579,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
             otp(true)
           }
         } else {
-          setErrors({ agreement_amount: "Transfer amount seems to be more than the limit. PLease increase the limit" })
+          setErrors({ agreement_amount: "Transfer amount seems to be more than the limit. Please increase the limit" })
         }
       } else {
         if (stage === 1) {
@@ -597,7 +597,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
           if (Number(local?.amount?.send_amt) <= Number(values.agreement_amount)) {
             setStage(3)
           } else {
-            setErrors({ agreement_amount: "Transfer amount seems to be more than the limit. PLease increase the limit" })
+            setErrors({ agreement_amount: "Transfer amount seems to be more than the limit. Please increase the limit" })
           }
         } else {
           let d = values

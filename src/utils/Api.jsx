@@ -427,3 +427,14 @@ export const updateAgreement = (data) => {
   })
   return response
 }
+
+export const getVeriffStatus = (data) => {
+  const response = Axios.post(`veriff/`, data).then(res => {
+    console.log(res)
+    return res.data
+  }).catch(err => {
+    console.log(err)
+    return err
+  })
+  return response
+}

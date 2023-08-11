@@ -6,9 +6,11 @@ import { useState } from 'react';
 import birthCountryList from 'react-select-country-list';
 import { useEffect } from 'react';
 import countryList from '../../utils/AuNz.json';
-import axios from 'axios';
-import global from '../../utils/global';
-import { toast } from 'react-toastify';
+import { createVeriffFrame, MESSAGES } from '@veriff/incontext-sdk';
+import { Veriff } from '@veriff/js-sdk';
+import { Modal } from 'react-bootstrap';
+import { getVeriffStatus } from '../../utils/Api';
+
 
 const SenderDetails = ({ handleStep, step }) => {
 
@@ -72,7 +74,8 @@ const SenderDetails = ({ handleStep, step }) => {
   })
 
 
-  const verificationValue = localStorage.getItem("DigitalCode")
+  const [isVerified, setIsVerified] = useState(false)
+  const [start_verify, setStartVerify] = useState(false)
   const { digital_id_verified } = JSON.parse(localStorage.getItem("remi-user-dt"))
   const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
@@ -130,51 +133,56 @@ const SenderDetails = ({ handleStep, step }) => {
     })
   }, [data])
 
+
+
+
   useEffect(() => {
 
-    const script = document.createElement('script');
+    // const script = document.createElement('script');
 
-    script.src = 'https://digitalid-sandbox.com/sdk/app.js';
+    // script.src = 'https://digitalid-sandbox.com/sdk/app.js';
 
-    script.async = true;
+    // script.async = true;
 
-    document.body.appendChild(script);
+    // document.body.appendChild(script);
 
-    script.onload = () => {
-      window.digitalId.init({
-        clientId: 'ctid5xTkDsQVgTySwxhMpKWUTE',
-        uxMode: 'popup',
-        onLoadComplete: function () {
-        },
-        onComplete: function (res) {
+    // script.onload = () => {
+    //   window.digitalId.init({
+    //     clientId: 'ctid5xTkDsQVgTySwxhMpKWUTE',
+    //     uxMode: 'popup',
+    //     onLoadComplete: function () {
+    //     },
+    //     onComplete: function (res) {
 
-          if (res.code != undefined || null) {
-            formik.handleSubmit()
-            axios.post(`${global.serverUrl}/digital-verification/`, { code: res.code }, {
-              headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${localStorage.getItem("token")}`
-              }
-            }).then(res => {
-              if (res?.data?.code == "200") {
-                toast.success("Digital Id successfully verified", { position: "bottom-right", hideProgressBar: true })
+    //       if (res.code != undefined || null) {
+    //         formik.handleSubmit()
+    //         axios.post(`${global.serverUrl}/digital-verification/`, { code: res.code }, {
+    //           headers: {
+    //             'Content-Type': 'application/json',
+    //             "Authorization": `Bearer ${localStorage.getItem("token")}`
+    //           }
+    //         }).then(res => {
+    //           if (res?.data?.code == "200") {
+    //             toast.success("Digital Id successfully verified", { position: "bottom-right", hideProgressBar: true })
 
-              } else {
-                toast.error("Digital Id verification failed", { position: "bottom-right", hideProgressBar: true })
-              }
-              setLoader(false)
-            }).catch((error) => {
-              toast.error("Digital Id verification failed", { position: "bottom-right", hideProgressBar: true })
-              setLoader(false)
-            })
-          }
-        },
-        onClick: function () {
-        },
-        onKeepAlive: function () {
-        }
-      });
-    }
+    //           } else {
+    //             toast.error("Digital Id verification failed", { position: "bottom-right", hideProgressBar: true })
+    //           }
+    //           setLoader(false)
+    //         }).catch((error) => {
+    //           toast.error("Digital Id verification failed", { position: "bottom-right", hideProgressBar: true })
+    //           setLoader(false)
+    //         })
+    //       }
+    //     },
+    //     onClick: function () {
+    //     },
+    //     onKeepAlive: function () {
+    //     }
+    //   });
+    // }
+
+
 
     var dtToday = new Date();
     var month = dtToday.getMonth() + 1;
@@ -263,38 +271,42 @@ const SenderDetails = ({ handleStep, step }) => {
   }
 
   return (
-    <div className="form_body">
-      <div className="header">
+    <div className="form_body" >
+      <div className="header" >
         <h1>Sender Details </h1>
       </div>
-      <form autoComplete='off' >
+      < form autoComplete='off' >
 
         {/* -------------------------first , middle , last */}
-        <div className="row each-row">
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
+        < div className="row each-row" >
+          <div className="col-md-4" >
+            <div className="input_field" >
+              <p className="get-text" > First Name < span style={{ color: 'red' }
+              } >* </span></p >
               <input
                 type="text"
                 name="f_name"
                 value={data.f_name}
                 maxLength="25"
                 onChange={handleOnlyAplha}
-                className={clsx(
-                  'form-control bg-transparent',
-                  { 'is-invalid': formik.touched.f_name && formik.errors.f_name },
-                  {
-                    'is-valid': formik.touched.f_name && !formik.errors.f_name
-                  }
-                )}
+                className={
+                  clsx(
+                    'form-control bg-transparent',
+                    {
+                      'is-invalid': formik.touched.f_name && formik.errors.f_name
+                    },
+                    {
+                      'is-valid': formik.touched.f_name && !formik.errors.f_name
+                    }
+                  )}
 
               />
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">Middle Name</p>
-              <input
+          < div className="col-md-4" >
+            <div className="input_field" >
+              <p className="get-text" > Middle Name </p>
+              < input
                 type="text"
                 name="m_name"
                 className='form-control'
@@ -304,78 +316,87 @@ const SenderDetails = ({ handleStep, step }) => {
               />
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
+          < div className="col-md-4" >
+            <div className="input_field" >
+              <p className="get-text" > Last Name < span style={{ color: 'red' }} >* </span></p >
               <input
                 type="text"
                 name="l_name"
                 value={data.l_name}
                 maxLength="25"
                 onChange={handleOnlyAplha}
-                className={clsx(
-                  'form-control bg-transparent',
-                  { 'is-invalid': formik.touched.l_name && formik.errors.l_name },
-                  {
-                    'is-valid': formik.touched.l_name && !formik.errors.l_name,
-                  }
-                )}
+                className={
+                  clsx(
+                    'form-control bg-transparent',
+                    {
+                      'is-invalid': formik.touched.l_name && formik.errors.l_name
+                    },
+                    {
+                      'is-valid': formik.touched.l_name && !formik.errors.l_name,
+                    }
+                  )}
               />
             </div>
           </div>
         </div>
 
         {/* --------------------------------dob , cob , occup */}
-        <div className="row">
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">Date of birth<span style={{ color: 'red' }} >*</span></p>
+        <div className="row" >
+          <div className="col-md-4" >
+            <div className="input_field" >
+              <p className="get-text" > Date of birth < span style={{ color: 'red' }} >* </span></p >
               <input
                 type="date"
                 name="dob"
                 value={data.dob}
                 id="dob"
                 onChange={(e) => handleChange(e)}
-                className={clsx(
-                  'form-control bg-transparent',
-                  { 'is-invalid': formik.touched.dob && formik.errors.dob },
-                  {
-                    'is-valid': formik.touched.dob && !formik.errors.dob,
-                  }
-                )}
+                className={
+                  clsx(
+                    'form-control bg-transparent',
+                    {
+                      'is-invalid': formik.touched.dob && formik.errors.dob
+                    },
+                    {
+                      'is-valid': formik.touched.dob && !formik.errors.dob,
+                    }
+                  )}
               />
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">Country of Birth<span style={{ color: 'red' }} >*</span></p>
+          < div className="col-md-4" >
+            <div className="input_field" >
+              <p className="get-text" > Country of Birth < span style={{ color: 'red' }} >* </span></p >
               <select
                 value={data.country_of_birth}
                 name="country_of_birth"
                 onChange={(e) => handleChange(e)}
-                className={clsx(
-                  'form-control form-select bg-transparent',
-                  { 'is-invalid': formik.touched.country_of_birth && formik.errors.country_of_birth },
-                  {
-                    'is-valid': formik.touched.country_of_birth && !formik.errors.country_of_birth,
-                  }
-                )}
+                className={
+                  clsx(
+                    'form-control form-select bg-transparent',
+                    {
+                      'is-invalid': formik.touched.country_of_birth && formik.errors.country_of_birth
+                    },
+                    {
+                      'is-valid': formik.touched.country_of_birth && !formik.errors.country_of_birth,
+                    }
+                  )}
               >
-                <option value="none">Select a country</option>
+                <option value="none" > Select a country </option>
                 {
                   countryOptions && countryOptions.length > 0 ?
                     countryOptions?.map((opt) => {
                       return (
-                        <option value={opt.label}>{opt.label}</option>
+                        <option value={opt.label} > {opt.label} </option>
                       )
                     }) : ""
                 }
               </select>
             </div>
           </div>
-          <div className="col-md-4">
+          < div className="col-md-4">
             <div className="input_field">
-              <p className="get-text">Occupation<span style={{ color: 'red' }} >*</span></p>
+              <p className="get-text" > Occupation < span style={{ color: 'red' }} >* </span></p >
               <input
                 type="text"
                 name="occupation"
@@ -383,62 +404,71 @@ const SenderDetails = ({ handleStep, step }) => {
                 id="occupation"
                 maxLength="50"
                 onChange={(e) => handleOnlyAplha(e)}
-                className={clsx(
-                  'form-control bg-transparent',
-                  { 'is-invalid': formik.touched.occupation && formik.errors.occupation },
-                  {
-                    'is-valid': formik.touched.occupation && !formik.errors.occupation,
-                  }
-                )}
+                className={
+                  clsx(
+                    'form-control bg-transparent',
+                    {
+                      'is-invalid': formik.touched.occupation && formik.errors.occupation
+                    },
+                    {
+                      'is-valid': formik.touched.occupation && !formik.errors.occupation,
+                    }
+                  )}
               />
             </div>
           </div>
         </div>
 
         {/*-------------------------------- account usage */}
-        <div className="row each-row">
-          <h5>Account Usage</h5>
-          <div className="col-md-6">
-            <div className="input_field">
-              <p className="get-text">Projected frequency of the payments per annum<span style={{ color: 'red' }} >*</span></p>
+        <div className="row each-row" >
+          <h5>Account Usage </h5>
+          < div className="col-md-6" >
+            <div className="input_field" >
+              <p className="get-text" > Projected frequency of the payments per annum < span style={{ color: 'red' }} >* </span></p >
               <select
                 value={data.payment_per_annum}
                 name="payment_per_annum"
                 onChange={(e) => handleChange(e)}
-                className={clsx(
-                  'form-control form-select bg-transparent',
-                  { 'is-invalid': formik.touched.payment_per_annum && formik.errors.payment_per_annum },
-                  {
-                    'is-valid': formik.touched.payment_per_annum && !formik.errors.payment_per_annum,
-                  }
-                )}
+                className={
+                  clsx(
+                    'form-control form-select bg-transparent',
+                    {
+                      'is-invalid': formik.touched.payment_per_annum && formik.errors.payment_per_annum
+                    },
+                    {
+                      'is-valid': formik.touched.payment_per_annum && !formik.errors.payment_per_annum,
+                    }
+                  )}
               >
-                <option value="none" key="none">Select a frequency</option>
-                <option value="Less than 5 times" key="Less than 5 times">Less than 5 times</option>
-                <option value="5-10 times" key="5-10 times">5-10 times</option>
-                <option value="Greater then 10 times" key="Greater then 10 times">Greater then 10 times</option>
+                <option value="none" key="none" > Select a frequency </option>
+                < option value="Less than 5 times" key="Less than 5 times" > Less than 5 times </option>
+                < option value="5-10 times" key="5-10 times" > 5 - 10 times </option>
+                < option value="Greater then 10 times" key="Greater then 10 times" > Greater then 10 times </option>
               </select>
             </div>
           </div>
-          <div className="col-md-6">
-            <div className="input_field">
-              <p className="get-text">Projected frequency of the value per annum<span style={{ color: 'red' }} >*</span></p>
+          < div className="col-md-6" >
+            <div className="input_field" >
+              <p className="get-text" > Projected frequency of the value per annum < span style={{ color: 'red' }} >* </span></p >
               <select
                 value={data.value_per_annum}
                 name="value_per_annum"
                 onChange={(e) => handleChange(e)}
-                className={clsx(
-                  'form-control form-select bg-transparent',
-                  { 'is-invalid': formik.touched.value_per_annum && formik.errors.value_per_annum },
-                  {
-                    'is-valid': formik.touched.value_per_annum && !formik.errors.value_per_annum,
-                  }
-                )}
+                className={
+                  clsx(
+                    'form-control form-select bg-transparent',
+                    {
+                      'is-invalid': formik.touched.value_per_annum && formik.errors.value_per_annum
+                    },
+                    {
+                      'is-valid': formik.touched.value_per_annum && !formik.errors.value_per_annum,
+                    }
+                  )}
               >
-                <option value="none" key="none">Select a frequency</option>
-                <option value="Less than $30,000" key="Less than $30,000">Less than $30,000</option>
-                <option value="$30,000-$100,000" key="$30,000-$100,000">$30,000-$100,000</option>
-                <option value="Greater than $100,000" key="Greater than $100,000">Greater than $100,000</option>
+                <option value="none" key="none" > Select a frequency </option>
+                < option value="Less than $30,000" key="Less than $30,000" > Less than $30,000 </option>
+                < option value="$30,000-$100,000" key="$30,000-$100,000" > $30,000 - $100,000 </option>
+                < option value="Greater than $100,000" key="Greater than $100,000" > Greater than $100,000 </option>
               </select>
             </div>
           </div>
@@ -473,57 +503,65 @@ const SenderDetails = ({ handleStep, step }) => {
         </div> */}
 
         {/*-------------------------------- Address */}
-        <div className="row each-row">
-          <h5>Address</h5>
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">Country Name<span style={{ color: 'red' }} >*</span></p>
+        <div className="row each-row" >
+          <h5>Address </h5>
+          < div className="col-md-4" >
+            <div className="input_field" >
+              <p className="get-text" > Country Name < span style={{ color: 'red' }} >* </span></p >
               <select
                 value={data.country}
                 name="country"
                 onChange={(e) => handleChange(e)}
-                className={clsx(
-                  'form-control bg-transparent',
-                  { 'is-invalid': formik.touched.country && formik.errors.country },
-                  {
-                    'is-valid': formik.touched.country && !formik.errors.country,
-                  }
-                )}
+                className={
+                  clsx(
+                    'form-control bg-transparent',
+                    {
+                      'is-invalid': formik.touched.country && formik.errors.country
+                    },
+                    {
+                      'is-valid': formik.touched.country && !formik.errors.country,
+                    }
+                  )}
               >
-                <option value={"none"} >Select a country</option>
-                <option value={"Australia"} >Australia</option>
-                <option value={"New Zealand"} >New Zealand</option>
+                <option value={"none"} > Select a country </option>
+                < option value={"Australia"} > Australia </option>
+                < option value={"New Zealand"} > New Zealand </option>
               </select>
             </div>
           </div>
           {
             data.country !== "none" ? (
               <>
-                <div className="col-md-4">
-                  <div className="input_field">
-                    <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
+                <div className="col-md-4" >
+                  <div className="input_field" >
+                    <p className="get-text" > State < span style={{ color: 'red' }
+                    } >* </span></p >
                     {
                       state_list && state_list?.length > 0 ?
                         (<select
                           value={data?.state}
                           name="state"
                           onChange={(e) => handleChange(e)}
-                          className={clsx(
-                            'form-control bg-transparent',
-                            { 'is-invalid': formik.touched.state && formik.errors.state },
-                            {
-                              'is-valid': formik.touched.state && !formik.errors.state,
-                            }
-                          )}
+                          className={
+                            clsx(
+                              'form-control bg-transparent',
+                              {
+                                'is-invalid': formik.touched.state && formik.errors.state
+                              },
+                              {
+                                'is-valid': formik.touched.state && !formik.errors.state,
+                              }
+                            )}
                         >
-                          <option value={"none"} key={"none"}>Select a state</option>
-                          {state_list?.map((opt, index) => {
-                            if (opt?.state !== state_list[index - 1]?.state) {
-                              return (
-                                <option value={opt?.state} key={index}>{opt?.state}</option>
-                              )
-                            }
-                          })
+                          <option value={"none"} key={"none"} > Select a state </option>
+                          {
+                            state_list?.map((opt, index) => {
+                              if (opt?.state !== state_list[index - 1]?.state) {
+                                return (
+                                  <option value={opt?.state} key={index} > {opt?.state} </option>
+                                )
+                              }
+                            })
                           }
                         </select>) :
                         (<input
@@ -535,31 +573,35 @@ const SenderDetails = ({ handleStep, step }) => {
                     }
                   </div>
                 </div>
-                <div className="col-md-4">
-                  <div className="input_field">
-                    <p className="get-text ">City/Suburb<span style={{ color: 'red' }} >*</span></p>
+                < div className="col-md-4" >
+                  <div className="input_field" >
+                    <p className="get-text " > City / Suburb < span style={{ color: 'red' }} >* </span></p >
                     {
                       city_list && city_list.length > 0 ? (
                         <select
                           value={data.city}
                           name="city"
                           onChange={(e) => handleChange(e)}
-                          className={clsx(
-                            'form-control bg-transparent',
-                            { 'is-invalid': formik.touched.city && formik.errors.city },
-                            {
-                              'is-valid': formik.touched.city && !formik.errors.city,
-                            }
-                          )}
+                          className={
+                            clsx(
+                              'form-control bg-transparent',
+                              {
+                                'is-invalid': formik.touched.city && formik.errors.city
+                              },
+                              {
+                                'is-valid': formik.touched.city && !formik.errors.city,
+                              }
+                            )}
                         >
-                          <option value="none" key="none">Select a city</option>
-                          {city_list?.map((opt, index) => {
-                            if (city_list[index]?.city !== city_list[index - 1]?.city && opt?.city !== "") {
-                              return (
-                                <option value={opt?.city} key={index}>{opt?.city}</option>
-                              )
-                            }
-                          })
+                          <option value="none" key="none" > Select a city </option>
+                          {
+                            city_list?.map((opt, index) => {
+                              if (city_list[index]?.city !== city_list[index - 1]?.city && opt?.city !== "") {
+                                return (
+                                  <option value={opt?.city} key={index} > {opt?.city} </option>
+                                )
+                              }
+                            })
                           }
                         </select>
                       ) : (
@@ -574,9 +616,9 @@ const SenderDetails = ({ handleStep, step }) => {
                     }
                   </div>
                 </div>
-                <div className="col-md-4">
-                  <div className="input_field">
-                    <p className="get-text">Zip/Postal Code<span style={{ color: 'red' }} >*</span></p>
+                <div className="col-md-4" >
+                  <div className="input_field" >
+                    <p className="get-text" > Zip / Postal Code < span style={{ color: 'red' }} >* </span></p >
                     <input
                       type="text"
                       name="post_code"
@@ -584,15 +626,18 @@ const SenderDetails = ({ handleStep, step }) => {
                       maxLength="4"
                       list='postal_list'
                       onChange={handleNumericOnly}
-                      className={clsx(
-                        'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.post_code && formik.errors.post_code },
-                        {
-                          'is-valid': formik.touched.post_code && !formik.errors.post_code,
-                        }
-                      )}
+                      className={
+                        clsx(
+                          'form-control bg-transparent',
+                          {
+                            'is-invalid': formik.touched.post_code && formik.errors.post_code
+                          },
+                          {
+                            'is-valid': formik.touched.post_code && !formik.errors.post_code,
+                          }
+                        )}
                     />
-                    <datalist id="postal_list">
+                    < datalist id="postal_list" >
                       {
                         postal_list.length > 0 && postal_list?.map((opt, index) => {
                           return <option value={opt.post_code} key={index} />
@@ -604,29 +649,32 @@ const SenderDetails = ({ handleStep, step }) => {
               </>
             ) : <></>
           }
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
+          <div className="col-md-4" >
+            <div className="input_field" >
+              <p className="get-text" > Street Name < span style={{ color: 'red' }} >* </span></p >
               <input
                 type="text"
                 name="street"
                 value={data.street}
                 onChange={handleAddress}
                 maxLength="30"
-                className={clsx(
-                  'form-control bg-transparent',
-                  { 'is-invalid': formik.touched.street && formik.errors.street },
-                  {
-                    'is-valid': formik.touched.street && !formik.errors.street,
-                  }
-                )}
+                className={
+                  clsx(
+                    'form-control bg-transparent',
+                    {
+                      'is-invalid': formik.touched.street && formik.errors.street
+                    },
+                    {
+                      'is-valid': formik.touched.street && !formik.errors.street,
+                    }
+                  )}
               />
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">Flat/Unit No.</p>
-              <input
+          < div className="col-md-4" >
+            <div className="input_field" >
+              <p className="get-text" > Flat / Unit No.</p>
+              < input
                 type="text"
                 name="flat"
                 value={data.flat}
@@ -636,54 +684,119 @@ const SenderDetails = ({ handleStep, step }) => {
               />
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="input_field">
-              <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
+          < div className="col-md-4" >
+            <div className="input_field" >
+              <p className="get-text" > Building No.< span style={{ color: 'red' }} >* </span></p >
               <input
                 type="text"
                 name="build_no"
                 value={data.build_no}
                 onChange={handleAddress}
                 maxLength="30"
-                className={clsx(
-                  'form-control bg-transparent',
-                  { 'is-invalid': formik.touched.build_no && formik.errors.build_no },
-                  {
-                    'is-valid': formik.touched.build_no && !formik.errors.build_no,
-                  }
-                )}
+                className={
+                  clsx(
+                    'form-control bg-transparent',
+                    {
+                      'is-invalid': formik.touched.build_no && formik.errors.build_no
+                    },
+                    {
+                      'is-valid': formik.touched.build_no && !formik.errors.build_no,
+                    }
+                  )}
               />
             </div>
           </div>
 
         </div>
       </form>
-      <div className="row each-row">
-        <div className="col-md-4 new_buttonss">
-          <button className="start-form-button full-col" onClick={() => handleClear()}>Cancel</button>
+      <div className="row each-row" >
+        <div className="col-md-4 new_buttonss" >
+          <button className="start-form-button full-col" onClick={() => handleClear()}> Cancel </button>
         </div>
-        <div className="col-md-8 new_buttons">
-          {!verificationValue && (!digital_id_verified || digital_id_verified === "false") ? (
+        < div className="col-md-8 new_buttons" >
+          {isVerified === false ? (
+            // <>
+            //   <div className='digital_verification full-col' style={{ display: `${display == "none" ? "none" : "block"}` }}>
+            //     <div id='veriff-root'></div>
+            //   </div>
+            // </>
             <>
-              <div className='digital_verification full-col' style={{ display: `${display == "none" ? "none" : "block"}` }}>
-                <div id="digitalid-verify"></div>
-              </div>
+              <button type='button' className="form-button full-col" disabled={display === "none" ? true : false} onClick={() => setStartVerify(true)}> Get Verified </button>
             </>
           ) : (
             <>
-              <button type='button' className="form-button full-col" onClick={() => formik.handleSubmit()}> Continue</button>
+              <button type='button' className="form-button full-col" onClick={() => formik.handleSubmit()}> Continue </button>
             </>
           )
           }
         </div>
       </div>
-      {loader ? <>
-        <div className="loader-overly">
-          <div className="loader" >
+      < Modal show={start_verify} backdrop="static" onHide={() => setStartVerify(false)} centered >
+        <Modal.Header closeButton >
+          <img src="https://veriff.cdn.prismic.io/veriff/1565ec7d-5815-4d28-ac00-5094d1714d4c_Logo.svg" alt="Veriff logo" width="90" height="25" />
+        </Modal.Header>
+        < Modal.Body className='w-100 m-auto' >
+          <Verification />
+        </Modal.Body>
+      </Modal>
+      {
+        loader ? <>
+          <div className="loader-overly" >
+            <div className="loader" >
+            </div>
           </div>
-        </div>
-      </> : ""}
+        </> : ""}
     </div>
+  )
+}
+
+const Verification = () => {
+
+  let { customer_id } = JSON.parse(localStorage.getItem("remi-user-dt"))
+
+  useEffect(() => {
+    const veriff = Veriff({
+      apiKey: '55bdee3e-850a-4930-a7e6-e713a86a3cc9',
+      parentId: 'veriff-root',
+      onSession: function (err, response) {
+        console.log("verify - veriff", response);
+        createVeriffFrame({
+          url: response.verification.url,
+          onEvent: function (msg) {
+            switch (msg) {
+              case MESSAGES.CANCELED:
+                console.log("cancelled");
+                break;
+              case MESSAGES.STARTED:
+                console.log("started");
+                break;
+              case MESSAGES.FINISHED:
+                getVeriffStatus({ session_id: response.verification.id }).then(res => {
+
+                })
+                break;
+            }
+          }
+        });
+      }
+    });
+    veriff.setParams({
+      vendorData: `${customer_id}`
+    });
+    veriff.mount({
+      formLabel: {
+        givenName: 'Given name',
+        lastName: 'Last name',
+        vendorData: 'Unique id of an end-user'
+      },
+      submitBtnText: 'Get verified',
+      loadingText: 'Please wait...'
+    });
+  }, []);
+
+  return (
+    <div id='veriff-root' style={{ margin: "auto", padding: "25px 0px" }
+    }> </div>
   )
 }
 

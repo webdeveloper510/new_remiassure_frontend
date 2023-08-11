@@ -234,7 +234,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                     <select
                                         aria-label="Select a reason"
                                         onChange={(e) => { myTotalAmountFrom(e) }}
-                                        value={formik.values.to_type}
+                                        value={formik.values.from_type}
                                         // {...formik.getFieldProps('from_type')}
                                         className='mb-3 bg-transparent form-control form-select rate_input '
                                     >
