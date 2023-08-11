@@ -176,20 +176,23 @@ const Footer = () => {
                                 <h4>Contact Us</h4>
                                 <li className="suppot_footer">
                                     <img src="assets/img/footer/email.svg" alt="emai_icons" className="email_icons" />
-                                    <p> support@ercom.com </p>
+                                    <p><a href="mailto:service@remitassure.com" className="text-white">service@remitassure.com</a></p>
                                 </li>
 
                                 <li className="suppot_footer">
                                     <img src="assets/img/footer/phone.svg" alt="phone_icons" className="phone_icons" />
-                                    <a href="tel:+66 2399 1145">
-                                        <p> +66 2399 1145</p>
-                                    </a>
+                                    <p>
+                                        <a href="tel:1300 284 228" className="text-white">
+                                            1300 284 228
+                                        </a>
+                                        &nbsp;(toll free)
+                                    </p>
                                 </li>
                                 <div className="social-links mt-3">
-                                    <a href="#" className="twitter"><i className="bx bxl-twitter"></i></a>
-                                    <a href="#" className="facebook"><i className="bx bxl-facebook"></i></a>
-                                    <a href="#" className="instagram"><i className="bx bxl-instagram"></i></a>
-                                    <a href="#" className="linkedin"><i className="bx bxl-linkedin"></i></a>
+                                    <a className="twitter"><i className="bx bxl-twitter"></i></a>
+                                    <a className="facebook"><i className="bx bxl-facebook"></i></a>
+                                    <a className="instagram"><i className="bx bxl-instagram"></i></a>
+                                    <a className="linkedin"><i className="bx bxl-linkedin"></i></a>
                                 </div>
                             </div>
 

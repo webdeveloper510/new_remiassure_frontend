@@ -71,7 +71,7 @@ const PaymentDetails = ({ handleStep, step }) => {
 
           <div className="col-md-12">
             <label className="container-new">
-              <span className="radio-tick">PayID per user</span>
+              <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /></span>
               <input
                 className="form-check-input"
                 type="radio"
@@ -86,7 +86,7 @@ const PaymentDetails = ({ handleStep, step }) => {
 
           <div className="col-md-12">
             <label className="container-new">
-              <span className="radio-tick">Pay To</span>
+              <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={24} /></span>
               <input
                 className="form-check-input"
                 type="radio"
@@ -220,7 +220,7 @@ const PayIDModal = ({ modal, method, handler, handleStep, step, data }) => {
   return (
     <Modal className="modal-card" show={modal} onHide={() => handler({ toggle: false, id: null })} centered backdrop="static">
       <Modal.Header>
-        <Modal.Title className='fs-5'>Pay ID</Modal.Title>
+        <Modal.Title className='fs-5'><img src="/assets/img/zai/payid.svg" height={30} /></Modal.Title>
       </Modal.Header>
       <Modal.Body className='my-4'>
         <div>
@@ -441,7 +441,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
       </> : (
         <Modal className="modal-card" show={modal} onHide={() => handleCancel()} centered backdrop="static">
           <Modal.Header>
-            <Modal.Title className='fs-5'>Pay To</Modal.Title>
+            <Modal.Title className='fs-5'><img src="/assets/img/zai/payto.svg" height={30} /></Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {
@@ -491,10 +491,10 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
                                 { 'is-invalid': touched.agreement_amount && errors.agreement_amount }
                               )}
                             >
-                              <option value="500">Upto AUD 500 per transaction</option>
-                              <option value="1000">Upto AUD 1000 per transaction</option>
-                              <option value="2500">Upto AUD 2500 per transaction</option>
-                              <option value="5000">Upto AUD 5000 per transaction</option>
+                              <option value="1000">Upto AUD 1k per transaction</option>
+                              <option value="5000">Upto AUD 5k per transaction</option>
+                              <option value="10000">Upto AUD 10k per transaction</option>
+                              <option value="30000">Upto AUD 30k per transaction</option>
                             </select>
                             <button type="submit" ref={payIdRef} style={{ display: "none" }}>submit</button>
                           </form>
@@ -509,8 +509,8 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
                 </>
               ) : (
                 <>
-                  <p className='small my-3'>Set up a PayTo agreement to pay directly from your bank account. Use PayID or BSB and account number.</p>
                   <div className='my-2'>
+                    <p className='small mb-3'>Set up a PayTo agreement to pay directly from your bank account. Use PayID or BSB and account number.</p>
                     {stage === 1 || stage === 2 ? (
                       <form onSubmit={handleSubmit} noValidate>
                         {
@@ -650,10 +650,10 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
                                     { 'is-invalid': touched.agreement_amount && errors.agreement_amount }
                                   )}
                                 >
-                                  <option value="500">Upto AUD 500 per transaction</option>
-                                  <option value="1000">Upto AUD 1000 per transaction</option>
-                                  <option value="2500">Upto AUD 2500 per transaction</option>
-                                  <option value="5000">Upto AUD 5000 per transaction</option>
+                                  <option value="1000">Upto AUD 1k per transaction</option>
+                                  <option value="5000">Upto AUD 5k per transaction</option>
+                                  <option value="10000">Upto AUD 10k per transaction</option>
+                                  <option value="30000">Upto AUD 30k per transaction</option>
                                 </select>
                               </div>
                               <div className="input_field">
@@ -676,6 +676,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
                     ) : (
                       <>
                         <h5 style={{ color: "#6414E9" }} className='my-3'>PayTo Agreement Details</h5>
+                        <p className='small my-3'>Please check the PayTo agreement details below before submitting.</p>
                         <form onSubmit={handleSubmit}>
                           <Table>
                             <tbody>
@@ -702,7 +703,12 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
                               }
                               <tr>
                                 <th>Amount Limit</th>
-                                <td className='text-start'>Upto AUD {values.agreement_amount} per transaction</td>
+                                <td className='text-start'>Upto AUD {
+                                  values.agreement_amount === '1000' ? '1k' :
+                                    values.agreement_amount === '5000' ? '5k' :
+                                      values.agreement_amount === '10000' ? '10k' :
+                                        '30k'
+                                } per transaction</td>
                               </tr>
                               <tr>
                                 <th>Agreement Type</th>

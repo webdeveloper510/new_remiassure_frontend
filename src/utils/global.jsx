@@ -1,9 +1,9 @@
 const global = {
 
   //devlopment side url
-  // serverUrl: "http://54.193.130.43:8000", //dev
+  serverUrl: "http://54.193.130.43:8000", //dev
   // serverUrl: "http://54.183.182.165:8000", //test
-  serverUrl: "https://api.gormefoods.com", // test live
+  // serverUrl: "https://api.gormefoods.com", // test live
   // serverUrl: "http://3.101.154.87:8000/", // obi server
   // serverUrl: "https://api.remitassure.com", // obi server Live
 
