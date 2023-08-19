@@ -38,7 +38,7 @@ const BankDetails = ({ handleStep, step }) => {
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
     post_code: "", state: "", country: "",
-    reason: ""
+    reason: "", country_code: "GH"
   }
 
   const handleToggle = () => {
@@ -75,6 +75,7 @@ const BankDetails = ({ handleStep, step }) => {
     initialValues,
     validationSchema: bankSchema,
     onSubmit: async (values) => {
+      console.log(values, data)
       setLoading(true)
       const d = {
         bank_name: values.bank,
@@ -110,14 +111,7 @@ const BankDetails = ({ handleStep, step }) => {
       })
         .then(function (response) {
           if (response.data.code == "200") {
-            setData({
-              bank: "", acc_name: "", acc_no: "",
-              f_name: "", l_name: "", m_name: "",
-              email: "", mobile: "", flat: "",
-              build_no: "", street: "", city: "",
-              post_code: "", state: "", country: "",
-              reason: ""
-            })
+            setData(initialValues)
             formik.resetForm()
             HandleRecipientlist()
             setLoading(false)
@@ -243,9 +237,10 @@ const BankDetails = ({ handleStep, step }) => {
       email: "", mobile: "", flat: "",
       build_no: "", street: "", city: "",
       post_code: "", state: "", country: "",
-      reason: ""
+      reason: "", country_code: "GH"
     })
     formik.resetForm()
+    formik.setValues(initialValues)
     setActive(!isActive)
   }
 
@@ -532,7 +527,7 @@ const BankDetails = ({ handleStep, step }) => {
                     <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                     <PhoneInput
                       onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
-                      country={data.country_code ? data.country_code.toLowerCase() : "gh"}
+                      country={data.country_code.toLowerCase()}
                       name="mobile"
                       value={formik.values.mobile}
                       inputStyle={{ border: "none", margin: "none" }}
