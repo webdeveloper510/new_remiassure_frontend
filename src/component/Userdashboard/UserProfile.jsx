@@ -58,7 +58,8 @@ const Profile = () => {
     postcode: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required().notOneOf(["none"]),
     country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
-    Date_of_birth: Yup.date().required(),
+    Date_of_birth: Yup.date()
+      .max(new Date(Date.now() - 567648000000), "You must be at least 18 years").required(),
     occupation: Yup.string().min(1).max(50).required().trim(),
     Country_of_birth: Yup.string().required().notOneOf(["none"]),
     payment_per_annum: Yup.string().required().notOneOf(["none"]),
@@ -93,7 +94,7 @@ const Profile = () => {
       var dtToday = new Date();
       var month = dtToday.getMonth() + 1;
       var day = dtToday.getDate();
-      var year = dtToday.getFullYear();
+      var year = dtToday.getFullYear() - 18;
       if (month < 10)
         month = '0' + month.toString();
       if (day < 10)
@@ -229,12 +230,11 @@ const Profile = () => {
   }
 
   const handlePhone = (e, coun) => {
-    let mno = e.substring(2);
-    const mobileNumber = parseInt(mno, 10)
-    formik.setFieldValue('mobile', mobileNumber);
+    formik.setFieldValue('mobile', e);
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
-    setData({ ...data, country: coun.name, mobile: "+" + mobileNumber })
+    setData({ ...data, country: coun.name, mobile: e })
+    console.log(e)
   }
 
   const handleKeyDown = (e, max) => {
@@ -482,6 +482,7 @@ const Profile = () => {
                             value={data.Date_of_birth}
                             id="dob"
                             onChange={(e) => handleChange(e)}
+                            // onkeydown={(e) => { e.stopPropagation() }}
                             className={clsx(
                               'form-control bg-transparent',
                               { 'is-invalid': formik.touched.Date_of_birth && formik.errors.Date_of_birth },
@@ -527,7 +528,7 @@ const Profile = () => {
                             name="occupation"
                             value={data.occupation}
                             id="occupation"
-                            maxlength="50"
+                            maxLength="50"
                             onChange={(e) => handleOnlyAplha(e)}
                             className={clsx(
                               'form-control bg-transparent',

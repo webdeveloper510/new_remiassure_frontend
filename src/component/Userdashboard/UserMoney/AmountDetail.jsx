@@ -27,10 +27,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const [blur_off, setBlurOff] = useState(false)
 
     const amtSchema = Yup.object().shape({
-        send_amt: Yup.string()
-            .min(1, 'Minimum 3 symbols')
-            .max(9, 'Maximum 50 symbols')
-            .required('Email is required').notOneOf(["."], " "),
+        send_amt: Yup.string("Please enter a valid amount").min(1, "minimum 1 dollar is required ").max(6, "amount can't exceed 999999").required('Amount is required').notOneOf(["."], " "),
         from_type: Yup.string().oneOf(["AUD", "NZD"]),
         to_type: Yup.string().required(),
         exchange_amt: Yup.string().required()
@@ -88,10 +85,8 @@ const AmountDetail = ({ handleStep, step }) => {
     }
 
     const inputvalidation = (event) => {
-        console.log(event.target)
         var data = event.target.value;
-
-        if (/^\d*\.?\d{0,2}$/.test(data)) {
+        if (/^[0-9]*$/.test(data)) {
             formik.setFieldValue('send_amt', data);
             formik.setFieldTouched('send_amt', true);
             setAmtDetail({ ...amt_detail, send_amt: data });
@@ -274,7 +269,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         value={formik.values?.send_amt}
                                         onKeyDown={(e) => amountDown(e)}
                                         onChange={(e) => inputvalidation(e)}
-                                        maxLength={9}
+                                        maxLength={6}
                                         className={clsx(
                                             'mb-3 bg-transparent form-control rate_input',
                                             { 'is-invalid': formik.touched.send_amt && formik.errors.send_amt },

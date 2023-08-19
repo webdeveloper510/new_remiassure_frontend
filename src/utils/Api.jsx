@@ -429,7 +429,12 @@ export const updateAgreement = (data) => {
 }
 
 export const getVeriffStatus = (data) => {
-  const response = Axios.post(`veriff/`, data).then(res => {
+  const response = Axios.post(`veriff/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
     console.log(res)
     return res.data
   }).catch(err => {

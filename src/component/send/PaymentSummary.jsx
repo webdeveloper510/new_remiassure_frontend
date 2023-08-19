@@ -452,6 +452,7 @@ const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
 
   useEffect(() => {
     let details = data
+    let timer;
     if (show === true) {
       timer = setInterval(() => {
         getAgreementList().then(res => {
@@ -492,6 +493,8 @@ const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
           }
         })
       }, 5000)
+    } else {
+      clearInterval(timer)
     }
   }, [show])
 

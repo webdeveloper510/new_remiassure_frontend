@@ -476,6 +476,8 @@ const CheckoutForm = ({ payRef, handleModal, handleToken }) => {
       handleToken(token.token)
       handleModal()
 
+    } else if (token.error.code === "card_declined") {
+      toast.error("Card Declined", { position: "bottom-right", hideProgressBar: true, autoClose: 2000 })
     } else {
       toast.error("Enter card details to continue", { position: "bottom-right", hideProgressBar: true, autoClose: 2000 })
     }
@@ -543,7 +545,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
       pay_id: "",
       bsb: "",
       account_number: "",
-      agreement_amount: "500",
+      agreement_amount: "1000",
       start_date: "",
     },
     validationSchema: Yup.object().shape({

@@ -65,7 +65,7 @@ const BankDetails = ({ handleStep, step }) => {
     build_no: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(30).required().trim(),
     city: Yup.string().min(1).max(35).required().trim(),
-    post_code: Yup.string().length(4).notRequired(),
+    post_code: Yup.string().max(5).notRequired(),
     state: Yup.string().min(2).max(35).required(),
     country: Yup.string().min(2).max(30).required(),
     reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
@@ -686,14 +686,10 @@ const BankDetails = ({ handleStep, step }) => {
                       type="text"
                       name="post_code"
                       value={data.post_code}
-                      onKeyDown={(e) => handlePostCode(e, 3)}
+                      onKeyDown={(e) => handlePostCode(e, 4)}
                       {...formik.getFieldProps("post_code")}
                       className={clsx(
-                        'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.post_code && formik.errors.post_code },
-                        {
-                          'is-valid': formik.touched.post_code && !formik.errors.post_code,
-                        }
+                        'form-control'
                       )}
                     />
                   </div>
