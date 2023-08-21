@@ -47,7 +47,8 @@ const SenderDetails = ({ handleStep, step }) => {
     post_code: Yup.string().length(4).required(),
     state: Yup.string().required().notOneOf(["none"]),
     country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
-    dob: Yup.date().required(),
+    dob: Yup.date()
+      .max(new Date(Date.now() - 567648000000), "You must be at least 18 years").required(),
     occupation: Yup.string().min(1).max(50).required().trim(),
     country_of_birth: Yup.string().required().notOneOf(["none"]),
     payment_per_annum: Yup.string().required().notOneOf(["none"]),
