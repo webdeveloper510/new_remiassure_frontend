@@ -15,10 +15,22 @@ const App = () => {
   const [loader, setLoader] = useState(false)
   const navigate = useNavigate()
 
+
+
+  const exchangeAmt = () => {
+    exchangeRate({ amount: "1", from: "AUD", to: "USD" }).then(res => {
+      const data = { send_amt: "1", exchange_amt: res.amount, from_type: "AUD", to_type: "USD", exch_rate: res.rate }
+      localStorage.removeItem("exchange_curr")
+      localStorage.setItem("exchange_curr", JSON.stringify(data))
+    })
+  }
   const onLogOut = () => {
     setLoader(true)
     localStorage.clear()
-    navigate("/login")
+    exchangeAmt()
+    window.setTimeout(() =>
+      navigate("/login"),
+      2000)
   }
 
   // useEffect(()=>{
@@ -37,11 +49,7 @@ const App = () => {
     const p = location.pathname.split("/")
     setPath(p[1])
 
-    exchangeRate({ amount: "1", from: "AUD", to: "USD" }).then(res => {
-      const data = { send_amt: "1", exchange_amt: res.amount, from_type: "AUD", to_type: "USD", exch_rate: res.rate }
-      localStorage.removeItem("exchange_curr")
-      localStorage.setItem("exchange_curr", JSON.stringify(data))
-    })
+
 
     let expTime = localStorage.getItem("tkn-exp");
 
