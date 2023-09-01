@@ -2,7 +2,6 @@ import { CardElement, Elements, useElements, useStripe } from '@stripe/react-str
 import React, { useState } from 'react'
 import { Button, Modal, Table } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import global from '../../../utils/global'
 import { loadStripe } from '@stripe/stripe-js'
 import { useRef } from 'react'
 import { useNavigate } from 'react-router'
@@ -16,6 +15,9 @@ import * as Yup from 'yup';
 import clsx from 'clsx'
 import { ZaiDashPayId, ZaiDashPayTo, ZaiPayId, ZaiPayTo, createAgreement, createPayId, getAgreementList, updateAgreement, userProfile, verifyPayTo } from '../../../utils/Api'
 
+
+const stripe_key = process.env.REACT_APP_STRIPE_KEY
+const serverUrl = process.env.REACT_APP_API_URL
 const PaymentDetails = ({ handleStep, step }) => {
 
   const [data, setData] = useState({ payment_type: "Debit/Credit Card", reason: "none" })
@@ -35,6 +37,7 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [modalView, setModalView] = useState(false)
   const [loader, setLoader] = useState(false)
   const [token, setToken] = useState({})
+
 
   useEffect(() => {
     if (transaction.id) {
@@ -95,7 +98,7 @@ const PaymentDetails = ({ handleStep, step }) => {
 
   const local = JSON.parse(localStorage.getItem("transfer_data"))
 
-  const stripePromise = loadStripe(`${global.stripe_p_key}`);
+  const stripePromise = loadStripe(`${stripe_key}`);
 
   const handleCancel = () => {
     localStorage.removeItem("send-step")
@@ -169,7 +172,7 @@ const PaymentDetails = ({ handleStep, step }) => {
               }
               setIsOtpVerfied(false)
               setLoader(false)
-              setTransaction({ id: res.data.transaction_id, pay_id: res.data.payment_id, status: "Pending", amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+              setTransaction({ id: res.data.transaction_id, pay_id: res.data.payment_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
             } else {
               setLoader(false)
               setIsOtpVerfied(false)
@@ -206,7 +209,7 @@ const PaymentDetails = ({ handleStep, step }) => {
               }
               setIsOtpVerfied(false)
               setLoader(false)
-              setTransaction({ id: res.data.transaction_id, pay_id: res.data.payment_id, status: "Pending", amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+              setTransaction({ id: res.data.transaction_id, pay_id: res.data.payment_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
             } else {
               setLoader(false)
               setIsOtpVerfied(false)
@@ -248,7 +251,7 @@ const PaymentDetails = ({ handleStep, step }) => {
           exchange_rate: local?.amount?.exchange_rate
         }
         setLoader(true)
-        axios.post(`${global.serverUrl}/payment/stripe-charge/`, d, {
+        axios.post(`${serverUrl}/payment/stripe-charge/`, d, {
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`,
           },
@@ -431,7 +434,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                     </Table>
                     <div className='row text-center'>
                       <div className="col-md-6">
-                        <NavLink target='_blank' href={`${global.serverUrl}/payment/receipt/${transaction.id}`}>
+                        <NavLink target='_blank' href={`${serverUrl}/payment/receipt/${transaction.id}`}>
                           <button type="button" className="form-button" style={{ "width": '100%' }}>View Reciept</button>
                         </NavLink>
                       </div>

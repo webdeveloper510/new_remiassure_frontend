@@ -5,7 +5,7 @@ const token = localStorage.getItem("token")
 const token_forgot = localStorage.getItem("token_forgot")
 // let url = window.location.hostname
 // Axios.defaults.baseURL = `${url}:8000`;
-Axios.defaults.baseURL = `${global.serverUrl}`
+Axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 export const userRegisterCheck = async (data) => {
   const response = await Axios.post("/register-check/", data).then(res => {

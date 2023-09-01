@@ -131,6 +131,8 @@ const SenderDetails = ({ handleStep, step }) => {
     })
   }, [data])
 
+  const serverUrl = process.env.REACT_APP_API_URL
+
   useEffect(() => {
 
     const script = document.createElement('script');
@@ -151,7 +153,7 @@ const SenderDetails = ({ handleStep, step }) => {
 
           if (res.code != undefined || null) {
             formik.handleSubmit()
-            axios.post(`${global.serverUrl}/digital-verification/`, { code: res.code }, {
+            axios.post(`${serverUrl}/digital-verification/`, { code: res.code }, {
               headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("token")}`

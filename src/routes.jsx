@@ -36,6 +36,7 @@ import Privacy from './component/footer/Privacy';
 import T_c from './component/footer/T_c';
 import Mobile from './component/footer/Mobile';
 import AML from './component/footer/Aml';
+import TransactionDetails from './component/Userdashboard/TransactionDetails';
 
 const routes = [
   {
@@ -75,6 +76,7 @@ const routes = [
     guard: AuthDashProtect,
     children: [
       { path: '/transactions', element: <Transfer /> },
+      { path: '/transaction-detail/:id', element: <TransactionDetails /> },
       { path: '/user-send-money', element: <UserMoney /> },
       { path: '/add-new-recipient', element: <AddNewRecipient /> },
       { path: '/user-profile', element: <UserProfile /> },

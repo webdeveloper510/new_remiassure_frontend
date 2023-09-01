@@ -3,8 +3,7 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import {NavLink, useNavigate } from 'react-router-dom';
-import global from "../../utils/global"
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
 import { BsFillPersonPlusFill } from "react-icons/bs";
@@ -24,6 +23,7 @@ const UserRecipients = () => {
     const [isActive, setActive] = useState("false");
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const serverUrl = process.env.REACT_APP_API_URL
 
     const handleShow = (key) => {
         setShow(true);
@@ -52,7 +52,7 @@ const UserRecipients = () => {
     }, [])
 
     const handleRemoveRecipientBankDetails = () => {
-        axios.delete(`${global.serverUrl}/payment/recipient-update/${delete_id}`, {
+        axios.delete(`${serverUrl}/payment/recipient-update/${delete_id}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
@@ -89,7 +89,7 @@ const UserRecipients = () => {
                                                     <NavLink to="/add-new-recipient">
                                                         <button className="form-button addsingle_recepient" >
                                                             <BsFillPersonPlusFill />
-                                                            Add New Recepient
+                                                            Add New Recipient
                                                         </button>
                                                     </NavLink>
                                                 </h2>
@@ -97,42 +97,42 @@ const UserRecipients = () => {
                                             <div className="col-lg-12">
                                                 <div className="card fullwidth">
                                                     <div className="card-body">
-                                                     <div className="table-responsive">
-                                                        <Table className="table table-responsive-md card-table previous-transaction">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Sr.No </th>
-                                                                    <th>Name</th>
-                                                                    <th>Destination</th>
-                                                                    <th>Transfer Now Link</th>
-                                                                    <th>Action</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {
-                                                                    data?.map((item, index) => {
-                                                                        return (
-                                                                            <tr key={item.id}>
-                                                                                <td>{index + 1}</td>
-                                                                                <td>{item.first_name} {item.last_name}</td>
-                                                                                <td>{item.country}</td>
-                                                                                <td>{item.transfer_now}</td>
-                                                                                <td>
-                                                                                    <button className="btn btn-danger" onClick={() => handleShow(item.id)}><i class="fa fa-trash"></i></button>
-                                                                                    <button className="btn btn-primary" onClick={() => { LoadEdit(item.id) }}><i class="fa fa-pencil color-muted"></i></button>
-                                                                                </td>
-                                                                            </tr>
-                                                                        )
-                                                                    })}
-                                                            </tbody>
-                                                        </Table>
+                                                        <div className="table-responsive">
+                                                            <Table className="table table-responsive-md card-table previous-transaction">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Sr.No </th>
+                                                                        <th>Name</th>
+                                                                        <th>Destination</th>
+                                                                        <th>Transfer Now Link</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {
+                                                                        data?.map((item, index) => {
+                                                                            return (
+                                                                                <tr key={item.id}>
+                                                                                    <td>{index + 1}</td>
+                                                                                    <td>{item.first_name} {item.last_name}</td>
+                                                                                    <td>{item.country}</td>
+                                                                                    <td>{item.transfer_now}</td>
+                                                                                    <td>
+                                                                                        <button className="btn btn-danger" onClick={() => handleShow(item.id)}><i class="fa fa-trash"></i></button>
+                                                                                        <button className="btn btn-primary" onClick={() => { LoadEdit(item.id) }}><i class="fa fa-pencil color-muted"></i></button>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            )
+                                                                        })}
+                                                                </tbody>
+                                                            </Table>
                                                         </div>
                                                         <Modal show={show} onHide={handleClose} backdrop="static" >
                                                             <Modal.Header>
                                                             </Modal.Header>
                                                             <Modal.Body>Are you sure you want to delete ?</Modal.Body>
                                                             <Modal.Footer>
-                                                                <Button variant="secondary" onClick={()=>handleClose()}>
+                                                                <Button variant="secondary" onClick={() => handleClose()}>
                                                                     Close
                                                                 </Button>
                                                                 <Button className="delete_recipient" variant="danger" onClick={() => { handleRemoveRecipientBankDetails() }} >

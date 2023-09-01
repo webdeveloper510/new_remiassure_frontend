@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { Modal, NavLink, Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router'
-import global from '../../utils/global'
 import verified from '../../assets/img/userdashboard/3.png';
 import { BsCheckCircleFill } from 'react-icons/bs'
 import { toast } from 'react-toastify'
@@ -130,7 +129,7 @@ const PaymentSummary = ({ handleStep, step }) => {
           console.log(res)
           if (res.code === "200") {
             setLoader(false)
-            setTransaction({ status: "Pending", id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+            setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
             localStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(localStorage.getItem("remi-user-dt"))
             // localStorage.removeItem("remi-user-dt")
@@ -164,7 +163,7 @@ const PaymentSummary = ({ handleStep, step }) => {
           console.log(res)
           if (res.code === "200") {
             setLoader(false)
-            setTransaction({ status: "Pending", id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+            setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
             localStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(localStorage.getItem("remi-user-dt"))
             // localStorage.removeItem("remi-user-dt")
@@ -294,6 +293,9 @@ const PaymentSummary = ({ handleStep, step }) => {
     setIsOtpVerfied(value)
   }
 
+  const stripe_key = process.env.REACT_APP_STRIPE_KEY
+  const serverUrl = process.env.REACT_APP_API_URL
+
   return (
     <>
       <div className="form_body">
@@ -406,7 +408,7 @@ const PaymentSummary = ({ handleStep, step }) => {
               <p>Thanks for choosing Remit Assure</p>
               <div className='row text-center'>
                 <div className="col-md-6">
-                  <NavLink target='_blank' href={`${global.serverUrl}/payment/receipt/${transaction.id}`}>
+                  <NavLink target='_blank' href={`${serverUrl}/payment/receipt/${transaction.id}`}>
                     <button type="button" className="form-button" style={{ "width": '100%' }}>View Reciept</button>
                   </NavLink>
                 </div>
@@ -465,7 +467,7 @@ const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
               ZaiPayTo(details).then(res => {
                 console.log(res)
                 if (res.code === "200") {
-                  setTransaction({ status: "Pending", id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+                  setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
                   localStorage.setItem("transaction_id", res?.data?.payment_id)
                   const user = JSON.parse(localStorage.getItem("remi-user-dt"))
                   user.digital_id_verified = "true"

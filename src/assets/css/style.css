@@ -5988,3 +5988,19 @@ button.btn.view_mobile_sidebar.toggle-button {
 .col-md-12.add-recipent-section {
   width: 100%;
 }
+.previous-transactions span {
+  font-size: 13px;
+}
+.alignCenter {
+  text-align: center;
+}
+
+.trans-detail-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.trans-detail-arrow div {
+  background-color: #6414E9;
+  
+}

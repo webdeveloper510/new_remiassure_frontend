@@ -4,11 +4,11 @@ import Button from 'react-bootstrap/Button';
 import nodata from '../../assets/img/userdashboard/nodata.avif';
 import Modal from 'react-bootstrap/Modal';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import global from "../../utils/global"
 import axios from "axios";
 import authDashHelper from "../../utils/AuthDashHelper";
 
 
+const serverUrl = process.env.REACT_APP_API_URL
 const AllTranfer = ({ status, data }) => {
 
   const token = localStorage.getItem("token");
@@ -49,7 +49,7 @@ const AllTranfer = ({ status, data }) => {
 
 
   const summrySingleData = () => {
-    axios.post(global.serverUrl + '/payment/summary/', {
+    axios.post(serverUrl + '/payment/summary/', {
       transaction_id: paymetTransactionId
     }, {
       headers: {
@@ -74,40 +74,40 @@ const AllTranfer = ({ status, data }) => {
             <span>
               {transactionData?.length > 0 ? (
                 <div className="table-responsive">
-                <Table className="table table-responsive-md card-table previous-transaction">
-                  <thead>
-                    <tr>
-                      <th>Recipient</th>
-                      <th>Amount</th>
-                      <th>Date</th>
-                      <th>Reason</th>
-                      <th>Status</th>
-                      <th>Receipt</th>
+                  <Table className="table table-responsive-md card-table previous-transaction">
+                    <thead>
+                      <tr>
+                        <th>Recipient</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Receipt</th>
 
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      transactionData?.map((res, index) => {
-                        return (
-                          <tr key={index}>
-                            <td>
-                              <h6 className="fs-16 font-w600 mb-0">{res.recipient_name}</h6>
-                            </td>
-                            <td className="transaction-icon"><span className="text-uppercase">{res.send_currency} </span> {res.amount} </td>
-                            <td>{res.date}</td>
-                            <td>{res.reason}</td>
-                            <td><span className="btn btn-outline-success btn-rounded" >{res.payment_status}</span></td>
-                            <td>
-                              <a href={`${global.serverUrl}/payment/receipt/${res.id}`} target="_blank">
-                                <span className="btn btn-outline-success btn-rounded" >Download</span>
-                              </a>
-                            </td>
-                          </tr>
-                        )
-                      })}
-                  </tbody>
-                </Table>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        transactionData?.map((res, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>
+                                <h6 className="fs-16 font-w600 mb-0">{res.recipient_name}</h6>
+                              </td>
+                              <td className="transaction-icon"><span className="text-uppercase">{res.send_currency} </span> {res.amount} </td>
+                              <td>{res.date}</td>
+                              <td>{res.reason}</td>
+                              <td><span className="btn btn-outline-success btn-rounded" onClick={() => navigate(`/transaction-detail/${res.id}`)} >{res.payment_status}</span></td>
+                              <td>
+                                <a href={`${serverUrl}/payment/receipt/${res.id}`} target="_blank">
+                                  <span className="btn btn-outline-success btn-rounded" >Download</span>
+                                </a>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                    </tbody>
+                  </Table>
                 </div>
               ) : (
                 <>

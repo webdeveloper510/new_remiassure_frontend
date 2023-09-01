@@ -9,7 +9,6 @@ import { BsChevronDoubleRight } from 'react-icons/bs';
 import { BsFillPersonPlusFill } from 'react-icons/bs';
 import norecipients from '../../../assets/img/userdashboard/hidden.avif';
 import { useEffect } from 'react';
-import global from '../../../utils/global';
 import axios from "axios"
 import { toast } from 'react-toastify';
 import PhoneInput from 'react-phone-input-2';
@@ -22,6 +21,8 @@ const BankDetails = ({ handleStep, step }) => {
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(false)
   const [isAfrican, setIsAfrican] = useState(true)
+
+  const serverUrl = process.env.REACT_APP_API_URL
 
   const [data, setData] = useState({
     bank: "", acc_name: "", acc_no: "",
@@ -103,7 +104,7 @@ const BankDetails = ({ handleStep, step }) => {
         delete d['postcode'];
       }
 
-      axios.post(`${global.serverUrl}/payment/recipient-create/`, d, {
+      axios.post(`${serverUrl}/payment/recipient-create/`, d, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },
@@ -259,7 +260,7 @@ const BankDetails = ({ handleStep, step }) => {
 
   useEffect(() => {
     setLoading(true); // Set loading before sending API request	
-    axios.post(`${global.serverUrl}/payment/recipient-list/`, {}, {
+    axios.post(`${serverUrl}/payment/recipient-list/`, {}, {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`,
       }
@@ -365,7 +366,7 @@ const BankDetails = ({ handleStep, step }) => {
                     <button type="button" className="start-form-button full-col" onClick={() => { handleClear() }} style={{ "float": "left" }}>Cancel</button>
                   </div>
                   <div className='col-md-8'>
-                    <button type="button" className="form-button col-md-12 full-col" onClick={() => handleToggle()} style={{ "float": "right" }}><BsFillPersonPlusFill /> Add Recepients
+                    <button type="button" className="form-button col-md-12 full-col" onClick={() => handleToggle()} style={{ "float": "right" }}><BsFillPersonPlusFill /> Add Recipient
                     </button>
                     <button type="button" className="form-button col-md-12 full-col" onClick={() => { handlePrevious() }} style={{ "float": "right" }}>Previous</button>
                   </div>

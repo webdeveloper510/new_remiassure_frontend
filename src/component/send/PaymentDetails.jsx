@@ -2,7 +2,6 @@ import { CardElement, Elements, useElements, useStripe } from '@stripe/react-str
 import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, Table } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import global from '../../utils/global'
 import { loadStripe } from '@stripe/stripe-js'
 import { useRef } from 'react'
 import { useNavigate } from 'react-router'
@@ -18,6 +17,8 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [pay_id_modal, setPayIdModal] = useState({ toggle: false, id: null })
   const [pay_to_modal, setPayToModal] = useState(false)
   const [loader, setLoader] = useState(false)
+
+  const stripe_key = process.env.REACT_APP_STRIPE_KEY
 
   const payRef = useRef(null)
   const navigate = useNavigate()
@@ -44,7 +45,7 @@ const PaymentDetails = ({ handleStep, step }) => {
     }
   }
 
-  const stripePromise = loadStripe(`${global.stripe_p_key}`);
+  const stripePromise = loadStripe(`${stripe_key}`);
 
   const handlePrevious = () => {
     if (localStorage.getItem("send-step")) {

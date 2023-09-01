@@ -203,48 +203,48 @@ const Dashboard = () => {
                                                 </div>
                                                 {transactionData?.length != 0 ? (
                                                     <div className="table-responsive">
-                                                    <table className="table table-responsive-md card-table previous-transactions">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Date</th>
-                                                                <th>Recipient</th>
-                                                                <th>Amount</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                        </thead>
+                                                        <table className="table table-responsive-md card-table previous-transactions">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Date</th>
+                                                                    <th>Recipient</th>
+                                                                    <th>Amount</th>
+                                                                    <th >Status</th>
+                                                                </tr>
+                                                            </thead>
 
-                                                        <tbody>
-                                                            {
-                                                                transactionData?.map((res, index) => {
-                                                                    return (
-                                                                        <tr>
-                                                                            <td>
-                                                                                <h6 className="fs-16 text-black font-w400 mb-0">{res.date}</h6>
-                                                                            </td>
-                                                                            <td>
-                                                                                <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res.recipient_name}</span></h6>
+                                                            <tbody>
+                                                                {
+                                                                    transactionData?.map((res, index) => {
+                                                                        return (
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <h6 className="fs-16 text-black font-w400 mb-0">{res.date}</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res.recipient_name}</span></h6>
 
-                                                                            </td>
-                                                                            <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res.send_currency} </span> {res.amount}</span></td>
-                                                                            <td>
-                                                                                <span className="text-success fs-16 font-w500 d-block"> <span className="btn btn-outline-success btn-rounded">{res.payment_status}</span></span>
-                                                                            </td>
-                                                                        </tr>
-                                                                    )
-                                                                })}
+                                                                                </td>
+                                                                                <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res.send_currency} </span> {res.amount}</span></td>
+                                                                                <td>
+                                                                                    <span className="text-success fs-16 font-w500 d-block"> <span className="btn btn-outline-success btn-rounded" onClick={() => navigate(`/transaction-detail/${res.id}`)}>{res.payment_status}</span></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        )
+                                                                    })}
 
-                                                        </tbody>
+                                                            </tbody>
 
-                                                    </table>
+                                                        </table>
                                                     </div>
                                                 ) : (
                                                     <div className="table-responsive">
-                                                    <table className="table table-responsive-md card-table previous-transactions">
-                                                        <thead>
-                                                        </thead>
-                                                        <tbody>
-                                                        </tbody>
-                                                    </table>
+                                                        <table className="table table-responsive-md card-table previous-transactions">
+                                                            <thead>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 )
                                                 }
@@ -260,49 +260,49 @@ const Dashboard = () => {
 
                                                 {recipientData?.length > 0 ? (
                                                     <div className="table-responsive">
-                                                    <table className="table table-responsive-md card-table previous-transactions">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Name</th>
-                                                                <th>Destination</th>
-                                                            </tr>
-                                                        </thead>
+                                                        <table className="table table-responsive-md card-table previous-transactions">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Destination</th>
+                                                                </tr>
+                                                            </thead>
 
-                                                        <tbody>
-                                                            {
-                                                                recipientData?.map((res, index) => {
-                                                                    return (
+                                                            <tbody>
+                                                                {
+                                                                    recipientData?.map((res, index) => {
+                                                                        return (
 
-                                                                        <tr key={res.id}>
-                                                                            <td>
-                                                                                <div class="me-auto">
-                                                                                    <h6 class="fs-16 font-w600 mb-0">{res.first_name}&nbsp;{res.last_name}</h6>
-                                                                                    <span class="fs-12">{res.date}</span>
-                                                                                </div>
-                                                                            </td>
+                                                                            <tr key={res.id}>
+                                                                                <td>
+                                                                                    <div class="me-auto">
+                                                                                        <h6 class="fs-16 font-w600 mb-0">{res.first_name}&nbsp;{res.last_name}</h6>
+                                                                                        <span class="fs-12">{res.date}</span>
+                                                                                    </div>
+                                                                                </td>
 
-                                                                            <td>
+                                                                                <td>
 
-                                                                                {res.country}
+                                                                                    {res.country}
 
-                                                                            </td>
-                                                                        </tr>
+                                                                                </td>
+                                                                            </tr>
 
-                                                                    )
-                                                                })}
+                                                                        )
+                                                                    })}
 
 
-                                                        </tbody>
-                                                    </table>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 ) : (
                                                     <div className="table-responsive">
-                                                    <table className="table table-responsive-md card-table previous-transactions">
-                                                        <thead>
-                                                        </thead>
-                                                        <tbody>
-                                                        </tbody>
-                                                    </table>
+                                                        <table className="table table-responsive-md card-table previous-transactions">
+                                                            <thead>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 )
                                                 }
