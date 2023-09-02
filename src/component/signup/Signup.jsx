@@ -43,7 +43,7 @@ const Signup = () => {
 
     const signSchema = Yup.object().shape({
         location: Yup.string().required(),
-        email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").min(6).max(50).required("Email is required"),
+        email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/, "Invalid email format").min(6).max(50).required("Email is required"),
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
         referral_code: show ? Yup.string().length(6, "Referral code must contain 6 characters").required("Referral Code is required") : Yup.string().notRequired(),

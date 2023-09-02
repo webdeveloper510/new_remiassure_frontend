@@ -550,13 +550,53 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
       account_number: "",
       agreement_amount: "1000",
       start_date: "",
+      payid_type: "none"
     },
     validationSchema: Yup.object().shape({
-      pay_id: Yup.string(),
-      bsb: Yup.string().length(6, "BSB must be of 6 digits"),
+      payid_type: Yup.string(),
+      pay_id: Yup.string().test("value-test", (value, validationcontext) => {
+        const {
+          createError,
+          parent: {
+            payid_type,
+          },
+        } = validationcontext;
+        let email_regex = /^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/;
+        let teli_regex = /^(\+[0-9]{1,3}-[0-9]{0,31})$/;
+        let aubn_regex = /^[0-9]*$/;
+        let orgn_regex = /^(?!.*\s)[a-z]{0,256}$/;
+        if (payid_type === "EMAL") {
+          if (!email_regex.test(value)) {
+            return createError({ message: "Invalid format" })
+          } else {
+            return true
+          }
+        } else if (payid_type === "TELI" || value?.length < 13) {
+          if (!teli_regex.test(value)) {
+            return createError({ message: "Invalid format" })
+          } else {
+            return true
+          }
+        } else if (payid_type === "AUBN") {
+          if (!aubn_regex.test(value) || value?.length < 9 || value?.length > 11) {
+            return createError({ message: "Invalid format" })
+          } else {
+            return true
+          }
+        } else if (payid_type === "ORGN") {
+          if (!orgn_regex.test(value)) {
+            return createError({ message: "Invalid format" })
+          } else {
+            return true
+          }
+        } else if (payid_type === "none") {
+          return true;
+        }
+      }),
+      bsb: Yup.string().length(6, 'BSB must be of 6 digits'),
       account_number: Yup.string().min(5).max(18),
-      agreement_amount: Yup.string(),
-      start_date: Yup.string()
+      agreement_amount: Yup.string().notOneOf(['none']),
+      start_date: Yup.string(),
     }),
     onSubmit: async (values) => {
       if (Object.keys(agreement_list).length > 0) {
@@ -577,6 +617,14 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
               } else if (res.code === "400") {
                 toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
               }
+              else {
+                handleLoader(false)
+                toast.error("Unable to process the request", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
+              }
+            }).catch(() => {
+              handleLoader(false)
+              toast.error("Unable to process the request", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
+
             })
           } else {
             handler(false)
@@ -608,6 +656,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
           let d = values
           if (disabled === "payid") {
             delete d["pay_id"]
+            delete d["payid_type"]
           } else {
             delete d["bsb"]
             delete d["account_number"]
@@ -624,7 +673,15 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
             } else if (res.code === "400") {
               handleLoader(false)
               toast.error(res.data.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
+            } else {
+              handleLoader(false)
+              toast.error("Unable to process the request", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
             }
+          }).catch(() => {
+
+            handleLoader(false)
+            toast.error("Unable to process the request", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
+
           })
         }
       }
@@ -695,6 +752,49 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
       userInput = filteredInput
     }
     setFieldValue(event.target.name, userInput)
+    setFieldValue("payid_type", "none")
+  }
+
+  const handlePayID = (event) => {
+    let target = event.target
+    if (values.payid_type === "EMAL") {
+      const regex = /^[A-Za-z0-9._%+-@]*$/;
+      let userInput = event.target.value;
+      if (!regex.test(userInput)) {
+        const filteredInput = userInput.replace(/[^A-Za-z0-9._%+-@]/g, '');
+        userInput = filteredInput;
+      } else {
+        userInput = userInput.replace(/^[\s]/g, '');
+      }
+      setFieldValue(target.name, userInput)
+    } else if (values.payid_type === "TELI") {
+      let regex = /^(\+[0-9]{1,3}-[0-9]{0,31})$/
+      if (regex.test(target.value)) {
+        setFieldValue("pay_id", target.value)
+      }
+    } else if (values.payid_type === "AUBN" && target.value.length <= 11) {
+      const regex = /^[0-9]*$/;
+      let userInput = event.target.value;
+      if (!regex.test(userInput)) {
+        const filteredInput = userInput.replace(/[^0-9]/g, '');
+        userInput = filteredInput
+      }
+      setFieldValue(event.target.name, userInput)
+    } else if (values.payid_type === "ORGN") {
+      let regex = /^(?!.*\s)[a-z]{0,256}$/
+      if (regex.test(target.value)) {
+        setFieldValue("pay_id", target.value)
+      }
+    }
+  }
+
+  const handleType = (event) => {
+    setFieldValue("payid_type", event.target.value)
+    if (event.target.value === "TELI") {
+      setFieldValue("pay_id", "+61-")
+    } else {
+      setFieldValue("pay_id", "")
+    }
   }
 
   return (
@@ -777,16 +877,38 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
                         stage === 1 ? (
                           <>
                             <div className="input_field">
+                              <p className="get-text fs-6 mb-1">PayID type<span style={{ color: 'red' }} >*</span></p>
+                              <select
+                                name='payid_type'
+                                value={values.payid_type}
+                                onChange={handleType}
+                                onBlur={handleBlur}
+                                disabled={disabled === "payid"}
+                                placeholder='Select payID type'
+                                className={clsx(
+                                  'form-control mx-2 w-75',
+                                  { 'is-invalid': touched.payid_type && errors.payid_type && disabled !== "payid" }
+                                )}
+                              >
+                                <option value="none">Select PayID type</option>
+                                <option value="EMAL">EMAIL - Email Address</option>
+                                <option value="TELI">TELI - Telephone Number</option>
+                                <option value="AUBN">AUBN - Australian Business Number</option>
+                                <option value="ORGN">ORGN - Organisational Identifier</option>
+                              </select>
+
+                            </div>
+                            <div className="input_field">
                               <p className="get-text fs-6 mb-1">PayID<span style={{ color: 'red' }} >*</span></p>
                               <input
                                 type="text"
-                                maxLength="40"
+                                maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TELI" ? "35" : "11"}
                                 name='pay_id'
                                 value={values.pay_id}
-                                onChange={handleChange}
+                                onChange={handlePayID}
                                 onBlur={handleBlur}
-                                readOnly={disabled === "payid"}
-                                placeholder='Enter Your Pay ID'
+                                readOnly={disabled === "payid" || values.payid_type === "none"}
+                                placeholder={values.payid_type === "none" ? "Select a payID type" : "Enter Your Pay ID"}
                                 className={clsx(
                                   'form-control mx-2 w-75',
                                   { 'is-invalid': touched.pay_id && errors.pay_id && disabled !== "payid" }

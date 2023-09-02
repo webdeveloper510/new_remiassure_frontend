@@ -93,6 +93,16 @@ const SendMoney = () => {
     setSeconds(60)
   }, [minutes])
 
+  // window.addEventListener('beforeunload', function (e) {
+  //   if (window.location.pathname === "/send-money") {
+  //     e.preventDefault();
+  //     e.returnValue = ''
+  //     let data = {
+  //       transfer_data: localStorage.getItem("transfer_data"),
+  //       step: localStorage.getItem("send-step")
+  //     }
+  //   }
+  // })
 
 
   return (

@@ -219,15 +219,15 @@ const Dashboard = () => {
                                                                         return (
                                                                             <tr>
                                                                                 <td>
-                                                                                    <h6 className="fs-16 text-black font-w400 mb-0">{res.date}</h6>
+                                                                                    <h6 className="fs-16 text-black font-w400 mb-0">{res?.date}</h6>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res.recipient_name}</span></h6>
+                                                                                    <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res?.recipient_name}</span></h6>
 
                                                                                 </td>
-                                                                                <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res.send_currency} </span> {res.amount}</span></td>
+                                                                                <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res?.send_currency} </span> {res?.amount}</span></td>
                                                                                 <td>
-                                                                                    <span className="text-success fs-16 font-w500 d-block"> <span className="btn btn-outline-success btn-rounded" onClick={() => navigate(`/transaction-detail/${res.id}`)}>{res.payment_status}</span></span>
+                                                                                    <span className="text-success fs-16 font-w500 d-block"> <span className="btn btn-outline-success btn-rounded" onClick={() => navigate(`/transaction-detail/${res?.id}`)}>{res?.payment_status}</span></span>
                                                                                 </td>
                                                                             </tr>
                                                                         )
@@ -276,14 +276,14 @@ const Dashboard = () => {
                                                                             <tr key={res.id}>
                                                                                 <td>
                                                                                     <div class="me-auto">
-                                                                                        <h6 class="fs-16 font-w600 mb-0">{res.first_name}&nbsp;{res.last_name}</h6>
-                                                                                        <span class="fs-12">{res.date}</span>
+                                                                                        <h6 class="fs-16 font-w600 mb-0">{res?.first_name}&nbsp;{res?.last_name}</h6>
+                                                                                        <span class="fs-12">{res?.date}</span>
                                                                                     </div>
                                                                                 </td>
 
                                                                                 <td>
 
-                                                                                    {res.country}
+                                                                                    {res?.country}
 
                                                                                 </td>
                                                                             </tr>
