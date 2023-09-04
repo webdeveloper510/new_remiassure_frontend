@@ -760,16 +760,13 @@ const Verification = ({ handler, handleSubmit, toggleLoader }) => {
             apiKey: '55bdee3e-850a-4930-a7e6-e713a86a3cc9',
             parentId: 'veriff-root',
             onSession: function (err, response) {
-                console.log("verify - veriff", response);
                 createVeriffFrame({
                     url: response.verification.url,
                     onEvent: function (msg) {
                         switch (msg) {
                             case MESSAGES.CANCELED:
-                                console.log("cancelled");
                                 break;
                             case MESSAGES.STARTED:
-                                console.log("started");
                                 break;
                             case MESSAGES.FINISHED:
                                 toggleLoader()

@@ -234,7 +234,6 @@ const Profile = () => {
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
     setData({ ...data, country: coun.name, mobile: e })
-    console.log(e)
   }
 
   const handleKeyDown = (e, max) => {

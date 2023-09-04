@@ -157,7 +157,7 @@ const Footer = () => {
                                     <li><NavLink to="/about-us">About Us</NavLink></li>
                                     <li> <NavLink to="/working">How It Works </NavLink></li>
                                     <li> <NavLink to="/apps">Mobile Apps</NavLink></li>
-                                    <li> <NavLink to="/news">News</NavLink></li>
+                                    {/* <li> <NavLink to="/news">News</NavLink></li> */}
                                 </ul>
                             </div>
 
@@ -176,7 +176,7 @@ const Footer = () => {
                                 <h4>Contact Us</h4>
                                 <li className="suppot_footer">
                                     <img src="assets/img/footer/email.svg" alt="emai_icons" className="email_icons" />
-                                    <p><a href="mailto:service@remitassure.com" className="text-white">service@remitassure.com</a></p>
+                                    <p><a href="mailto:service@remitassure.com" className="text-white">crm@remitassure.com</a></p>
                                 </li>
 
                                 <li className="suppot_footer">
@@ -203,9 +203,6 @@ const Footer = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-2">
-                            <div className="Smartitude_content">
-                                Smartitude
-                            </div>
                         </div>
 
                         <div className="col-lg-10  reserved_content">

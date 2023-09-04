@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Img from "react-image";
 import Accordion from 'react-bootstrap/Accordion';
+import { Link, NavLink } from "react-router-dom";
+import { RxLinkedinLogo } from "react-icons/rx";
 
 const Help = () => {
 
@@ -13,18 +15,21 @@ const Help = () => {
       {
         id: 1,
         name: "How it works",
-        src: "assets/img/help/icon01.svg"
+        src: "assets/img/help/icon01.svg",
+        link: "/working"
       },
 
       {
         id: 2,
         name: "FAQ",
-        src: "assets/img/help/Shape.svg"
+        src: "assets/img/help/Shape.svg",
+        link: "#faq"
       },
       {
         id: 3,
         name: "My Account",
-        src: "assets/img/help/contact01.svg"
+        src: "assets/img/help/contact01.svg",
+        link: "/dashboard"
       }
     ];
 
@@ -33,15 +38,17 @@ const Help = () => {
         return (
 
           <ul className="list- help_ul">
-            <li className="">
-              <div className="support-image">
-                <img src={element.src} alt="can't show image" />
-              </div>
-              <div className="circle-content">
-                <p className="">{element.name}</p>
-              </div>
-            </li>
-          </ul>
+            <NavLink to={`${element?.link}`} style={{ color: "#0b0e2e" }}>
+              <li className="">
+                <div className="support-image">
+                  <img src={element.src} alt="can't show image" />
+                </div>
+                <div className="circle-content">
+                  <p style={{ color: "#0b0e2e" }}>{element.name}</p>
+                </div>
+              </li>
+            </NavLink>
+          </ul >
 
         )
       }
@@ -140,7 +147,17 @@ const Help = () => {
     )
   }
   // End Accordion functionality section 
-
+  const linking = () => {
+    let user = JSON.parse(localStorage.getItem('remi-user-dt'))
+    let token = localStorage.getItem('token')
+    if (token && (user?.digital_id_verified === "True" || user?.digital_id_verified === "true")) {
+      return "/dashboard"
+    } else if (token && (user?.digital_id_verified === "False" || user?.digital_id_verified === "false")) {
+      return "/send-money"
+    } else {
+      return "/login"
+    }
+  }
 
   return (
     <>
@@ -160,18 +177,51 @@ const Help = () => {
               <div className="card card-support">
                 <div className="card-body">
                   <h5 className="Support-heading">Remitassure Support Center</h5>
-                  <p className="Support-paragraph">Hi, How can we help you?</p>
+                  {/* <p className="Support-paragraph">Hi, How can we help you?</p>
 
                   <div className="search-div">
                     <input type="text" className="search_input" />
-                    {/* <img src="assets/img/help/search.svg" alt="serch_img" className="serch_img" />
-                                    <span className="serch_content"> {input_content}</span> */}
-                  </div>
+                  <img src="assets/img/help/search.svg" alt="serch_img" className="serch_img" />
+                                    <span className="serch_content"> {input_content}</span> 
+                  </div> */}
 
-                  <div className="row">
-                    <div className="col-md-12" id="align_list">
-                      <RenderingArrayOfObjects />
+                  <div className="row justify-content-center my-4 py-4">
+                    <div className="col-md-3 col-lg-3">
+                      <NavLink to={`/working`} style={{ color: "#0b0e2e" }}>
+                        <div className="d-flex justify-content-center align-items-center">
+                          <div className="support-image">
+                            <img src={"assets/img/help/icon01.svg"} alt="can't show image" />
+                          </div>
+                          <div className="circle-content">
+                            <p style={{ color: "#0b0e2e" }}>How it works</p>
+                          </div>
+                        </div>
+                      </NavLink>
                     </div>
+                    <div className="col-md-3 col-lg-3">
+                      <a href="#faq">
+                        <div className="d-flex justify-content-center align-items-center">
+                          <div className="support-image">
+                            <img src={"assets/img/help/Shape.svg"} alt="can't show image" />
+                          </div>
+                          <div className="circle-content">
+                            <p style={{ color: "#0b0e2e" }}>FAQ's</p>
+                          </div>
+                        </div>
+                      </a>
+                    </div >
+                    <div className="col-md-3 col-lg-3">
+                      <NavLink to={linking()} style={{ color: "#0b0e2e" }}>
+                        <div className="d-flex justify-content-center align-items-center">
+                          <div className="support-image">
+                            <img src={"assets/img/help/contact01.svg"} alt="can't show image" />
+                          </div>
+                          <div className="circle-content">
+                            <p style={{ color: "#0b0e2e" }}>My Account</p>
+                          </div>
+                        </div>
+                      </NavLink>
+                    </div >
                   </div>
 
                 </div>
@@ -183,16 +233,16 @@ const Help = () => {
 
 
         </div>
-      </section>
+      </section >
       {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
 
       {/* <!-- ======= Frequently asked questions FAQs  start======= --> */}
-      <section className="why-us section-bgba">
+      <section id="faq" className="why-us section-bgba">
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
               <div className="support-vl02">
-                <h1 className="vl-support">Frequently asked questions FAQs</h1>
+                <h1 className="vl-support" >Frequently asked questions FAQs</h1>
               </div>
               <div className="accrodion_contents">
                 <AccordionArrayOfObjects />
@@ -209,15 +259,14 @@ const Help = () => {
           <div className="row">
             <div className="col-lg-12">
               <h3 className="answer-heading">Can't find your answers?</h3>
-              <p className="answer-paragraph">We're here for (day) -(day) 9:00-12:00 (country time).</p>
-              <p className="answer-paragraph">We speak english (languages)</p>
+              <p className="answer-paragraph">We're here 24 hours a day, 7 days a week to support you.</p>
             </div>
           </div>
 
           <div className="row">
             <div className="col-lg-12">
               <div className="view-button">
-                <a href="tel:+66 2399 1145">
+                <a href="tel:1300284228">
                   <button className="btn btn call_button">Contact Us</button>
                 </a>
               </div>

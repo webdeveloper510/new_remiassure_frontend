@@ -48,7 +48,6 @@ const SendMoney = () => {
     if (authDashHelper('dashCheck')) {
       navigate("/user-send-money")
     } else if (authDashHelper('authCheck')) {
-      console.log(authDashHelper('authCheck'))
       navigate("/login")
     }
     // setTimeout(() => {

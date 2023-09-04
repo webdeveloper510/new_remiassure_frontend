@@ -10,10 +10,11 @@
 --------------------------------------------------------------*/
 :root{
   --font-family: 'poppins' !important;
+    color: #0b0e2e;
 }
 
 body {
-  color: #444;
+  color: #0b0e2e;
   font-family: var(--font-family) !important;
 }
 
@@ -206,7 +207,7 @@ nav#navbar ul li ul li a:hover {
   padding: 10px 20px;
   font-size: 14px;
   text-transform: none;
-  color: #000;
+  color: #0b0e2e;
 }
 
 .navbar .dropdown ul a i {
@@ -252,7 +253,7 @@ nav#navbar ul li ul li a:hover {
 * Mobile Navigation 
 */
 .mobile-nav-toggle {
-  color: #000;
+  color: #0b0e2e;
   font-size: 28px;
   cursor: pointer;
   display: none;
@@ -266,7 +267,7 @@ nav#navbar ul li ul li a:hover {
   z-index: 9999999;
   width: 100vw;
   height: 100vh;
-  background-color: #000;
+  background-color: #0b0e2e;
 }
 .offcanvas-start {
   z-index: 9999999;
@@ -681,7 +682,7 @@ padding-left: 10px;
     font-weight: 500;
     font-size: 16px;
     line-height: 25px;
-    color: #000000;
+    color: #0b0e2e;
     padding-top: 32px !important; 
 
   }
@@ -770,7 +771,7 @@ padding-left: 10px;
     font-size: 14px;
     line-height: 17px;
     text-align: center; 
-    color: #000000;
+    color: #0b0e2e;
     margin-top: 13px;
     
     
@@ -781,7 +782,7 @@ padding-left: 10px;
     background: #0AEDC7;
     border-radius: 0px 13px 13px 0px;
     margin-left: 357px;
-    color: #000000;
+    color: #0b0e2e;
     font-size: 12px;
     background: #0AEDC7;
     border-radius: 0px 13px 13px 0px;
@@ -793,7 +794,7 @@ padding-left: 10px;
     background: #0AEDC7;
     border-radius: 0px 13px 13px 0px;
     margin-left: 128px;
-    color: #000000;
+    color: #0b0e2e;
     font-size: 12px;
     border: 1px solid #0AEDC7;
   }
@@ -803,7 +804,7 @@ padding-left: 10px;
     height: 44.81px;
     background: #0AEDC7;
     border-radius: 0px 13px 13px 0px;
-    COLOR: #000;
+    COLOR: #0b0e2e;
 }
 
 
@@ -825,7 +826,7 @@ padding-left: 10px;
     font-size: 14px;
     line-height: 17px;
     text-align: center; 
-    color: #000000;
+    color: #0b0e2e;
     margin-top: 13px;
     
     
@@ -847,7 +848,7 @@ padding-left: 10px;
     font-size: 14px;
     line-height: 17px;
     text-align: center; 
-    color: #000000;
+    color: #0b0e2e;
     margin-top: 13px;
   }
   .continue-button{
@@ -958,10 +959,12 @@ padding-left: 10px;
     width: 76px;
     border-radius: 50%;
     position: relative;
+    float: left;
+
   }
 
   ul.list- li {
-    display: flex;
+    display: inline-block;
     margin-bottom: 30px; 
 }
 
@@ -1064,7 +1067,7 @@ padding-left: 10px;
   font-size: 14px;
   line-height: 55px;
   padding-top: 20px;
-  color: #000000;
+  color: #0b0e2e;
  }
  img.arrow_icons {
   padding-top: 40px;
@@ -1292,9 +1295,12 @@ img.testimonial-icons {
   font-style: normal;
   font-weight: 700;
   font-size: 30px;
-  text-transform: capitalize;
   color:  #6414E9;
+  text-transform: capitalize;
   padding-left: 10px;
+}
+.close-heading_aboutus{
+  text-transform: none;
 }
 .chose-heading01{
   font-family: var(--font-family) !important;
@@ -1311,7 +1317,7 @@ img.testimonial-icons {
   font-weight: 400;
   font-size: 13px;
   line-height: 25px;
-  color: #000000;
+  color: #0b0e2e;
   padding-top: 20px;
   }
   .home_icons{
@@ -1340,7 +1346,7 @@ img.testimonial-icons {
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
-  color: #000000;
+  color: #0b0e2e;
 }
 .customers-heading{
   font-family: var(--font-family) !important;
@@ -1360,7 +1366,7 @@ img.testimonial-icons {
   font-size: 14px;
   line-height: 25px;
   text-align: center;
-  color: #000000;
+  color: #0b0e2e;
   /* margin-top: -16px; */
 
 }
@@ -1423,7 +1429,7 @@ color: #191970;
   font-weight: 500;
   font-size: 12px;
   line-height: 25px; 
-  color: #000000;
+  color: #0b0e2e;
 }
 
 
@@ -1455,7 +1461,7 @@ color: #191970;
   font-size: 14px;
   line-height: 17px;
   letter-spacing: 0.003em;
-  color: #000000;
+  color: #0b0e2e;
 }
 .accordion-button:not(.collapsed) {
   font-family: var(--font-family) !important;
@@ -1716,7 +1722,7 @@ font-weight: 500;
 font-size: 16px;
 line-height: 30px;
 text-align: center;
-color: #000000;
+color: #0b0e2e;
 }
 .answer_button{
 width: 140px;
@@ -1854,7 +1860,7 @@ p.already_content a {
   font-size: 14px;
   font-weight: 800;
   line-height: 25px;
-  color: #000;
+  color: #0b0e2e;
   /* padding-top: 32px !important; */
 }
 .our_vission01{
@@ -1863,7 +1869,7 @@ p.already_content a {
   font-weight: 500;
   font-size: 14px;
   line-height: 25px;
-  color: #000;
+  color: #0b0e2e;
   padding-top: 14px !important;
 }
 .about_banner {
@@ -1925,14 +1931,13 @@ ul.About_why-ramit-assure {
   font-weight: 700;
   font-size: 13px;
   text-transform: uppercase;
-  color: #000000;
+  color: #0b0e2e;
   margin-top: 16px;
 }
 .about_why-ramit-assure li {
   display: flex;
   float: left;
   width: 25%;
-  align-items: center;
 }
 ul.about_why-ramit-assure {
   float: left;
@@ -1969,11 +1974,10 @@ p.vission_content {
   .gbp_paragraph{
   font-family: var(--font-family) !important;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 14px;
   line-height: 25px;
   align-items: center;
-  text-transform: capitalize;
   color: #191970;
   }
   .vl04 {
@@ -1987,7 +1991,7 @@ p.vission_content {
   font-size: 13px;
   line-height: 25px;
   text-transform: uppercase;
-  color: #000000;
+  color: #0b0e2e;
   margin-top: 10px;
   }
   .signup_content {
@@ -2026,7 +2030,7 @@ p.vission_content {
   font-size: 14px;
   line-height: 25px;
   text-transform: uppercase;
-  color: #000000;
+  color: #0b0e2e;
   margin-bottom: 0;
   }
   .button_copy {
@@ -2060,7 +2064,7 @@ button.btn.btn.find_button:focus {
     line-height: 50px;
     text-align: center;
     text-transform: capitalize;
-    color: #000000;
+    color: #0b0e2e;
     padding-top: 54px;
   }
   .social-image{
@@ -2080,7 +2084,7 @@ font-weight: 400;
 font-size: 14px;
 line-height: 25px;
 text-align: center;
-color: #000000;
+color: #0b0e2e;
 margin-top: 10px;
 float: left;
     width: 100%;
@@ -2092,7 +2096,7 @@ float: left;
   font-size: 14px;
   line-height: 25px;
   text-align: center;
-  color: #000000;
+  color: #0b0e2e;
 }
 .why_banner {
   width: 100%;
@@ -2130,7 +2134,6 @@ float: left;
   display: flex;
   float: left;
   width: 25%;
-  align-items: center;
 }
 ul.why-ramit-assure {
   float: left;
@@ -2146,7 +2149,7 @@ ul.why-ramit-assure {
     padding: 3px;
 }
 .circle-icons {
-    margin-right: 33px;
+    margin-right: 0px;
     background: #fff;
     height: 70px;
     width: 70px;
@@ -2162,7 +2165,7 @@ ul.why-ramit-assure {
   font-weight: 700;
   font-size: 14px;
   line-height: 25px;
-  color: #000000;
+  color: #0b0e2e;
 }
 .why_texto1 {
   font-family: var(--font-family) !important;
@@ -2170,7 +2173,7 @@ ul.why-ramit-assure {
   font-weight: 500;
   font-size: 14px;
   line-height: 25px;
-  color: #000000;
+  color: #0b0e2e;
 }
 .testimonial_vl{
   border-left: 6px solid rgba(100, 20, 233, 1);
@@ -2222,7 +2225,7 @@ font-weight: 700;
 font-size: 12px;
 line-height: 25px;
 text-transform: uppercase;
-color: #000000;
+color: #0b0e2e;
 }
 .line_drow{
   margin-left: 20px;
@@ -2301,7 +2304,7 @@ ul.social-media-icons {
   font-weight: 600;
   font-size: 14px;
   line-height: 24px;
-  color: #000000;
+  color: #0b0e2e;
 }
 .testimonial_icons_text {
   font-family: var(--font-family) !important;
@@ -2678,7 +2681,7 @@ button.cancel_button {
   background: #fff;
   border-radius: 10px;
   text-align: center;
-  color: #000;
+  color: #0b0e2e;
   margin-top: 20px;
   font-size: 16px;
   border: 1px solid #ced4da;
@@ -2765,14 +2768,14 @@ button.cancel_button {
   display: flex;
 }
 .select-currency .home-select-method option {
-  color: #000;
+  color: #0b0e2e;
   font-family: var(--font-family) !important;
   font-style: normal;
   font-weight: 600;
   font-size: 13px;
   line-height: 17px;
   text-align: center;
-  color: #000000;
+  color: #0b0e2e;
   background-color: #0AEDC7;
 }
 .select-currency .home-select-method {
@@ -2785,7 +2788,7 @@ button.cancel_button {
   font-size: 13px;
   line-height: 17px;
   text-align: center;
-  color: #000000;
+  color: #0b0e2e;
   cursor: pointer;
 }
 .inline.select-currency input {
@@ -3200,7 +3203,7 @@ margin-top: 15px;
   margin-bottom: 0px;
   text-align: center;
   padding: 18px;
-  color: #000;
+  color: #0b0e2e;
   font-family: var(--font-family) !important;
   font-style: normal;
   font-weight: 600;
@@ -3241,7 +3244,7 @@ button.start-form-button {
   margin: 20px auto;
   background: #fff;
   border: none;
-  color: #000;
+  color: #0b0e2e;
   padding: 0px 30px;
   border: 1px solid #ced4da;
   font-weight: 500;
@@ -3282,7 +3285,7 @@ th.popup-heading {
 .modal-footer button.btn.btn-secondary {
   background: #fff;
   border: 1px solid #ced4da;
-  color: #000 !important;
+  color: #0b0e2e !important;
 }
 .modal-title.h4 {
   font-family: var(--font-family) !important;
@@ -3790,7 +3793,7 @@ table.table_user_recipients th {
   background: #190079;
 }
 table.table_user_recipients td {
-  color: #000;
+  color: #0b0e2e;
 
   font-size: 14px;
   text-align: center;
@@ -3989,7 +3992,7 @@ p.recived-text {
 }
 
 button#input-group-dropdown-2 {
-  COLOR: #000;
+  COLOR: #0b0e2e;
   font-weight: 900;
   font-size: 14px;
   font-family: var(--font-family) !important;
@@ -4219,7 +4222,7 @@ p.share_referal_code {
   font-size: 14px;
   line-height: 25px;
   text-transform: uppercase;
-  color: #000000;
+  color: #0b0e2e;
   margin-top: 50px;
   margin-bottom: 5px;
 }
@@ -4333,7 +4336,7 @@ input[type=range]::-webkit-slider-thumb {
   height: 5px;
   width: 15%;
   border-radius: 0%;
-  background: #000;
+  background: #0b0e2e;
   margin-top: -4px;
 }
 
@@ -4389,7 +4392,7 @@ button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right, but
 input.mb-3.new_input {
   border: 1px solid #eaeaea;
   border-radius: .375rem;
-  color: #000;
+  color: #0b0e2e;
   /* width: 200px!important; */
   border-bottom-right-radius: 0;
   border-right: none;
@@ -4480,7 +4483,7 @@ input.mb-3.new_input:focus {
 }
 .tabs-page .nav-pills .nav-item a {
   padding: 15px 25px;
-  color: #000;
+  color: #0b0e2e;
   border-radius: 20px;
   margin: 0 auto;
   transition: all 0.3s;
@@ -4525,7 +4528,7 @@ input.mb-3.new_input:focus {
   border: 1px solid rgb(217, 224, 232);
 }
 .my-auto.transac-text span {
-  color: #000 !important;
+  color: #0b0e2e !important;
   float: left;
   width: 100%;
   text-align: right;
@@ -4759,7 +4762,7 @@ ul.mb-3.tarnsfer-tabs.nav.nav-tabs {
   border: 1px solid transparent !important;
 }
 .transaction-progress .nav-link {
-  color: #000 !important;
+  color: #0b0e2e !important;
   padding: 8px 15px;
   font-weight: 400;
   font-size: 13px;
@@ -5028,7 +5031,7 @@ label.container-new.form-gender {
 .addnewcard>p {
 /* background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%); */
   padding: 10px;
-  color: #000;
+  color: #0b0e2e;
   text-align: center;
   text-transform: capitalize;
 }
@@ -5186,7 +5189,7 @@ label.container-new.form-gender {
 }
 a.icon-bottom p {
   background: #fff;
-  color: #000;
+  color: #0b0e2e;
   width: fit-content;
   padding: 2px 10px;
   font-size: 13px;
@@ -5303,7 +5306,7 @@ table.table.table-responsive-md.card-table.previous-transactions {
 }
 .sidebar nav ul li a {
   padding: 15px 25px;
-  color: #000;
+  color: #0b0e2e;
   border-radius: 20px;
   margin: 0 auto;
   transition: all 0.3s;
@@ -5466,7 +5469,7 @@ section.edit_recipient_section {
 }
 .profile-details h4 {
   font-size: 20px;
-  color: #000 !important;
+  color: #0b0e2e !important;
   text-transform: capitalize;
   font-weight: 600;
 }
@@ -5553,7 +5556,7 @@ button.form-button.addsingle_recepient a {
 }
 
 button.start-form-button.back-btn a {
-  color: #000;
+  color: #0b0e2e;
 }
 button.start-form-button.back-btn {
   width: auto !important;
@@ -5751,7 +5754,7 @@ input.form-control.userPhone.w-100 {
   text-align: center;
   display: table-cell;
   position: relative;
-  color: #000;
+  color: #0b0e2e;
 }
 .multi-steps > li:before {
   content: '\f00c';
@@ -5785,12 +5788,12 @@ input.form-control.userPhone.w-100 {
   animation: pulse 2s infinite;
 }
 .multi-steps > li.is-active ~ li {
-  color: #000;
+  color: #0b0e2e;
 }
 .multi-steps > li.is-active ~ li:before {
   background-color: #fff;
   border-color: #fff;
-  color: #000;
+  color: #0b0e2e;
 }
 .is-complete {
   background: linear-gradient(to right, #027f00 50%, #e1e1e1 50%);

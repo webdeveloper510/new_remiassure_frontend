@@ -225,7 +225,7 @@ const Aboutus = () => {
                      <div className="vl about_v1 about_vl about_v1">
                         <h1 className="vl-heading">Why RemitAssure ?</h1>
                         <div className="about_why_heading">
-                           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
+                           <p>Our essence is to offer exceptional remittance services to our customers</p>
                         </div>
                      </div>
                   </div>
@@ -251,7 +251,7 @@ const Aboutus = () => {
                <div className="row">
 
                   <div className="testimonial_vl">
-                     <h1 className="chose-heading">What customers say about us</h1>
+                     <h1 className="chose-heading">What customers say <span className="close-heading_aboutus">about us</span></h1>
 
 
 

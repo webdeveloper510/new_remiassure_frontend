@@ -34,22 +34,22 @@ const Mobile = () => {
             {
                 id: 1,
                 vission_src: "assets/img/about/1st_icons.svg",
-                vission_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                vission_content: "Our essence is to serve our customers. We are committed to going above and beyond in our quest to ensure the satisfaction of our customers.",
             },
             {
                 id: 2,
                 vission_src: "assets/img/about/02nd_icons.svg",
-                vission_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                vission_content: "RemitAssure offers customers secure, efficient and cost-effective remittance services.",
             },
             {
                 id: 3,
                 vission_src: "assets/img/about/03thired_icons.svg",
-                vission_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                vission_content: "We offer very competitive foreign exchange rates due to our lean business model.",
             },
             {
                 id: 4,
                 vission_src: "assets/img/about/04four_icons.svg",
-                vission_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                vission_content: "Through our digital channels we are able to serve customers irrespective of their location, 24 hours a day, 7 days a week (24/7).",
             },
 
         ];
@@ -75,34 +75,30 @@ const Mobile = () => {
     function WhyIconsRenderingArrayOfObjects() {
         const whydata = [
             {
-                id: "1",
-                icon_src: "assets/img/about/Vector01.svg",
-                icon_title: "We’re Secure",
-                icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
+                id: 1,
+                icon_src: "assets/img/home/Vector02.svg",
+                icon_title: "We're Secure",
+                icon_content: "We use industry-leading technology to secure your money.",
             },
             {
-                id: "2",
-                icon_src: "assets/img/about/Vector02.svg",
+                id: 2,
+                icon_src: "assets/img/home/Vector01.svg",
                 icon_title: "We're Fast",
-                icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
+                icon_content: "95% of our transfers are completed in minutes…",
             },
             {
-                id: "3",
-                icon_src: "assets/img/about/Vector03.svg",
+                id: 3,
+                icon_src: "assets/img/home/Vector03.svg",
                 icon_title: "We’re Cost-effective",
-                icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
+                icon_content: "Our rates are competitive compared to banks and other remittance services.",
             },
             {
-                id: "4",
+                id: 4,
                 icon_src: "assets/img/about/Vector04.svg",
                 icon_title: "We’re Innovative",
-                icon_content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-
-            },
-        ];
+                icon_content: "We're committed to researching new ideas and technology to serve you better.",
+            }
+        ]
         const ArrayIconsIttems = whydata.map((icon) => {
             return (
 
@@ -198,9 +194,9 @@ const Mobile = () => {
                                     <div className="vl-content about_content">
                                         {/* <p className="our_vission">Our vission and mission statement will go here</p> */}
                                         <br />
-                                        <p className="our_vission01">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        <p className="our_vission01">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                                        <p className="our_vission01">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                        <p className="our_vission01">RemitAssure is an innovative Fintech that offers disruptive digital peer-to-peer (P2P) remittance services across the globe.</p>
+                                        <p className="our_vission01">Underpinning our Services is our industry leading remittance platform purpose-built to offer robust and scalable digital payment solutions to our clients.</p>
+                                        <p className="our_vission01">Leveraging digital technology and emerging service-sharing models, we offer international remittances at very competitive rates. Our lean business structure and exchanging rate hedging know-how affords us marginal cost savings that we happily pass through to customers.</p>
                                     </div>
                                 </div>
                             </div>
@@ -229,7 +225,7 @@ const Mobile = () => {
                             <div className="vl about_v1 about_vl about_v1">
                                 <h1 className="vl-heading">Why RemitAssure ?</h1>
                                 <div className="about_why_heading">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
+                                    <p>Our essence is to offer exceptional remittance services to our customers</p>
                                 </div>
                             </div>
                         </div>

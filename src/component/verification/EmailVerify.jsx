@@ -13,7 +13,6 @@ const EmailVerify = () => {
         activEmail(id).then(res => {
             setVerified(res)
         }).catch(error=>{
-            console.log(error)
         })
     }, [])
 

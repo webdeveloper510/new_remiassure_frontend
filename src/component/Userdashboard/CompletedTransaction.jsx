@@ -19,31 +19,23 @@ const CompletedTransaction = () => {
 
   // Start page show hide condtion page s
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
 
   const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
   const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp)
 
   const RecipientUserName = localStorage.getItem("RecipientUserName");
-  console.log("RecipientUserName", RecipientUserName);
 
   const signup_token = localStorage.getItem("signup_token")
-  console.log("signup_token", signup_token);
 
 
   const DigitalCode = localStorage.getItem("DigitalCode");
-  console.log("DigitalCode", DigitalCode);
 
   // Start page show hide condtion page
 
   const Total_amount = localStorage.getItem("Total_amount");
-  console.log("Amonut", Total_amount);
 
   const completedStatusData = localStorage.getItem("completedStatusData");
-  console.log("completedStatusData", "completedStatusData")
 
   const [transactionCompletedData, setTransactionCompletedData] = useState([]);
   const [RecepientsData, setRecepientsData] = useState('');
@@ -54,7 +46,6 @@ const CompletedTransaction = () => {
 
   const getStatusDataSummary = (value) => {
     localStorage.setItem("completedStatusData", value)
-    console.log('getSummeryDataID=================>', value)
 
     handleShow();
   }

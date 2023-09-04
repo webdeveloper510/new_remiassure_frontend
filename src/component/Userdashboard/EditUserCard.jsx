@@ -105,7 +105,6 @@ const EditCardUser = () => {
   const handlRecipientBankDetails = (e) => {
     e.preventDefault();
     window.location.reload(false);
-    console.log("handle request ");
   }
 
   //Get data of update value 
@@ -239,7 +238,6 @@ const EditCardUser = () => {
 
     setLoading(true); // Set loading before sending API requestssss
     getCardData(id).then((response) => {
-      console.log("user-response", response)
       if (response.code == "200") {
         let value = response.data
         
@@ -258,21 +256,16 @@ const EditCardUser = () => {
       }
       setLoading(false)
     }).catch((error) => {
-      console.log(error.response)
       setLoading(false)
     })
   }, [])
 
   const inputvalidation = (event) => {
-    console.log("dfjghfguh---------------", event.key)
     const pattern = /^[0-9]+$/;
     let value = event.target.value
-    console.log("v------",event.target.value)
     if (event.key === 'Backspace'||event.key === 'Enter'||event.key === 'Tab'|| event.key ==='Shift'||event.key==='ArrowLeft'||event.key==="ArrowRight"||event.key==="Escape"||event.key==="Delete") {
-      console.log("ppppppppppppppppppppppppppppp")
     } else {
       if (value.length < 16) {
-        console.log("value-------", value)
         if (!pattern.test(event.key)) {
           event.preventDefault();
           event.stopPropagation()
@@ -282,7 +275,6 @@ const EditCardUser = () => {
           formik.setFieldTouched('card_number', true)
         }
       } else {
-        console.log("else ---------------------------------------")
         event.preventDefault()
         event.stopPropagation()
       }
@@ -291,10 +283,8 @@ const EditCardUser = () => {
   }
   const monthvalidation = (event) => {
     // return false
-    console.log("dfjghfguh---------------", event.target.value)
     // const l = event.target.value.toString()
     if (event.target.value > 12) {
-      console.log("helllllll")
       event.preventDefault()
       event.stopPropagation()
     } else {
@@ -306,10 +296,8 @@ const EditCardUser = () => {
   }
 
   const yearvalidation = (event) => {
-    console.log("dfjghfguh---------------", event.target.value)
     // const l = event.target.value.toString()
     if (event.target.value > 99) {
-      console.log("helllllll")
       event.preventDefault()
       event.stopPropagation()
     } else {
@@ -323,8 +311,6 @@ const EditCardUser = () => {
     initialValues,
     validationSchema: updateSchema,
     onSubmit: async (values) => {
-      console.log("update user data--------=======", { ...data })
-      console.log("values-----------", values)
       setLoading(true)
       updateCardUser(id, {
         name: values.name,
@@ -333,7 +319,6 @@ const EditCardUser = () => {
         expiry_year: values.expiry_year
       })
         .then((response) => {
-          console.log("user update-----", response)
           if(response.code == "200"){
             navigate('/user-card-list')
             toast.success(response.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
@@ -343,7 +328,6 @@ const EditCardUser = () => {
           setLoading(false)
         })
         .catch((error) => {
-          console.log(error.response)
           setLoading(false)
         })
     }

@@ -30,13 +30,13 @@ class Scrollbar extends React.Component {
         const maxTranslateX = Math.round(
           // so that we don't over-slide
           carouselItemWidth *
-            (this.Carousel.state.totalItems -
-              this.Carousel.state.slidesToShow) +
-            150
+          (this.Carousel.state.totalItems -
+            this.Carousel.state.slidesToShow) +
+          150
         );
         value = maxTranslateX / 100; // calculate the unit of transform for the slider
       }
-      const { transform} = carouselState;
+      const { transform } = carouselState;
       return (
         <div className="custom-slider">
           <input
@@ -72,212 +72,80 @@ class Scrollbar extends React.Component {
         </div>
       );
     };
+    const items = [
+      {
+        heading: "Best on the market ",
+        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+      }, {
+        heading: "Best on the market ",
+        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+      }, {
+        heading: "Best on the market",
+        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+      }, {
+        heading: "Best on the market",
+        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+      }, {
+        heading: "Best on the market",
+        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+      }, {
+        heading: "Best on the market",
+        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+      }
+    ];
     return (
-        
+
       <Carousel
-      ssr={false}
-      ref={el => (this.Carousel = el)}
-      partialVisible={false}
-      //customButtonGroup={<CustomSlider />}
-      itemClass="image-item"
-      itemAriaLabel="Image-aria-label"
-      responsive={responsive}
-      containerClass="carousel-container-with-scrollbar"
-      additionalTransfrom={-this.state.additionalTransfrom}
-      beforeChange={nextSlide => {
-        if (nextSlide !== 0 && this.state.additionalTransfrom !== 150) {
-          this.setState({ additionalTransfrom: -0 });
+        ssr={false}
+        ref={el => (this.Carousel = el)}
+        partialVisible={false}
+        //customButtonGroup={<CustomSlider />}
+        itemClass="image-item"
+        itemAriaLabel="Image-aria-label"
+        responsive={responsive}
+        containerClass="carousel-container-with-scrollbar"
+        additionalTransfrom={-this.state.additionalTransfrom}
+        beforeChange={nextSlide => {
+          if (nextSlide !== 0 && this.state.additionalTransfrom !== 150) {
+            this.setState({ additionalTransfrom: -0 });
+          }
+          if (nextSlide === 0 && this.state.additionalTransfrom === 150) {
+            this.setState({ additionalTransfrom: 0 });
+          }
+        }}
+      >
+
+
+
+        {
+          items?.map(item => {
+            return (
+              <div class="image-container increase-size">
+                <div class="image-container-text" draggable={false}>
+                  <img src="assets/img/referral/Group.svg" alt="quote-up" className="Group_icons" />
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div class="testimonial-text">
+                        <p className="material_heading_card">{item.paragraph}</p>
+                        <img src="assets/img/referral/Group_star.png" alt="group_card" class="group_card_icon" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12 col-lg-12 testimonial-client">
+                      <div class="testimonial-inner">
+                        <img src="assets/img/referral/girl.svg" alt="boy_icons" className="testimonial-icons" />
+                        <h3 className="kevin_content">Kevin Rich</h3>
+                        <p className="testimonial_icons_text">{item.heading}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            )
+          })
         }
-        if (nextSlide === 0 && this.state.additionalTransfrom === 150) {
-          this.setState({ additionalTransfrom: 0 });
-        }
-      }}
-    >
-
-
-		
-				<div class="image-container increase-size">
-
-          <div class="image-container-text" draggable={false}>
-          <img src="assets/img/referral/Group.svg" alt="quote-up" className="Group_icons" />
-        <div className="row">      
-          <div className="col-md-12">
-            <div class="testimonial-text">
-           <p className="material_heading_card">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the</p>
-           <img src="assets/img/referral/Group_star.png" alt="group_card" class="group_card_icon"/>
-          </div>
-          </div>
-       </div>
-        <div className="row">
-          <div className="col-md-12 col-lg-12 testimonial-client">
-            <div class="testimonial-inner">
-                <img src="assets/img/referral/girl.svg" alt="boy_icons" className="testimonial-icons"/>
-                <h3 className="kevin_content">Kevin Rich</h3>
-                <p className="testimonial_icons_text">Lorem Ipsum is simply</p>
-            </div>
-          </div> 
-        </div> 
-  
-          </div>
-		 
-        </div>
-
-        <div class="image-container increase-size">
-
-<div class="image-container-text" draggable={false}>
-<img src="assets/img/referral/Group.svg" alt="quote-up" className="Group_icons" />
-<div className="row">      
-<div className="col-md-12">
-  <div class="testimonial-text">
- <p className="material_heading_card">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the</p>
- <img src="assets/img/referral/Group_star.png" alt="group_card" class="group_card_icon"/>
-</div>
-</div>
-</div>
-<div className="row">
-<div className="col-md-12 col-lg-12 testimonial-client">
-  <div class="testimonial-inner">
-      <img src="assets/img/referral/girl.svg" alt="boy_icons" className="testimonial-icons"/>
-      <h3 className="kevin_content">Kevin Rich</h3>
-      <p className="testimonial_icons_text">Lorem Ipsum is simply</p>
-  </div>
-</div> 
-</div> 
-
-</div>
-
-</div>
-
-
-<div class="image-container increase-size">
-
-<div class="image-container-text" draggable={false}>
-<img src="assets/img/referral/Group.svg" alt="quote-up" className="Group_icons" />
-<div className="row">      
-<div className="col-md-12">
-  <div class="testimonial-text">
- <p className="material_heading_card">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the</p>
- <img src="assets/img/referral/Group_star.png" alt="group_card" class="group_card_icon"/>
-</div>
-</div>
-</div>
-<div className="row">
-<div className="col-md-12 col-lg-12 testimonial-client">
-  <div class="testimonial-inner">
-      <img src="assets/img/referral/girl.svg" alt="boy_icons" className="testimonial-icons"/>
-      <h3 className="kevin_content">Kevin Rich</h3>
-      <p className="testimonial_icons_text">Lorem Ipsum is simply</p>
-  </div>
-</div> 
-</div> 
-
-</div>
-
-</div>
-
-<div class="image-container increase-size">
-
-<div class="image-container-text" draggable={false}>
-<img src="assets/img/referral/Group.svg" alt="quote-up" className="Group_icons" />
-<div className="row">      
-<div className="col-md-12">
-  <div class="testimonial-text">
- <p className="material_heading_card">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the</p>
- <img src="assets/img/referral/Group_star.png" alt="group_card" class="group_card_icon"/>
-</div>
-</div>
-</div>
-<div className="row">
-<div className="col-md-12 col-lg-12 testimonial-client">
-  <div class="testimonial-inner">
-      <img src="assets/img/referral/girl.svg" alt="boy_icons" className="testimonial-icons"/>
-      <h3 className="kevin_content">Kevin Rich</h3>
-      <p className="testimonial_icons_text">Lorem Ipsum is simply</p>
-  </div>
-</div> 
-</div> 
-
-</div>
-
-</div>
-
-<div class="image-container increase-size">
-
-<div class="image-container-text" draggable={false}>
-<img src="assets/img/referral/Group.svg" alt="quote-up" className="Group_icons" />
-<div className="row">      
-<div className="col-md-12">
-  <div class="testimonial-text">
- <p className="material_heading_card">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the</p>
- <img src="assets/img/referral/Group_star.png" alt="group_card" class="group_card_icon"/>
-</div>
-</div>
-</div>
-<div className="row">
-<div className="col-md-12 col-lg-12 testimonial-client">
-  <div class="testimonial-inner">
-      <img src="assets/img/referral/girl.svg" alt="boy_icons" className="testimonial-icons"/>
-      <h3 className="kevin_content">Kevin Rich</h3>
-      <p className="testimonial_icons_text">Lorem Ipsum is simply</p>
-  </div>
-</div> 
-</div> 
-
-</div>
-
-</div>
-<div class="image-container increase-size">
-
-<div class="image-container-text" draggable={false}>
-<img src="assets/img/referral/Group.svg" alt="quote-up" className="Group_icons" />
-<div className="row">      
-<div className="col-md-12">
-  <div class="testimonial-text">
- <p className="material_heading_card">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the</p>
- <img src="assets/img/referral/Group_star.png" alt="group_card" class="group_card_icon"/>
-</div>
-</div>
-</div>
-<div className="row">
-<div className="col-md-12 col-lg-12 testimonial-client">
-  <div class="testimonial-inner">
-      <img src="assets/img/referral/girl.svg" alt="boy_icons" className="testimonial-icons"/>
-      <h3 className="kevin_content">Kevin Rich</h3>
-      <p className="testimonial_icons_text">Lorem Ipsum is simply</p>
-  </div>
-</div> 
-</div> 
-
-</div>
-
-</div>
-
-<div class="image-container increase-size">
-
-<div class="image-container-text" draggable={false}>
-<img src="assets/img/referral/Group.svg" alt="quote-up" className="Group_icons" />
-<div className="row">      
-<div className="col-md-12">
-  <div class="testimonial-text">
- <p className="material_heading_card">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the</p>
- <img src="assets/img/referral/Group_star.png" alt="group_card" class="group_card_icon"/>
-</div>
-</div>
-</div>
-<div className="row">
-<div className="col-md-12 col-lg-12 testimonial-client">
-  <div class="testimonial-inner">
-      <img src="assets/img/referral/girl.svg" alt="boy_icons" className="testimonial-icons"/>
-      <h3 className="kevin_content">Kevin Rich</h3>
-      <p className="testimonial_icons_text">Lorem Ipsum is simply</p>
-  </div>
-</div> 
-</div> 
-
-</div>
-
-</div>
-
 
       </Carousel>
     );

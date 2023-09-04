@@ -61,7 +61,6 @@ const UserCardLists = () => {
                 getList();
             })
             .catch(function (error, message) {
-                console.log(error.response);
             })
     }
 

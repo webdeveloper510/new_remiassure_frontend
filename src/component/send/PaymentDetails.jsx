@@ -14,7 +14,7 @@ const PaymentDetails = ({ handleStep, step }) => {
 
   const [data, setData] = useState({ payment_type: "Debit/Credit Card" })
   const [modal, setModal] = useState(false)
-  const [pay_id_modal, setPayIdModal] = useState({ toggle: false, id: null })
+  const [pay_id_modal, setPayIdModal] = useState({ toggle: false, id: null, payment_id: null })
   const [pay_to_modal, setPayToModal] = useState(false)
   const [loader, setLoader] = useState(false)
 
@@ -23,7 +23,6 @@ const PaymentDetails = ({ handleStep, step }) => {
   const payRef = useRef(null)
   const navigate = useNavigate()
   const handleChange = (e) => {
-    console.log(e.target.value)
     setData({ ...data, payment_type: e.target.value })
   }
 
@@ -32,10 +31,23 @@ const PaymentDetails = ({ handleStep, step }) => {
       setModal(true)
     } else if (data.payment_type === "PayByID") {
       setLoader(true)
-      createPayId().then((res) => {
+      let local = JSON.parse(localStorage.getItem("transfer_data"))
+      let d = {
+        amount: {
+          send_amount: Number(local?.amount?.send_amt),
+          receive_amount: local?.amount?.exchange_amt,
+          send_currency: local?.amount?.from_type,
+          receive_currency: local?.amount?.to_type,
+          send_method: "pay_id",
+          receive_method: "Bank transfer",
+          reason: local?.recipient?.reason,
+          exchange_rate: local?.amount?.exchange_rate
+        }
+      }
+      createPayId(d).then((res) => {
         setLoader(false)
         if (res.code === "200") {
-          setPayIdModal({ toggle: true, id: res.data.payid })
+          setPayIdModal({ toggle: true, id: res.data.payid, payment_id: res.data.payment_id })
         } else if (res.code === "400") {
           toast.error(res.data.message, { autoClose: 2000, hideProgressBar: true, position: "bottom-right" })
         }
@@ -208,9 +220,9 @@ const PayIDModal = ({ modal, method, handler, handleStep, step, data }) => {
 
 
   const submit = () => {
-    handler({ toggle: false, id: null })
+    handler({ toggle: false, id: null, payment_id: null })
     const local = JSON.parse(localStorage.getItem("transfer_data"))
-    local.payment = { pay_id: data?.id, payment_type: method }
+    local.payment = { pay_id: data?.id, payment_id: data?.payment_id, payment_type: method }
     localStorage.removeItem("transfer_data")
     localStorage.setItem("transfer_data", JSON.stringify(local))
     if (localStorage.getItem("send-step")) {
@@ -221,7 +233,7 @@ const PayIDModal = ({ modal, method, handler, handleStep, step, data }) => {
   }
 
   return (
-    <Modal className="modal-card" show={modal} onHide={() => handler({ toggle: false, id: null })} centered backdrop="static">
+    <Modal className="modal-card" show={modal} onHide={() => handler({ toggle: false, id: null, payment_id: null })} centered backdrop="static">
       <Modal.Header>
         <Modal.Title className='fs-5'><img src="/assets/img/zai/payid.svg" height={30} /></Modal.Title>
       </Modal.Header>
@@ -233,13 +245,17 @@ const PayIDModal = ({ modal, method, handler, handleStep, step, data }) => {
                 <th>Pay ID:</th>
                 <td className='text-lowercase text-start'>{data.id}</td>
               </tr>
+              <tr>
+                <th>Reference Number:</th>
+                <td className='text-lowercase text-start'>{data.payment_id}</td>
+              </tr>
             </tbody>
           </Table>
-          <p>Please use this PayID to transfer the money</p>
+          <p>Please use this reference number to transfer the money</p>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => handler({ toggle: false, id: null })} >
+        <Button variant="secondary" onClick={() => handler({ toggle: false, id: null, payment_id: null })} >
           Cancel
         </Button>
         <Button type="click" variant="primary" onClick={() => submit()}>
@@ -445,7 +461,6 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
         setAgreementList({})
       }
     })
-    console.log("Agreement")
   }, [])
 
   useEffect(() => {

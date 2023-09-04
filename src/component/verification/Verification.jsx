@@ -92,7 +92,6 @@ const Verification = () => {
                         { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                     let d = new Date()
                     d.setDate(d.getDate() + 1);
-                    console.log(d)
                     localStorage.setItem('tkn-exp', d)
                     localStorage.setItem('token', res.access_token)
                     setLoading(false)

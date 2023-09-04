@@ -18,29 +18,19 @@ const InprogressTransfer = () => {
 
   // Start page show hide condtion page 
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
 
   const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
   const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp)
-
   const RecipientUserName = localStorage.getItem("RecipientUserName");
-  console.log("RecipientUserName", RecipientUserName);
 
   const signup_token = localStorage.getItem("signup_token")
-  console.log("signup_token", signup_token);
 
 
   const DigitalCode = localStorage.getItem("DigitalCode");
-  console.log("DigitalCode", DigitalCode);
-
   const Total_amount = localStorage.getItem("Total_amount");
-  console.log("Amonut", Total_amount);
 
   const PendingStatusData = localStorage.getItem("PendingStatusData");
-  console.log(PendingStatusData, "PendingStatusData")
 
   // Start page show hide condtion page
 
@@ -55,7 +45,6 @@ const InprogressTransfer = () => {
 
   const getStatusDataSummary = (value) => {
     localStorage.setItem("PendingStatusData", value)
-    console.log('getSummeryDataID=================>', value)
 
     handleShow();
 
@@ -78,7 +67,6 @@ const InprogressTransfer = () => {
       }
     })
       .then(function (response) {
-        console.log("Recipients APIIIII", response.data);
         setTransactionPendingData(response.data);
         localStorage.setItem("RecepientsData", JSON.stringify(response.data.data))
         setLoading(false); // Stop loading
@@ -88,20 +76,15 @@ const InprogressTransfer = () => {
         // // notify();
       })
       .catch(function (error) {
-        console.log(error);
-        console.log(error.response);
         setLoading(false); // Stop loading in case of error
 
       })
   }
 
-  console.log(transactionPendingData.length, " nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-
   /**************************************************************************
 * ************** Start  Get DataSummery Lists ****************************
 * ***********************************************************************/
   const paymetTransactionId = localStorage.getItem("paymetTransactionId");
-  console.log("paymetTransactionId ====================>", paymetTransactionId);
 
   useEffect(() => {
     SummerySingleData()
@@ -120,9 +103,7 @@ const InprogressTransfer = () => {
 
     })
       .then(function (response) {
-        console.log("Recipients APIIIII", response.data);
         setSummeryData(response.data.data);
-        console.log(summeryData, "summeryData==========>")
         setLoading(false); // Stop loading
 
 
@@ -130,14 +111,11 @@ const InprogressTransfer = () => {
         // // notify();
       })
       .catch(function (error) {
-        console.log(error);
-        console.log(error.response);
         setLoading(false); // Stop loading in case of error
 
       })
   }
 
-  console.log(summeryData, " summeryData==========>")
 
 
   /**************** start-Design **********************/

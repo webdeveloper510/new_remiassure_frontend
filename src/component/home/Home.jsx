@@ -168,7 +168,6 @@ const Home = () => {
         initialValues,
         validationSchema: amountSchema,
         onSubmit: async (values) => {
-            console.log("hello")
             if (blur_off === false) {
                 setLoading(true)
                 exchangeRate({ amount: values.send_amt, from: values.from_type, to: values.to_type, paymentMethod: values.recieve_meth }).then((res) => {

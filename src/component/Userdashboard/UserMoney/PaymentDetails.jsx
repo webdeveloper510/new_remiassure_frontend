@@ -22,9 +22,9 @@ const PaymentDetails = ({ handleStep, step }) => {
 
   const [data, setData] = useState({ payment_type: "Debit/Credit Card", reason: "none" })
   const [modal, setModal] = useState(false)
-  const [pay_id_modal, setPayIdModal] = useState({ toggle: false, id: null })
+  const [pay_id_modal, setPayIdModal] = useState({ toggle: false, id: null, payment_id: null })
   const [pay_to_modal, setPayToModal] = useState(false)
-  const [pay_id_data, setPayIdData] = useState({ id: "" })
+  const [pay_id_data, setPayIdData] = useState({ id: "", payment_id: null })
   const [pay_to_data, setPayToData] = useState({ agreement_uuid: "" })
   const [userData, setUserData] = useState({})
   const [open_modal, setOpenModal] = useState(false)
@@ -70,11 +70,23 @@ const PaymentDetails = ({ handleStep, step }) => {
         setModal(true)
       } else if (data.payment_type === "PayByID") {
         setLoader(true)
-        createPayId().then((res) => {
+        let local = JSON.parse(localStorage.getItem("transfer_data"))
+        let d = {
+          amount: {
+            send_amount: Number(local?.amount?.send_amt),
+            receive_amount: local?.amount?.exchange_amt,
+            send_currency: local?.amount?.from_type,
+            receive_currency: local?.amount?.to_type,
+            send_method: "pay_id",
+            receive_method: "Bank transfer",
+            reason: local?.recipient?.reason,
+            exchange_rate: local?.amount?.exchange_rate
+          }
+        }
+        createPayId(d).then((res) => {
           setLoader(false)
-          console.log(res)
           if (res.code === "200") {
-            setPayIdModal({ toggle: true, id: res.data.payid })
+            setPayIdModal({ toggle: true, id: res.data.payid, payment_id: res.data.payment_id })
           } else if (res.code === "400") {
             toast.error(res.data.message, { autoClose: 2000, hideProgressBar: true, position: "bottom-right" })
           }
@@ -162,9 +174,10 @@ const PaymentDetails = ({ handleStep, step }) => {
           }
         }
         if (data.payment_type === "PayByID") {
-          d.pay_id = pay_id_data.id
+          d.pay_id = pay_id_data.id;
+          d.payment_id = pay_id_data.payment_id
+          delete d["amount"]
           ZaiPayId(d).then(res => {
-            console.log("paybyid", res)
             if (res.code == "200") {
               localStorage.removeItem("transfer_data")
               if (localStorage.getItem("send-step")) {
@@ -186,7 +199,6 @@ const PaymentDetails = ({ handleStep, step }) => {
               }, 3 * 1000)
             }
           }).catch((err) => {
-            console.log(err)
             setLoader(false)
             setIsOtpVerfied(false)
             toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
@@ -201,7 +213,6 @@ const PaymentDetails = ({ handleStep, step }) => {
         } else {
           d.agreement_uuid = pay_to_data.agreement_uuid
           ZaiPayTo(d).then(res => {
-            console.log(res)
             if (res.code == "200") {
               localStorage.removeItem("transfer_data")
               if (localStorage.getItem("send-step")) {
@@ -224,7 +235,6 @@ const PaymentDetails = ({ handleStep, step }) => {
             }
             setLoader(false)
           }).catch((err) => {
-            console.log(err)
 
             setLoader(false)
             setIsOtpVerfied(false)
@@ -503,12 +513,12 @@ const CheckoutForm = ({ payRef, handleModal, handleToken }) => {
 const PayIDModal = ({ modal, handler, otp, data, setData }) => {
 
   const submit = () => {
-    setData({ id: data.id })
-    handler({ toggle: false, id: null })
+    setData({ id: data.id, payment_id: data.payment_id });
+    handler({ toggle: false, id: null, payment_id: null });
     otp(true)
   }
   return (
-    <Modal className="modal-card" show={modal} onHide={() => handler({ toggle: false, id: null })} centered backdrop="static">
+    <Modal className="modal-card" show={modal} onHide={() => handler({ toggle: false, id: null, payment_id: null })} centered backdrop="static">
       <Modal.Header>
         <Modal.Title className='fs-5'><img src="/assets/img/zai/payid.svg" height={30} /></Modal.Title>
       </Modal.Header>
@@ -526,7 +536,7 @@ const PayIDModal = ({ modal, handler, otp, data, setData }) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => handler({ toggle: false, id: null })} >
+        <Button variant="secondary" onClick={() => handler({ toggle: false, id: null, payment_id: null })} >
           Cancel
         </Button>
         <Button type="click" variant="primary" onClick={() => submit()}>
@@ -717,7 +727,6 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
         setAgreementList({})
       }
     })
-    console.log("Agreement")
   }, [])
 
   useEffect(() => {

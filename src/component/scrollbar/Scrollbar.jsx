@@ -30,13 +30,13 @@ class Scrollbar extends React.Component {
         const maxTranslateX = Math.round(
           // so that we don't over-slide
           carouselItemWidth *
-            (this.Carousel.state.totalItems -
-              this.Carousel.state.slidesToShow) +
-            150
+          (this.Carousel.state.totalItems -
+            this.Carousel.state.slidesToShow) +
+          150
         );
         value = maxTranslateX / 100; // calculate the unit of transform for the slider
       }
-      const { transform} = carouselState;
+      const { transform } = carouselState;
       return (
         <div className="custom-slider">
           <input
@@ -72,8 +72,30 @@ class Scrollbar extends React.Component {
         </div>
       );
     };
+
+    const items = [
+      {
+        heading: "Best on the market ",
+        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+      }, {
+        heading: "Best on the market ",
+        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+      }, {
+        heading: "Best on the market",
+        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+      }, {
+        heading: "Best on the market",
+        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+      }, {
+        heading: "Best on the market",
+        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+      }, {
+        heading: "Best on the market",
+        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+      }
+    ];
     return (
-        
+
       <Carousel
         ssr={false}
         ref={el => (this.Carousel = el)}
@@ -95,114 +117,33 @@ class Scrollbar extends React.Component {
       >
 
 
-        <div class="image-container increase-size">
+        {
+          items?.map(item => {
+            return (
+              <div class="image-container increase-size">
 
-          <div class="image-container-text" draggable={false}>
-          <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-       <div className="row each-review">
-         <div className="col-4">
-         <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons"/>
-         <p className="boy_icons_text">Worldtraveler</p>
-         </div>
-         <div className="col-8">
-         <span className="material-icons">Best on the market 1.</span>
-          <p className="material-heading">1.B.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...</p>
-          <img src="assets/img/help/star.png" alt="quote-up"/>
- 
-         </div>
-       </div>
-       <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" />
-  
-          </div>
-		 
-        </div>
-       <div class="image-container increase-size">
+                <div class="image-container-text" draggable={false}>
+                  <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
+                  <div className="row each-review">
+                    <div className="col-4">
+                      <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons" />
+                      <p className="boy_icons_text">Worldtraveler</p>
+                    </div>
+                    <div className="col-8">
+                      <span className="material-icons">{item.heading}</span>
+                      <p className="material-heading">{item.paragraph}</p>
+                      <img src="assets/img/help/star.png" alt="quote-up" />
 
-          <div class="image-container-text" draggable={false}>
-          <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-       <div className="row each-review">
-         <div className="col-4">
-         <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons"/>
-         <p className="boy_icons_text">Worldtraveler</p>
-         </div>
-         <div className="col-8">
-         <span className="material-icons">Best on the market 2.</span>
-          <p className="material-heading">2.B.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...</p>
-          <img src="assets/img/help/star.png" alt="quote-up"/>
- 
-         </div>
-       </div>
-       <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" />
-  
-          </div>
-		 
-        </div>
-		
-				<div class="image-container increase-size">
+                    </div>
+                  </div>
+                  <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" />
 
-          <div class="image-container-text" draggable={false}>
-          <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-       <div className="row each-review">
-         <div className="col-4">
-         <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons"/>
-         <p className="boy_icons_text">Worldtraveler</p>
-         </div>
-         <div className="col-8">
-         <span className="material-icons">Best on the market 3.</span>
-          <p className="material-heading">3.B.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...</p>
-          <img src="assets/img/help/star.png" alt="quote-up"/>
- 
-         </div>
-       </div>
-       <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" />
-  
-          </div>
-		 
-        </div>
+                </div>
 
-       <div class="image-container increase-size">
-
-          <div class="image-container-text" draggable={false}>
-          <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-       <div className="row each-review">
-         <div className="col-4">
-         <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons"/>
-         <p className="boy_icons_text">Worldtraveler</p>
-         </div>
-         <div className="col-8">
-         <span className="material-icons">Best on the market 4.</span>
-          <p className="material-heading">4.B.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...</p>
-          <img src="assets/img/help/star.png" alt="quote-up"/>
- 
-         </div>
-       </div>
-       <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" />
-  
-          </div>
-		 
-        </div>
-
-       <div class="image-container increase-size">
-
-          <div class="image-container-text" draggable={false}>
-          <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-       <div className="row each-review">
-         <div className="col-4">
-         <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons"/>
-         <p className="boy_icons_text">Worldtraveler</p>
-         </div>
-         <div className="col-8">
-         <span className="material-icons">Best on the market 5.</span>
-          <p className="material-heading">5.B.At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...</p>
-          <img src="assets/img/help/star.png" alt="quote-up"/>
- 
-         </div>
-       </div>
-       <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" />
-  
-          </div>
-		 
-        </div>
+              </div>
+            )
+          })
+        }
       </Carousel>
     );
   }

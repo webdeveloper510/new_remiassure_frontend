@@ -48,7 +48,6 @@ const RecentPassword = () => {
                     toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
                 }
             }).catch((error) => {
-                console.log(error)
                 if (error.response.code) {
                     toast.error(error.response.message || error.response.non_field_errors);
                 }

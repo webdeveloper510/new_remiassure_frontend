@@ -189,7 +189,6 @@ const AmountDetail = ({ handleStep, step }) => {
         if (localStorage.getItem("transfer_data")) {
             let tdata = JSON.parse(localStorage.getItem("transfer_data"))
             if (tdata?.amount) {
-                console.log("transfer_data", tdata)
                 setAmtDetail(tdata?.amount)
                 formik.setValues({ ...tdata?.amount })
                 setExchRate(tdata?.amount?.exchange_rate)
@@ -197,9 +196,9 @@ const AmountDetail = ({ handleStep, step }) => {
         }
         else {
             let data = JSON.parse(localStorage.getItem("exchange_curr"))
-            setAmtDetail({ ...amt_detail, from_type: data.from_type, to_type: data.to_type })
-            setExchRate(data.exch_rate)
-            formik.setValues({ ...formik.values, from_type: data.from_type, to_type: data.to_type })
+            setAmtDetail({ ...amt_detail, from_type: data?.from_type, to_type: data?.to_type })
+            setExchRate(data?.exch_rate)
+            formik.setValues({ ...formik.values, from_type: data?.from_type, to_type: data?.to_type })
         }
 
     }, [])

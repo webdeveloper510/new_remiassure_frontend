@@ -57,7 +57,6 @@ const PopVerify = ({ handler, close, phone, new_mobile }) => {
             if (phone == null || undefined || "") {
                 obj.mobile = mobile
             } else {
-                console.log("helloo")
                 obj.mobile = phone
             }
 
@@ -97,7 +96,6 @@ const PopVerify = ({ handler, close, phone, new_mobile }) => {
         if (phone == null || undefined || "") {
             obj.mobile = mobile
         } else {
-            console.log("helloo")
             obj.mobile = phone
         }
         if (new_mobile !== null) {
@@ -126,7 +124,6 @@ const PopVerify = ({ handler, close, phone, new_mobile }) => {
         if (phone == null || undefined || "") {
             obj.mobile = mobile
         } else {
-            console.log("helloo")
             obj.mobile = phone
         }
         if (new_mobile !== null) {

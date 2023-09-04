@@ -18,22 +18,15 @@ const SingleCardProfile = () => {
 
   /*********************Start page show hide condtion page ****************************/
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
 
   const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
-  console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
   const verification_otp = localStorage.getItem("verification_otp");
-  console.log("Verification Message", verification_otp)
 
   const RecipientUserName = localStorage.getItem("RecipientUserName");
-  console.log("RecipientUserName", RecipientUserName);
-
   const signup_token = localStorage.getItem("signup_token")
-  console.log("signup_token", signup_token);
 
   const DigitalCode = localStorage.getItem("DigitalCode");
-  console.log("DigitalCode", DigitalCode);
 
 
 
@@ -41,8 +34,6 @@ const SingleCardProfile = () => {
   /*************data get ************/
   let { id } = useParams();
   // alert(id)
-  console.log("========================>", id);
-
 
   /************ Start -Recipient Bank Details state***************/
   const [error, setError] = useState(false);
@@ -61,19 +52,14 @@ const SingleCardProfile = () => {
 
   /************ Start -Recipient Bank Details function***************/
   const handleStep2InputChange = (e, key) => {
-    console.log(e.target.value)
-    console.log(key)
     let valueForm = formValue
     valueForm[key] = e.target.value
     setFormValue(valueForm)
-    console.log(formValue)
   }
   /************ Start - Cancel Recipient Bank Details function***************/
   const handlRecipientBankDetails = (e) => {
     e.preventDefault();
     window.location.reload(false);
-
-    console.log("handle request ");
   }
 
 
@@ -101,7 +87,6 @@ const SingleCardProfile = () => {
 
   /* start-- useRef is used for focusing on inputbox */
   useEffect(() => {
-    console.log("Data=========>", id)
 
     // event.preventDefault();
     //  setLoading(true); // Set loading before sending API requestssss
@@ -111,12 +96,10 @@ const SingleCardProfile = () => {
       },
     })
       .then(function (response) {
-        console.log(response);
         setSenderDetailData(response.data.data);
         //  setLoading(false); // Stop loading   
       })
       .catch(function (error, message) {
-        console.log(error.response);
         //  setLoading(false); // Stop loading in case of error
         // setBankNameText(error.response.data); 
 

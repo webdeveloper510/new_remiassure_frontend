@@ -198,10 +198,10 @@ const AmountDetail = ({ handleStep, step }) => {
                 setExchRate(tdata?.amount?.exchange_rate)
             }
         } else {
-            let data = JSON.parse(localStorage.getItem("exchange_curr"))
-            setAmtDetail({ ...amt_detail, from_type: data.from_type, to_type: data.to_type })
-            setExchRate(data.exch_rate)
-            formik.setValues({ ...formik.values, from_type: data.from_type, to_type: data.to_type })
+            let data = JSON.parse(localStorage?.getItem("exchange_curr"))
+            setAmtDetail({ ...amt_detail, from_type: data?.from_type, to_type: data?.to_type })
+            setExchRate(data?.exch_rate)
+            formik.setValues({ ...formik.values, from_type: data?.from_type, to_type: data?.to_type })
         }
 
     }, [])

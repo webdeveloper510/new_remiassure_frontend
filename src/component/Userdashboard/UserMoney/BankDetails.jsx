@@ -76,7 +76,6 @@ const BankDetails = ({ handleStep, step }) => {
     initialValues,
     validationSchema: bankSchema,
     onSubmit: async (values) => {
-      console.log(values, data)
       setLoading(true)
       const d = {
         bank_name: values.bank,
@@ -112,10 +111,11 @@ const BankDetails = ({ handleStep, step }) => {
       })
         .then(function (response) {
           if (response.data.code == "200") {
+            console.log(response.data)
             setData(initialValues)
             formik.resetForm()
-            HandleRecipientlist()
             setLoading(false)
+            selectRecipient(response.data.data)
           } else if (response.data.code == "400") {
             setLoading(false)
             toast.error(response.data.message, { autoClose: 2000, hideProgressBar: true })

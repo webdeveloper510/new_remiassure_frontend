@@ -122,11 +122,9 @@ const PaymentSummary = ({ handleStep, step }) => {
       if (data.recipient.postcode == null || data.recipient.postcode == undefined || data.recipient.postcode === "") {
         delete data.recipient.postcode
       }
-      console.log(data)
       if (local?.payment?.payment_type === "PayTo") {
         data.agreement_uuid = local?.payment?.agreement_uuid
         ZaiPayTo(data).then((res) => {
-          console.log(res)
           if (res.code === "200") {
             setLoader(false)
             setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
@@ -153,14 +151,14 @@ const PaymentSummary = ({ handleStep, step }) => {
           setLoader(false)
 
         }).catch(error => {
-          console.log("error", error)
           toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
           setLoader(false)
         })
       } else if (local?.payment?.payment_type === "PayByID") {
         data.pay_id = local?.payment?.pay_id
+        data.payment_id = local?.payment?.payment_id
+        delete data["amount"]
         ZaiPayId(data).then((res) => {
-          console.log(res)
           if (res.code === "200") {
             setLoader(false)
             setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
@@ -190,7 +188,6 @@ const PaymentSummary = ({ handleStep, step }) => {
           setLoader(false)
 
         }).catch(error => {
-          console.log("error", error)
           toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
           setLoader(false)
         })
@@ -438,8 +435,6 @@ const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
   var timer;
 
   useEffect(() => {
-    console.log("hhhhh")
-    console.log("hello", bar_fill)
     if (bar_fill <= 100 && show === true) {
 
       setTimeout(() => {
@@ -458,14 +453,12 @@ const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
     if (show === true) {
       timer = setInterval(() => {
         getAgreementList().then(res => {
-          console.log(res)
           if (res.code === "200") {
             if (res.data.status === "active") {
               clearInterval(timer)
               handler({ trigger: false, data: {} })
               setLoader(true)
               ZaiPayTo(details).then(res => {
-                console.log(res)
                 if (res.code === "200") {
                   setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
                   localStorage.setItem("transaction_id", res?.data?.payment_id)

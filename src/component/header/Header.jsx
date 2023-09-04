@@ -29,6 +29,7 @@ import { AiOutlineLogin } from "react-icons/ai";
 import { FaUserPlus } from "react-icons/fa";
 
 import app from '../../assets/img/home/Group 01.svg';
+import { exchangeRate } from "../../utils/Api";
 
 
 const Header = () => {
@@ -47,7 +48,7 @@ const Header = () => {
     event.preventDefault();
     localStorage.clear();
     toast.success('Logout Successfully', { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
-    navigate('/login')
+    navigate("/login")
   }
 
   return (
