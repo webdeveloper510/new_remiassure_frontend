@@ -308,8 +308,8 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
             return true
           }
         } else if (payid_type === "AUBN") {
-          if (!aubn_regex.test(value) || value?.length < 9 || value?.length > 11) {
-            return createError({ message: "Invalid format" })
+          if (!aubn_regex.test(value) || (value?.length !== 9 && value?.length !== 11)) {
+            return createError({ message: "AUBN must be of 9 or 11 digits" })
           } else {
             return true
           }
@@ -453,17 +453,10 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
   }, [values])
 
   useEffect(() => {
-    getAgreementList().then(res => {
-      if (res.code === "200") {
-        setAgreementList(res.data)
-        setFieldValue("agreement_amount", res?.data?.max_amount)
-      } else {
-        setAgreementList({})
-      }
-    })
+
   }, [])
 
-  useEffect(() => {
+  const startDate = () => {
     var dtToday = new Date().toLocaleString("en-IN", { timeZone: "Australia/Sydney" }).replace(/\//g, "-").split(",")
     var date = dtToday[0].split("-")
     var month = date[1]
@@ -475,6 +468,22 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
       day = '0' + day.toString()
     var maxDate = year + '-' + month + '-' + day;
     setFieldValue("start_date", maxDate)
+  }
+
+  const agreementList = () => {
+    getAgreementList().then(res => {
+      if (res.code === "200") {
+        setAgreementList(res.data)
+        setFieldValue("agreement_amount", res?.data?.max_amount)
+      } else {
+        setAgreementList({})
+      }
+    })
+  }
+
+  useEffect(() => {
+    agreementList()
+    startDate()
   }, [modal])
 
   const handleBSB = (event) => {
@@ -504,6 +513,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
     setStage(1)
     setDisabled(null)
     handler(false)
+    // agreementList()
   }
 
   const handlePayID = (event) => {
@@ -546,6 +556,13 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
     } else {
       setFieldValue("pay_id", "")
     }
+  }
+
+  const createNew = () => {
+    resetForm()
+    setAgreementList([])
+    setStage(1)
+    startDate()
   }
 
   return (
@@ -885,8 +902,16 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
             <Button variant="secondary" onClick={() => handleCancel()} >
               Cancel
             </Button>
+            {
+
+              Object.keys(agreement_list).length > 0 ? (
+                <Button type="click" variant='primary' onClick={() => createNew()}>
+                  Create New
+                </Button>
+              ) : <></>
+            }
             <Button type="click" variant="primary" onClick={() => payIdRef.current.click()}>
-              {stage !== 3 ? "Continue" : "Create agreement"}
+              {Object.keys(agreement_list).length > 0 && Number(agreement_list?.max_amount) !== Number(values.agreement_amount) ? "Update Agreement" : stage === 3 ? "Create Agreement" : "Continue"}
             </Button>
           </Modal.Footer>
         </Modal>

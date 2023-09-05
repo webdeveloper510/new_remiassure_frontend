@@ -593,8 +593,8 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
             return true
           }
         } else if (payid_type === "AUBN") {
-          if (!aubn_regex.test(value) || value.length < 9) {
-            return createError({ message: "Minimum 9 digits" })
+          if (!aubn_regex.test(value) || (value?.length !== 9 && value?.length !== 11)) {
+            return createError({ message: "AUBN must be of 9 or 11 digits" })
           } else {
             return true
           }
@@ -717,13 +717,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
     }
   }
 
-  const handleCancel = () => {
-    resetForm()
-    setStage(1)
-    handler(false)
-  }
-
-  useEffect(() => {
+  const agreementList = () => {
     getAgreementList().then(res => {
       if (res.code === "200") {
         setAgreementList(res.data)
@@ -732,7 +726,16 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
         setAgreementList({})
       }
     })
-  }, [])
+  }
+
+  const handleCancel = () => {
+    resetForm()
+    setStage(1)
+    handler(false)
+    agreementList()
+  }
+
+
 
   useEffect(() => {
     if (values.pay_id === "" && values.account_number === "" && values.bsb === "") {
@@ -744,7 +747,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
     }
   }, [values])
 
-  useEffect(() => {
+  const startDate = () => {
     var dtToday = new Date().toLocaleString("en-IN", { timeZone: "Australia/Sydney" }).replace(/\//g, "-").split(",")
     var date = dtToday[0].split("-")
     var month = date[1]
@@ -756,7 +759,14 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
       day = '0' + day.toString();
     var maxDate = year + '-' + month + '-' + day;
     setFieldValue("start_date", maxDate)
+  }
+
+  useEffect(() => {
+    agreementList()
+    startDate()
   }, [modal])
+
+
 
   const handleBSB = (event) => {
     const regex = /^[0-9]*$/;
@@ -807,6 +817,13 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
     } else {
       setFieldValue("pay_id", "")
     }
+  }
+
+  const createNew = () => {
+    resetForm()
+    setAgreementList([])
+    setStage(1)
+    startDate()
   }
 
   return (
@@ -1136,9 +1153,18 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
         )}
       </Modal.Body>
       <Modal.Footer>
+
         <Button variant="secondary" onClick={() => handleCancel()} >
           Cancel
         </Button>
+        {
+
+          Object.keys(agreement_list).length > 0 ? (
+            <Button type="click" variant='primary' onClick={() => createNew()}>
+              Create New
+            </Button>
+          ) : <></>
+        }
         <Button type="click" variant="primary" onClick={() => payIdRef.current.click()}>
           {Object.keys(agreement_list).length > 0 && Number(agreement_list?.max_amount) !== Number(values.agreement_amount) ? "Update Agreement" : stage === 3 ? "Create Agreement" : "Continue"}
         </Button>

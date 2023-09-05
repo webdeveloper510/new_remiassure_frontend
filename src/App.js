@@ -45,6 +45,7 @@ const App = () => {
       if (d == expTime) {
         localStorage.clear()
         navigate("/login")
+        window.location.reload()
       }
     }
 
@@ -61,15 +62,16 @@ const App = () => {
 
   }, [location.pathname])
 
-
+  let login = localStorage.getItem('token')
   return (
     <>
-      <IdleTimeOutHandler
-        onActive={() => { setIsActive(true) }}
-        onIdle={() => { setIsActive(false) }}
-        onLogout={() => { onLogOut() }}
-        timeOutInterval={(30 * 60 * 1000)}
-      />
+      {login ?
+        <IdleTimeOutHandler
+          onActive={() => { setIsActive(true) }}
+          onIdle={() => { setIsActive(false) }}
+          onLogout={() => { onLogOut() }}
+          timeOutInterval={(30 * 60 * 1000)}
+        /> : <></>}
       {
         path == "remi-user-email-verification" ? (
           <>
