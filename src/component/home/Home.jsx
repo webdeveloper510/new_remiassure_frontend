@@ -565,16 +565,16 @@ const Home = () => {
                                         Download our app for free to send money online in minutes to over 130 other countries. Track your payments and view your transfer history from anywhere.
                                     </p>
                                 </div> */}
-                                
+
                                 <div className="fw-semibold text-light mt-4 display-3">
                                     Coming Soon
                                 </div>
                                 <div className="link my-0">
                                     <div className="left_link">
-                                        <img src="assets/img/home/group 01.svg" alt="home_icons" className="home_icons" />
+                                        <img src="assets/img/home/playstore.svg" alt="home_icons" className="home_icons" />
                                     </div>
                                     <div className="rihjt_link">
-                                        <img src="assets/img/home/group 02.svg" alt="home_icons" className="home_icons" />
+                                        <img src="assets/img/home/appstore.svg" alt="home_icons" className="home_icons" />
                                     </div>
                                 </div>
                             </div>
