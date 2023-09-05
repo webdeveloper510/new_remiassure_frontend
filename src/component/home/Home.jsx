@@ -555,18 +555,19 @@ const Home = () => {
                                 <img src="assets/img/home/img03.svg" alt="background-images" />
                             </div>
                             <div className="col-lg-6 better_sections">
-                                <div className="vl">
+                                {/* <div className="vl">
                                     <h1 className="vl-heading">A Better Way</h1>
                                     <h1 className="vl-heading01">To Send Money ?</h1>
-                                </div>
+                                </div> */}
 
-                                <div className="vl-content">
+                                {/* <div className="vl-content">
                                     <p className="vl-paragraph">
                                         Download our app for free to send money online in minutes to over 130 other countries. Track your payments and view your transfer history from anywhere.
                                     </p>
-                                </div>
-                                <div className="fs-3 fw-semibold text-light mt-4">
-                                    Coming Soon on
+                                </div> */}
+                                
+                                <div className="fw-semibold text-light mt-4 display-3">
+                                    Coming Soon
                                 </div>
                                 <div className="link my-0">
                                     <div className="left_link">

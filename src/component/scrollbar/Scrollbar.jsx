@@ -123,20 +123,20 @@ class Scrollbar extends React.Component {
               <div class="image-container increase-size">
 
                 <div class="image-container-text" draggable={false}>
-                  <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" />
-                  <div className="row each-review">
-                    <div className="col-4">
+                  {/* <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" /> */}
+                  <div className="each-review">
+                  <div className="col-12 align-center">
+                      {/* <span className="material-icons fw-light">{item.heading}</span> */}
+                      <p className="material-heading fw-light">{item.paragraph}</p>
+                    </div>
+                    <div className="col-12 align-center">
                       <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons" />
                       <p className="boy_icons_text">Worldtraveler</p>
+                      <img src="assets/img/referral/Group_star.png" alt="quote-up" className="testimonial-rating" />
                     </div>
-                    <div className="col-8">
-                      <span className="material-icons">{item.heading}</span>
-                      <p className="material-heading">{item.paragraph}</p>
-                      <img src="assets/img/help/star.png" alt="quote-up" />
-
-                    </div>
+                    
                   </div>
-                  <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" />
+                  {/* <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" /> */}
 
                 </div>
 

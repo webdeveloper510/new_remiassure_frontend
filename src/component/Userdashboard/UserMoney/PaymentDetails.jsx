@@ -576,7 +576,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
           },
         } = validationcontext;
         let email_regex = /^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/;
-        let teli_regex = /^(\+[0-9]{1,3}-[0-9]{0,10})$/;
+        let teli_regex = /^(\+[0-9]{1,3}-[0-9]{0,9})$/;
         let aubn_regex = /^[0-9]*$/;
         let orgn_regex = /^(?!.*\s)[a-z]{0,256}$/;
         if (payid_type === "EMAL") {
@@ -782,7 +782,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
       }
       setFieldValue(target.name, userInput)
     } else if (values.payid_type === "TELI") {
-      let regex = /^(\+[0-9]{1,3}-[0-9]{0,10})$/
+      let regex = /^(\+[0-9]{1,3}-[0-9]{0,9})$/
       if (regex.test(target.value)) {
         setFieldValue("pay_id", target.value)
       }
@@ -914,7 +914,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
                               <p className="get-text fs-6 mb-1">PayID<span style={{ color: 'red' }} >*</span></p>
                               <input
                                 type="text"
-                                maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TELI" ? "10" : "11"}
+                                maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TELI" ? "9" : "11"}
                                 name='pay_id'
                                 value={values.pay_id}
                                 onChange={handlePayID}

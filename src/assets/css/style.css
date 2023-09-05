@@ -1390,22 +1390,30 @@ span.material-icons {
   font-family: var(--font-family) !important;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 25px;
-  color: #191970;
+  text-align: center;
+    width: 100%;
+    margin-top: 20px;
   }
 
 p.material-heading {
   font-family: var(--font-family) !important;
   font-style: normal;
   font-weight: 500;
-  font-size: 11px;
-  color: #191970;
+  font-size: 15px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+img.testimonial-rating {
+  width: 80px;
 }
 img.boy_icons {
-  height: 70px;
-  width: 70px;
+  height: 85px;
+  width: 85px;
   border-radius: 50%;
+  margin-top: 44px;
+  border: 4px solid #fff;
 }
 li.card.li_card {
   text-align: inherit;
@@ -1413,14 +1421,18 @@ li.card.li_card {
 .button_icons {
   float: right;
 }
+.each-review {
+  margin-top: 10px;
+}
 .boy_icons_text{
 font-family: var(--font-family) !important;
 font-style: normal;
 font-weight: 700;
-font-size: 12px;
+font-size: 16px;
 line-height: 25px;
 text-align: center;
-color: #191970;
+color: #fff;
+margin-top: 15px;
 }
 
 .works_text {
@@ -3581,11 +3593,12 @@ img.quotup_icons {
   top: -34px;
 }
 .quotdown_icons {
-  width: 56px;
+  width: 40px;
   position: absolute;
   left: inherit !important;
   right: 20px;
   top: inherit !important;
+  bottom: -17px !important;
 }
 .Group_icons{
   width: 56px;
@@ -3659,7 +3672,7 @@ img.quotup_icons {
   top: -34px;
 }
 .quotdown_icons{
-  width: 56px;
+  width: 40px;
   position: absolute;
   left: 310px;
   top: 120px;;
@@ -4361,13 +4374,15 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   padding: 20px 0 20px 20px;
 }
 .image-container.increase-size {
-  box-shadow: 0px 1px 2px 0px var(--card-shadow);
+  background-image:url("../img/about/wave.png");
+  box-shadow: 0px 7px 15px rgb(100 20 233 / 19%);
   border-radius: 13px;
   margin: 0;
-  background: var(--color-white);
+   background-color: var(--color-white); 
   margin-top: 47px;
   padding: 28px;
   position:relative;
+  padding-bottom: 40px;
 }
 
 .react-multi-carousel-list {
@@ -6007,6 +6022,7 @@ button.btn.view_mobile_sidebar.toggle-button {
   background-color: #6414E9;
   
 }
+
 .testimonials .image-container.increase-size {    background: #e8f0ff;}
 
 .exchange-rate-link:hover{
@@ -6015,4 +6031,16 @@ color:#c9efff !important;
 
 .agreement_table{
   word-break: break-word;
+}
+
+.better_sections {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.referal_apps {
+  width:100%;
+  background:rgba(232, 240, 255, 1) !important
 }

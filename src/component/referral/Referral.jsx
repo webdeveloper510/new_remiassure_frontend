@@ -504,7 +504,7 @@ const Referral = () => {
 
 
             {/* <!-- ======= Fast-security RemitAssure-Section start ======= --> */}
-            <section className="why-us section-bg banner_secure">
+            <section className="why-us section-bg referal_apps" style={{backgroundColor:"rgba(232, 240, 255, 1) !important"}}>
                 <div className="container">
                     {/* -----======= first row End ====--- */} {/* -----======= second row start ====--- */}
                     <div className="row">
@@ -512,28 +512,30 @@ const Referral = () => {
                             <img src="assets/img/home/img03.svg" alt="background-images" />
                         </div>
 
-                        <div className="col-lg-6 better_sections01">
-                            <div className="vl">
-                                <h1 className="vl-heading">A fast and secure way to</h1>
-                                <h1 className="vl-heading01">send money on the go</h1>
-                            </div>
-                            <div className="vl-content">
-                                <p className="vl-paragraph01">
-                                    Download our app for free to send money online in minutes to over 130 other countries. Track your payments and view your transfer history from anywhere.
-                                </p>
-                            </div>
-                            <div className="fs-3 fw-semibold mt-4" style={{ color: "#6414E9" }}>
-                                Coming Soon on
-                            </div>
-                            <div className="link">
-                                <div className="left_link">
-                                    <img src="assets/img/home/group 01.svg" alt="home_icons" className="home_icons" />
+                         <div className="col-lg-6 better_sections">
+                                {/* <div className="vl">
+                                    <h1 className="vl-heading">A Better Way</h1>
+                                    <h1 className="vl-heading01">To Send Money ?</h1>
+                                </div> */}
+
+                                {/* <div className="vl-content">
+                                    <p className="vl-paragraph">
+                                        Download our app for free to send money online in minutes to over 130 other countries. Track your payments and view your transfer history from anywhere.
+                                    </p>
+                                </div> */}
+                                
+                                <div className="fw-semibold mt-4 display-3" style={{color:"#6414E9"}}>
+                                    Coming Soon
                                 </div>
-                                <div className="rihjt_link">
-                                    <img src="assets/img/home/group 02.svg" alt="home_icons" className="home_icons" />
+                                <div className="link my-0">
+                                    <div className="left_link">
+                                        <img src="assets/img/home/group 01.svg" alt="home_icons" className="home_icons" />
+                                    </div>
+                                    <div className="rihjt_link">
+                                        <img src="assets/img/home/group 02.svg" alt="home_icons" className="home_icons" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                     {/* -----======= second row End ====--- */}
                 </div>
