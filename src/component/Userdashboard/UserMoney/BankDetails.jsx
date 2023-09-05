@@ -111,7 +111,7 @@ const BankDetails = ({ handleStep, step }) => {
       })
         .then(function (response) {
           if (response.data.code == "200") {
-            console.log(response.data)
+            // console.log(response.data)
             setData(initialValues)
             formik.resetForm()
             setLoading(false)

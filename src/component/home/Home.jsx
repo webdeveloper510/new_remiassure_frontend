@@ -419,6 +419,7 @@ const Home = () => {
                                                     <Form.Control
                                                         name="amount"
                                                         type="text"
+                                                        autoFocus
                                                         autoComplete='off'
                                                         value={formik.values.send_amt}
                                                         onChange={(e) => inputvalidation(e)}
@@ -558,17 +559,21 @@ const Home = () => {
                                     <h1 className="vl-heading">A Better Way</h1>
                                     <h1 className="vl-heading01">To Send Money ?</h1>
                                 </div>
+
                                 <div className="vl-content">
                                     <p className="vl-paragraph">
                                         Download our app for free to send money online in minutes to over 130 other countries. Track your payments and view your transfer history from anywhere.
                                     </p>
                                 </div>
-                                <div className="link">
+                                <div className="fs-3 fw-semibold text-light mt-4">
+                                    Coming Soon on
+                                </div>
+                                <div className="link my-0">
                                     <div className="left_link">
-                                        <img src="assets/img/home/Group 01.svg" alt="home_icons" className="home_icons" />
+                                        <img src="assets/img/home/group 01.svg" alt="home_icons" className="home_icons" />
                                     </div>
                                     <div className="rihjt_link">
-                                        <img src="assets/img/home/Group 02.svg" alt="home_icons" className="home_icons" />
+                                        <img src="assets/img/home/group 02.svg" alt="home_icons" className="home_icons" />
                                     </div>
                                 </div>
                             </div>

@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import nodata from '../../assets/img/userdashboard/nodata.avif';
-import Modal from 'react-bootstrap/Modal';
+// import Modal from 'react-bootstrap/Modal';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import axios from "axios";
+// import axios from "axios";
 import authDashHelper from "../../utils/AuthDashHelper";
 
 
 const serverUrl = process.env.REACT_APP_API_URL
 const AllTranfer = ({ status, data }) => {
 
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
 
-  const Total_amount = localStorage.getItem("Total_amount");
+  // const Total_amount = localStorage.getItem("Total_amount");
 
-  const TransactionHistoryStatus = localStorage.getItem("TransactionHistoryStatus");
+  // const TransactionHistoryStatus = localStorage.getItem("TransactionHistoryStatus");
 
   const [transactionData, setTransactionData] = useState([]);
 
-  const [summeryData, setSummeryData] = useState([]);
+  // const [summeryData, setSummeryData] = useState([]);
 
   const navigate = useNavigate();
-  const paymetTransactionId = localStorage.getItem("paymetTransactionId");
+  // const paymetTransactionId = localStorage.getItem("paymetTransactionId");
 
   useEffect(() => {
     if (authDashHelper('dashCheck') === false) {
@@ -31,7 +31,7 @@ const AllTranfer = ({ status, data }) => {
     if (data?.length != 0) {
       if (status == "pending") {
         let pending = data.filter((item) => {
-          return item.payment_status === "pending"
+          return item.payment_status === "pending payout" || item.payment_status === "pending customer payment" || item.payment_status === "pending AML/Fraud review"
         })
         setTransactionData(pending)
 
@@ -40,31 +40,41 @@ const AllTranfer = ({ status, data }) => {
           return item.payment_status === "completed"
         })
         setTransactionData(completed)
+      } else if (status == "cancelled") {
+        let completed = data.filter((item) => {
+          return item.payment_status === "cancelled"
+        })
+        setTransactionData(completed)
       } else {
         setTransactionData(data)
       }
     }
-    summrySingleData();
+    // summrySingleData();
   }, [data])
 
 
-  const summrySingleData = () => {
-    axios.post(serverUrl + '/payment/summary/', {
-      transaction_id: paymetTransactionId
-    }, {
-      headers: {
-        "Authorization": `Bearer ${token}`,
-      },
-    })
-      .then(function (response) {
-        setSummeryData(response.data.data);
-      })
-      .catch(function (error) {
-      })
-  }
+  // const summrySingleData = () => {
+  //   axios.post(serverUrl + '/payment/summary/', {
+  //     transaction_id: paymetTransactionId
+  //   }, {
+  //     headers: {
+  //       "Authorization": `Bearer ${token}`,
+  //     },
+  //   })
+  //     .then(function (response) {
+  //       setSummeryData(response.data.data);
+  //     })
+  //     .catch(function (error) {
+  //     })
+  // }
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  // const [show, setShow] = useState(false);
+  // const handleClose = () => setShow(false);
+
+  const modified_date = (date) => {
+    let d = date.split("-")
+    return d[2] + "-" + d[1] + "-" + d[0]
+  }
 
   return (
     <>
@@ -92,10 +102,10 @@ const AllTranfer = ({ status, data }) => {
                           return (
                             <tr key={index}>
                               <td>
-                                <h6 className="fs-16 font-w600 mb-0">{res.recipient_name}</h6>
+                                <h6 className="fs-16 font-w600 mb-0">{res.recipient_name ? res.recipient_name : "N/A"}</h6>
                               </td>
                               <td className="transaction-icon"><span className="text-uppercase">{res.send_currency} </span> {res.amount} </td>
-                              <td>{res.date}</td>
+                              <td>{modified_date(res.date)}</td>
                               <td>{res.reason}</td>
                               <td><span className="btn btn-outline-success btn-rounded" onClick={() => navigate(`/transaction-detail/${res.id}`)} >{res.payment_status}</span></td>
                               <td>
@@ -130,7 +140,7 @@ const AllTranfer = ({ status, data }) => {
               }
             </span>
 
-            <Modal show={show} onHide={handleClose}
+            {/* <Modal show={show} onHide={handleClose}
               centered
             >
               <Modal.Header closeButton>
@@ -221,7 +231,7 @@ const AllTranfer = ({ status, data }) => {
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>ok</Button>
               </Modal.Footer>
-            </Modal>
+            </Modal> */}
           </div>
         </div>
       </div>

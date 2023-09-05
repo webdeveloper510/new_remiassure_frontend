@@ -104,7 +104,7 @@ const UserRecipients = () => {
                                                                         <th>Sr.No </th>
                                                                         <th>Name</th>
                                                                         <th>Destination</th>
-                                                                        <th>Transfer Now Link</th>
+                                                                        {/* <th>Transfer Now Link</th> */}
                                                                         <th>Action</th>
                                                                     </tr>
                                                                 </thead>
@@ -116,7 +116,7 @@ const UserRecipients = () => {
                                                                                     <td>{index + 1}</td>
                                                                                     <td>{item.first_name} {item.last_name}</td>
                                                                                     <td>{item.country}</td>
-                                                                                    <td>{item.transfer_now}</td>
+                                                                                    {/* <td>{item.transfer_now ? item.transfer_now : "Coming soon"}</td> */}
                                                                                     <td>
                                                                                         <button className="btn btn-danger" onClick={() => handleShow(item.id)}><i class="fa fa-trash"></i></button>
                                                                                         <button className="btn btn-primary" onClick={() => { LoadEdit(item.id) }}><i class="fa fa-pencil color-muted"></i></button>

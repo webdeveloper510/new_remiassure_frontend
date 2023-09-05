@@ -3,10 +3,11 @@ import { Link, NavLink } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import ReferralScrollbar from '../referralscrollbar/ReferralScrollbar';
+// import ReferralScrollbar from '../referralscrollbar/ReferralScrollbar';
 
 import global from "../../utils/global";
 import axios from "axios";
+import Scrollbar from "../scrollbar/Scrollbar";
 
 
 
@@ -85,22 +86,22 @@ const Referral = () => {
         const socialdata = [
             {
                 id: 1,
-                links: "https://mail.google.com/",
-                src: "assets/img/referral/email.png"
-            },
-            {
+                links: "https://twitter.com/remitassure",
+                src: "assets/img/referral/twitter.svg"
+            }, {
                 id: 2,
-                links: "https://www.facebook.com/",
+                links: "https://www.facebook.com/profile.php?id=100094421798782",
                 src: "assets/img/referral/facebook.svg"
             },
             {
                 id: 3,
-                links: "https://www.instagram.com/",
+                links: "https://www.instagram.com/media.remitassure/",
                 src: "assets/img/referral/instagram.svg"
-            }, {
+            },
+            {
                 id: 4,
-                links: "https://twitter.com/",
-                src: "assets/img/referral/twitter.svg"
+                links: "https://www.linkedin.com/company/98194671/",
+                src: "assets/img/referral/linkedin.svg"
             },
 
         ];
@@ -108,8 +109,8 @@ const Referral = () => {
         const socialItems = socialdata.map((social) => {
             return (
                 <li>
-                    <div className="social-image">
-                        <a href={social.links} >
+                    <div>
+                        <a href={social.links} target="_blank" >
                             <img src={social.src} alt="can't show image" />
                         </a>
                     </div>
@@ -388,62 +389,23 @@ const Referral = () => {
                       </div>
                   </div>
                              */}
-
-
-                    {
-                        verification_otp || token != undefined || '' ? (
-                            <div className="row" >
-                                <div className="col-lg-12">
-                                    <p className="share_content">Way to share</p>
-
-                                    <div className="social_icons">
-                                        <ul className="social-media-icons">
-                                            < SocialArrayObjects />
-                                        </ul>
-                                    </div>
-
-                                    <div className="view-button">
-                                        <NavLink to="/aboutus">
-                                            <button className="btn btn find_button">Find out more </button>
-                                        </NavLink>
-                                    </div>
-                                    <div className="terms_content">
-                                        <p>*T&Cs apply. <Link to="/terms-and-condition"> See terms and conditions</Link> for details*</p>
-                                    </div>
-                                </div>
+                    <div className="row social_links_change" >
+                        <div className="col-lg-12">
+                            <p className="share_content ms-3">Find us on</p>
+                            <div className="social_icons">
+                                <ul className="social-media-icons">
+                                    < SocialArrayObjects />
+                                </ul>
                             </div>
 
-
-                        ) : (
-                            <>
-
-
-                                <div className="row social_links_change" >
-                                    <div className="col-lg-12">
-                                        <p className="share_content">Way to share</p>
-
-                                        <div className="social_icons">
-                                            <ul className="social-media-icons">
-                                                < SocialArrayObjects />
-                                            </ul>
-                                        </div>
-
-                                        <div className="view-button">
-                                            <button className="btn btn find_button">Find out more</button>
-                                        </div>
-                                        <div className="terms_content">
-                                            <p>*T&Cs apply. <span> <Link to="/terms-and-condition"> See terms and conditions</Link></span> for details*</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </>
-                        )
-                    }
-
-
-
+                            {/* <div className="view-button">
+                                <button className="btn btn find_button">Find out more</button>
+                            </div> */}
+                            <div className="terms_content">
+                                <p>*T&Cs apply. <span> <Link to="/terms-and-condition"> See terms and conditions</Link></span> for details*</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
             {/* <!-- ======= How do I refer a friend? Remitassur -Section  End======= --> */}
@@ -458,7 +420,7 @@ const Referral = () => {
                             <div className="vl05">
                                 <h1 className="why-heading">Why RemitAssure ?</h1>
                             </div>
-                            <p className="why_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
+                            {/* <p className="why_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p> */}
                         </div>
                     </div>
 
@@ -514,7 +476,7 @@ const Referral = () => {
                     </div>
                     {/* carousel start  */}
                     <div className="row">
-                        <div className="col-col-lg-12 referal_testimonial">
+                        <div className="col-col-lg-12 referal_testimonial my-4">
                             {/* <div className="carouselwrapper module-wrapper">
               
                        
@@ -527,7 +489,7 @@ const Referral = () => {
                         </ul>
                         </div>      */}
 
-                            <ReferralScrollbar />
+                            <Scrollbar />
                         </div>
 
                     </div>
@@ -560,12 +522,15 @@ const Referral = () => {
                                     Download our app for free to send money online in minutes to over 130 other countries. Track your payments and view your transfer history from anywhere.
                                 </p>
                             </div>
+                            <div className="fs-3 fw-semibold mt-4" style={{ color: "#6414E9" }}>
+                                Coming Soon on
+                            </div>
                             <div className="link">
                                 <div className="left_link">
-                                    <img src="assets/img/home/Group 01.svg" alt="home_icons" className="home_icons" />
+                                    <img src="assets/img/home/group 01.svg" alt="home_icons" className="home_icons" />
                                 </div>
                                 <div className="rihjt_link">
-                                    <img src="assets/img/home/Group 02.svg" alt="home_icons" className="home_icons" />
+                                    <img src="assets/img/home/group 02.svg" alt="home_icons" className="home_icons" />
                                 </div>
                             </div>
                         </div>

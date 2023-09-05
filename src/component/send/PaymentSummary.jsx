@@ -124,6 +124,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       }
       if (local?.payment?.payment_type === "PayTo") {
         data.agreement_uuid = local?.payment?.agreement_uuid
+
         ZaiPayTo(data).then((res) => {
           if (res.code === "200") {
             setLoader(false)
@@ -158,6 +159,7 @@ const PaymentSummary = ({ handleStep, step }) => {
         data.pay_id = local?.payment?.pay_id
         data.payment_id = local?.payment?.payment_id
         delete data["amount"]
+        // console.log(data)
         ZaiPayId(data).then((res) => {
           if (res.code === "200") {
             setLoader(false)
@@ -175,15 +177,15 @@ const PaymentSummary = ({ handleStep, step }) => {
           } else if (res.code == "400") {
             toast.error(res.message, { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
             setLoader(false)
-            setTimeout(() => {
-              window.location.reload()
-            }, 3 * 1000)
+            // setTimeout(() => {
+            //   window.location.reload()
+            // }, 3 * 1000)
           } else {
             toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
             setLoader(false)
-            setTimeout(() => {
-              window.location.reload()
-            }, 3 * 1000)
+            // setTimeout(() => {
+            //   window.location.reload()
+            // }, 3 * 1000)
           }
           setLoader(false)
 

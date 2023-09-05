@@ -185,10 +185,10 @@ const Help = () => {
                                     <span className="serch_content"> {input_content}</span> 
                   </div> */}
 
-                  <div className="row justify-content-center my-4 py-4">
-                    <div className="col-md-3 col-lg-3">
+                  <div className="row justify-content-center w-100 mx-auto my-4 py-4">
+                    <div className="col-md-3 col-lg-3 mt-2">
                       <NavLink to={`/working`} style={{ color: "#0b0e2e" }}>
-                        <div className="d-flex justify-content-center align-items-center">
+                        <div className="d-flex justify-content-start align-items-center">
                           <div className="support-image">
                             <img src={"assets/img/help/icon01.svg"} alt="can't show image" />
                           </div>
@@ -198,9 +198,9 @@ const Help = () => {
                         </div>
                       </NavLink>
                     </div>
-                    <div className="col-md-3 col-lg-3">
+                    <div className="col-md-3 col-lg-3 mt-2">
                       <a href="#faq">
-                        <div className="d-flex justify-content-center align-items-center">
+                        <div className="d-flex justify-content-start align-items-center">
                           <div className="support-image">
                             <img src={"assets/img/help/Shape.svg"} alt="can't show image" />
                           </div>
@@ -210,9 +210,9 @@ const Help = () => {
                         </div>
                       </a>
                     </div >
-                    <div className="col-md-3 col-lg-3">
+                    <div className="col-md-3 col-lg-3 mt-2">
                       <NavLink to={linking()} style={{ color: "#0b0e2e" }}>
-                        <div className="d-flex justify-content-center align-items-center">
+                        <div className="d-flex justify-content-start align-items-center">
                           <div className="support-image">
                             <img src={"assets/img/help/contact01.svg"} alt="can't show image" />
                           </div>
@@ -238,7 +238,7 @@ const Help = () => {
 
       {/* <!-- ======= Frequently asked questions FAQs  start======= --> */}
       <section id="faq" className="why-us section-bgba">
-        <div className="container">
+        <div className="container my-5">
           <div className="row">
             <div className="col-lg-6">
               <div className="support-vl02">

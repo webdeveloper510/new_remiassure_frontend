@@ -54,6 +54,17 @@ const Dashboard = () => {
             if (response.code == "200") {
                 setRecipientData(response.data);
                 setTotalRecipients(response.data.length)
+                // let arr = []
+                // for (let i = 0; i < response?.data?.length; i++) {
+                //     if (i === 0) {
+                //         arr.push(response.data[i])
+                //     } else {
+                //         if (response?.data[i]?.email !== response?.data[i - 1]?.email) {
+                //             arr.push(response.data[i])
+                //         }
+                //     }
+                // }
+                // console.log(arr, "arr")
                 setLoading(false)
             }
         })
@@ -80,6 +91,11 @@ const Dashboard = () => {
         transHistory()
         getList()
     }, [])
+
+    const modified_date = (date) => {
+        let d = date.split("-")
+        return d[2] + "-" + d[1] + "-" + d[0]
+    }
 
     return (
         <>
@@ -219,10 +235,10 @@ const Dashboard = () => {
                                                                         return (
                                                                             <tr>
                                                                                 <td>
-                                                                                    <h6 className="fs-16 text-black font-w400 mb-0">{res?.date}</h6>
+                                                                                    <h6 className="fs-16 text-black font-w400 mb-0">{modified_date(res.date)}</h6>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res?.recipient_name}</span></h6>
+                                                                                    <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res?.recipient_name ? res?.recipient_name : "N/A"}</span></h6>
 
                                                                                 </td>
                                                                                 <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res?.send_currency} </span> {res?.amount}</span></td>

@@ -56,6 +56,9 @@ const Transaction = () => {
                                             <Tab eventKey="Completed" title="Completed">
                                                 <AllTransfer status={"completed"} data={data} />
                                             </Tab>
+                                            <Tab eventKey="Cancelled" title="Cancelled">
+                                                <AllTransfer status={"cancelled"} data={data} />
+                                            </Tab>
                                         </Tabs>
                                     </>
                                 ) : (

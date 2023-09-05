@@ -292,7 +292,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
           },
         } = validationcontext;
         let email_regex = /^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/;
-        let teli_regex = /^(\+[0-9]{1,3}-[0-9]{0,31})$/;
+        let teli_regex = /^(\+[0-9]{1,3}-[0-9]{0,10})$/;
         let aubn_regex = /^[0-9]*$/;
         let orgn_regex = /^(?!.*\s)[a-z]{0,256}$/;
         if (payid_type === "EMAL") {
@@ -519,7 +519,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
       }
       setFieldValue(target.name, userInput)
     } else if (values.payid_type === "TELI") {
-      let regex = /^(\+[0-9]{1,3}-[0-9]{0,31})$/
+      let regex = /^(\+[0-9]{1,3}-[0-9]{0,10})$/
       if (regex.test(target.value)) {
         setFieldValue("pay_id", target.value)
       }
@@ -565,7 +565,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
               Object.keys(agreement_list).length > 0 ? (
                 <>
                   <h5 style={{ color: "#6414E9" }} className='my-3'>PayTo Agreement Details</h5>
-                  <Table>
+                  <Table className='agreement_table'>
                     <tbody>
                       {
                         agreement_list?.account_id_type === "PAYID" ? (
@@ -659,7 +659,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
                                 <p className="get-text fs-6 mb-1">PayID<span style={{ color: 'red' }} >*</span></p>
                                 <input
                                   type="text"
-                                  maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TELI" ? "35" : "11"}
+                                  maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TELI" ? "10" : "11"}
                                   name='pay_id'
                                   value={values.pay_id}
                                   onChange={handlePayID}
@@ -818,7 +818,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
                         <h5 style={{ color: "#6414E9" }} className='my-3'>PayTo Agreement Details</h5>
                         <p className='small my-3'>Please check the PayTo agreement details below before submitting.</p>
                         <form onSubmit={handleSubmit}>
-                          <Table>
+                          <Table className='agreement_table'>
                             <tbody>
                               {
                                 disabled === "payid" ? (

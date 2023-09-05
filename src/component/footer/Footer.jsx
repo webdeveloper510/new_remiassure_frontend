@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { links, NavLink, useNavigate } from 'react-router-dom';
+import { links, NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 
 const Footer = () => {
@@ -125,7 +125,31 @@ const Footer = () => {
         )
     }
     //Legal Footer content End
+    const links = () => {
+        let user = JSON.parse(localStorage.getItem('remi-user-dt'))
+        let token = localStorage.getItem('token')
+        if (token && (user?.digital_id_verified === "True" || user?.digital_id_verified === "true")) {
+            return "/user-send-money"
+        } else if (token && (user?.digital_id_verified === "False" || user?.digital_id_verified === "false")) {
+            return "/send-money"
+        } else {
+            return "/login"
+        }
+    }
+    let location = useLocation()
+    let navigate = useNavigate()
+    const checkExchangeRate = () => {
 
+        if (location.pathname === "/") {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth"
+            })
+        } else {
+            navigate("/")
+        }
+    }
     return (
         <>
             {/* <!-- ======= Footer ======= --> */}
@@ -145,8 +169,8 @@ const Footer = () => {
                                 <ul>
                                     <li><NavLink to="/login">Login</NavLink></li>
                                     <li> <NavLink to="/sign-up">Signup</NavLink></li>
-                                    <li><NavLink to="/">Check Exchange Rates</NavLink></li>
-                                    <li><NavLink to="/send-money">Send Money Overseas</NavLink></li>
+                                    <li className="exchange-rate-link" style={{ cursor: "pointer" }} onClick={() => checkExchangeRate()}>Check Exchange Rates</li>
+                                    <li><NavLink className="exchange-rate-link" to={links()}>Send Money Overseas</NavLink></li>
                                     {/* <NavigationFooterArrayObjects  /> */}
                                 </ul>
                             </div>
@@ -189,10 +213,10 @@ const Footer = () => {
                                     </p>
                                 </li>
                                 <div className="social-links mt-3">
-                                    <a className="twitter"><i className="bx bxl-twitter"></i></a>
-                                    <a className="facebook"><i className="bx bxl-facebook"></i></a>
-                                    <a className="instagram"><i className="bx bxl-instagram"></i></a>
-                                    <a className="linkedin"><i className="bx bxl-linkedin"></i></a>
+                                    <a className="twitter" target="_blank" href="https://twitter.com/remitassure"><i className="bx bxl-twitter"></i></a>
+                                    <a className="facebook" target="_blank" href="https://www.facebook.com/profile.php?id=100094421798782"><i className="bx bxl-facebook"></i></a>
+                                    <a className="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/"><i className="bx bxl-instagram"></i></a>
+                                    <a className="linkedin" target="_blank" href="https://www.linkedin.com/company/98194671/"><i className="bx bxl-linkedin"></i></a>
                                 </div>
                             </div>
 
@@ -201,21 +225,10 @@ const Footer = () => {
                 </div>
 
                 <div className="container">
-                    <div className="row">
-                        <div className="col-lg-2">
+                    <div className="row reserved_content">
+                        <div className="copyright">
+                            &copy; Copyright <strong><span>Remit-Assure</span></strong>. All Rights Reserved
                         </div>
-
-                        <div className="col-lg-10  reserved_content">
-
-                            <div className="copyright">
-                                &copy; Copyright <strong><span>Remit-Assure</span></strong>. All Rights Reserved
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div className="credits">
-
                     </div>
                 </div>
             </footer>

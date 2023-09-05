@@ -6007,3 +6007,12 @@ button.btn.view_mobile_sidebar.toggle-button {
   background-color: #6414E9;
   
 }
+.testimonials .image-container.increase-size {    background: #e8f0ff;}
+
+.exchange-rate-link:hover{
+color:#c9efff !important;
+}
+
+.agreement_table{
+  word-break: break-word;
+}

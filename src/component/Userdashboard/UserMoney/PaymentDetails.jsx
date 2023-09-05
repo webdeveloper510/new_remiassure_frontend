@@ -79,7 +79,7 @@ const PaymentDetails = ({ handleStep, step }) => {
             receive_currency: local?.amount?.to_type,
             send_method: "pay_id",
             receive_method: "Bank transfer",
-            reason: local?.recipient?.reason,
+            reason: data?.reason,
             exchange_rate: local?.amount?.exchange_rate
           }
         }
@@ -530,6 +530,10 @@ const PayIDModal = ({ modal, handler, otp, data, setData }) => {
                 <th>Pay ID:</th>
                 <td className='text-lowercase text-start'>{data.id}</td>
               </tr>
+              <tr>
+                <th>Reference number:</th>
+                <td className='text-lowercase text-start'>{data.payment_id}</td>
+              </tr>
             </tbody>
           </Table>
           <p>Please use this PayID to transfer the money</p>
@@ -572,7 +576,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
           },
         } = validationcontext;
         let email_regex = /^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/;
-        let teli_regex = /^(\+[0-9]{1,3}-[0-9]{0,31})$/;
+        let teli_regex = /^(\+[0-9]{1,3}-[0-9]{0,10})$/;
         let aubn_regex = /^[0-9]*$/;
         let orgn_regex = /^(?!.*\s)[a-z]{0,256}$/;
         if (payid_type === "EMAL") {
@@ -581,15 +585,16 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
           } else {
             return true
           }
-        } else if (payid_type === "TELI" || value?.length < 13) {
-          if (!teli_regex.test(value)) {
+        } else if (payid_type === "TELI") {
+
+          if (!teli_regex.test(value) || value?.length < 13) {
             return createError({ message: "Invalid format" })
           } else {
             return true
           }
         } else if (payid_type === "AUBN") {
-          if (!aubn_regex.test(value) || value?.length < 9 || value?.length > 11) {
-            return createError({ message: "Invalid format" })
+          if (!aubn_regex.test(value) || value.length < 9) {
+            return createError({ message: "Minimum 9 digits" })
           } else {
             return true
           }
@@ -777,18 +782,16 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
       }
       setFieldValue(target.name, userInput)
     } else if (values.payid_type === "TELI") {
-      let regex = /^(\+[0-9]{1,3}-[0-9]{0,31})$/
+      let regex = /^(\+[0-9]{1,3}-[0-9]{0,10})$/
       if (regex.test(target.value)) {
         setFieldValue("pay_id", target.value)
       }
     } else if (values.payid_type === "AUBN" && target.value.length <= 11) {
       const regex = /^[0-9]*$/;
       let userInput = event.target.value;
-      if (!regex.test(userInput)) {
-        const filteredInput = userInput.replace(/[^0-9]/g, '');
-        userInput = filteredInput
+      if (regex.test(userInput)) {
+        setFieldValue(event.target.name, userInput)
       }
-      setFieldValue(event.target.name, userInput)
     } else if (values.payid_type === "ORGN") {
       let regex = /^(?!.*\s)[a-z]{0,256}$/
       if (regex.test(target.value)) {
@@ -816,7 +819,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
           Object.keys(agreement_list).length > 0 ? (
             <>
               <h5 style={{ color: "#6414E9" }} className='my-3'>PayTo Agreement Details</h5>
-              <Table>
+              <Table className='agreement_table'>
                 <tbody>
                   {
                     agreement_list?.account_id_type === "PAYID" ? (
@@ -911,7 +914,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
                               <p className="get-text fs-6 mb-1">PayID<span style={{ color: 'red' }} >*</span></p>
                               <input
                                 type="text"
-                                maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TELI" ? "35" : "11"}
+                                maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TELI" ? "10" : "11"}
                                 name='pay_id'
                                 value={values.pay_id}
                                 onChange={handlePayID}
@@ -1069,7 +1072,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
                     <h5 style={{ color: "#6414E9" }} className='my-3'>PayTo Agreement Details</h5>
                     <p className='small my-3'>Please check the PayTo agreement details below before submitting.</p>
                     <form onSubmit={handleSubmit}>
-                      <Table>
+                      <Table className='agreement_table'>
                         <tbody>
                           {
                             disabled === "payid" ? (

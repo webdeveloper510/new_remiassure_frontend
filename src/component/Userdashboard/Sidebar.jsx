@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect ,useRef  } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { links, NavLink, useNavigate } from 'react-router-dom';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
@@ -68,27 +68,27 @@ const Sidebar = () => {
   return (
 
     <>
-     <div className={`Sidebar ${isOpen ? 'open' : ''}`} ref={sidebarRef}>
-      <button className="btn view_mobile_sidebar toggle-button" onClick={handleSidebarToggle}><RxDashboard /> View Dashboard</button>
+      <div className={`Sidebar ${isOpen ? 'open' : ''}`} ref={sidebarRef}>
+        <button className="btn view_mobile_sidebar toggle-button" onClick={handleSidebarToggle}><RxDashboard /> View Dashboard</button>
 
-      <div className="sidebar">
-      {isOpen && (
+        <div className="sidebar">
+          {isOpen && (
             <label className="close-sidebar btn-close" onClick={handleCloseSidebar}>
-             
+
             </label>
           )}
-        <nav>
-          <ul>
-            <li><NavLink to="/dashboard"><RxDashboard />Dashboard</NavLink></li>
-            <li><NavLink to="/user-send-money"><BsCurrencyExchange />New Transfer</NavLink></li>
-            <li><NavLink to="/user-profile"><BsFilePersonFill />Profile Information</NavLink></li>
-            <li><NavLink to="/transactions"><BiTransfer />Transactions</NavLink></li>
-            <li><NavLink to="/user-recipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
-            <li><NavLink to="/user-card-list"><FaRegCreditCard />Cards</NavLink></li>
-            <li><NavLink to="/change-password"><RiLockPasswordLine />Password</NavLink></li>
-          </ul>
-        </nav>
-      </div>
+          <nav>
+            <ul>
+              <li><NavLink to="/dashboard"><RxDashboard />Dashboard</NavLink></li>
+              <li><NavLink to="/user-send-money"><BsCurrencyExchange />New Transfer</NavLink></li>
+              <li><NavLink to="/user-profile"><BsFilePersonFill />Profile Information</NavLink></li>
+              <li><NavLink to="/transactions"><BiTransfer />Transactions</NavLink></li>
+              <li><NavLink to="/user-recipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
+              {/* <li><NavLink to="/user-card-list"><FaRegCreditCard />Cards</NavLink></li> */}
+              <li><NavLink to="/change-password"><RiLockPasswordLine />Password</NavLink></li>
+            </ul>
+          </nav>
+        </div>
       </div>
       {isOpen && <div className="overlay" onClick={handleCloseSidebar} />}
     </>
