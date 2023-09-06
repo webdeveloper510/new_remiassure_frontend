@@ -115,7 +115,7 @@ const BankDetails = ({ handleStep, step }) => {
             setData(initialValues)
             formik.resetForm()
             setLoading(false)
-            selectRecipient(response.data.data)
+            selectRecipient({ ...response.data.data, reason: values.reason })
           } else if (response.data.code == "400") {
             setLoading(false)
             toast.error(response.data.message, { autoClose: 2000, hideProgressBar: true })

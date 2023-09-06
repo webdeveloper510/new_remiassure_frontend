@@ -243,7 +243,7 @@ const Dashboard = () => {
                                                                                 </td>
                                                                                 <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res?.send_currency} </span> {res?.amount}</span></td>
                                                                                 <td>
-                                                                                    <span className="text-success fs-16 font-w500 d-block"> <span className="btn btn-outline-success btn-rounded" onClick={() => navigate(`/transaction-detail/${res?.id}`)}>{res?.payment_status}</span></span>
+                                                                                    <span className="text-success fs-16 font-w500 d-block"> <span className="btn btn-outline-success btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.id}`)}>{res?.payment_status}</span></span>
                                                                                 </td>
                                                                             </tr>
                                                                         )

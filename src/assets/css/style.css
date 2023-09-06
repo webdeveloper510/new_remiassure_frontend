@@ -6044,3 +6044,12 @@ color:#c9efff !important;
   width:100%;
   background:rgba(232, 240, 255, 1) !important
 }
+
+.custom_status {
+    min-width: 190px;
+}
+
+.my-3.help-accordian.accordion-item {
+    border-radius: 10px !important;
+    border: 1px solid lightgray !important;
+}

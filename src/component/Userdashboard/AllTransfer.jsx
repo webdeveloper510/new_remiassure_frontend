@@ -102,14 +102,14 @@ const AllTranfer = ({ status, data }) => {
                           return (
                             <tr key={index}>
                               <td>
-                                <h6 className="fs-16 font-w600 mb-0">{res.recipient_name ? res.recipient_name : "N/A"}</h6>
+                                <h6 className="fs-16 font-w600 mb-0">{res?.recipient_name ? res?.recipient_name : "N/A"}</h6>
                               </td>
-                              <td className="transaction-icon"><span className="text-uppercase">{res.send_currency} </span> {res.amount} </td>
-                              <td>{modified_date(res.date)}</td>
-                              <td>{res.reason}</td>
-                              <td><span className="btn btn-outline-success btn-rounded" onClick={() => navigate(`/transaction-detail/${res.id}`)} >{res.payment_status}</span></td>
+                              <td className="transaction-icon"><span className="text-uppercase">{res?.send_currency} </span> {res?.amount} </td>
+                              <td>{modified_date(res?.date)}</td>
+                              <td>{res?.reason}</td>
+                              <td><span className="btn btn-outline-success btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.id}`)} >{res?.payment_status}</span></td>
                               <td>
-                                <a href={`${serverUrl}/payment/receipt/${res.id}`} target="_blank">
+                                <a href={`${serverUrl}/payment/receipt/${res?.id}`} target="_blank">
                                   <span className="btn btn-outline-success btn-rounded" >Download</span>
                                 </a>
                               </td>

@@ -387,7 +387,7 @@ const Signup = () => {
                                                                     </div>
                                                                 )}
                                                             </Form.Group>
-                                                            <Form.Check className="form_switch"
+                                                            {/*<Form.Check className="form_switch"
                                                                 type="switch"
                                                                 onClick={() => setShow(!show)}
                                                                 id="custom-switch"
@@ -420,7 +420,7 @@ const Signup = () => {
                                                                         </div>
                                                                     )}
                                                                 </Form.Group>
-                                                            </div>}
+                                                            </div>} */}
                                                             <Form.Group className="mb-3 form_checkbox">
                                                                 <Form.Check className="form_label"
                                                                     type="checkbox"

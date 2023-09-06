@@ -73,9 +73,9 @@ const Header = () => {
               <li>
                 <NavLink to="/help">Help</NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink to="/referral">Referral</NavLink>
-              </li>
+              </li> */}
               {
                 token && user ? (
                   <li class="dropdown">
@@ -129,9 +129,9 @@ const Header = () => {
                   <li>
                     <NavLink to="/help" onClick={handleClose}><FaHandsHelping />Help</NavLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <NavLink to="/referral" onClick={handleClose}><HiUserGroup />Referral</NavLink>
-                  </li>
+                  </li> */}
                   {
                     token && user ? (
                       <li class="dropdown">

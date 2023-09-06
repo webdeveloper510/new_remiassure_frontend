@@ -13,13 +13,13 @@ import PopVerify from '../../verification/PopVerify'
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import clsx from 'clsx'
-import { ZaiDashPayId, ZaiDashPayTo, ZaiPayId, ZaiPayTo, createAgreement, createPayId, getAgreementList, updateAgreement, userProfile, verifyPayTo } from '../../../utils/Api'
+import { ZaiPayId, ZaiPayTo, createAgreement, createPayId, getAgreementList, updateAgreement, userProfile, verifyPayTo } from '../../../utils/Api'
 
 
 const stripe_key = process.env.REACT_APP_STRIPE_KEY
 const serverUrl = process.env.REACT_APP_API_URL
 const PaymentDetails = ({ handleStep, step }) => {
-
+  let local = JSON.parse(localStorage.getItem("transfer_data"))
   const [data, setData] = useState({ payment_type: "Debit/Credit Card", reason: "none" })
   const [modal, setModal] = useState(false)
   const [pay_id_modal, setPayIdModal] = useState({ toggle: false, id: null, payment_id: null })
@@ -37,6 +37,7 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [modalView, setModalView] = useState(false)
   const [loader, setLoader] = useState(false)
   const [token, setToken] = useState({})
+  const stripePromise = loadStripe(`${stripe_key}`);
 
 
   useEffect(() => {
@@ -107,11 +108,6 @@ const PaymentDetails = ({ handleStep, step }) => {
   const handleOtpVerification = (value) => {
     setIsOtpVerfied(value)
   }
-
-  const local = JSON.parse(localStorage.getItem("transfer_data"))
-
-  const stripePromise = loadStripe(`${stripe_key}`);
-
   const handleCancel = () => {
     localStorage.removeItem("send-step")
     localStorage.removeItem("transfer_data")

@@ -77,44 +77,44 @@ const TransactionDetails = () => {
                                                     </div>
                                                     <hr />
                                                     <div className='row my-4'>
-                                                        <div className="col-md-6 col-lg-5 col-sm-12">
+                                                        <div className="col-md-6 col-lg-4 col-sm-12">
                                                             <h5>Recipient Details</h5>
                                                             <Table>
-                                                                <tbody>
+                                                                <tbody style={{ maxWidth: "fit-content" }}>
                                                                     <tr>
                                                                         <td>Recipient name:</td>
-                                                                        <td className='text-capitalize'>{detail?.recipient_name ? detail?.recipient_name : "N/A"}</td>
+                                                                        <td className='text-capitalize' style={{ wordBreak: "break-word" }}>{detail?.recipient_name ? detail?.recipient_name : "N/A"}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>Bank name:</td>
-                                                                        <td className='text-capitalize'>{detail?.bank_name ? detail?.bank_name : "N/A"}</td>
+                                                                        <td className='text-capitalize' style={{ wordBreak: "break-word" }}>{detail?.bank_name ? detail?.bank_name : "N/A"}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>Account name:</td>
-                                                                        <td className='text-capitalize'>{detail?.account_name ? detail?.account_name : "N/A"}</td>
+                                                                        <td className='text-capitalize' style={{ wordBreak: "break-word" }}>{detail?.account_name ? detail?.account_name : "N/A"}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>Account number:</td>
-                                                                        <td>{detail?.account_number ? detail?.account_number : "N/A"}</td>
+                                                                        <td style={{ wordBreak: "break-word" }}>{detail?.account_number ? detail?.account_number : "N/A"}</td>
                                                                     </tr>
                                                                 </tbody>
                                                             </Table>
                                                         </div>
-                                                        <div className="col-md-6 col-lg-5 col-sm-12">
+                                                        <div className="col-md-6 col-lg-6 col-sm-12">
                                                             <h5>More Details</h5>
                                                             <Table>
                                                                 <tbody>
                                                                     <tr>
                                                                         <td>Transfer method:</td>
-                                                                        <td>{detail?.send_method ? detail?.send_method === "zai_payto_agreement" ? "Payto agreement" : detail?.send_method === "zai_payid_per_user" ? "PayID" : detail?.send_method : "N/A"}</td>
+                                                                        <td style={{ wordBreak: "break-word" }}>{detail?.send_method ? detail?.send_method === "zai_payto_agreement" ? "Payto agreement" : detail?.send_method === "zai_payid_per_user" ? "PayID" : detail?.send_method : "N/A"}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>Customer ID:</td>
-                                                                        <td>{detail?.customer_id ? detail?.customer_id : "N/A"}</td>
+                                                                        <td style={{ wordBreak: "break-word" }}>{detail?.customer_id ? detail?.customer_id : "N/A"}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>Reason:</td>
-                                                                        <td>{detail?.reason ? detail?.reason : "N/A"}</td>
+                                                                        <td style={{ wordBreak: "break-word" }}>{detail?.reason ? detail?.reason : "N/A"}</td>
                                                                     </tr>
                                                                     {
                                                                         detail?.send_method_details !== null ? (
@@ -124,7 +124,7 @@ const TransactionDetails = () => {
                                                                                         (
                                                                                             <tr>
                                                                                                 <td>PayID:</td>
-                                                                                                <td>{detail?.send_method_details?.payid ? detail?.send_method_details?.payid : "N/A"}</td>
+                                                                                                <td style={{ wordBreak: "break-word" }}>{detail?.send_method_details?.payid ? detail?.send_method_details?.payid : "N/A"}</td>
                                                                                             </tr>
                                                                                         ) : <></>
                                                                                 }
@@ -133,7 +133,7 @@ const TransactionDetails = () => {
                                                                                         (
                                                                                             <tr>
                                                                                                 <td>BSB code:</td>
-                                                                                                <td>{detail?.send_method_details?.bsb_code ? detail?.send_method_details?.bsb_code : "N/A"}</td>
+                                                                                                <td style={{ wordBreak: "break-word" }}>{detail?.send_method_details?.bsb_code ? detail?.send_method_details?.bsb_code : "N/A"}</td>
                                                                                             </tr>
                                                                                         ) : <></>
                                                                                 }
@@ -142,7 +142,7 @@ const TransactionDetails = () => {
                                                                                         (
                                                                                             <tr>
                                                                                                 <td>Account number:</td>
-                                                                                                <td>{detail?.send_method_details?.account_number ? detail?.send_method_details?.account_number : "N/A"}</td>
+                                                                                                <td style={{ wordBreak: "break-word" }}>{detail?.send_method_details?.account_number ? detail?.send_method_details?.account_number : "N/A"}</td>
                                                                                             </tr>
                                                                                         ) : <></>
                                                                                 }
@@ -151,7 +151,7 @@ const TransactionDetails = () => {
                                                                                         (
                                                                                             <tr>
                                                                                                 <td>Max amount per transaction:</td>
-                                                                                                <td>{detail?.send_method_details?.max_amount ? detail?.send_method_details?.max_amount : "N/A"}</td>
+                                                                                                <td style={{ wordBreak: "break-word" }}>{detail?.send_method_details?.max_amount ? detail?.send_method_details?.max_amount : "N/A"}</td>
                                                                                             </tr>
                                                                                         ) : <></>
                                                                                 }

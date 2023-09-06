@@ -152,6 +152,8 @@ const Editrecipientuser = () => {
           setTimeout(() => {
             navigate("/user-recipients")
           }, 2 * 1000)
+        } else if (response.code === "400") {
+          toast.error(response.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         }
         setLoading(false)
       }).catch((error) => {
