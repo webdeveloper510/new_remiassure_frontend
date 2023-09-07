@@ -11,6 +11,7 @@ const TransactionDetails = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const { id } = useParams()
+    const [reason, setReason] = useState("")
 
 
     useEffect(() => {
@@ -18,6 +19,9 @@ const TransactionDetails = () => {
         paymentSummary(id).then(res => {
             if (res.code === "200") {
                 setDetails(res.data)
+                if (res.data.payment_status_reason && res.data?.payment_status?.toLowerCase() === "cancelled") {
+                    fetchReason(res.data.payment_status_reason)
+                }
             } else if (res.code === "400") {
                 setError("Sorry, we are unable to find the details..")
             }
@@ -35,7 +39,11 @@ const TransactionDetails = () => {
         let ar = list.filter(item => {
             return !item.includes("risk") && !item.includes("Risk") && item !== "" && item !== " "
         })
-        return ar[0]
+        if (ar[0] !== "" && ar[0] !== " ") {
+            setReason(ar[0])
+        } else {
+            setReason("")
+        }
     }
 
     return (
@@ -82,10 +90,10 @@ const TransactionDetails = () => {
                                                             }
                                                         </div>
                                                         {
-                                                            detail?.payment_status_reason ? (
+                                                            reason !== "" ? (
                                                                 <div className='d-grid fs-6 my-1 col-md-2'>
                                                                     <span>Reason</span>
-                                                                    <span className='fw-semibold small text-capitalize'>{fetchReason(detail?.payment_status_reason)}</span>
+                                                                    <span className='fw-semibold small text-capitalize'>{reason}</span>
                                                                 </div>
                                                             ) : (
                                                                 <></>
@@ -139,7 +147,7 @@ const TransactionDetails = () => {
                                                                         <td style={{ wordBreak: "break-word" }}>{detail?.customer_id ? detail?.customer_id : "N/A"}</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Reason:</td>
+                                                                        <td>Transfer Reason:</td>
                                                                         <td style={{ wordBreak: "break-word" }}>{detail?.reason ? detail?.reason : "N/A"}</td>
                                                                     </tr>
                                                                     {
