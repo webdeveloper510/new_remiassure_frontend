@@ -558,12 +558,12 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
     }
   }
 
-  const createNew = () => {
-    resetForm()
-    setAgreementList([])
-    setStage(1)
-    startDate()
-  }
+  // const createNew = () => {
+  //   resetForm()
+  //   setAgreementList([])
+  //   setStage(1)
+  //   startDate()
+  // }
 
   return (
     <>
@@ -902,14 +902,14 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
             <Button variant="secondary" onClick={() => handleCancel()} >
               Cancel
             </Button>
-            {
+            {/* {
 
               Object.keys(agreement_list).length > 0 ? (
                 <Button type="click" variant='primary' onClick={() => createNew()}>
                   Create New
                 </Button>
               ) : <></>
-            }
+            } */}
             <Button type="click" variant="primary" onClick={() => payIdRef.current.click()}>
               {Object.keys(agreement_list).length > 0 && Number(agreement_list?.max_amount) !== Number(values.agreement_amount) ? "Update Agreement" : stage === 3 ? "Create Agreement" : "Continue"}
             </Button>
