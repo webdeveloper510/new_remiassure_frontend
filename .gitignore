@@ -23,9 +23,9 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
-./.env.development
-./.env.staging
-./.env.production
+.env.development
+.env.staging
+.env.production
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build
 packages/react-devtools-extensions/chrome/*.crx
