@@ -30,6 +30,14 @@ const TransactionDetails = () => {
         return d[2] + "-" + d[1] + "-" + d[0]
     }
 
+    const fetchReason = (reason_list) => {
+        let list = reason_list.split(",");
+        let ar = list.filter(item => {
+            return !item.includes("risk") && !item.includes("Risk") && item !== "" && item !== " "
+        })
+        return ar[0]
+    }
+
     return (
         <div className="margin-set">
             <div className="tabs-page">
@@ -64,8 +72,25 @@ const TransactionDetails = () => {
                                                     <div className='row'>
                                                         <div className='d-grid fs-6 my-1 col-md-2'>
                                                             <span>Status</span>
-                                                            <span className='fw-semibold small'>{detail?.payment_status ? detail?.payment_status : "N/A"}</span>
+                                                            {
+                                                                detail?.payment_status && (detail?.payment_status === "cancelled" || detail?.payment_status === "Cancelled") ? (
+                                                                    <span className='fw-semibold small text-danger text-capitalize'>{detail?.payment_status ? detail?.payment_status : "N/A"}</span>
+
+                                                                ) : (
+                                                                    <span className='fw-semibold small text-capitalize'>{detail?.payment_status ? detail?.payment_status : "N/A"}</span>
+                                                                )
+                                                            }
                                                         </div>
+                                                        {
+                                                            detail?.payment_status_reason ? (
+                                                                <div className='d-grid fs-6 my-1 col-md-2'>
+                                                                    <span>Reason</span>
+                                                                    <span className='fw-semibold small text-capitalize'>{fetchReason(detail?.payment_status_reason)}</span>
+                                                                </div>
+                                                            ) : (
+                                                                <></>
+                                                            )
+                                                        }
                                                         <div className='d-grid fs-6 my-1 col-md-2'>
                                                             <span>Date Created</span>
                                                             <span className='fw-semibold small'>{detail?.date ? dateCreated(detail?.date) : "N/A"}</span>
@@ -74,6 +99,7 @@ const TransactionDetails = () => {
                                                             <span>Transaction Id</span>
                                                             <span className='fw-semibold small'>{detail?.transaction_id ? detail?.transaction_id : "N/A"}</span>
                                                         </div>
+
                                                     </div>
                                                     <hr />
                                                     <div className='row my-4'>
@@ -178,7 +204,7 @@ const TransactionDetails = () => {
                     }
                 </div>
             </div>
-        </div>
+        </div >
 
     )
 }

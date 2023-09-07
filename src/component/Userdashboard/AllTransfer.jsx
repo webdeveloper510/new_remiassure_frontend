@@ -42,7 +42,7 @@ const AllTranfer = ({ status, data }) => {
         setTransactionData(completed)
       } else if (status == "cancelled") {
         let completed = data.filter((item) => {
-          return item.payment_status === "cancelled"
+          return item.payment_status === "cancelled" || item.payment_status === "Cancelled"
         })
         setTransactionData(completed)
       } else {
@@ -107,7 +107,17 @@ const AllTranfer = ({ status, data }) => {
                               <td className="transaction-icon"><span className="text-uppercase">{res?.send_currency} </span> {res?.amount} </td>
                               <td>{modified_date(res?.date)}</td>
                               <td>{res?.reason}</td>
-                              <td><span className="btn btn-outline-success btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.id}`)} >{res?.payment_status}</span></td>
+
+                              <td>{
+                                res?.payment_status === "cancelled" || res?.payment_status === "Cancelled" ? (
+                                  <span className="btn btn-outline-danger btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.id}`)} >{res?.payment_status}</span>
+
+                                ) : (
+                                  <span className="btn btn-outline-success btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.id}`)} >{res?.payment_status}</span>
+
+                                )
+                              }
+                              </td>
                               <td>
                                 <a href={`${serverUrl}/payment/receipt/${res?.id}`} target="_blank">
                                   <span className="btn btn-outline-success btn-rounded" >Download</span>

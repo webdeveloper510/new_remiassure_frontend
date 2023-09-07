@@ -76,7 +76,7 @@ const Help = () => {
     const dataarray = [
       {
         id: 1,
-        title: <>Why&nbsp;<a>RemitAssure</a>?</>,
+        title: "Why RemitAssure?",
         content: "RemitAssure leverages cutting edge digital technologies and an ecosystem of proven global partners to provide seamless, secure, cost-effective and speedy global payments.",
       },
       {
@@ -92,12 +92,13 @@ const Help = () => {
       {
         id: 4,
         title: "What currencies and countries does RemitAssure support for money transfers?",
-        content: "RemitAssure supports a wide range of currencies and an extensive set of countries. Check our platform for the most up-to-date information on supported regions.",
+        content: <>RemitAssure supports a wide range of currencies and an extensive set of countries. Check our supported countries:<br />
+          Nigeria, Ghana, Kenya, Phillipines, Thiland, Vietnam</>,
       },
       {
         id: 5,
         title: "How much does it cost to send money through RemitAssure?",
-        content: "RemitAssure’s lean digital business model affords competitive margin that we pass on to our customers. Our exchange rates are substantially cheaper than our competition’s and offer free payment options to our customers ",
+        content: "RemitAssure’s lean digital business model affords competitive margin that we pass on to our customers. Our exchange rates are substantially cheaper than our competition’s and offer free payment options to our customers.",
       },
       {
         id: 6,
@@ -107,17 +108,17 @@ const Help = () => {
       {
         id: 7,
         title: "Are there any transfer limits? ",
-        content: "RemitAssure provides its user with various range of transfer limits to choose like number of transfers per week and maximum transfer amount per annum",
+        content: "Yes, RemitAssure has daily transfer limits for security and compliance. Limits vary based on factors such as user profile and destination. Contact us for specific limits or exceptions.",
       },
       {
         id: 8,
         title: "What should I do if the money I sent through RemitAssure is not received by the recipient?",
-        content: <>RemitAssure fully guarantees safely transferring funds to your beneficiary. We are committed to providing a reliable money transfer process. If for some exigency, your recipient has not received their funds within our operational timeframe, please contact our <a href="#support-centre" >Support Centre</a> for help. We will diligently track and update you on the status of your transfer.</>,
+        content: <>RemitAssure fully guarantees safely transferring funds to your beneficiary.We are committed to providing a reliable money transfer process.If for some exigency, your recipient has not received their funds within our operational timeframe, please contact our <a href="#support-centre">Support Centre</a> for help.We will diligently track and update you on the status of your transfer..</>,
       },
       {
         id: 9,
         title: "How can I get in touch with RemitAssure's customer support if I have questions or issues?",
-        content: <>We are available support you 24/7 online through our digital Channels. Please contact us through our <a href="#support-centre" >Support Centre</a>. We can also be contacted during office hours on 1300 284 228.</>,
+        content: <>We are available support you 24/7 online through our digital Channels.Please contact us through our <a href="#support-centre">Support Centre</a>.We can also be contacted during office hours on 1300 284 228.</>,
       },
       {
         id: 10,
