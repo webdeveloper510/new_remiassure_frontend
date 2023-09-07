@@ -404,7 +404,7 @@ const PaymentSummary = ({ handleStep, step }) => {
             </Table>
             <div className="col-md-12 align-center">
               {/* <img className="verifies-img" src={verified} alt="verified" /> */}
-              <p>Thanks for choosing Remit Assure</p>
+              <p>Thanks for choosing RemitAssure</p>
               <div className='row text-center'>
                 <div className="col-md-6">
                   <NavLink target='_blank' href={`${serverUrl}/payment/receipt/${transaction.id}`}>
