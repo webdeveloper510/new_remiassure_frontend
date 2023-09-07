@@ -3,7 +3,6 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Scrollbar from '../scrollbar/Scrollbar';
 
-
 // card carousel start
 const Card = (props) => {
     return (
@@ -184,31 +183,18 @@ const Working = () => {
         <>
 
             {/* <!-- ======= AboutUs Our vission and mission-Section  start======= --> */}
-            <section className="why-us section-bgba banner_section about_banner innre_about">
+            <section className="why-us section-bgba top_sections innre_about hows-work-section ">
                 <div id="about">
                     <div className="container">
                         <div className="row custom-height">
                             <div className="col-sm-8">
                                 <div className="vl about_v1">
                                     <h1 className="vl-heading">How it Works</h1>
-                                    <div className="vl-content about_content">
-                                        {/* <p className="our_vission">Our vission and mission statement will go here</p> */}
-                                        <br />
-                                        <p className="our_vission01">RemitAssure is an innovative Fintech that offers disruptive digital peer-to-peer (P2P) remittance services across the globe.</p>
-                                        <p className="our_vission01">Underpinning our Services is our industry leading remittance platform purpose-built to offer robust and scalable digital payment solutions to our clients.</p>
-                                        <p className="our_vission01">Leveraging digital technology and emerging service-sharing models, we offer international remittances at very competitive rates. Our lean business structure and exchanging rate hedging know-how affords us marginal cost savings that we happily pass through to customers.</p>
-                                    </div>
                                 </div>
                             </div>
                             <div className="col-sm-4 right_side">
-                                <img src="assets/img/about/right_about.svg" />
-                            </div>
-                        </div>
-                        <div className="bottpm_banner">
-                            <div className="row">
-                                <ul className="About_why-content">
-                                    <OurVissionArrayObjects />
-                                </ul>
+                               
+                                <img src="assets/img/home/img03.svg" alt="background-images" />
                             </div>
                         </div>
                     </div>
@@ -216,31 +202,138 @@ const Working = () => {
             </section>
             {/* <!-- ======= AboutUs Our vission and mission-Section  End======= --> */}
 
-            {/* <!-- ======= AboUs Why RemitAssure-Section  start======= --> */}
-            <section className="why-us section-bgba aos-init aos-animate">
+
+
+
+
+            <section className="why-us_section homepage-why-us hows-section-light">
                 <div className="container">
-
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="vl about_v1 about_vl about_v1">
-                                <h1 className="vl-heading">Why RemitAssure ?</h1>
-                                <div className="about_why_heading">
-                                    <p>Our essence is to offer exceptional remittance services to our customers</p>
-                                </div>
-                            </div>
+                    <div className="row custom-row-hows">
+                    <div className="col-lg-6 text-start">
+                        <img src="assets/img/footer/how-work.webp" />
                         </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-md-12 col-lg-12 secure_content">
-                            <ul className="about_why-ramit-assure page_about-sec">
-                                < WhyIconsRenderingArrayOfObjects />
-                            </ul>
+                        <div className="col-lg-6">
+                        <div className="vl about_v1">
+                                    <h1 className="vl-heading">Create a RemitAssure account</h1>
+                                </div>
+                            <div className="vl-content">
+                              
+                               <p>Provide some personal information and sign up online or via the RemitAssure app.</p>
+                            </div>
                         </div>
                     </div>
 
                 </div>
             </section>
+
+
+
+            <section className="why-us_section homepage-why-us hows-section">
+                <div className="container">
+
+                    <div className="row custom-row-hows">
+                   
+                        <div className="col-lg-6">
+                        <div className="vl about_v1">
+                                    <h1 className="vl-heading">Verify your Identity</h1>
+                                </div>
+                            <div className="vl-content">
+                               <p>We verify your identity as part of our AML/CTF obligation. Verifying your identity also helps also safeguard your account against potential fraudulent activities.</p>
+                            </div>
+                        </div>
+                        <div className="col-lg-6 text-end">
+                        <img src="assets/img/footer/trans2.png" alt="background-images" />
+                        </div>
+                       
+                    </div>
+                    
+            </div>
+            </section>
+
+
+
+            <section className="why-us_section homepage-why-us hows-section-light">
+                <div className="container">
+                    <div className="row custom-row-hows">
+                    <div className="col-lg-6 align-left">
+                    <img src="assets/img/footer/trans3.png" alt="background-images" />
+                        </div>
+                        <div className="col-lg-6">
+                        <div className="vl about_v1">
+                                    <h1 className="vl-heading">Enter your transaction details</h1>
+                                </div>
+                            <div className="vl-content">
+                               <p>Enter the amount you want to send or that you want the recipient to receive. Then, provide the recipient account details. Review and confirm transfer details.
+</p>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+
+                </div>
+            </section>
+
+
+            <section className="why-us_section homepage-why-us hows-section">
+                <div className="container">
+                   
+
+                    <div className="row custom-row-hows">
+                    
+                        <div className="col-lg-6">
+                        <div className="vl about_v1">
+                                    <h1 className="vl-heading">Pay for your transaction</h1>
+                                </div>
+                            <div className="vl-content">
+                               <p>We offer different payment rails for our customers. You can pay through:</p>
+                               <ul>
+                                <li><img src="assets/img/zai/payid_light.svg" alt="background-images" /><p>PayID</p></li>
+                                <li><img src="assets/img/zai/payto_light.svg" alt="background-images" /><p>PayTo</p></li>
+                                <li><img src="assets/img/zai/card.png" alt="background-images" /><p>Debit / Credit Card</p></li>
+                               </ul>
+                               <p>All three options are real-time so you can rest assured that your funds will be sent once payment is received for your transfer. </p>
+                            </div>
+                        </div>
+                        <div className="col-lg-6 text-end">
+                            <img src="assets/img/footer/trans5.png" alt="background-images" />
+                        </div>
+                       
+                    </div>
+
+                </div>
+            </section>
+
+            <section className="why-us_section homepage-why-us hows-section-light">
+                <div className="container">
+                  
+                    <div className="row custom-row-hows">
+                    <div className="col-lg-6 text-start">
+                            <img src="assets/img/footer/trans4.png" alt="background-images" />
+                        </div>
+                    <div className="col-lg-6">
+                    <div className="vl about_v1">
+                                    <h1 className="vl-heading">Track the status of your transfer</h1> 
+                                </div>
+                            <div className="vl-content">
+                               <p>We notify you at each stage of your transfer through email and SMS. The main stages are:</p>
+                               <ul>
+                                <li><img src="assets/img/zai/arrows.png" alt="background-images" /><p>Creation of a Transfer</p></li>
+                                <li><img src="assets/img/zai/transfer.png" alt="background-images" /><p>Receipt of Funds</p></li>
+                                <li><img src="assets/img/zai/transfer1.png" alt="background-images" /><p>Transfer Processed</p></li>
+                                <li><img src="assets/img/zai/account.png" alt="background-images" /><p>Transfer Paid out to Beneficiary</p> </li>
+                               </ul>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                </div>
+            </section>
+
+
+            {/* <!-- ======= AboUs Why RemitAssure-Section  start======= --> */}
+            
             {/* <!-- ======= AboUs Why RemitAssure-Section  End======= --> */}
 
             {/* <!-- ======= Testimonial-Section  start======= --> */}
