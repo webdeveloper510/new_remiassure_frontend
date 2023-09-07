@@ -242,16 +242,17 @@ const PayIDModal = ({ modal, method, handler, handleStep, step, data }) => {
           <Table borderless>
             <tbody className='text-start'>
               <tr>
-                <th>Pay ID:</th>
+                <th>PayID:</th>
                 <td className='text-lowercase text-start'>{data.id}</td>
               </tr>
               <tr>
-                <th>Reference Number:</th>
+                <th>Transaction ID:</th>
                 <td className='text-lowercase text-start'>{data.payment_id}</td>
               </tr>
             </tbody>
           </Table>
-          <p>Please use this reference number to transfer the money</p>
+          <p className='ms-2 small mt-4'>Use your PayID to transfer funds from your online banking platform.<br />Make sure to include the transaction ID in the reference field of your transfer.<span className='text-danger'>*</span>
+          </p>
         </div>
       </Modal.Body>
       <Modal.Footer>
@@ -588,7 +589,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
                         agreement_list?.account_id_type === "PAYID" ? (
                           <tr>
                             <th>
-                              Pay ID
+                              PayID
                             </th>
                             <td className='text-start'>{agreement_list?.payid}</td>
                           </tr>
@@ -682,7 +683,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
                                   onChange={handlePayID}
                                   onBlur={handleBlur}
                                   readOnly={disabled === "payid" || values.payid_type === "none"}
-                                  placeholder={values.payid_type === "none" ? "Select a payID type" : "Enter Your Pay ID"}
+                                  placeholder={values.payid_type === "none" ? "Select a payID type" : "Enter Your PayID"}
                                   className={clsx(
                                     'form-control mx-2 w-75',
                                     { 'is-invalid': touched.pay_id && errors.pay_id && disabled !== "payid" }
@@ -783,7 +784,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         readOnly
-                                        placeholder='Enter Your Pay ID'
+                                        placeholder='Enter Your PayID'
                                         className={clsx(
                                           'form-control mx-2 w-75',
                                           { 'is-invalid': touched.pay_id && errors.pay_id && disabled !== "payid" }
