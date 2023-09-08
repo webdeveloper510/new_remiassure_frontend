@@ -14,6 +14,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import clsx from 'clsx'
 import { ZaiPayId, ZaiPayTo, createAgreement, createPayId, getAgreementList, updateAgreement, userProfile, verifyPayTo } from '../../../utils/Api'
+import { Line } from 'rc-progress'
 
 
 const stripe_key = process.env.REACT_APP_STRIPE_KEY
@@ -37,6 +38,8 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [modalView, setModalView] = useState(false)
   const [loader, setLoader] = useState(false)
   const [token, setToken] = useState({})
+  const [error_modal, setErrorModal] = useState({ trigger: false, data: {} })
+
   const stripePromise = loadStripe(`${stripe_key}`);
 
 
@@ -209,6 +212,8 @@ const PaymentDetails = ({ handleStep, step }) => {
         } else {
           d.agreement_uuid = pay_to_data.agreement_uuid
           ZaiPayTo(d).then(res => {
+            setLoader(false)
+
             if (res.code == "200") {
               localStorage.removeItem("transfer_data")
               if (localStorage.getItem("send-step")) {
@@ -217,7 +222,10 @@ const PaymentDetails = ({ handleStep, step }) => {
               setIsOtpVerfied(false)
               setLoader(false)
               setTransaction({ id: res.data.transaction_id, pay_id: res.data.payment_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
-            } else {
+            } else if (res.code === "400") {
+              setErrorModal({ trigger: true, data: d })
+            }
+            else {
               setLoader(false)
               setIsOtpVerfied(false)
               toast.error(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
@@ -229,7 +237,6 @@ const PaymentDetails = ({ handleStep, step }) => {
                 window.location.reload()
               }, 3 * 1000)
             }
-            setLoader(false)
           }).catch((err) => {
 
             setLoader(false)
@@ -262,13 +269,14 @@ const PaymentDetails = ({ handleStep, step }) => {
             "Authorization": `Bearer ${localStorage.getItem("token")}`,
           },
         }).then(res => {
+          setLoader(false)
           if (res.data.code == "200") {
             localStorage.removeItem("transfer_data")
             if (localStorage.getItem("send-step")) {
               localStorage.removeItem("send-step")
             }
             setIsOtpVerfied(false)
-            setLoader(false)
+            // setLoader(false)
             setTransaction({ id: res?.data?.data?.transaction_id, pay_id: res?.data?.data?.payment_id, status: res?.data?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
             // setTimeout(() => {
             //   window.location.reload()
@@ -278,7 +286,6 @@ const PaymentDetails = ({ handleStep, step }) => {
           } else {
             toast.error("We are looking into the issue , please try later", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
           }
-          setLoader(false)
         }).catch((err) => {
           setLoader(false)
           setIsOtpVerfied(false)
@@ -461,6 +468,7 @@ const PaymentDetails = ({ handleStep, step }) => {
               <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
                 <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} />
               </Modal>
+              <ErrorModal show={error_modal.trigger} data={error_modal.data} handler={(value) => setErrorModal(value)} setModalView={(value) => { setModalView(value) }} setTransaction={(value) => setTransaction(value)} />
 
             </section>
           ) : (
@@ -1173,5 +1181,121 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
     </Modal>
   )
 }
+const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
 
+  const [bar_fill, setBarFill] = useState(0)
+  const [loader, setLoader] = useState(false)
+  var timer;
+
+  useEffect(() => {
+    if (bar_fill <= 100 && show === true) {
+
+      setTimeout(() => {
+        setBarFill(bar_fill + 1);
+      }, 1200)
+    } else if (show === true) {
+      let details = data
+      clearInterval(timer)
+      handler({ trigger: false, data: {} })
+      setLoader(true)
+      ZaiPayTo(details).then(res => {
+        setLoader(false)
+        if (res.code === "200") {
+          setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+          localStorage.setItem("transaction_id", res?.data?.payment_id)
+          const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+          user.digital_id_verified = "true"
+          localStorage.setItem("remi-user-dt", JSON.stringify(user))
+          if (localStorage.getItem("send-step")) {
+            localStorage.removeItem("send-step")
+          }
+          localStorage.removeItem("transfer_data")
+          setModalView(true)
+        } else if (res.code === "400") {
+          toast.error(res.message, { position: "bottom-right", autoHide: 3000, hideProgressBar: true })
+          setTimeout(() => {
+            window.location.reload()
+          }, 3 * 1000)
+        } else {
+          toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
+          setLoader(false)
+          setTimeout(() => {
+            window.location.reload()
+          }, 3 * 1000)
+        }
+      })
+    }
+  }, [bar_fill, show])
+
+  useEffect(() => {
+    let details = data
+    if (show === true) {
+      timer = setInterval(() => {
+        getAgreementList().then(res => {
+          if (res.code === "200") {
+            if (res.data.status === "active") {
+              clearInterval(timer)
+              handler({ trigger: false, data: {} })
+              setLoader(true)
+              ZaiPayTo(details).then(res => {
+                setLoader(false)
+                if (res.code === "200") {
+                  setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+                  localStorage.setItem("transaction_id", res?.data?.payment_id)
+                  const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+                  user.digital_id_verified = "true"
+                  localStorage.setItem("remi-user-dt", JSON.stringify(user))
+                  if (localStorage.getItem("send-step")) {
+                    localStorage.removeItem("send-step")
+                  }
+                  localStorage.removeItem("transfer_data")
+                  setModalView(true)
+                } else if (res.code === "400") {
+                  toast.error(res.message, { position: "bottom-right", autoHide: 3000, hideProgressBar: true })
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 3 * 1000)
+                } else {
+                  toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
+                  setLoader(false)
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 3 * 1000)
+                }
+              })
+            }
+          }
+        })
+      }, 5000)
+    } else {
+      clearInterval(timer)
+    }
+  }, [show])
+
+  return (
+    <>
+      {
+        !loader ? (
+          <Modal show={show} backdrop="static" centered>
+            <Modal.Body className='text-center ' >
+              <div className='py-5 border'>
+                <h4 style={{ color: "#6414e9" }} className='fw-bold'>Authorization pending</h4>
+                <p className='my-3'>Please authorize your PayTo agreement on your respective banking portal.</p>
+                <div className='my-2 px-2'>
+                  <Line percent={bar_fill} strokeWidth={2} trailWidth={2} strokeColor={"#6414E9"} />
+                </div>
+                <p>Waiting time : <b>2 minutes.</b></p>
+              </div>
+            </Modal.Body>
+          </Modal>
+        ) : (
+          <div className="loader-overly">
+            <div className="loader" >
+            </div>
+          </div>
+        )
+      }
+    </>
+  )
+}
 export default PaymentDetails

@@ -78,7 +78,16 @@ const TransactionDetails = () => {
                                                         </div>
                                                     </div>
                                                     <div className='row'>
+
                                                         <div className='d-grid fs-6 my-1 col-md-2'>
+                                                            <span>Date Created</span>
+                                                            <span className='fw-semibold small'>{detail?.date ? dateCreated(detail?.date) : "N/A"}</span>
+                                                        </div>
+                                                        <div className='d-grid fs-6 my-1 col-md-2'>
+                                                            <span>Transaction Id</span>
+                                                            <span className='fw-semibold small'>{detail?.transaction_id ? detail?.transaction_id : "N/A"}</span>
+                                                        </div>
+                                                        <div className={`d-grid fs-6 my-1 ${detail?.payment_status?.toLowerCase() === "cancelled" ? "col-md-2" : "col-md-4"}`}>
                                                             <span>Status</span>
                                                             {
                                                                 detail?.payment_status && (detail?.payment_status === "cancelled" || detail?.payment_status === "Cancelled") ? (
@@ -99,15 +108,7 @@ const TransactionDetails = () => {
                                                                 <></>
                                                             )
                                                         }
-                                                        <div className='d-grid fs-6 my-1 col-md-2'>
-                                                            <span>Date Created</span>
-                                                            <span className='fw-semibold small'>{detail?.date ? dateCreated(detail?.date) : "N/A"}</span>
-                                                        </div>
-                                                        <div className='d-grid fs-6 my-1 col-md-2'>
-                                                            <span>Transaction Id</span>
-                                                            <span className='fw-semibold small'>{detail?.transaction_id ? detail?.transaction_id : "N/A"}</span>
-                                                        </div>
-
+                                                        
                                                     </div>
                                                     <hr />
                                                     <div className='row my-4'>

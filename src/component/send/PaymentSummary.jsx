@@ -126,8 +126,9 @@ const PaymentSummary = ({ handleStep, step }) => {
         data.agreement_uuid = local?.payment?.agreement_uuid
 
         ZaiPayTo(data).then((res) => {
+          setLoader(false)
+
           if (res.code === "200") {
-            setLoader(false)
             setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
             localStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(localStorage.getItem("remi-user-dt"))
@@ -140,20 +141,17 @@ const PaymentSummary = ({ handleStep, step }) => {
             localStorage.removeItem("transfer_data")
             setModalView(true)
           } else if (res.code == "400") {
-            setLoader(false)
             setErrorModal({ trigger: true, data: data })
           } else {
             toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
-            setLoader(false)
             setTimeout(() => {
               window.location.reload()
             }, 3 * 1000)
           }
+        }).catch(error => {
           setLoader(false)
 
-        }).catch(error => {
           toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
-          setLoader(false)
         })
       } else if (local?.payment?.payment_type === "PayByID") {
         data.pay_id = local?.payment?.pay_id
@@ -161,8 +159,8 @@ const PaymentSummary = ({ handleStep, step }) => {
         delete data["amount"]
         // console.log(data)
         ZaiPayId(data).then((res) => {
+          setLoader(false)
           if (res.code === "200") {
-            setLoader(false)
             setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
             localStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(localStorage.getItem("remi-user-dt"))
@@ -176,22 +174,15 @@ const PaymentSummary = ({ handleStep, step }) => {
             setModalView(true)
           } else if (res.code == "400") {
             toast.error(res.message, { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
-            setLoader(false)
-            // setTimeout(() => {
-            //   window.location.reload()
-            // }, 3 * 1000)
+
           } else {
             toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
-            setLoader(false)
-            // setTimeout(() => {
-            //   window.location.reload()
-            // }, 3 * 1000)
+
           }
-          setLoader(false)
 
         }).catch(error => {
-          toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
           setLoader(false)
+          toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
         })
       }
     } else if (local?.payment.hasOwnProperty("token")) {
@@ -251,8 +242,8 @@ const PaymentSummary = ({ handleStep, step }) => {
         }
       }
       userCharge(data).then((res) => {
+        setLoader(false)
         if (res.code == "200") {
-          setLoader(false)
           setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
           localStorage.setItem("transaction_id", res?.data?.payment_id)
           const user = JSON.parse(localStorage.getItem("remi-user-dt"))
@@ -273,10 +264,9 @@ const PaymentSummary = ({ handleStep, step }) => {
         } else {
           toast.error("We are looking into the issue , please try later", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
         }
-        setLoader(false)
       }).catch((err) => {
-        toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
         setLoader(false)
+        toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
       })
     }
 
@@ -448,9 +438,37 @@ const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
         setBarFill(bar_fill + 1);
       }, 1200)
     } else if (show === true) {
+      let details = data;
       clearInterval(timer)
-      // handler({ trigger: false, data: {} })
-      // window.location.reload()
+      handler({ trigger: false, data: {} })
+      setLoader(true)
+      ZaiPayTo(details).then(res => {
+        setLoader(false)
+        if (res.code === "200") {
+          setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+          localStorage.setItem("transaction_id", res?.data?.payment_id)
+          const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+          user.digital_id_verified = "true"
+          localStorage.setItem("remi-user-dt", JSON.stringify(user))
+          if (localStorage.getItem("send-step")) {
+            localStorage.removeItem("send-step")
+          }
+          localStorage.removeItem("transfer_data")
+          setModalView(true)
+        } else if (res.code === "400") {
+          toast.error(res.message, { position: "bottom-right", hideProgressBar: true })
+          setTimeout(() => {
+            window.location.reload()
+          }, 3000)
+
+        } else {
+          toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
+          setLoader(false)
+          setTimeout(() => {
+            window.location.reload()
+          }, 3 * 1000)
+        }
+      })
     }
   }, [bar_fill, show])
 
@@ -466,6 +484,7 @@ const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
               handler({ trigger: false, data: {} })
               setLoader(true)
               ZaiPayTo(details).then(res => {
+                setLoader(false)
                 if (res.code === "200") {
                   setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
                   localStorage.setItem("transaction_id", res?.data?.payment_id)
@@ -479,9 +498,9 @@ const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
                   setModalView(true)
                 } else if (res.code === "400") {
                   toast.error(res.message, { position: "bottom-right", hideProgressBar: true })
-                  // setTimeout(() => {
-                  //   window.location.reload()
-                  // }, 3000)
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 3000)
 
                 } else {
                   toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
