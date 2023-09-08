@@ -111,7 +111,7 @@ const TransactionDetails = () => {
                                                     </div>
                                                     <hr />
                                                     <div className='row my-4'>
-                                                        <div className="col-md-6 col-lg-4 col-sm-12">
+                                                        <div className="col-md-6 col-lg-6 col-sm-12">
                                                             <h5>Recipient Details</h5>
                                                             <Table>
                                                                 <tbody style={{ maxWidth: "fit-content" }}>

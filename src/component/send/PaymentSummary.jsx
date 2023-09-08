@@ -253,7 +253,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       userCharge(data).then((res) => {
         if (res.code == "200") {
           setLoader(false)
-          setTransaction({ status: "Pending", id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+          setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
           localStorage.setItem("transaction_id", res?.data?.payment_id)
           const user = JSON.parse(localStorage.getItem("remi-user-dt"))
           // localStorage.removeItem("remi-user-dt")
@@ -267,6 +267,11 @@ const PaymentSummary = ({ handleStep, step }) => {
           // setTimeout(() => {
           //   navigate("/dashboard")
           // }, 10 * 1000)
+        } else if (res.code === "400") {
+          toast.error(res.message, { position: "bottom-right", autoClose: 5000, hideProgressBar: true })
+
+        } else {
+          toast.error("We are looking into the issue , please try later", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
         }
         setLoader(false)
       }).catch((err) => {

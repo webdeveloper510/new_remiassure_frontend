@@ -269,10 +269,14 @@ const PaymentDetails = ({ handleStep, step }) => {
             }
             setIsOtpVerfied(false)
             setLoader(false)
-            setTransaction({ id: res.data.data.transaction_id, pay_id: res.data.data.payment_id, status: "Pending", amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+            setTransaction({ id: res?.data?.data?.transaction_id, pay_id: res?.data?.data?.payment_id, status: res?.data?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
             // setTimeout(() => {
             //   window.location.reload()
             // }, 2 * 1000)
+          } else if (res.data.code === "400") {
+            toast.error(res.data.message, { position: "bottom-right", autoClose: 5000, hideProgressBar: true })
+          } else {
+            toast.error("We are looking into the issue , please try later", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
           }
           setLoader(false)
         }).catch((err) => {
