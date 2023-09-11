@@ -75,21 +75,69 @@ const PaymentDetails = ({ handleStep, step }) => {
       } else if (data.payment_type === "PayByID") {
         setLoader(true)
         let local = JSON.parse(localStorage.getItem("transfer_data"))
-        let d = {
-          amount: {
-            send_amount: Number(local?.amount?.send_amt),
-            receive_amount: local?.amount?.exchange_amt,
-            send_currency: local?.amount?.from_type,
-            receive_currency: local?.amount?.to_type,
-            send_method: "pay_id",
-            receive_method: "Bank transfer",
-            reason: data?.reason,
-            exchange_rate: local?.amount?.exchange_rate
+        let transaction_id = localStorage.getItem("remiZaitransferID")
+        let d = {}
+        if (transaction_id) {
+          d = {
+            payment_id: transaction_id,
+            recipient_id: local?.recipient?.id,
+            amount: {
+              send_amount: Number(local?.amount?.send_amt),
+              receive_amount: local?.amount?.exchange_amt,
+              send_currency: local?.amount?.from_type,
+              receive_currency: local?.amount?.to_type,
+              send_method: "PayByID",
+              receive_method: "Bank transfer",
+              reason: data.reason ? data.reason : "Family Support",
+              exchange_rate: local?.amount?.exchange_rate
+            }
           }
+        } else {
+          d = {
+            recipient_id: local?.recipient?.id,
+            sender: {
+              First_name: userData?.First_name,
+              Middle_name: userData?.Middle_name,
+              Last_name: userData?.Last_name,
+              Date_of_birth: userData?.Date_of_birth,
+              Gender: "M",
+              Country_of_birth: userData?.Country_of_birth,
+              occupation: userData?.occupation,
+              payment_per_annum: userData?.payment_per_annum,
+              value_per_annum: userData?.value_per_annum,
+            },
+            sender_address: {
+              flat: userData?.flat,
+              building: userData?.building,
+              street: userData?.street,
+              postcode: userData?.postcode,
+              city: userData?.city,
+              state: userData?.state,
+              country: userData?.country,
+              country_code: userData?.country_code
+            },
+            amount: {
+              send_amount: Number(local?.amount?.send_amt),
+              receive_amount: local?.amount?.exchange_amt,
+              send_currency: local?.amount?.from_type,
+              receive_currency: local?.amount?.to_type,
+              send_method: "stripe",
+              receive_method: "Bank transfer",
+              reason: data.reason ? data.reason : "Family Support",
+              exchange_rate: local?.amount?.exchange_rate
+            }
+          }
+        }
+        if (d?.sender?.Middle_name === "" || d?.sender?.Middle_name === undefined || d?.sender?.Middle_name === null) {
+          delete d?.sender?.Middle_name
+        }
+        if (d?.sender_address?.flat === "" || d?.sender_address?.flat === null || d?.sender_address?.flat === undefined) {
+          delete d?.sender_address?.flat
         }
         createPayId(d).then((res) => {
           setLoader(false)
           if (res.code === "200") {
+            localStorage.setItem("remiZaitransferID", res.data.payment_id)
             setPayIdModal({ toggle: true, id: res.data.payid, payment_id: res.data.payment_id })
           } else if (res.code === "400") {
             toast.error(res.data.message, { autoClose: 2000, hideProgressBar: true, position: "bottom-right" })
@@ -178,13 +226,14 @@ const PaymentDetails = ({ handleStep, step }) => {
           delete d["amount"]
           ZaiPayId(d).then(res => {
             if (res.code == "200") {
+              setTransaction({ id: res.data.transaction_id, pay_id: res.data.payment_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+
               localStorage.removeItem("transfer_data")
               if (localStorage.getItem("send-step")) {
                 localStorage.removeItem("send-step")
               }
               setIsOtpVerfied(false)
               setLoader(false)
-              setTransaction({ id: res.data.transaction_id, pay_id: res.data.payment_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
             } else {
               setLoader(false)
               setIsOtpVerfied(false)
@@ -215,13 +264,14 @@ const PaymentDetails = ({ handleStep, step }) => {
             setLoader(false)
 
             if (res.code == "200") {
+              setTransaction({ id: res.data.transaction_id, pay_id: res.data.payment_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+
               localStorage.removeItem("transfer_data")
               if (localStorage.getItem("send-step")) {
                 localStorage.removeItem("send-step")
               }
               setIsOtpVerfied(false)
               setLoader(false)
-              setTransaction({ id: res.data.transaction_id, pay_id: res.data.payment_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
             } else if (res.code === "400") {
               setErrorModal({ trigger: true, data: d })
             }
@@ -271,13 +321,14 @@ const PaymentDetails = ({ handleStep, step }) => {
         }).then(res => {
           setLoader(false)
           if (res.data.code == "200") {
+            setTransaction({ id: res?.data?.data?.transaction_id, pay_id: res?.data?.data?.payment_id, status: res?.data?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+
             localStorage.removeItem("transfer_data")
             if (localStorage.getItem("send-step")) {
               localStorage.removeItem("send-step")
             }
             setIsOtpVerfied(false)
             // setLoader(false)
-            setTransaction({ id: res?.data?.data?.transaction_id, pay_id: res?.data?.data?.payment_id, status: res?.data?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
             // setTimeout(() => {
             //   window.location.reload()
             // }, 2 * 1000)
@@ -308,8 +359,8 @@ const PaymentDetails = ({ handleStep, step }) => {
         !loader ?
           (
             <section>
-              <div class="form-head mb-4">
-                <h2 class="text-black font-w600 mb-0"><b>Payment details</b>
+              <div className="form-head mb-4">
+                <h2 className="text-black font-w600 mb-0"><b>Payment details</b>
                 </h2>
               </div>
               <div className="form_body">
@@ -320,7 +371,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                 <div className="row each-row">
                   <h5>Payment type</h5>
                   <div className="col-md-12">
-                    <label class="container-new">
+                    <label className="container-new">
                       <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /></span>
                       <input
                         className="form-check-input"
@@ -334,7 +385,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                     </label>
                   </div>
                   <div className="col-md-12">
-                    <label class="container-new">
+                    <label className="container-new">
                       <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={25} /></span>
                       <input
                         className="form-check-input"
@@ -348,7 +399,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                     </label>
                   </div>
                   <div className="col-md-12">
-                    <label class="container-new">
+                    <label className="container-new">
                       <span className="radio-tick">Debit/Credit Card</span>
                       <input
                         className="form-check-input"
@@ -440,7 +491,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                           <td>{transaction?.pay_id}</td>
                         </tr>
                         <tr>
-                          <th>Transacted Amount</th>
+                          <th>Transaction Amount</th>
                           <td>{transaction.curr}&nbsp;{transaction.amount}</td>
                         </tr>
                         <tr>
@@ -525,6 +576,11 @@ const PayIDModal = ({ modal, handler, otp, data, setData }) => {
     handler({ toggle: false, id: null, payment_id: null });
     otp(true)
   }
+
+  const copyToClipboard = (value, state) => {
+    navigator.clipboard.writeText(value)
+  }
+
   return (
     <Modal className="modal-card" show={modal} onHide={() => handler({ toggle: false, id: null, payment_id: null })} centered backdrop="static">
       <Modal.Header>
@@ -536,11 +592,11 @@ const PayIDModal = ({ modal, handler, otp, data, setData }) => {
             <tbody className='text-start'>
               <tr>
                 <th>PayID:</th>
-                <td className='text-lowercase text-start'>{data.id}</td>
+                <td className='text-lowercase text-start'>{data.id}<span><Button type='button' className='mx-2' variant='outline-secondary' onClick={() => copyToClipboard(data.id, "payid")}><i className="bi bi-clipboard"></i></Button></span></td>
               </tr>
               <tr>
                 <th>Transaction ID:</th>
-                <td className='text-lowercase text-start'>{data.payment_id}</td>
+                <td className='text-lowercase text-start'>{data.payment_id}<span><Button type='button' className='mx-2' variant='outline-secondary' onClick={() => copyToClipboard(data.payment_id, "payment_id")}><i className="bi bi-clipboard"></i></Button></span></td>
               </tr>
             </tbody>
           </Table>
@@ -585,7 +641,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
           },
         } = validationcontext;
         let email_regex = /^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/;
-        let teli_regex = /^(\+[0-9]{1,3}-[0-9]{0,9})$/;
+        let teli_regex = /^(\+[0-9]{1,3}-[0-9]{0,10})$/;
         let aubn_regex = /^[0-9]*$/;
         let orgn_regex = /^(?!.*\s)[a-z]{0,256}$/;
         if (payid_type === "EMAL") {
@@ -594,9 +650,9 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
           } else {
             return true
           }
-        } else if (payid_type === "TELI") {
+        } else if (payid_type === "TEL") {
 
-          if (!teli_regex.test(value) || value?.length < 13) {
+          if (!teli_regex.test(value) || value?.length < 9) {
             return createError({ message: "Invalid format" })
           } else {
             return true
@@ -800,8 +856,8 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
         userInput = userInput.replace(/^[\s]/g, '');
       }
       setFieldValue(target.name, userInput)
-    } else if (values.payid_type === "TELI") {
-      let regex = /^(\+[0-9]{1,3}-[0-9]{0,9})$/
+    } else if (values.payid_type === "TEL") {
+      let regex = /^([0-9]{0,10})$/
       if (regex.test(target.value)) {
         setFieldValue("pay_id", target.value)
       }
@@ -821,11 +877,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
 
   const handleType = (event) => {
     setFieldValue("payid_type", event.target.value)
-    if (event.target.value === "TELI") {
-      setFieldValue("pay_id", "+61-")
-    } else {
-      setFieldValue("pay_id", "")
-    }
+    setFieldValue("pay_id", "")
   }
 
   // const createNew = () => {
@@ -930,7 +982,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
                               >
                                 <option value="none">Select PayID type</option>
                                 <option value="EMAL">EMAIL - Email Address</option>
-                                <option value="TELI">TELI - Telephone Number</option>
+                                <option value="TEL">TEL - Telephone Number</option>
                                 <option value="AUBN">AUBN - Australian Business Number</option>
                                 <option value="ORGN">ORGN - Organisational Identifier</option>
                               </select>
@@ -940,7 +992,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, reason }) => {
                               <p className="get-text fs-6 mb-1">PayID<span style={{ color: 'red' }} >*</span></p>
                               <input
                                 type="text"
-                                maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TELI" ? "9" : "11"}
+                                maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TEL" ? "10" : "11"}
                                 name='pay_id'
                                 value={values.pay_id}
                                 onChange={handlePayID}
@@ -1192,7 +1244,7 @@ const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
 
       setTimeout(() => {
         setBarFill(bar_fill + 1);
-      }, 1200)
+      }, 9000)
     } else if (show === true) {
       let details = data
       clearInterval(timer)
@@ -1284,7 +1336,7 @@ const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
                 <div className='my-2 px-2'>
                   <Line percent={bar_fill} strokeWidth={2} trailWidth={2} strokeColor={"#6414E9"} />
                 </div>
-                <p>Waiting time : <b>2 minutes.</b></p>
+                <p>Waiting time : <b>15 minutes.</b></p>
               </div>
             </Modal.Body>
           </Modal>

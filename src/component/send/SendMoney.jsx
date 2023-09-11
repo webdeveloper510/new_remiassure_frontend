@@ -179,9 +179,9 @@ const SendMoney = () => {
                             :
                             step === 1 ? <BankDetails handleBankDetail={handleBankDetail} handleStep={handleStep} step={step} />
                               :
-                              step === 2 ? <PaymentDetails handleStep={handleStep} step={step} />
+                              step === 2 ? <SenderDetails handleStep={handleStep} step={step} />
                                 :
-                                step === 3 ? <SenderDetails handleStep={handleStep} step={step} />
+                                step === 3 ? <PaymentDetails handleStep={handleStep} step={step} />
                                   :
                                   step === 4 ? <PaymentSummary handleStep={handleStep} step={step} />
                                     : <></>

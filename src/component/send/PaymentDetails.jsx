@@ -32,21 +32,118 @@ const PaymentDetails = ({ handleStep, step }) => {
     } else if (data.payment_type === "PayByID") {
       setLoader(true)
       let local = JSON.parse(localStorage.getItem("transfer_data"))
-      let d = {
-        amount: {
-          send_amount: Number(local?.amount?.send_amt),
-          receive_amount: local?.amount?.exchange_amt,
-          send_currency: local?.amount?.from_type,
-          receive_currency: local?.amount?.to_type,
-          send_method: "pay_id",
-          receive_method: "Bank transfer",
-          reason: local?.recipient?.reason,
-          exchange_rate: local?.amount?.exchange_rate
+      let transaction_id = localStorage.getItem("remiZaitransferID")
+      let d = {}
+      if (transaction_id) {
+        d = {
+          payment_id: transaction_id,
+          recipient: {
+            first_name: local?.recipient?.f_name,
+            middle_name: local?.recipient?.m_name,
+            last_name: local?.recipient?.l_name,
+            email: local?.recipient?.email,
+            mobile: local?.recipient?.mobile,
+            flat: local?.recipient?.flat,
+            building: local?.recipient?.build_no,
+            street: local?.recipient?.street,
+            postcode: local?.recipient?.post_code,
+            city: local?.recipient?.city,
+            state: local?.recipient?.state,
+            country: local?.recipient?.country,
+            country_code: local?.recipient?.country_code
+          },
+          amount: {
+            send_amount: Number(local?.amount?.send_amt),
+            receive_amount: local?.amount?.exchange_amt,
+            send_currency: local?.amount?.from_type,
+            receive_currency: local?.amount?.to_type,
+            send_method: "pay_id",
+            receive_method: "Bank transfer",
+            reason: data.reason ? data.reason : "Family Support",
+            exchange_rate: local?.amount?.exchange_rate
+          },
+          bank_details: {
+            bank_name: local?.recipient?.bank,
+            account_name: local?.recipient?.acc_name,
+            account_number: local?.recipient?.acc_no
+          },
+        }
+      } else {
+        d = {
+          sender: {
+            First_name: local?.sender?.f_name,
+            Middle_name: local?.sender?.m_name,
+            Last_name: local?.sender?.l_name,
+            Date_of_birth: local?.sender?.dob,
+            Gender: "M",
+            Country_of_birth: local?.sender?.country_of_birth,
+            occupation: local?.sender?.occupation,
+            payment_per_annum: local?.sender?.payment_per_annum,
+            value_per_annum: local?.sender?.value_per_annum,
+          },
+          sender_address: {
+            flat: local?.sender?.flat,
+            building: local?.sender?.build_no,
+            street: local?.sender?.street,
+            postcode: local?.sender?.post_code,
+            city: local?.sender?.city,
+            state: local?.sender?.state,
+            country: local?.sender?.country,
+            country_code: local?.sender?.country_code
+
+          },
+          amount: {
+            send_amount: Number(local?.amount?.send_amt),
+            receive_amount: local?.amount?.exchange_amt,
+            send_currency: local?.amount?.from_type,
+            receive_currency: local?.amount?.to_type,
+            send_method: "pay_id",
+            receive_method: "Bank transfer",
+            reason: data.reason ? data.reason : "Family Support",
+            exchange_rate: local?.amount?.exchange_rate
+          },
+          recipient: {
+            first_name: local?.recipient?.f_name,
+            middle_name: local?.recipient?.m_name,
+            last_name: local?.recipient?.l_name,
+            email: local?.recipient?.email,
+            mobile: local?.recipient?.mobile,
+            flat: local?.recipient?.flat,
+            building: local?.recipient?.build_no,
+            street: local?.recipient?.street,
+            postcode: local?.recipient?.post_code,
+            city: local?.recipient?.city,
+            state: local?.recipient?.state,
+            country: local?.recipient?.country,
+            country_code: local?.recipient?.country_code
+          },
+          bank_details: {
+            bank_name: local?.recipient?.bank,
+            account_name: local?.recipient?.acc_name,
+            account_number: local?.recipient?.acc_no
+          },
         }
       }
+      if (d?.sender?.Middle_name === "" || d?.sender?.Middle_name === undefined || d?.sender?.Middle_name === null) {
+        delete d?.sender?.Middle_name
+      }
+      if (d?.sender_address?.flat === "" || d?.sender_address?.flat === null || d?.sender_address?.flat === undefined) {
+        delete d?.sender_address?.flat
+      }
+      if (d?.recipient.middle_name === null || d?.recipient?.middle_name === "" || d?.recipient?.middle_name === undefined) {
+        delete d?.recipient?.middle_name
+      }
+      if (d?.recipient?.flat === "" || d?.recipient?.flat === null || d?.recipient?.flat === undefined) {
+        delete data?.recipient?.flat
+      }
+      if (d?.recipient?.postcode == null || d?.recipient?.postcode == undefined || d?.recipient?.postcode === "") {
+        delete d?.recipient?.postcode
+      }
+      // console.log(d)
       createPayId(d).then((res) => {
         setLoader(false)
         if (res.code === "200") {
+          localStorage.setItem("remiZaitransferID", res.data.payment_id)
           setPayIdModal({ toggle: true, id: res.data.payid, payment_id: res.data.payment_id })
         } else if (res.code === "400") {
           toast.error(res.data.message, { autoClose: 2000, hideProgressBar: true, position: "bottom-right" })
@@ -218,7 +315,6 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
 
 const PayIDModal = ({ modal, method, handler, handleStep, step, data }) => {
 
-
   const submit = () => {
     handler({ toggle: false, id: null, payment_id: null })
     const local = JSON.parse(localStorage.getItem("transfer_data"))
@@ -232,6 +328,11 @@ const PayIDModal = ({ modal, method, handler, handleStep, step, data }) => {
     handleStep(Number(step) + 1)
   }
 
+  const copyToClipboard = (value, state) => {
+    navigator.clipboard.writeText(value)
+
+  }
+
   return (
     <Modal className="modal-card" show={modal} onHide={() => handler({ toggle: false, id: null, payment_id: null })} centered backdrop="static">
       <Modal.Header>
@@ -243,11 +344,11 @@ const PayIDModal = ({ modal, method, handler, handleStep, step, data }) => {
             <tbody className='text-start'>
               <tr>
                 <th>PayID:</th>
-                <td className='text-lowercase text-start'>{data.id}</td>
+                <td className='text-lowercase text-start'>{data.id}<span><Button type='button' className='mx-2' variant='outline-secondary' onClick={() => copyToClipboard(data.id, "payid")}><i className="bi bi-clipboard"></i></Button></span></td>
               </tr>
               <tr>
                 <th>Transaction ID:</th>
-                <td className='text-lowercase text-start'>{data.payment_id}</td>
+                <td className='text-lowercase text-start'>{data.payment_id}<span><Button type='button' className='mx-2' variant='outline-secondary' onClick={() => copyToClipboard(data.payment_id, "payment_id")}><i className="bi bi-clipboard"></i></Button></span></td>
               </tr>
             </tbody>
           </Table>
@@ -293,7 +394,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
           },
         } = validationcontext;
         let email_regex = /^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/;
-        let teli_regex = /^(\+[0-9]{1,3}-[0-9]{0,9})$/;
+        let teli_regex = /^([0-9]{0,10})$/;
         let aubn_regex = /^[0-9]*$/;
         let orgn_regex = /^(?!.*\s)[a-z]{0,256}$/;
         if (payid_type === "EMAL") {
@@ -302,8 +403,8 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
           } else {
             return true
           }
-        } else if (payid_type === "TELI") {
-          if (!teli_regex.test(value) || value?.length < 13) {
+        } else if (payid_type === "TEL") {
+          if (!teli_regex.test(value) || value?.length < 9) {
             return createError({ message: "Invalid format" })
           } else {
             return true
@@ -529,8 +630,8 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
         userInput = userInput.replace(/^[\s]/g, '');
       }
       setFieldValue(target.name, userInput)
-    } else if (values.payid_type === "TELI") {
-      let regex = /^(\+[0-9]{1,3}-[0-9]{0,9})$/
+    } else if (values.payid_type === "TEL") {
+      let regex = /^([0-9]{0,10})$/
       if (regex.test(target.value)) {
         setFieldValue("pay_id", target.value)
       }
@@ -552,11 +653,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
 
   const handleType = (event) => {
     setFieldValue("payid_type", event.target.value)
-    if (event.target.value === "TELI") {
-      setFieldValue("pay_id", "+61-")
-    } else {
-      setFieldValue("pay_id", "")
-    }
+    setFieldValue("pay_id", "")
   }
 
   // const createNew = () => {
@@ -667,7 +764,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
                                 >
                                   <option value="none">Select PayID type</option>
                                   <option value="EMAL">EMAIL - Email Address</option>
-                                  <option value="TELI">TELI - Telephone Number</option>
+                                  <option value="TEL">TEL - Telephone Number</option>
                                   <option value="AUBN">AUBN - Australian Business Number</option>
                                   <option value="ORGN">ORGN - Organisational Identifier</option>
                                 </select>
@@ -677,7 +774,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
                                 <p className="get-text fs-6 mb-1">PayID<span style={{ color: 'red' }} >*</span></p>
                                 <input
                                   type="text"
-                                  maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TELI" ? "9" : "11"}
+                                  maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TEL" ? "10" : "11"}
                                   name='pay_id'
                                   value={values.pay_id}
                                   onChange={handlePayID}

@@ -287,7 +287,6 @@ const PaymentSummary = ({ handleStep, step }) => {
     setIsOtpVerfied(value)
   }
 
-  const stripe_key = process.env.REACT_APP_STRIPE_KEY
   const serverUrl = process.env.REACT_APP_API_URL
 
   return (
@@ -388,7 +387,7 @@ const PaymentSummary = ({ handleStep, step }) => {
                   <td>{transaction?.pay_id}</td>
                 </tr>
                 <tr>
-                  <th>Transacted Amount</th>
+                  <th>Transaction Amount</th>
                   <td>{data.from}&nbsp;{data.send_amount}</td>
                 </tr>
                 <tr>
@@ -436,7 +435,7 @@ const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
 
       setTimeout(() => {
         setBarFill(bar_fill + 1);
-      }, 1200)
+      }, 9000)
     } else if (show === true) {
       let details = data;
       clearInterval(timer)
@@ -531,7 +530,7 @@ const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
                 <div className='my-2 px-2'>
                   <Line percent={bar_fill} strokeWidth={2} trailWidth={2} strokeColor={"#6414E9"} />
                 </div>
-                <p>Waiting time : <b>2 minutes.</b></p>
+                <p>Waiting time : <b>15 minutes.</b></p>
               </div>
             </Modal.Body>
           </Modal>
