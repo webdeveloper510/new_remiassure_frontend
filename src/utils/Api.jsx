@@ -72,6 +72,20 @@ export const resetEmail = async (data) => {
   return response
 }
 
+export const sendEmail = async () => {
+  const response = await Axios.post("/send-signup-emails/", {}, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  }).catch(err => {
+    return err
+  })
+  return response
+}
+
 export const resetPassword = async (data) => {
   const response = await Axios.post("/reset-password/", data).then(res => {
     return res.data
@@ -429,6 +443,39 @@ export const updateAgreement = (data) => {
 
 export const getVeriffStatus = (data) => {
   const response = Axios.post(`veriff/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    //console.log(res)
+    return res.data
+  }).catch(err => {
+    //console.log(err)
+    return err
+  })
+  return response
+}
+
+
+export const createTransaction = (data) => {
+  const response = Axios.post(`payment/create-transaction/`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then(res => {
+    //console.log(res)
+    return res.data
+  }).catch(err => {
+    //console.log(err)
+    return err
+  })
+  return response
+}
+
+export const pendingTransactions = () => {
+  const response = Axios.get(`payment/pending-transactions/`, {
     headers: {
       'Content-Type': 'application/json',
       "Authorization": `Bearer ${localStorage.getItem("token")}`,

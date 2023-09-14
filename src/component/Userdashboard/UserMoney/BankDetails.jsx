@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import axios from "axios"
 import { toast } from 'react-toastify';
 import PhoneInput from 'react-phone-input-2';
+import { createTransaction } from '../../../utils/Api';
 
 const BankDetails = ({ handleStep, step }) => {
   const [isActive, setActive] = useState("false");
@@ -246,16 +247,37 @@ const BankDetails = ({ handleStep, step }) => {
   }
 
   const selectRecipient = (value) => {
-    const local = JSON.parse(localStorage.getItem("transfer_data"))
-    localStorage.removeItem("transfer_data")
-    local.recipient = value
-    localStorage.setItem("transfer_data", JSON.stringify(local))
-
-    if (localStorage.getItem("send-step")) {
-      localStorage.removeItem("send-step")
+    let storage = JSON.parse(localStorage.getItem('transfer_data'))
+    let payload = {
+      transaction_id: localStorage.getItem("transaction_id"),
+      amount: {
+        send_amount: storage?.amount?.send_amt,
+        receive_amount: storage?.amount?.exchange_amt,
+        send_currency: storage?.amount?.from_type,
+        receive_currency: storage?.amount?.to_type,
+        send_method: "stripe",
+        receive_method: "Bank transfer",
+        reason: value.reason,
+        exchange_rate: storage?.amount?.exchange_rate
+      },
+      recipient_id: value.id
     }
-    localStorage.setItem("send-step", Number(step) + 1)
-    handleStep(Number(step) + 1);
+    createTransaction(payload).then(res => {
+      if (res.code === "200") {
+        localStorage.setItem("transaction_id", res.data.transaction_id)
+        localStorage.setItem("rid", value.id)
+        const local = JSON.parse(localStorage.getItem("transfer_data"))
+        localStorage.removeItem("transfer_data")
+        local.recipient = value
+        localStorage.setItem("transfer_data", JSON.stringify(local))
+
+        if (localStorage.getItem("send-step")) {
+          localStorage.removeItem("send-step")
+        }
+        localStorage.setItem("send-step", Number(step) + 1)
+        handleStep(Number(step) + 1);
+      }
+    })
   }
 
   useEffect(() => {

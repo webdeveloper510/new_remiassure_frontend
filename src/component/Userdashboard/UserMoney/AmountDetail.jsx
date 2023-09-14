@@ -3,7 +3,7 @@ import * as Yup from "yup"
 import { useFormik } from 'formik';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { exchangeRate } from '../../../utils/Api';
+import { createTransaction, exchangeRate } from '../../../utils/Api';
 import { useNavigate, useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 
@@ -27,7 +27,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const [blur_off, setBlurOff] = useState(false)
 
     const amtSchema = Yup.object().shape({
-        send_amt: Yup.string("Please enter a valid amount").min(1, "minimum 1 dollar is required ").max(6, "amount can't exceed 999999").required('Amount is required').notOneOf(["."], " "),
+        send_amt: Yup.string("Please enter a valid amount").min(1, "minimum 1 dollar is required ").max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."], " "),
         from_type: Yup.string().oneOf(["AUD", "NZD"]),
         to_type: Yup.string().required(),
         exchange_amt: Yup.string().required()
@@ -47,6 +47,33 @@ const AmountDetail = ({ handleStep, step }) => {
         validationSchema: amtSchema,
         onSubmit: async (values) => {
             let local = {}
+            var transaction_id = localStorage.getItem("transaction_id")
+            let payload = {
+                transaction_id: transaction_id,
+                amount: {
+                    send_amount: values.send_amt,
+                    receive_amount: values.exchange_amt,
+                    send_currency: values.from_type,
+                    receive_currency: values.to_type,
+                    send_method: "stripe",
+                    receive_method: "Bank transfer",
+                    reason: "none",
+                    exchange_rate: exch_rate
+                }
+            }
+            if (transaction_id === null || transaction_id === "undefined" || transaction_id === "") {
+                delete payload["transaction_id"]
+            }
+            createTransaction(payload).then(res => {
+                if (res.code === "200") {
+                    localStorage.setItem("transaction_id", res.data.transaction_id)
+                    if (localStorage.getItem("transfer_data")) {
+                        local = JSON.parse(localStorage.getItem("transfer_data"))
+                    }
+                    local.amount = { ...values, exchange_rate: exch_rate }
+                    localStorage.setItem("transfer_data", JSON.stringify(local))
+                }
+            })
             if (localStorage.getItem("transfer_data")) {
                 local = JSON.parse(localStorage.getItem("transfer_data"))
             }
@@ -86,7 +113,7 @@ const AmountDetail = ({ handleStep, step }) => {
 
     const inputvalidation = (event) => {
         var data = event.target.value;
-        if (/^[0-9]*$/.test(data)) {
+        if (/^\d*\.?\d{0,2}$/.test(data)) {
             formik.setFieldValue('send_amt', data);
             formik.setFieldTouched('send_amt', true);
             setAmtDetail({ ...amt_detail, send_amt: data });
@@ -268,7 +295,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         value={formik.values?.send_amt}
                                         onKeyDown={(e) => amountDown(e)}
                                         onChange={(e) => inputvalidation(e)}
-                                        maxLength={6}
+                                        maxLength={formik?.values?.send_amt?.includes(".") ? 9 : 6}
                                         className={clsx(
                                             'mb-3 bg-transparent form-control rate_input',
                                             { 'is-invalid': formik.touched.send_amt && formik.errors.send_amt },

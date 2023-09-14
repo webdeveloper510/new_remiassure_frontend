@@ -16,6 +16,7 @@ const TransactionDetails = () => {
 
     useEffect(() => {
         setLoading(true)
+        // console.log(id)
         paymentSummary(id).then(res => {
             if (res.code === "200") {
                 setDetails(res.data)
@@ -108,7 +109,7 @@ const TransactionDetails = () => {
                                                                 <></>
                                                             )
                                                         }
-                                                        
+
                                                     </div>
                                                     <hr />
                                                     <div className='row my-4'>
@@ -164,31 +165,37 @@ const TransactionDetails = () => {
                                                                                         ) : <></>
                                                                                 }
                                                                                 {
-                                                                                    detail?.send_method_details?.bsb_code ?
-                                                                                        (
-                                                                                            <tr>
-                                                                                                <td>BSB code:</td>
-                                                                                                <td style={{ wordBreak: "break-word" }}>{detail?.send_method_details?.bsb_code ? detail?.send_method_details?.bsb_code : "N/A"}</td>
-                                                                                            </tr>
-                                                                                        ) : <></>
-                                                                                }
-                                                                                {
-                                                                                    detail?.send_method_details?.account_number ?
-                                                                                        (
-                                                                                            <tr>
-                                                                                                <td>Account number:</td>
-                                                                                                <td style={{ wordBreak: "break-word" }}>{detail?.send_method_details?.account_number ? detail?.send_method_details?.account_number : "N/A"}</td>
-                                                                                            </tr>
-                                                                                        ) : <></>
-                                                                                }
-                                                                                {
-                                                                                    detail?.send_method_details?.max_amount ?
-                                                                                        (
-                                                                                            <tr>
-                                                                                                <td>Max amount per transaction:</td>
-                                                                                                <td style={{ wordBreak: "break-word" }}>{detail?.send_method_details?.max_amount ? detail?.send_method_details?.max_amount : "N/A"}</td>
-                                                                                            </tr>
-                                                                                        ) : <></>
+                                                                                    detail?.send_method !== "zai_payid_per_user" ? (
+                                                                                        <>
+                                                                                            {
+                                                                                                detail?.send_method_details?.bsb_code ?
+                                                                                                    (
+                                                                                                        <tr>
+                                                                                                            <td>BSB code:</td>
+                                                                                                            <td style={{ wordBreak: "break-word" }}>{detail?.send_method_details?.bsb_code ? detail?.send_method_details?.bsb_code : "N/A"}</td>
+                                                                                                        </tr>
+                                                                                                    ) : <></>
+                                                                                            }
+                                                                                            {
+                                                                                                detail?.send_method_details?.account_number ?
+                                                                                                    (
+                                                                                                        <tr>
+                                                                                                            <td>Account number:</td>
+                                                                                                            <td style={{ wordBreak: "break-word" }}>{detail?.send_method_details?.account_number ? detail?.send_method_details?.account_number : "N/A"}</td>
+                                                                                                        </tr>
+                                                                                                    ) : <></>
+                                                                                            }
+                                                                                            {
+                                                                                                detail?.send_method_details?.max_amount ?
+                                                                                                    (
+                                                                                                        <tr>
+                                                                                                            <td>Max amount per transaction:</td>
+                                                                                                            <td style={{ wordBreak: "break-word" }}>{detail?.send_method_details?.max_amount ? detail?.send_method_details?.max_amount : "N/A"}</td>
+                                                                                                        </tr>
+                                                                                                    ) : <></>
+                                                                                            }
+                                                                                        </>
+                                                                                    ) : <></>
                                                                                 }
                                                                             </>
                                                                         ) : <></>

@@ -105,7 +105,7 @@ const Home = () => {
     }, [carouselItems])
 
     const amountSchema = Yup.object().shape({
-        send_amt: Yup.string("Please enter a valid amount").min(1, "minimum 1 dollar is required ").max(6, "amount can't exceed 999999").required('Amount is required').notOneOf(["."], " ")
+        send_amt: Yup.string("Please enter a valid amount").min(1, "minimum 1 dollar is required ").max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."], " ")
     })
 
     const initialValues = {
@@ -288,10 +288,7 @@ const Home = () => {
     const inputvalidation = (event) => {
         // console.log(event.target)
         var data = event.target.value;
-        var decimalIndex = data.indexOf('.');
-
-        if (/^[0-9]*$/.test(data)) {
-            // console.log("sadsadqe2q", event.target)
+        if (/^\d*\.?\d{0,2}$/.test(data)) {
             formik.setFieldValue('send_amt', event.target.value);
             formik.setFieldTouched('send_amt', true);
             setBlurOff(false)
@@ -424,7 +421,7 @@ const Home = () => {
                                                         value={formik.values.send_amt}
                                                         onChange={(e) => inputvalidation(e)}
                                                         onKeyDown={e => amountDown(e)}
-                                                        maxLength={6}
+                                                        maxLength={formik?.values?.send_amt?.includes(".") ? 9 : 6}
                                                         className={clsx(
                                                             'mb-3 bg-transparent form-control',
                                                             { 'is-invalid': formik.touched.send_amt && formik.errors.send_amt },

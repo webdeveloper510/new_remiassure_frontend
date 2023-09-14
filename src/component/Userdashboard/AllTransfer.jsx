@@ -110,10 +110,10 @@ const AllTranfer = ({ status, data }) => {
 
                               <td>{
                                 res?.payment_status === "cancelled" || res?.payment_status === "Cancelled" ? (
-                                  <span className="btn btn-outline-danger btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.id}`)} >{res?.payment_status}</span>
+                                  <span className="btn btn-outline-danger btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)} >{res?.payment_status}</span>
 
                                 ) : (
-                                  <span className="btn btn-outline-success btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.id}`)} >{res?.payment_status}</span>
+                                  <span className="btn btn-outline-success btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)} >{res?.payment_status}</span>
 
                                 )
                               }

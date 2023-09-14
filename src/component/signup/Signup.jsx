@@ -6,7 +6,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { exchangeRate, registerOtpResend, userRegisterCheck, userRegisterVerify } from "../../utils/Api";
+import { exchangeRate, registerOtpResend, sendEmail, userRegisterCheck, userRegisterVerify } from "../../utils/Api";
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import clsx from "clsx";
@@ -205,6 +205,7 @@ const Signup = () => {
                     user.digital_id_verified = "false"
                     localStorage.setItem("remi-user-dt", JSON.stringify(user))
                     navigate('/send-money')
+                    sendEmail()
                 } else if (res.code == "400") {
                     toast.error(res.message,
                         { position: "bottom-right", autoClose: 2000, hideProgressBar: true });

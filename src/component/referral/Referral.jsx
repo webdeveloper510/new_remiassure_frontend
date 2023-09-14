@@ -3,11 +3,11 @@ import { Link, NavLink } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-// import ReferralScrollbar from '../referralscrollbar/ReferralScrollbar';
+import Scrollbar from '../referralscrollbar/ReferralScrollbar';
 
 import global from "../../utils/global";
 import axios from "axios";
-import Scrollbar from "../scrollbar/Scrollbar";
+// import Scrollbar from "../scrollbar/Scrollbar";
 
 
 
@@ -69,17 +69,8 @@ const Referral = () => {
                 setDataRefferal(response.data);
             })
             .catch(function (error) {
-                //   console.log(error);
-                //   console.log(error.response);
-
             })
     }, [])
-
-    // console.log(dataRefferal," nnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-
-
-
-
 
     // Social Function start
     function SocialArrayObjects() {
@@ -90,7 +81,7 @@ const Referral = () => {
                 src: "assets/img/referral/twitter.svg"
             }, {
                 id: 2,
-                links: "https://www.facebook.com/profile.php?id=100094421798782",
+                links: "https://www.facebook.com/remitassure",
                 src: "assets/img/referral/facebook.svg"
             },
             {
@@ -100,7 +91,7 @@ const Referral = () => {
             },
             {
                 id: 4,
-                links: "https://www.linkedin.com/company/98194671/",
+                links: "https://www.linkedin.com/company/remitassure/",
                 src: "assets/img/referral/linkedin.svg"
             },
 
@@ -337,11 +328,8 @@ const Referral = () => {
                             <div className="popup_content odd-text">
                                 <p className="signup_content">4</p>
                             </div>
-
                         </div>
-
                     </div>
-
                     {
                         verification_otp || token != undefined || '' ? (
                             <div className="referal_code">
@@ -356,7 +344,6 @@ const Referral = () => {
                                                 value={dataRefferal.referrallink}
                                                 id="myInput" className="copy_input"
                                             />
-
                                             <button variant="outline-secondary" id="button-addon2" className="button_copy">
                                                 Copy
                                             </button>
@@ -364,11 +351,9 @@ const Referral = () => {
                                     </div>
                                 </div>
                             </div>
-
                         ) : (
                             <>
                                 <div className="social_links_change"></div>
-
                             </>
                         )
                     }
@@ -439,28 +424,20 @@ const Referral = () => {
             {/* <!-- ======= Testimonial-Section  start======= --> */}
             <section className="why-us section-bgba testimonials">
                 <div className="container">
-
-                    {/* main row  start*/}
+                    {/* main row start*/}
                     <div className="row">
-
                         <div className="testimonial_vl">
                             <h1 className="chose-heading">Testimonial</h1>
-
                             {/* <div className="button_icons_referral">
                         <button className="btn btn prev left_icon" onClick={() => setMoveClass('prev')}>
                         <i className="bx bx-chevron-left prev_button"></i>
                         </button>
-
                         <button className="btn btn next right_icon"   onClick={() => setMoveClass('next')}>
                         <i className="bx bx-chevron-right "></i>
                         </button>
-                     
-
                     </div> */}
                         </div>
-
                     </div>
-
                     <div className="row">
                         <div className="col-lg-12">
                             <label className="review_content">Reviews 66,081 · Great
@@ -478,26 +455,17 @@ const Referral = () => {
                     <div className="row">
                         <div className="col-col-lg-12 referal_testimonial my-4">
                             {/* <div className="carouselwrapper module-wrapper">
-              
-                       
                         <ul onAnimationEnd={handleAnimationEnd} className={`${moveClass} carousel`}>
                             {carouselItems.map((t, index) => 
                             <Card key={t.paragraph + index} crad_icons={t.crad_icons} paragraph={t.paragraph} />
-                            
-                            
                             )}
                         </ul>
                         </div>      */}
-
                             <Scrollbar />
                         </div>
-
                     </div>
                     {/* carousel End  */}
-
-
                     {/* main row  End*/}
-
                 </div>
             </section>
             {/* <!-- ======= Home Testimonial-Section End ======= --> */}

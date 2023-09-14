@@ -6226,3 +6226,42 @@ section.why-us.section-bgba.hows-it-section .vl-heading {
 #how-it-work .main-timeline4 .timeline-new:nth-child(4n) .year:before{border-right-color:#f8781f}
 #how-it-work .main-timeline4 .inner-content{padding:10px}
 }
+
+
+.tooltip-clipboard {
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 4px 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-clipboard::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.clipboard-button:hover .tooltip-clipboard {
+  visibility: visible;
+  opacity: 1;
+}
+
+.clipboard-button {
+  position: relative;
+}

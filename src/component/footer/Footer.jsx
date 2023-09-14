@@ -214,9 +214,9 @@ const Footer = () => {
                                 </li>
                                 <div className="social-links mt-3">
                                     <a className="twitter" target="_blank" href="https://twitter.com/remitassure"><i className="bx bxl-twitter"></i></a>
-                                    <a className="facebook" target="_blank" href="https://www.facebook.com/profile.php?id=100094421798782"><i className="bx bxl-facebook"></i></a>
+                                    <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><i className="bx bxl-facebook"></i></a>
                                     <a className="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/"><i className="bx bxl-instagram"></i></a>
-                                    <a className="linkedin" target="_blank" href="https://www.linkedin.com/company/98194671/"><i className="bx bxl-linkedin"></i></a>
+                                    <a className="linkedin" target="_blank" href="https://www.linkedin.com/company/remitassure/"><i className="bx bxl-linkedin"></i></a>
                                 </div>
                             </div>
 

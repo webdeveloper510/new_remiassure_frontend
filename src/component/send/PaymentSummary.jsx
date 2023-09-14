@@ -125,23 +125,34 @@ const PaymentSummary = ({ handleStep, step }) => {
       if (local?.payment?.payment_type === "PayTo") {
         data.agreement_uuid = local?.payment?.agreement_uuid
 
-        ZaiPayTo(data).then((res) => {
+        ZaiPayTo({ agreement_uuid: data.agreement_uuid, transaction_id: localStorage.getItem("transaction_id") }).then((res) => {
           setLoader(false)
-
           if (res.code === "200") {
-            setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+            setTransaction({ status: res?.message, id: res?.data?.id, pay_id: res?.data?.transaction_id })
             localStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(localStorage.getItem("remi-user-dt"))
-            // localStorage.removeItem("remi-user-dt")
             user.digital_id_verified = "true"
             localStorage.setItem("remi-user-dt", JSON.stringify(user))
             if (localStorage.getItem("send-step")) {
               localStorage.removeItem("send-step")
             }
             localStorage.removeItem("transfer_data")
+            localStorage.removeItem('rid')
+            localStorage.removeItem("transaction_id")
             setModalView(true)
           } else if (res.code == "400") {
-            setErrorModal({ trigger: true, data: data })
+            setTransaction({ status: res?.message, id: res?.data?.id, pay_id: res?.data?.transaction_id })
+            localStorage.setItem("transaction_id", res?.data?.payment_id)
+            const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+            user.digital_id_verified = "true"
+            localStorage.setItem("remi-user-dt", JSON.stringify(user))
+            if (localStorage.getItem("send-step")) {
+              localStorage.removeItem("send-step")
+            }
+            localStorage.removeItem("transfer_data")
+            localStorage.removeItem('rid')
+            localStorage.removeItem("transaction_id")
+            setModalView(true)
           } else {
             toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
             setTimeout(() => {
@@ -154,14 +165,13 @@ const PaymentSummary = ({ handleStep, step }) => {
           toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
         })
       } else if (local?.payment?.payment_type === "PayByID") {
-        data.pay_id = local?.payment?.pay_id
         data.payment_id = local?.payment?.payment_id
         delete data["amount"]
         // console.log(data)
-        ZaiPayId(data).then((res) => {
+        ZaiPayId({ transaction_id: data.payment_id }).then((res) => {
           setLoader(false)
           if (res.code === "200") {
-            setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
+            setTransaction({ status: res?.message, id: res?.data?.id, pay_id: res?.data?.transaction_id })
             localStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(localStorage.getItem("remi-user-dt"))
             // localStorage.removeItem("remi-user-dt")
@@ -171,6 +181,10 @@ const PaymentSummary = ({ handleStep, step }) => {
               localStorage.removeItem("send-step")
             }
             localStorage.removeItem("transfer_data")
+            localStorage.removeItem("rid")
+            localStorage.removeItem("remiZaitransferID")
+            localStorage.removeItem("transfer_data")
+            localStorage.removeItem("transaction_id")
             setModalView(true)
           } else if (res.code == "400") {
             toast.error(res.message, { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
@@ -186,78 +200,20 @@ const PaymentSummary = ({ handleStep, step }) => {
         })
       }
     } else if (local?.payment.hasOwnProperty("token")) {
-      let data = {
-        sender: {
-          First_name: local?.sender?.f_name,
-          Middle_name: local?.sender?.m_name,
-          Last_name: local?.sender?.l_name,
-          Date_of_birth: local?.sender?.dob,
-          Gender: "m",
-          Country_of_birth: local?.sender?.country_of_birth,
-          occupation: local?.sender?.occupation,
-          payment_per_annum: local?.sender?.payment_per_annum,
-          value_per_annum: local?.sender?.value_per_annum,
-        },
-        sender_address: {
-          flat: local?.sender?.flat,
-          building: local?.sender?.build_no,
-          street: local?.sender?.street,
-          postcode: local?.sender?.post_code,
-          city: local?.sender?.city,
-          state: local?.sender?.state,
-          country: local?.sender?.country,
-          country_code: local?.sender?.country_code
-
-        },
-        recipient: {
-          first_name: local?.recipient?.f_name,
-          middle_name: local?.recipient?.m_name,
-          last_name: local?.recipient?.l_name,
-          email: local?.recipient?.email,
-          mobile: local?.recipient?.mobile,
-          flat: local?.recipient?.flat,
-          building: local?.recipient?.build_no,
-          street: local?.recipient?.street,
-          postcode: local?.recipient?.post_code,
-          city: local?.recipient?.city,
-          state: local?.recipient?.state,
-          country: local?.recipient?.country,
-          country_code: local?.recipient?.country_code
-        },
-        bank_details: {
-          bank_name: local?.recipient?.bank,
-          account_name: local?.recipient?.acc_name,
-          account_number: local?.recipient?.acc_no
-        },
-        amount: {
-          send_amount: local?.amount?.send_amt,
-          receive_amount: local?.amount?.exchange_amt,
-          send_currency: local?.amount?.from_type,
-          receive_currency: local?.amount?.to_type,
-          send_method: "stripe",
-          receive_method: local?.amount?.recieve_meth,
-          reason: local?.recipient?.reason,
-          card_token: local?.payment?.token?.id,
-          exchange_rate: local?.amount?.exchange_rate
-        }
-      }
-      userCharge(data).then((res) => {
+      userCharge({ transaction_id: localStorage.getItem("transaction_id"), card_token: local?.payment?.token?.id }).then((res) => {
         setLoader(false)
         if (res.code == "200") {
-          setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
-          localStorage.setItem("transaction_id", res?.data?.payment_id)
+          setTransaction({ status: res?.message, id: res?.data?.id, pay_id: res?.data?.transaction_id })
           const user = JSON.parse(localStorage.getItem("remi-user-dt"))
-          // localStorage.removeItem("remi-user-dt")
           user.digital_id_verified = "true"
           localStorage.setItem("remi-user-dt", JSON.stringify(user))
           if (localStorage.getItem("send-step")) {
             localStorage.removeItem("send-step")
           }
           localStorage.removeItem("transfer_data")
+          localStorage.removeItem('rid')
+          localStorage.removeItem("transaction_id")
           setModalView(true)
-          // setTimeout(() => {
-          //   navigate("/dashboard")
-          // }, 10 * 1000)
         } else if (res.code === "400") {
           toast.error(res.message, { position: "bottom-right", autoClose: 5000, hideProgressBar: true })
 
@@ -277,6 +233,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       handleFinalStep()
     }
   }, [is_otp_verified])
+
   const handleCancel = () => {
     localStorage.removeItem("transfer_data")
     localStorage.removeItem("send-step")
@@ -419,131 +376,10 @@ const PaymentSummary = ({ handleStep, step }) => {
       <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
         <PopVerify handler={handleOtpVerified} close={() => setOpenModal(false)} />
       </Modal>
-      <ErrorModal show={error_modal.trigger} data={error_modal.data} handler={(value) => setErrorModal(value)} setModalView={(value) => { setModalView(value) }} setTransaction={(value) => setTransaction(value)} />
     </>
   )
 }
 
-const ErrorModal = ({ show, data, handler, setModalView, setTransaction }) => {
-
-  const [bar_fill, setBarFill] = useState(0)
-  const [loader, setLoader] = useState(false)
-  var timer;
-
-  useEffect(() => {
-    if (bar_fill <= 100 && show === true) {
-
-      setTimeout(() => {
-        setBarFill(bar_fill + 1);
-      }, 9000)
-    } else if (show === true) {
-      let details = data;
-      clearInterval(timer)
-      handler({ trigger: false, data: {} })
-      setLoader(true)
-      ZaiPayTo(details).then(res => {
-        setLoader(false)
-        if (res.code === "200") {
-          setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
-          localStorage.setItem("transaction_id", res?.data?.payment_id)
-          const user = JSON.parse(localStorage.getItem("remi-user-dt"))
-          user.digital_id_verified = "true"
-          localStorage.setItem("remi-user-dt", JSON.stringify(user))
-          if (localStorage.getItem("send-step")) {
-            localStorage.removeItem("send-step")
-          }
-          localStorage.removeItem("transfer_data")
-          setModalView(true)
-        } else if (res.code === "400") {
-          toast.error(res.message, { position: "bottom-right", hideProgressBar: true })
-          setTimeout(() => {
-            window.location.reload()
-          }, 3000)
-
-        } else {
-          toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
-          setLoader(false)
-          setTimeout(() => {
-            window.location.reload()
-          }, 3 * 1000)
-        }
-      })
-    }
-  }, [bar_fill, show])
-
-  useEffect(() => {
-    let details = data
-    let timer;
-    if (show === true) {
-      timer = setInterval(() => {
-        getAgreementList().then(res => {
-          if (res.code === "200") {
-            if (res.data.status === "active") {
-              clearInterval(timer)
-              handler({ trigger: false, data: {} })
-              setLoader(true)
-              ZaiPayTo(details).then(res => {
-                setLoader(false)
-                if (res.code === "200") {
-                  setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: res?.data?.payment_id })
-                  localStorage.setItem("transaction_id", res?.data?.payment_id)
-                  const user = JSON.parse(localStorage.getItem("remi-user-dt"))
-                  user.digital_id_verified = "true"
-                  localStorage.setItem("remi-user-dt", JSON.stringify(user))
-                  if (localStorage.getItem("send-step")) {
-                    localStorage.removeItem("send-step")
-                  }
-                  localStorage.removeItem("transfer_data")
-                  setModalView(true)
-                } else if (res.code === "400") {
-                  toast.error(res.message, { position: "bottom-right", hideProgressBar: true })
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 3000)
-
-                } else {
-                  toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
-                  setLoader(false)
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 3 * 1000)
-                }
-              })
-            }
-          }
-        })
-      }, 5000)
-    } else {
-      clearInterval(timer)
-    }
-  }, [show])
-
-  return (
-    <>
-      {
-        !loader ? (
-          <Modal show={show} backdrop="static" centered>
-            <Modal.Body className='text-center ' >
-              <div className='py-5 border'>
-                <h4 style={{ color: "#6414e9" }} className='fw-bold'>Authorization pending</h4>
-                <p className='my-3'>Please authorize your PayTo agreement on your respective banking portal.</p>
-                <div className='my-2 px-2'>
-                  <Line percent={bar_fill} strokeWidth={2} trailWidth={2} strokeColor={"#6414E9"} />
-                </div>
-                <p>Waiting time : <b>15 minutes.</b></p>
-              </div>
-            </Modal.Body>
-          </Modal>
-        ) : (
-          <div className="loader-overly">
-            <div className="loader" >
-            </div>
-          </div>
-        )
-      }
-    </>
-  )
-}
 
 
 

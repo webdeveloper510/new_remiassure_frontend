@@ -22,7 +22,6 @@ const App = () => {
     navigate("/login")
   }
 
-
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -60,6 +59,14 @@ const App = () => {
       }
     }
 
+    // window.dataLayer = window.dataLayer || [];
+    // window.dataLayer.push({
+    //   event: 'pageview',
+    //   pagePath: location.pathname
+    // });
+
+    // console.log(window.dataLayer)
+    // fbq('track', 'PageView');
   }, [location.pathname])
 
   let login = localStorage.getItem('token')

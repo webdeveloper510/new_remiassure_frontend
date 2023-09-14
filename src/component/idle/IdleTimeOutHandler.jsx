@@ -42,8 +42,7 @@ const IdleTimeOutHandler = (props) => {
         if (showModal) {
             setTimeout(() => {
                 setShowModal(false)
-                localStorage.clear()
-                window.reload()
+                props.onLogout()
             }, 2 * 60 * 1000)
         }
     }, [showModal])
@@ -105,8 +104,8 @@ const IdleTimeOutHandler = (props) => {
         removeEvents();
         clearTimeout(timer);
         setLogout(true)
-        props.onLogout();
         setShowModal(false)
+        props.onLogout();
     }
 
     return (
@@ -148,17 +147,17 @@ const IdleTimeOutModal = ({ showModal, handleContinue, handleLogout, remainingTi
                 <Modal.Title>You Have Been Idle!</Modal.Title>
             </Modal.Header>
             <Modal.Body className="session_modal">
-                <p>You will get automatically <b style={{color:"#6414E9"}}>loged out</b> in:</p>
+                <p>You will get automatically <b style={{ color: "#6414E9" }}>loged out</b> in:</p>
                 <p className='image_idle_time  py-5' style={{ backgroundImage: `url(${timeOut})` }}>
                     <span className="display-3 fw-semibold text-danger">{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</span>
                 </p>
-                <p>Click on <b style={{color:"#6414E9"}}>Continue Session</b> to stay.</p>
+                <p>Click on <b style={{ color: "#6414E9" }}>Continue Session</b> to stay.</p>
             </Modal.Body>
             <Modal.Footer>
-                <Button className='session_logOut' onClick={()=>handleLogout()}>
+                <Button className='session_logOut' onClick={() => handleLogout()}>
                     Logout
                 </Button>
-                <Button className='session_cont' onClick={()=>handleContinue()}>
+                <Button className='session_cont' onClick={() => handleContinue()}>
                     Continue Session
                 </Button>
             </Modal.Footer>

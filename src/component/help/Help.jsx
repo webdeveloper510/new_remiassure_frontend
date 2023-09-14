@@ -123,19 +123,13 @@ const Help = () => {
       {
         id: 10,
         title: "How do I make a transfer?",
-        content: <>To make a transfer , you need to <Link to="/sign-up">create an account</Link> and you will be redirected to make your first transaction page. Select a method to send money , fill in the relevant details and verify your identity then finalize your transaction.</>,
+        content: <>To initiate a transfer with RemitAssure, simply <Link to="/sign-up">sign up</Link> on our user-friendly platform, <Link to="/login">log in</Link> to your account, select your recipient, enter the desired amount, and confirm the transfer.Our intuitive interface ensures a seamless process, making cross-border money transfers a breeze. </>,
       },
 
       {
         id: 11,
         title: "How do I make payment for my transfer?",
-        content: <>RemitAssure provides its user with 3 different methods to make payment:
-          <ul>
-            <li>Debit/Credit card ,</li>
-            <li>PayID per user(only for Australian users) </li>
-            <li> PayTo agreements(only for Australian users) </li>
-          </ul>
-          Go to <Link to={transferLinks()} >New Transfer</Link> enter the relevant details and select one of the above method on Choose a payment method page.
+        content: <>To make a payment for your transfer with RemitAssure, simply select your preferred payment method from the available options, such as bank transfers or debit/credit cards, after entering the recipient and transfer amount. Our user-friendly platform guides you through the payment process, ensuring a secure and seamless transaction experience, so you can send money globally with ease.
         </>,
       },
       // {
@@ -146,39 +140,20 @@ const Help = () => {
       {
         id: 13,
         title: "Why did my transfer fail?",
-        content: <>Although RemitAssure provides best services to make a secure and successful transfer. But sometimes user may encounter transaction failure and there could be serval reasons for it:
-          <ul>
-            <li>Invalid Card information.</li>
-            <li>Insufficient balance.</li>
-            <li>Agreement not approved or cancelled on banking portal.(for Austrailian users only)</li>
-            <li>Transfer rejected by respective bank</li>
-          </ul>
+        content: <>Transfer failures can occur for various reasons, including incorrect recipient details, insufficient funds in your account, or technical issues. To pinpoint the exact cause, please review your transfer details carefully, ensure you have adequate funds, and verify that recipient information is accurate. If issues persist, contact our customer support team for prompt assistance in resolving the matter and ensuring a successful transfer. Your satisfaction is our priority, and we're here to help you navigate any challenges that may arise.
         </>,
       },
       {
         id: 14,
         title: "What information do I need to transfer funds?",
         content: <>
-          To make a transfer on RemitAssure ,user need to fill the following information:
-          <ul>
-            <li>Recipient bank details - bank name , account holder name and account number.</li>
-            <li>Recipient personal information - name , mobile number and email. </li>
-            <li>Recipient address details - state , city , country , zip/postal code , street and building number, etc.</li>
-            <li>Sender personal information - name , country of birth , date of birth , occupation ,email and mobile</li>
-            <li>Sender address detals - city , state , zip/postal code , street , country , building number.</li>
-            <li>Sender payment method details:
-              <ul>
-                <li>Debit/credit card - card details</li>
-                <li>PayTo agreement: payID or bsb code and account number.(only for Australian users)</li>
-              </ul>
-            </li>
-          </ul>
+          To initiate a funds transfer with RemitAssure, you'll typically need the following information: the recipient's full name as it appears on their identification, their contact details,  such as a phone number or email address, the recipient's bank account details or a mobile wallet ID, the transfer amount, and your preferred payment method, which could include a bank account or debit/credit card information. Ensuring the accuracy of these details is essential for a smooth and successful money transfer experience with RemitAssure.
         </>,
       },
       {
         id: 15,
         title: "Why do we verify your identity before transactions?",
-        content: "RemitAssure as a financially-regulated company, need to verify all of our customers accoording to country laws.As per every country rules verifcation is required to check from where you are sending the funds and sometimes the source of your funds.All we need to check your name, address and date of birth.",
+        content: "We verify your identity before transactions to ensure the security and compliance of your financial transactions. This verification process helps us protect both you and our platform from potential fraud and unauthorized use. By confirming your identity, we can confidently facilitate your transactions while adhering to legal and regulatory requirements, providing you with a safe and trustworthy environment for your financial activities. Your privacy and security are paramount to us, and identity verification is a crucial step in upholding these principles.",
       }
     ];
     const accordionItems = dataarray.map((value, index) => {

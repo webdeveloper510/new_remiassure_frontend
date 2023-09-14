@@ -8,6 +8,7 @@ import SenderDetails from './SenderDetails'
 import PaymentSummary from './PaymentSummary'
 import { useLocation, useNavigate } from 'react-router-dom'
 import authDashHelper from '../../utils/AuthDashHelper'
+import { pendingTransactions } from '../../utils/Api'
 
 const SendMoney = () => {
 
@@ -49,13 +50,16 @@ const SendMoney = () => {
       navigate("/user-send-money")
     } else if (authDashHelper('authCheck')) {
       navigate("/login")
+    } else {
+      pendingTransactions().then(res => {
+        if (res.code === "200") {
+          localStorage.setItem("transaction_id", res.data[0].transaction_id)
+          if (res?.data[0]?.recipient) {
+            localStorage.setItem("rid", res?.data[0]?.recipient)
+          }
+        }
+      })
     }
-    // setTimeout(() => {
-    //   // console.log("time")
-    //   localStorage.removeItem("send-step");
-    //   localStorage.removeItem("transfer_data");
-    //   window.location.reload(true)
-    // }, 30 * 60 * 1000);
   }, [])
 
   useEffect(() => {
@@ -73,6 +77,7 @@ const SendMoney = () => {
         setBankDetail(local.recipient)
       }
     }
+
     const s = step;
     let n = s;
     while (n > 0) {
@@ -140,7 +145,7 @@ const SendMoney = () => {
                           </li>
                           <li className={`step ${activeStep === 3 ? "is-active" : ""}`}>
                             <div className="step-label text-light">
-                              Payment Method
+                              Sender Details
                               <div className="progress-bar progress-bar--success">
                                 <div
                                   className="progress-bar__bar"
@@ -151,7 +156,7 @@ const SendMoney = () => {
                           </li>
                           <li className={`step ${activeStep === 4 ? "is-active" : ""}`}>
                             <div className="step-label text-light">
-                              Sender Details
+                              Payment Method
                               <div className="progress-bar progress-bar--success">
                                 <div
                                   className="progress-bar__bar"

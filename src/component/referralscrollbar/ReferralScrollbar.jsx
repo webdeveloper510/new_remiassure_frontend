@@ -21,7 +21,7 @@ const responsive = {
 class Scrollbar extends React.Component {
   state = { additionalTransfrom: 0 };
   render() {
-    //const { deviceType } = this.props;
+    const { mobile } = this.props;
     const CustomSlider = ({ carouselState }) => {
       let value = 0;
       let carouselItemWidth = 0;
@@ -72,6 +72,7 @@ class Scrollbar extends React.Component {
         </div>
       );
     };
+
     const items = [
       {
         heading: "Best on the market ",
@@ -116,37 +117,33 @@ class Scrollbar extends React.Component {
       >
 
 
-
         {
           items?.map(item => {
             return (
               <div class="image-container increase-size">
+
                 <div class="image-container-text" draggable={false}>
-                  <img src="assets/img/referral/Group.svg" alt="quote-up" className="Group_icons" />
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div class="testimonial-text">
-                        <p className="material_heading_card">{item.paragraph}</p>
-                        <img src="assets/img/referral/Group_star.png" alt="group_card" class="group_card_icon" />
-                      </div>
+                  {/* <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" /> */}
+                  <div className="each-review">
+                    <div className="col-12 align-center">
+                      {/* <span className="material-icons fw-light">{item.heading}</span> */}
+                      <p className="material-heading fw-light">{item.paragraph}</p>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-12 col-lg-12 testimonial-client">
-                      <div class="testimonial-inner">
-                        <img src="assets/img/referral/girl.svg" alt="boy_icons" className="testimonial-icons" />
-                        <h3 className="kevin_content">Kevin Rich</h3>
-                        <p className="testimonial_icons_text">{item.heading}</p>
-                      </div>
+                    <div className="col-12 align-center">
+                      <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons" />
+                      <p className="boy_icons_text">Worldtraveler</p>
+                      <img src="assets/img/referral/Group_star.png" alt="quote-up" className="testimonial-rating" />
                     </div>
+
                   </div>
+                  {/* <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" /> */}
 
                 </div>
+
               </div>
             )
           })
         }
-
       </Carousel>
     );
   }

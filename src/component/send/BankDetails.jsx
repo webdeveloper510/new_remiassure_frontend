@@ -8,6 +8,7 @@ import countryList from "../../utils/recipientCountries.json"
 import { useEffect } from 'react';
 
 import PhoneInput from "react-phone-input-2";
+import { createRecipient, createTransaction, updateUserRecipient } from '../../utils/Api';
 
 const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   const [city_list, setCityList] = useState([])
@@ -123,16 +124,74 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     setData({ ...data, country: coun.name, mobile: e })
   }
 
-  const handleReciept = (e) => {
-    const local = JSON.parse(localStorage.getItem("transfer_data"))
-    local.recipient = data
-    localStorage.removeItem("transfer_data")
-    localStorage.setItem("transfer_data", JSON.stringify(local))
-    if (localStorage.getItem("send-step")) {
-      localStorage.removeItem("send-step")
+  const updateTransaction = (id) => {
+    let storage = JSON.parse(localStorage.getItem('transfer_data'))
+    let payload = {
+      transaction_id: localStorage.getItem("transaction_id"),
+      amount: {
+        send_amount: storage?.amount?.send_amt,
+        receive_amount: storage?.amount?.exchange_amt,
+        send_currency: storage?.amount?.from_type,
+        receive_currency: storage?.amount?.to_type,
+        send_method: "stripe",
+        receive_method: "Bank transfer",
+        reason: data.reason,
+        exchange_rate: storage?.amount?.exchange_rate
+      },
+      recipient_id: id
     }
-    localStorage.setItem("send-step", Number(step) + 1)
-    handleStep(Number(step) + 1)
+    createTransaction(payload).then(res => {
+      if (res.code === "200") {
+        localStorage.setItem("transaction_id", res.data.transaction_id)
+        const local = JSON.parse(localStorage.getItem("transfer_data"))
+        local.recipient = data
+        localStorage.removeItem("transfer_data")
+        localStorage.setItem("transfer_data", JSON.stringify(local))
+        if (localStorage.getItem("send-step")) {
+          localStorage.removeItem("send-step")
+        }
+        // console.log("helloo")
+        localStorage.setItem("send-step", Number(step) + 1)
+        handleStep(Number(step) + 1)
+      }
+    })
+
+  }
+
+  const handleReciept = (e) => {
+    let d = {
+      bank_name: data.bank, account_name: data.acc_name, account_number: data.acc_no,
+      first_name: data.f_name, last_name: data.l_name, middle_name: data.m_name,
+      email: data.email, mobile: data.mobile, flat: data.flat,
+      building: data.build_no, street: data.street, city: data.city,
+      postcode: data.post_code, state: data.state, country: data.country,
+      reason: data.reason, country_code: data.country_code
+    }
+    if (d.middle_name == "" || d.middle_name == undefined) {
+      delete d["middle_name"]
+    }
+    if (d.flat == "" || d.flat == undefined) {
+      delete d["flat"]
+    }
+    if (d.postcode === "" || d.postcode === undefined) {
+      delete d['postcode'];
+    }
+    if (localStorage.getItem("rid")) {
+      var id = localStorage.getItem("rid")
+      updateUserRecipient(id, d).then(res => {
+        if (res.code === "200") {
+          updateTransaction(id)
+        }
+      })
+    } else {
+      createRecipient(d).then(res => {
+        if (res.code === "200") {
+          // console.log(res)
+          localStorage.setItem("rid", res.data.id)
+          updateTransaction(res.data.id)
+        }
+      })
+    }
   }
 
   const handlePrevious = () => {
@@ -310,8 +369,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 value={formik.values?.bank}
                 onChange={validateInput}
                 maxLength={50}
-                // onKeyDown={(e) => { handleKeyDown(e, 50) }}
-                // {...formik.getFieldProps("bank")}
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.bank && formik.errors.bank },
@@ -319,6 +376,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                     'is-valid': formik.touched.bank && !formik.errors.bank,
                   }
                 )}
+                onBlur={formik.handleBlur}
               />
             </div>
           </div>
@@ -332,9 +390,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   value={formik.values?.acc_name}
                   onChange={validateInput}
                   maxLength={50}
-                  // onKeyDown={(e) => { handleKeyDown(e, 50) }}
-                  // {...formik.getFieldProps("acc_name")}
-
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.acc_name && formik.errors.acc_name },
@@ -342,6 +397,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                       'is-valid': formik.touched.acc_name && !formik.errors.acc_name,
                     }
                   )}
+                  onBlur={formik.handleBlur}
                 />
               </div>
             </div>
@@ -356,8 +412,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   value={formik.values?.acc_no}
                   onChange={validateNumber}
                   maxLength={18}
-                  // onKeyDown={(e) => { handlePostCode(e, 17) }}
-                  // {...formik.getFieldProps("acc_no")}
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.acc_no && formik.errors.acc_no },
@@ -365,6 +419,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                       'is-valid': formik.touched.acc_no && !formik.errors.acc_no,
                     }
                   )}
+                  onBlur={formik.handleBlur}
                 />
               </div>
             </div>
@@ -380,8 +435,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   value={formik.values?.f_name}
                   onChange={validateInput}
                   maxLength={25}
-                  // onKeyDown={(e) => { handleKeyDown(e, 25) }}
-                  // {...formik.getFieldProps("f_name")}
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.f_name && formik.errors.f_name },
@@ -389,6 +442,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                       'is-valid': formik.touched.f_name && !formik.errors.f_name,
                     }
                   )}
+                  onBlur={formik.handleBlur}
                 />
               </div>
             </div>
@@ -402,9 +456,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   value={formik.values?.m_name}
                   onChange={validateInput}
                   maxLength={25}
-
-                // onKeyDown={(e) => { handleKeyDown(e, 25) }}
-                // {...formik.getFieldProps("m_name")}
+                  onBlur={formik.handleBlur}
                 />
               </div>
             </div>
@@ -417,11 +469,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   value={formik.values?.l_name}
                   onChange={validateInput}
                   maxLength={25}
-
-                  // onKeyDown={(e) => { handleKeyDown(e, 25) }}
-
-                  // {...formik.getFieldProps("l_name")}
-
+                  onBlur={formik.handleBlur}
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.l_name && formik.errors.l_name },
@@ -441,11 +489,9 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   type="email"
                   name="email"
                   value={formik.values?.email}
-                  // onKeyDown={(e) => { handleEmail(e, 50) }}
                   onChange={validateEmail}
                   maxLength={50}
-                  // {...formik.getFieldProps("email")}
-
+                  onBlur={formik.handleBlur}
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.email && formik.errors.email },
@@ -474,6 +520,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   inputStyle={{ border: "none", margin: "none" }}
                   inputClass="userPhone w-100"
                   defaultCountry={"gh"}
+                  onBlur={formik.handleBlur}
                   countryCodeEditable={false}
                   onChange={(val, coun) => { handlePhone(val, coun) }}
                   className={clsx(
@@ -497,6 +544,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   name="country"
                   onChange={(e) => handleChange(e)}
                   className='form-control form-select bg-transparent'
+                  onBlur={formik.handleBlur}
                 >
                   {
                     countryList && countryList.length > 0 ?
@@ -506,6 +554,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                         )
                       }) : ""
                   }
+
                 </select>
               </div>
             </div>
@@ -519,6 +568,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                       name="state"
                       onChange={(e) => handleChange(e)}
                       className='form-control form-select bg-transparent'
+                      onBlur={formik.handleBlur}
                     >
                       {state_list?.map((opt) => {
                         return (
@@ -533,6 +583,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                       value={formik.values?.state}
                       onKeyDown={(e) => { handleKeyDown(e, 30) }}
                       {...formik.getFieldProps("state")}
+                      onBlur={formik.handleBlur}
                       className={clsx(
                         'form-control bg-transparent',
                         { 'is-invalid': formik.touched.state && formik.errors.state },
@@ -554,6 +605,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                       name="city"
                       onChange={(e) => handleChange(e)}
                       className='form-control form-select bg-transparent'
+                      onBlur={formik.handleBlur}
                     >
 
                       {city_list?.map((opt) => {
@@ -570,6 +622,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                       value={formik.values?.city}
                       onKeyDown={(e) => { handleKeyDown(e, 35) }}
                       {...formik.getFieldProps("city")}
+                      onBlur={formik.handleBlur}
                       className={clsx(
                         'form-control bg-transparent',
                         { 'is-invalid': formik.touched.city && formik.errors.city },
@@ -595,7 +648,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   // onKeyDown={(e) => { handleEmail(e, 50) }}
                   {...formik.getFieldProps("street")}
                   maxLength={30}
-
+                  onBlur={formik.handleBlur}
                   className={clsx(
                     'form-control bg-transparent',
                     { 'is-invalid': formik.touched.street && formik.errors.street },
@@ -624,7 +677,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   value={formik.values?.post_code}
                   onChange={validateNumber}
                   maxLength={5}
-
+                  onBlur={formik.handleBlur}
                   // onKeyDown={(e) => handlePostCode(e, 3)}
                   // {...formik.getFieldProps("post_code")}
                   className={clsx(
@@ -642,6 +695,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   name="build_no"
                   value={formik.values?.build_no}
                   maxLength={30}
+                  onBlur={formik.handleBlur}
                   onKeyDown={(e) => { handleEmail(e, 30) }}
                   {...formik.getFieldProps("build_no")}
                   className={clsx(
@@ -664,6 +718,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   name="flat"
                   value={formik.values?.flat}
                   onChange={validateAddress}
+                  onBlur={formik.handleBlur}
                   maxLength={15}
                   // onKeyDown={(e) => { handleEmail(e, 15) }}
                   // {...formik.getFieldProps("flat")}
@@ -679,6 +734,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   name="reason"
                   value={formik.values?.reason}
                   onChange={(e) => handleChange(e)}
+                  onBlur={formik.handleBlur}
                   {...formik.getFieldProps("reason")}
                   className={clsx(
                     'form-control form-select bg-transparent',

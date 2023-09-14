@@ -245,10 +245,10 @@ const Dashboard = () => {
                                                                                 <td>
                                                                                     {
                                                                                         res?.payment_status === "cancelled" || res?.payment_status === "Cancelled" ? (
-                                                                                            <span className="text-danger fs-16 font-w500 d-block"> <span className="btn btn-outline-danger btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.id}`)}>{res?.payment_status}</span></span>
+                                                                                            <span className="text-danger fs-16 font-w500 d-block"> <span className="btn btn-outline-danger btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)}>{res?.payment_status}</span></span>
 
                                                                                         ) : (
-                                                                                            <span className="text-success fs-16 font-w500 d-block"> <span className="btn btn-outline-success btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.id}`)}>{res?.payment_status}</span></span>
+                                                                                            <span className="text-success fs-16 font-w500 d-block"> <span className="btn btn-outline-success btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)}>{res?.payment_status}</span></span>
                                                                                         )
                                                                                     }
 
