@@ -292,6 +292,7 @@ const Profile = () => {
     let d = formik.values
     d.country_code = data.country_code
     d.location = formik.values.country
+    d.Gender = "NA"
     delete d['country']
     if (formik.values.Middle_name === "" || formik.values.Middle_name === undefined || formik.values.Middle_name === " ") {
       delete d['Middle_name'];

@@ -72,6 +72,81 @@ const PaymentDetails = ({ handleStep, step }) => {
   const handlePayType = () => {
 
     if (data.reason !== "none") {
+      if (data.payment_type === "Debit/Credit Card") {
+        setModal(true)
+      } else if (data.payment_type === "PayByID") {
+        setLoader(true)
+        let local = JSON.parse(localStorage.getItem("transfer_data"))
+        let transaction_id = localStorage.getItem("transaction_id")
+        let d = {}
+        if (transaction_id) {
+          d = {
+            payment_id: transaction_id,
+            recipient_id: local?.recipient?.id,
+            amount: {
+              send_amount: Number(local?.amount?.send_amt),
+              receive_amount: local?.amount?.exchange_amt,
+              send_currency: local?.amount?.from_type,
+              receive_currency: local?.amount?.to_type,
+              send_method: "PayByID",
+              receive_method: "Bank transfer",
+              reason: data.reason ? data.reason : "Family Support",
+              exchange_rate: local?.amount?.exchange_rate
+            }
+          }
+        } else {
+          d = {
+            recipient_id: local?.recipient?.id,
+            sender: {
+              First_name: userData?.First_name,
+              Middle_name: userData?.Middle_name,
+              Last_name: userData?.Last_name,
+              Date_of_birth: userData?.Date_of_birth,
+              Gender: "M",
+              Country_of_birth: userData?.Country_of_birth,
+              occupation: userData?.occupation,
+              payment_per_annum: userData?.payment_per_annum,
+              value_per_annum: userData?.value_per_annum,
+            },
+            sender_address: {
+              flat: userData?.flat,
+              building: userData?.building,
+              street: userData?.street,
+              postcode: userData?.postcode,
+              city: userData?.city,
+              state: userData?.state,
+              country: userData?.country,
+              country_code: userData?.country_code
+            },
+            amount: {
+              send_amount: Number(local?.amount?.send_amt),
+              receive_amount: local?.amount?.exchange_amt,
+              send_currency: local?.amount?.from_type,
+              receive_currency: local?.amount?.to_type,
+              send_method: "stripe",
+              receive_method: "Bank transfer",
+              reason: data.reason ? data.reason : "Family Support",
+              exchange_rate: local?.amount?.exchange_rate
+            }
+          }
+        }
+        if (d?.sender?.Middle_name === "" || d?.sender?.Middle_name === undefined || d?.sender?.Middle_name === null) {
+          delete d?.sender?.Middle_name
+        }
+        if (d?.sender_address?.flat === "" || d?.sender_address?.flat === null || d?.sender_address?.flat === undefined) {
+          delete d?.sender_address?.flat
+        }
+        createPayId({ transaction_id: localStorage.getItem("transaction_id") }).then((res) => {
+          setLoader(false)
+          if (res.code === "200") {
+            setPayIdModal({ toggle: true, id: res.data.payid, payment_id: res.data.transaction_id })
+          } else if (res.code === "400") {
+            toast.error(res.message, { autoClose: 3000, hideProgressBar: true, position: "bottom-right" })
+          }
+        })
+      } else {
+        setPayToModal(true)
+      }
       let storage = JSON.parse(localStorage.getItem('transfer_data'))
       let payload = {
         transaction_id: localStorage.getItem("transaction_id"),
@@ -80,93 +155,14 @@ const PaymentDetails = ({ handleStep, step }) => {
           receive_amount: storage?.amount?.exchange_amt,
           send_currency: storage?.amount?.from_type,
           receive_currency: storage?.amount?.to_type,
-          send_method: "stripe",
+          send_method: data.payment_type === "PayByID" ? "PayID per user" : data.payment_type === "Debit/Credit Card" ? "Card" : "PayTo agreement",
           receive_method: "Bank transfer",
           reason: data.reason,
           exchange_rate: storage?.amount?.exchange_rate
         },
         recipient_id: storage?.recipient?.id
       }
-      createTransaction(payload).then(res => {
-        if (res.code === "200") {
-          if (data.payment_type === "Debit/Credit Card") {
-            setModal(true)
-          } else if (data.payment_type === "PayByID") {
-            setLoader(true)
-            let local = JSON.parse(localStorage.getItem("transfer_data"))
-            let transaction_id = localStorage.getItem("remiZaitransferID")
-            let d = {}
-            if (transaction_id) {
-              d = {
-                payment_id: transaction_id,
-                recipient_id: local?.recipient?.id,
-                amount: {
-                  send_amount: Number(local?.amount?.send_amt),
-                  receive_amount: local?.amount?.exchange_amt,
-                  send_currency: local?.amount?.from_type,
-                  receive_currency: local?.amount?.to_type,
-                  send_method: "PayByID",
-                  receive_method: "Bank transfer",
-                  reason: data.reason ? data.reason : "Family Support",
-                  exchange_rate: local?.amount?.exchange_rate
-                }
-              }
-            } else {
-              d = {
-                recipient_id: local?.recipient?.id,
-                sender: {
-                  First_name: userData?.First_name,
-                  Middle_name: userData?.Middle_name,
-                  Last_name: userData?.Last_name,
-                  Date_of_birth: userData?.Date_of_birth,
-                  Gender: "M",
-                  Country_of_birth: userData?.Country_of_birth,
-                  occupation: userData?.occupation,
-                  payment_per_annum: userData?.payment_per_annum,
-                  value_per_annum: userData?.value_per_annum,
-                },
-                sender_address: {
-                  flat: userData?.flat,
-                  building: userData?.building,
-                  street: userData?.street,
-                  postcode: userData?.postcode,
-                  city: userData?.city,
-                  state: userData?.state,
-                  country: userData?.country,
-                  country_code: userData?.country_code
-                },
-                amount: {
-                  send_amount: Number(local?.amount?.send_amt),
-                  receive_amount: local?.amount?.exchange_amt,
-                  send_currency: local?.amount?.from_type,
-                  receive_currency: local?.amount?.to_type,
-                  send_method: "stripe",
-                  receive_method: "Bank transfer",
-                  reason: data.reason ? data.reason : "Family Support",
-                  exchange_rate: local?.amount?.exchange_rate
-                }
-              }
-            }
-            if (d?.sender?.Middle_name === "" || d?.sender?.Middle_name === undefined || d?.sender?.Middle_name === null) {
-              delete d?.sender?.Middle_name
-            }
-            if (d?.sender_address?.flat === "" || d?.sender_address?.flat === null || d?.sender_address?.flat === undefined) {
-              delete d?.sender_address?.flat
-            }
-            createPayId({ transaction_id: localStorage.getItem("transaction_id") }).then((res) => {
-              setLoader(false)
-              if (res.code === "200") {
-                localStorage.setItem("remiZaitransferID", res.data.transaction_id)
-                setPayIdModal({ toggle: true, id: res.data.payid, payment_id: res.data.transaction_id })
-              } else if (res.code === "400") {
-                toast.error(res.data.message, { autoClose: 2000, hideProgressBar: true, position: "bottom-right" })
-              }
-            })
-          } else {
-            setPayToModal(true)
-          }
-        }
-      })
+      createTransaction(payload)
     } else {
       setError(true)
       setMessage("Please select a valid reason")
@@ -246,10 +242,9 @@ const PaymentDetails = ({ handleStep, step }) => {
           d.payment_id = pay_id_data.payment_id
           delete d["amount"]
           ZaiPayId({ transaction_id: pay_id_data.payment_id }).then(res => {
-            if (res.code == "200") {
+            if (res.code === "200") {
               setTransaction({ id: res.data.id, pay_id: res.data.transaction_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
               localStorage.removeItem("transfer_data")
-              localStorage.removeItem("remiZaitransferID")
               if (localStorage.getItem("send-step")) {
                 localStorage.removeItem("send-step")
               }
@@ -257,7 +252,10 @@ const PaymentDetails = ({ handleStep, step }) => {
               localStorage.removeItem("rid")
               setIsOtpVerfied(false)
               setLoader(false)
-            } else {
+            } else if (res.code === "400") {
+              toast.error(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
+            }
+            else {
               setLoader(false)
               setIsOtpVerfied(false)
               toast.error(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
@@ -301,7 +299,7 @@ const PaymentDetails = ({ handleStep, step }) => {
               setLoader(false)
             } else if (res.code === "400") {
               setTransaction({ id: res.data.id, pay_id: res.data.transaction_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
-
+              // toast.error(res.message, { position: "bottom-right", hideProgressBar: true, autoClose: 3000 })
               localStorage.removeItem("transfer_data")
               if (localStorage.getItem("send-step")) {
                 localStorage.removeItem("send-step")
@@ -824,10 +822,10 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, authModal }) =
               })
             } else if (res.code === "400") {
               handleLoader(false)
-              toast.error(res.data.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
+              toast.error(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
             } else {
               handleLoader(false)
-              toast.error(res.data.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
+              toast.error(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
             }
           }).catch((res) => {
 
@@ -869,7 +867,6 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, authModal }) =
     resetForm()
     setStage(1)
     handler(false)
-    // agreementList()
   }
 
 
@@ -1321,11 +1318,6 @@ const ErrorModal = ({ show, handler, otp }) => {
       handler(false)
       otp(true)
     }
-    return () => {
-      if (timer) {
-        clearInterval(timer)
-      }
-    }
   }, [bar_fill, show])
 
   useEffect(() => {
@@ -1340,7 +1332,7 @@ const ErrorModal = ({ show, handler, otp }) => {
             }
           }
         })
-      }, 5000)
+      }, 10 * 1000)
     } else {
       clearInterval(timer)
     }
@@ -1429,4 +1421,5 @@ const TransactionRecipiet = ({ transaction, modalView }) => {
     </Modal>
   )
 }
+
 export default PaymentDetails

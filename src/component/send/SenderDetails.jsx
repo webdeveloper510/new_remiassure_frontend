@@ -334,6 +334,15 @@ const SenderDetails = ({ handleStep, step }) => {
     handleStep(Number(step) - 1)
   }
 
+  const handleContinue = () => {
+    if (localStorage.getItem("send-step")) {
+      localStorage.removeItem("send-step")
+    }
+    localStorage.setItem("send-step", Number(step) + 1)
+    handleStep(Number(step) + 1)
+    formik.handleSubmit()
+  }
+
   return (
     <>
       {loader ? <>
@@ -767,7 +776,7 @@ const SenderDetails = ({ handleStep, step }) => {
               </>
             ) : (
               <>
-                <button type='button' className="form-button full-col" onClick={() => formik.handleSubmit()}> Continue</button>
+                <button type='button' className="form-button full-col" onClick={() => handleContinue()}> Continue</button>
               </>
             )
             }

@@ -8,8 +8,7 @@ import { useNavigate } from 'react-router'
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import clsx from 'clsx'
-import { ZaiPayId, ZaiPayTo, createAgreement, createPayId, getAgreementList, updateAgreement, verifyPayId, verifyPayTo } from '../../utils/Api'
-import { BsCheckCircleFill } from 'react-icons/bs'
+import { createAgreement, createPayId, createTransaction, getAgreementList, updateAgreement } from '../../utils/Api'
 import { Line } from 'rc-progress'
 
 const PaymentDetails = ({ handleStep, step }) => {
@@ -33,24 +32,34 @@ const PaymentDetails = ({ handleStep, step }) => {
       setModal(true)
     } else if (data.payment_type === "PayByID") {
       setLoader(true)
-      let local = JSON.parse(localStorage.getItem("transfer_data"))
       let transaction_id = localStorage.getItem("transaction_id")
-      let rid = localStorage.getItem("rid")
       createPayId({ transaction_id: transaction_id }).then((res) => {
         setLoader(false)
         if (res.code === "200") {
-          if (res?.data?.recipient_id) {
-            localStorage.setItem("rid", res?.data?.recipient_id)
-          }
-          localStorage.setItem("remiZaitransferID", res.data.transaction_id)
           setPayIdModal({ toggle: true, id: res.data.payid, payment_id: res.data.transaction_id })
         } else if (res.code === "400") {
-          toast.error(res.data.message, { autoClose: 2000, hideProgressBar: true, position: "bottom-right" })
+          toast.error(res.message, { autoClose: 3000, hideProgressBar: true, position: "bottom-right" })
         }
       })
     } else {
       setPayToModal(true)
     }
+    let local = JSON.parse(localStorage.getItem('transfer_data'))
+    let payload = {
+      transaction_id: localStorage.getItem("transaction_id"),
+      amount: {
+        send_amount: local?.amount?.send_amt,
+        receive_amount: local?.amount?.exchange_amt,
+        send_currency: local?.amount?.from_type,
+        receive_currency: local?.amount?.to_type,
+        send_method: data.payment_type === "PayByID" ? "PayID per user" : data.payment_type === "Debit/Credit Card" ? "Card" : "PayTo agreement",
+        receive_method: "Bank transfer",
+        reason: local?.recipient?.reason,
+        exchange_rate: local?.amount?.exchange_rate
+      },
+      recipient_id: localStorage.getItem("rid")
+    }
+    createTransaction(payload)
   }
 
   const stripePromise = loadStripe(`${stripe_key}`);
@@ -481,10 +490,10 @@ const PayToModal = ({ modal, method, handler, handleStep, step, authModal }) => 
               })
             } else if (res.code === "400") {
               setLoader(false)
-              toast.error(res.data.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
+              toast.error(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
             } else {
               setLoader(false)
-              toast.error(res.data.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
+              toast.error(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
             }
           }).catch((res) => {
             setLoader(false)
@@ -984,11 +993,6 @@ const ErrorModal = ({ show, handler, handleStep, step }) => {
       clearInterval(timer)
       handler(false)
       handleContinue()
-    }
-    return () => {
-      if (timer) {
-        clearInterval(timer)
-      }
     }
   }, [bar_fill, show])
 

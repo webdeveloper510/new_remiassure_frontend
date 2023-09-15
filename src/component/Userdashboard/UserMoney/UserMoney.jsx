@@ -5,6 +5,7 @@ import BankDetails from './BankDetails'
 import PaymentDetails from './PaymentDetails'
 import { useLocation, useNavigate } from 'react-router-dom'
 import authDashHelper from '../../../utils/AuthDashHelper';
+import { pendingPayment, pendingTransactions } from '../../../utils/Api';
 
 const SendMoney = () => {
 
@@ -23,12 +24,14 @@ const SendMoney = () => {
         if (authDashHelper('dashCheck') === false) {
             navigate("/send-money")
         }
-        // setTimeout(() => {
-        //     localStorage.removeItem("send-step");
-        //     localStorage.removeItem("transfer_data");
-        //     window.location.reload(true)
-        // }, 30 * 60 * 1000);
-
+        pendingTransactions().then(res => {
+            if (res.code === "200") {
+                localStorage.setItem("transaction_id", res.data[0].transaction_id)
+                if (res?.data[0]?.recipient) {
+                    localStorage.setItem("rid", res?.data[0]?.recipient)
+                }
+            }
+        })
     }, [])
 
     useEffect(() => {
@@ -49,17 +52,6 @@ const SendMoney = () => {
         minutes > 0 && setTimeout(() => setMinutes(minutes - 1), 60 * 1000);
         setSeconds(60)
     }, [minutes])
-
-    // window.addEventListener('beforeunload', function (e) {
-    //     if (window.location.pathname === "/user-send-money") {
-    //         e.preventDefault();
-    //         e.returnValue = ''
-    //         let data = {
-    //             transfer_data: localStorage.getItem("transfer_data"),
-    //             step: localStorage.getItem("send-step")
-    //         }
-    //     }
-    // })
 
 
     return (

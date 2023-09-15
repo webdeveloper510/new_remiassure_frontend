@@ -88,7 +88,7 @@ const Verification = () => {
             }
             verifyEmail(obj).then((res) => {
                 if (res.code == 200) {
-                    toast.success("verification successful",
+                    toast.success(res.message,
                         { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                     let d = new Date()
                     d.setDate(d.getDate() + 1);

@@ -3,13 +3,10 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { Modal, NavLink, Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router'
-import verified from '../../assets/img/userdashboard/3.png';
 import { BsCheckCircleFill } from 'react-icons/bs'
 import { toast } from 'react-toastify'
 import PopVerify from '../verification/PopVerify'
-import { ZaiPayId, ZaiPayTo, getAgreementList, userCharge } from '../../utils/Api'
-import { dataIcon } from '@progress/kendo-svg-icons'
-import { Line } from 'rc-progress';
+import { ZaiPayId, ZaiPayTo, userCharge } from '../../utils/Api'
 
 
 const PaymentSummary = ({ handleStep, step }) => {
@@ -142,6 +139,8 @@ const PaymentSummary = ({ handleStep, step }) => {
             setModalView(true)
           } else if (res.code == "400") {
             setTransaction({ status: res?.message, id: res?.data?.id, pay_id: res?.data?.transaction_id })
+            // toast.error(res.message, { position: "bottom-right", hideProgressBar: true, autoClose: 3000 })
+
             localStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(localStorage.getItem("remi-user-dt"))
             user.digital_id_verified = "true"
@@ -182,16 +181,13 @@ const PaymentSummary = ({ handleStep, step }) => {
             }
             localStorage.removeItem("transfer_data")
             localStorage.removeItem("rid")
-            localStorage.removeItem("remiZaitransferID")
             localStorage.removeItem("transfer_data")
             localStorage.removeItem("transaction_id")
             setModalView(true)
           } else if (res.code == "400") {
             toast.error(res.message, { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
-
           } else {
             toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
-
           }
 
         }).catch(error => {

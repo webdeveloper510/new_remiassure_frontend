@@ -31,7 +31,7 @@ const AllTranfer = ({ status, data }) => {
     if (data?.length != 0) {
       if (status == "pending") {
         let pending = data.filter((item) => {
-          return item.payment_status === "pending payout" || item.payment_status === "pending customer payment" || item.payment_status === "pending AML/Fraud review"
+          return item?.payment_status?.toLowerCase()?.includes("pending")
         })
         setTransactionData(pending)
 
@@ -42,7 +42,7 @@ const AllTranfer = ({ status, data }) => {
         setTransactionData(completed)
       } else if (status == "cancelled") {
         let completed = data.filter((item) => {
-          return item.payment_status === "cancelled" || item.payment_status === "Cancelled"
+          return item?.payment_status?.toLowerCase() === "cancelled"
         })
         setTransactionData(completed)
       } else {

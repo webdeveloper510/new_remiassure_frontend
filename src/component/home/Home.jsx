@@ -124,46 +124,6 @@ const Home = () => {
 
     const [blur_off, setBlurOff] = useState(false)
 
-
-    useEffect(() => {
-        if (localStorage.getItem("conversion_data")) {
-            const tdata = JSON.parse(localStorage.getItem("conversion_data"))
-            formik.setValues({ send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, recieve_meth: tdata?.amount?.recieve_meth, exchange_amt: tdata?.amount?.exchange_amt })
-            setTotal_rates(tdata?.amount?.exchange_rate)
-            let obj = { send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, exchange_amt: tdata?.amount?.exchange_amt, exch_rate: tdata?.amount?.exchange_rate }
-            localStorage.setItem("exchange_curr", JSON.stringify(obj))
-        } else {
-            exchangeRate({ amount: "1", from: "AUD", to: "USD" }).then(res => {
-                setTotal_rates(res.rate)
-                localStorage.removeItem("exchange_curr")
-                let obj = { send_amt: "1", from_type: "AUD", to_type: "USD", exchange_amt: res.amount, exch_rate: res.rate }
-                localStorage.setItem("exchange_curr", JSON.stringify(obj))
-            })
-        }
-    }, [])
-
-
-    useEffect(() => {
-        if (currency !== null) {
-            setLoading(true);
-            currency_ref.current.focus()
-            exchangeRate({ amount: "100", from: formik.values.from_type, to: currency })
-                .then((res) => {
-                    setData({ ...data, exchange_amt: res.amount, send_amt: "100", to_type: currency })
-                    formik.setValues({ ...formik.values, exchange_amt: res.amount, send_amt: "100", to_type: currency })
-                    setTotal_rates(res.rate)
-                    setLoading(false)
-
-                }).catch((error) => {
-                    // console.log(error.response)
-                    if (error.response.data.code == "400") {
-                        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-                    }
-                    setLoading(false)
-                })
-        }
-    }, [currency])
-
     const formik = useFormik({
         initialValues,
         validationSchema: amountSchema,
@@ -255,6 +215,50 @@ const Home = () => {
         }
     })
 
+    useEffect(() => {
+        if (localStorage.getItem("conversion_data")) {
+            const tdata = JSON.parse(localStorage.getItem("conversion_data"))
+            setData(tdata?.amount)
+            formik.setValues({ send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, recieve_meth: tdata?.amount?.recieve_meth, exchange_amt: tdata?.amount?.exchange_amt })
+            setTotal_rates(tdata?.amount?.exchange_rate)
+            let obj = { send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, exchange_amt: tdata?.amount?.exchange_amt, exch_rate: tdata?.amount?.exchange_rate }
+            localStorage.setItem("exchange_curr", JSON.stringify(obj))
+        } else {
+            exchangeRate({ amount: "1", from: "AUD", to: "USD" }).then(res => {
+                setTotal_rates(res.rate)
+                localStorage.removeItem("exchange_curr")
+                let obj = { send_amt: "1", from_type: "AUD", to_type: "USD", exchange_amt: res.amount, exch_rate: res.rate }
+                localStorage.setItem("exchange_curr", JSON.stringify(obj))
+            })
+        }
+    }, [])
+
+    useEffect(() => {
+        if (data.send_amt === '') {
+            formik.setFieldValue("exchange_amt", "")
+        }
+    }, [data])
+
+    useEffect(() => {
+        if (currency !== null) {
+            setLoading(true);
+            currency_ref.current.focus()
+            exchangeRate({ amount: "100", from: formik.values.from_type, to: currency })
+                .then((res) => {
+                    setData({ ...data, exchange_amt: res.amount, send_amt: "100", to_type: currency })
+                    formik.setValues({ ...formik.values, exchange_amt: res.amount, send_amt: "100", to_type: currency })
+                    setTotal_rates(res.rate)
+                    setLoading(false)
+
+                }).catch((error) => {
+                    // console.log(error.response)
+                    if (error.response.data.code == "400") {
+                        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+                    }
+                    setLoading(false)
+                })
+        }
+    }, [currency])
 
     const myExchangeTotalAmount = (event) => {
         event.preventDefault();
@@ -263,7 +267,7 @@ const Home = () => {
             setLoading(true);
             exchangeRate({ amount: event.target.value, from: formik.values.from_type, to: formik.values.to_type, paymentMethod: formik.values.recieve_meth })
                 .then((res) => {
-                    setData({ ...data, exchange_amt: res.amount })
+                    setData({ ...data, send_amt: event.target.value, exchange_amt: res.amount })
                     formik.setFieldValue("exchange_amt", res.amount)
                     setTotal_rates(res.rate)
                     setLoading(false)
@@ -277,7 +281,7 @@ const Home = () => {
                 })
         } else {
             setData({ ...data, exchange_amt: "" })
-            formik.setFieldValue("exchange_amt", "")
+            formik.setValues({ ...formik.values, exchange_amt: "" })
             localStorage.removeItem("conversion_data")
             setBlurOff(true)
         }
@@ -291,6 +295,7 @@ const Home = () => {
         if (/^\d*\.?\d{0,2}$/.test(data)) {
             formik.setFieldValue('send_amt', event.target.value);
             formik.setFieldTouched('send_amt', true);
+            setData({ ...data, send_amt: event.target.value })
             setBlurOff(false)
         } else {
             event.preventDefault();
@@ -359,14 +364,24 @@ const Home = () => {
     }
 
     const handleReset = () => {
-        const data = JSON.parse(localStorage.getItem("exchange_curr"))
-
+        const storage = JSON.parse(localStorage.getItem("exchange_curr"))
+        setData({
+            send_amt: '',
+            exchange_amt: '',
+            from_type: "AUD",
+            to_type: "USD",
+            recieve_meth: "Bank Transfer"
+        })
         formik.resetForm({
-            values: { send_amt: "", recieve_meth: "Bank Transfer", exchange_amt: "", from_type: "AUD", to_type: "USD" }
+            send_amt: '',
+            exchange_amt: '',
+            from_type: "AUD",
+            to_type: "USD",
+            recieve_meth: "Bank Transfer"
         })
         setBlurOff(false)
         localStorage.removeItem("conversion_data")
-        setTotal_rates(data.exch_rate)
+        setTotal_rates(storage.exch_rate)
 
     }
 
