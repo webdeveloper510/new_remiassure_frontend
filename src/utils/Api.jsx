@@ -257,10 +257,7 @@ export const recipientList = async (data) => {
 
 export const activEmail = (data) => {
   const response = Axios.post(`/activate-email/`, { customer_id: data }).then(res => {
-    if (res.data.code == "200") {
-      return true
-    }
-    return false
+    return res.data
   }).catch(error => {
     return "failed"
   })

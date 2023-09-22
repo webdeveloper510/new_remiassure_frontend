@@ -73,7 +73,8 @@ const PaymentDetails = ({ handleStep, step }) => {
 
     if (data.reason !== "none") {
       if (data.payment_type === "Debit/Credit Card") {
-        setModal(true)
+        // setModal(true)
+        toast.warn("THIS PAYMENT OPTION IS CURRENTLY UNAVAILABLE", { hideProgressBar: true, autoClose: 500, position: "bottom-right" })
       } else if (data.payment_type === "PayByID") {
         setLoader(true)
         let local = JSON.parse(localStorage.getItem("transfer_data"))

@@ -76,22 +76,28 @@ class Scrollbar extends React.Component {
     const items = [
       {
         heading: "Best on the market ",
-        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+        image: "assets/img/referral/Group_star.png",
+        paragraph: 'I absolutely love this platform. Its so easy and user- friendly.Though my first time, it felt like second nature using it to transfer funds.I highly recommend it to anyone seeking a reliable and efficient money transfer service.'
       }, {
         heading: "Best on the market ",
-        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+        image: "assets/img/referral/Group_star1.png",
+        paragraph: 'I have tried various international money transfer services, but RemitAssure truly stands out. Its user-friendly and the service is seamless. I certainly will use RemitAssure again.'
       }, {
         heading: "Best on the market",
-        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+        image: "assets/img/referral/Group_star.png",
+        paragraph: 'RemitAssure is an execellent platform to use. I was taken aback by the speed at which my transfer was completed. It certainly beat my expectation'
       }, {
         heading: "Best on the market",
-        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+        image: "assets/img/referral/Group_star2.png",
+        paragraph: 'RemitAssures exchange rates are amazing, certainly the best I have seen. For such an efficient and user-friendly service, they are are certainly value for money'
       }, {
         heading: "Best on the market",
-        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+        image: "assets/img/referral/Group_star.png",
+        paragraph: 'I have tried several money transfer services, but RemitAssure has won me over.Their platform is easy to navigate, making the entire process smooth and hassle- free.RemitAssure has become my go - to choice for sending money internationally.'
       }, {
         heading: "Best on the market",
-        paragraph: 'At ultrices mi tempus imperdiet nulla. Risus nullam eget felis eget nunc lobortis. Fusce id velit ut tortor pretium viverra suspendisse...'
+        image: "assets/img/referral/Group_star1.png",
+        paragraph: 'I especially love the rigour of this platform and its focus on security and fraud prevention. Once onbaorded, one feels like this is a platform to be trusted for secure money transfer'
       }
     ];
     return (
@@ -125,16 +131,16 @@ class Scrollbar extends React.Component {
                 <div class="image-container-text" draggable={false}>
                   {/* <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" /> */}
                   <div className="each-review">
-                  <div className="col-12 align-center">
+                    <div className="col-12 align-center">
                       {/* <span className="material-icons fw-light">{item.heading}</span> */}
                       <p className="material-heading fw-light">{item.paragraph}</p>
                     </div>
                     <div className="col-12 align-center">
-                      <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons" />
-                      <p className="boy_icons_text">Worldtraveler</p>
-                      <img src="assets/img/referral/Group_star.png" alt="quote-up" className="testimonial-rating" />
+                      <img src={item.image} alt="quote-up" className="testimonial-rating" />
+                      {/* <img src="assets/img/home/boy.svg" alt="boy_icons" className="boy_icons" /> */}
+                      {/* <img src="assets/img/referral/Group_star.png" alt="quote-up" className="testimonial-rating" /> */}
                     </div>
-                    
+
                   </div>
                   {/* <img src="assets/img/home/quote-down.svg" alt="quote-up" className="quotdown_icons" /> */}
 

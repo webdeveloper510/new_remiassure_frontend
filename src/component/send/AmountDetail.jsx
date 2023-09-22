@@ -24,7 +24,16 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
     const [blur_off, setBlurOff] = useState(false)
 
     const amtSchema = Yup.object().shape({
-        send_amt: Yup.string("Please enter a valid amount").min(1, "minimum 1 dollar is required ").max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."], " "),
+        send_amt: Yup.string("Please enter a valid amount").min(1).max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."]).test("value-test", (value, validationcontext) => {
+            const {
+                createError,
+            } = validationcontext;
+            if (Number(value) < 1) {
+                return createError({ message: "Minimum $1 required" })
+            } else {
+                return true
+            }
+        }),
         from_type: Yup.string().oneOf(["AUD", "NZD"]),
         to_type: Yup.string().required()
     })
@@ -302,6 +311,13 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                                 )}
                                 onBlurCapture={amountBlur}
                             />
+                            {formik.touched.send_amt && formik.errors.send_amt === "Minimum $1 required" && (
+                                <div className='fv-plugins-message-container mt-1'>
+                                    <div className='fv-help-block'>
+                                        <span role='alert' className="text-danger" style={{ fontSize: "13px" }}>{formik.errors.send_amt}</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 

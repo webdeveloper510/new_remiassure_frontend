@@ -105,7 +105,16 @@ const Home = () => {
     }, [carouselItems])
 
     const amountSchema = Yup.object().shape({
-        send_amt: Yup.string("Please enter a valid amount").min(1, "minimum 1 dollar is required ").max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."], " ")
+        send_amt: Yup.string("Please enter a valid amount").min(1).max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."]).test("value-test", (value, validationcontext) => {
+            const {
+                createError,
+            } = validationcontext;
+            if (Number(value) < 1) {
+                return createError({ message: "Minimum $1 required" })
+            } else {
+                return true
+            }
+        }),
     })
 
     const initialValues = {
@@ -460,7 +469,7 @@ const Home = () => {
                                                     </select>
 
                                                 </div>
-                                                {formik.touched.send_amt && formik.errors.send_amt && (
+                                                {formik.touched.send_amt && formik.errors.send_amt === "Minimum $1 required" && (
                                                     <div className='fv-plugins-message-container mt-1 home-error'>
                                                         <div className='fv-help-block'>
                                                             <span role='alert' className="text-danger">{formik.errors.send_amt}</span>
@@ -669,14 +678,14 @@ const Home = () => {
                                         <div className="col-md-6 my-3">
                                             <div className="d-flex currency_cards" onClick={() => { setCurrency("USD") }}>
                                                 <img src="assets/img/home/nigeria.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6 className="mx">Nigera (USD)</h6>
+                                                <h6 className="mx">Nigeria (USD)</h6>
                                                 <img src="assets/img/home/arrow01.svg" alt="arrow01" />
                                             </div>
                                         </div>
                                         <div className="col-md-6 my-3">
                                             <div className="d-flex currency_cards" onClick={() => { setCurrency("NGN") }}>
                                                 <img src="assets/img/home/nigeria.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>Nigera (NGN)</h6>
+                                                <h6>Nigeria (NGN)</h6>
                                                 <img src="assets/img/home/arrow01.svg" alt="arrow01" />
                                             </div>
                                         </div>

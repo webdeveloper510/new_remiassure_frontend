@@ -1403,7 +1403,8 @@ p.material-heading {
   font-weight: 500;
   font-size: 15px;
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 0px;
+  min-height:150px
 }
 img.testimonial-rating {
   width: 80px;
@@ -1423,6 +1424,7 @@ li.card.li_card {
 }
 .each-review {
   margin-top: 10px;
+  min-height:200px;
 }
 .boy_icons_text{
 font-family: var(--font-family) !important;

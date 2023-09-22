@@ -29,7 +29,8 @@ const PaymentDetails = ({ handleStep, step }) => {
 
   const handlePayType = () => {
     if (data.payment_type === "Debit/Credit Card") {
-      setModal(true)
+      // setModal(true)
+      toast.warn("THIS PAYMENT OPTION IS CURRENTLY UNAVAILABLE", { hideProgressBar: true, autoClose: 500, position: "bottom-right" })
     } else if (data.payment_type === "PayByID") {
       setLoader(true)
       let transaction_id = localStorage.getItem("transaction_id")
@@ -703,192 +704,195 @@ const PayToModal = ({ modal, method, handler, handleStep, step, authModal }) => 
               ) : (
                 <>
                   <div className='my-2'>
-                    <p className='small mb-3'>Set up a PayTo agreement to pay directly from your bank account. Use PayID or BSB and account number.</p>
+
                     {stage === 1 || stage === 2 ? (
-                      <form onSubmit={handleSubmit} noValidate>
-                        {
-                          stage === 1 ? (
-                            <>
-                              <div className="input_field">
-                                <p className="get-text fs-6 mb-1">PayID type<span style={{ color: 'red' }} >*</span></p>
-                                <select
-                                  name='payid_type'
-                                  value={values.payid_type}
-                                  onChange={handleType}
-                                  onBlur={handleBlur}
-                                  disabled={disabled === "payid"}
-                                  placeholder='Select payID type'
-                                  className={clsx(
-                                    'form-control mx-2 w-75',
-                                    { 'is-invalid': touched.payid_type && errors.payid_type && disabled !== "payid" }
-                                  )}
-                                >
-                                  <option value="none">Select PayID type</option>
-                                  <option value="EMAL">EMAIL - Email Address</option>
-                                  <option value="TELI">TEL - Telephone Number</option>
-                                  <option value="AUBN">AUBN - Australian Business Number</option>
-                                  <option value="ORGN">ORGN - Organisational Identifier</option>
-                                </select>
+                      <>
+                        <p className='small mb-3'>Set up a PayTo agreement to pay directly from your bank account. Use PayID or BSB and account number.</p>
+                        <form onSubmit={handleSubmit} noValidate>
+                          {
+                            stage === 1 ? (
+                              <>
+                                <div className="input_field">
+                                  <p className="get-text fs-6 mb-1">PayID type<span style={{ color: 'red' }} >*</span></p>
+                                  <select
+                                    name='payid_type'
+                                    value={values.payid_type}
+                                    onChange={handleType}
+                                    onBlur={handleBlur}
+                                    disabled={disabled === "payid"}
+                                    placeholder='Select payID type'
+                                    className={clsx(
+                                      'form-control mx-2 w-75',
+                                      { 'is-invalid': touched.payid_type && errors.payid_type && disabled !== "payid" }
+                                    )}
+                                  >
+                                    <option value="none">Select PayID type</option>
+                                    <option value="EMAL">EMAIL - Email Address</option>
+                                    <option value="TELI">TEL - Telephone Number</option>
+                                    <option value="AUBN">AUBN - Australian Business Number</option>
+                                    <option value="ORGN">ORGN - Organisational Identifier</option>
+                                  </select>
 
-                              </div>
-                              <div className="input_field">
-                                <p className="get-text fs-6 mb-1">PayID<span style={{ color: 'red' }} >*</span></p>
-                                <input
-                                  type="text"
-                                  maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TELI" ? "10" : "11"}
-                                  name='pay_id'
-                                  value={values.pay_id}
-                                  onChange={handlePayID}
-                                  onBlur={handleBlur}
-                                  readOnly={disabled === "payid" || values.payid_type === "none"}
-                                  placeholder={values.payid_type === "none" ? "Select a payID type" : "Enter Your PayID"}
-                                  className={clsx(
-                                    'form-control mx-2 w-75',
-                                    { 'is-invalid': touched.pay_id && errors.pay_id && disabled !== "payid" }
-                                  )}
-                                />
-
-                              </div>
-                              <p className='text-center'>OR</p>
-                              <div className="input_field">
-                                <p className="get-text fs-6 mb-1">BSB<span style={{ color: 'red' }} >*</span></p>
-                                <input
-                                  type="text"
-                                  maxLength="6"
-                                  name='bsb'
-                                  value={values.bsb}
-                                  onChange={handleBSB}
-                                  onBlur={handleBlur}
-                                  readOnly={disabled === "bsb"}
-                                  placeholder='Enter Your BSB number'
-                                  className={clsx(
-                                    'form-control mx-2 w-75',
-                                    { 'is-invalid': touched.bsb && errors.bsb && disabled !== "bsb" }
-                                  )}
-                                />
-                              </div>
-                              <div className="input_field">
-                                <p className="get-text fs-6 mb-1">Account No.<span style={{ color: 'red' }} >*</span></p>
-                                <input
-                                  type="text"
-                                  maxLength="18"
-                                  name='account_number'
-                                  value={values.account_number}
-                                  onChange={handleBSB}
-                                  onBlur={handleBlur}
-                                  readOnly={disabled === "bsb"}
-                                  placeholder='Enter Your account number'
-                                  className={clsx(
-                                    'form-control mx-2 w-75',
-                                    { 'is-invalid': touched.account_number && errors.account_number && disabled !== "bsb" }
-                                  )}
-                                />
-                              </div>
-                              {errors.pay_id && (
-                                <div className='fv-plugins-message-container small mx-3 mt-1'>
-                                  <div className='fv-help-block'>
-                                    <span role='alert' className="text-danger">{errors.pay_id}</span>
-                                  </div>
                                 </div>
-                              )}
-                            </>
-                          ) : (
-                            <>
-                              {
-                                disabled === "payid" ? (
-                                  <> <div className="input_field">
-                                    <p className="get-text fs-6 mb-1">BSB<span style={{ color: 'red' }} >*</span></p>
-                                    <input
-                                      type="text"
-                                      maxLength="6"
-                                      name='bsb'
-                                      value={values.bsb}
-                                      onChange={handleBSB}
-                                      onBlur={handleBlur}
-                                      readOnly
-                                      placeholder='Enter Your BSB number'
-                                      className={clsx(
-                                        'form-control mx-2 w-75',
-                                        { 'is-invalid': touched.bsb && errors.bsb && disabled !== "bsb" }
-                                      )}
-                                    />
+                                <div className="input_field">
+                                  <p className="get-text fs-6 mb-1">PayID<span style={{ color: 'red' }} >*</span></p>
+                                  <input
+                                    type="text"
+                                    maxLength={values.payid_type === "EMAL" || "ORGN" ? "256" : values.payid_type === "TELI" ? "10" : "11"}
+                                    name='pay_id'
+                                    value={values.pay_id}
+                                    onChange={handlePayID}
+                                    onBlur={handleBlur}
+                                    readOnly={disabled === "payid" || values.payid_type === "none"}
+                                    placeholder={values.payid_type === "none" ? "Select a payID type" : "Enter Your PayID"}
+                                    className={clsx(
+                                      'form-control mx-2 w-75',
+                                      { 'is-invalid': touched.pay_id && errors.pay_id && disabled !== "payid" }
+                                    )}
+                                  />
+
+                                </div>
+                                <p className='text-center'>OR</p>
+                                <div className="input_field">
+                                  <p className="get-text fs-6 mb-1">BSB<span style={{ color: 'red' }} >*</span></p>
+                                  <input
+                                    type="text"
+                                    maxLength="6"
+                                    name='bsb'
+                                    value={values.bsb}
+                                    onChange={handleBSB}
+                                    onBlur={handleBlur}
+                                    readOnly={disabled === "bsb"}
+                                    placeholder='Enter Your BSB number'
+                                    className={clsx(
+                                      'form-control mx-2 w-75',
+                                      { 'is-invalid': touched.bsb && errors.bsb && disabled !== "bsb" }
+                                    )}
+                                  />
+                                </div>
+                                <div className="input_field">
+                                  <p className="get-text fs-6 mb-1">Account No.<span style={{ color: 'red' }} >*</span></p>
+                                  <input
+                                    type="text"
+                                    maxLength="18"
+                                    name='account_number'
+                                    value={values.account_number}
+                                    onChange={handleBSB}
+                                    onBlur={handleBlur}
+                                    readOnly={disabled === "bsb"}
+                                    placeholder='Enter Your account number'
+                                    className={clsx(
+                                      'form-control mx-2 w-75',
+                                      { 'is-invalid': touched.account_number && errors.account_number && disabled !== "bsb" }
+                                    )}
+                                  />
+                                </div>
+                                {errors.pay_id && (
+                                  <div className='fv-plugins-message-container small mx-3 mt-1'>
+                                    <div className='fv-help-block'>
+                                      <span role='alert' className="text-danger">{errors.pay_id}</span>
+                                    </div>
                                   </div>
-                                    <div className="input_field">
-                                      <p className="get-text fs-6 mb-1">Account No.<span style={{ color: 'red' }} >*</span></p>
+                                )}
+                              </>
+                            ) : (
+                              <>
+                                {
+                                  disabled === "payid" ? (
+                                    <> <div className="input_field">
+                                      <p className="get-text fs-6 mb-1">BSB<span style={{ color: 'red' }} >*</span></p>
                                       <input
                                         type="text"
-                                        maxLength="40"
-                                        name='account_number'
-                                        value={values.account_number}
+                                        maxLength="6"
+                                        name='bsb'
+                                        value={values.bsb}
                                         onChange={handleBSB}
                                         onBlur={handleBlur}
                                         readOnly
-                                        placeholder='Enter Your account number'
+                                        placeholder='Enter Your BSB number'
                                         className={clsx(
                                           'form-control mx-2 w-75',
-                                          { 'is-invalid': touched.account_number && errors.account_number && disabled !== "bsb" }
+                                          { 'is-invalid': touched.bsb && errors.bsb && disabled !== "bsb" }
                                         )}
                                       />
-                                    </div> </>
-                                ) : (
-                                  <>
-                                    <div className="input_field">
-                                      <p className="get-text fs-6 mb-1">PayID<span style={{ color: 'red' }} >*</span></p>
-                                      <input
-                                        type="text"
-                                        maxLength="40"
-                                        name='pay_id'
-                                        value={values.pay_id}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        readOnly
-                                        placeholder='Enter Your PayID'
-                                        className={clsx(
-                                          'form-control mx-2 w-75',
-                                          { 'is-invalid': touched.pay_id && errors.pay_id && disabled !== "payid" }
-
-                                        )}
-                                      />
-                                      {errors.pay_id}
                                     </div>
-                                  </>
-                                )
-                              }
-                              <div className="input_field">
-                                <p className="get-text fs-6 mb-1">Amount Limit<span style={{ color: 'red' }} >*</span></p>
-                                <select
-                                  name='agreement_amount'
-                                  value={values.agreement_amount}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  className={clsx(
-                                    'form-control mx-2 w-75',
-                                    { 'is-invalid': touched.agreement_amount && errors.agreement_amount }
-                                  )}
-                                >
-                                  <option value="1000">Upto AUD 1k per transaction</option>
-                                  <option value="5000">Upto AUD 5k per transaction</option>
-                                  <option value="10000">Upto AUD 10k per transaction</option>
-                                  <option value="30000">Upto AUD 30k per transaction</option>
-                                </select>
-                              </div>
-                              <div className="input_field">
-                                <p className="get-text fs-6 mb-1">Start Date<span style={{ color: 'red' }} >*</span></p>
-                                <input
-                                  type="date"
-                                  value={values.start_date}
-                                  readOnly
-                                  className={clsx(
-                                    'form-control mx-2 w-75'
-                                  )}
-                                />
-                              </div>
+                                      <div className="input_field">
+                                        <p className="get-text fs-6 mb-1">Account No.<span style={{ color: 'red' }} >*</span></p>
+                                        <input
+                                          type="text"
+                                          maxLength="40"
+                                          name='account_number'
+                                          value={values.account_number}
+                                          onChange={handleBSB}
+                                          onBlur={handleBlur}
+                                          readOnly
+                                          placeholder='Enter Your account number'
+                                          className={clsx(
+                                            'form-control mx-2 w-75',
+                                            { 'is-invalid': touched.account_number && errors.account_number && disabled !== "bsb" }
+                                          )}
+                                        />
+                                      </div> </>
+                                  ) : (
+                                    <>
+                                      <div className="input_field">
+                                        <p className="get-text fs-6 mb-1">PayID<span style={{ color: 'red' }} >*</span></p>
+                                        <input
+                                          type="text"
+                                          maxLength="40"
+                                          name='pay_id'
+                                          value={values.pay_id}
+                                          onChange={handleChange}
+                                          onBlur={handleBlur}
+                                          readOnly
+                                          placeholder='Enter Your PayID'
+                                          className={clsx(
+                                            'form-control mx-2 w-75',
+                                            { 'is-invalid': touched.pay_id && errors.pay_id && disabled !== "payid" }
 
-                            </>
-                          )
-                        }
-                        <button type="submit" ref={payIdRef} style={{ display: "none" }}>submit</button>
-                      </form>
+                                          )}
+                                        />
+                                        {errors.pay_id}
+                                      </div>
+                                    </>
+                                  )
+                                }
+                                <div className="input_field">
+                                  <p className="get-text fs-6 mb-1">Amount Limit<span style={{ color: 'red' }} >*</span></p>
+                                  <select
+                                    name='agreement_amount'
+                                    value={values.agreement_amount}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    className={clsx(
+                                      'form-control mx-2 w-75',
+                                      { 'is-invalid': touched.agreement_amount && errors.agreement_amount }
+                                    )}
+                                  >
+                                    <option value="1000">Upto AUD 1k per transaction</option>
+                                    <option value="5000">Upto AUD 5k per transaction</option>
+                                    <option value="10000">Upto AUD 10k per transaction</option>
+                                    <option value="30000">Upto AUD 30k per transaction</option>
+                                  </select>
+                                </div>
+                                <div className="input_field">
+                                  <p className="get-text fs-6 mb-1">Start Date<span style={{ color: 'red' }} >*</span></p>
+                                  <input
+                                    type="date"
+                                    value={values.start_date}
+                                    readOnly
+                                    className={clsx(
+                                      'form-control mx-2 w-75'
+                                    )}
+                                  />
+                                </div>
+
+                              </>
+                            )
+                          }
+                          <button type="submit" ref={payIdRef} style={{ display: "none" }}>submit</button>
+                        </form>
+                      </>
                     ) : (
                       <>
                         <h5 style={{ color: "#6414E9" }} className='my-3'>PayTo Agreement Details</h5>

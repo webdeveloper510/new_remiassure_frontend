@@ -257,7 +257,7 @@ const BankDetails = ({ handleStep, step }) => {
         receive_currency: storage?.amount?.to_type,
         send_method: "stripe",
         receive_method: "Bank transfer",
-        reason: value.reason,
+        reason: value?.reason ? value?.reason : "none",
         exchange_rate: storage?.amount?.exchange_rate
       },
       recipient_id: value.id
