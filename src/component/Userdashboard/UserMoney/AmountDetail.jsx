@@ -3,13 +3,13 @@ import * as Yup from "yup"
 import { useFormik } from 'formik';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { createTransaction, exchangeRate } from '../../../utils/Api';
-import { useNavigate, useLocation } from 'react-router';
+import { createTransaction, exchangeRate, getPreferredCurrency, setPreferredCurrency } from '../../../utils/Api';
 import { toast } from 'react-toastify';
+import Bank_list from '../../../utils/Bank_list';
+import { commaRemover, commaSeperator } from '../../../utils/hook';
 
 const AmountDetail = ({ handleStep, step }) => {
 
-    const locationState = useLocation()?.state
     const [loader, setLoader] = useState(false)
 
     const [exch_rate, setExchRate] = React.useState('1.0998');
@@ -17,11 +17,13 @@ const AmountDetail = ({ handleStep, step }) => {
         send_amt: "",
         exchange_amt: "",
         from_type: "AUD",
-        to_type: "USD",
+        to_type: "NGN",
         recieve_meth: "Bank Transfer",
-        payout_part: "Bank"
+        part_type: "Bank",
+        payout_part: "none"
     })
 
+    const curr_in = ["AUD", "NZD"]
     const curr_out = ["USD", "NGN", "GHS", "KES", "PHP", "THB", "VND"]
 
     const [blur_off, setBlurOff] = useState(false)
@@ -37,18 +39,34 @@ const AmountDetail = ({ handleStep, step }) => {
                 return true
             }
         }),
-        from_type: Yup.string().oneOf(["AUD", "NZD"]),
+        exchange_amt: Yup.string("Please enter a valid amount").min(1).max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."]),
+        from_type: Yup.string(),
         to_type: Yup.string().required(),
-        exchange_amt: Yup.string().required()
+        exchange_amt: Yup.string().required(),
+        part_type: Yup.string().required().notOneOf(["none"]),
+        payout_part: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
+            const {
+                createError,
+                parent: {
+                    part_type,
+                },
+            } = validationcontext;
+            if (part_type === "other" && (value?.length < 3 || value === undefined || value === null)) {
+                return createError({ message: "Please enter bank name" })
+            } else {
+                return true
+            }
+        }),
     })
 
     const initialValues = {
         send_amt: "",
         exchange_amt: "",
         from_type: "AUD",
-        to_type: "USD",
+        to_type: "NGN",
         recieve_meth: "Bank Transfer",
-        payout_part: "Bank"
+        part_type: "none",
+        payout_part: ""
     }
 
     const formik = useFormik({
@@ -60,12 +78,12 @@ const AmountDetail = ({ handleStep, step }) => {
             let payload = {
                 transaction_id: transaction_id,
                 amount: {
-                    send_amount: values.send_amt,
-                    receive_amount: values.exchange_amt,
+                    send_amount: commaRemover(values.send_amt),
+                    receive_amount: commaRemover(values.exchange_amt),
                     send_currency: values.from_type,
                     receive_currency: values.to_type,
-                    send_method: "stripe",
                     receive_method: "Bank transfer",
+                    payout_partner: values.part_type !== "other" ? values.part_type : values.payout_part,
                     reason: "none",
                     exchange_rate: exch_rate
                 }
@@ -79,7 +97,7 @@ const AmountDetail = ({ handleStep, step }) => {
                     if (localStorage.getItem("transfer_data")) {
                         local = JSON.parse(localStorage.getItem("transfer_data"))
                     }
-                    local.amount = { ...values, exchange_rate: exch_rate }
+                    local.amount = { ...values, send_amt: commaRemover(values.send_amt), exchange_amt: commaRemover(values.exchange_amt), exchange_rate: exch_rate }
                     localStorage.setItem("transfer_data", JSON.stringify(local))
                 }
             })
@@ -94,19 +112,27 @@ const AmountDetail = ({ handleStep, step }) => {
             }
             localStorage.setItem("send-step", Number(step) + 1)
             handleStep(Number(step) + 1)
+
         },
     })
 
-    const myTotalAmount = (event) => {
+    const myTotalAmount = (event, direction) => {
         event.preventDefault();
         if (event.target.value.length > 0) {
             setLoader(true)
-            exchangeRate({ amount: event.target.value, from: formik.values.from_type, to: formik.values.to_type })
+            let value = commaRemover(event.target.value)
+            exchangeRate({ amount: value, from: formik.values.from_type, to: formik.values.to_type, direction: direction })
                 .then(function (response) {
+                    let data = commaSeperator(response.amount)
+                    if (direction === "From") {
+                        formik.setFieldValue("exchange_amt", data)
+                        setAmtDetail({ ...amt_detail, exchange_amt: data })
+                    } else {
+                        formik.setFieldValue("send_amt", data)
+                        setAmtDetail({ ...amt_detail, send_amt: data })
+                    }
                     setLoader(false)
                     setExchRate(response.rate)
-                    formik.setFieldValue("exchange_amt", response.amount)
-                    setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
                     setBlurOff(true)
                 })
                 .catch(function (error, message) {
@@ -122,41 +148,55 @@ const AmountDetail = ({ handleStep, step }) => {
 
     const inputvalidation = (event) => {
         var data = event.target.value;
-        if (/^\d*\.?\d{0,2}$/.test(data)) {
-            formik.setFieldValue('send_amt', data);
-            formik.setFieldTouched('send_amt', true);
-            setAmtDetail({ ...amt_detail, send_amt: data });
-            setBlurOff(false)
+        if (data.length > 0) {
+            if (data.includes(',')) {
+                let value = data.split(",")
+                data = value.join("")
+            }
+            if (/^\d*\.?\d{0,2}$/.test(data)) {
+                const [integerPart, decimalPart] = data.split('.')
+                const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                if (decimalPart !== undefined) {
+                    data = formattedIntegerPart + "." + decimalPart
+                } else {
+                    data = formattedIntegerPart
+                }
+                formik.setFieldValue(event.target.name, data);
+                formik.setFieldTouched(event.target.name, true);
+                setAmtDetail({ ...amt_detail, [event.target.name]: data });
+                setBlurOff(false)
+            } else {
+                event.preventDefault();
+            }
         } else {
-            event.preventDefault();
+            setAmtDetail({ ...amt_detail, send_amt: "", exchange_amt: "" })
+            formik.setValues({ ...formik.values, send_amt: "", exchange_amt: "" })
         }
     };
 
-    const amountDown = (e) => {
+    const amountDown = (e, direction) => {
         if (e.key === "Enter") {
-            amountBlur(e)
+            amountBlur(e, direction)
         }
     }
-    const amountBlur = (e) => {
+    const amountBlur = (e, direction) => {
         if (e.target.value !== "." && blur_off === false) {
-            myTotalAmount(e)
+            myTotalAmount(e, direction)
         }
     }
-
-
 
     const myTotalAmountFrom = (e) => {
         setAmtDetail({ ...amt_detail, from_type: e.target.value })
         formik.setFieldValue("from_type", e.target.value)
         formik.setFieldTouched("from_type", true)
         setLoader(true)
-        const amt = formik.values.send_amt != undefined && formik.values.send_amt != 0 && formik.values.send_amt != "" ? formik.values.send_amt : "1"
+        const amt = commaRemover(formik.values.send_amt != undefined && formik.values.send_amt != 0 && formik.values.send_amt != "" ? formik.values.send_amt : "1")
         exchangeRate({ amount: amt, from: e.target.value, to: formik.values.to_type })
             .then(function (response) {
                 setExchRate(response.rate)
                 if (formik.values.send_amt != 0 && formik.values.send_amt != "" && formik.values.send_amt != undefined) {
-                    formik.setFieldValue("exchange_amt", response.amount)
-                    setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+                    formik.setFieldValue("exchange_amt", commaSeperator(response.amount))
+                    setAmtDetail({ ...amt_detail, exchange_amt: commaSeperator(response.amount) })
                 }
                 setLoader(false)
                 setBlurOff(true)
@@ -174,14 +214,14 @@ const AmountDetail = ({ handleStep, step }) => {
         formik.setFieldValue("to_type", e.target.value)
         formik.setFieldTouched("to_type", true)
         setLoader(true)
-        const amt = formik.values.send_amt != undefined && formik.values.send_amt != 0 && formik.values.send_amt != "" ? formik.values.send_amt : "1"
+        const amt = commaRemover(formik.values.send_amt != undefined && formik.values.send_amt != 0 && formik.values.send_amt != "" ? formik.values.send_amt : "1")
 
         exchangeRate({ amount: amt, from: formik.values.from_type, to: e.target.value })
             .then(function (response) {
                 setExchRate(response.rate)
                 if (formik.values.send_amt != 0 && formik.values.send_amt != undefined && formik.values.send_amt != "") {
-                    formik.setFieldValue("exchange_amt", response.amount)
-                    setAmtDetail({ ...amt_detail, exchange_amt: response.amount })
+                    formik.setFieldValue("exchange_amt", commaSeperator(response.amount))
+                    setAmtDetail({ ...amt_detail, exchange_amt: commaSeperator(response.amount) })
                 }
                 setLoader(false)
                 setBlurOff(true)
@@ -213,11 +253,9 @@ const AmountDetail = ({ handleStep, step }) => {
     const handlePayoutPart = (e) => {
         if (e.target.value === "Services") {
             toast.warn("THIS SERVICE OPTION IS CURRENTLY UNAVAILABLE", { hideProgressBar: true, autoClose: 1000, position: "bottom-right" })
-            setAmtDetail({ ...amt_detail, payout_part: "Bank" })
-            formik.setFieldValue("payout_part", "Bank")
         } else {
-            setAmtDetail({ ...amt_detail, payout_part: e.target.value })
-            formik.setFieldValue("payout_part", e.target.value)
+            setAmtDetail({ ...amt_detail, part_type: e.target.value })
+            formik.setValues({ ...formik.values, part_type: e.target.value, payout_part: "" })
         }
     }
 
@@ -225,19 +263,32 @@ const AmountDetail = ({ handleStep, step }) => {
         if (localStorage.getItem("transfer_data")) {
             let tdata = JSON.parse(localStorage.getItem("transfer_data"))
             if (tdata?.amount) {
-                setAmtDetail(tdata?.amount)
-                formik.setValues({ ...tdata?.amount })
+                setAmtDetail({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt) })
+                formik.setValues({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt) })
                 setExchRate(tdata?.amount?.exchange_rate)
             }
         }
         else {
             let data = JSON.parse(localStorage.getItem("exchange_curr"))
-            setAmtDetail({ ...amt_detail, from_type: data?.from_type, to_type: data?.to_type })
+            setAmtDetail({ ...amt_detail, send_amt: commaSeperator(data?.send_amt), exchange_amt: commaSeperator(data?.exchange_amt), from_type: data?.from_type, to_type: data?.to_type })
             setExchRate(data?.exch_rate)
-            formik.setValues({ ...formik.values, from_type: data?.from_type, to_type: data?.to_type })
+            formik.setValues({ ...formik.values, send_amt: commaSeperator(data?.send_amt), exchange_amt: commaSeperator(data?.exchange_amt), from_type: data?.from_type, to_type: data?.to_type })
         }
 
     }, [])
+
+    const customBank = (e) => {
+        let value = e.target.value;
+        if (value.length > 0) {
+            if (/^[A-z '-.]+$/.test(value)) {
+                formik.setValues({ ...formik.values, payout_part: value })
+            } else {
+                e.preventDefault();
+            }
+        } else {
+            formik.setValues({ ...formik.values, payout_part: value })
+        }
+    }
 
     return (
         <section>
@@ -252,7 +303,7 @@ const AmountDetail = ({ handleStep, step }) => {
                             <div className="col-md-12">
                                 <div className="input_field rate-value">
                                     <p className="get-text Exchange_rate">Exchange Rate</p>
-                                    <p className="exchange-rate exchange_value" >1 <span>{formik.values.from_type}</span> = {exch_rate} <span>{formik.values.to_type}</span> </p>
+                                    <p className="exchange-rate exchange_value" >1 <span>{formik.values.from_type}</span> = {commaSeperator(exch_rate)} <span>{formik.values.to_type}</span> </p>
                                     {/* <input type="text" className='rate_input form-control' /> */}
                                 </div>
                             </div>
@@ -281,7 +332,6 @@ const AmountDetail = ({ handleStep, step }) => {
                                         className="mb-3 bg-transparent form-control form-select rate_input"
                                         onChange={(e) => { myTotalAmountTo(e) }}
                                         value={formik.values.to_type}
-                                    // {...formik.getFieldProps('to_type')}
                                     >
                                         {
                                             curr_out.map((item) => {
@@ -300,19 +350,20 @@ const AmountDetail = ({ handleStep, step }) => {
                                     <p className="get-text">Amount Send<span style={{ color: 'red' }} >*</span></p>
                                     <input
                                         type="text"
-                                        name="amountInput"
+                                        name="send_amt"
                                         value={formik.values?.send_amt}
-                                        onKeyDown={(e) => amountDown(e)}
+                                        onKeyDown={(e) => amountDown(e, "From")}
                                         onChange={(e) => inputvalidation(e)}
+
                                         maxLength={formik?.values?.send_amt?.includes(".") ? 9 : 6}
                                         className={clsx(
-                                            'mb-3 bg-transparent form-control rate_input',
+                                            `mb-3 bg-transparent form-control rate-input ${formik.values.send_amt === "1" ? 'text-secondary lead' : ""}`,
                                             { 'is-invalid': formik.touched.send_amt && formik.errors.send_amt },
                                             {
                                                 'is-valid': formik.touched.send_amt && !formik.errors.send_amt,
                                             }
                                         )}
-                                        onBlurCapture={amountBlur}
+                                        onBlurCapture={(e) => amountBlur(e, "From")}
                                     />
                                     {formik.touched.send_amt && formik.errors.send_amt === "Minimum $1 required" && (
                                         <div className='fv-plugins-message-container mt-1'>
@@ -330,9 +381,19 @@ const AmountDetail = ({ handleStep, step }) => {
                                     </p>
                                     <input
                                         type="text"
+                                        name="exchange_amt"
                                         value={formik.values?.exchange_amt}
-                                        className='rate_input form-control'
-                                        readOnly
+                                        onKeyDown={(e) => amountDown(e, "To")}
+                                        onChange={(e) => inputvalidation(e)}
+                                        maxLength={formik?.values?.exchange_amt?.includes(".") ? 9 : 6}
+                                        className={clsx(
+                                            `mb-3 bg-transparent form-control rate-input ${formik.values.send_amt === "1" ? 'text-secondary lead' : ""}`,
+                                            { 'is-invalid': formik.touched.exchange_amt && formik.errors.exchange_amt },
+                                            {
+                                                'is-valid': formik.touched.exchange_amt && !formik.errors.exchange_amt,
+                                            }
+                                        )}
+                                        onBlurCapture={(e) => amountBlur(e, "To")}
                                     />
                                 </div>
                             </div>
@@ -340,20 +401,6 @@ const AmountDetail = ({ handleStep, step }) => {
                         <div className="row each-row">
                             <div className="col-md-6">
                                 <h5>Receive Method</h5>
-                                <div className="col-md-12">
-                                    <label className="container-new">
-                                        <span className="radio-tick">Bank Transfer</span>
-                                        <input
-                                            className="form-check-input"
-                                            type="radio"
-                                            name="recivedMethod"
-                                            value="Bank Transfer"
-                                            checked={amt_detail.recieve_meth == "Bank Transfer"}
-                                            onChange={(e) => { handleRecieveMethod(e) }}
-                                        />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                </div>
                                 <div className="col-md-12">
                                     <label className="container-new">
                                         <span className="radio-tick">Mobile Wallet</span>
@@ -368,24 +415,24 @@ const AmountDetail = ({ handleStep, step }) => {
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
-                            </div>
-                            <div className="col-md-6">
-                                <h5>Payout Partners</h5>
                                 <div className="col-md-12">
                                     <label className="container-new">
-                                        <span className="radio-tick">Bank</span>
+                                        <span className="radio-tick">Bank Transfer</span>
                                         <input
                                             className="form-check-input"
                                             type="radio"
-                                            name="payOutPartner"
-                                            checked={amt_detail.payout_part == "Bank"}
-                                            value="Bank"
-                                            onChange={(e) => { handlePayoutPart(e) }}
-
+                                            name="recivedMethod"
+                                            value="Bank Transfer"
+                                            checked={amt_detail.recieve_meth == "Bank Transfer"}
+                                            onChange={(e) => { handleRecieveMethod(e) }}
                                         />
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
+                            </div>
+                            <div className="col-md-6">
+                                <h5>Payout Partners</h5>
+
                                 <div className="col-md-12">
 
                                     <label className="container-new">
@@ -394,12 +441,52 @@ const AmountDetail = ({ handleStep, step }) => {
                                             className="form-check-input"
                                             type="radio"
                                             name="payOutPartner"
-                                            checked={amt_detail.payout_part == "Services"}
+                                            checked={amt_detail.part_type == "Services"}
                                             value="Services"
                                             onChange={(e) => { handlePayoutPart(e) }}
                                         />
                                         <span className="checkmark"></span>
                                     </label>
+                                </div>
+                                <div className="col-md-12">
+                                    <select
+                                        className={clsx(
+                                            'bg-transparent payout_select form-select form-control rate_input',
+                                            { 'is-invalid': formik.touched.part_type && formik.errors.part_type }
+                                        )}
+                                        value={formik.values.part_type}
+                                        onChange={(e) => { handlePayoutPart(e) }}
+                                    >
+                                        <option value="none">Select a bank</option>
+                                        {
+                                            Bank_list?.map((item, key) => (
+                                                <option key={key} value={item}>{item}</option>
+                                            ))
+                                        }
+                                        <option value="other">Other</option>
+                                    </select>
+
+                                </div>
+                                <div className='col-md-12'>
+                                    {
+                                        formik.values.part_type === "other" ? (
+                                            <input
+                                                type="text"
+                                                name="payout_part"
+                                                value={formik.values?.payout_part}
+                                                placeholder='Enter the bank name'
+                                                onChange={(e) => customBank(e)}
+                                                maxLength={50}
+                                                className={clsx(
+                                                    'mb-3 bg-transparent form-control rate_input',
+                                                    { 'is-invalid': formik.touched.payout_part && formik.errors.payout_part },
+                                                    {
+                                                        'is-valid': formik.touched.payout_part && !formik.errors.payout_part,
+                                                    }
+                                                )}
+                                            />
+                                        ) : <></>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -429,9 +516,9 @@ const AmountDetail = ({ handleStep, step }) => {
                         </div>
                     </div>
                 </div>
-            </form>
+            </form >
 
-        </section>
+        </section >
     );
 }
 

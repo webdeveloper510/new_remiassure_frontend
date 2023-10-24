@@ -8,6 +8,7 @@ import Sidebar from './Sidebar';
 import nodata from '../../assets/img/userdashboard/nodata.avif';
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
 import { recipientList, transactionHistory, userProfile } from "../../utils/Api";
+import { commaSeperator } from "../../utils/hook";
 
 
 const Dashboard = () => {
@@ -33,9 +34,9 @@ const Dashboard = () => {
                 let d = response.data
                 let amount = 0
                 for (let i = 0; i < d.length; i++) {
-                    amount = Number(amount) + Number(d[i].amount)
+                    amount = amount + Number(d[i].amount)
                 }
-                setTotalAmount(amount)
+                setTotalAmount(Math.round(amount))
                 setLoading(false)
             }
             else if (response.code == "400") {
@@ -162,7 +163,7 @@ const Dashboard = () => {
                                                         <NavLink to="/user-send-money" className="btn btn-outline-dark btn-rounded">
                                                             Send Money
                                                         </NavLink>
-                                                        <span className="text-light custom-number">Amount Sent ⇒ {total_amount}</span>
+                                                        <span className="text-light custom-number">Amount Sent ⇒ {commaSeperator(total_amount)}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -241,7 +242,7 @@ const Dashboard = () => {
                                                                                     <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res?.recipient_name ? res?.recipient_name : "N/A"}</span></h6>
 
                                                                                 </td>
-                                                                                <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res?.send_currency} </span> {res?.amount}</span></td>
+                                                                                <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res?.send_currency} </span> {commaSeperator(res?.amount)}</span></td>
                                                                                 <td>
                                                                                     {
                                                                                         res?.payment_status === "cancelled" || res?.payment_status === "Cancelled" ? (

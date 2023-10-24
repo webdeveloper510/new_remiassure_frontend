@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { exchangeRate, userLogin } from "../../utils/Api";
+import { userLogin } from "../../utils/Api";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useFormik } from "formik";
@@ -159,34 +159,34 @@ const Login = () => {
                                                         </div>
                                                     </Form.Group>
                                                     <div className="row">
-                                                    <Form.Group className="mb-3 form_label">
-                                                        <Form.Label> Your Password<span style={{ color: 'red' }} >*</span></Form.Label>
-                                                        <Form.Control
-                                                            type={showPassword ? 'text' : 'password'}
-                                                            autoComplete='off'
-                                                            {...formik.getFieldProps('password')}
-                                                            className={clsx(
-                                                                'form-control email-mobile-input',
-                                                                {
-                                                                    'is-invalid': formik.touched.password && formik.errors.password,
-                                                                }
-                                                            )}
-                                                            placeholder="Password"
-                                                        />
+                                                        <Form.Group className="mb-3 form_label">
+                                                            <Form.Label> Your Password<span style={{ color: 'red' }} >*</span></Form.Label>
+                                                            <Form.Control
+                                                                type={showPassword ? 'text' : 'password'}
+                                                                autoComplete='off'
+                                                                {...formik.getFieldProps('password')}
+                                                                className={clsx(
+                                                                    'form-control email-mobile-input',
+                                                                    {
+                                                                        'is-invalid': formik.touched.password && formik.errors.password,
+                                                                    }
+                                                                )}
+                                                                placeholder="Password"
+                                                            />
 
-                                                        <span className="login_pass_icons" type="button" onClick={() => toggleShowPassword()}>
-                                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                                                        </span>
-                                                        {formik.touched.password && formik.errors.password && (
-                                                            <div className='fv-plugins-message-container mt-1'>
-                                                                <div className='fv-help-block'>
-                                                                    <span role='alert' className="text-danger">{formik.errors.password}</span>
+                                                            <span className="login_pass_icons" type="button" onClick={() => toggleShowPassword()}>
+                                                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                                            </span>
+                                                            {formik.touched.password && formik.errors.password && (
+                                                                <div className='fv-plugins-message-container mt-1'>
+                                                                    <div className='fv-help-block'>
+                                                                        <span role='alert' className="text-danger">{formik.errors.password}</span>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        )}
+                                                            )}
 
 
-                                                    </Form.Group>
+                                                        </Form.Group>
                                                     </div>
 
                                                     <div className="row">

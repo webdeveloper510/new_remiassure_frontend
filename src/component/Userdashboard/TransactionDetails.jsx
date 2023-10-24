@@ -4,6 +4,7 @@ import { Table, Card, NavLink } from 'react-bootstrap'
 import { paymentSummary } from '../../utils/Api'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
+import { commaSeperator } from '../../utils/hook'
 
 const TransactionDetails = () => {
 
@@ -67,15 +68,15 @@ const TransactionDetails = () => {
                                                     <div className="row my-4">
                                                         <div className='d-grid col-md-3 my-1 border-end'>
                                                             <span className='fs-6'>Send Amount</span>
-                                                            <span className='fw-semibold fs-4'>{detail?.send_amount ? "$" + detail?.send_amount : "N/A"} <span className=' fs-6'>{detail?.send_currency}</span></span>
+                                                            <span className='fw-semibold fs-4'>{detail?.send_amount ? commaSeperator(detail?.send_amount) : "N/A"} <span className=' fs-6'>{detail?.send_currency}</span></span>
                                                         </div>
                                                         <div className='d-grid my-1 col-md-3 border-end'>
                                                             <span className='fs-6'>Received Amount</span>
-                                                            <span className='fw-semibold fs-4'>{detail?.send_amount ? "$" + detail?.receive_amount : "N/A"} <span className=' fs-6'>{detail?.receive_currency}</span></span>
+                                                            <span className='fw-semibold fs-4'>{detail?.send_amount ? commaSeperator(detail?.receive_amount) : "N/A"} <span className=' fs-6'>{detail?.receive_currency}</span></span>
                                                         </div>
                                                         <div className='d-grid my-1 col-md-3'>
                                                             <span className='fs-6'> Exchange Rate</span>
-                                                            <span className='fw-semibold d-grid'><span className='fs-4'>{detail?.exchange_rate ? detail?.exchange_rate : "N/A"}</span><span className='small'>{detail?.send_currency} {detail?.send_currency ? (<>&rarr;</>) : ""} {detail?.receive_currency}</span></span>
+                                                            <span className='fw-semibold d-grid'><span className='fs-4'>{detail?.exchange_rate ? commaSeperator(detail?.exchange_rate) : "N/A"}</span><span className='small'>{detail?.send_currency} {detail?.send_currency ? (<>&rarr;</>) : ""} {detail?.receive_currency}</span></span>
                                                         </div>
                                                     </div>
                                                     <div className='row'>

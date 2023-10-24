@@ -22,10 +22,13 @@ const SenderDetails = ({ handleStep, step }) => {
   const verificationValue = localStorage.getItem("DigitalCode")
   const { digital_id_verified } = JSON.parse(localStorage.getItem("remi-user-dt"))
   const countryOptions = useMemo(() => birthCountryList().getData(), [])
+
   const serverUrl = process.env.REACT_APP_API_URL
   const div_url = process.env.REACT_APP_DIV_URL
   const div_id = process.env.REACT_APP_DIV_ID
+
   let localdata = JSON.parse(localStorage.getItem("transfer_data"))
+
   const [data, setData] = useState(localdata?.sender ? localdata?.sender : {
     f_name: "", m_name: "", l_name: "",
     occupation: "", country_of_birth: "",
@@ -54,8 +57,7 @@ const SenderDetails = ({ handleStep, step }) => {
     post_code: Yup.string().length(4).required(),
     state: Yup.string().required().notOneOf(["none"]),
     country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
-    dob: Yup.date()
-      .max(new Date(Date.now() - 567648000000), "You must be at least 18 years").required(),
+    dob: Yup.date().min(new Date(Date.now() - 3721248000000)).max(new Date(Date.now() - 567648000000), "You must be at least 18 years").required(),
     occupation: Yup.string().min(1).max(50).required().trim(),
     country_of_birth: Yup.string().required().notOneOf(["none"]),
     payment_per_annum: Yup.string().required().notOneOf(["none"]),
@@ -71,9 +73,9 @@ const SenderDetails = ({ handleStep, step }) => {
         receive_amount: storage?.amount?.exchange_amt,
         send_currency: storage?.amount?.from_type,
         receive_currency: storage?.amount?.to_type,
-        send_method: "stripe",
         receive_method: "Bank transfer",
-        reason: storage?.recipient?.reason,
+        reason: "none",
+        payout_partner: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type,
         exchange_rate: storage?.amount?.exchange_rate
       },
       recipient_id: localStorage.getItem("rid"),
@@ -93,12 +95,10 @@ const SenderDetails = ({ handleStep, step }) => {
         country: data?.country,
         country_code: data?.country_code
       },
-
     }
     createTransaction(payload).then(res => {
       setLoader(false)
     })
-
   }
 
   const formik = useFormik({
@@ -192,10 +192,8 @@ const SenderDetails = ({ handleStep, step }) => {
         clientId: `${div_id}`,
         uxMode: 'popup',
         onLoadComplete: function (res) {
-          // console.log("onload complete", res)
         },
         onComplete: function (res) {
-          // console.log("oncpmle", res)
           if (res.code != undefined || null) {
             if (localStorage.getItem("send-step")) {
               localStorage.removeItem("send-step")
@@ -210,7 +208,6 @@ const SenderDetails = ({ handleStep, step }) => {
               }
             }).then(res => {
               if (res?.data?.code == "200") {
-
                 setTimeout(() => { setLoader(false) }, 2000)
                 const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
                 userdt.digital_id_verified = "true"
@@ -230,11 +227,8 @@ const SenderDetails = ({ handleStep, step }) => {
         },
         onClick: function (res) {
           setLoader(true)
-          // console.log("onclick", res)
-
         },
         onKeepAlive: function (res) {
-          // console.log("onkeepalive", res)
         },
       });
     }
@@ -248,10 +242,9 @@ const SenderDetails = ({ handleStep, step }) => {
     if (day < 10)
       day = '0' + day.toString();
     var maxDate = year + '-' + month + '-' + day;
-    var minDate = year - 100 - (year % 10) + '-' + month + "-" + day
+    var minDate = year - 100 + '-' + month + "-" + day
     document.getElementById("dob").setAttribute('max', maxDate);
     document.getElementById("dob").setAttribute('min', minDate);
-    // setData({ ...data, dob: maxDate })
     formik.setFieldValue("dob", maxDate)
   }, []);
 
@@ -495,7 +488,7 @@ const SenderDetails = ({ handleStep, step }) => {
             <h5>Account Usage</h5>
             <div className="col-md-6">
               <div className="input_field">
-                <p className="get-text">Projected frequency of the payments per annum<span style={{ color: 'red' }} >*</span></p>
+                <p className="get-text">Projected frequency of payments per annum<span style={{ color: 'red' }} >*</span></p>
                 <select
                   value={data.payment_per_annum}
                   name="payment_per_annum"
@@ -518,7 +511,7 @@ const SenderDetails = ({ handleStep, step }) => {
             </div>
             <div className="col-md-6">
               <div className="input_field">
-                <p className="get-text">Projected frequency of the value per annum<span style={{ color: 'red' }} >*</span></p>
+                <p className="get-text">Projected value of payments per annum<span style={{ color: 'red' }} >*</span></p>
                 <select
                   value={data.value_per_annum}
                   name="value_per_annum"

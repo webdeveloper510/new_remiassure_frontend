@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import clsx from 'clsx';
 import { useState } from 'react';
-import { Modal, Table } from 'react-bootstrap';
+import { Modal, OverlayTrigger, Table, Tooltip } from 'react-bootstrap';
 import countryList from "../../utils/recipientCountries.json"
 import { useEffect } from 'react';
 
@@ -19,8 +19,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
-    post_code: "", state: "", country: "",
-    reason: "", country_code: "GH"
+    post_code: "", state: "", country: "", country_code: "AU"
   })
 
   const initialValues = {
@@ -28,8 +27,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
-    post_code: "", state: "", country: "",
-    reason: ""
+    post_code: "", state: "", country: ""
   }
 
   const [show, setShow] = useState(false)
@@ -40,9 +38,11 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     if (localStorage.getItem("transfer_data")) {
       let tdata = JSON.parse(localStorage.getItem("transfer_data"))
       if (tdata?.recipient) {
-        // console.log("tdata", tdata?.recipient)
         setData(tdata?.recipient)
         formik.setValues({ ...tdata?.recipient })
+      } else if (tdata?.amount) {
+        setData({ ...data, bank: tdata?.amount?.part_type === "other" ? tdata?.amount?.payout_part : tdata?.amount?.part_type })
+        formik.setValues({ ...formik.values, bank: tdata?.amount?.part_type === "other" ? tdata?.amount?.payout_part : tdata?.amount?.part_type })
       }
     }
 
@@ -87,7 +87,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   const bankSchema = Yup.object().shape({
     bank: Yup.string()
-      .min(5, 'Minimum 3 symbols')
+      .min(3, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
       .required('Email is required').trim(),
     acc_name: Yup.string().min(1).max(50).required().trim(),
@@ -102,8 +102,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     city: Yup.string().min(1).max(35).required(),
     post_code: Yup.string().max(5).notRequired(),
     state: Yup.string().min(1).max(35).required(),
-    country: Yup.string().min(2).max(30).required(),
-    reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
+    country: Yup.string().min(2).max(30).required()
   })
 
   const formik = useFormik({
@@ -133,9 +132,9 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
         receive_amount: storage?.amount?.exchange_amt,
         send_currency: storage?.amount?.from_type,
         receive_currency: storage?.amount?.to_type,
-        send_method: "stripe",
         receive_method: "Bank transfer",
-        reason: data.reason,
+        payout_partner: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type,
+        reason: "none",
         exchange_rate: storage?.amount?.exchange_rate
       },
       recipient_id: id
@@ -144,7 +143,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
       if (res.code === "200") {
         localStorage.setItem("transaction_id", res.data.transaction_id)
         const local = JSON.parse(localStorage.getItem("transfer_data"))
-        local.recipient = data
+        local.recipient = { ...data, bank: local?.amount?.part_type === "other" ? local?.amount?.payout_part : local?.amount?.part_type }
         localStorage.removeItem("transfer_data")
         localStorage.setItem("transfer_data", JSON.stringify(local))
         if (localStorage.getItem("send-step")) {
@@ -159,13 +158,14 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   }
 
   const handleReciept = (e) => {
+    let storage = JSON.parse(localStorage.getItem('transfer_data'))
     let d = {
-      bank_name: data.bank, account_name: data.acc_name, account_number: data.acc_no,
+      bank_name: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type
+      , account_name: data.acc_name, account_number: data.acc_no,
       first_name: data.f_name, last_name: data.l_name, middle_name: data.m_name,
       email: data.email, mobile: data.mobile, flat: data.flat,
       building: data.build_no, street: data.street, city: data.city,
-      postcode: data.post_code, state: data.state, country: data.country,
-      reason: data.reason, country_code: data.country_code
+      postcode: data.post_code, state: data.state, country: data.country, country_code: data.country_code
     }
     if (d.middle_name == "" || d.middle_name == undefined) {
       delete d["middle_name"]
@@ -350,6 +350,11 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     formik.setFieldTouched(event.target.name, true);
   }
 
+  const tooltip = (
+    <Tooltip id="tooltip" className='bank_name_tooltip'>
+      <small>The Bank name can be changed in "Amount & Delivery" section.</small>
+    </Tooltip>
+  );
 
   return (
     <div>
@@ -362,13 +367,19 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
           </div>
           <div className="col-md-12">
             <div className="input_field">
-              <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
+              <p className="get-text">
+                Bank Name
+                <OverlayTrigger placement='top' overlay={tooltip}>
+                  <i className="ms-2 bi bi-info-circle-fill"></i>
+                </OverlayTrigger>
+              </p>
               <input
                 type="text"
                 name="bank"
                 value={formik.values?.bank}
                 onChange={validateInput}
-                maxLength={50}
+                readOnly
+                // maxLength={50}
                 className={clsx(
                   'form-control bg-transparent',
                   { 'is-invalid': formik.touched.bank && formik.errors.bank },
@@ -376,7 +387,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                     'is-valid': formik.touched.bank && !formik.errors.bank,
                   }
                 )}
-                onBlur={formik.handleBlur}
+              // onBlur={formik.handleBlur}
               />
             </div>
           </div>
@@ -513,13 +524,13 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
               <div className="input_field">
                 <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                 <PhoneInput
-                  onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
-                  country={data.country_code ? data.country_code.toLowerCase() : "gh"}
+                  onlyCountries={["au", "gh", "ke", "ng", "nz", "ph", "th", "vn"]}
+                  country={data.country_code ? data.country_code.toLowerCase() : "au"}
                   name="mobile"
                   value={formik.values.mobile}
                   inputStyle={{ border: "none", margin: "none" }}
                   inputClass="userPhone w-100"
-                  defaultCountry={"gh"}
+                  defaultCountry={"au"}
                   onBlur={formik.handleBlur}
                   countryCodeEditable={false}
                   onChange={(val, coun) => { handlePhone(val, coun) }}
@@ -726,34 +737,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 />
               </div>
             </div>
-            <div className="col-md-4 need_space" id="reason">
-              <div className="input_field">
-                <p className="get-text">Reason For Sending Money<span style={{ color: 'red' }} >*</span></p>
-                <select
-                  aria-label="Select a reason"
-                  name="reason"
-                  value={formik.values?.reason}
-                  onChange={(e) => handleChange(e)}
-                  onBlur={formik.handleBlur}
-                  {...formik.getFieldProps("reason")}
-                  className={clsx(
-                    'form-control form-select bg-transparent',
-                    { 'is-invalid': formik.touched.reason && formik.errors.reason },
-                    {
-                      'is-valid': formik.touched.reason && !formik.errors.reason,
-                    }
-                  )}
-                >
-                  <option value="none">Select a reason</option>
-                  <option value="Family Support">Family Support</option>
-                  <option value="Education">Education</option>
-                  <option value="Tax Payment">Tax Payment</option>
-                  <option value="Loan Payment">Loan Payment</option>
-                  <option value="Travel Payment">Travel Payment</option>
-                  <option value="Utility Payment">Utility Payment</option>
-                </select>
-              </div>
-            </div>
           </div>
           <div className="row">
             <div className="col-md-4 need_space">
@@ -765,7 +748,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
             </div>
           </div>
         </div>
-      </form>
+      </form >
 
 
       <Modal show={show} onHide={() => setShow(false)}
@@ -818,12 +801,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                 <th>Mobile</th>
                 <td>{data.mobile}</td>
               </tr>
-              <tr>
-                <>
-                </>
-                <th>Reason</th>
-                <td>{data.reason}</td>
-              </tr>
             </tbody>
           </Table>
         </Modal.Body>
@@ -835,7 +812,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
         </Modal.Footer>
       </Modal>
 
-    </div>
+    </div >
   )
 }
 

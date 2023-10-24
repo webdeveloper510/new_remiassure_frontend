@@ -25,7 +25,7 @@ const Editrecipientuser = () => {
     id: "",
     bank_name: '', account_name: '', account_number: '', first_name: '', middle_name: '',
     last_name: '', email: '', mobile: '', country: '', flat: "", street: "", postcode: "", building: "",
-    city: "", state: "", country_code: "GH"
+    city: "", state: "", country_code: "AU"
   });
 
   const [city_list, setCityList] = useState([])
@@ -33,7 +33,7 @@ const Editrecipientuser = () => {
   const [isAfrican, setIsAfrican] = useState(true)
   const recipientSchema = Yup.object().shape({
     bank_name: Yup.string()
-      .min(5, 'Minimum 3 symbols')
+      .min(3, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
       .required('Email is required').trim(),
     account_name: Yup.string().min(3).max(50).required().trim(),
@@ -429,13 +429,13 @@ const Editrecipientuser = () => {
                         <div className="input_field">
                           <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                           <PhoneInput
-                            onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
-                            country={data.country_code ? data?.country_code?.toLowerCase() : "gh"}
+                            onlyCountries={["au", "gh", "ke", "ng", "nz", "ph", "th", "vn"]}
+                            country={data.country_code ? data?.country_code?.toLowerCase() : "au"}
                             name="mobile"
                             value={formik.values.mobile}
                             inputStyle={{ border: "none", margin: "none" }}
                             inputClass="phoneInp"
-                            defaultCountry={"gh"}
+                            defaultCountry={"au"}
                             countryCodeEditable={false}
                             onChange={(val, coun) => { handlePhone(val, coun) }}
                             className={clsx(

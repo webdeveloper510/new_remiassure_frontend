@@ -6,6 +6,7 @@ import nodata from '../../assets/img/userdashboard/nodata.avif';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 // import axios from "axios";
 import authDashHelper from "../../utils/AuthDashHelper";
+import { commaSeperator } from "../../utils/hook";
 
 
 const serverUrl = process.env.REACT_APP_API_URL
@@ -104,7 +105,7 @@ const AllTranfer = ({ status, data }) => {
                               <td>
                                 <h6 className="fs-16 font-w600 mb-0">{res?.recipient_name ? res?.recipient_name : "N/A"}</h6>
                               </td>
-                              <td className="transaction-icon"><span className="text-uppercase">{res?.send_currency} </span> {res?.amount} </td>
+                              <td className="transaction-icon"><span className="text-uppercase">{res?.send_currency} </span> {commaSeperator(res?.amount)} </td>
                               <td>{modified_date(res?.date)}</td>
                               <td>{res?.reason}</td>
 

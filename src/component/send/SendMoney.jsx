@@ -9,6 +9,7 @@ import PaymentSummary from './PaymentSummary'
 import { useLocation, useNavigate } from 'react-router-dom'
 import authDashHelper from '../../utils/AuthDashHelper'
 import { pendingTransactions } from '../../utils/Api'
+import { commaSeperator } from '../../utils/hook'
 
 const SendMoney = () => {
 
@@ -28,11 +29,8 @@ const SendMoney = () => {
     flat: "", build_no: "", street: "", city: "", post: "", state: "", country: "", reason: ""
   })
 
-  const [seconds, setSeconds] = useState(60);
-  const [minutes, setMinutes] = useState(29);
-
   const handleAmtDetail = (data) => {
-    setAmtDetail(data)
+    setAmtDetail({ ...data })
   }
   const navigate = useNavigate()
 
@@ -71,7 +69,14 @@ const SendMoney = () => {
     if (localStorage.getItem("transfer_data")) {
       const local = JSON.parse(localStorage.getItem("transfer_data"))
       if (local?.amount) {
-        setAmtDetail(local.amount)
+        setAmtDetail({
+          ...local.amount,
+          send_amt: local?.amount.send_amt,
+          exchange_amt: local?.amount.exchange_amt,
+          from_type: local?.amount.from_type,
+          to_type: local?.amount.to_type,
+          payout_part: local?.amount.part_type !== "other" ? local?.amount.part_type : local?.amount.payout_part
+        })
       }
       if (local?.recipient) {
         setBankDetail(local.recipient)
@@ -87,15 +92,6 @@ const SendMoney = () => {
     setActiveStep(Number(s) + 1)
   }, [step])
 
-  useEffect(() => {
-    seconds > 0 && setTimeout(() => setSeconds(seconds - 1), 1000);
-
-  }, [seconds]);
-
-  useEffect(() => {
-    minutes > 0 && setTimeout(() => setMinutes(minutes - 1), 60 * 1000);
-    setSeconds(60)
-  }, [minutes])
 
   // window.addEventListener('beforeunload', function (e) {
   //   if (window.location.pathname === "/send-money") {
@@ -171,11 +167,7 @@ const SendMoney = () => {
                             </div>
                           </li>
                         </ul>
-
                       </div>
-                      {/* <div className='col-3'>
-                        <div className='timer-row sendmoney-timer'>Form auto closes in ⇒  <label> <span> {minutes < 10 ? "0" + minutes : minutes}</span><p>Minutes</p> </label> <label className='timerdots'>:</label>  <label><span> {seconds < 10 ? "0" + seconds : seconds}</span> <p>Seconds</p> </label></div>
-                      </div> */}
                     </div>
                     <div className={`row ${(step === 0 || step === 4) ? "d-flex justify-content-center" : ""}`}>
                       <div className="col-md-8">
@@ -203,15 +195,12 @@ const SendMoney = () => {
                                 <h5>Summary</h5>
                                 <tbody>
                                   <tr>
-                                    {/* <th>Amount</th> */}
-                                    <td><b>Amount : </b>{amt_detail?.from_type + " " + amt_detail?.send_amt + " ⇒ " + amt_detail?.to_type + " " + amt_detail?.exchange_amt}</td>
+                                    <td><b>Amount : </b>{amt_detail?.from_type + " " + commaSeperator(amt_detail?.send_amt) + " ⇒ " + amt_detail?.to_type + " " + commaSeperator(amt_detail?.exchange_amt)}</td>
                                   </tr>
                                   <tr>
-                                    {/* <th>Received Method</th> */}
                                     <td><b>Received Method : </b>{amt_detail?.recieve_meth}</td>
                                   </tr>
                                   <tr>
-                                    {/* <th>Payout Partners</th> */}
                                     <td><b>Payout Partners : </b>{amt_detail?.payout_part}</td>
                                   </tr>
                                 </tbody>
@@ -228,16 +217,10 @@ const SendMoney = () => {
                                 <h5>Recipient details Summary</h5>
                                 <tbody>
                                   <tr>
-                                    {/* <th>Full Name</th> */}
                                     <td><b>Full Name : </b>{bank_detail?.f_name} <span>{bank_detail?.l_name}</span></td>
                                   </tr>
                                   <tr>
-                                    {/* <th>Mobile</th> */}
                                     <td><b>Mobile : </b>{bank_detail?.mobile}</td>
-                                  </tr>
-                                  <tr>
-                                    {/* <th>Reason</th> */}
-                                    <td><b>Reason : </b>{bank_detail?.reason}</td>
                                   </tr>
                                 </tbody>
                               </div>

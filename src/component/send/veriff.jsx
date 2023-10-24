@@ -777,7 +777,7 @@ const Verification = ({ handler, handleSubmit, toggleLoader }) => {
                                             toggleLoader()
                                             clearInterval(interval)
                                             toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
-                                            handleSubmit()
+                                            // handleSubmit()
                                         }
                                     })
                                 }, 10000)

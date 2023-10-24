@@ -29,7 +29,7 @@ const Addnewrecipient = () => {
     email: "", mobile: "", flat: "",
     building: "", street: "", city: "",
     postcode: "", state: "", country: "",
-    reason: "", country_code: "GH"
+    country_code: "AU"
   })
 
   const initialValues = {
@@ -37,8 +37,7 @@ const Addnewrecipient = () => {
     first_name: "", last_name: "", middle_name: "",
     email: "", mobile: "", flat: "",
     building: "", street: "", city: "",
-    postcode: "", state: "", country: "",
-    reason: ""
+    postcode: "", state: "", country: ""
   }
 
   useEffect(() => {
@@ -86,7 +85,7 @@ const Addnewrecipient = () => {
 
   const recipientSchema = Yup.object().shape({
     bank_name: Yup.string()
-      .min(5, 'Minimum 3 symbols')
+      .min(3, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
       .required('Email is required').trim(),
     account_name: Yup.string().min(3).max(50).required().trim(),
@@ -101,8 +100,7 @@ const Addnewrecipient = () => {
     city: Yup.string().min(1).max(35).required().trim(),
     post_code: Yup.string().length(5).notRequired(),
     state: Yup.string().min(1).max(35).required(),
-    country: Yup.string().min(2).max(30).required(),
-    reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
+    country: Yup.string().min(2).max(30).required()
   })
 
   const [loading, setLoading] = React.useState(false);
@@ -400,13 +398,13 @@ const Addnewrecipient = () => {
                       <div className="input_field">
                         <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                         <PhoneInput
-                          onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
-                          country={data.country_code ? data.country_code.toLowerCase() : "gh"}
+                          onlyCountries={["au", "gh", "ke", "ng", "nz", "ph", "th", "vn"]}
+                          country={data.country_code ? data.country_code.toLowerCase() : "au"}
                           name="mobile"
                           value={formik.values.mobile}
                           inputStyle={{ border: "none", margin: "none" }}
                           inputClass="userPhone w-100"
-                          defaultCountry={"gh"}
+                          defaultCountry={"au"}
                           countryCodeEditable={false}
                           onChange={(val, coun) => { handlePhone(val, coun) }}
                           className={clsx(
@@ -594,33 +592,6 @@ const Addnewrecipient = () => {
                           className='form-control bg-transparent'
                         />
                       </Form.Group>
-                    </div>
-                    <div className="col-md-4 mb-3">
-                      <div className="input_field">
-                        <p className="get-text">Reason For Sending Money<span style={{ color: 'red' }} >*</span></p>
-                        <select
-                          aria-label="Select a reason"
-                          name="reason"
-                          value={data.reason}
-                          onChange={(e) => handleChange(e)}
-                          {...formik.getFieldProps('reason')}
-                          className={clsx(
-                            'form-control form-select bg-transparent',
-                            { 'is-invalid': formik.touched.reason && formik.errors.reason },
-                            {
-                              'is-valid': formik.touched.reason && !formik.errors.reason,
-                            }
-                          )}
-                        >
-                          <option value="null">Select a reason</option>
-                          <option value="Family Support">Family Support</option>
-                          <option value="Education">Education</option>
-                          <option value="Tax Payment">Tax Payment</option>
-                          <option value="Loan Payment">Loan Payment</option>
-                          <option value="Travel Payment">Travel Payment</option>
-                          <option value="Utility Payment">Utility Payment</option>
-                        </select>
-                      </div>
                     </div>
                   </div>
                   <div className="row">

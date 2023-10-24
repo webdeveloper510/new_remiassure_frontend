@@ -7,6 +7,7 @@ import { BsCheckCircleFill } from 'react-icons/bs'
 import { toast } from 'react-toastify'
 import PopVerify from '../verification/PopVerify'
 import { ZaiPayId, ZaiPayTo, userCharge } from '../../utils/Api'
+import { commaSeperator } from '../../utils/hook'
 
 
 const PaymentSummary = ({ handleStep, step }) => {
@@ -26,7 +27,6 @@ const PaymentSummary = ({ handleStep, step }) => {
 
   useEffect(() => {
     const local = JSON.parse(localStorage.getItem("transfer_data"));
-    // console.log(local)
     setData({
       send_amount: local?.amount?.send_amt,
       to: local?.amount?.to_type,
@@ -49,80 +49,11 @@ const PaymentSummary = ({ handleStep, step }) => {
     const local = JSON.parse(localStorage.getItem("transfer_data"))
     setLoader(true)
     if (local?.payment.hasOwnProperty("pay_id") || local?.payment.hasOwnProperty("agreement_uuid")) {
-      let data = {
 
-        sender: {
-          First_name: local?.sender?.f_name,
-          Middle_name: local?.sender?.m_name,
-          Last_name: local?.sender?.l_name,
-          Date_of_birth: local?.sender?.dob,
-          Gender: "M",
-          Country_of_birth: local?.sender?.country_of_birth,
-          occupation: local?.sender?.occupation,
-          payment_per_annum: local?.sender?.payment_per_annum,
-          value_per_annum: local?.sender?.value_per_annum,
-        },
-        sender_address: {
-          flat: local?.sender?.flat,
-          building: local?.sender?.build_no,
-          street: local?.sender?.street,
-          postcode: local?.sender?.post_code,
-          city: local?.sender?.city,
-          state: local?.sender?.state,
-          country: local?.sender?.country,
-          country_code: local?.sender?.country_code
-
-        },
-        recipient: {
-          first_name: local?.recipient?.f_name,
-          middle_name: local?.recipient?.m_name,
-          last_name: local?.recipient?.l_name,
-          email: local?.recipient?.email,
-          mobile: local?.recipient?.mobile,
-          flat: local?.recipient?.flat,
-          building: local?.recipient?.build_no,
-          street: local?.recipient?.street,
-          postcode: local?.recipient?.post_code,
-          city: local?.recipient?.city,
-          state: local?.recipient?.state,
-          country: local?.recipient?.country,
-          country_code: local?.recipient?.country_code
-        },
-        bank_details: {
-          bank_name: local?.recipient?.bank,
-          account_name: local?.recipient?.acc_name,
-          account_number: local?.recipient?.acc_no
-        },
-        amount: {
-          send_amount: Number(local?.amount?.send_amt),
-          receive_amount: local?.amount?.exchange_amt,
-          send_currency: local?.amount?.from_type,
-          receive_currency: local?.amount?.to_type,
-          send_method: "zai",
-          receive_method: local?.amount?.recieve_meth,
-          reason: local?.recipient?.reason,
-          exchange_rate: local?.amount?.exchange_rate
-        }
-      }
-      if (data.sender.Middle_name === "" || data.sender.Middle_name === undefined || data.sender.Middle_name === null) {
-        delete data.sender.Middle_name
-      }
-      if (data.sender_address.flat === "" || data.sender_address.flat === null || data.sender_address.flat === undefined) {
-        delete data.sender_address.flat
-      }
-      if (data.recipient.middle_name === null || data.recipient.middle_name === "" || data.recipient.middle_name === undefined) {
-        delete data.recipient.middle_name
-      }
-      if (data.recipient.flat === "" || data.recipient.flat === null || data.recipient.flat === undefined) {
-        delete data.recipient.flat
-      }
-      if (data.recipient.postcode == null || data.recipient.postcode == undefined || data.recipient.postcode === "") {
-        delete data.recipient.postcode
-      }
       if (local?.payment?.payment_type === "PayTo") {
-        data.agreement_uuid = local?.payment?.agreement_uuid
+        let agreement_uuid = local?.payment?.agreement_uuid
 
-        ZaiPayTo({ agreement_uuid: data.agreement_uuid, transaction_id: localStorage.getItem("transaction_id") }).then((res) => {
+        ZaiPayTo({ agreement_uuid: agreement_uuid, transaction_id: localStorage.getItem("transaction_id") }).then((res) => {
           setLoader(false)
           if (res.code === "200") {
             setTransaction({ status: res?.message, id: res?.data?.id, pay_id: res?.data?.transaction_id })
@@ -134,6 +65,7 @@ const PaymentSummary = ({ handleStep, step }) => {
               localStorage.removeItem("send-step")
             }
             localStorage.removeItem("transfer_data")
+            localStorage.removeItem("conversion_data")
             localStorage.removeItem('rid')
             localStorage.removeItem("transaction_id")
             setModalView(true)
@@ -149,6 +81,7 @@ const PaymentSummary = ({ handleStep, step }) => {
               localStorage.removeItem("send-step")
             }
             localStorage.removeItem("transfer_data")
+            localStorage.removeItem("conversion_data")
             localStorage.removeItem('rid')
             localStorage.removeItem("transaction_id")
             setModalView(true)
@@ -160,14 +93,11 @@ const PaymentSummary = ({ handleStep, step }) => {
           }
         }).catch(error => {
           setLoader(false)
-
           toast.error("We are looking into the issue , please try later", { position: "bottom-right", hideProgressBar: true })
         })
       } else if (local?.payment?.payment_type === "PayByID") {
-        data.payment_id = local?.payment?.payment_id
-        delete data["amount"]
-        // console.log(data)
-        ZaiPayId({ transaction_id: data.payment_id }).then((res) => {
+        let payment_id = local?.payment?.payment_id
+        ZaiPayId({ transaction_id: payment_id }).then((res) => {
           setLoader(false)
           if (res.code === "200") {
             setTransaction({ status: res?.message, id: res?.data?.id, pay_id: res?.data?.transaction_id })
@@ -180,8 +110,8 @@ const PaymentSummary = ({ handleStep, step }) => {
               localStorage.removeItem("send-step")
             }
             localStorage.removeItem("transfer_data")
+            localStorage.removeItem("conversion_data")
             localStorage.removeItem("rid")
-            localStorage.removeItem("transfer_data")
             localStorage.removeItem("transaction_id")
             setModalView(true)
           } else if (res.code == "400") {
@@ -207,6 +137,7 @@ const PaymentSummary = ({ handleStep, step }) => {
             localStorage.removeItem("send-step")
           }
           localStorage.removeItem("transfer_data")
+          localStorage.removeItem("conversion_data")
           localStorage.removeItem('rid')
           localStorage.removeItem("transaction_id")
           setModalView(true)
@@ -260,17 +191,17 @@ const PaymentSummary = ({ handleStep, step }) => {
                 <td>Amount Sending</td>
                 <td>
                   <span>{data?.from}</span>&nbsp;
-                  {data?.send_amount}
+                  {commaSeperator(data?.send_amount)}
                 </td>
               </tr>
               <tr>
                 <td>Exchange Rate</td>
-                <td>{data?.rates}</td>
+                <td>{commaSeperator(data?.rates)}</td>
               </tr>
               <tr>
                 <td>Amount Exchanged</td>
                 <td><span>{data?.to}</span>&nbsp;
-                  {data?.recieve_amount}</td>
+                  {commaSeperator(data?.recieve_amount)}</td>
               </tr>
             </tbody>
             <thead>
@@ -299,12 +230,12 @@ const PaymentSummary = ({ handleStep, step }) => {
                 <td>Amount Receiving</td>
                 <td>
                   <span>{data?.to}</span>&nbsp;
-                  {data?.recieve_amount}
+                  {commaSeperator(data?.recieve_amount)}
                 </td>
               </tr>
               <tr>
                 <td>Receiving By</td>
-                <td>{data?.send_method === "PayByID" ? "PayID per user" : data?.send_method}</td>
+                <td>{data?.send_method === "PayByID" ? "PayID" : data?.send_method}</td>
               </tr>
             </tbody>
           </Table>
@@ -341,7 +272,7 @@ const PaymentSummary = ({ handleStep, step }) => {
                 </tr>
                 <tr>
                   <th>Transaction Amount</th>
-                  <td>{data.from}&nbsp;{data.send_amount}</td>
+                  <td>{data.from}&nbsp;{commaSeperator(data.send_amount)}</td>
                 </tr>
                 <tr>
                   <th>Transaction Status:</th>

@@ -8,7 +8,8 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import clsx from "clsx";
 import { useRef } from "react";
-import { exchangeRate } from "../../utils/Api";
+import { exchangeRate, getPreferredCurrency } from "../../utils/Api";
+import { commaRemover, commaSeperator } from "../../utils/hook";
 
 function WhyRenderingArrayOfObjects() {
     const dataItems = [
@@ -89,16 +90,8 @@ const Home = () => {
     ];
 
     const [carouselItems, setCarouselItems] = useState(items);
-
-    const [data, setData] = useState({
-        send_amt: '',
-        exchange_amt: '',
-        from_type: "AUD",
-        to_type: "USD",
-        recieve_meth: "Bank Transfer"
-    })
-
     const [currency, setCurrency] = useState(null)
+    const [reset, setReset] = useState(false)
 
     useEffect(() => {
         document.documentElement.style.setProperty('--num', carouselItems.length);
@@ -115,13 +108,14 @@ const Home = () => {
                 return true
             }
         }),
+        exchange_amt: Yup.string("Please enter a valid amount").min(1).max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."])
     })
 
     const initialValues = {
-        send_amt: '',
+        send_amt: '1',
         exchange_amt: '',
         from_type: "AUD",
-        to_type: "USD",
+        to_type: "NGN",
         recieve_meth: "Bank Transfer"
     }
 
@@ -131,7 +125,8 @@ const Home = () => {
 
     const curr_out = ["USD", "NGN", "GHS", "KES", "PHP", "THB", "VND"]
 
-    const [blur_off, setBlurOff] = useState(false)
+    const [blur_off, setBlurOff] = useState(true)
+
 
     const formik = useFormik({
         initialValues,
@@ -139,30 +134,30 @@ const Home = () => {
         onSubmit: async (values) => {
             if (blur_off === false) {
                 setLoading(true)
-                exchangeRate({ amount: values.send_amt, from: values.from_type, to: values.to_type, paymentMethod: values.recieve_meth }).then((res) => {
+                exchangeRate({ amount: commaRemover(values.send_amt), from: values.from_type, to: values.to_type, paymentMethod: values.recieve_meth }).then((res) => {
                     setLoading(false)
                     if (localStorage.getItem("transfer_data")) {
                         localStorage.removeItem("transfer_data")
                     }
                     localStorage.setItem("transfer_data", JSON.stringify({
                         amount: {
-                            send_amt: values.send_amt,
-                            exchange_amt: res?.amount,
+                            send_amt: commaRemover(values.send_amt),
+                            exchange_amt: commaRemover(res?.amount),
                             from_type: values.from_type,
                             to_type: values.to_type,
                             recieve_meth: values.recieve_meth,
-                            payout_part: "Bank",
+                            payout_part: "none",
                             exchange_rate: res?.rate
                         }
                     }))
                     localStorage.setItem("conversion_data", JSON.stringify({
                         amount: {
-                            send_amt: values.send_amt,
-                            exchange_amt: res?.amount,
+                            send_amt: commaRemover(values.send_amt),
+                            exchange_amt: commaRemover(res?.amount),
                             from_type: values.from_type,
                             to_type: values.to_type,
                             recieve_meth: values.recieve_meth,
-                            payout_part: "Bank",
+                            payout_part: "none",
                             exchange_rate: res?.rate
                         }
                     }))
@@ -194,7 +189,7 @@ const Home = () => {
                         from_type: values.from_type,
                         to_type: values.to_type,
                         recieve_meth: values.recieve_meth,
-                        payout_part: "Bank",
+                        payout_part: "none",
                         exchange_rate: total_rates
                     }
                 }))
@@ -205,7 +200,7 @@ const Home = () => {
                         from_type: values.from_type,
                         to_type: values.to_type,
                         recieve_meth: values.recieve_meth,
-                        payout_part: "Bank",
+                        payout_part: "none",
                         exchange_rate: total_rates
                     }
                 }))
@@ -225,42 +220,61 @@ const Home = () => {
     })
 
     useEffect(() => {
-        if (localStorage.getItem("conversion_data")) {
+        if (localStorage.getItem("conversion_data") && reset === false) {
             const tdata = JSON.parse(localStorage.getItem("conversion_data"))
-            setData(tdata?.amount)
-            formik.setValues({ send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, recieve_meth: tdata?.amount?.recieve_meth, exchange_amt: tdata?.amount?.exchange_amt })
+            formik.setValues({ send_amt: commaSeperator(tdata?.amount?.send_amt), from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, recieve_meth: tdata?.amount?.recieve_meth, exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
             setTotal_rates(tdata?.amount?.exchange_rate)
             let obj = { send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, exchange_amt: tdata?.amount?.exchange_amt, exch_rate: tdata?.amount?.exchange_rate }
             localStorage.setItem("exchange_curr", JSON.stringify(obj))
         } else {
-            exchangeRate({ amount: "1", from: "AUD", to: "USD" }).then(res => {
-                setTotal_rates(res.rate)
-                localStorage.removeItem("exchange_curr")
-                let obj = { send_amt: "1", from_type: "AUD", to_type: "USD", exchange_amt: res.amount, exch_rate: res.rate }
-                localStorage.setItem("exchange_curr", JSON.stringify(obj))
-            })
+            let login = localStorage.getItem("token")
+            setReset(false)
+            if (login) {
+                getPreferredCurrency().then(res => {
+                    if (res.code === "200") {
+                        if (res.data.source_currency !== null && res.data.source_currency !== "null") {
+                            let types = res.data
+                            exchangeRate({ amount: "1", from: types.source_currency, to: types.destination_currency }).then(res => {
+                                setTotal_rates(res.rate)
+                                localStorage.removeItem("exchange_curr")
+                                formik.setValues({ send_amt: "1", exchange_amt: commaSeperator(res.amount), from_type: types.source_currency, to_type: types.destination_currency })
+                                let obj = { send_amt: "1", from_type: types.source_currency, to_type: types.destination_currency, exchange_amt: res.amount, exch_rate: res.rate }
+                                localStorage.setItem("exchange_curr", JSON.stringify(obj))
+                            })
+                        } else {
+                            exchangeRate({ amount: "1", from: "AUD", to: "NGN" }).then(res => {
+                                setTotal_rates(res.rate)
+                                localStorage.removeItem("exchange_curr")
+                                formik.setValues({ send_amt: "1", exchange_amt: commaSeperator(res.amount), from_type: "AUD", to_type: "NGN" })
+                                let obj = { send_amt: "1", from_type: "AUD", to_type: "NGN", exchange_amt: res.amount, exch_rate: res.rate }
+                                localStorage.setItem("exchange_curr", JSON.stringify(obj))
+                            })
+                        }
+                    }
+                })
+            } else {
+                exchangeRate({ amount: "1", from: "AUD", to: "NGN" }).then(res => {
+                    setTotal_rates(res.rate)
+                    localStorage.removeItem("exchange_curr")
+                    formik.setValues({ send_amt: "1", exchange_amt: commaSeperator(res.amount), from_type: "AUD", to_type: "NGN" })
+                    let obj = { send_amt: "1", from_type: "AUD", to_type: "NGN", exchange_amt: res.amount, exch_rate: res.rate }
+                    localStorage.setItem("exchange_curr", JSON.stringify(obj))
+                })
+            }
         }
-    }, [])
-
-    useEffect(() => {
-        if (data.send_amt === '') {
-            formik.setFieldValue("exchange_amt", "")
-        }
-    }, [data])
+    }, [reset])
 
     useEffect(() => {
         if (currency !== null) {
             setLoading(true);
             currency_ref.current.focus()
-            exchangeRate({ amount: "100", from: formik.values.from_type, to: currency })
+            exchangeRate({ amount: "1", from: formik.values.from_type, to: currency })
                 .then((res) => {
-                    setData({ ...data, exchange_amt: res.amount, send_amt: "100", to_type: currency })
-                    formik.setValues({ ...formik.values, exchange_amt: res.amount, send_amt: "100", to_type: currency })
+                    formik.setValues({ ...formik.values, exchange_amt: commaSeperator(res.amount), send_amt: "1", to_type: currency })
                     setTotal_rates(res.rate)
                     setLoading(false)
-
+                    setCurrency(null)
                 }).catch((error) => {
-                    // console.log(error.response)
                     if (error.response.data.code == "400") {
                         toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                     }
@@ -269,15 +283,20 @@ const Home = () => {
         }
     }, [currency])
 
-    const myExchangeTotalAmount = (event) => {
+    const myExchangeTotalAmount = (event, direction) => {
         event.preventDefault();
-        let length = event.target.value.toString()
-        if (length.length > 0) {
+        let value = event.target.value.toString()
+        if (value.length > 0) {
             setLoading(true);
-            exchangeRate({ amount: event.target.value, from: formik.values.from_type, to: formik.values.to_type, paymentMethod: formik.values.recieve_meth })
+
+            exchangeRate({ amount: commaRemover(value), from: formik.values.from_type, to: formik.values.to_type, paymentMethod: formik.values.recieve_meth, direction: direction })
                 .then((res) => {
-                    setData({ ...data, send_amt: event.target.value, exchange_amt: res.amount })
-                    formik.setFieldValue("exchange_amt", res.amount)
+                    let data = commaSeperator(res?.amount)
+                    if (direction === "From") {
+                        formik.setFieldValue("exchange_amt", data)
+                    } else {
+                        formik.setFieldValue("send_amt", data)
+                    }
                     setTotal_rates(res.rate)
                     setLoading(false)
                     setBlurOff(true)
@@ -289,7 +308,6 @@ const Home = () => {
                     setLoading(false)
                 })
         } else {
-            setData({ ...data, exchange_amt: "" })
             formik.setValues({ ...formik.values, exchange_amt: "" })
             localStorage.removeItem("conversion_data")
             setBlurOff(true)
@@ -299,30 +317,42 @@ const Home = () => {
 
 
     const inputvalidation = (event) => {
-        // console.log(event.target)
         var data = event.target.value;
-        if (/^\d*\.?\d{0,2}$/.test(data)) {
-            formik.setFieldValue('send_amt', event.target.value);
-            formik.setFieldTouched('send_amt', true);
-            setData({ ...data, send_amt: event.target.value })
-            setBlurOff(false)
+        if (data.length > 0) {
+            if (data.includes(',')) {
+                let value = data.split(",")
+                data = value.join("")
+            }
+            if (/^\d*\.?\d{0,2}$/.test(data)) {
+                const [integerPart, decimalPart] = data.split('.')
+                const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                if (decimalPart !== undefined) {
+                    data = formattedIntegerPart + "." + decimalPart
+                } else {
+                    data = formattedIntegerPart
+                }
+                formik.setFieldValue(event.target.name, data)
+                formik.setFieldTouched(event.target.name, true)
+                setBlurOff(false)
+            } else {
+                event.preventDefault()
+            }
         } else {
-            event.preventDefault();
+            formik.setValues({ ...formik.values, send_amt: "", exchange_amt: "" })
         }
     };
 
     const myTotalAmountFrom = (e) => {
-        setData({ ...data, from_type: e.target.value })
         formik.setFieldValue("from_type", e.target.value)
         formik.setFieldTouched("from_type", true)
         setLoading(true)
-        const amt = formik.values.send_amt !== '' ? formik.values.send_amt : "1"
+        let amt = commaRemover(formik.values.send_amt !== '' ? formik.values.send_amt : "1")
         exchangeRate({ amount: amt, from: e.target.value, to: formik.values.to_type })
             .then(function (response) {
                 setTotal_rates(response.rate)
                 if (formik.values.send_amt != 0) {
-                    formik.setFieldValue("exchange_amt", response.amount)
-                    setData({ ...data, exchange_amt: response.amount })
+                    let data = commaSeperator(response.amount)
+                    formik.setFieldValue("exchange_amt", data)
                     setBlurOff(true)
                 }
                 setLoading(false)
@@ -337,17 +367,16 @@ const Home = () => {
 
 
     const myTotalAmountTo = (e) => {
-        setData({ ...data, to_type: e.target.value })
         formik.setFieldValue("to_type", e.target.value)
         formik.setFieldTouched("to_type", true)
         setLoading(true)
-        const amt = formik.values.send_amt !== '' ? formik.values.send_amt : "1"
+        let amt = (formik.values.send_amt !== '' ? formik.values.send_amt : "1")
         exchangeRate({ amount: amt, from: formik.values.from_type, to: e.target.value })
             .then(function (response) {
                 setTotal_rates(response.rate)
                 if (formik.values.send_amt != 0) {
-                    formik.setFieldValue("exchange_amt", response.amount)
-                    setData({ ...data, exchange_amt: response.amount })
+                    let data = commaSeperator(response?.amount)
+                    formik.setFieldValue("exchange_amt", data)
                     setBlurOff(true)
 
                 }
@@ -360,38 +389,22 @@ const Home = () => {
             })
     }
 
-    const amountDown = (e) => {
+    const amountDown = (e, direction) => {
         if ((e.key === "Enter")) {
-            amountBlur(e)
+            amountBlur(e, direction)
         }
     }
 
-    const amountBlur = (e) => {
+    const amountBlur = (e, direction) => {
         if (e.target.value !== "." && blur_off === false) {
-            myExchangeTotalAmount(e)
+            myExchangeTotalAmount(e, direction)
         }
     }
 
     const handleReset = () => {
-        const storage = JSON.parse(localStorage.getItem("exchange_curr"))
-        setData({
-            send_amt: '',
-            exchange_amt: '',
-            from_type: "AUD",
-            to_type: "USD",
-            recieve_meth: "Bank Transfer"
-        })
-        formik.resetForm({
-            send_amt: '',
-            exchange_amt: '',
-            from_type: "AUD",
-            to_type: "USD",
-            recieve_meth: "Bank Transfer"
-        })
-        setBlurOff(false)
-        localStorage.removeItem("conversion_data")
-        setTotal_rates(storage.exch_rate)
-
+        setReset(true)
+        // exchangeRate({ amount: "1", from: "AUD" })
+        // formik.resetForm({ send_amt: "", exchange_amt: "", from_type: "AUD", to_type: "NGN", recieve_meth: "Bank Transfer" })
     }
 
     return (
@@ -430,31 +443,30 @@ const Home = () => {
                             <div className="card card-flag new_card">
                                 <div className="card-body">
                                     <h6 className="exchange-heading">EXCHANGE RATE</h6>
-                                    <p className="calculation">1 {formik.values.from_type} = {total_rates} {formik.values.to_type}</p>
+                                    <p className="calculation">1 {formik.values.from_type} = {commaSeperator(total_rates)} {formik.values.to_type}</p>
                                     <form onSubmit={formik.handleSubmit} noValidate>
-                                        <div className="row">
+                                        <div className="row mb-2 " style={{ alignItems: 'normal' }}>
 
-                                            <div className="col-4">
+                                            <div className="col-md-4">
                                                 <p className="send-text">You Send<span style={{ color: 'red' }} >*</span></p>
                                                 <div className="inline select-currency">
                                                     <Form.Control
-                                                        name="amount"
+                                                        name="send_amt"
                                                         type="text"
-                                                        autoFocus
                                                         autoComplete='off'
                                                         value={formik.values.send_amt}
                                                         onChange={(e) => inputvalidation(e)}
-                                                        onKeyDown={e => amountDown(e)}
+                                                        onKeyDown={e => amountDown(e, "From")}
                                                         maxLength={formik?.values?.send_amt?.includes(".") ? 9 : 6}
                                                         className={clsx(
-                                                            'mb-3 bg-transparent form-control',
+                                                            `mb-3 bg-transparent form-control ${formik.values.send_amt === "1" ? 'text-secondary lead' : ""}`,
                                                             { 'is-invalid': formik.touched.send_amt && formik.errors.send_amt },
                                                             {
                                                                 'is-valid': formik.touched.send_amt && !formik.errors.send_amt,
                                                             }
                                                         )}
                                                         placeholder="Please Enter Amount"
-                                                        onBlur={(e) => amountBlur(e)}
+                                                        onBlur={(e) => amountBlur(e, "From")}
 
                                                     />
 
@@ -477,15 +489,27 @@ const Home = () => {
                                                     </div>
                                                 )}
                                             </div>
-                                            <div className="col-4">
+                                            <div className="col-md-4">
                                                 <p className="get-text">They get<span style={{ color: 'red' }} >*</span></p>
                                                 <div className="inline select-currency">
-                                                    <input
+                                                    <Form.Control
+                                                        name="exchange_amt"
+                                                        type="text"
                                                         autoComplete='off'
-                                                        value={formik.values.exchange_amt}
                                                         ref={currency_ref}
-                                                        readOnly
-                                                        className='form-control bg-transparent mb-3 new_input'
+                                                        value={formik.values.exchange_amt}
+                                                        onChange={(e) => inputvalidation(e)}
+                                                        onKeyDown={e => amountDown(e, "To")}
+                                                        maxLength={formik?.values?.exchange_amt?.includes(".") ? 9 : 6}
+                                                        className={clsx(
+                                                            `mb-3 bg-transparent form-control ${formik.values.send_amt === "1" ? 'text-secondary lead' : ""}`,
+                                                            { 'is-invalid': formik.touched.exchange_amt && formik.errors.exchange_amt },
+                                                            {
+                                                                'is-valid': formik.touched.exchange_amt && !formik.errors.exchange_amt,
+                                                            }
+                                                        )}
+                                                        placeholder=""
+                                                        onBlur={(e) => amountBlur(e, "To")}
 
                                                     />
                                                     <select
@@ -505,7 +529,7 @@ const Home = () => {
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div className="col-4">
+                                            <div className="col-md-4">
                                                 <p className="get-text">Receive method</p>
                                                 <select
                                                     {...formik.getFieldProps('recieve_meth')}

@@ -58,7 +58,7 @@ const Profile = () => {
     postcode: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required().notOneOf(["none"]),
     country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
-    Date_of_birth: Yup.date()
+    Date_of_birth: Yup.date().min(new Date(Date.now() - 3721248000000))
       .max(new Date(Date.now() - 567648000000), "You must be at least 18 years").required(),
     occupation: Yup.string().min(1).max(50).required().trim(),
     Country_of_birth: Yup.string().required().notOneOf(["none"]),
@@ -100,7 +100,7 @@ const Profile = () => {
       if (day < 10)
         day = '0' + day.toString();
       var maxDate = year + '-' + month + '-' + day;
-      var minDate = year - 100 - (year % 10) + '-' + month + "-" + day
+      var minDate = year - 100 + '-' + month + "-" + day
       document.getElementById("dob").setAttribute('max', maxDate);
       document.getElementById("dob").setAttribute('min', minDate);
     }
@@ -545,7 +545,7 @@ const Profile = () => {
                       <h5>Account Usage</h5>
                       <div className="col-md-6">
                         <div className="input_field">
-                          <p className="get-text">Projected frequency of the payments per annum<span style={{ color: 'red' }} >*</span></p>
+                          <p className="get-text">Projected frequency of payments per annum<span style={{ color: 'red' }} >*</span></p>
                           <select
                             value={data.payment_per_annum}
                             name="payment_per_annum"
@@ -567,7 +567,7 @@ const Profile = () => {
                       </div>
                       <div className="col-md-6">
                         <div className="input_field">
-                          <p className="get-text">Projected frequency of the value per annum<span style={{ color: 'red' }} >*</span></p>
+                          <p className="get-text">Projected value of payments per annum<span style={{ color: 'red' }} >*</span></p>
                           <select
                             value={data.value_per_annum}
                             name="value_per_annum"

@@ -13,54 +13,93 @@ import { Line } from 'rc-progress'
 
 const PaymentDetails = ({ handleStep, step }) => {
 
-  const [data, setData] = useState({ payment_type: "Debit/Credit Card" })
+  const [data, setData] = useState({ payment_type: "PayByID", reason: "none" })
   const [modal, setModal] = useState(false)
   const [pay_id_modal, setPayIdModal] = useState({ toggle: false, id: null, payment_id: null })
+  const [error, setError] = useState(false)
+  const [message, setMessage] = useState('')
   const [pay_to_modal, setPayToModal] = useState(false)
   const [loader, setLoader] = useState(false)
   const [error_modal, setErrorModal] = useState(false)
+  const [other_reason, setOtherReason] = useState("")
+  const [error_other, setErrorOther] = useState(false)
+
+  const reason_list = ["Family Support", "Education", "Tax Payment", "Loan Payment", "Travel Payment", "Utility Payment", "Personal Use", "Other"]
+
   const stripe_key = process.env.REACT_APP_STRIPE_KEY
 
   const payRef = useRef(null)
-  const navigate = useNavigate()
+
   const handleChange = (e) => {
-    setData({ ...data, payment_type: e.target.value })
+    if (e.target.name === "reason") {
+      if (e.target.value === "none") {
+        setError(true)
+        setMessage("Please select a valid reason")
+      } else if (e.target.value !== "Other") {
+        setErrorOther(false)
+        setOtherReason("")
+        setMessage("")
+      } else {
+        setError(false)
+        setMessage("")
+      }
+      setData({ ...data, reason: e.target.value })
+    } else {
+      setData({ ...data, payment_type: e.target.value })
+    }
+  }
+
+  const handleOther = (event) => {
+    const result = event.target.value.replace(/[^A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/? ]/gi, "");
+    setOtherReason(result)
+    setErrorOther(false)
+    setMessage("")
   }
 
   const handlePayType = () => {
-    if (data.payment_type === "Debit/Credit Card") {
-      // setModal(true)
-      toast.warn("THIS PAYMENT OPTION IS CURRENTLY UNAVAILABLE", { hideProgressBar: true, autoClose: 500, position: "bottom-right" })
-    } else if (data.payment_type === "PayByID") {
-      setLoader(true)
-      let transaction_id = localStorage.getItem("transaction_id")
-      createPayId({ transaction_id: transaction_id }).then((res) => {
-        setLoader(false)
-        if (res.code === "200") {
-          setPayIdModal({ toggle: true, id: res.data.payid, payment_id: res.data.transaction_id })
-        } else if (res.code === "400") {
-          toast.error(res.message, { autoClose: 3000, hideProgressBar: true, position: "bottom-right" })
+    if (data.reason !== "none") {
+      if (data.reason === "Other" && other_reason === "") {
+        setErrorOther(true)
+      } else {
+        if (data.payment_type === "Debit/Credit Card") {
+          // setModal(true)
+          toast.warn("THIS PAYMENT OPTION IS CURRENTLY UNAVAILABLE", { hideProgressBar: true, autoClose: 500, position: "bottom-right" })
+        } else if (data.payment_type === "PayByID") {
+          setLoader(true)
+          let transaction_id = localStorage.getItem("transaction_id")
+          createPayId({ transaction_id: transaction_id }).then((res) => {
+            setLoader(false)
+            if (res.code === "200") {
+              setPayIdModal({ toggle: true, id: res.data.payid, payment_id: res.data.transaction_id })
+            } else if (res.code === "400") {
+              toast.error(res.message, { autoClose: 3000, hideProgressBar: true, position: "bottom-right" })
+            }
+          })
+        } else {
+          setPayToModal(true)
         }
-      })
+        let local = JSON.parse(localStorage.getItem('transfer_data'))
+        let payload = {
+          transaction_id: localStorage.getItem("transaction_id"),
+          amount: {
+            send_amount: local?.amount?.send_amt,
+            receive_amount: local?.amount?.exchange_amt,
+            send_currency: local?.amount?.from_type,
+            receive_currency: local?.amount?.to_type,
+            receive_method: "Bank transfer",
+            payout_partner: local?.amount?.part_type === "other" ? local?.amount?.payout_part : local?.amount?.part_type,
+            reason: data.reason !== "Other" ? data.reason : other_reason,
+            exchange_rate: local?.amount?.exchange_rate
+          },
+          recipient_id: localStorage.getItem("rid")
+        }
+        createTransaction(payload)
+      }
     } else {
-      setPayToModal(true)
+      setError(true)
+      setMessage("Please select a valid reason")
     }
-    let local = JSON.parse(localStorage.getItem('transfer_data'))
-    let payload = {
-      transaction_id: localStorage.getItem("transaction_id"),
-      amount: {
-        send_amount: local?.amount?.send_amt,
-        receive_amount: local?.amount?.exchange_amt,
-        send_currency: local?.amount?.from_type,
-        receive_currency: local?.amount?.to_type,
-        send_method: data.payment_type === "PayByID" ? "PayID per user" : data.payment_type === "Debit/Credit Card" ? "Card" : "PayTo agreement",
-        receive_method: "Bank transfer",
-        reason: local?.recipient?.reason,
-        exchange_rate: local?.amount?.exchange_rate
-      },
-      recipient_id: localStorage.getItem("rid")
-    }
-    createTransaction(payload)
+
   }
 
   const stripePromise = loadStripe(`${stripe_key}`);
@@ -80,74 +119,123 @@ const PaymentDetails = ({ handleStep, step }) => {
   }
 
   return (
-    <div>
-      <div className="form_body">
-        <div className="header">
-          <h1>Payment details</h1>
-        </div>
-        <div className="row each-row">
-          <h5>Payment type</h5>
+    <>
+      <div>
 
-          <div className="col-md-12">
-            <label className="container-new">
-              <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /></span>
-              <input
-                className="form-check-input"
-                type="radio"
-                name="Payment Type"
-                defaultChecked={data.payment_type == "PayByID"}
-                value="PayByID"
-                onChange={handleChange}
-              />
-              <span className="checkmark"></span>
-            </label>
+        <div className="form_body">
+          <div className="header">
+            <h1>Payment details</h1>
           </div>
+          <div className="row each-row">
+            <h5>Payment type</h5>
+            <div className="col-md-12">
+              <label className="container-new">
+                <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /></span>
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="payment_type"
+                  defaultChecked={data.payment_type == "PayByID"}
+                  value="PayByID"
+                  onChange={handleChange}
+                />
+                <span className="checkmark"></span>
+              </label>
+            </div>
+            <div className="col-md-12">
+              <label className="container-new">
+                <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={24} /></span>
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="payment_type"
+                  defaultChecked={data.payment_type == "PayTo"}
+                  value="PayTo"
+                  onChange={handleChange}
+                />
+                <span className="checkmark"></span>
+              </label>
+            </div>
+            {/* <div className="col-md-12">
+              <label className="container-new">
+                <span className="radio-tick">Debit/Credit Card</span>
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="payment_type"
+                  defaultChecked={data.payment_type == "Debit/Credit Card"}
+                  value="Debit/Credit Card"
+                  onChange={handleChange}
+                />
+                <span className="checkmark"></span>
+              </label>
+            </div> */}
+            <div className={`row each-row ${data.reason === "Other" ? "" : "mb-3"}`}>
+              <div className="col-md-5">
+                <div className="input_field">
+                  <p className="get-text">Reason for sending money<span style={{ color: 'red' }} >*</span></p>
+                  <select
+                    aria-label="Select a reason"
+                    name="reason"
+                    value={data.reason}
+                    onChange={(e) => handleChange(e)}
+                    className={`${error && data.reason === "none" ? "is-invalid" : !error && data.reason !== "none" ? "is-valid" : ""} form-control form-select`}
+                  >
+                    <option value="none">Select a reason</option>
+                    {
+                      reason_list?.map((item) => (
+                        <option value={item}>{item}</option>
+                      ))
+                    }
+                  </select>
+                </div>
+                <div className='fv-plugins-message-container mt-1'>
+                  <div className='fv-help-block'>
+                    <span role='alert' className="text-danger">{message}</span>
+                  </div>
+                </div>
+              </div>
+              {
+                data.reason === "Other" ?
+                  (
+                    <div className="col-md-5">
+                      <div className="input_field">
+                        <p className="get-text">Specify the reason<span style={{ color: 'red' }} >*</span></p>
+                        <textarea
+                          type="text"
+                          name="other_reason"
+                          value={other_reason}
+                          onChange={handleOther}
+                          maxLength={50}
+                          className={clsx(
+                            'form-control bg-transparent',
+                            { 'is-invalid': error_other }
+                          )}
+                        />
+                      </div>
+                    </div>
+                  ) : <></>
+              }
+            </div>
 
-          <div className="col-md-12">
-            <label className="container-new">
-              <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={24} /></span>
-              <input
-                className="form-check-input"
-                type="radio"
-                name="Payment Type"
-                defaultChecked={data.payment_type == "PayTo"}
-                value="PayTo"
-                onChange={handleChange}
-              />
-              <span className="checkmark"></span>
-            </label>
           </div>
-          <div className="col-md-12">
-            <label className="container-new">
-              <span className="radio-tick">Debit/Credit Card</span>
-              <input
-                className="form-check-input"
-                type="radio"
-                name="Payment Type"
-                defaultChecked={data.payment_type == "Debit/Credit Card"}
-                value="Debit/Credit Card"
-                onChange={handleChange}
-              />
-              <span className="checkmark"></span>
-            </label>
+          <div className="row">
+            <div className="col-md-4">
+              <button className="start-form-button full-col" onClick={() => handleCancel()}>Cancel</button>
+            </div>
+            <div className="col-md-8 full-col">
+              <button className="form-button" onClick={() => handlePayType()}>Continue</button>
+              <button className="form-button" onClick={() => handlePrevious()}>Previous</button>
+            </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-4">
-            <button className="start-form-button full-col" onClick={() => handleCancel()}>Cancel</button>
+        {
+          !loader ? <></> : <div className="loader-overly">
+            <div className="loader" >
+            </div>
           </div>
-          <div className="col-md-8 full-col">
-            <button className="form-button" onClick={() => handlePayType()}>Continue</button>
-            <button className="form-button" onClick={() => handlePrevious()}>Previous</button>
-          </div>
-        </div>
+        }
       </div>
-      {
-        !loader ? <></> : <div className="loader-overly">
-          <div className="loader" >
-          </div>
-        </div>
-      }
 
       <Modal className="modal-card" show={modal} onHide={() => setModal(false)} centered backdrop="static">
         <Modal.Header>
@@ -173,15 +261,18 @@ const PaymentDetails = ({ handleStep, step }) => {
           </Button>
         </Modal.Footer>
       </Modal>
+
       <PayToModal modal={pay_to_modal} handler={(value) => { setPayToModal(value) }} method={data.payment_type} handleStep={handleStep} step={step} authModal={(value) => setErrorModal(value)} />
 
       <PayIDModal modal={pay_id_modal.toggle} handler={(value) => { setPayIdModal(value) }} data={pay_id_modal} method={data.payment_type} handleStep={handleStep} step={step} />
 
       <ErrorModal show={error_modal} handleStep={handleStep} step={step} handler={(value) => setErrorModal(value)} />
-    </div>
 
+    </>
   )
 }
+
+//---------------------***********-Modal's-***********---------------------//
 
 const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
 
@@ -1065,6 +1156,5 @@ const ErrorModal = ({ show, handler, handleStep, step }) => {
     </>
   )
 }
-
 
 export default PaymentDetails

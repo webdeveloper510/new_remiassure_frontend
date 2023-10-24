@@ -23,8 +23,10 @@ const ForgotPassword = () => {
 
 
 
-    const handlePhone = (val) => {
-        formik.setFieldValue('mobile', val);
+    const handlePhone = (val, coun) => {
+        let mno = val.substring(2);
+        const mobileNumber = parseInt(mno, 10)
+        formik.setFieldValue('mobile', coun.dialCode + mobileNumber);
         formik.setFieldTouched('mobile', true);
     }
 
@@ -96,7 +98,7 @@ const ForgotPassword = () => {
                                                             inputClass="userPhone w-100"
                                                             defaultCountry={"au"}
                                                             countryCodeEditable={false}
-                                                            onChange={(val) => { handlePhone(val) }}
+                                                            onChange={(val, coun) => { handlePhone(val, coun) }}
                                                             className={clsx(
                                                                 'form-control form-control-sm bg-transparent',
                                                                 { 'is-invalid': formik.touched.mobile && formik.errors.mobile },

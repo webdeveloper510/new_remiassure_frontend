@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRoutes, useLocation, useNavigate } from 'react-router-dom';
 import Header from './component/header/Header';
 import Footer from './component/footer/Footer';
-import { exchangeRate } from './utils/Api';
+import { exchangeRate, getPreferredCurrency } from './utils/Api';
 
 const App = () => {
   const routing = useRoutes(routes);
@@ -22,6 +22,9 @@ const App = () => {
     navigate("/login")
   }
 
+  let login = localStorage.getItem('token')
+
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -30,12 +33,26 @@ const App = () => {
     })
     const p = location.pathname.split("/")
     setPath(p[1])
-
-    exchangeRate({ amount: "1", from: "AUD", to: "USD" }).then(res => {
-      const data = { send_amt: "1", exchange_amt: res.amount, from_type: "AUD", to_type: "USD", exch_rate: res.rate }
-      localStorage.removeItem("exchange_curr")
-      localStorage.setItem("exchange_curr", JSON.stringify(data))
-    })
+    if (login) {
+      getPreferredCurrency().then(res => {
+        if (res.code === "200") {
+          if (res.data.source_currency !== null && res.data.source_currency !== "null") {
+            let types = res.data
+            exchangeRate({ amount: "1", from: types.source_currency, to: types.destination_currency }).then(res => {
+              const data = { send_amt: "1", exchange_amt: res.amount, from_type: types.source_currency, to_type: types.destination_currency, exch_rate: res.rate }
+              localStorage.removeItem("exchange_curr")
+              localStorage.setItem("exchange_curr", JSON.stringify(data))
+            })
+          }
+        }
+      })
+    } else {
+      exchangeRate({ amount: "1", from: "AUD", to: "NGN" }).then(res => {
+        const data = { send_amt: "1", exchange_amt: res.amount, from_type: "AUD", to_type: "NGN", exch_rate: res.rate }
+        localStorage.removeItem("exchange_curr")
+        localStorage.setItem("exchange_curr", JSON.stringify(data))
+      })
+    }
 
     let expTime = localStorage.getItem("tkn-exp");
 
@@ -59,6 +76,8 @@ const App = () => {
       }
     }
 
+
+
     // window.dataLayer = window.dataLayer || [];
     // window.dataLayer.push({
     //   event: 'pageview',
@@ -69,7 +88,6 @@ const App = () => {
     // fbq('track', 'PageView');
   }, [location.pathname])
 
-  let login = localStorage.getItem('token')
   return (
     <>
       {login ?

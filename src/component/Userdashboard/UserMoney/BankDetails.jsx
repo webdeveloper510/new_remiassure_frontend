@@ -13,6 +13,7 @@ import axios from "axios"
 import { toast } from 'react-toastify';
 import PhoneInput from 'react-phone-input-2';
 import { createTransaction } from '../../../utils/Api';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 const BankDetails = ({ handleStep, step }) => {
   const [isActive, setActive] = useState("false");
@@ -30,8 +31,7 @@ const BankDetails = ({ handleStep, step }) => {
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
-    post_code: "", state: "", country: "",
-    reason: "", country_code: "GH"
+    post_code: "", state: "", country: "", country_code: "AU"
   })
 
   const initialValues = {
@@ -39,8 +39,7 @@ const BankDetails = ({ handleStep, step }) => {
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
-    post_code: "", state: "", country: "",
-    reason: "", country_code: "GH"
+    post_code: "", state: "", country: "", country_code: "AU"
   }
 
   const handleToggle = () => {
@@ -54,7 +53,7 @@ const BankDetails = ({ handleStep, step }) => {
 
   const bankSchema = Yup.object().shape({
     bank: Yup.string()
-      .min(5, 'Minimum 3 symbols')
+      .min(3, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
       .required('Email is required').trim(),
     acc_name: Yup.string().min(3).max(50).required().trim(),
@@ -69,17 +68,17 @@ const BankDetails = ({ handleStep, step }) => {
     city: Yup.string().min(1).max(35).required().trim(),
     post_code: Yup.string().max(5).notRequired(),
     state: Yup.string().min(2).max(35).required(),
-    country: Yup.string().min(2).max(30).required(),
-    reason: Yup.string().min(2).max(30).oneOf(["Family Support", "Utility Payment", "Travel Payment", "Loan Payment", "Tax Payment", "Education"]).required()
+    country: Yup.string().min(2).max(30).required()
   })
 
   const formik = useFormik({
     initialValues,
     validationSchema: bankSchema,
     onSubmit: async (values) => {
+      let storage = JSON.parse(localStorage.getItem("transfer_data"))
       setLoading(true)
       const d = {
-        bank_name: values.bank,
+        bank_name: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type,
         account_name: values.acc_name,
         account_number: values.acc_no,
         first_name: values.f_name,
@@ -94,8 +93,7 @@ const BankDetails = ({ handleStep, step }) => {
         city: values.city,
         state: values.state,
         country_code: data.country_code,
-        country: values.country,
-        reason: values.reason
+        country: values.country
       }
       if (d.flat === "" || d.flat === undefined || d.flat === " ") {
         delete d['flat'];
@@ -112,11 +110,10 @@ const BankDetails = ({ handleStep, step }) => {
       })
         .then(function (response) {
           if (response.data.code == "200") {
-            // console.log(response.data)
             setData(initialValues)
             formik.resetForm()
             setLoading(false)
-            selectRecipient({ ...response.data.data, reason: values.reason })
+            selectRecipient({ ...response.data.data })
           } else if (response.data.code == "400") {
             setLoading(false)
             toast.error(response.data.message, { autoClose: 2000, hideProgressBar: true })
@@ -128,6 +125,14 @@ const BankDetails = ({ handleStep, step }) => {
 
     }
   })
+
+  useEffect(() => {
+    let storage = JSON.parse(localStorage.getItem("transfer_data"))
+    if (storage?.amount) {
+      setData({ ...data, bank: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type })
+      formik.setValues({ ...formik.values, bank: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type })
+    }
+  }, [])
 
 
   const handleChange = (e) => {
@@ -157,12 +162,9 @@ const BankDetails = ({ handleStep, step }) => {
       formik.setFieldTouched(`${[e.target.name]}`, true)
     } else {
       const value = e.target.value.toString()
-
       if (value.length >= max) {
-
         e.stopPropagation()
         e.preventDefault()
-
       } else {
         const pattern = /^[A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
         if (!pattern.test(e.key)) {
@@ -187,7 +189,6 @@ const BankDetails = ({ handleStep, step }) => {
       if (value.length >= max) {
         e.stopPropagation()
         e.preventDefault()
-
       } else {
         setData({ ...data, [e.target.name]: e.target.value })
         formik.setFieldValue(`${[e.target.name]}`, e.target.value)
@@ -202,7 +203,6 @@ const BankDetails = ({ handleStep, step }) => {
       formik.setFieldValue(event.target.name, event.target.value)
       formik.setFieldTouched(event.target.name, true)
     } else {
-
       let value = event.target.value.toString()
       if (value.length > max) {
         event.stopPropagation()
@@ -220,7 +220,6 @@ const BankDetails = ({ handleStep, step }) => {
     }
   }
 
-
   const handlePrevious = () => {
     localStorage.removeItem("send-step")
     localStorage.setItem("send-step", Number(step) - 1)
@@ -234,15 +233,15 @@ const BankDetails = ({ handleStep, step }) => {
   }
   const handleCancel = () => {
     setData({
-      bank: "", acc_name: "", acc_no: "",
+      ...data, acc_name: "", acc_no: "",
       f_name: "", l_name: "", m_name: "",
       email: "", mobile: "", flat: "",
       build_no: "", street: "", city: "",
-      post_code: "", state: "", country: "",
-      reason: "", country_code: "GH"
+      post_code: "", state: "", country: ""
     })
-    formik.resetForm()
-    formik.setValues(initialValues)
+    formik.resetForm({
+      values: { ...initialValues, bank: formik.values.bank }
+    })
     setActive(!isActive)
   }
 
@@ -255,9 +254,9 @@ const BankDetails = ({ handleStep, step }) => {
         receive_amount: storage?.amount?.exchange_amt,
         send_currency: storage?.amount?.from_type,
         receive_currency: storage?.amount?.to_type,
-        send_method: "stripe",
         receive_method: "Bank transfer",
-        reason: value?.reason ? value?.reason : "none",
+        reason: "none",
+        payout_partner: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type,
         exchange_rate: storage?.amount?.exchange_rate
       },
       recipient_id: value.id
@@ -268,7 +267,7 @@ const BankDetails = ({ handleStep, step }) => {
         localStorage.setItem("rid", value.id)
         const local = JSON.parse(localStorage.getItem("transfer_data"))
         localStorage.removeItem("transfer_data")
-        local.recipient = value
+        local.recipient = { ...value, bank_name: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type }
         localStorage.setItem("transfer_data", JSON.stringify(local))
 
         if (localStorage.getItem("send-step")) {
@@ -334,6 +333,12 @@ const BankDetails = ({ handleStep, step }) => {
       }
     })
   }, [data.state])
+
+  const tooltip = (
+    <Tooltip id="tooltip" className='bank_name_tooltip'>
+      <small>The Bank name can be changed in "Amount & Delivery" section.</small>
+    </Tooltip>
+  );
 
 
   return (
@@ -410,11 +415,17 @@ const BankDetails = ({ handleStep, step }) => {
                 <h5>Bank Information</h5>
                 <div className="col-md-4">
                   <div className="input_field">
-                    <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
+                    <p className="get-text">
+                      Bank Name
+                      <OverlayTrigger placement='top' overlay={tooltip}>
+                        <i className="ms-2 bi bi-info-circle-fill bank_name_info"></i>
+                      </OverlayTrigger>
+                    </p>
                     <input
                       type="text"
                       name="bank"
-                      onKeyDown={(e) => { handleKeyDown(e, 50) }}
+                      readOnly
+                      // onKeyDown={(e) => { handleKeyDown(e, 50) }}
                       {...formik.getFieldProps("bank")}
                       className={clsx(
                         'form-control bg-transparent',
@@ -549,13 +560,13 @@ const BankDetails = ({ handleStep, step }) => {
                   <div className="input_field">
                     <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                     <PhoneInput
-                      onlyCountries={["gh", "ke", "ng", "ph", "th", "vn"]}
-                      country={data.country_code.toLowerCase()}
+                      onlyCountries={["au", "gh", "ke", "ng", "nz", "ph", "th", "vn"]}
+                      country={"au"}
                       name="mobile"
                       value={formik.values.mobile}
                       inputStyle={{ border: "none", margin: "none" }}
                       inputClass="userPhone w-100"
-                      defaultCountry={"gh"}
+                      defaultCountry={"au"}
                       countryCodeEditable={false}
                       onChange={(val, coun) => { handlePhone(val, coun) }}
                       className={clsx(
@@ -746,34 +757,6 @@ const BankDetails = ({ handleStep, step }) => {
                     />
                   </div>
                 </div>
-                <div className="col-md-4" id="reason">
-                  <div className="input_field">
-                    <p className="get-text">Reason For Sending Money<span style={{ color: 'red' }} >*</span></p>
-                    <select
-                      aria-label="Select a reason"
-                      name="reason"
-                      value={data.reason}
-                      onChange={(e) => handleChange(e)}
-                      {...formik.getFieldProps("reason")}
-                      className={clsx(
-                        'form-control form-select bg-transparent',
-                        { 'is-invalid': formik.touched.reason && formik.errors.reason },
-                        {
-                          'is-valid': formik.touched.reason && !formik.errors.reason,
-                        }
-                      )}
-                    >
-                      <option>Select a reason</option>
-                      <option value="Family Support">Family Support</option>
-                      <option value="Education">Education</option>
-                      <option value="Tax Payment">Tax Payment</option>
-                      <option value="Loan Payment">Loan Payment</option>
-                      <option value="Travel Payment">Travel Payment</option>
-                      <option value="Utility Payment">Utility Payment</option>
-                    </select>
-                  </div>
-                </div>
-
               </div>
 
               <div className="row">

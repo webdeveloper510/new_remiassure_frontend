@@ -12,7 +12,6 @@ import ForgotPassword from './component/forgotpassword/ForgotPassword';
 import RecentPassword from './component/resetPassword/ResetPassword';
 import LocalStorage from './component/resetPassword/Localstorage';
 import Verification from './component/verification/Verification';
-import Multiple from './component/profile/Multiple';
 import SendMoney from './component/send/SendMoney';
 import Transfer from './component/Userdashboard/Transfer';
 import AddNewRecipient from './component/Userdashboard/AddNewRecipient';
@@ -52,7 +51,6 @@ const routes = [
       { path: 'aml-policy', element: <AML /> },
       { path: 'help', element: <Help /> },
       { path: 'sign-up', element: <Signup /> },
-      { path: 'referral', element: <Referral /> },
       { path: 'login', element: <Login /> },
       { path: 'forgot-password', element: <ForgotPassword /> },
       { path: 'reset-password', element: <RecentPassword /> },
@@ -66,9 +64,8 @@ const routes = [
     path: '/',
     guard: AuthProtect,
     children: [
-      { path: '/multiple', element: <Multiple /> },
+      // { path: '/referral', element: <Referral /> },
       { path: '/send-money', element: <SendMoney /> },
-      { path: '/referral-data', element: <ReferralData /> },
     ]
   },
   {
@@ -84,11 +81,11 @@ const routes = [
       { path: '/change-password', element: <ChangePassword /> },
       { path: '/dashboard', element: <Dashboard /> },
       { path: '/edit-recipient-user', element: <Editrecipientuser /> },
-      { path: '/profile-single-data/:id', element: <SingleRecipientProfile /> },
-      { path: '/user-card-list', element: <UserCardLists /> },
-      { path: '/add-new-card', element: <Addnewcard /> },
-      { path: '/edit-card-user/:id', element: <EditCardUser /> },
-      { path: '/single-card-data/:id', element: <SingleCardProfile /> },
+      // { path: '/profile-single-data/:id', element: <SingleRecipientProfile /> },
+      // { path: '/user-card-list', element: <UserCardLists /> },
+      // { path: '/add-new-card', element: <Addnewcard /> },
+      // { path: '/edit-card-user/:id', element: <EditCardUser /> },
+      // { path: '/single-card-data/:id', element: <SingleCardProfile /> },
       { path: '404', element: <Page404 /> },
       { path: '*', element: <Navigate to="/404" /> },
     ]
