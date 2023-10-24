@@ -66,15 +66,15 @@ const TransactionDetails = () => {
                                             <Card>
                                                 <Card.Body>
                                                     <div className="row my-4">
-                                                        <div className='d-grid col-md-3 my-1 border-end'>
+                                                        <div className='d-grid col-md-4 my-1 border-end'>
                                                             <span className='fs-6'>Send Amount</span>
-                                                            <span className='fw-semibold fs-4'>{detail?.send_amount ? commaSeperator(detail?.send_amount) : "N/A"} <span className=' fs-6'>{detail?.send_currency}</span></span>
+                                                            <span className='fw-semibold fs-4'><span className=' fs-6'>{detail?.send_currency}&nbsp;</span>{detail?.send_amount ? commaSeperator(detail?.send_amount) : "N/A"}</span>
                                                         </div>
-                                                        <div className='d-grid my-1 col-md-3 border-end'>
+                                                        <div className='d-grid my-1 col-md-4 border-end'>
                                                             <span className='fs-6'>Received Amount</span>
-                                                            <span className='fw-semibold fs-4'>{detail?.send_amount ? commaSeperator(detail?.receive_amount) : "N/A"} <span className=' fs-6'>{detail?.receive_currency}</span></span>
+                                                            <span className='fw-semibold fs-4'><span className=' fs-6'> {detail?.receive_currency}&nbsp;</span>{detail?.send_amount ? commaSeperator(detail?.receive_amount) : "N/A"}</span>
                                                         </div>
-                                                        <div className='d-grid my-1 col-md-3'>
+                                                        <div className='d-grid my-1 col-md-4'>
                                                             <span className='fs-6'> Exchange Rate</span>
                                                             <span className='fw-semibold d-grid'><span className='fs-4'>{detail?.exchange_rate ? commaSeperator(detail?.exchange_rate) : "N/A"}</span><span className='small'>{detail?.send_currency} {detail?.send_currency ? (<>&rarr;</>) : ""} {detail?.receive_currency}</span></span>
                                                         </div>
@@ -110,7 +110,11 @@ const TransactionDetails = () => {
                                                                 <></>
                                                             )
                                                         }
-
+                                                        <div className={`d-grid fs-6 my-1 col-md-4`}>
+                                                            <a href={`${process.env.REACT_APP_API_URL}/payment/receipt/${detail?.id}`} target="_blank">
+                                                                <span className="btn btn-outline-success btn-rounded" >Download Receipt</span>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                     <hr />
                                                     <div className='row my-4'>

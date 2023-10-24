@@ -285,9 +285,7 @@ const PaymentSummary = ({ handleStep, step }) => {
               <p>Thanks for choosing RemitAssure</p>
               <div className='row text-center'>
                 <div className="col-md-6">
-                  <NavLink target='_blank' href={`${serverUrl}/payment/receipt/${transaction.id}`}>
-                    <button type="button" className="form-button" style={{ "width": '100%' }}>View Reciept</button>
-                  </NavLink>
+                  <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => navigate(`/transaction-detail/${transaction?.pay_id}`)}>View Reciept</button>
                 </div>
                 <div className="col-md-6">
                   <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>Go To Dashboard</button>

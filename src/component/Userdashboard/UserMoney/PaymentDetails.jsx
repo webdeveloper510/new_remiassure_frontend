@@ -16,13 +16,13 @@ import clsx from 'clsx'
 import { ZaiPayId, ZaiPayTo, createAgreement, createPayId, createTransaction, getAgreementList, updateAgreement, userCharge, userProfile, verifyPayTo } from '../../../utils/Api'
 import { Line } from 'rc-progress'
 import { commaSeperator } from '../../../utils/hook'
+import TransactionConfirm from '../../modals/TransactionConfirm'
 
 
 const stripe_key = process.env.REACT_APP_STRIPE_KEY
 const serverUrl = process.env.REACT_APP_API_URL
 const PaymentDetails = ({ handleStep, step }) => {
 
-  let local = JSON.parse(localStorage.getItem("transfer_data"))
   const [data, setData] = useState({ payment_type: "PayByID", reason: "none" })
   const [modal, setModal] = useState(false)
   const [pay_id_modal, setPayIdModal] = useState({ toggle: false, id: null, payment_id: null })
@@ -43,11 +43,13 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [error_modal, setErrorModal] = useState(false)
   const [other_reason, setOtherReason] = useState("")
   const [error_other, setErrorOther] = useState(false)
+  const [display_confirm, setDisplayConfirm] = useState({ toggle: false, data: null })
 
   const stripePromise = loadStripe(`${stripe_key}`);
 
   const reason_list = ["Family Support", "Education", "Tax Payment", "Loan Payment", "Travel Payment", "Utility Payment", "Personal Use", "Other"]
 
+  let local = JSON.parse(localStorage.getItem("transfer_data"))
 
 
   useEffect(() => {
@@ -213,6 +215,12 @@ const PaymentDetails = ({ handleStep, step }) => {
   const handleModals = () => {
     setModal(!modal)
     setOpenModal(true)
+  }
+
+  const OpenConfirmation = () => {
+    let storage = JSON.parse(localStorage.getItem("transfer_data"))
+    console.log(data)
+    setDisplayConfirm({ toggle: true, data: { amount: storage?.amount, recipient: storage?.recipient, receive_method: data?.payment_type, reason: data?.reason } })
   }
 
   useEffect(() => {
@@ -395,20 +403,6 @@ const PaymentDetails = ({ handleStep, step }) => {
                   <h5>Payment type</h5>
                   <div className="col-md-12">
                     <label className="container-new">
-                      <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /></span>
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="Payment Type"
-                        defaultChecked={data.payment_type == "PayByID"}
-                        value="PayByID"
-                        onChange={handleChange}
-                      />
-                      <span className="checkmark"></span>
-                    </label>
-                  </div>
-                  <div className="col-md-12">
-                    <label className="container-new">
                       <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={25} /></span>
                       <input
                         className="form-check-input"
@@ -416,6 +410,20 @@ const PaymentDetails = ({ handleStep, step }) => {
                         name="Payment Type"
                         defaultChecked={data.payment_type == "PayTo"}
                         value="PayTo"
+                        onChange={handleChange}
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+                  </div>
+                  <div className="col-md-12">
+                    <label className="container-new">
+                      <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /></span>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="Payment Type"
+                        defaultChecked={data.payment_type == "PayByID"}
+                        value="PayByID"
                         onChange={handleChange}
                       />
                       <span className="checkmark"></span>
@@ -501,9 +509,9 @@ const PaymentDetails = ({ handleStep, step }) => {
                 }
               </div>
 
-              <PayIDModal modal={pay_id_modal.toggle} handler={(value) => { setPayIdModal(value) }} otp={(value) => setOpenModal(value)} data={pay_id_modal} setData={(data) => setPayIdData(data)} />
+              <PayIDModal modal={pay_id_modal.toggle} handler={(value) => { setPayIdModal(value) }} otp={(value) => OpenConfirmation()} data={pay_id_modal} setData={(data) => setPayIdData(data)} />
 
-              <PayToModal modal={pay_to_modal} handler={(value) => { setPayToModal(value) }} otp={(value) => setOpenModal(value)} setData={(data) => setPayToData(data)} handleLoader={(value) => { setLoader(value) }} authModal={(value) => setErrorModal(value)} />
+              <PayToModal modal={pay_to_modal} handler={(value) => { setPayToModal(value) }} otp={(value) => OpenConfirmation()} setData={(data) => setPayToData(data)} handleLoader={(value) => { setLoader(value) }} authModal={(value) => setErrorModal(value)} />
 
               {/* ---------------STRIPE------------- */}
               <Modal className="modal-card" show={modal} onHide={() => setModal(false)} backdrop="static" centered>
@@ -534,8 +542,8 @@ const PaymentDetails = ({ handleStep, step }) => {
                 <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} />
               </Modal>
 
-              <ErrorModal show={error_modal} handler={(value) => setErrorModal(value)} otp={(value) => setOpenModal(true)} />
-
+              <ErrorModal show={error_modal} handler={(value) => setErrorModal(value)} otp={(value) => OpenConfirmation()} />
+              <TransactionConfirm data={display_confirm} handleCancel={() => setDisplayConfirm({ toggle: false, data: null })} handleContinue={() => { setDisplayConfirm({ toggle: false, data: null }); setOpenModal(true) }} />
             </section>
           ) : (
             <div className="loader-overly">
@@ -1414,9 +1422,9 @@ const TransactionRecipiet = ({ transaction, modalView }) => {
           </Table>
           <div className='row text-center'>
             <div className="col-md-6">
-              <NavLink target='_blank' href={`${serverUrl}/payment/receipt/${transaction.id}`}>
-                <button type="button" className="form-button" style={{ "width": '100%' }}>View Reciept</button>
-              </NavLink>
+              {/* <NavLink target='_blank' href={`${serverUrl}/payment/receipt/${transaction.id}`}> */}
+              <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => navigate(`/transaction-detail/${transaction.pay_id}`)}>View Reciept</button>
+              {/* </NavLink> */}
             </div>
             <div className="col-md-6">
               <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>Go To Dashboard</button>

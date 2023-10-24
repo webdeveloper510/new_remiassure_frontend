@@ -98,7 +98,7 @@ const Home = () => {
     }, [carouselItems])
 
     const amountSchema = Yup.object().shape({
-        send_amt: Yup.string("Please enter a valid amount").min(1).max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."]).test("value-test", (value, validationcontext) => {
+        send_amt: Yup.string("Please enter a valid amount").min(1).required('Amount is required').notOneOf(["."]).test("value-test", (value, validationcontext) => {
             const {
                 createError,
             } = validationcontext;
@@ -108,11 +108,11 @@ const Home = () => {
                 return true
             }
         }),
-        exchange_amt: Yup.string("Please enter a valid amount").min(1).max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."])
+        exchange_amt: Yup.string("Please enter a valid amount").required('Amount is required').notOneOf(["."])
     })
 
     const initialValues = {
-        send_amt: '1',
+        send_amt: '',
         exchange_amt: '',
         from_type: "AUD",
         to_type: "NGN",
@@ -237,7 +237,7 @@ const Home = () => {
                             exchangeRate({ amount: "1", from: types.source_currency, to: types.destination_currency }).then(res => {
                                 setTotal_rates(res.rate)
                                 localStorage.removeItem("exchange_curr")
-                                formik.setValues({ send_amt: "1", exchange_amt: commaSeperator(res.amount), from_type: types.source_currency, to_type: types.destination_currency })
+                                formik.setValues({ send_amt: "", exchange_amt: "", from_type: types.source_currency, to_type: types.destination_currency })
                                 let obj = { send_amt: "1", from_type: types.source_currency, to_type: types.destination_currency, exchange_amt: res.amount, exch_rate: res.rate }
                                 localStorage.setItem("exchange_curr", JSON.stringify(obj))
                             })
@@ -245,7 +245,7 @@ const Home = () => {
                             exchangeRate({ amount: "1", from: "AUD", to: "NGN" }).then(res => {
                                 setTotal_rates(res.rate)
                                 localStorage.removeItem("exchange_curr")
-                                formik.setValues({ send_amt: "1", exchange_amt: commaSeperator(res.amount), from_type: "AUD", to_type: "NGN" })
+                                formik.setValues({ send_amt: "", exchange_amt: "", from_type: "AUD", to_type: "NGN" })
                                 let obj = { send_amt: "1", from_type: "AUD", to_type: "NGN", exchange_amt: res.amount, exch_rate: res.rate }
                                 localStorage.setItem("exchange_curr", JSON.stringify(obj))
                             })
@@ -256,7 +256,7 @@ const Home = () => {
                 exchangeRate({ amount: "1", from: "AUD", to: "NGN" }).then(res => {
                     setTotal_rates(res.rate)
                     localStorage.removeItem("exchange_curr")
-                    formik.setValues({ send_amt: "1", exchange_amt: commaSeperator(res.amount), from_type: "AUD", to_type: "NGN" })
+                    formik.setValues({ send_amt: "", exchange_amt: "", from_type: "AUD", to_type: "NGN" })
                     let obj = { send_amt: "1", from_type: "AUD", to_type: "NGN", exchange_amt: res.amount, exch_rate: res.rate }
                     localStorage.setItem("exchange_curr", JSON.stringify(obj))
                 })
@@ -270,7 +270,7 @@ const Home = () => {
             currency_ref.current.focus()
             exchangeRate({ amount: "1", from: formik.values.from_type, to: currency })
                 .then((res) => {
-                    formik.setValues({ ...formik.values, exchange_amt: commaSeperator(res.amount), send_amt: "1", to_type: currency })
+                    formik.setValues({ ...formik.values, exchange_amt: "", send_amt: "", to_type: currency })
                     setTotal_rates(res.rate)
                     setLoading(false)
                     setCurrency(null)
@@ -457,15 +457,14 @@ const Home = () => {
                                                         value={formik.values.send_amt}
                                                         onChange={(e) => inputvalidation(e)}
                                                         onKeyDown={e => amountDown(e, "From")}
-                                                        maxLength={formik?.values?.send_amt?.includes(".") ? 9 : 6}
                                                         className={clsx(
-                                                            `mb-3 bg-transparent form-control ${formik.values.send_amt === "1" ? 'text-secondary lead' : ""}`,
+                                                            `mb-3 bg-transparent form-control`,
                                                             { 'is-invalid': formik.touched.send_amt && formik.errors.send_amt },
                                                             {
                                                                 'is-valid': formik.touched.send_amt && !formik.errors.send_amt,
                                                             }
                                                         )}
-                                                        placeholder="Please Enter Amount"
+                                                        placeholder={"1"}
                                                         onBlur={(e) => amountBlur(e, "From")}
 
                                                     />
@@ -500,15 +499,14 @@ const Home = () => {
                                                         value={formik.values.exchange_amt}
                                                         onChange={(e) => inputvalidation(e)}
                                                         onKeyDown={e => amountDown(e, "To")}
-                                                        maxLength={formik?.values?.exchange_amt?.includes(".") ? 9 : 6}
                                                         className={clsx(
-                                                            `mb-3 bg-transparent form-control ${formik.values.send_amt === "1" ? 'text-secondary lead' : ""}`,
+                                                            `mb-3 bg-transparent form-control`,
                                                             { 'is-invalid': formik.touched.exchange_amt && formik.errors.exchange_amt },
                                                             {
                                                                 'is-valid': formik.touched.exchange_amt && !formik.errors.exchange_amt,
                                                             }
                                                         )}
-                                                        placeholder=""
+                                                        placeholder={commaSeperator(total_rates)}
                                                         onBlur={(e) => amountBlur(e, "To")}
 
                                                     />

@@ -88,20 +88,21 @@ const AllTranfer = ({ status, data }) => {
                   <Table className="table table-responsive-md card-table previous-transaction">
                     <thead>
                       <tr>
+                        <th>Transaction ID</th>
                         <th>Recipient</th>
                         <th>Amount</th>
                         <th>Date</th>
                         <th>Reason</th>
                         <th>Status</th>
                         <th>Receipt</th>
-
                       </tr>
                     </thead>
                     <tbody>
                       {
                         transactionData?.map((res, index) => {
                           return (
-                            <tr key={index}>
+                            <tr key={index} onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)} style={{ cursor: "pointer" }}>
+                              <td>{res?.transaction_id}</td>
                               <td>
                                 <h6 className="fs-16 font-w600 mb-0">{res?.recipient_name ? res?.recipient_name : "N/A"}</h6>
                               </td>

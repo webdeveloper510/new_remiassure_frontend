@@ -14,20 +14,22 @@ import { toast } from 'react-toastify';
 import PhoneInput from 'react-phone-input-2';
 import { createTransaction } from '../../../utils/Api';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import TransactionConfirm from '../../modals/TransactionConfirm';
+import Bank_list from '../../../utils/Bank_list';
 
 const BankDetails = ({ handleStep, step }) => {
   const [isActive, setActive] = useState("false");
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
-  const [show, setShow] = useState(false)
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(false)
   const [isAfrican, setIsAfrican] = useState(true)
+  const [display_confirm, setDisplayConfirm] = useState({ toggle: false, data: null })
 
   const serverUrl = process.env.REACT_APP_API_URL
 
   const [data, setData] = useState({
-    bank: "", acc_name: "", acc_no: "",
+    bank: "", other_name: "", acc_name: "", acc_no: "",
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
@@ -35,7 +37,7 @@ const BankDetails = ({ handleStep, step }) => {
   })
 
   const initialValues = {
-    bank: "", acc_name: "", acc_no: "",
+    bank: "", other_name: "", acc_name: "", acc_no: "",
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
@@ -43,9 +45,6 @@ const BankDetails = ({ handleStep, step }) => {
   }
 
   const handleToggle = () => {
-    setActive(!isActive);
-  };
-  const HandleRecipientlist = () => {
     setActive(!isActive);
   };
 
@@ -56,6 +55,19 @@ const BankDetails = ({ handleStep, step }) => {
       .min(3, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
       .required('Email is required').trim(),
+    other_name: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
+      const {
+        createError,
+        parent: {
+          bank,
+        },
+      } = validationcontext;
+      if (bank === "other" && (value?.length < 3 || value === undefined || value === null)) {
+        return createError({ message: "Please enter bank name" })
+      } else {
+        return true
+      }
+    }),
     acc_name: Yup.string().min(3).max(50).required().trim(),
     acc_no: Yup.string().min(5).max(18).required(),
     f_name: Yup.string().min(2).max(25).required().trim(),
@@ -76,9 +88,12 @@ const BankDetails = ({ handleStep, step }) => {
     validationSchema: bankSchema,
     onSubmit: async (values) => {
       let storage = JSON.parse(localStorage.getItem("transfer_data"))
+      storage.amount.part_type = values?.bank;
+      storage.amount.payout_part = values?.other_name
+      localStorage.setItem("transfer_data", JSON.stringify(storage))
       setLoading(true)
       const d = {
-        bank_name: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type,
+        bank_name: values.bank === "other" ? values?.other_name : values.bank,
         account_name: values.acc_name,
         account_number: values.acc_no,
         first_name: values.f_name,
@@ -110,8 +125,6 @@ const BankDetails = ({ handleStep, step }) => {
       })
         .then(function (response) {
           if (response.data.code == "200") {
-            setData(initialValues)
-            formik.resetForm()
             setLoading(false)
             selectRecipient({ ...response.data.data })
           } else if (response.data.code == "400") {
@@ -129,11 +142,10 @@ const BankDetails = ({ handleStep, step }) => {
   useEffect(() => {
     let storage = JSON.parse(localStorage.getItem("transfer_data"))
     if (storage?.amount) {
-      setData({ ...data, bank: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type })
-      formik.setValues({ ...formik.values, bank: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type })
+      setData({ ...data, bank: storage?.amount?.part_type, other_name: storage?.amount?.payout_part })
+      formik.setValues({ ...formik.values, bank: storage?.amount?.part_type, other_name: storage?.amount?.payout_part })
     }
   }, [])
-
 
   const handleChange = (e) => {
     if (e.target.name === 'country') {
@@ -196,6 +208,7 @@ const BankDetails = ({ handleStep, step }) => {
       }
     }
   }
+
   const handlePostCode = (event, max) => {
     const pattern = /^[0-9]+$/;
     if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
@@ -231,6 +244,7 @@ const BankDetails = ({ handleStep, step }) => {
     localStorage.removeItem("send-step")
     window.location.reload()
   }
+
   const handleCancel = () => {
     setData({
       ...data, acc_name: "", acc_no: "",
@@ -245,7 +259,8 @@ const BankDetails = ({ handleStep, step }) => {
     setActive(!isActive)
   }
 
-  const selectRecipient = (value) => {
+  const nextStep = () => {
+    const value = display_confirm?.data?.recipient
     let storage = JSON.parse(localStorage.getItem('transfer_data'))
     let payload = {
       transaction_id: localStorage.getItem("transaction_id"),
@@ -277,6 +292,11 @@ const BankDetails = ({ handleStep, step }) => {
         handleStep(Number(step) + 1);
       }
     })
+  }
+
+  const selectRecipient = (value) => {
+    let storage = JSON.parse(localStorage.getItem("transfer_data"))
+    setDisplayConfirm({ toggle: true, data: { amount: storage?.amount, recipient: value } })
   }
 
   useEffect(() => {
@@ -421,22 +441,49 @@ const BankDetails = ({ handleStep, step }) => {
                         <i className="ms-2 bi bi-info-circle-fill bank_name_info"></i>
                       </OverlayTrigger>
                     </p>
-                    <input
-                      type="text"
-                      name="bank"
-                      readOnly
-                      // onKeyDown={(e) => { handleKeyDown(e, 50) }}
-                      {...formik.getFieldProps("bank")}
+                    <select
                       className={clsx(
-                        'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.bank && formik.errors.bank },
-                        {
-                          'is-valid': formik.touched.bank && !formik.errors.bank,
-                        }
+                        'bg-transparent form-select form-control',
+                        { 'is-invalid': formik.touched.bank && formik.errors.bank }
                       )}
-                    />
+                      name='bank'
+                      value={formik.values.bank}
+                      onChange={formik.handleChange}
+                    >
+                      <option value="none">Select a bank</option>
+                      {
+                        Bank_list?.map((item, key) => (
+                          <option key={key} value={item}>{item}</option>
+                        ))
+                      }
+                      <option value="other">Other</option>
+                    </select>
                   </div>
                 </div>
+                {
+                  formik.values.bank === "other" ? (
+                    <div className="col-md-4">
+                      <div className="input_field">
+                        <p className="get-text">Other Bank Name<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+                          name="other_name"
+                          value={data?.other_name}
+                          onKeyDown={(e) => { handleKeyDown(e, 50) }}
+                          {...formik.getFieldProps("other_name")}
+
+                          className={clsx(
+                            'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.other_name && formik.errors.other_name },
+                            {
+                              'is-valid': formik.touched.other_name && !formik.errors.other_name,
+                            }
+                          )}
+                        />
+                      </div>
+                    </div>
+                  ) : <></>
+                }
                 <div className="col-md-4">
                   <div className="input_field">
                     <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
@@ -761,7 +808,7 @@ const BankDetails = ({ handleStep, step }) => {
 
               <div className="row">
                 <div className="col-md-4">
-                  <button type="button" className="start-form-button full-col" onClick={() => handleCancel()}>Cancel</button>
+                  <button type="button" className="start-form-button full-col" onClick={() => handleCancel()}>Back</button>
                 </div>
                 <div className="col-md-8 full-col">
                   <button type="submit" className="form-button">Continue  {loading ? <>
@@ -775,6 +822,7 @@ const BankDetails = ({ handleStep, step }) => {
           </div>
         </form>
       </div>
+      <TransactionConfirm data={display_confirm} handleCancel={() => { setDisplayConfirm({ toggle: false, data: null }) }} handleContinue={() => nextStep()} />
     </section>
   )
 }

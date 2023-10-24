@@ -29,7 +29,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const [blur_off, setBlurOff] = useState(false)
 
     const amtSchema = Yup.object().shape({
-        send_amt: Yup.string("Please enter a valid amount").min(1).max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."]).test("value-test", (value, validationcontext) => {
+        send_amt: Yup.string("Please enter a valid amount").min(1).required('Amount is required').notOneOf(["."]).test("value-test", (value, validationcontext) => {
             const {
                 createError,
             } = validationcontext;
@@ -39,7 +39,7 @@ const AmountDetail = ({ handleStep, step }) => {
                 return true
             }
         }),
-        exchange_amt: Yup.string("Please enter a valid amount").min(1).max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."]),
+        exchange_amt: Yup.string("Please enter a valid amount").required('Amount is required').notOneOf(["."]),
         from_type: Yup.string(),
         to_type: Yup.string().required(),
         exchange_amt: Yup.string().required(),
@@ -270,9 +270,9 @@ const AmountDetail = ({ handleStep, step }) => {
         }
         else {
             let data = JSON.parse(localStorage.getItem("exchange_curr"))
-            setAmtDetail({ ...amt_detail, send_amt: commaSeperator(data?.send_amt), exchange_amt: commaSeperator(data?.exchange_amt), from_type: data?.from_type, to_type: data?.to_type })
+            setAmtDetail({ ...amt_detail, send_amt: "", exchange_amt: "", from_type: data?.from_type, to_type: data?.to_type })
             setExchRate(data?.exch_rate)
-            formik.setValues({ ...formik.values, send_amt: commaSeperator(data?.send_amt), exchange_amt: commaSeperator(data?.exchange_amt), from_type: data?.from_type, to_type: data?.to_type })
+            formik.setValues({ ...formik.values, send_amt: "", exchange_amt: "", from_type: data?.from_type, to_type: data?.to_type })
         }
 
     }, [])
@@ -354,8 +354,6 @@ const AmountDetail = ({ handleStep, step }) => {
                                         value={formik.values?.send_amt}
                                         onKeyDown={(e) => amountDown(e, "From")}
                                         onChange={(e) => inputvalidation(e)}
-
-                                        maxLength={formik?.values?.send_amt?.includes(".") ? 9 : 6}
                                         className={clsx(
                                             `mb-3 bg-transparent form-control rate-input ${formik.values.send_amt === "1" ? 'text-secondary lead' : ""}`,
                                             { 'is-invalid': formik.touched.send_amt && formik.errors.send_amt },
@@ -364,6 +362,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                             }
                                         )}
                                         onBlurCapture={(e) => amountBlur(e, "From")}
+                                        placeholder='1'
                                     />
                                     {formik.touched.send_amt && formik.errors.send_amt === "Minimum $1 required" && (
                                         <div className='fv-plugins-message-container mt-1'>
@@ -385,7 +384,6 @@ const AmountDetail = ({ handleStep, step }) => {
                                         value={formik.values?.exchange_amt}
                                         onKeyDown={(e) => amountDown(e, "To")}
                                         onChange={(e) => inputvalidation(e)}
-                                        maxLength={formik?.values?.exchange_amt?.includes(".") ? 9 : 6}
                                         className={clsx(
                                             `mb-3 bg-transparent form-control rate-input ${formik.values.send_amt === "1" ? 'text-secondary lead' : ""}`,
                                             { 'is-invalid': formik.touched.exchange_amt && formik.errors.exchange_amt },
@@ -394,6 +392,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                             }
                                         )}
                                         onBlurCapture={(e) => amountBlur(e, "To")}
+                                        placeholder={commaSeperator(exch_rate)}
                                     />
                                 </div>
                             </div>

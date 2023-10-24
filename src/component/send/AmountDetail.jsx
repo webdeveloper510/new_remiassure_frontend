@@ -14,7 +14,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
     const [loader, setLoader] = useState(false)
     const [exch_rate, setExchRate] = React.useState("");
     const [amt_detail, setAmtDetail] = useState({
-        send_amt: "1",
+        send_amt: "",
         exchange_amt: "",
         from_type: "AUD",
         to_type: "NGN",
@@ -30,7 +30,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
     const [blur_off, setBlurOff] = useState(false)
 
     const amtSchema = Yup.object().shape({
-        send_amt: Yup.string("Please enter a valid amount").min(1).max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."]).test("value-test", (value, validationcontext) => {
+        send_amt: Yup.string("Please enter a valid amount").min(1).required('Amount is required').notOneOf(["."]).test("value-test", (value, validationcontext) => {
             const {
                 createError,
             } = validationcontext;
@@ -40,7 +40,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                 return true
             }
         }),
-        exchange_amt: Yup.string("Please enter a valid amount").min(1).max(9, "amount can't exceed 999999").required('Amount is required').notOneOf(["."]),
+        exchange_amt: Yup.string("Please enter a valid amount").required('Amount is required').notOneOf(["."]),
         from_type: Yup.string(),
         to_type: Yup.string().required(),
         part_type: Yup.string().required().notOneOf(["none"]),
@@ -60,7 +60,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
     })
 
     const initialValues = {
-        send_amt: "1",
+        send_amt: "",
         exchange_amt: "",
         from_type: "AUD",
         to_type: "NGN",
@@ -274,11 +274,10 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
             }
         } else {
             let data = JSON.parse(localStorage?.getItem("exchange_curr"))
-            setAmtDetail({ ...amt_detail, send_amt: commaSeperator(data?.send_amt), exchange_amt: commaSeperator(data?.exchange_amt), from_type: data?.from_type, to_type: data?.to_type })
+            setAmtDetail({ ...amt_detail, send_amt: "", exchange_amt: "", from_type: data?.from_type, to_type: data?.to_type })
             setExchRate(data?.exch_rate)
-            formik.setValues({ ...formik.values, send_amt: commaSeperator(data?.send_amt), exchange_amt: commaSeperator(data?.exchange_amt), from_type: data?.from_type, to_type: data?.to_type })
+            formik.setValues({ ...formik.values, send_amt: "", exchange_amt: "", from_type: data?.from_type, to_type: data?.to_type })
         }
-
     }, [])
 
     const customBank = (e) => {
@@ -353,15 +352,15 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                                 value={amt_detail?.send_amt}
                                 onChange={(e) => inputvalidation(e)}
                                 onKeyDown={(e) => amountDown(e, "From")}
-                                maxLength={amt_detail?.send_amt?.includes(".") ? 9 : 6}
                                 className={clsx(
-                                    `mb-3 bg-transparent form-control rate-input ${formik.values.send_amt === "1" ? 'text-secondary lead' : ""}`,
+                                    `mb-3 bg-transparent form-control rate-input`,
                                     { 'is-invalid': formik.touched.send_amt && formik.errors.send_amt },
                                     {
                                         'is-valid': formik.touched.send_amt && !formik.errors.send_amt,
                                     }
                                 )}
                                 onBlurCapture={(e) => amountBlur(e, "From")}
+                                placeholder='1'
                             />
                             {formik.touched.send_amt && formik.errors.send_amt === "Minimum $1 required" && (
                                 <div className='fv-plugins-message-container mt-1'>
@@ -384,15 +383,15 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                                 value={amt_detail?.exchange_amt}
                                 onChange={(e) => inputvalidation(e)}
                                 onKeyDown={(e) => amountDown(e, "To")}
-                                maxLength={amt_detail?.exchange_amt?.includes(".") ? 9 : 6}
                                 className={clsx(
-                                    `mb-3 bg-transparent form-control rate-input ${formik.values.send_amt === "1" ? 'text-secondary lead' : ""}`,
+                                    `mb-3 bg-transparent form-control rate-input`,
                                     { 'is-invalid': formik.touched.exchange_amt && formik.errors.exchange_amt },
                                     {
                                         'is-valid': formik.touched.exchange_amt && !formik.errors.exchange_amt,
                                     }
                                 )}
                                 onBlurCapture={(e) => amountBlur(e, "To")}
+                                placeholder={commaSeperator(exch_rate)}
                             />
                         </div>
                     </div>
@@ -450,6 +449,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                                 'bg-transparent payout_select form-select form-control rate_input',
                                 { 'is-invalid': formik.errors.part_type && formik.touched.part_type }
                             )}
+                            name='part_type'
                             value={formik.values.part_type}
                             onChange={(e) => { handlePayoutPart(e) }}
                             onBlur={formik.handleBlur}

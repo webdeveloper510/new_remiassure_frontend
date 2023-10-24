@@ -234,9 +234,9 @@ const Dashboard = () => {
                                                                 {
                                                                     transactionData?.map((res, index) => {
                                                                         return (
-                                                                            <tr>
+                                                                            <tr onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)} style={{ cursor: "pointer" }}>
                                                                                 <td>
-                                                                                    <h6 className="fs-16 text-black font-w400 mb-0">{modified_date(res.date)}</h6>
+                                                                                    <h6 className="fs-16 text-black font-w400 mb-0">{modified_date(res?.date)}</h6>
                                                                                 </td>
                                                                                 <td>
                                                                                     <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res?.recipient_name ? res?.recipient_name : "N/A"}</span></h6>

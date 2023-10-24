@@ -310,6 +310,7 @@ const Profile = () => {
     }
     setLoading(true)
     updateProfile(d).then(res => {
+      setLoading(false)
       if (res.code === "200") {
         localStorage.removeItem("remi-user-dt")
         let local = { ...res.data, digital_id_verified: "true" }
@@ -333,8 +334,8 @@ const Profile = () => {
           }
           setLoading(false)
         })
-      } else {
-        setLoading(false)
+      } else if (res.code === "400") {
+        toast.error(res.message, { position: "bottom-right", hideProgressBar: true, autoClose: 2000 })
       }
     }).catch((err) => {
       setLoading(false)

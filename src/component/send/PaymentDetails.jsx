@@ -130,20 +130,6 @@ const PaymentDetails = ({ handleStep, step }) => {
             <h5>Payment type</h5>
             <div className="col-md-12">
               <label className="container-new">
-                <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /></span>
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="payment_type"
-                  defaultChecked={data.payment_type == "PayByID"}
-                  value="PayByID"
-                  onChange={handleChange}
-                />
-                <span className="checkmark"></span>
-              </label>
-            </div>
-            <div className="col-md-12">
-              <label className="container-new">
                 <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={24} /></span>
                 <input
                   className="form-check-input"
@@ -151,6 +137,20 @@ const PaymentDetails = ({ handleStep, step }) => {
                   name="payment_type"
                   defaultChecked={data.payment_type == "PayTo"}
                   value="PayTo"
+                  onChange={handleChange}
+                />
+                <span className="checkmark"></span>
+              </label>
+            </div>
+            <div className="col-md-12">
+              <label className="container-new">
+                <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /></span>
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="payment_type"
+                  defaultChecked={data.payment_type == "PayByID"}
+                  value="PayByID"
                   onChange={handleChange}
                 />
                 <span className="checkmark"></span>
