@@ -99,12 +99,12 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
           bank,
         },
       } = validationcontext;
-      if (bank === "other" && (value?.length < 3 || value === undefined || value === null)) {
+      if (bank === "other" && (value?.length < 3 || value === undefined || value === null || value === " ")) {
         return createError({ message: "Please enter bank name" })
       } else {
         return true
       }
-    }),
+    }).trim(),
     acc_name: Yup.string().min(1).max(50).required().trim(),
     acc_no: Yup.string().min(5).max(18).required(),
     f_name: Yup.string().min(1).max(25).required().trim(),

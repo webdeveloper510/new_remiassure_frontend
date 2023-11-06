@@ -62,12 +62,12 @@ const BankDetails = ({ handleStep, step }) => {
           bank,
         },
       } = validationcontext;
-      if (bank === "other" && (value?.length < 3 || value === undefined || value === null)) {
+      if (bank === "other" && (value?.length < 3 || value === undefined || value === null || value === " ")) {
         return createError({ message: "Please enter bank name" })
       } else {
         return true
       }
-    }),
+    }).trim(),
     acc_name: Yup.string().min(3).max(50).required().trim(),
     acc_no: Yup.string().min(5).max(18).required(),
     f_name: Yup.string().min(2).max(25).required().trim(),
@@ -436,10 +436,10 @@ const BankDetails = ({ handleStep, step }) => {
                 <div className="col-md-4">
                   <div className="input_field">
                     <p className="get-text">
-                      Bank Name
-                      <OverlayTrigger placement='top' overlay={tooltip}>
+                      Bank Name<span className='text-danger'>*</span>
+                      {/* <OverlayTrigger placement='top' overlay={tooltip}>
                         <i className="ms-2 bi bi-info-circle-fill bank_name_info"></i>
-                      </OverlayTrigger>
+                      </OverlayTrigger> */}
                     </p>
                     <select
                       className={clsx(

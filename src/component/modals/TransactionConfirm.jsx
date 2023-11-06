@@ -1,8 +1,8 @@
 import React from 'react'
 import { Modal, Table } from 'react-bootstrap'
+import { commaSeperator } from '../../utils/hook'
 
 const TransactionConfirm = ({ data, handleCancel, handleContinue }) => {
-    console.log(data)
     return (
         <Modal show={data?.toggle} onHide={() => handleCancel()}
             centered
@@ -21,23 +21,23 @@ const TransactionConfirm = ({ data, handleCancel, handleContinue }) => {
                     <tbody>
                         <tr>
                             <th>Amount Sending</th>
-                            <td>{data?.data?.amount?.from_type}&nbsp;{data?.data?.amount?.send_amt}</td>
+                            <td>{data?.data?.amount?.from_type}&nbsp;{data?.data?.amount?.send_amt !== "" && data?.data?.amount?.send_amt !== undefined && data?.data?.amount?.send_amt !== null ? commaSeperator(data?.data?.amount?.send_amt) : data?.data?.amount?.send_amt}</td>
                         </tr>
                         <tr>
                             <th>Amount Exchanged</th>
-                            <td>{data?.data?.amount?.to_type}&nbsp;{data?.data?.amount?.exchange_amt}</td>
+                            <td>{data?.data?.amount?.to_type}&nbsp;{data?.data?.amount?.exchange_amt !== "" && data?.data?.amount?.exchange_amt !== undefined && data?.data?.amount?.exchange_amt !== null ? commaSeperator(data?.data?.amount?.exchange_amt) : data?.data?.amount?.exchange_amt}</td>
                         </tr>
                         <tr>
                             <th>Total Cost</th>
-                            <td>{data?.data?.amount?.from_type}&nbsp;{data?.data?.amount?.send_amt}</td>
+                            <td>{data?.data?.amount?.from_type}&nbsp;{data?.data?.amount?.send_amt !== "" && data?.data?.amount?.send_amt !== undefined && data?.data?.amount?.send_amt !== null ? commaSeperator(data?.data?.amount?.send_amt) : data?.data?.amount?.send_amt}</td>
                         </tr>
                         <tr>
                             <th>Total To Recipient</th>
-                            <td>{data?.data?.amount?.to_type}&nbsp;{data?.data?.amount?.exchange_amt}</td>
+                            <td>{data?.data?.amount?.to_type}&nbsp;{data?.data?.amount?.exchange_amt !== "" && data?.data?.amount?.exchange_amt !== undefined && data?.data?.amount?.exchange_amt !== null ? commaSeperator(data?.data?.amount?.exchange_amt) : data?.data?.amount?.exchange_amt}</td>
                         </tr>
                         <tr>
                             <th>Exchange Rate</th>
-                            <td>1 {data?.data?.amount?.from_type} = {data?.data?.amount?.exchange_rate}&nbsp;{data?.data?.amount?.to_type}</td>
+                            <td>1 {data?.data?.amount?.from_type} = {data?.data?.amount?.exchange_rate !== "" && data?.data?.amount?.exchange_rate !== undefined && data?.data?.amount?.exchange_rate !== null ? commaSeperator(data?.data?.amount?.exchange_rate) : data?.data?.amount?.exchange_rate}&nbsp;{data?.data?.amount?.to_type}</td>
                         </tr>
                     </tbody>
                     <thead>

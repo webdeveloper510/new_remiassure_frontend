@@ -51,12 +51,12 @@ const AmountDetail = ({ handleStep, step }) => {
                     part_type,
                 },
             } = validationcontext;
-            if (part_type === "other" && (value?.length < 3 || value === undefined || value === null)) {
+            if (part_type === "other" && (value?.length < 3 || value === undefined || value === null || value === " ")) {
                 return createError({ message: "Please enter bank name" })
             } else {
                 return true
             }
-        }),
+        }).trim(),
     })
 
     const initialValues = {
@@ -263,8 +263,8 @@ const AmountDetail = ({ handleStep, step }) => {
         if (localStorage.getItem("transfer_data")) {
             let tdata = JSON.parse(localStorage.getItem("transfer_data"))
             if (tdata?.amount) {
-                setAmtDetail({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt) })
-                formik.setValues({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt) })
+                setAmtDetail({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt), recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "none" })
+                formik.setValues({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt), recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "none" })
                 setExchRate(tdata?.amount?.exchange_rate)
             }
         }

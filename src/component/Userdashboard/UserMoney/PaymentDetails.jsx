@@ -44,12 +44,13 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [other_reason, setOtherReason] = useState("")
   const [error_other, setErrorOther] = useState(false)
   const [display_confirm, setDisplayConfirm] = useState({ toggle: false, data: null })
+  let local = JSON.parse(localStorage.getItem("transfer_data"))
+  const [display_value, setDisplayValue] = useState({ amount: local?.amount?.send_amt || "", currency: local?.amount?.from_type || "", first_name: local?.recipient?.first_name || "", last_name: local?.recipient?.last_name || "" })
 
   const stripePromise = loadStripe(`${stripe_key}`);
 
   const reason_list = ["Family Support", "Education", "Tax Payment", "Loan Payment", "Travel Payment", "Utility Payment", "Personal Use", "Other"]
 
-  let local = JSON.parse(localStorage.getItem("transfer_data"))
 
 
   useEffect(() => {
@@ -92,7 +93,7 @@ const PaymentDetails = ({ handleStep, step }) => {
 
     if (data.reason !== "none") {
 
-      if (data.reason === "Other" && other_reason === "") {
+      if (data.reason === "Other" && (other_reason.trim() === "")) {
         setErrorOther(true)
       } else {
         if (data.payment_type === "Debit/Credit Card") {
@@ -219,8 +220,8 @@ const PaymentDetails = ({ handleStep, step }) => {
 
   const OpenConfirmation = () => {
     let storage = JSON.parse(localStorage.getItem("transfer_data"))
-    console.log(data)
-    setDisplayConfirm({ toggle: true, data: { amount: storage?.amount, recipient: storage?.recipient, receive_method: data?.payment_type, reason: data?.reason } })
+    // console.log(data)
+    setDisplayConfirm({ toggle: true, data: { amount: storage?.amount, recipient: storage?.recipient, receive_method: data?.payment_type, reason: data?.reason === "Other" ? other_reason : data.reason } })
   }
 
   useEffect(() => {
@@ -395,8 +396,8 @@ const PaymentDetails = ({ handleStep, step }) => {
                 </h2>
               </div>
               <div className="form_body">
-                <p className='float-end text-capitalize col-12 fw-bold' style={{ color: "#6414E9" }}> Sending ⇒  {local?.amount?.reverse === true ? local?.amount?.to_type : local?.amount?.from_type} {local?.amount?.reverse === true ? local?.amount?.exchange_amt : local?.amount?.send_amt}</p>
-                <p className='float-end text-capitalize col-12 fw-bold' style={{ color: "#6414E9" }}> To  ⇒ {local?.recipient?.first_name} {local?.recipient.last_name}</p>
+                <p className='float-end text-capitalize col-12 fw-bold' style={{ color: "#6414E9" }}> Sending ⇒  {display_value?.currency} {display_value?.amount !== "" ? commaSeperator(display_value?.amount) : display_value?.amount}</p>
+                <p className='float-end text-capitalize col-12 fw-bold' style={{ color: "#6414E9" }}> To  ⇒ {display_value?.first_name} {display_value?.last_name}</p>
                 <br></br>
                 <br></br>
                 <div className="row each-row">

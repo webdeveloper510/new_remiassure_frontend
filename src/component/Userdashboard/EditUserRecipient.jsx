@@ -13,6 +13,7 @@ import * as Yup from "yup"
 import clsx from "clsx";
 import { getUserRecipient, updateUserRecipient } from "../../utils/Api";
 import authDashHelper from "../../utils/AuthDashHelper";
+import Bank_list from "../../utils/Bank_list";
 
 
 const Editrecipientuser = () => {
@@ -22,7 +23,7 @@ const Editrecipientuser = () => {
   const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState({
-    id: "",
+    id: "", other_name: "",
     bank_name: '', account_name: '', account_number: '', first_name: '', middle_name: '',
     last_name: '', email: '', mobile: '', country: '', flat: "", street: "", postcode: "", building: "",
     city: "", state: "", country_code: "AU"
@@ -36,6 +37,19 @@ const Editrecipientuser = () => {
       .min(3, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
       .required('Email is required').trim(),
+    other_name: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
+      const {
+        createError,
+        parent: {
+          bank,
+        },
+      } = validationcontext;
+      if (bank === "other" && (value?.length < 3 || value === undefined || value === null || value === " ")) {
+        return createError({ message: "Please enter bank name" })
+      } else {
+        return true
+      }
+    }).trim(),
     account_name: Yup.string().min(3).max(50).required().trim(),
     account_number: Yup.string().min(5).max(18).required(),
     first_name: Yup.string().min(1).max(25).required().trim(),
@@ -53,6 +67,7 @@ const Editrecipientuser = () => {
 
   const initialValues = {
     bank_name: "",
+    other_name: "",
     account_name: "",
     account_number: "",
     first_name: '',
@@ -83,7 +98,10 @@ const Editrecipientuser = () => {
       getUserRecipient(id).then((response) => {
         if (response.code == "200") {
           let values = response.data
-
+          if (!Bank_list.includes(values?.bank_name)) {
+            values.other_name = values.bank_name
+            values.bank_name = "other"
+          }
           setData(values)
           formik.setValues({ ...values })
         }
@@ -135,6 +153,10 @@ const Editrecipientuser = () => {
     validationSchema: recipientSchema,
     onSubmit: async (values) => {
       let d = values
+      if (values.bank_name === "other") {
+        d.bank_name = values.other_name
+      }
+      delete d["other_name"]
       if (values.middle_name == "" || values.middle_name == undefined) {
         delete d["middle_name"]
       }
@@ -288,23 +310,54 @@ const Editrecipientuser = () => {
                       <h5>Bank Information</h5>
                       <div className="col-md-4">
                         <div className="input_field">
-                          <p className="get-text">Bank Name<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            name="bank_name"
-                            value={data.bank_name}
-                            onKeyDown={(e) => { handleKeyDown(e, 50) }}
-                            {...formik.getFieldProps("bank_name")}
+                          <p className="get-text">
+                            Bank Name<span className='text-danger'>*</span>
+                            {/* <OverlayTrigger placement='top' overlay={tooltip}>
+                        <i className="ms-2 bi bi-info-circle-fill bank_name_info"></i>
+                      </OverlayTrigger> */}
+                          </p>
+                          <select
                             className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.bank_name && formik.errors.bank_name },
-                              {
-                                'is-valid': formik.touched.bank_name && !formik.errors.bank_name,
-                              }
+                              'bg-transparent form-select form-control',
+                              { 'is-invalid': formik.touched.bank_name && formik.errors.bank_name }
                             )}
-                          />
+                            name='bank_name'
+                            value={formik.values.bank_name}
+                            onChange={formik.handleChange}
+                          >
+                            <option value="none">Select a bank</option>
+                            {
+                              Bank_list?.map((item, key) => (
+                                <option key={key} value={item}>{item}</option>
+                              ))
+                            }
+                            <option value="other">Other</option>
+                          </select>
                         </div>
                       </div>
+                      {
+                        formik.values.bank_name === "other" ? (
+                          <div className="col-md-4">
+                            <div className="input_field">
+                              <p className="get-text">Other Bank Name<span style={{ color: 'red' }} >*</span></p>
+                              <input
+                                type="text"
+                                name="other_name"
+                                value={data?.other_name}
+                                onKeyDown={(e) => { handleKeyDown(e, 50) }}
+                                {...formik.getFieldProps("other_name")}
+                                className={clsx(
+                                  'form-control bg-transparent',
+                                  { 'is-invalid': formik.touched.other_name && formik.errors.other_name },
+                                  {
+                                    'is-valid': formik.touched.other_name && !formik.errors.other_name,
+                                  }
+                                )}
+                              />
+                            </div>
+                          </div>
+                        ) : <></>
+                      }
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>

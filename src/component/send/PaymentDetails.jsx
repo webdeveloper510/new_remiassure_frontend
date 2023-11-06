@@ -58,7 +58,7 @@ const PaymentDetails = ({ handleStep, step }) => {
 
   const handlePayType = () => {
     if (data.reason !== "none") {
-      if (data.reason === "Other" && other_reason === "") {
+      if (data.reason === "Other" && other_reason.trim() === "") {
         setErrorOther(true)
       } else {
         if (data.payment_type === "Debit/Credit Card") {

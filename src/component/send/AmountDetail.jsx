@@ -51,12 +51,12 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                     part_type,
                 },
             } = validationcontext;
-            if (part_type === "other" && (value?.length < 3 || value === undefined || value === null)) {
+            if (part_type === "other" && (value?.length < 3 || value === undefined || value === null || value === " ")) {
                 return createError({ message: "Please enter bank name" })
             } else {
                 return true
             }
-        }),
+        }).trim(),
     })
 
     const initialValues = {
@@ -268,15 +268,15 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
         if (localStorage.getItem("transfer_data")) {
             let tdata = JSON.parse(localStorage.getItem("transfer_data"))
             if (tdata?.amount) {
-                setAmtDetail({ ...tdata?.amount, send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
-                formik.setValues({ ...tdata?.amount, send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
+                setAmtDetail({ ...tdata?.amount, recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "none", send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
+                formik.setValues({ ...tdata?.amount, recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "none", send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
                 setExchRate(tdata?.amount?.exchange_rate)
             }
         } else {
             let data = JSON.parse(localStorage?.getItem("exchange_curr"))
-            setAmtDetail({ ...amt_detail, send_amt: "", exchange_amt: "", from_type: data?.from_type, to_type: data?.to_type })
+            setAmtDetail({ ...amt_detail, send_amt: "", exchange_amt: "", recieve_meth: "Bank Transfer", part_type: "none", from_type: data?.from_type, to_type: data?.to_type })
             setExchRate(data?.exch_rate)
-            formik.setValues({ ...formik.values, send_amt: "", exchange_amt: "", from_type: data?.from_type, to_type: data?.to_type })
+            formik.setValues({ ...formik.values, send_amt: "", exchange_amt: "", recieve_meth: "Bank Transfer", part_type: "none", from_type: data?.from_type, to_type: data?.to_type })
         }
     }, [])
 

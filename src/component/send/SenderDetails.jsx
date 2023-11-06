@@ -35,7 +35,7 @@ const SenderDetails = ({ handleStep, step }) => {
     dob: "", flat: "", build_no: "",
     street: "", city: "none", country: "none", occupation: "",
     post_code: "", state: "none", email: userd.email, mobile: userd.mobile,
-    customer_id: userd.customer_id, country_code: "AU", payment_per_annum: "none", value_per_annum: "none"
+    customer_id: userd.customer_id, country_code: "AU", payment_per_annum: "Less than 5 times", value_per_annum: "Less than $30,000"
   })
 
   const initialValues = localdata?.sender ? localdata?.sender : {
@@ -44,7 +44,7 @@ const SenderDetails = ({ handleStep, step }) => {
     dob: "", flat: "", build_no: "",
     street: "", city: "none", country: "none", occupation: "",
     post_code: "", state: "none", email: userd.email, mobile: userd.mobile,
-    customer_id: userd.customer_id, payment_per_annum: "none", value_per_annum: "none"
+    customer_id: userd.customer_id, payment_per_annum: "Less than 5 times", value_per_annum: "Less than $30,000"
   }
 
   const senderSchema = Yup.object().shape({
@@ -502,10 +502,9 @@ const SenderDetails = ({ handleStep, step }) => {
                     }
                   )}
                 >
-                  <option value="none" key="none">Select a frequency</option>
                   <option value="Less than 5 times" key="Less than 5 times">Less than 5 times</option>
                   <option value="5-10 times" key="5-10 times">5-10 times</option>
-                  <option value="Greater then 10 times" key="Greater then 10 times">Greater then 10 times</option>
+                  <option value="Greater than 10 times" key="Greater than 10 times">Greater than 10 times</option>
                 </select>
               </div>
             </div>
@@ -525,7 +524,6 @@ const SenderDetails = ({ handleStep, step }) => {
                     }
                   )}
                 >
-                  <option value="none" key="none">Select a frequency</option>
                   <option value="Less than $30,000" key="Less than $30,000">Less than $30,000</option>
                   <option value="$30,000-$100,000" key="$30,000-$100,000">$30,000-$100,000</option>
                   <option value="Greater than $100,000" key="Greater than $100,000">Greater than $100,000</option>

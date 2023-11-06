@@ -34,7 +34,7 @@ const Profile = () => {
     Date_of_birth: "", flat: "", building: "",
     street: "", city: "none", country: "none",
     postcode: "", state: "none", email: "", mobile: "", occupation: "",
-    customer_id: "", country_code: "AU", payment_per_annum: "none", value_per_annum: "none"
+    customer_id: "", country_code: "AU", payment_per_annum: "Less than 5 times", value_per_annum: "Less than $30,000"
   })
 
   const initialValues = {
@@ -43,7 +43,7 @@ const Profile = () => {
     Date_of_birth: "", flat: "", building: "",
     street: "", city: "none", country: "none",
     postcode: "", state: "none", email: "", mobile: "", occupation: "",
-    customer_id: "", payment_per_annum: "none", value_per_annum: "none"
+    customer_id: "", payment_per_annum: "Less than 5 times", value_per_annum: "Less than $30,000"
   }
 
   const profileSchema = Yup.object().shape({
@@ -559,10 +559,9 @@ const Profile = () => {
                               }
                             )}
                           >
-                            <option value="none" key="none">Select a frequency</option>
                             <option value="Less than 5 times" key="Less than 5 times">Less than 5 times</option>
                             <option value="5-10 times" key="5-10 times">5-10 times</option>
-                            <option value="Greater then 10 times" key="Greater then 10 times">Greater then 10 times</option>
+                            <option value="Greater than 10 times" key="Greater than 10 times">Greater than 10 times</option>
                           </select>
                         </div>
                       </div>
@@ -581,7 +580,6 @@ const Profile = () => {
                               }
                             )}
                           >
-                            <option value="none" key="none">Select a frequency</option>
                             <option value="Less than $30,000" key="Less than $30,000">Less than $30,000</option>
                             <option value="$30,000-$100,000" key="$30,000-$100,000">$30,000-$100,000</option>
                             <option value="Greater than $100,000" key="Greater than $100,000">Greater than $100,000</option>

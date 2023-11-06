@@ -13,7 +13,7 @@ import { commaSeperator } from '../../utils/hook'
 const PaymentSummary = ({ handleStep, step }) => {
 
   const [data, setData] = useState({
-    send_amount: "", to: "", recieve_amount: "", account_number: "", account_name: "", bank_name: "",
+    send_amount: "", to: "", rates: "", recieve_amount: "", account_number: "", account_name: "", bank_name: "",
     total_amount: "", from: "", send_method: "", beneficiary_name: "", pay_id: "", bsb_code: "", sender_accno: ""
   })
 
@@ -35,7 +35,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       recieve_amount: local?.amount?.exchange_amt,
       account_name: local?.recipient?.acc_name,
       account_number: local?.recipient?.acc_no,
-      bank_name: local?.recipient?.bank,
+      bank_name: local?.recipient?.bank === "other" ? local?.recipient?.other_name : local?.recipient?.bank,
       send_method: local?.payment?.payment_type,
       beneficiary_name: local?.recipient?.f_name + " " + local?.recipient?.l_name,
       pay_id: local?.payment?.pay_id ? local?.payment?.pay_id : "",
@@ -191,17 +191,17 @@ const PaymentSummary = ({ handleStep, step }) => {
                 <td>Amount Sending</td>
                 <td>
                   <span>{data?.from}</span>&nbsp;
-                  {commaSeperator(data?.send_amount)}
+                  {data?.send_amount !== "" ? commaSeperator(data?.send_amount) : data?.send_amount}
                 </td>
               </tr>
               <tr>
                 <td>Exchange Rate</td>
-                <td>{commaSeperator(data?.rates)}</td>
+                <td>{data?.rates !== "" ? commaSeperator(data?.rates) : data?.rates}</td>
               </tr>
               <tr>
                 <td>Amount Exchanged</td>
                 <td><span>{data?.to}</span>&nbsp;
-                  {commaSeperator(data?.recieve_amount)}</td>
+                  {data?.recieve_amount !== "" ? commaSeperator(data?.recieve_amount) : data?.recieve_amount}</td>
               </tr>
             </tbody>
             <thead>
@@ -230,7 +230,7 @@ const PaymentSummary = ({ handleStep, step }) => {
                 <td>Amount Receiving</td>
                 <td>
                   <span>{data?.to}</span>&nbsp;
-                  {commaSeperator(data?.recieve_amount)}
+                  {data?.recieve_amount !== "" ? commaSeperator(data?.recieve_amount) : data?.recieve_amount}
                 </td>
               </tr>
               <tr>

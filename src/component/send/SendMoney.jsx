@@ -220,7 +220,7 @@ const SendMoney = () => {
                                     <td><b>Full Name : </b>{bank_detail?.f_name} <span>{bank_detail?.l_name}</span></td>
                                   </tr>
                                   <tr>
-                                    <td><b>Mobile : </b>{bank_detail?.mobile}</td>
+                                    <td><b>Mobile : </b>+{bank_detail?.mobile}</td>
                                   </tr>
                                 </tbody>
                               </div>
