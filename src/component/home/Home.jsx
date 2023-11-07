@@ -60,6 +60,48 @@ function WhyRenderingArrayOfObjects() {
     )
 }
 
+function HowRenderingArrayOfObjects() {
+    const dataItems = [
+        {
+            id: 1,
+            src: "assets/img/home/add-user.png",
+            circle_heading: "Create a RemitAssure account",
+            circle_content: "Provide some personal information and sign up online or via the RemitAssure app.",
+        },
+        {
+            id: 2,
+            src: "assets/img/home/user.png",
+            circle_heading: "Verify your Identity",
+            circle_content: "We verify your identity as part of our AML/CTF obligation. Verifying your identity also helps also safeguard your account against potential fraudulent activities.",
+        },
+        {
+            id: 3,
+            src: "assets/img/home/transaction.png",
+            circle_heading: "Enter your transaction details",
+            circle_content: "Provide some personal information and sign up online or via the RemitAssure app.",
+        }
+    ];
+
+    const circlItems = dataItems.map((value) => {
+        return (
+            <li className="" key={value.id}>
+                <div className="circle-image">
+                    <img src={value.src} alt="circle-image" />
+                </div>
+                <div className="circle-content">
+                    <p className="fast_text">{value.circle_heading}</p>
+                    <p className="fast_texto1">{value.circle_content}</p>
+                </div>
+            </li>
+        )
+
+    })
+    return (
+        <div>
+            {circlItems}
+        </div>
+    )
+}
 
 
 const Home = () => {
@@ -769,8 +811,116 @@ const Home = () => {
                         </div>
                     </div>
                     {/* main row End*/}
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="col-lg-12 call_heading">
+                            <h3 className="cal-heading">We are here to help!</h3>
+                            <p className="call-paragraph">Do you need assistance? Our dedicated support centre is purpose-built to
+                                support you.</p>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="view-button">
+                                <Link to="/help">
+                                    <button className="btn btn call_button">Go to our Support Centre</button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div> */}
+                </div>
+            </section>
+
+
+            <section className="why-us section-bgba innre_about hows-work-section ">
+                <div id="about">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-sm-8">
+                                <div className="vl about_v1">
+                                    <h1 className="vl-heading">How it Works</h1>
+                                </div>
+                            <div className="vl-content">
+                                <ul className="list-">
+                                    < HowRenderingArrayOfObjects />
+                                </ul>
+                            </div>
+                            </div>
+                            <div className="col-sm-4 right_side"> 
+                                <img src="assets/img/home/img03.svg" alt="background-images" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            {/* <!-- ======= AboutUs Our vission and mission-Section  End======= --> */}
+
+
+
+            <section className="why-us_section homepage-why-us hows-section">
+                <div className="container">
+                   
+
+                    <div className="row custom-row-hows">
+                    <div className="col-lg-6 text-start">
+                            <img src="assets/img/footer/trans5.png" alt="background-images" />
+                        </div>
+                        <div className="col-lg-6">
+                        <div className="vl about_v1">
+                                    <h1 className="vl-heading">Pay for your transaction</h1>
+                                </div>
+                            <div className="vl-content">
+                               <p>We offer different payment rails for our customers. You can pay through:</p>
+                               <ul>
+                                <li><img src="assets/img/zai/payid_light.svg" alt="background-images" /><p>PayID</p></li>
+                                <li><img src="assets/img/zai/payto_light.svg" alt="background-images" /><p>PayTo</p></li>
+                                <li><img src="assets/img/zai/card.png" alt="background-images" /><p>Debit / Credit Card</p></li>
+                               </ul>
+                               <p>All three options are real-time so you can rest assured that your funds will be sent once payment is received for your transfer. </p>
+                            </div>
+                        </div>
+                       
+                       
+                    </div>
+
+                </div>
+            </section>
+
+            <section className="why-us_section homepage-why-us hows-section-light">
+                <div className="container">
+                  
+                    <div className="row custom-row-hows">
+                    <div className="col-lg-6 text-start">
+                            <img src="assets/img/footer/trans4.png" alt="background-images" />
+                        </div>
+                    <div className="col-lg-6">
+                    <div className="vl about_v1">
+                                    <h1 className="vl-heading">Track the status of your transfer</h1> 
+                                </div>
+                            <div className="vl-content">
+                               <p>We notify you at each stage of your transfer through email and SMS. The main stages are:</p>
+                               <ul>
+                                <li><img src="assets/img/zai/arrows.png" alt="background-images" /><p>Creation of a Transfer</p></li>
+                                <li><img src="assets/img/zai/transfer.png" alt="background-images" /><p>Receipt of Funds</p></li>
+                                <li><img src="assets/img/zai/transfer1.png" alt="background-images" /><p>Transfer Processed</p></li>
+                                <li><img src="assets/img/zai/account.png" alt="background-images" /><p>Transfer Paid out to Beneficiary</p> </li>
+                               </ul>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                </div>
+            </section>
+
+
+
+
+            <section className="why-us section-bgba banner_section01">
+                <div className="container">
+                    {/* main row End*/}
+                    <div className="row">
+                        <div className="col-lg-12">
                             <h3 className="cal-heading">We are here to help!</h3>
                             <p className="call-paragraph">Do you need assistance? Our dedicated support centre is purpose-built to
                                 support you.</p>
@@ -787,6 +937,10 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+
+
+
+
             {/* <!-- ======= Home Call-us section End======= --> */}
         </>
     )

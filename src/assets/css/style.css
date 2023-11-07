@@ -7278,3 +7278,17 @@ button.reversal-button {
 .bank_name_tooltip {
   background-color: #fff !important;
 }
+
+div#about p.fast_text {
+  color: #6414e9;
+}
+div#about p.fast_texto1 {
+  color: #000;
+}
+
+div#about .circle-image{
+  background: #6414e9;
+}
+div#about .circle-image img {
+  width: 26px;
+}
