@@ -846,7 +846,7 @@ const Home = () => {
                             </div>
                             </div>
                             <div className="col-sm-4 right_side"> 
-                                <img src="assets/img/home/img03.svg" alt="background-images" />
+                                <img src="assets/img/footer/trans3.png" alt="background-images" />
                             </div>
                         </div>
 
