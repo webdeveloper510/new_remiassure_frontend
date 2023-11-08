@@ -860,6 +860,28 @@ const Home = () => {
             <section className="why-us_section homepage-why-us hows-section">
                 <div className="container">
 
+                   
+                <div className="row custom-row-hows free-transaction">
+                        
+                        <div className="col-lg-6">
+                            <div className="vl about_v1">
+                                <h1 className="vl-heading">Enjoy Free Transactions <br></br>with Us!</h1>
+                            </div>
+                            <div className="vl-content">
+                                <p>RemitAssure is proud to offer you completely free transactions.</p>
+
+                                <ul>
+                                    <li><strong>• No Hidden Fee</strong></li>
+                                    <li><strong>• Free Account Transfers</strong></li>
+                                    <li><strong>• Online and Mobile Banking</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="col-lg-6 text-end">
+                            <img src="assets/img/home/freepik.png" alt="background-images" />
+                        </div>
+
+                    </div>
 
                     <div className="row custom-row-hows">
                         <div className="col-lg-6 text-start">
@@ -874,7 +896,7 @@ const Home = () => {
                                 <ul>
                                     <li><img src="assets/img/zai/payid_light.svg" alt="background-images" /><p>PayID</p></li>
                                     <li><img src="assets/img/zai/payto_light.svg" alt="background-images" /><p>PayTo</p></li>
-                                    <li><img src="assets/img/zai/card.png" alt="background-images" /><p>Debit / Credit Card</p></li>
+                                    {/* <li><img src="assets/img/zai/card.png" alt="background-images" /><p>Debit / Credit Card</p></li> */}
                                 </ul>
                                 <p>All three options are real-time so you can rest assured that your funds will be sent once payment is received for your transfer. </p>
                             </div>
@@ -882,6 +904,8 @@ const Home = () => {
 
 
                     </div>
+
+                    
 
                 </div>
             </section>

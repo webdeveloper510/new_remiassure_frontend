@@ -7315,3 +7315,11 @@ div#about .circle-image img {
 .pay_id_box { 
   border-right: 1px solid black !important
 }
+
+.free-transaction .about_v1{
+  height: 73px;
+}
+.free-transaction ul li {
+  margin-bottom: 0;
+  padding-bottom: 0px;
+}

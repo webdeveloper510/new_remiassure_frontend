@@ -26,7 +26,6 @@
     "clsx": "^1.2.1",
     "country-codes-list": "^1.6.10",
     "country-dropdown-with-flags-for-react": "^1.1.4",
-    "crypto-js": "^4.2.0",
     "env-cmd": "^10.1.0",
     "formik": "^2.2.9",
     "mdb-react-ui-kit": "^5.1.0",

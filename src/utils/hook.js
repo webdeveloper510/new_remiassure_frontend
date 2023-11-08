@@ -1,4 +1,4 @@
-import CryptoJS from "crypto-js";
+// import CryptoJS from "crypto-js";
 
 
 export const commaSeperator = (value) => {
@@ -22,12 +22,12 @@ export const commaRemover = (value) => {
     }
 }
 
-export const generateRandomKey = () => {
-    const uuid = CryptoJS.lib.WordArray.random(16);
+// export const generateRandomKey = () => {
+//     const uuid = CryptoJS.lib.WordArray.random(16);
 
-    // Format the UUID as a string with hyphens.
-    const formattedKey = `${uuid.toString()}`
-        .replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, '$1-$2-$3-$4-$5');
+//     // Format the UUID as a string with hyphens.
+//     const formattedKey = `${uuid.toString()}`
+//         .replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, '$1-$2-$3-$4-$5');
 
-    return formattedKey
-};
+//     return formattedKey
+// };
