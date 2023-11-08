@@ -171,100 +171,99 @@ const PaymentSummary = ({ handleStep, step }) => {
     setIsOtpVerfied(value)
   }
 
-  const serverUrl = process.env.REACT_APP_API_URL
 
   return (
     <>
-      <div className="form_body">
-        <div className="header">
-          <h1>Payment Summary</h1>
-        </div>
-        <div className="row">
-          <Table className="final-summary">
-            <thead>
-              <tr>
-                <th colSpan={2} className="popup-heading">Transaction Details </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Amount Sending</td>
-                <td>
-                  <span>{data?.from}</span>&nbsp;
-                  {data?.send_amount !== "" ? commaSeperator(data?.send_amount) : data?.send_amount}
-                </td>
-              </tr>
-              <tr>
-                <td>Exchange Rate</td>
-                <td>{data?.rates !== "" ? commaSeperator(data?.rates) : data?.rates}</td>
-              </tr>
-              <tr>
-                <td>Amount Exchanged</td>
-                <td><span>{data?.to}</span>&nbsp;
-                  {data?.recieve_amount !== "" ? commaSeperator(data?.recieve_amount) : data?.recieve_amount}</td>
-              </tr>
-            </tbody>
-            <thead>
-              <tr>
-                <th colSpan={2} className="popup-heading">Transfer to </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Beneficiary Name:</td>
-                <td>{data?.beneficiary_name}</td>
-              </tr>
-              <tr>
-                <td>Account No.</td>
-                <td>{data?.account_number}</td>
-              </tr>
-              <tr>
-                <td>Account Name</td>
-                <td>{data?.account_name}</td>
-              </tr>
-              <tr>
-                <td>Bank Name</td>
-                <td>{data?.bank_name}</td>
-              </tr>
-              <tr>
-                <td>Amount Receiving</td>
-                <td>
-                  <span>{data?.to}</span>&nbsp;
-                  {data?.recieve_amount !== "" ? commaSeperator(data?.recieve_amount) : data?.recieve_amount}
-                </td>
-              </tr>
-              <tr>
-                <td>Receiving By</td>
-                <td>{data?.send_method === "PayByID" ? "PayID" : data?.send_method}</td>
-              </tr>
-            </tbody>
-          </Table>
-        </div>
-        <div className="row">
-          <div className="col-md-4 half-col">
-            <button className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
-          </div>
-          <div className="col-md-8 half-col">
-
-            <button className="form-button" onClick={() => setOpenModal(true)}>Continue</button>
-
-          </div>
-        </div>
-        {loader ? <>
-          <div className="loader-overly">
-            <div className="loader" >
-            </div>
-          </div>
-        </> : ""}
-      </div>
-      {/* -------------------- PAYMENT RECIEPT----------------- */}
-      <Modal show={modalView} backdrop="static" centered>
-        <Modal.Body>
+      {
+        modalView === false ? (
           <div className="form_body">
             <div className="header">
+              <h1>Payment Summary</h1>
+            </div>
+            <div className="row">
+              <Table className="final-summary">
+                <thead>
+                  <tr>
+                    <th colSpan={2} className="popup-heading">Transaction Details </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Amount Sending</td>
+                    <td>
+                      <span>{data?.from}</span>&nbsp;
+                      {data?.send_amount !== "" ? commaSeperator(data?.send_amount) : data?.send_amount}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Exchange Rate</td>
+                    <td>{data?.rates !== "" ? commaSeperator(data?.rates) : data?.rates}</td>
+                  </tr>
+                  <tr>
+                    <td>Amount Exchanged</td>
+                    <td><span>{data?.to}</span>&nbsp;
+                      {data?.recieve_amount !== "" ? commaSeperator(data?.recieve_amount) : data?.recieve_amount}</td>
+                  </tr>
+                </tbody>
+                <thead>
+                  <tr>
+                    <th colSpan={2} className="popup-heading">Transfer to </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Beneficiary Name:</td>
+                    <td>{data?.beneficiary_name}</td>
+                  </tr>
+                  <tr>
+                    <td>Account No.</td>
+                    <td>{data?.account_number}</td>
+                  </tr>
+                  <tr>
+                    <td>Account Name</td>
+                    <td>{data?.account_name}</td>
+                  </tr>
+                  <tr>
+                    <td>Bank Name</td>
+                    <td>{data?.bank_name}</td>
+                  </tr>
+                  <tr>
+                    <td>Amount Receiving</td>
+                    <td>
+                      <span>{data?.to}</span>&nbsp;
+                      {data?.recieve_amount !== "" ? commaSeperator(data?.recieve_amount) : data?.recieve_amount}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Receiving By</td>
+                    <td>{data?.send_method === "PayByID" ? "PayID" : data?.send_method}</td>
+                  </tr>
+                </tbody>
+              </Table>
+            </div>
+            <div className="row">
+              <div className="col-md-4 half-col">
+                <button className="start-form-button" onClick={() => handleCancel()}>Cancel</button>
+              </div>
+              <div className="col-md-8 half-col">
+
+                <button className="form-button" onClick={() => setOpenModal(true)}>Continue</button>
+
+              </div>
+            </div>
+            {loader ? <>
+              <div className="loader-overly">
+                <div className="loader" >
+                </div>
+              </div>
+            </> : ""}
+          </div>
+        ) : (
+          <div className="form_body">
+            <div className="header my-3">
               <h1 className='text-success'><BsCheckCircleFill />Transaction Being Processed</h1>
             </div>
-            <Table>
+            <Table style={{ lineHeight: "2" }}>
               <tbody>
                 <tr>
                   <th>Transaction Id:</th>
@@ -282,7 +281,7 @@ const PaymentSummary = ({ handleStep, step }) => {
             </Table>
             <div className="col-md-12 align-center">
               {/* <img className="verifies-img" src={verified} alt="verified" /> */}
-              <p>Thanks for choosing RemitAssure</p>
+              <p className='fw-semibold my-4'>Thanks for choosing RemitAssure</p>
               <div className='row text-center'>
                 <div className="col-md-6">
                   <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => navigate(`/transaction-detail/${transaction?.pay_id}`)}>View Reciept</button>
@@ -295,8 +294,9 @@ const PaymentSummary = ({ handleStep, step }) => {
             </div>
 
           </div>
-        </Modal.Body>
-      </Modal>
+        )
+      }
+
       {/* -------------------- OTP CONFIRMATION---------------- */}
       <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
         <PopVerify handler={handleOtpVerified} close={() => setOpenModal(false)} />

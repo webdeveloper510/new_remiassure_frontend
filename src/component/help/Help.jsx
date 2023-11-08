@@ -3,6 +3,7 @@ import Img from "react-image";
 import Accordion from 'react-bootstrap/Accordion';
 import { Link, NavLink } from "react-router-dom";
 import { RxLinkedinLogo } from "react-icons/rx";
+import { generateRandomKey } from "../../utils/hook";
 
 const Help = () => {
 
@@ -12,7 +13,7 @@ const Help = () => {
     let user = JSON.parse(localStorage.getItem('remi-user-dt'))
     let token = localStorage.getItem('token')
     if (token && (user?.digital_id_verified === "True" || user?.digital_id_verified === "true")) {
-      return "/user-send-money"
+      return `/user-send-money`
     } else if (token && (user?.digital_id_verified === "False" || user?.digital_id_verified === "false")) {
       return "/send-money"
     } else {

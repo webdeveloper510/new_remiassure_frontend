@@ -1,10 +1,5 @@
 import Axios from "axios";
-import global from './global';
 
-const token = localStorage.getItem("token")
-const token_forgot = localStorage.getItem("token_forgot")
-// let url = window.location.hostname
-// Axios.defaults.baseURL = `${url}:8000`;
 Axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 export const userRegisterCheck = async (data) => {
@@ -510,11 +505,22 @@ export const setPreferredCurrency = async (data) => {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   }).then(res => {
-    //console.log(res)
     return res.data
   }).catch(err => {
-    //console.log(err)
     return err
+  })
+  return response
+}
+
+export const getPayID = async () => {
+  const response = await Axios.post("payment/zai-payid-details/", {}, {
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  }).catch(err => {
+    return err.response.data
   })
   return response
 }

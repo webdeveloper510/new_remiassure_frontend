@@ -35,7 +35,7 @@ const SenderDetails = ({ handleStep, step }) => {
     dob: "", flat: "", build_no: "",
     street: "", city: "none", country: "none", occupation: "",
     post_code: "", state: "none", email: userd.email, mobile: userd.mobile,
-    customer_id: userd.customer_id, country_code: "AU", payment_per_annum: "Less than 5 times", value_per_annum: "Less than $30,000"
+    customer_id: userd.customer_id, country_code: "AU", payment_per_annum: "Level1 - Less than 5 times", value_per_annum: "Level1 - Less than $30,000"
   })
 
   const initialValues = localdata?.sender ? localdata?.sender : {
@@ -44,7 +44,7 @@ const SenderDetails = ({ handleStep, step }) => {
     dob: "", flat: "", build_no: "",
     street: "", city: "none", country: "none", occupation: "",
     post_code: "", state: "none", email: userd.email, mobile: userd.mobile,
-    customer_id: userd.customer_id, payment_per_annum: "Less than 5 times", value_per_annum: "Less than $30,000"
+    customer_id: userd.customer_id, payment_per_annum: "Level1 - Less than 5 times", value_per_annum: "Level1 - Less than $30,000"
   }
 
   const senderSchema = Yup.object().shape({
@@ -200,6 +200,7 @@ const SenderDetails = ({ handleStep, step }) => {
             }
             localStorage.setItem("send-step", Number(step) + 1)
             handleStep(Number(step) + 1)
+            console.log(step, "stttteeeep")
             formik.handleSubmit()
             axios.post(`${serverUrl}/digital-verification/`, { code: res.code }, {
               headers: {
@@ -208,7 +209,11 @@ const SenderDetails = ({ handleStep, step }) => {
               }
             }).then(res => {
               if (res?.data?.code == "200") {
-                setTimeout(() => { setLoader(false) }, 2000)
+                window.setTimeout(() => {
+                  setLoader(false)
+                  console.log("loadeeeer , success", loader)
+                  console.log("digi verified")
+                }, 2000)
                 const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
                 userdt.digital_id_verified = "true"
                 localStorage.setItem("remi-user-dt", JSON.stringify(userdt))
@@ -502,9 +507,9 @@ const SenderDetails = ({ handleStep, step }) => {
                     }
                   )}
                 >
-                  <option value="Less than 5 times" key="Less than 5 times">Less than 5 times</option>
-                  <option value="5-10 times" key="5-10 times">5-10 times</option>
-                  <option value="Greater than 10 times" key="Greater than 10 times">Greater than 10 times</option>
+                  <option value="Level1 - Less than 5 times" key="Less than 5 times">Level1 - Less than 5 times</option>
+                  <option value="Level2 - 5 to 10 times" key="5-10 times">Level2 - 5 to 10 times</option>
+                  <option value="Level3 - Greater than 10 times" key="Greater than 10 times">Level3 - Greater than 10 times</option>
                 </select>
               </div>
             </div>
@@ -524,43 +529,13 @@ const SenderDetails = ({ handleStep, step }) => {
                     }
                   )}
                 >
-                  <option value="Less than $30,000" key="Less than $30,000">Less than $30,000</option>
-                  <option value="$30,000-$100,000" key="$30,000-$100,000">$30,000-$100,000</option>
-                  <option value="Greater than $100,000" key="Greater than $100,000">Greater than $100,000</option>
+                  <option value="Level1 - Less than $30,000" key="Less than $30,000">Level1 - Less than $30,000</option>
+                  <option value="Level2 - $30,000 to $100,000" key="$30,000-$100,000">Level2 - $30,000 to $100,000</option>
+                  <option value="Level3 - Greater than $100,000" key="Greater than $100,000">Level3 - Greater than $100,000</option>
                 </select>
               </div>
             </div>
           </div>
-
-          {/* <div className="row each-row">
-          <div className="col-md-6">
-            <div className="input_field">
-              <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
-              <input
-                type="email"
-                value={data.email}
-                style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
-                className='form-control'
-                readOnly
-              />
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="input_field">
-              <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
-              <input
-                type="text"
-                style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
-                value={data.mobile}
-                className='form-control'
-                readOnly
-              />
-
-            </div>
-          </div>
-        </div> */}
-
-          {/*-------------------------------- Address */}
           <div className="row each-row">
             <h5>Address</h5>
             <div className="col-md-4">

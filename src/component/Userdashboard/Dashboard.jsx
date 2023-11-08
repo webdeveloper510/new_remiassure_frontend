@@ -8,7 +8,7 @@ import Sidebar from './Sidebar';
 import nodata from '../../assets/img/userdashboard/nodata.avif';
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
 import { recipientList, transactionHistory, userProfile } from "../../utils/Api";
-import { commaSeperator } from "../../utils/hook";
+import { commaSeperator, generateRandomKey } from "../../utils/hook";
 
 
 const Dashboard = () => {
@@ -30,12 +30,20 @@ const Dashboard = () => {
     const transHistory = () => {
         transactionHistory().then((response) => {
             if (response.code == "200") {
-                setTransactionData(response.data);
                 let d = response.data
                 let amount = 0
                 for (let i = 0; i < d.length; i++) {
                     amount = amount + Number(d[i].amount)
                 }
+                let list = []
+                if (response.data.length > 5) {
+                    for (let i = 0; i < 5; i++) {
+                        list.push(response.data[i])
+                    }
+                } else {
+                    list = response.data
+                }
+                setTransactionData(list);
                 setTotalAmount(Math.round(amount))
                 setLoading(false)
             }
@@ -53,19 +61,16 @@ const Dashboard = () => {
     const getList = () => {
         recipientList({}).then(function (response) {
             if (response.code == "200") {
-                setRecipientData(response.data);
+                let list = []
+                if (response.data.length > 5) {
+                    for (let i = 0; i < 5; i++) {
+                        list.push(response.data[i])
+                    }
+                } else {
+                    list = response.data
+                }
+                setRecipientData(list);
                 setTotalRecipients(response.data.length)
-                // let arr = []
-                // for (let i = 0; i < response?.data?.length; i++) {
-                //     if (i === 0) {
-                //         arr.push(response.data[i])
-                //     } else {
-                //         if (response?.data[i]?.email !== response?.data[i - 1]?.email) {
-                //             arr.push(response.data[i])
-                //         }
-                //     }
-                // }
-                // console.log(arr, "arr")
                 setLoading(false)
             }
         })
@@ -160,7 +165,7 @@ const Dashboard = () => {
                                                         </div>
                                                     </div>
                                                     <div className="mt-3">
-                                                        <NavLink to="/user-send-money" className="btn btn-outline-dark btn-rounded">
+                                                        <NavLink to={`/user-send-money`} className="btn btn-outline-dark btn-rounded">
                                                             Send Money
                                                         </NavLink>
                                                         <span className="text-light custom-number">Amount Sent ⇒ {commaSeperator(total_amount)}</span>

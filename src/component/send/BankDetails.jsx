@@ -3,17 +3,20 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import clsx from 'clsx';
 import { useState } from 'react';
-import { Modal, OverlayTrigger, Table, Tooltip } from 'react-bootstrap';
+import { Modal, Table } from 'react-bootstrap';
 import countryList from "../../utils/recipientCountries.json"
 import { useEffect } from 'react';
 
 import PhoneInput from "react-phone-input-2";
 import { createRecipient, createTransaction, updateUserRecipient } from '../../utils/Api';
 import Bank_list from '../../utils/Bank_list';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
 
 const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
+  const [inConfirmation, setInConfirmation] = useState(false)
 
   const [data, setData] = useState({
     bank: "", other_name: "", acc_name: "", acc_no: "",
@@ -33,12 +36,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
   const [show, setShow] = useState(false)
 
-  const [isAfrican, setIsAfrican] = useState(true)
 
   useEffect(() => {
     if (localStorage.getItem("transfer_data")) {
       let tdata = JSON.parse(localStorage.getItem("transfer_data"))
-      console.log(tdata)
       if (tdata?.recipient) {
         setData(tdata?.recipient)
         formik.setValues({ ...tdata?.recipient })
@@ -126,8 +127,12 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     onSubmit: async (values) => {
       setData({ ...values, country_code: data.country_code })
       handleBankDetail(data)
-      setShow(true)
-
+      setInConfirmation(true)
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      })
     }
   })
 
@@ -165,7 +170,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
         if (localStorage.getItem("send-step")) {
           localStorage.removeItem("send-step")
         }
-        // console.log("helloo")
         localStorage.setItem("send-step", Number(step) + 1)
         handleStep(Number(step) + 1)
       }
@@ -197,14 +201,18 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
       updateUserRecipient(id, d).then(res => {
         if (res.code === "200") {
           updateTransaction(id)
+        } else {
+          toast.error(res.message, { autoClose: 2000, position: "bottom-right", hideProgressBar: true })
         }
       })
     } else {
       createRecipient(d).then(res => {
         if (res.code === "200") {
-          // console.log(res)
           localStorage.setItem("rid", res.data.id)
           updateTransaction(res.data.id)
+        }
+        else {
+          toast.error(res.message, { autoClose: 2000, position: "bottom-right", hideProgressBar: true })
         }
       })
     }
@@ -217,7 +225,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     localStorage.setItem("send-step", Number(step) - 1)
     handleStep(Number(step) - 1)
   }
-
 
   const handleCancel = () => {
     localStorage.removeItem("transfer_data")
@@ -285,31 +292,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     }
   }
 
-  const handlePostCode = (event, max) => {
-    const pattern = /^[0-9]+$/;
-    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight") {
-      setData({ ...data, [event.target.name]: event.target.value })
-      formik.setFieldValue(event.target.name, event.target.value)
-      formik.setFieldTouched(event.target.name, true)
-    } else {
-
-      let value = event.target.value.toString()
-      if (value.length > max) {
-        event.stopPropagation()
-        event.preventDefault()
-      } else {
-        if (!pattern.test(event.key)) {
-          event.preventDefault();
-          event.stopPropagation()
-        } else {
-          setData({ ...data, [event.target.name]: event.target.value })
-          formik.setFieldValue(event.target.name, event.target.value)
-          formik.setFieldTouched(event.target.name, true)
-        }
-      }
-    }
-  }
-
   function validateInput(event) {
     const regex = event.target.name === "bank" ? /^[A-Za-z\s]*$/ : /^[A-Za-z\s\W]*$/;
     let userInput = event.target.value;
@@ -358,7 +340,6 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
       const filteredInput = userInput.replace(/[^A-Za-z0-9._%+-@]/g, '');
       userInput = filteredInput;
     } else {
-      // Remove spaces from the input
       userInput = userInput.replace(/^[\s]/g, '');
     }
     setData({ ...data, [event.target.name]: userInput });
@@ -366,64 +347,146 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     formik.setFieldTouched(event.target.name, true);
   }
 
-  const tooltip = (
-    <Tooltip id="tooltip" className='bank_name_tooltip'>
-      <small>The Bank name can be changed in "Amount & Delivery" section.</small>
-    </Tooltip>
-  );
+  const handleBank = (val) => {
+    formik.setFieldValue("bank", val?.value)
+    formik.handleChange(val.value)
+    setData({ ...data, bank: val?.value })
+  }
+
+  const customStyles = {
+    control: (base) => ({
+      ...base,
+      borderColor: formik.errors.bank && formik.touched.bank ? 'red' : base.borderColor,
+    }),
+  };
 
   return (
     <div>
 
-      <form onSubmit={formik.handleSubmit}>
-
-        <div className="form_body">
-          <div className="header">
-            <h1>Recipient Bank Details</h1>
-          </div>
-          <div className="col-md-12">
-            <div className="input_field">
-              <p className="get-text">
-                Bank Name
-                <span style={{ color: 'red' }} >*</span>
-              </p>
-              <select
-                className={clsx(
-                  'bg-transparent form-select form-control rate_input',
-                  { 'is-invalid': formik.errors.bank && formik.touched.bank }
-                )}
-                name='bank'
-                value={formik.values.bank}
-                onChange={(e) => { handleChange(e) }}
-                onBlur={formik.handleBlur}
-              >
-                <option value="none">Select a bank</option>
-                {
-                  Bank_list?.map((item, key) => (
-                    <option key={key} value={item}>{item}</option>
-                  ))
-                }
-                <option value="other">Other</option>
-              </select>
+      {
+        inConfirmation ? (
+          <div className='form_body py-5'>
+            <div className="header my-3">
+              <h1>Recipient details Summary</h1>
+            </div>
+            <Table className='recipint-details-popup py-5'>
+              <thead>
+                <tr>
+                  <th colSpan={2} className="popup-heading">Bank Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Bank Name</th>
+                  <td>{data.bank === "other" ? data.other_name : data?.bank}</td>
+                </tr>
+                <tr>
+                  <th>Account Name</th>
+                  <td>{data.acc_name}</td>
+                </tr>
+                <tr>
+                  <th>Account number</th>
+                  <td>{data.acc_no}</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr>
+                  <th colSpan={2} className="popup-heading">Recipient Details</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr>
+                  <th>First Name</th>
+                  <td>{data.f_name}</td>
+                </tr>
+                <tr>
+                  <th>Last Name</th>
+                  <td>{data.l_name}</td>
+                </tr>
+                <tr>
+                  <th>Email</th>
+                  <td>{data.email}</td>
+                </tr>
+                <tr>
+                  <th>Mobile</th>
+                  <td>{data.mobile}</td>
+                </tr>
+              </tbody>
+            </Table>
+            <div className="row mt-5">
+              <div className="col-md-4 need_space">
+                <button className="start-form-button" variant="secondary" onClick={() => setInConfirmation(false)}>
+                  Go back to Edit
+                </button>
+              </div>
+              <div className="col-md-8 full-col">
+                <button className="form-button detail_buttoon" type="button" variant="primary" onClick={(e) => handleReciept(e)}>Continue</button>
+              </div>
             </div>
           </div>
-          {
-            formik.values.bank === "other" ? (
+        ) : (
+          <form onSubmit={formik.handleSubmit}>
+
+            <div className="form_body">
+              <div className="header">
+                <h1>Recipient Bank Details</h1>
+              </div>
+              <div className="col-md-12">
+                <div className="input_field">
+                  <p className="get-text">
+                    Bank Name
+                    <span style={{ color: 'red' }} >*</span>
+                  </p>
+                  <Select
+                    options={Bank_list}
+                    onChange={handleBank}
+                    value={{ label: formik.values.bank, value: formik.values.bank }}
+                    name='bank'
+                    styles={customStyles}
+                  />
+                </div>
+              </div>
+              {
+                formik.values.bank === "other" ? (
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="input_field">
+                        <p className="get-text">Other Bank Name<span style={{ color: 'red' }} >*</span></p>
+                        <input
+                          type="text"
+                          name="other_name"
+                          value={formik.values?.other_name}
+                          onChange={validateInput}
+                          maxLength={50}
+                          className={clsx(
+                            'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.other_name && formik.errors.other_name },
+                            {
+                              'is-valid': formik.touched.other_name && !formik.errors.other_name,
+                            }
+                          )}
+                          onBlur={formik.handleBlur}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : <></>
+              }
               <div className="row">
                 <div className="col-md-12">
                   <div className="input_field">
-                    <p className="get-text">Other Bank Name<span style={{ color: 'red' }} >*</span></p>
+                    <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
                     <input
                       type="text"
-                      name="other_name"
-                      value={formik.values?.other_name}
+                      name="acc_name"
+                      value={formik.values?.acc_name}
                       onChange={validateInput}
                       maxLength={50}
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.other_name && formik.errors.other_name },
+                        { 'is-invalid': formik.touched.acc_name && formik.errors.acc_name },
                         {
-                          'is-valid': formik.touched.other_name && !formik.errors.other_name,
+                          'is-valid': formik.touched.acc_name && !formik.errors.acc_name,
                         }
                       )}
                       onBlur={formik.handleBlur}
@@ -431,428 +494,350 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   </div>
                 </div>
               </div>
-            ) : <></>
-          }
-          <div className="row">
-            <div className="col-md-12">
-              <div className="input_field">
-                <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="text"
-                  name="acc_name"
-                  value={formik.values?.acc_name}
-                  onChange={validateInput}
-                  maxLength={50}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.acc_name && formik.errors.acc_name },
-                    {
-                      'is-valid': formik.touched.acc_name && !formik.errors.acc_name,
-                    }
-                  )}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <div className="input_field">
-                <p className="get-text">Account Number<span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="text"
-                  name="acc_no"
-                  value={formik.values?.acc_no}
-                  onChange={validateNumber}
-                  maxLength={18}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.acc_no && formik.errors.acc_no },
-                    {
-                      'is-valid': formik.touched.acc_no && !formik.errors.acc_no,
-                    }
-                  )}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="row each-row">
-            <h5>Recipient Details</h5>
-            <div className="col-md-4 need_space">
-              <div className="input_field">
-                <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="text"
-                  name="f_name"
-                  value={formik.values?.f_name}
-                  onChange={validateInput}
-                  maxLength={25}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.f_name && formik.errors.f_name },
-                    {
-                      'is-valid': formik.touched.f_name && !formik.errors.f_name,
-                    }
-                  )}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
-            </div>
-            <div className="col-md-4 need_space">
-              <div className="input_field">
-                <p className="get-text">Middle Name</p>
-                <input
-                  type="text"
-                  name="m_name"
-                  className='form-control'
-                  value={formik.values?.m_name}
-                  onChange={validateInput}
-                  maxLength={25}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="input_field">
-                <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="text"
-                  name="l_name"
-                  value={formik.values?.l_name}
-                  onChange={validateInput}
-                  maxLength={25}
-                  onBlur={formik.handleBlur}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.l_name && formik.errors.l_name },
-                    {
-                      'is-valid': formik.touched.l_name && !formik.errors.l_name,
-                    }
-                  )}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="row each-row remove_mb">
-            <div className="col-md-6 need_space">
-              <div className="input_field">
-                <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="email"
-                  name="email"
-                  value={formik.values?.email}
-                  onChange={validateEmail}
-                  maxLength={50}
-                  onBlur={formik.handleBlur}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.email && formik.errors.email },
-                    {
-                      'is-valid': formik.touched.email && !formik.errors.email,
-                    }
-                  )}
-                />
-                {formik.touched.email && formik.errors.email && (
-                  <div className='fv-plugins-message-container mt-1'>
-                    <div className='fv-help-block'>
-                      <span role='alert' className="text-danger" style={{ fontSize: "13px" }}>{formik.errors.email}</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="col-md-6 need_space">
-              <div className="input_field">
-                <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
-                <PhoneInput
-                  onlyCountries={["au", "gh", "ke", "ng", "nz", "ph", "th", "vn"]}
-                  country={data.country_code ? data.country_code.toLowerCase() : "au"}
-                  name="mobile"
-                  value={formik.values.mobile}
-                  inputStyle={{ border: "none", margin: "none" }}
-                  inputClass="userPhone w-100"
-                  defaultCountry={"au"}
-                  onBlur={formik.handleBlur}
-                  countryCodeEditable={false}
-                  onChange={(val, coun) => { handlePhone(val, coun) }}
-                  className={clsx(
-                    'form-control form-control-sm bg-transparent py-0',
-                    { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
-                    {
-                      'is-valid': formik.touched.mobile && !formik.errors.mobile,
-                    }
-                  )}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="row each-row">
-            <h5>Address</h5>
-            <div className="col-md-4 need_space" id="country">
-              <div className="input_field">
-                <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
-                <select
-                  value={formik.values?.country}
-                  name="country"
-                  onChange={(e) => handleChange(e)}
-                  className='form-control form-select bg-transparent'
-                  onBlur={formik.handleBlur}
-                >
-                  {
-                    countryList && countryList.length > 0 ?
-                      countryList?.map((opt) => {
-                        return (
-                          <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
-                        )
-                      }) : ""
-                  }
-
-                </select>
-              </div>
-            </div>
-            <div className="col-md-4 need_space" id="state">
-              <div className="input_field">
-                <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
-                {
-                  state_list && state_list.length > 0 ?
-                    (<select
-                      value={formik.values?.state}
-                      name="state"
-                      onChange={(e) => handleChange(e)}
-                      className='form-control form-select bg-transparent'
-                      onBlur={formik.handleBlur}
-                    >
-                      {state_list?.map((opt) => {
-                        return (
-                          <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
-                        )
-                      })
-                      }
-                    </select>) :
-                    (<input
-                      type="text"
-                      name="state"
-                      value={formik.values?.state}
-                      onKeyDown={(e) => { handleKeyDown(e, 30) }}
-                      {...formik.getFieldProps("state")}
-                      onBlur={formik.handleBlur}
-                      className={clsx(
-                        'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.state && formik.errors.state },
-                        {
-                          'is-valid': formik.touched.state && !formik.errors.state,
-                        }
-                      )}
-                    />)
-                }
-              </div>
-            </div>
-            <div className="col-md-4" id="city">
-              <div className="input_field">
-                <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
-                {
-                  city_list && city_list.length > 0 ? (
-                    <select
-                      value={formik.values?.city}
-                      name="city"
-                      onChange={(e) => handleChange(e)}
-                      className='form-control form-select bg-transparent'
-                      onBlur={formik.handleBlur}
-                    >
-
-                      {city_list?.map((opt) => {
-                        return (
-                          <option value={opt?.name} id={opt?.id} key={opt?.id}>{opt?.name}</option>
-                        )
-                      })
-                      }
-                    </select>
-                  ) : (
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="input_field">
+                    <p className="get-text">Account Number<span style={{ color: 'red' }} >*</span></p>
                     <input
                       type="text"
-                      name="city"
-                      value={formik.values?.city}
-                      onKeyDown={(e) => { handleKeyDown(e, 35) }}
-                      {...formik.getFieldProps("city")}
+                      name="acc_no"
+                      value={formik.values?.acc_no}
+                      onChange={validateNumber}
+                      maxLength={18}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.acc_no && formik.errors.acc_no },
+                        {
+                          'is-valid': formik.touched.acc_no && !formik.errors.acc_no,
+                        }
+                      )}
+                      onBlur={formik.handleBlur}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="row each-row">
+                <h5>Recipient Details</h5>
+                <div className="col-md-4 need_space">
+                  <div className="input_field">
+                    <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="f_name"
+                      value={formik.values?.f_name}
+                      onChange={validateInput}
+                      maxLength={25}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.f_name && formik.errors.f_name },
+                        {
+                          'is-valid': formik.touched.f_name && !formik.errors.f_name,
+                        }
+                      )}
+                      onBlur={formik.handleBlur}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4 need_space">
+                  <div className="input_field">
+                    <p className="get-text">Middle Name</p>
+                    <input
+                      type="text"
+                      name="m_name"
+                      className='form-control'
+                      value={formik.values?.m_name}
+                      onChange={validateInput}
+                      maxLength={25}
+                      onBlur={formik.handleBlur}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="l_name"
+                      value={formik.values?.l_name}
+                      onChange={validateInput}
+                      maxLength={25}
                       onBlur={formik.handleBlur}
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.city && formik.errors.city },
+                        { 'is-invalid': formik.touched.l_name && formik.errors.l_name },
                         {
-                          'is-valid': formik.touched.city && !formik.errors.city,
+                          'is-valid': formik.touched.l_name && !formik.errors.l_name,
                         }
                       )}
                     />
-                  )
-                }
+                  </div>
+                </div>
               </div>
+              <div className="row each-row remove_mb">
+                <div className="col-md-6 need_space">
+                  <div className="input_field">
+                    <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formik.values?.email}
+                      onChange={validateEmail}
+                      maxLength={50}
+                      onBlur={formik.handleBlur}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.email && formik.errors.email },
+                        {
+                          'is-valid': formik.touched.email && !formik.errors.email,
+                        }
+                      )}
+                    />
+                    {formik.touched.email && formik.errors.email && (
+                      <div className='fv-plugins-message-container mt-1'>
+                        <div className='fv-help-block'>
+                          <span role='alert' className="text-danger" style={{ fontSize: "13px" }}>{formik.errors.email}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="col-md-6 need_space">
+                  <div className="input_field">
+                    <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
+                    <PhoneInput
+                      onlyCountries={["au", "gh", "ke", "ng", "nz", "ph", "th", "vn"]}
+                      country={data.country_code ? data.country_code.toLowerCase() : "au"}
+                      name="mobile"
+                      value={formik.values.mobile}
+                      inputStyle={{ border: "none", margin: "none" }}
+                      inputClass="userPhone w-100"
+                      defaultCountry={"au"}
+                      onBlur={formik.handleBlur}
+                      countryCodeEditable={false}
+                      onChange={(val, coun) => { handlePhone(val, coun) }}
+                      className={clsx(
+                        'form-control form-control-sm bg-transparent py-0',
+                        { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                        {
+                          'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                        }
+                      )}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="row each-row">
+                <h5>Address</h5>
+                <div className="col-md-4 need_space" id="country">
+                  <div className="input_field">
+                    <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
+                    <select
+                      value={formik.values?.country}
+                      name="country"
+                      onChange={(e) => handleChange(e)}
+                      className='form-control form-select bg-transparent'
+                      onBlur={formik.handleBlur}
+                    >
+                      {
+                        countryList && countryList.length > 0 ?
+                          countryList?.map((opt) => {
+                            return (
+                              <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
+                            )
+                          }) : ""
+                      }
 
-            </div>
-          </div>
-          <div className="row each-row remove_mb">
-            <div className="col-md-4 need_space" id="street">
-              <div className="input_field">
-                <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="text"
-                  name="street"
-                  value={formik.values?.street}
-                  // onKeyDown={(e) => { handleEmail(e, 50) }}
-                  {...formik.getFieldProps("street")}
-                  maxLength={30}
-                  onBlur={formik.handleBlur}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.street && formik.errors.street },
+                    </select>
+                  </div>
+                </div>
+                <div className="col-md-4 need_space" id="state">
+                  <div className="input_field">
+                    <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
                     {
-                      'is-valid': formik.touched.street && !formik.errors.street,
+                      state_list && state_list.length > 0 ?
+                        (<select
+                          value={formik.values?.state}
+                          name="state"
+                          onChange={(e) => handleChange(e)}
+                          className='form-control form-select bg-transparent'
+                          onBlur={formik.handleBlur}
+                        >
+                          {state_list?.map((opt) => {
+                            return (
+                              <option value={opt?.name} key={opt?.id} id={opt?.id}>{opt?.name}</option>
+                            )
+                          })
+                          }
+                        </select>) :
+                        (<input
+                          type="text"
+                          name="state"
+                          value={formik.values?.state}
+                          onKeyDown={(e) => { handleKeyDown(e, 30) }}
+                          {...formik.getFieldProps("state")}
+                          onBlur={formik.handleBlur}
+                          className={clsx(
+                            'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.state && formik.errors.state },
+                            {
+                              'is-valid': formik.touched.state && !formik.errors.state,
+                            }
+                          )}
+                        />)
                     }
-                  )}
-                />
-              </div>
-            </div>
-            <div className="col-md-4 need_space" id="post">
-              <div className="input_field">
-                <p className="get-text">
-                  Zip/Postal Code
-                  {
-                    isAfrican === true ? (
-                      <></>
-                    ) : (
-                      <span style={{ color: 'red' }} >*</span>
-                    )
-                  }
-                </p>
-                <input
-                  type="text"
-                  name="post_code"
-                  value={formik.values?.post_code}
-                  onChange={validateNumber}
-                  maxLength={5}
-                  onBlur={formik.handleBlur}
-                  // onKeyDown={(e) => handlePostCode(e, 3)}
-                  // {...formik.getFieldProps("post_code")}
-                  className={clsx(
-                    'form-control bg-transparent'
-                  )}
-                />
-
-              </div>
-            </div>
-            <div className="col-md-4" id="build">
-              <div className="input_field">
-                <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
-                <input
-                  type="text"
-                  name="build_no"
-                  value={formik.values?.build_no}
-                  maxLength={30}
-                  onBlur={formik.handleBlur}
-                  onKeyDown={(e) => { handleEmail(e, 30) }}
-                  {...formik.getFieldProps("build_no")}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    { 'is-invalid': formik.touched.build_no && formik.errors.build_no },
+                  </div>
+                </div>
+                <div className="col-md-4" id="city">
+                  <div className="input_field">
+                    <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
                     {
-                      'is-valid': formik.touched.build_no && !formik.errors.build_no,
+                      city_list && city_list.length > 0 ? (
+                        <select
+                          value={formik.values?.city}
+                          name="city"
+                          onChange={(e) => handleChange(e)}
+                          className='form-control form-select bg-transparent'
+                          onBlur={formik.handleBlur}
+                        >
+
+                          {city_list?.map((opt) => {
+                            return (
+                              <option value={opt?.name} id={opt?.id} key={opt?.id}>{opt?.name}</option>
+                            )
+                          })
+                          }
+                        </select>
+                      ) : (
+                        <input
+                          type="text"
+                          name="city"
+                          value={formik.values?.city}
+                          onKeyDown={(e) => { handleKeyDown(e, 35) }}
+                          {...formik.getFieldProps("city")}
+                          onBlur={formik.handleBlur}
+                          className={clsx(
+                            'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.city && formik.errors.city },
+                            {
+                              'is-valid': formik.touched.city && !formik.errors.city,
+                            }
+                          )}
+                        />
+                      )
                     }
-                  )}
-                />
+                  </div>
+
+                </div>
+              </div>
+              <div className="row each-row remove_mb">
+                <div className="col-md-4 need_space" id="street">
+                  <div className="input_field">
+                    <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="street"
+                      value={formik.values?.street}
+                      {...formik.getFieldProps("street")}
+                      maxLength={30}
+                      onBlur={formik.handleBlur}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.street && formik.errors.street },
+                        {
+                          'is-valid': formik.touched.street && !formik.errors.street,
+                        }
+                      )}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4 need_space" id="post">
+                  <div className="input_field">
+                    <p className="get-text">
+                      Zip/Postal Code
+                    </p>
+                    <input
+                      type="text"
+                      name="post_code"
+                      value={formik.values?.post_code}
+                      onChange={validateNumber}
+                      maxLength={5}
+                      onBlur={formik.handleBlur}
+                      className={clsx(
+                        'form-control bg-transparent'
+                      )}
+                    />
+
+                  </div>
+                </div>
+                <div className="col-md-4" id="build">
+                  <div className="input_field">
+                    <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="build_no"
+                      value={formik.values?.build_no}
+                      maxLength={30}
+                      onBlur={formik.handleBlur}
+                      onKeyDown={(e) => { handleEmail(e, 30) }}
+                      {...formik.getFieldProps("build_no")}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.build_no && formik.errors.build_no },
+                        {
+                          'is-valid': formik.touched.build_no && !formik.errors.build_no,
+                        }
+                      )}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="row each-row remove_mb">
+                <div className="col-md-4 need_space" id='flat'>
+                  <div className="input_field">
+                    <p className="get-text">Flat/Unit No.</p>
+                    <input
+                      type="text"
+                      name="flat"
+                      value={formik.values?.flat}
+                      onChange={validateAddress}
+                      onBlur={formik.handleBlur}
+                      maxLength={15}
+                      className='form-control bg-transparent'
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-4 need_space">
+                  <button type="button" className="start-form-button full-col" onClick={() => handleCancel()}>Cancel</button>
+                </div>
+                <div className="col-md-8 full-col">
+                  <button type="submit" className="form-button">Continue</button>
+                  <button type="button" className="form-button" onClick={() => { handlePrevious() }}>Previous</button>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="row each-row remove_mb">
-            <div className="col-md-4 need_space" id='flat'>
-              <div className="input_field">
-                <p className="get-text">Flat/Unit No.</p>
-                <input
-                  type="text"
-                  name="flat"
-                  value={formik.values?.flat}
-                  onChange={validateAddress}
-                  onBlur={formik.handleBlur}
-                  maxLength={15}
-                  // onKeyDown={(e) => { handleEmail(e, 15) }}
-                  // {...formik.getFieldProps("flat")}
-                  className='form-control bg-transparent'
-                />
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-4 need_space">
-              <button type="button" className="start-form-button full-col" onClick={() => handleCancel()}>Cancel</button>
-            </div>
-            <div className="col-md-8 full-col">
-              <button type="submit" className="form-button">Continue</button>
-              <button type="button" className="form-button" onClick={() => { handlePrevious() }}>Previous</button>
-            </div>
-          </div>
-        </div>
-      </form >
+          </form >
+        )
+      }
 
 
-      <Modal show={show} onHide={() => setShow(false)}
+      {/* <Modal show={show} onHide={() => setShow(false)}
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Recipient details Summary</Modal.Title>
+          <Modal.Title></Modal.Title>
         </Modal.Header>
         <Modal.Body>
 
-          <Table className='recipint-details-popup'>
-            <thead>
-              <tr>
-                <th colSpan={2} className="popup-heading">Bank Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>Bank Name</th>
-                <td>{data.bank === "other" ? data.other_name : data?.bank}</td>
-              </tr>
-              <tr>
-                <th>Account Name</th>
-                <td>{data.acc_name}</td>
-              </tr>
-              <tr>
-                <th>Account number</th>
-                <td>{data.acc_no}</td>
-              </tr>
-            </tbody>
-            <thead>
-              <tr>
-                <th colSpan={2} className="popup-heading">Recipient Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>First Name</th>
-                <td>{data.f_name}</td>
-              </tr>
-              <tr>
-                <th>Last Name</th>
-                <td>{data.l_name}</td>
-              </tr>
-              <tr>
-                <th>Email</th>
-                <td>{data.email}</td>
-              </tr>
-              <tr>
-                <th>Mobile</th>
-                <td>{data.mobile}</td>
-              </tr>
-            </tbody>
-          </Table>
+
         </Modal.Body>
         <Modal.Footer className='full-col'>
-          <button className="start-form-button" variant="secondary" onClick={() => setShow(false)}>
-            Go back to Edit
-          </button>
-          <button className="form-button detail_buttoon" type="button" variant="primary" onClick={(e) => handleReciept(e)}>Continue</button>
+
+
+
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
 
     </div >
   )

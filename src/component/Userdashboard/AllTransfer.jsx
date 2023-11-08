@@ -6,7 +6,7 @@ import nodata from '../../assets/img/userdashboard/nodata.avif';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 // import axios from "axios";
 import authDashHelper from "../../utils/AuthDashHelper";
-import { commaSeperator } from "../../utils/hook";
+import { commaSeperator, generateRandomKey } from "../../utils/hook";
 
 
 const serverUrl = process.env.REACT_APP_API_URL
@@ -140,7 +140,7 @@ const AllTranfer = ({ status, data }) => {
                     <div className="col-md-12">
                       {
                         status === "completed" || "all" ? (
-                          <NavLink to="/user-send-money" className="send_money">Send Money</NavLink>
+                          <NavLink to={`/user-send-money`} className="send_money">Send Money</NavLink>
                         ) : (
                           <></>
                         )

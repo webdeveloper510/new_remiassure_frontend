@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import Bank_list from '../../utils/Bank_list';
 import { FormCheck } from 'react-bootstrap';
 import { commaRemover, commaSeperator } from '../../utils/hook';
+import Select from "react-select"
 
 const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
 
@@ -19,7 +20,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
         from_type: "AUD",
         to_type: "NGN",
         recieve_meth: "Bank Transfer",
-        part_type: "none"
+        part_type: ""
     })
 
 
@@ -43,7 +44,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
         exchange_amt: Yup.string("Please enter a valid amount").required('Amount is required').notOneOf(["."]),
         from_type: Yup.string(),
         to_type: Yup.string().required(),
-        part_type: Yup.string().required().notOneOf(["none"]),
+        part_type: Yup.string().required().notOneOf([""]).trim(),
         payout_part: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
             const {
                 createError,
@@ -65,7 +66,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
         from_type: "AUD",
         to_type: "NGN",
         recieve_meth: "Bank Transfer",
-        part_type: "none",
+        part_type: "",
         payout_part: ""
     }
 
@@ -254,12 +255,12 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
 
     }
 
-    const handlePayoutPart = (e) => {
-        if (e.target.value === "Services") {
+    const handlePayoutPart = (e, name) => {
+        if (name === "Services") {
             toast.warn("THIS SERVICE OPTION IS CURRENTLY UNAVAILABLE", { hideProgressBar: true, autoClose: 1000, position: "bottom-right" })
         } else {
-            setAmtDetail({ ...amt_detail, part_type: e.target.value })
-            formik.setValues({ ...formik.values, part_type: e.target.value, payout_part: "" })
+            setAmtDetail({ ...amt_detail, part_type: e.value })
+            formik.setValues({ ...formik.values, part_type: e.value, payout_part: "" })
         }
 
     }
@@ -268,15 +269,15 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
         if (localStorage.getItem("transfer_data")) {
             let tdata = JSON.parse(localStorage.getItem("transfer_data"))
             if (tdata?.amount) {
-                setAmtDetail({ ...tdata?.amount, recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "none", send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
-                formik.setValues({ ...tdata?.amount, recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "none", send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
+                setAmtDetail({ ...tdata?.amount, recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "", send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
+                formik.setValues({ ...tdata?.amount, recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "", send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
                 setExchRate(tdata?.amount?.exchange_rate)
             }
         } else {
             let data = JSON.parse(localStorage?.getItem("exchange_curr"))
-            setAmtDetail({ ...amt_detail, send_amt: "", exchange_amt: "", recieve_meth: "Bank Transfer", part_type: "none", from_type: data?.from_type, to_type: data?.to_type })
+            setAmtDetail({ ...amt_detail, send_amt: "", exchange_amt: "", recieve_meth: "Bank Transfer", part_type: "", from_type: data?.from_type, to_type: data?.to_type })
             setExchRate(data?.exch_rate)
-            formik.setValues({ ...formik.values, send_amt: "", exchange_amt: "", recieve_meth: "Bank Transfer", part_type: "none", from_type: data?.from_type, to_type: data?.to_type })
+            formik.setValues({ ...formik.values, send_amt: "", exchange_amt: "", recieve_meth: "Bank Transfer", part_type: "", from_type: data?.from_type, to_type: data?.to_type })
         }
     }, [])
 
@@ -292,6 +293,12 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
             formik.setValues({ ...formik.values, payout_part: value })
         }
     }
+    const customStyles = {
+        control: (base, state) => ({
+            ...base,
+            borderColor: formik.errors.part_type && formik.touched.part_type ? 'red' : base.borderColor, // Change the border color when it's invalid
+        }),
+    };
 
     return (
         <form noValidate>
@@ -438,32 +445,22 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                                 name="payOutPartner"
                                 checked={amt_detail.part_type == "Services"}
                                 value="Services"
-                                onChange={(e) => { handlePayoutPart(e) }}
+                                onChange={(e) => { handlePayoutPart(e, "Services") }}
                             />
                             <span className="checkmark"></span>
                         </label>
                     </div>
-                    <div className="col-md-12">
-                        <select
-                            className={clsx(
-                                'bg-transparent payout_select form-select form-control rate_input',
-                                { 'is-invalid': formik.errors.part_type && formik.touched.part_type }
-                            )}
+                    <div className="col-md-12 ">
+                        <Select
+                            options={Bank_list}
+                            onChange={handlePayoutPart}
+                            value={{ label: formik.values.part_type, value: formik.values.part_type }}
                             name='part_type'
-                            value={formik.values.part_type}
-                            onChange={(e) => { handlePayoutPart(e) }}
-                            onBlur={formik.handleBlur}
-                        >
-                            <option value="none">Select a bank</option>
-                            {
-                                Bank_list?.map((item, key) => (
-                                    <option key={key} value={item}>{item}</option>
-                                ))
-                            }
-                            <option value="other">Other</option>
-                        </select>
+                            styles={customStyles}
+                            className='payout_part'
+                        />
                     </div>
-                    <div className='col-md-12'>
+                    <div className='col-md-12 '>
                         {
                             formik.values.part_type === "other" ? (
                                 <input
@@ -474,7 +471,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                                     placeholder='Enter the bank name'
                                     onChange={(e) => customBank(e)}
                                     className={clsx(
-                                        'mb-3 bg-transparent form-control rate_input',
+                                        'my-3 bg-transparent form-control rate_input',
                                         { 'is-invalid': formik.touched.payout_part && formik.errors.payout_part },
                                         {
                                             'is-valid': formik.touched.payout_part && !formik.errors.payout_part,

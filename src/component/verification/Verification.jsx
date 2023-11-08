@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 import { resendOtp, verifyEmail } from "../../utils/Api";
 import { Alert, Button, Modal, ModalBody } from "react-bootstrap";
 import { useEffect } from "react";
+import { generateRandomKey } from "../../utils/hook";
 
 
 {/* start -- css*/ }
@@ -100,7 +101,7 @@ const Verification = () => {
                         user.digital_id_verified = "true"
                         localStorage.setItem("remi-user-dt", JSON.stringify(user))
                         if (localStorage.getItem("transfer_data")) {
-                            navigate("/user-send-money")
+                            navigate(`/user-send-money`)
                         } else {
                             navigate("/dashboard")
                         }

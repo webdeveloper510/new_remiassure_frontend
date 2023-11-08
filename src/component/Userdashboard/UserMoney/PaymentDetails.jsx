@@ -385,131 +385,133 @@ const PaymentDetails = ({ handleStep, step }) => {
     }
   }, [is_otp_verified])
 
+  const handleConfirmation = () => {
+    setOpenModal(true)
+  }
+
   return (
     <>
       {
         !loader ?
           (
-            <section>
-              <div className="form-head mb-4">
-                <h2 className="text-black font-w600 mb-0"><b>Payment details</b>
-                </h2>
-              </div>
-              <div className="form_body">
-                <p className='float-end text-capitalize col-12 fw-bold' style={{ color: "#6414E9" }}> Sending ⇒  {display_value?.currency} {display_value?.amount !== "" ? commaSeperator(display_value?.amount) : display_value?.amount}</p>
-                <p className='float-end text-capitalize col-12 fw-bold' style={{ color: "#6414E9" }}> To  ⇒ {display_value?.first_name} {display_value?.last_name}</p>
-                <br></br>
-                <br></br>
-                <div className="row each-row">
-                  <h5>Payment type</h5>
-                  <div className="col-md-12">
-                    <label className="container-new">
-                      <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={25} /></span>
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="Payment Type"
-                        defaultChecked={data.payment_type == "PayTo"}
-                        value="PayTo"
-                        onChange={handleChange}
-                      />
-                      <span className="checkmark"></span>
-                    </label>
-                  </div>
-                  <div className="col-md-12">
-                    <label className="container-new">
-                      <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /></span>
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="Payment Type"
-                        defaultChecked={data.payment_type == "PayByID"}
-                        value="PayByID"
-                        onChange={handleChange}
-                      />
-                      <span className="checkmark"></span>
-                    </label>
-                  </div>
-                  {/* <div className="col-md-12">
-                    <label className="container-new">
-                      <span className="radio-tick">Debit/Credit Card</span>
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="Payment Type"
-                        defaultChecked={data.payment_type == "Debit/Credit Card"}
-                        value="Debit/Credit Card"
-                        onChange={handleChange}
-
-                      />
-                      <span className="checkmark"></span>
-                    </label>
-                  </div> */}
-                </div>
-                <div className="row each-row mb-3">
-                  <div className="col-md-5">
-                    <div className="input_field">
-                      <p className="get-text">Reason for sending money<span style={{ color: 'red' }} >*</span></p>
-                      <select
-                        aria-label="Select a reason"
-                        name="reason"
-                        value={data.reason}
-                        onChange={(e) => handleChange(e)}
-                        className={`${error && data.reason === "none" ? "is-invalid" : !error && data.reason !== "none" ? "is-valid" : ""} form-control form-select`}
-                      >
-                        <option value="none">Select a reason</option>
-                        {
-                          reason_list?.map((item) => (
-                            <option value={item}>{item}</option>
-                          ))
-                        }
-                      </select>
+            <>
+              {
+                display_confirm.toggle === false && modalView === false ? (
+                  <section>
+                    <div className="form-head mb-4">
+                      <h2 className="text-black font-w600 mb-0"><b>Payment details</b>
+                      </h2>
                     </div>
-                    <div className='fv-plugins-message-container mt-1'>
-                      <div className='fv-help-block'>
-                        <span role='alert' className="text-danger">{message}</span>
+                    <div className="form_body">
+                      <p className='float-end text-capitalize col-12 fw-bold' style={{ color: "#6414E9" }}> Sending ⇒  {display_value?.currency} {display_value?.amount !== "" ? commaSeperator(display_value?.amount) : display_value?.amount}</p>
+                      <p className='float-end text-capitalize col-12 fw-bold' style={{ color: "#6414E9" }}> To  ⇒ {display_value?.first_name} {display_value?.last_name}</p>
+                      <br></br>
+                      <br></br>
+                      <div className="row each-row">
+                        <h5>Payment type</h5>
+                        <div className="col-md-12">
+                          <label className="container-new">
+                            <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={25} /></span>
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="Payment Type"
+                              defaultChecked={data.payment_type == "PayTo"}
+                              value="PayTo"
+                              onChange={handleChange}
+                            />
+                            <span className="checkmark"></span>
+                          </label>
+                        </div>
+                        <div className="col-md-12">
+                          <label className="container-new">
+                            <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /></span>
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="Payment Type"
+                              defaultChecked={data.payment_type == "PayByID"}
+                              value="PayByID"
+                              onChange={handleChange}
+                            />
+                            <span className="checkmark"></span>
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  {
-                    data.reason === "Other" ?
-                      (
+                      <div className="row each-row mb-3">
                         <div className="col-md-5">
                           <div className="input_field">
-                            <p className="get-text">Specify the reason<span style={{ color: 'red' }} >*</span></p>
-                            <textarea
-                              type="text"
-                              name="other_reason"
-                              value={other_reason}
-                              onChange={handleOther}
-                              maxLength={50}
-                              className={clsx(
-                                'form-control bg-transparent',
-                                { 'is-invalid': error_other }
-                              )}
-                            />
+                            <p className="get-text">Reason for sending money<span style={{ color: 'red' }} >*</span></p>
+                            <select
+                              aria-label="Select a reason"
+                              name="reason"
+                              value={data.reason}
+                              onChange={(e) => handleChange(e)}
+                              className={`${error && data.reason === "none" ? "is-invalid" : !error && data.reason !== "none" ? "is-valid" : ""} form-control form-select`}
+                            >
+                              <option value="none">Select a reason</option>
+                              {
+                                reason_list?.map((item) => (
+                                  <option value={item}>{item}</option>
+                                ))
+                              }
+                            </select>
+                          </div>
+                          <div className='fv-plugins-message-container mt-1'>
+                            <div className='fv-help-block'>
+                              <span role='alert' className="text-danger">{message}</span>
+                            </div>
                           </div>
                         </div>
-                      ) : <></>
-                  }
-                </div>
-                {
-                  modalView === true ? (
-                    <></>
-                  ) : (
-                    <div className="row">
-                      <div className="col-md-4">
-                        <button type="button" className="start-form-button full-col" onClick={() => handleCancel()}>Cancel</button>
+                        {
+                          data.reason === "Other" ?
+                            (
+                              <div className="col-md-5">
+                                <div className="input_field">
+                                  <p className="get-text">Specify the reason<span style={{ color: 'red' }} >*</span></p>
+                                  <textarea
+                                    type="text"
+                                    name="other_reason"
+                                    value={other_reason}
+                                    onChange={handleOther}
+                                    maxLength={50}
+                                    className={clsx(
+                                      'form-control bg-transparent',
+                                      { 'is-invalid': error_other }
+                                    )}
+                                  />
+                                </div>
+                              </div>
+                            ) : <></>
+                        }
                       </div>
-                      <div className="col-md-8 full-col">
-                        <button className="form-button" onClick={() => handlePayType()}>Continue</button>
-                        <button className="form-button" onClick={() => handlePrevious()}>Previous</button>
-                      </div>
+                      {
+                        modalView === true ? (
+                          <></>
+                        ) : (
+                          <div className="row">
+                            <div className="col-md-4">
+                              <button type="button" className="start-form-button full-col" onClick={() => handleCancel()}>Cancel</button>
+                            </div>
+                            <div className="col-md-8 full-col">
+                              <button className="form-button" onClick={() => handlePayType()}>Continue</button>
+                              <button className="form-button" onClick={() => handlePrevious()}>Previous</button>
+                            </div>
+                          </div>
+                        )
+                      }
                     </div>
-                  )
-                }
-              </div>
-
+                  </section>
+                ) : display_confirm.toggle === true && modalView === false ? (
+                  <section>
+                    <TransactionConfirm data={display_confirm} handleCancel={() => setDisplayConfirm({ toggle: false, data: null })} handleContinue={() => { handleConfirmation() }} />
+                  </section>
+                ) : (
+                  <section>
+                    <TransactionRecipiet transaction={transaction} modalView={modalView} />
+                  </section>
+                )
+              }
               <PayIDModal modal={pay_id_modal.toggle} handler={(value) => { setPayIdModal(value) }} otp={(value) => OpenConfirmation()} data={pay_id_modal} setData={(data) => setPayIdData(data)} />
 
               <PayToModal modal={pay_to_modal} handler={(value) => { setPayToModal(value) }} otp={(value) => OpenConfirmation()} setData={(data) => setPayToData(data)} handleLoader={(value) => { setLoader(value) }} authModal={(value) => setErrorModal(value)} />
@@ -535,17 +537,14 @@ const PaymentDetails = ({ handleStep, step }) => {
                 </Modal.Footer>
               </Modal>
 
-              {/* ----------------- transaction result----------------- */}
-              <TransactionRecipiet transaction={transaction} modalView={modalView} />
-
               {/* -----------OTP verification */}
               <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
                 <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} />
               </Modal>
 
               <ErrorModal show={error_modal} handler={(value) => setErrorModal(value)} otp={(value) => OpenConfirmation()} />
-              <TransactionConfirm data={display_confirm} handleCancel={() => setDisplayConfirm({ toggle: false, data: null })} handleContinue={() => { setDisplayConfirm({ toggle: false, data: null }); setOpenModal(true) }} />
-            </section>
+            </>
+
           ) : (
             <div className="loader-overly">
               <div className="loader" >
@@ -965,12 +964,6 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, authModal }) =
     setFieldValue("pay_id", "")
   }
 
-  // const createNew = () => {
-  //   resetForm()
-  //   setAgreementList([])
-  //   setStage(1)
-  //   startDate()
-  // }
 
   return (
     <Modal className="modal-card" show={modal} onHide={() => handleCancel()} centered backdrop="static">
@@ -1399,42 +1392,40 @@ const TransactionRecipiet = ({ transaction, modalView }) => {
   let navigate = useNavigate()
 
   return (
-    <Modal show={modalView} backdrop="static" centered>
-      <Modal.Body>
-        <div className="form_body">
-          <div className="header">
-            <h1 className='text-success'><BsCheckCircleFill />Transaction Being Processed</h1>
-          </div>
-          <Table>
-            <tbody>
-              <tr>
-                <th>Transaction Id:</th>
-                <td>{transaction?.pay_id}</td>
-              </tr>
-              <tr>
-                <th>Transaction Amount</th>
-                <td>{transaction.curr}&nbsp;{commaSeperator(transaction.amount)}</td>
-              </tr>
-              <tr>
-                <th>Transaction Status:</th>
-                <td>{transaction?.status}</td>
-              </tr>
-            </tbody>
-          </Table>
-          <div className='row text-center'>
-            <div className="col-md-6">
-              {/* <NavLink target='_blank' href={`${serverUrl}/payment/receipt/${transaction.id}`}> */}
-              <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => navigate(`/transaction-detail/${transaction.pay_id}`)}>View Reciept</button>
-              {/* </NavLink> */}
-            </div>
-            <div className="col-md-6">
-              <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>Go To Dashboard</button>
-            </div>
-          </div>
-
+    <section className='row'>
+      <div className="form_body col-md-8">
+        <div className="header mt-3 mb-5">
+          <h1 className='text-success'><BsCheckCircleFill />Transaction Being Processed</h1>
         </div>
-      </Modal.Body>
-    </Modal>
+        <Table style={{ lineHeight: "2" }}>
+          <tbody>
+            <tr>
+              <th>Transaction Id:</th>
+              <td>{transaction?.pay_id}</td>
+            </tr>
+            <tr>
+              <th>Transaction Amount</th>
+              <td>{transaction.curr}&nbsp;{commaSeperator(transaction.amount)}</td>
+            </tr>
+            <tr>
+              <th>Transaction Status:</th>
+              <td>{transaction?.status}</td>
+            </tr>
+          </tbody>
+        </Table>
+        <div className='row text-center mt-5'>
+          <div className="col-md-6">
+            {/* <NavLink target='_blank' href={`${serverUrl}/payment/receipt/${transaction.id}`}> */}
+            <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => navigate(`/transaction-detail/${transaction.pay_id}`)}>View Reciept</button>
+            {/* </NavLink> */}
+          </div>
+          <div className="col-md-6">
+            <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>Go To Dashboard</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
   )
 }
 

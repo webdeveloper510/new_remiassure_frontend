@@ -1,3 +1,6 @@
+import CryptoJS from "crypto-js";
+
+
 export const commaSeperator = (value) => {
     let data = value?.toString();
     const [integerPart, decimalPart] = data?.split('.')
@@ -18,3 +21,13 @@ export const commaRemover = (value) => {
         return data
     }
 }
+
+export const generateRandomKey = () => {
+    const uuid = CryptoJS.lib.WordArray.random(16);
+
+    // Format the UUID as a string with hyphens.
+    const formattedKey = `${uuid.toString()}`
+        .replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, '$1-$2-$3-$4-$5');
+
+    return formattedKey
+};

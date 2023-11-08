@@ -9,7 +9,7 @@ import PaymentSummary from './PaymentSummary'
 import { useLocation, useNavigate } from 'react-router-dom'
 import authDashHelper from '../../utils/AuthDashHelper'
 import { pendingTransactions } from '../../utils/Api'
-import { commaSeperator } from '../../utils/hook'
+import { commaSeperator, generateRandomKey } from '../../utils/hook'
 
 const SendMoney = () => {
 
@@ -45,7 +45,7 @@ const SendMoney = () => {
   useEffect(() => {
 
     if (authDashHelper('dashCheck')) {
-      navigate("/user-send-money")
+      navigate(`/user-send-money`)
     } else if (authDashHelper('authCheck')) {
       navigate("/login")
     } else {

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { links, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { generateRandomKey } from "../../utils/hook";
 
 
 const Footer = () => {
@@ -129,7 +130,7 @@ const Footer = () => {
         let user = JSON.parse(localStorage.getItem('remi-user-dt'))
         let token = localStorage.getItem('token')
         if (token && (user?.digital_id_verified === "True" || user?.digital_id_verified === "true")) {
-            return "/user-send-money"
+            return `/user-send-money`
         } else if (token && (user?.digital_id_verified === "False" || user?.digital_id_verified === "false")) {
             return "/send-money"
         } else {

@@ -21,6 +21,7 @@ import PopVerify from "../verification/PopVerify";
 const Profile = () => {
 
   const navigate = useNavigate()
+  const user_data = JSON.parse(localStorage.getItem("remi-user-dt"))
   const [open_modal, setOpenModal] = useState(false)
   const [is_otp_verified, setIsOtpVerfied] = useState(false)
   const [loading, setLoading] = React.useState(false);
@@ -34,7 +35,7 @@ const Profile = () => {
     Date_of_birth: "", flat: "", building: "",
     street: "", city: "none", country: "none",
     postcode: "", state: "none", email: "", mobile: "", occupation: "",
-    customer_id: "", country_code: "AU", payment_per_annum: "Less than 5 times", value_per_annum: "Less than $30,000"
+    customer_id: "", country_code: "AU", payment_per_annum: "Level1 - Less than 5 times", value_per_annum: "Level1 - Less than $30,000"
   })
 
   const initialValues = {
@@ -43,7 +44,7 @@ const Profile = () => {
     Date_of_birth: "", flat: "", building: "",
     street: "", city: "none", country: "none",
     postcode: "", state: "none", email: "", mobile: "", occupation: "",
-    customer_id: "", payment_per_annum: "Less than 5 times", value_per_annum: "Less than $30,000"
+    customer_id: "", payment_per_annum: "Level1 - Less than 5 times", value_per_annum: "Level1 - Less than $30,000"
   }
 
   const profileSchema = Yup.object().shape({
@@ -116,31 +117,7 @@ const Profile = () => {
 
   const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
-  // useEffect(() => {
-  //   const value = data.country !== "" ? data.country : countryList[0]?.name
-  //   if (data.country == "") {
-  //     setData({ ...data, country: countryList[0]?.name, country_code: countryList[0]?.iso2 })
-  //     formik.setFieldValue("country", countryList[0]?.name)
-  //   }
-  //   countryList?.map((item) => {
-  //     if (item?.name === value) {
-  //       setStateList(item?.states);
-  //       setData({ ...data, state: item?.states[0].name })
-  //       formik.setFieldValue("state", item?.states[0].name)
-  //     }
-  //   })
-  // }, [data.country])
 
-  // useEffect(() => {
-  //   const value = data.state !== "" ? data.state : state_list[0]?.name
-  //   state_list?.map((item) => {
-  //     if (item?.name === value) {
-  //       setCityList(item?.cities);
-  //       setData({ ...data, city: item?.cities[0].name })
-  //       formik.setFieldValue("city", item?.cities[0].name)
-  //     }
-  //   })
-  // }, [data.state])
 
   useEffect(() => {
     if (data.country !== "none") {
@@ -194,20 +171,6 @@ const Profile = () => {
 
   }, [data.city, city_list])
 
-  // useEffect(() => {
-  //   if (data.postcode !== "") {
-  //     console
-  //     if (data.postcode.length === 4) {
-  //       let array = state_list.filter((item) => {
-  //         return item.post_code === data?.postcode
-  //       })
-  //       array.sort((a, b) => (a.city > b.city) ? 1 : -1);
-  //       setCityList(array)
-  //       setData({ ...data, city: array[0]?.city, state: array[0]?.state })
-  //       formik.setValues({ ...formik.values, city: array[0]?.city, state: array[0]?.state })
-  //     }
-  //   }
-  // }, [data.postcode])
 
 
   const handleNumericOnly = (event) => {
@@ -359,7 +322,13 @@ const Profile = () => {
           <div className="content-body">
             <section className="edit_recipient_section">
               <div className="form-head mb-4">
-                <h2 className="text-black font-w600 mb-0"><b>Profile Update</b></h2></div>
+                <span className="text-black font-w600 mb-0 h2"><b>Profile Information</b>
+                </span>
+                <span className="verified_text px-2 py-1 fs-5 mx-3">
+                  <i className="bi bi-check-circle-fill text-success">&nbsp;</i>
+                  Verified
+                </span>
+              </div>
               <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
                 <div className="card">
                   <div className="card-body">
@@ -559,9 +528,9 @@ const Profile = () => {
                               }
                             )}
                           >
-                            <option value="Less than 5 times" key="Less than 5 times">Less than 5 times</option>
-                            <option value="5-10 times" key="5-10 times">5-10 times</option>
-                            <option value="Greater than 10 times" key="Greater than 10 times">Greater than 10 times</option>
+                            <option value="Level1 - Less than 5 times" key="Less than 5 times">Level1 - Less than 5 times</option>
+                            <option value="Level2 - 5 to 10 times" key="5-10 times">Level2 - 5 to 10 times</option>
+                            <option value="Level3 - Greater than 10 times" key="Greater than 10 times">Level3 - Greater than 10 times</option>
                           </select>
                         </div>
                       </div>
@@ -580,9 +549,9 @@ const Profile = () => {
                               }
                             )}
                           >
-                            <option value="Less than $30,000" key="Less than $30,000">Less than $30,000</option>
-                            <option value="$30,000-$100,000" key="$30,000-$100,000">$30,000-$100,000</option>
-                            <option value="Greater than $100,000" key="Greater than $100,000">Greater than $100,000</option>
+                            <option value="Level1 - Less than $30,000" key="Less than $30,000">Level1 - Less than $30,000</option>
+                            <option value="Level2 - $30,000 to $100,000" key="$30,000-$100,000">Level2 - $30,000 to $100,000</option>
+                            <option value="Level3 - Greater than $100,000" key="Greater than $100,000">Level3 - Greater than $100,000</option>
                           </select>
                         </div>
                       </div>

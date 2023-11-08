@@ -14,6 +14,7 @@ import clsx from "clsx";
 import { getUserRecipient, updateUserRecipient } from "../../utils/Api";
 import authDashHelper from "../../utils/AuthDashHelper";
 import Bank_list from "../../utils/Bank_list";
+import Select from "react-select"
 
 
 const Editrecipientuser = () => {
@@ -284,6 +285,19 @@ const Editrecipientuser = () => {
     setData({ ...data, country: coun.name })
   }
 
+  const handleBank = (val, event) => {
+    formik.setFieldValue("bank_name", val?.value)
+    formik.handleChange(val.value)
+    setData({ ...data, bank_name: val?.value })
+  }
+
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      borderColor: formik.errors.bank_name && formik.touched.bank_name ? 'red' : base.borderColor, // Change the border color when it's invalid
+    }),
+  };
+
 
   return (
     <>
@@ -292,7 +306,7 @@ const Editrecipientuser = () => {
         <div className="tabs-page">
           <Sidebar />
           <div className="content-body">
-            <section className="edit_recipient_section">
+            <section className="showrecepient">
               <div className="form-head mb-4">
                 <h2 className="text-black font-w600 mb-0"><b>Update Recipient </b>
                   <NavLink to="/user-recipients">
@@ -316,7 +330,7 @@ const Editrecipientuser = () => {
                         <i className="ms-2 bi bi-info-circle-fill bank_name_info"></i>
                       </OverlayTrigger> */}
                           </p>
-                          <select
+                          {/* <select
                             className={clsx(
                               'bg-transparent form-select form-control',
                               { 'is-invalid': formik.touched.bank_name && formik.errors.bank_name }
@@ -332,7 +346,14 @@ const Editrecipientuser = () => {
                               ))
                             }
                             <option value="other">Other</option>
-                          </select>
+                          </select> */}
+                          <Select
+                            options={Bank_list}
+                            onChange={handleBank}
+                            value={{ label: formik.values.bank_name, value: formik.values.bank_name }}
+                            name='bank_name'
+                            styles={customStyles}
+                          />
                         </div>
                       </div>
                       {
@@ -452,7 +473,7 @@ const Editrecipientuser = () => {
                       </div>
                     </div>
                     <div className="row each-row remove_mb">
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
                           <input
@@ -478,7 +499,7 @@ const Editrecipientuser = () => {
                           )}
                         </div>
                       </div>
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                           <PhoneInput
@@ -487,7 +508,7 @@ const Editrecipientuser = () => {
                             name="mobile"
                             value={formik.values.mobile}
                             inputStyle={{ border: "none", margin: "none" }}
-                            inputClass="phoneInp"
+                            inputClass="userPhone w-100"
                             defaultCountry={"au"}
                             countryCodeEditable={false}
                             onChange={(val, coun) => { handlePhone(val, coun) }}

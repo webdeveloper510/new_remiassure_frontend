@@ -7,6 +7,8 @@ import { createTransaction, exchangeRate, getPreferredCurrency, setPreferredCurr
 import { toast } from 'react-toastify';
 import Bank_list from '../../../utils/Bank_list';
 import { commaRemover, commaSeperator } from '../../../utils/hook';
+import Select from "react-select"
+
 
 const AmountDetail = ({ handleStep, step }) => {
 
@@ -19,7 +21,7 @@ const AmountDetail = ({ handleStep, step }) => {
         from_type: "AUD",
         to_type: "NGN",
         recieve_meth: "Bank Transfer",
-        part_type: "Bank",
+        part_type: "",
         payout_part: "none"
     })
 
@@ -43,7 +45,7 @@ const AmountDetail = ({ handleStep, step }) => {
         from_type: Yup.string(),
         to_type: Yup.string().required(),
         exchange_amt: Yup.string().required(),
-        part_type: Yup.string().required().notOneOf(["none"]),
+        part_type: Yup.string().required().notOneOf([""]),
         payout_part: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
             const {
                 createError,
@@ -65,7 +67,7 @@ const AmountDetail = ({ handleStep, step }) => {
         from_type: "AUD",
         to_type: "NGN",
         recieve_meth: "Bank Transfer",
-        part_type: "none",
+        part_type: "",
         payout_part: ""
     }
 
@@ -250,12 +252,12 @@ const AmountDetail = ({ handleStep, step }) => {
         }
     }
 
-    const handlePayoutPart = (e) => {
-        if (e.target.value === "Services") {
+    const handlePayoutPart = (e, name) => {
+        if (name === "services") {
             toast.warn("THIS SERVICE OPTION IS CURRENTLY UNAVAILABLE", { hideProgressBar: true, autoClose: 1000, position: "bottom-right" })
         } else {
-            setAmtDetail({ ...amt_detail, part_type: e.target.value })
-            formik.setValues({ ...formik.values, part_type: e.target.value, payout_part: "" })
+            setAmtDetail({ ...amt_detail, part_type: e.value })
+            formik.setValues({ ...formik.values, part_type: e.value, payout_part: "" })
         }
     }
 
@@ -289,6 +291,13 @@ const AmountDetail = ({ handleStep, step }) => {
             formik.setValues({ ...formik.values, payout_part: value })
         }
     }
+
+    const customStyles = {
+        control: (base, state) => ({
+            ...base,
+            borderColor: formik.errors.part_type && formik.touched.part_type ? 'red' : base.borderColor, // Change the border color when it's invalid
+        }),
+    };
 
     return (
         <section>
@@ -442,13 +451,21 @@ const AmountDetail = ({ handleStep, step }) => {
                                             name="payOutPartner"
                                             checked={amt_detail.part_type == "Services"}
                                             value="Services"
-                                            onChange={(e) => { handlePayoutPart(e) }}
+                                            onChange={(e) => { handlePayoutPart(e, "services") }}
                                         />
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
                                 <div className="col-md-12">
-                                    <select
+                                    <Select
+                                        options={Bank_list}
+                                        onChange={handlePayoutPart}
+                                        value={{ label: formik.values.part_type, value: formik.values.part_type }}
+                                        name='part_type'
+                                        styles={customStyles}
+                                        className='payout_part'
+                                    />
+                                    {/* <select
                                         className={clsx(
                                             'bg-transparent payout_select form-select form-control rate_input',
                                             { 'is-invalid': formik.touched.part_type && formik.errors.part_type }
@@ -463,7 +480,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                             ))
                                         }
                                         <option value="other">Other</option>
-                                    </select>
+                                    </select> */}
 
                                 </div>
                                 <div className='col-md-12'>
@@ -477,7 +494,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                                 onChange={(e) => customBank(e)}
                                                 maxLength={50}
                                                 className={clsx(
-                                                    'mb-3 bg-transparent form-control rate_input',
+                                                    'my-3 bg-transparent form-control rate_input',
                                                     { 'is-invalid': formik.touched.payout_part && formik.errors.payout_part },
                                                     {
                                                         'is-valid': formik.touched.payout_part && !formik.errors.payout_part,

@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import clsx from "clsx";
 import { useRef } from "react";
 import { exchangeRate, getPreferredCurrency } from "../../utils/Api";
-import { commaRemover, commaSeperator } from "../../utils/hook";
+import { commaRemover, commaSeperator, generateRandomKey } from "../../utils/hook";
 
 function WhyRenderingArrayOfObjects() {
     const dataItems = [
@@ -206,7 +206,7 @@ const Home = () => {
                     if (token) {
                         if (userdt?.digital_id_verified) {
 
-                            navigate("/user-send-money")
+                            navigate(`/user-send-money`)
                         } else {
                             navigate("/send-money")
                         }
@@ -249,7 +249,7 @@ const Home = () => {
                 if (token) {
                     if (userdt?.digital_id_verified) {
 
-                        navigate("/user-send-money")
+                        navigate(`/user-send-money`)
                     } else {
                         navigate("/send-money")
                     }
@@ -839,13 +839,13 @@ const Home = () => {
                                 <div className="vl about_v1">
                                     <h1 className="vl-heading">How it Works</h1>
                                 </div>
-                            <div className="vl-content">
-                                <ul className="list-">
-                                    < HowRenderingArrayOfObjects />
-                                </ul>
+                                <div className="vl-content">
+                                    <ul className="list-">
+                                        < HowRenderingArrayOfObjects />
+                                    </ul>
+                                </div>
                             </div>
-                            </div>
-                            <div className="col-sm-4 right_side"> 
+                            <div className="col-sm-4 right_side">
                                 <img src="assets/img/home/img03.svg" alt="background-images" />
                             </div>
                         </div>
@@ -859,28 +859,28 @@ const Home = () => {
 
             <section className="why-us_section homepage-why-us hows-section">
                 <div className="container">
-                   
+
 
                     <div className="row custom-row-hows">
-                    <div className="col-lg-6 text-start">
+                        <div className="col-lg-6 text-start">
                             <img src="assets/img/footer/trans5.png" alt="background-images" />
                         </div>
                         <div className="col-lg-6">
-                        <div className="vl about_v1">
-                                    <h1 className="vl-heading">Pay for your transaction</h1>
-                                </div>
+                            <div className="vl about_v1">
+                                <h1 className="vl-heading">Pay for your transaction</h1>
+                            </div>
                             <div className="vl-content">
-                               <p>We offer different payment rails for our customers. You can pay through:</p>
-                               <ul>
-                                <li><img src="assets/img/zai/payid_light.svg" alt="background-images" /><p>PayID</p></li>
-                                <li><img src="assets/img/zai/payto_light.svg" alt="background-images" /><p>PayTo</p></li>
-                                <li><img src="assets/img/zai/card.png" alt="background-images" /><p>Debit / Credit Card</p></li>
-                               </ul>
-                               <p>All three options are real-time so you can rest assured that your funds will be sent once payment is received for your transfer. </p>
+                                <p>We offer different payment rails for our customers. You can pay through:</p>
+                                <ul>
+                                    <li><img src="assets/img/zai/payid_light.svg" alt="background-images" /><p>PayID</p></li>
+                                    <li><img src="assets/img/zai/payto_light.svg" alt="background-images" /><p>PayTo</p></li>
+                                    <li><img src="assets/img/zai/card.png" alt="background-images" /><p>Debit / Credit Card</p></li>
+                                </ul>
+                                <p>All three options are real-time so you can rest assured that your funds will be sent once payment is received for your transfer. </p>
                             </div>
                         </div>
-                       
-                       
+
+
                     </div>
 
                 </div>
@@ -888,26 +888,26 @@ const Home = () => {
 
             <section className="why-us_section homepage-why-us hows-section-light">
                 <div className="container">
-                  
+
                     <div className="row custom-row-hows">
-                    <div className="col-lg-6 text-start">
+                        <div className="col-lg-6 text-start">
                             <img src="assets/img/footer/trans4.png" alt="background-images" />
                         </div>
-                    <div className="col-lg-6">
-                    <div className="vl about_v1">
-                                    <h1 className="vl-heading">Track the status of your transfer</h1> 
-                                </div>
+                        <div className="col-lg-6">
+                            <div className="vl about_v1">
+                                <h1 className="vl-heading">Track the status of your transfer</h1>
+                            </div>
                             <div className="vl-content">
-                               <p>We notify you at each stage of your transfer through email and SMS. The main stages are:</p>
-                               <ul>
-                                <li><img src="assets/img/zai/arrows.png" alt="background-images" /><p>Creation of a Transfer</p></li>
-                                <li><img src="assets/img/zai/transfer.png" alt="background-images" /><p>Receipt of Funds</p></li>
-                                <li><img src="assets/img/zai/transfer1.png" alt="background-images" /><p>Transfer Processed</p></li>
-                                <li><img src="assets/img/zai/account.png" alt="background-images" /><p>Transfer Paid out to Beneficiary</p> </li>
-                               </ul>
+                                <p>We notify you at each stage of your transfer through email and SMS. The main stages are:</p>
+                                <ul>
+                                    <li><img src="assets/img/zai/arrows.png" alt="background-images" /><p>Creation of a Transfer</p></li>
+                                    <li><img src="assets/img/zai/transfer.png" alt="background-images" /><p>Receipt of Funds</p></li>
+                                    <li><img src="assets/img/zai/transfer1.png" alt="background-images" /><p>Transfer Processed</p></li>
+                                    <li><img src="assets/img/zai/account.png" alt="background-images" /><p>Transfer Paid out to Beneficiary</p> </li>
+                                </ul>
                             </div>
                         </div>
-                       
+
                     </div>
 
                 </div>

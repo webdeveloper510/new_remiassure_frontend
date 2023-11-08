@@ -14,6 +14,7 @@ import clsx from "clsx";
 import { createRecipient } from "../../utils/Api";
 import authDashHelper from "../../utils/AuthDashHelper";
 import Bank_list from "../../utils/Bank_list";
+import Select from "react-select";
 
 
 const Addnewrecipient = () => {
@@ -252,6 +253,19 @@ const Addnewrecipient = () => {
     }
   }
 
+  const handleBank = (val, event) => {
+    formik.setFieldValue("bank_name", val?.value)
+    formik.handleChange(val.value)
+    setData({ ...data, bank_name: val?.value })
+  }
+
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      borderColor: formik.errors.bank_name && formik.touched.bank_name ? 'red' : base.borderColor, // Change the border color when it's invalid
+    }),
+  };
+
   return (
     <div className="margin-set">
       <div className="tabs-page">
@@ -281,7 +295,14 @@ const Addnewrecipient = () => {
                         <i className="ms-2 bi bi-info-circle-fill bank_name_info"></i>
                       </OverlayTrigger> */}
                         </p>
-                        <select
+                        <Select
+                          options={Bank_list}
+                          onChange={handleBank}
+                          value={{ label: formik.values.bank_name, value: formik.values.bank_name }}
+                          name='bank_name'
+                          styles={customStyles}
+                        />
+                        {/* <select
                           className={clsx(
                             'bg-transparent form-select form-control',
                             { 'is-invalid': formik.touched.bank_name && formik.errors.bank_name }
@@ -297,7 +318,7 @@ const Addnewrecipient = () => {
                             ))
                           }
                           <option value="other">Other</option>
-                        </select>
+                        </select> */}
                       </div>
                     </div>
                     {
