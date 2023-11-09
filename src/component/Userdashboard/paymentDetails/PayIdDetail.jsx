@@ -80,7 +80,7 @@ const PayIdDetail = () => {
                                                         </tbody>
                                                     </Table>
                                                 </div>
-                                            ) : (<>No Pay ID registered</>)
+                                            ) : (<p class="no-entry">No Pay ID registered</p>)
                                         }
                                     </div>
                                 </div>

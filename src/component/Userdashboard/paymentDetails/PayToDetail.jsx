@@ -86,7 +86,7 @@ const PayToDetail = () => {
                                                     </Table>
                                                 </div>
                                             ) : (
-                                                <> No Agreement created</>
+                                                <p class="no-entry"> No Agreement created</p>
                                             )
                                         }
                                     </div>

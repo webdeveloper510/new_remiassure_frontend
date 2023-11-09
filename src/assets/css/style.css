@@ -7347,3 +7347,19 @@ div#about .circle-image img {
 .payment.active::before {
   content: none !important;
 }
+
+.form_body:has(> p.no-entry) {
+  padding: 0 !important;
+}
+p.no-entry {
+  position: relative;
+  border-radius: 15px;
+  padding: 25px;
+  z-index: 2;
+  transition: all 0.5s;
+  color: #fff;
+  background-image: linear-gradient(rgb(47 0 126 / 49%) 100%, rgb(47 0 126 / 50%)100%), url("../img/userdashboard/card.png");
+  background-size: cover;
+  font-size: 20px;
+  font-weight: 600;
+}
