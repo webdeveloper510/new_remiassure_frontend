@@ -324,10 +324,20 @@ const Profile = () => {
               <div className="form-head mb-4">
                 <span className="text-black font-w600 mb-0 h2"><b>Profile Information</b>
                 </span>
-                <span className="verified_text px-2 py-1 fs-5 mx-3">
-                  <i className="bi bi-check-circle-fill text-success">&nbsp;</i>
-                  Verified
-                </span>
+                {
+                  user_data?.digital_id_verified.toLowerCase() === "true" ? (
+                    <span className="verified_text px-2 py-1 fs-5 mx-3">
+                      <i className="bi bi-check-circle-fill text-success">&nbsp;</i>
+                      Verified
+                    </span>
+                  ) : (
+                    <span className="unverified_text px-2 py-1 fs-5 mx-3">
+                      <i className="bi bi-x-circle-fill text-danger">&nbsp;</i>
+                      Not Verified
+                    </span>
+                  )
+                }
+
               </div>
               <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
                 <div className="card">

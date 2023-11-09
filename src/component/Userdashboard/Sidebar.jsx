@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, generatePath } from 'react-router-dom';
-import { BsCurrencyExchange, BsFillWalletFill, BsFillPersonPlusFill, BsFilePersonFill } from "react-icons/bs";
+import { BsCurrencyExchange, BsChevronCompactDown, BsChevronCompactUp, BsFillWalletFill, BsFillPersonPlusFill, BsFilePersonFill } from "react-icons/bs";
 import { BiTransfer } from "react-icons/bi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
 import { generateRandomKey } from "../../utils/hook";
+import { Accordion } from "react-bootstrap";
 
 
 const Sidebar = () => {
 
 
   const [isOpen, setIsOpen] = useState(false);
+  const [state, setState] = useState(false);
   const sidebarRef = useRef(null);
 
   useEffect(() => {
@@ -35,6 +37,12 @@ const Sidebar = () => {
     setIsOpen(false);
   };
 
+  const toggleVisibility = () => {
+    setState((prevState) => ({
+      isVisible: !prevState.isVisible,
+    }));
+  };
+
   return (
 
     <>
@@ -52,7 +60,26 @@ const Sidebar = () => {
               <li><NavLink to="/dashboard"><RxDashboard />Dashboard</NavLink></li>
               <li><NavLink to={`/user-send-money`}><BsCurrencyExchange />New Transfer</NavLink></li>
               <li><NavLink to="/user-profile"><BsFilePersonFill />Profile Information</NavLink></li>
-              <li><NavLink to="/payment-detail"><BsFillWalletFill />Payment Details</NavLink></li>
+              <li>
+                {/* <Accordion className="sidebar_accord">
+                  <Accordion.Item>
+                    <Accordion.Header>
+                      <NavLink className=''>
+                        <BsFillWalletFill />Payment Details
+                      </NavLink>
+                    </Accordion.Header>
+                  </Accordion.Item>
+                </Accordion> */}
+              </li>
+              <li className="payment_a"><NavLink className='payment' onClick={toggleVisibility}><div> <BsFillWalletFill />Payment Details </div>  {state.isVisible ? <BsChevronCompactUp /> : <BsChevronCompactDown />}</NavLink>
+                {state.isVisible &&
+                  <ul className="ms-4">
+                    <li><NavLink to="/payment-detail/pay-id-detail" className="py-1 fw-semibold"><img src="/assets/img/zai/payid.svg" height={55} width={55} /></NavLink></li>
+                    <li><NavLink to="/payment-detail/agreement-detail" className="py-1 fw-semibold"><img src="/assets/img/zai/payto.svg" height={55} width={55} /></NavLink></li>
+                  </ul>
+                }
+              </li>
+
               <li><NavLink to="/transactions"><BiTransfer />Transactions</NavLink></li>
               <li><NavLink to="/user-recipients"><BsFillPersonPlusFill />Recipients</NavLink></li>
               <li><NavLink to="/change-password"><RiLockPasswordLine />Password</NavLink></li>

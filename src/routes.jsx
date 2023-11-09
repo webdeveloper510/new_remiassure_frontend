@@ -37,6 +37,8 @@ import Mobile from './component/footer/Mobile';
 import AML from './component/footer/Aml';
 import TransactionDetails from './component/Userdashboard/TransactionDetails';
 import UserPaymentDetails from './component/Userdashboard/UserPaymentDetails';
+import PayIdDetail from './component/Userdashboard/paymentDetails/PayIdDetail';
+import PayToDetail from './component/Userdashboard/paymentDetails/PayToDetail';
 
 const routes = [
   {
@@ -82,7 +84,8 @@ const routes = [
       { path: '/change-password', element: <ChangePassword /> },
       { path: '/dashboard', element: <Dashboard /> },
       { path: '/edit-recipient-user', element: <Editrecipientuser /> },
-      { path: "/payment-detail", element: <UserPaymentDetails /> },
+      { path: "/payment-detail/agreement-detail", element: <PayToDetail /> },
+      { path: "/payment-detail/pay-id-detail", element: <PayIdDetail /> },
       // { path: '/profile-single-data/:id', element: <SingleRecipientProfile /> },
       // { path: '/user-card-list', element: <UserCardLists /> },
       // { path: '/add-new-card', element: <Addnewcard /> },

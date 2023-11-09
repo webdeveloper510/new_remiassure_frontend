@@ -200,7 +200,6 @@ const SenderDetails = ({ handleStep, step }) => {
             }
             localStorage.setItem("send-step", Number(step) + 1)
             handleStep(Number(step) + 1)
-            console.log(step, "stttteeeep")
             formik.handleSubmit()
             axios.post(`${serverUrl}/digital-verification/`, { code: res.code }, {
               headers: {
@@ -211,8 +210,6 @@ const SenderDetails = ({ handleStep, step }) => {
               if (res?.data?.code == "200") {
                 window.setTimeout(() => {
                   setLoader(false)
-                  console.log("loadeeeer , success", loader)
-                  console.log("digi verified")
                 }, 2000)
                 const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
                 userdt.digital_id_verified = "true"

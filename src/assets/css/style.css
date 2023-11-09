@@ -7296,30 +7296,54 @@ button.reversal-button {
 div#about p.fast_text {
   color: #6414e9;
 }
+
 div#about p.fast_texto1 {
   color: #000;
 }
 
-div#about .circle-image{
+div#about .circle-image {
   background: #6414e9;
 }
+
 div#about .circle-image img {
   width: 26px;
 }
 
 .verified_text {
   border: 1px solid #00ab41;
-  border-radius:10px
+  border-radius: 10px
 }
 
-.pay_id_box { 
+.unverified_text {
+  border: 1px solid red;
+  border-radius: 10px
+}
+
+.pay_id_box {
   border-right: 1px solid black !important
 }
 
-.free-transaction .about_v1{
+.free-transaction .about_v1 {
   height: 73px;
 }
+
 .free-transaction ul li {
   margin-bottom: 0;
   padding-bottom: 0px;
+}
+
+.payment {
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+.payment_a a.payment.active {
+  background: transparent !important;
+  color: #000 !important;
+  background-color: transparent !important;
+  border-radius: 0px !important;
+}
+
+.payment.active::before {
+  content: none !important;
 }
