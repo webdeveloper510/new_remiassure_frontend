@@ -1391,6 +1391,14 @@ const TransactionRecipiet = ({ transaction, modalView }) => {
 
   let navigate = useNavigate()
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth"
+    })
+  }, [])
+
   return (
     <section className='row'>
       <div className="form_body col-md-8">

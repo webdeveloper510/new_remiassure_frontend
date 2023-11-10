@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Table } from 'react-bootstrap'
 import { commaSeperator } from '../../utils/hook'
 
 const TransactionConfirm = ({ data, handleCancel, handleContinue }) => {
-    console.log("inconfirmation ,,,,", data)
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        })
+    }, [])
+
     return (
         <div className='col-md-12 '>
             <div class="form-head mb-4">
