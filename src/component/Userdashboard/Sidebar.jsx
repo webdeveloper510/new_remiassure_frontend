@@ -71,7 +71,7 @@ const Sidebar = () => {
                   </Accordion.Item>
                 </Accordion> */}
               </li>
-              <li className="payment_a"><NavLink className='payment' onClick={toggleVisibility}><div> <BsFillWalletFill />Payment Details </div>  {state.isVisible ? <BsChevronCompactUp /> : <BsChevronCompactDown />}</NavLink>
+              <li className="payment_a"><div className='payment' onClick={toggleVisibility}><div> <BsFillWalletFill />Payment Details </div>  {state.isVisible ? <BsChevronCompactUp /> : <BsChevronCompactDown />}</div>
                 {state.isVisible &&
                   <ul className="ms-4">
                     <li><NavLink to="/payment-detail/pay-id-detail" className="py-1 fw-semibold"><img src="/assets/img/zai/payid.svg" height={55} width={55} /></NavLink></li>
