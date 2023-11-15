@@ -20,7 +20,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
         from_type: "AUD",
         to_type: "NGN",
         recieve_meth: "Bank Transfer",
-        part_type: ""
+        part_type: "Select a bank..."
     })
 
 
@@ -35,8 +35,8 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
             const {
                 createError,
             } = validationcontext;
-            if (Number(value) < 1) {
-                return createError({ message: "Minimum $1 required" })
+            if (Number(value) < 100) {
+                return createError({ message: "Minimum $100 required" })
             } else {
                 return true
             }
@@ -44,7 +44,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
         exchange_amt: Yup.string("Please enter a valid amount").required('Amount is required').notOneOf(["."]),
         from_type: Yup.string(),
         to_type: Yup.string().required(),
-        part_type: Yup.string().required().notOneOf([""]).trim(),
+        part_type: Yup.string().required().notOneOf(["Select a bank..."]).trim(),
         payout_part: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
             const {
                 createError,
@@ -66,13 +66,15 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
         from_type: "AUD",
         to_type: "NGN",
         recieve_meth: "Bank Transfer",
-        part_type: "",
+        part_type: "Select a bank...",
         payout_part: ""
     }
 
     const formik = useFormik({
         initialValues,
         enableReinitialize: true,
+        validateOnChange: false,
+        validateOnBlur: false,
         validationSchema: amtSchema,
         onSubmit: async (values) => {
             if (amt_detail.part_type === "Services" || amt_detail.recieve_meth === "Mobile Wallet") {
@@ -269,15 +271,15 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
         if (localStorage.getItem("transfer_data")) {
             let tdata = JSON.parse(localStorage.getItem("transfer_data"))
             if (tdata?.amount) {
-                setAmtDetail({ ...tdata?.amount, recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "", send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
-                formik.setValues({ ...tdata?.amount, recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "", send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
+                setAmtDetail({ ...tdata?.amount, recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "Select a bank...", send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
+                formik.setValues({ ...tdata?.amount, recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "Select a bank...", send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
                 setExchRate(tdata?.amount?.exchange_rate)
             }
         } else {
             let data = JSON.parse(localStorage?.getItem("exchange_curr"))
-            setAmtDetail({ ...amt_detail, send_amt: "", exchange_amt: "", recieve_meth: "Bank Transfer", part_type: "", from_type: data?.from_type, to_type: data?.to_type })
+            setAmtDetail({ ...amt_detail, send_amt: "", exchange_amt: "", recieve_meth: "Bank Transfer", part_type: "Select a bank...", from_type: data?.from_type, to_type: data?.to_type })
             setExchRate(data?.exch_rate)
-            formik.setValues({ ...formik.values, send_amt: "", exchange_amt: "", recieve_meth: "Bank Transfer", part_type: "", from_type: data?.from_type, to_type: data?.to_type })
+            formik.setValues({ ...formik.values, send_amt: "", exchange_amt: "", recieve_meth: "Bank Transfer", part_type: "Select a bank...", from_type: data?.from_type, to_type: data?.to_type })
         }
     }, [])
 
@@ -301,7 +303,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
     };
 
     return (
-        <form noValidate>
+        <form noValidate className='pb-5'>
             <div className="form_body">
                 <div className="header exchangemoney-header">
                     <h1>Amount & delivery</h1>
@@ -369,7 +371,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                                 onBlurCapture={(e) => amountBlur(e, "From")}
                                 placeholder='1'
                             />
-                            {formik.touched.send_amt && formik.errors.send_amt === "Minimum $1 required" && (
+                            {formik.touched.send_amt && formik.errors.send_amt === "Minimum $100 required" && (
                                 <div className='fv-plugins-message-container mt-1'>
                                     <div className='fv-help-block'>
                                         <span role='alert' className="text-danger" style={{ fontSize: "13px" }}>{formik.errors.send_amt}</span>
@@ -482,7 +484,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                         }
                     </div>
                 </div>
-                <div className="row">
+                <div className="row ">
                     <div className="col-md-4">
                         <button
                             type='button'

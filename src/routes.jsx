@@ -6,7 +6,6 @@ import Home from './component/home/Home';
 import Aboutus from './component/aboutus/Aboutus';
 import Help from './component/help/Help';
 import Signup from './component/signup/Signup';
-import Referral from './component/referral/Referral';
 import Login from './component/login/Login';
 import ForgotPassword from './component/forgotpassword/ForgotPassword';
 import RecentPassword from './component/resetPassword/ResetPassword';
@@ -19,13 +18,7 @@ import UserProfile from './component/Userdashboard/UserProfile';
 import ChangePassword from './component/Userdashboard/ChangePassword';
 import UserRecipient from './component/Userdashboard/UserRecipient';
 import Dashboard from './component/Userdashboard/Dashboard';
-import ReferralData from './component/referralData/ReferralData';
 import Editrecipientuser from './component/Userdashboard/EditUserRecipient';
-import SingleRecipientProfile from './component/Userdashboard/SingleRecipientProfile';
-import UserCardLists from './component/Userdashboard/UserCardLists';
-import Addnewcard from './component/Userdashboard/AddNewCard';
-import EditCardUser from './component/Userdashboard/EditUserCard';
-import SingleCardProfile from './component/Userdashboard/SingleCardProfile';
 import Page404 from './component/pageNotfound/Page404';
 import UserMoney from "./component/Userdashboard/UserMoney/UserMoney"
 import EmailVerify from './component/verification/EmailVerify';
@@ -36,29 +29,30 @@ import T_c from './component/footer/T_c';
 import Mobile from './component/footer/Mobile';
 import AML from './component/footer/Aml';
 import TransactionDetails from './component/Userdashboard/TransactionDetails';
-import UserPaymentDetails from './component/Userdashboard/UserPaymentDetails';
 import PayIdDetail from './component/Userdashboard/paymentDetails/PayIdDetail';
 import PayToDetail from './component/Userdashboard/paymentDetails/PayToDetail';
+import Layout from './component/layout/Layout';
+import NonDashLayout from './component/layout/NonDashLayout';
 
 const routes = [
   {
     path: '/',
     children: [
-      { path: '/', element: <Home /> },
-      { path: 'about-us', element: <Aboutus /> },
-      { path: 'working', element: <Working /> },
-      { path: 'news', element: <News /> },
-      { path: 'privacy-policy', element: <Privacy /> },
-      { path: 'terms-and-condition', element: <T_c /> },
-      { path: 'apps', element: <Mobile /> },
-      { path: 'aml-policy', element: <AML /> },
-      { path: 'help', element: <Help /> },
-      { path: 'sign-up', element: <Signup /> },
-      { path: 'login', element: <Login /> },
-      { path: 'forgot-password', element: <ForgotPassword /> },
-      { path: 'reset-password', element: <RecentPassword /> },
-      { path: 'reset-password/:id', element: <LocalStorage /> },
-      { path: '/verification', element: <Verification /> },
+      { path: '/', element: <NonDashLayout><Home /></NonDashLayout> },
+      { path: 'about-us', element: <NonDashLayout> <Aboutus /></NonDashLayout> },
+      { path: 'working', element: <NonDashLayout><Working /> </NonDashLayout> },
+      { path: 'news', element: <NonDashLayout><News /> </NonDashLayout> },
+      { path: 'privacy-policy', element: <NonDashLayout><Privacy /></NonDashLayout> },
+      { path: 'terms-and-condition', element: <NonDashLayout><T_c /> </NonDashLayout> },
+      { path: 'apps', element: <NonDashLayout><Mobile /> </NonDashLayout> },
+      { path: 'aml-policy', element: <NonDashLayout> <AML /> </NonDashLayout> },
+      { path: 'help', element: <NonDashLayout><Help /> </NonDashLayout> },
+      { path: 'sign-up', element: <NonDashLayout><Signup /> </NonDashLayout> },
+      { path: 'login', element: <NonDashLayout><Login /></NonDashLayout> },
+      { path: 'forgot-password', element: <NonDashLayout><ForgotPassword /></NonDashLayout> },
+      { path: 'reset-password', element: <NonDashLayout><RecentPassword /> </NonDashLayout> },
+      { path: 'reset-password/:id', element: <NonDashLayout><LocalStorage /> </NonDashLayout> },
+      { path: '/verification', element: <NonDashLayout><Verification /></NonDashLayout> },
       { path: '404', element: <Page404 /> },
       { path: '*', element: <Navigate to="/404" /> },
     ]
@@ -68,25 +62,25 @@ const routes = [
     guard: AuthProtect,
     children: [
       // { path: '/referral', element: <Referral /> },
-      { path: '/send-money', element: <SendMoney /> },
+      { path: '/send-money', element: <NonDashLayout><SendMoney /></NonDashLayout> },
     ]
   },
   {
     path: '/',
     guard: AuthDashProtect,
     children: [
-      { path: '/transactions', element: <Transfer /> },
-      { path: '/transaction-detail/:id', element: <TransactionDetails /> },
-      { path: '/user-send-money', element: <UserMoney /> },
-      { path: '/add-new-recipient', element: <AddNewRecipient /> },
-      { path: '/user-profile', element: <UserProfile /> },
-      { path: '/user-recipients', element: <UserRecipient /> },
-      { path: '/change-password', element: <ChangePassword /> },
-      { path: '/dashboard', element: <Dashboard /> },
-      { path: '/edit-recipient-user', element: <Editrecipientuser /> },
-      { path: "/payment-detail/agreement-detail", element: <PayToDetail /> },
-      { path: "/payment-detail/pay-id-detail", element: <PayIdDetail /> },
-      // { path: '/profile-single-data/:id', element: <SingleRecipientProfile /> },
+      { path: '/transactions', element: <Layout><Transfer /></Layout> },
+      { path: '/transaction-detail/:id', element: <Layout><TransactionDetails /></Layout> },
+      { path: '/user-send-money', element: <Layout><UserMoney /></Layout> },
+      { path: '/add-new-recipient', element: <Layout><AddNewRecipient /></Layout> },
+      { path: '/user-profile', element: <Layout><UserProfile /></Layout> },
+      { path: '/user-recipients', element: <Layout><UserRecipient /></Layout> },
+      { path: '/change-password', element: <Layout><ChangePassword /></Layout> },
+      { path: '/dashboard', element: <Layout><Dashboard /></Layout> },
+      { path: '/edit-recipient-user', element: <Layout><Editrecipientuser /></Layout> },
+      { path: "/payment-detail/agreement-detail", element: <Layout><PayToDetail /></Layout> },
+      { path: "/payment-detail/pay-id-detail", element: <Layout><PayIdDetail /></Layout> },
+      // { path: '/profile-single-data/:id', element: <SingleRecipientProfile /></Layout> },
       // { path: '/user-card-list', element: <UserCardLists /> },
       // { path: '/add-new-card', element: <Addnewcard /> },
       // { path: '/edit-card-user/:id', element: <EditCardUser /> },

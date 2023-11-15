@@ -35,7 +35,7 @@ const Profile = () => {
     Date_of_birth: "", flat: "", building: "",
     street: "", city: "none", country: "none",
     postcode: "", state: "none", email: "", mobile: "", occupation: "",
-    customer_id: "", country_code: "AU", payment_per_annum: "Level1 - Less than 5 times", value_per_annum: "Level1 - Less than $30,000"
+    customer_id: "", country_code: "AU", payment_per_annum: "Tier 1 - Less than 5 times", value_per_annum: "Tier 1 - Less than $30,000"
   })
 
   const initialValues = {
@@ -44,7 +44,7 @@ const Profile = () => {
     Date_of_birth: "", flat: "", building: "",
     street: "", city: "none", country: "none",
     postcode: "", state: "none", email: "", mobile: "", occupation: "",
-    customer_id: "", payment_per_annum: "Level1 - Less than 5 times", value_per_annum: "Level1 - Less than $30,000"
+    customer_id: "", payment_per_annum: "Tier 1 - Less than 5 times", value_per_annum: "Tier 1 - Less than $30,000"
   }
 
   const profileSchema = Yup.object().shape({
@@ -316,477 +316,471 @@ const Profile = () => {
 
   return (
     <>
-      <div className="margin-set">
-        <div className="tabs-page">
-          <Sidebar />
-          <div className="content-body">
-            <section className="edit_recipient_section">
-              <div className="form-head mb-4">
-                <span className="text-black font-w600 mb-0 h2"><b>Profile Information</b>
-                </span>
-                {
-                  user_data?.digital_id_verified.toLowerCase() === "true" ? (
-                    <span className="verified_text px-2 py-1 fs-5 mx-3">
-                      <i className="bi bi-check-circle-fill text-success">&nbsp;</i>
-                      Verified
-                    </span>
-                  ) : (
-                    <span className="unverified_text px-2 py-1 fs-5 mx-3">
-                      <i className="bi bi-x-circle-fill text-danger">&nbsp;</i>
-                      Not Verified
-                    </span>
-                  )
-                }
+      <section className="edit_recipient_section">
+        <div className="form-head mb-4">
+          <span className="text-black font-w600 mb-0 h2"><b>Profile Information</b>
+          </span>
+          {
+            user_data?.digital_id_verified.toLowerCase() === "true" ? (
+              <span className="verified_text px-2 py-1 fs-5 mx-3">
+                <i className="bi bi-check-circle-fill text-success">&nbsp;</i>
+                Verified
+              </span>
+            ) : (
+              <span className="unverified_text px-2 py-1 fs-5 mx-3">
+                <i className="bi bi-x-circle-fill text-danger">&nbsp;</i>
+                Not Verified
+              </span>
+            )
+          }
 
-              </div>
-              <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
-                <div className="card">
-                  <div className="card-body">
-                    <div className="row each-row">
-                      <h5>Personal Details</h5>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            name="First_name"
-                            value={formik.values.First_name}
-                            onChange={handleOnlyAplha}
-                            maxLength="25"
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.First_name && formik.errors.First_name },
-                              {
-                                'is-valid': formik.touched.First_name && !formik.errors.First_name
-                              }
-                            )}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Middle Name</p>
-                          <input
-                            type="text"
-                            name="Middle_name"
-                            className='form-control'
-                            maxLength="25"
-                            onChange={handleOnlyAplha}
-                            {...formik.getFieldProps("Middle_name")}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            name="Last_name"
-                            value={data.Last_name}
-                            maxLength="25"
-                            onChange={handleOnlyAplha}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.Last_name && formik.errors.Last_name },
-                              {
-                                'is-valid': formik.touched.Last_name && !formik.errors.Last_name,
-                              }
-                            )}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Customer Id</p>
-                          <input
-                            type="text"
-                            value={data.customer_id}
-                            style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
-                            className='form-control'
-                            readOnly
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="email"
-                            value={data.email}
-                            style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
-                            onKeyDown={(e) => { handleEmail(e, 50) }}
-                            {...formik.getFieldProps("email")}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.email && formik.errors.email },
-                              {
-                                'is-valid': formik.touched.email && !formik.errors.email,
-                              }
-                            )}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
-                          <PhoneInput
-                            onlyCountries={["au", "nz"]}
-                            name="mobile"
-                            value={data.mobile}
-                            inputStyle={{ border: "none", margin: "none" }}
-                            inputClass="userPhone w-100"
-                            defaultCountry={"au"}
-                            placeholder=""
-                            countryCodeEditable={false}
-                            onChange={(val, coun) => { handlePhone(val, coun) }}
-                            className={clsx(
-                              'form-control form-control-sm bg-transparent py-0',
-                              { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
-                              {
-                                'is-valid': formik.touched.mobile && !formik.errors.mobile,
-                              }
-                            )}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Date of Birth<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="date"
-                            name="Date_of_birth"
-                            value={data.Date_of_birth}
-                            id="dob"
-                            onChange={(e) => handleChange(e)}
-                            // onkeydown={(e) => { e.stopPropagation() }}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.Date_of_birth && formik.errors.Date_of_birth },
-                              {
-                                'is-valid': formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
-                              }
-                            )}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Country Of Birth<span style={{ color: 'red' }} >*</span></p>
-                          <select
-                            value={data.Country_of_birth}
-                            name="Country_of_birth"
-                            onChange={(e) => handleChange(e)}
-                            className={clsx(
-                              'form-control form-select bg-transparent',
-                              { 'is-invalid': formik.touched.Country_of_birth && formik.errors.Country_of_birth },
-                              {
-                                'is-valid': formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
-                              }
-                            )}
-                          >
-                            <option>Select a country</option>
-                            {
-                              countryOptions && countryOptions.length > 0 ?
-                                countryOptions?.map((opt) => {
-                                  return (
-                                    <option value={opt.label}>{opt.label}</option>
-                                  )
-                                }) : ""
-                            }
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="input_field">
-                          <p className="get-text">Occupation<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            name="occupation"
-                            value={data.occupation}
-                            id="occupation"
-                            maxLength="50"
-                            onChange={(e) => handleOnlyAplha(e)}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.occupation && formik.errors.occupation },
-                              {
-                                'is-valid': formik.touched.occupation && !formik.errors.occupation,
-                              }
-                            )}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <h5>Account Usage</h5>
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">Projected frequency of payments per annum<span style={{ color: 'red' }} >*</span></p>
-                          <select
-                            value={data.payment_per_annum}
-                            name="payment_per_annum"
-                            onChange={(e) => handleChange(e)}
-                            className={clsx(
-                              'form-control form-select bg-transparent',
-                              { 'is-invalid': formik.touched.payment_per_annum && formik.errors.payment_per_annum },
-                              {
-                                'is-valid': formik.touched.payment_per_annum && !formik.errors.payment_per_annum,
-                              }
-                            )}
-                          >
-                            <option value="Level1 - Less than 5 times" key="Less than 5 times">Level1 - Less than 5 times</option>
-                            <option value="Level2 - 5 to 10 times" key="5-10 times">Level2 - 5 to 10 times</option>
-                            <option value="Level3 - Greater than 10 times" key="Greater than 10 times">Level3 - Greater than 10 times</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="input_field">
-                          <p className="get-text">Projected value of payments per annum<span style={{ color: 'red' }} >*</span></p>
-                          <select
-                            value={data.value_per_annum}
-                            name="value_per_annum"
-                            onChange={(e) => handleChange(e)}
-                            className={clsx(
-                              'form-control form-select bg-transparent',
-                              { 'is-invalid': formik.touched.value_per_annum && formik.errors.value_per_annum },
-                              {
-                                'is-valid': formik.touched.value_per_annum && !formik.errors.value_per_annum,
-                              }
-                            )}
-                          >
-                            <option value="Level1 - Less than $30,000" key="Less than $30,000">Level1 - Less than $30,000</option>
-                            <option value="Level2 - $30,000 to $100,000" key="$30,000-$100,000">Level2 - $30,000 to $100,000</option>
-                            <option value="Level3 - Greater than $100,000" key="Greater than $100,000">Level3 - Greater than $100,000</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <h5>Address</h5>
-                      <div className="col-md-4 mb-3">
-                        <Form.Group className="form_label" controlId="country">
-                          <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
-                          <select
-                            value={data.country}
-                            name="country"
-                            onChange={(e) => handleChange(e)}
-                            className={clsx(
-                              'form-control form-select bg-transparent',
-                              { 'is-invalid': formik.touched.country && formik.errors.country },
-                              {
-                                'is-valid': formik.touched.country && !formik.errors.country,
-                              }
-                            )}
-                          >
-                            <option value={"none"} >Select a country</option>
-                            <option value={"Australia"} >Australia</option>
-                            <option value={"New Zealand"} >New Zealand</option>
-                          </select>
-                        </Form.Group>
-                      </div>
-                      <div className="col-md-4 mb-3">
-                        <Form.Group className="form_label" controlId="state">
-                          <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
-                          {
-                            state_list && state_list.length > 0 ?
-                              (<select
-                                value={data.state}
-                                name="state"
-                                onChange={(e) => handleChange(e)}
-                                className={clsx(
-                                  'form-control form-select bg-transparent',
-                                  { 'is-invalid': formik.touched.state && formik.errors.state },
-                                  {
-                                    'is-valid': formik.touched.state && !formik.errors.state,
-                                  }
-                                )}
-                              >
-                                <option value={"none"} key={"none"}>Select a state</option>
-                                {state_list?.map((opt, index) => {
-                                  if (opt?.state !== state_list[index - 1]?.state) {
-                                    return (
-                                      <option value={opt?.state} key={index}>{opt?.state}</option>
-                                    )
-                                  }
-                                })
-                                }
-                              </select>) :
-                              (<input
-                                type="text"
-                                placeholder='No country selected'
-                                className={clsx(
-                                  'form-control form-select bg-transparent',
-                                  { 'is-invalid': formik.touched.state && formik.errors.state },
-                                  {
-                                    'is-valid': formik.touched.state && !formik.errors.state,
-                                  }
-                                )}
-                                readOnly
-                              />)
-                          }
-                        </Form.Group>
-                      </div>
-                      <div className="col-md-4 mb-3">
-                        <Form.Group className="form_label" controlId="city">
-                          <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
-                          {
-                            city_list && city_list.length > 0 ? (
-                              <select
-                                value={data.city}
-                                name="city"
-                                onChange={(e) => handleChange(e)}
-                                className={clsx(
-                                  'form-control form-select bg-transparent',
-                                  { 'is-invalid': formik.touched.city && formik.errors.city },
-                                  {
-                                    'is-valid': formik.touched.city && !formik.errors.city,
-                                  }
-                                )}
-                              >
-                                <option value="none" key="none">Select a city</option>
-                                {city_list?.map((opt, index) => {
-                                  if (city_list[index]?.city !== city_list[index - 1]?.city && opt?.city !== "") {
-                                    return (
-                                      <option value={opt?.city} key={index}>{opt?.city}</option>
-                                    )
-                                  }
-                                })
-                                }
-                              </select>
-                            ) : (
-                              <input
-                                type="text"
-                                name="city"
-                                placeholder='No state selected'
-                                className={clsx(
-                                  'form-control form-select bg-transparent',
-                                  { 'is-invalid': formik.touched.city && formik.errors.city },
-                                  {
-                                    'is-valid': formik.touched.city && !formik.errors.city,
-                                  }
-                                )}
-                                readOnly
-                              />
-                            )
-                          }
-                        </Form.Group>
-                      </div>
-                    </div>
-                    <div className="row each-row">
-                      <div className="col-md-4 mb-3">
-                        <Form.Group className="form_label" controlId="postal">
-                          <p className="get-text">Zip/Postal Code<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            name="postcode"
-                            value={data.postcode}
-                            maxLength="4"
-                            list='postal_list'
-                            onChange={handleNumericOnly}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.postcode && formik.errors.postcode },
-                              {
-                                'is-valid': formik.touched.postcode && !formik.errors.postcode,
-                              }
-                            )}
-                          />
-                          <datalist id="postal_list">
-                            {
-                              postal_list.length > 0 && postal_list?.map((opt, index) => {
-                                return <option value={opt.post_code} key={index} />
-                              })
-                            }
-                          </datalist>
-                        </Form.Group>
-                        {/* <p>{formik.errors.postcode}</p> */}
-                      </div>
-                      <div className="col-md-4 mb-3">
-                        <Form.Group className="form_label" controlId="street">
-                          <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            name="street"
-                            value={data.street}
-                            onKeyDown={(e) => { handleEmail(e, 30) }}
-                            {...formik.getFieldProps("street")}
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.street && formik.errors.street },
-                              {
-                                'is-valid': formik.touched.street && !formik.errors.street,
-                              }
-                            )}
-                          />
-                        </Form.Group>
-                      </div>
-                      <div className="col-md-4 mb-3">
-                        <Form.Group className="form_label" controlId="flat">
-                          <p className="get-text">Flat/Unit No.</p>
-                          <input
-                            type="text"
-                            name="flat"
-                            value={data.flat}
-                            onKeyDown={(e) => { handleEmail(e, 15) }}
-                            {...formik.getFieldProps("flat")}
-                            className='form-control bg-transparent'
-                          />
-                        </Form.Group>
-                      </div>
-
-                    </div>
-                    <div className="row each-row">
-                      <div className="col-md-4 mb-3">
-                        <Form.Group className="form_label" controlId="building">
-                          <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            name="building"
-                            value={data.building}
-                            onKeyDown={(e) => { handleEmail(e, 30) }}
-                            {...formik.getFieldProps("building")}
-
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.building && formik.errors.building },
-                              {
-                                'is-valid': formik.touched.building && !formik.errors.building,
-                              }
-                            )}
-                          />
-                        </Form.Group>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-4">
-                      </div>
-                      <div className="col-md-8 full-col">
-                        <button
-                          type="submit"
-                          className="form-button"
-                        >
-                          Update
-                          {loading ? <>
-                            <div className="loader-overly">
-                              <div className="loader" >
-                              </div>
-                            </div>
-                          </> : <></>}
-                        </button>
-                      </div>
-                    </div>
+        </div>
+        <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
+          <div className="card">
+            <div className="card-body">
+              <div className="row each-row">
+                <h5>Personal Details</h5>
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">First Name<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="First_name"
+                      value={formik.values.First_name}
+                      onChange={handleOnlyAplha}
+                      maxLength="25"
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.First_name && formik.errors.First_name },
+                        {
+                          'is-valid': formik.touched.First_name && !formik.errors.First_name
+                        }
+                      )}
+                    />
                   </div>
                 </div>
-              </form>
-            </section>
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Middle Name</p>
+                    <input
+                      type="text"
+                      name="Middle_name"
+                      className='form-control'
+                      maxLength="25"
+                      onChange={handleOnlyAplha}
+                      {...formik.getFieldProps("Middle_name")}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Last Name<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="Last_name"
+                      value={data.Last_name}
+                      maxLength="25"
+                      onChange={handleOnlyAplha}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.Last_name && formik.errors.Last_name },
+                        {
+                          'is-valid': formik.touched.Last_name && !formik.errors.Last_name,
+                        }
+                      )}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="row each-row">
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Customer Id</p>
+                    <input
+                      type="text"
+                      value={data.customer_id}
+                      style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
+                      className='form-control'
+                      readOnly
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="email"
+                      value={data.email}
+                      style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
+                      onKeyDown={(e) => { handleEmail(e, 50) }}
+                      {...formik.getFieldProps("email")}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.email && formik.errors.email },
+                        {
+                          'is-valid': formik.touched.email && !formik.errors.email,
+                        }
+                      )}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
+                    <PhoneInput
+                      onlyCountries={["au", "nz"]}
+                      name="mobile"
+                      value={data.mobile}
+                      inputStyle={{ border: "none", margin: "none" }}
+                      inputClass="userPhone w-100"
+                      defaultCountry={"au"}
+                      placeholder=""
+                      countryCodeEditable={false}
+                      onChange={(val, coun) => { handlePhone(val, coun) }}
+                      className={clsx(
+                        'form-control form-control-sm bg-transparent py-0',
+                        { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                        {
+                          'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                        }
+                      )}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="row each-row">
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Date of Birth<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="date"
+                      name="Date_of_birth"
+                      value={data.Date_of_birth}
+                      id="dob"
+                      onChange={(e) => handleChange(e)}
+                      // onkeydown={(e) => { e.stopPropagation() }}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.Date_of_birth && formik.errors.Date_of_birth },
+                        {
+                          'is-valid': formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
+                        }
+                      )}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Country Of Birth<span style={{ color: 'red' }} >*</span></p>
+                    <select
+                      value={data.Country_of_birth}
+                      name="Country_of_birth"
+                      onChange={(e) => handleChange(e)}
+                      className={clsx(
+                        'form-control form-select bg-transparent',
+                        { 'is-invalid': formik.touched.Country_of_birth && formik.errors.Country_of_birth },
+                        {
+                          'is-valid': formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
+                        }
+                      )}
+                    >
+                      <option>Select a country</option>
+                      {
+                        countryOptions && countryOptions.length > 0 ?
+                          countryOptions?.map((opt) => {
+                            return (
+                              <option value={opt.label}>{opt.label}</option>
+                            )
+                          }) : ""
+                      }
+                    </select>
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="input_field">
+                    <p className="get-text">Occupation<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="occupation"
+                      value={data.occupation}
+                      id="occupation"
+                      maxLength="50"
+                      onChange={(e) => handleOnlyAplha(e)}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.occupation && formik.errors.occupation },
+                        {
+                          'is-valid': formik.touched.occupation && !formik.errors.occupation,
+                        }
+                      )}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="row each-row">
+                <p className="mb-3"><span className="h5">Account Usage</span><span className='small'>&nbsp;(Utilization above tier 1 requires additional verification documents.)</span></p>
+                <div className="col-md-6">
+                  <div className="input_field">
+                    <p className="get-text">Projected frequency of payments per annum<span style={{ color: 'red' }} >*</span></p>
+                    <select
+                      value={data.payment_per_annum}
+                      name="payment_per_annum"
+                      onChange={(e) => handleChange(e)}
+                      className={clsx(
+                        'form-control form-select bg-transparent',
+                        { 'is-invalid': formik.touched.payment_per_annum && formik.errors.payment_per_annum },
+                        {
+                          'is-valid': formik.touched.payment_per_annum && !formik.errors.payment_per_annum,
+                        }
+                      )}
+                    >
+                      <option value="Tier 1 - Less than 5 times" key="Less than 5 times">Tier 1 - Less than 5 times</option>
+                      <option value="Tier 2 - 5 to 10 times" key="5-10 times">Tier 2 - 5 to 10 times</option>
+                      <option value="Tier 3 - Greater than 10 times" key="Greater than 10 times">Tier 3 - Greater than 10 times</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="input_field">
+                    <p className="get-text">Projected value of payments per annum<span style={{ color: 'red' }} >*</span></p>
+                    <select
+                      value={data.value_per_annum}
+                      name="value_per_annum"
+                      onChange={(e) => handleChange(e)}
+                      className={clsx(
+                        'form-control form-select bg-transparent',
+                        { 'is-invalid': formik.touched.value_per_annum && formik.errors.value_per_annum },
+                        {
+                          'is-valid': formik.touched.value_per_annum && !formik.errors.value_per_annum,
+                        }
+                      )}
+                    >
+                      <option value="Tier 1 - Less than $30,000" key="Less than $30,000">Tier 1 - Less than $30,000</option>
+                      <option value="Tier 2 - $30,000 to $100,000" key="$30,000-$100,000">Tier 2 - $30,000 to $100,000</option>
+                      <option value="Tier 3 - Greater than $100,000" key="Greater than $100,000">Tier 3 - Greater than $100,000</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="row each-row">
+                <h5>Address</h5>
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label" controlId="country">
+                    <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
+                    <select
+                      value={data.country}
+                      name="country"
+                      onChange={(e) => handleChange(e)}
+                      className={clsx(
+                        'form-control form-select bg-transparent',
+                        { 'is-invalid': formik.touched.country && formik.errors.country },
+                        {
+                          'is-valid': formik.touched.country && !formik.errors.country,
+                        }
+                      )}
+                    >
+                      <option value={"none"} >Select a country</option>
+                      <option value={"Australia"} >Australia</option>
+                      <option value={"New Zealand"} >New Zealand</option>
+                    </select>
+                  </Form.Group>
+                </div>
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label" controlId="state">
+                    <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
+                    {
+                      state_list && state_list.length > 0 ?
+                        (<select
+                          value={data.state}
+                          name="state"
+                          onChange={(e) => handleChange(e)}
+                          className={clsx(
+                            'form-control form-select bg-transparent',
+                            { 'is-invalid': formik.touched.state && formik.errors.state },
+                            {
+                              'is-valid': formik.touched.state && !formik.errors.state,
+                            }
+                          )}
+                        >
+                          <option value={"none"} key={"none"}>Select a state</option>
+                          {state_list?.map((opt, index) => {
+                            if (opt?.state !== state_list[index - 1]?.state) {
+                              return (
+                                <option value={opt?.state} key={index}>{opt?.state}</option>
+                              )
+                            }
+                          })
+                          }
+                        </select>) :
+                        (<input
+                          type="text"
+                          placeholder='No country selected'
+                          className={clsx(
+                            'form-control form-select bg-transparent',
+                            { 'is-invalid': formik.touched.state && formik.errors.state },
+                            {
+                              'is-valid': formik.touched.state && !formik.errors.state,
+                            }
+                          )}
+                          readOnly
+                        />)
+                    }
+                  </Form.Group>
+                </div>
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label" controlId="city">
+                    <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
+                    {
+                      city_list && city_list.length > 0 ? (
+                        <select
+                          value={data.city}
+                          name="city"
+                          onChange={(e) => handleChange(e)}
+                          className={clsx(
+                            'form-control form-select bg-transparent',
+                            { 'is-invalid': formik.touched.city && formik.errors.city },
+                            {
+                              'is-valid': formik.touched.city && !formik.errors.city,
+                            }
+                          )}
+                        >
+                          <option value="none" key="none">Select a city</option>
+                          {city_list?.map((opt, index) => {
+                            if (city_list[index]?.city !== city_list[index - 1]?.city && opt?.city !== "") {
+                              return (
+                                <option value={opt?.city} key={index}>{opt?.city}</option>
+                              )
+                            }
+                          })
+                          }
+                        </select>
+                      ) : (
+                        <input
+                          type="text"
+                          name="city"
+                          placeholder='No state selected'
+                          className={clsx(
+                            'form-control form-select bg-transparent',
+                            { 'is-invalid': formik.touched.city && formik.errors.city },
+                            {
+                              'is-valid': formik.touched.city && !formik.errors.city,
+                            }
+                          )}
+                          readOnly
+                        />
+                      )
+                    }
+                  </Form.Group>
+                </div>
+              </div>
+              <div className="row each-row">
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label" controlId="postal">
+                    <p className="get-text">Zip/Postal Code<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="postcode"
+                      value={data.postcode}
+                      maxLength="4"
+                      list='postal_list'
+                      onChange={handleNumericOnly}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.postcode && formik.errors.postcode },
+                        {
+                          'is-valid': formik.touched.postcode && !formik.errors.postcode,
+                        }
+                      )}
+                    />
+                    <datalist id="postal_list">
+                      {
+                        postal_list.length > 0 && postal_list?.map((opt, index) => {
+                          return <option value={opt.post_code} key={index} />
+                        })
+                      }
+                    </datalist>
+                  </Form.Group>
+                  {/* <p>{formik.errors.postcode}</p> */}
+                </div>
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label" controlId="street">
+                    <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="street"
+                      value={data.street}
+                      onKeyDown={(e) => { handleEmail(e, 30) }}
+                      {...formik.getFieldProps("street")}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.street && formik.errors.street },
+                        {
+                          'is-valid': formik.touched.street && !formik.errors.street,
+                        }
+                      )}
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label" controlId="flat">
+                    <p className="get-text">Flat/Unit No.</p>
+                    <input
+                      type="text"
+                      name="flat"
+                      value={data.flat}
+                      onKeyDown={(e) => { handleEmail(e, 15) }}
+                      {...formik.getFieldProps("flat")}
+                      className='form-control bg-transparent'
+                    />
+                  </Form.Group>
+                </div>
+
+              </div>
+              <div className="row each-row">
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label" controlId="building">
+                    <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="building"
+                      value={data.building}
+                      onKeyDown={(e) => { handleEmail(e, 30) }}
+                      {...formik.getFieldProps("building")}
+
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.building && formik.errors.building },
+                        {
+                          'is-valid': formik.touched.building && !formik.errors.building,
+                        }
+                      )}
+                    />
+                  </Form.Group>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-4">
+                </div>
+                <div className="col-md-8 full-col">
+                  <button
+                    type="submit"
+                    className="form-button"
+                  >
+                    Update
+                    {loading ? <>
+                      <div className="loader-overly">
+                        <div className="loader" >
+                        </div>
+                      </div>
+                    </> : <></>}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </form>
+      </section>
+
       <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
         <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} phone={"+" + is_update.mobile} new_mobile={is_update.mobile != data.mobile ? "+" + data.mobile : null} />
       </Modal>

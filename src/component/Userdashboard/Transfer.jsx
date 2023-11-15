@@ -35,47 +35,39 @@ const Transaction = () => {
 
     return (
         <>
-            <div className="margin-set">
-                <div className="tabs-page">
-                    <Sidebar />
-                    <div className="content-body">
-                        <section className="transfer-history-section">
-                            <div className="form-head mb-4">
-                                <h2 className="text-black font-w600 mb-0"><b>Transaction History</b></h2>
-                            </div>
-                            <div className="transaction-progress">
-                                {!loading ? (
-                                    <>
-                                        <Tabs defaultActiveKey="AllTransaction" id="uncontrolled-tab-example" className="mb-3 tarnsfer-tabs">
-                                            <Tab eventKey="AllTransaction" title="All Transactions">
-                                                <AllTransfer status={"all"} data={data} />
-                                            </Tab>
-                                            <Tab eventKey="Pending" title="Pending">
-                                                <AllTransfer status={"pending"} data={data} />
-                                            </Tab>
-                                            <Tab eventKey="Completed" title="Completed">
-                                                <AllTransfer status={"completed"} data={data} />
-                                            </Tab>
-                                            <Tab eventKey="Cancelled" title="Cancelled">
-                                                <AllTransfer status={"cancelled"} data={data} />
-                                            </Tab>
-                                        </Tabs>
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="loader-overly">
-                                            <div className="loader" >
-                                            </div>
-                                        </div>
-                                    </>
-                                )
-                                }
-                            </div>
-                        </section>
-                    </div>
+            <section className="transfer-history-section">
+                <div className="form-head mb-4">
+                    <h2 className="text-black font-w600 mb-0"><b>Transaction History</b></h2>
                 </div>
-            </div>
-
+                <div className="transaction-progress">
+                    {!loading ? (
+                        <>
+                            <Tabs defaultActiveKey="AllTransaction" id="uncontrolled-tab-example" className="mb-3 tarnsfer-tabs">
+                                <Tab eventKey="AllTransaction" title="All Transactions">
+                                    <AllTransfer status={"all"} data={data} />
+                                </Tab>
+                                <Tab eventKey="Pending" title="Pending">
+                                    <AllTransfer status={"pending"} data={data} />
+                                </Tab>
+                                <Tab eventKey="Completed" title="Completed">
+                                    <AllTransfer status={"completed"} data={data} />
+                                </Tab>
+                                <Tab eventKey="Cancelled" title="Cancelled">
+                                    <AllTransfer status={"cancelled"} data={data} />
+                                </Tab>
+                            </Tabs>
+                        </>
+                    ) : (
+                        <>
+                            <div className="loader-overly">
+                                <div className="loader" >
+                                </div>
+                            </div>
+                        </>
+                    )
+                    }
+                </div>
+            </section>
         </>
     )
 }

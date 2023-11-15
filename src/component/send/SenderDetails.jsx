@@ -35,7 +35,7 @@ const SenderDetails = ({ handleStep, step }) => {
     dob: "", flat: "", build_no: "",
     street: "", city: "none", country: "none", occupation: "",
     post_code: "", state: "none", email: userd.email, mobile: userd.mobile,
-    customer_id: userd.customer_id, country_code: "AU", payment_per_annum: "Level1 - Less than 5 times", value_per_annum: "Level1 - Less than $30,000"
+    customer_id: userd.customer_id, country_code: "AU", payment_per_annum: "Tier 1 - Less than 5 times", value_per_annum: "Tier 1 - Less than $30,000"
   })
 
   const initialValues = localdata?.sender ? localdata?.sender : {
@@ -44,7 +44,7 @@ const SenderDetails = ({ handleStep, step }) => {
     dob: "", flat: "", build_no: "",
     street: "", city: "none", country: "none", occupation: "",
     post_code: "", state: "none", email: userd.email, mobile: userd.mobile,
-    customer_id: userd.customer_id, payment_per_annum: "Level1 - Less than 5 times", value_per_annum: "Level1 - Less than $30,000"
+    customer_id: userd.customer_id, payment_per_annum: "Tier 1 - Less than 5 times", value_per_annum: "Tier 1 - Less than $30,000"
   }
 
   const senderSchema = Yup.object().shape({
@@ -487,7 +487,7 @@ const SenderDetails = ({ handleStep, step }) => {
 
           {/*-------------------------------- account usage */}
           <div className="row each-row">
-            <h5>Account Usage</h5>
+            <p className="mb-3"><span className="h5">Account Usage</span><span className='small'>&nbsp;(Utilization above tier 1 requires additional verification documents.)</span></p>
             <div className="col-md-6">
               <div className="input_field">
                 <p className="get-text">Projected frequency of payments per annum<span style={{ color: 'red' }} >*</span></p>
@@ -504,9 +504,9 @@ const SenderDetails = ({ handleStep, step }) => {
                     }
                   )}
                 >
-                  <option value="Level1 - Less than 5 times" key="Less than 5 times">Level1 - Less than 5 times</option>
-                  <option value="Level2 - 5 to 10 times" key="5-10 times">Level2 - 5 to 10 times</option>
-                  <option value="Level3 - Greater than 10 times" key="Greater than 10 times">Level3 - Greater than 10 times</option>
+                  <option value="Tier 1 - Less than 5 times" key="Less than 5 times">Tier 1 - Less than 5 times</option>
+                  <option value="Tier 2 - 5 to 10 times" key="5-10 times">Tier 2 - 5 to 10 times</option>
+                  <option value="Tier 3 - Greater than 10 times" key="Greater than 10 times">Tier 3 - Greater than 10 times</option>
                 </select>
               </div>
             </div>
@@ -526,9 +526,9 @@ const SenderDetails = ({ handleStep, step }) => {
                     }
                   )}
                 >
-                  <option value="Level1 - Less than $30,000" key="Less than $30,000">Level1 - Less than $30,000</option>
-                  <option value="Level2 - $30,000 to $100,000" key="$30,000-$100,000">Level2 - $30,000 to $100,000</option>
-                  <option value="Level3 - Greater than $100,000" key="Greater than $100,000">Level3 - Greater than $100,000</option>
+                  <option value="Tier 1 - Less than $30,000" key="Less than $30,000">Tier 1 - Less than $30,000</option>
+                  <option value="Tier 2 - $30,000 to $100,000" key="$30,000-$100,000">Tier 2 - $30,000 to $100,000</option>
+                  <option value="Tier 3 - Greater than $100,000" key="Greater than $100,000">Tier 3 - Greater than $100,000</option>
                 </select>
               </div>
             </div>

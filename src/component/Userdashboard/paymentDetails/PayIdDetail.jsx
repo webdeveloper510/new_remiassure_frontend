@@ -34,67 +34,60 @@ const PayIdDetail = () => {
     }, [copied])
 
     return (
-        <div className="margin-set">
-            <div className="tabs-page">
-                <Sidebar />
-                <div className="content-body">
-                    <section>
-                        <div className="form-head mb-4">
-                            <span className="text-black font-w600 mb-0 fs-3 fw-semibold"><img src="/assets/img/zai/payid.svg" height={50} /> Details
-                            </span>
-                        </div>
+        <section>
+            <div className="form-head mb-4">
+                <span className="text-black font-w600 mb-0 fs-3 fw-semibold"><img src="/assets/img/zai/payid.svg" height={50} /> Details
+                </span>
+            </div>
 
-                        {!loader ? (
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <div className='form_body h-100'>
+            {!loader ? (
+                <div className="row">
+                    <div className="col-md-6">
+                        <div className='form_body h-100'>
 
-                                        {
-                                            pay_id_details.pay_id !== null ? (
-                                                <div>
-                                                    <Table>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Pay ID:</td>
-                                                                <td>{pay_id_details?.pay_id}
-                                                                    <span>
-                                                                        <Button type='button' className='mx-2 px-2 py-0 clipboard-button' variant={copied ? 'outline-success' : 'outline-secondary'} onClick={() => copyToClipboard(pay_id_details.pay_id)}>
-                                                                            {
-                                                                                copied ?
-                                                                                    <>
-                                                                                        <i class="bi bi-clipboard"></i>
-                                                                                        <span className="tooltip-clipboard">Copied!</span>
-                                                                                    </> : <>
-                                                                                        <i class="bi bi-clipboard"></i>
-                                                                                        <span className="tooltip-clipboard">Copy</span>
-                                                                                    </>
-                                                                            }
-                                                                        </Button>
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Email:</td>
-                                                                <td>{pay_id_details?.email}</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
-                                            ) : (<p class="no-entry">No Pay ID registered</p>)
-                                        }
+                            {
+                                pay_id_details.pay_id !== null ? (
+                                    <div>
+                                        <Table>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Pay ID:</td>
+                                                    <td>{pay_id_details?.pay_id}
+                                                        <span>
+                                                            <Button type='button' className='mx-2 px-2 py-0 clipboard-button' variant={copied ? 'outline-success' : 'outline-secondary'} onClick={() => copyToClipboard(pay_id_details.pay_id)}>
+                                                                {
+                                                                    copied ?
+                                                                        <>
+                                                                            <i class="bi bi-clipboard"></i>
+                                                                            <span className="tooltip-clipboard">Copied!</span>
+                                                                        </> : <>
+                                                                            <i class="bi bi-clipboard"></i>
+                                                                            <span className="tooltip-clipboard">Copy</span>
+                                                                        </>
+                                                                }
+                                                            </Button>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Email:</td>
+                                                    <td>{pay_id_details?.email}</td>
+                                                </tr>
+                                            </tbody>
+                                        </Table>
                                     </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="loader-overly">
-                                <div className="loader" >
-                                </div>
-                            </div>
-                        )}
-                    </section>
+                                ) : (<p class="no-entry">No Pay ID registered</p>)
+                            }
+                        </div>
+                    </div>
                 </div>
-            </div >
-        </div >
+            ) : (
+                <div className="loader-overly">
+                    <div className="loader" >
+                    </div>
+                </div>
+            )}
+        </section>
     )
 }
 

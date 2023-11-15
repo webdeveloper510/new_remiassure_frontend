@@ -21,7 +21,7 @@ const AmountDetail = ({ handleStep, step }) => {
         from_type: "AUD",
         to_type: "NGN",
         recieve_meth: "Bank Transfer",
-        part_type: "",
+        part_type: "Select a bank...",
         payout_part: ""
     })
 
@@ -35,8 +35,8 @@ const AmountDetail = ({ handleStep, step }) => {
             const {
                 createError,
             } = validationcontext;
-            if (Number(value) < 1) {
-                return createError({ message: "Minimum $1 required" })
+            if (Number(value) < 100) {
+                return createError({ message: "Minimum $100 required" })
             } else {
                 return true
             }
@@ -45,7 +45,7 @@ const AmountDetail = ({ handleStep, step }) => {
         from_type: Yup.string(),
         to_type: Yup.string().required(),
         exchange_amt: Yup.string().required(),
-        part_type: Yup.string().required().notOneOf([""]),
+        part_type: Yup.string().required().notOneOf(["Select a bank..."]),
         payout_part: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
             const {
                 createError,
@@ -67,13 +67,15 @@ const AmountDetail = ({ handleStep, step }) => {
         from_type: "AUD",
         to_type: "NGN",
         recieve_meth: "Bank Transfer",
-        part_type: "",
+        part_type: "Select a bank...",
         payout_part: ""
     }
 
     const formik = useFormik({
         initialValues,
         validationSchema: amtSchema,
+        validateOnChange: false,
+        validateOnBlur: false,
         onSubmit: async (values) => {
             let local = {}
             var transaction_id = localStorage.getItem("transaction_id")
@@ -265,8 +267,8 @@ const AmountDetail = ({ handleStep, step }) => {
         if (localStorage.getItem("transfer_data")) {
             let tdata = JSON.parse(localStorage.getItem("transfer_data"))
             if (tdata?.amount) {
-                setAmtDetail({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt), recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "" })
-                formik.setValues({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt), recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "" })
+                setAmtDetail({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt), recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "Select a bank..." })
+                formik.setValues({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt), recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "Select a bank..." })
                 setExchRate(tdata?.amount?.exchange_rate)
             }
         }
@@ -305,7 +307,7 @@ const AmountDetail = ({ handleStep, step }) => {
                 <h2 class="text-black font-w600 mb-0"><b>Amount & Delivery</b>
                 </h2>
             </div>
-            <form noValidate autoComplete='off'>
+            <form noValidate autoComplete='off' className='pb-5'>
                 <div className="card">
                     <div className="card-body">
                         <div className="row">
@@ -373,7 +375,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         onBlurCapture={(e) => amountBlur(e, "From")}
                                         placeholder='1'
                                     />
-                                    {formik.touched.send_amt && formik.errors.send_amt === "Minimum $1 required" && (
+                                    {formik.touched.send_amt && formik.errors.send_amt === "Minimum $100 required" && (
                                         <div className='fv-plugins-message-container mt-1'>
                                             <div className='fv-help-block'>
                                                 <span role='alert' className="text-danger" style={{ fontSize: "13px" }}>{formik.errors.send_amt}</span>
@@ -463,6 +465,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         value={{ label: formik.values.part_type, value: formik.values.part_type }}
                                         name='part_type'
                                         styles={customStyles}
+                                        placeholder=""
                                         className='payout_part'
                                     />
                                     {/* <select
@@ -473,7 +476,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         value={formik.values.part_type}
                                         onChange={(e) => { handlePayoutPart(e) }}
                                     >
-                                        <option value="none">Select a bank</option>
+                                        <option value="none"></option>
                                         {
                                             Bank_list?.map((item, key) => (
                                                 <option key={key} value={item}>{item}</option>

@@ -4795,10 +4795,10 @@ input[type=range] {
 
 .css-1nmdiq5-menu {
   z-index: 1058 !important;
-  /* overflow-y :scroll; */
+  /* overflow-y: scroll; */
   position: absolute !important;
-  top: -10px !important;
-  /* height:200px; */
+  top: 30px !important;
+  /* height: 200px; */
 }
 
 input[type=range]::-webkit-slider-runnable-track {

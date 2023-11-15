@@ -19,7 +19,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   const [inConfirmation, setInConfirmation] = useState(false)
 
   const [data, setData] = useState({
-    bank: "", other_name: "", acc_name: "", acc_no: "",
+    bank: "Select a bank...", other_name: "", acc_name: "", acc_no: "",
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
@@ -27,7 +27,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   })
 
   const initialValues = {
-    bank: "", other_name: "", acc_name: "", acc_no: "",
+    bank: "Select a bank...", other_name: "", acc_name: "", acc_no: "",
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
@@ -92,7 +92,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     bank: Yup.string()
       .min(3, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
-      .required('Email is required').trim(),
+      .required('Email is required').trim().notOneOf(["Select a bank..."]),
     other_name: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
       const {
         createError,

@@ -26,82 +26,75 @@ const PayToDetail = () => {
 
 
     return (
-        <div className="margin-set">
-            <div className="tabs-page">
-                <Sidebar />
-                <div className="content-body">
-                    <section>
-                        <div className="form-head mb-4">
-                            <span className="text-black font-w600 mb-0 fs-3 fw-semibold"><img src="/assets/img/zai/payto.svg" height={50} /> Agreement Details
-                            </span>
-                        </div>
+        <section>
+            <div className="form-head mb-4">
+                <span className="text-black font-w600 mb-0 fs-3 fw-semibold"><img src="/assets/img/zai/payto.svg" height={50} /> Agreement Details
+                </span>
+            </div>
 
-                        {!loader ? (
-                            <div className='row'>
-                                <div className='col-md-7'>
-                                    <div className='form_body h-100'>
-                                        {
-                                            Object.keys(agreement_details).length > 0 ? (
-                                                <div>
-                                                    <Table>
-                                                        <tbody>
+            {!loader ? (
+                <div className='row'>
+                    <div className='col-md-7'>
+                        <div className='form_body h-100'>
+                            {
+                                Object?.keys(agreement_details)?.length > 0 ? (
+                                    <div>
+                                        <Table>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Agreement ID:</td>
+                                                    <td>{agreement_details?.agreement_uuid}</td>
+                                                </tr>
+                                                {
+                                                    agreement_details?.account_id_type === "PAYID" ? (
+                                                        <>
                                                             <tr>
-                                                                <td>Agreement ID:</td>
-                                                                <td>{agreement_details?.agreement_uuid}</td>
-                                                            </tr>
-                                                            {
-                                                                agreement_details?.account_id_type === "PAYID" ? (
-                                                                    <>
-                                                                        <tr>
-                                                                            <td>Pay ID:</td>
-                                                                            <td>{agreement_details?.payid}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Pay ID Type:</td>
-                                                                            <td>{agreement_details?.payid_type === "EMAL" ? "EMAIL" : agreement_details?.payid_type}</td>
-                                                                        </tr>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <tr>
-                                                                            <td>Account Number:</td>
-                                                                            <td>{agreement_details?.account_number}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>BSB Code:</td>
-                                                                            <td>{agreement_details?.bsb_code}</td>
-                                                                        </tr>
-                                                                    </>
-                                                                )
-                                                            }
-                                                            <tr>
-                                                                <td>Amount Limit:</td>
-                                                                <td>${agreement_details?.max_amount === "1000" ? "1k" : agreement_details?.max_amount === "5000" ? "5k" : agreement_details?.max_amount === "10000" ? "10k" : "30k"}</td>
+                                                                <td>Pay ID:</td>
+                                                                <td>{agreement_details?.payid}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Start Date:</td>
-                                                                <td>{dateFormat(agreement_details?.agreement_start_date)}</td>
+                                                                <td>Pay ID Type:</td>
+                                                                <td>{agreement_details?.payid_type === "EMAL" ? "EMAIL" : agreement_details?.payid_type === "TELI" ? "TEL" : agreement_details?.payid_type}</td>
                                                             </tr>
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
-                                            ) : (
-                                                <p class="no-entry"> No Agreement created</p>
-                                            )
-                                        }
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <tr>
+                                                                <td>Account Number:</td>
+                                                                <td>{agreement_details?.account_number}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>BSB Code:</td>
+                                                                <td>{agreement_details?.bsb_code}</td>
+                                                            </tr>
+                                                        </>
+                                                    )
+                                                }
+                                                <tr>
+                                                    <td>Amount Limit:</td>
+                                                    <td>${agreement_details?.max_amount === "1000" ? "1k" : agreement_details?.max_amount === "5000" ? "5k" : agreement_details?.max_amount === "10000" ? "10k" : "30k"}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Start Date:</td>
+                                                    <td>{dateFormat(agreement_details?.agreement_start_date)}</td>
+                                                </tr>
+                                            </tbody>
+                                        </Table>
                                     </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="loader-overly">
-                                <div className="loader" >
-                                </div>
-                            </div>
-                        )}
-                    </section>
+                                ) : (
+                                    <p class="no-entry"> No Agreement created</p>
+                                )
+                            }
+                        </div>
+                    </div>
                 </div>
-            </div >
-        </div >
+            ) : (
+                <div className="loader-overly">
+                    <div className="loader" >
+                    </div>
+                </div>
+            )}
+        </section>
     )
 }
 

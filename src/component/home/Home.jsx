@@ -144,8 +144,8 @@ const Home = () => {
             const {
                 createError,
             } = validationcontext;
-            if (Number(value) < 1) {
-                return createError({ message: "Minimum $1 required" })
+            if (Number(value) < 100) {
+                return createError({ message: "Minimum $100 required" })
             } else {
                 return true
             }
@@ -173,6 +173,8 @@ const Home = () => {
     const formik = useFormik({
         initialValues,
         validationSchema: amountSchema,
+        validateOnChange: false,
+        validateOnBlur: false,
         onSubmit: async (values) => {
             if (blur_off === false) {
                 setLoading(true)
@@ -310,9 +312,9 @@ const Home = () => {
         if (currency !== null) {
             setLoading(true);
             currency_ref.current.focus()
-            exchangeRate({ amount: "1", from: formik.values.from_type, to: currency })
+            exchangeRate({ amount: formik.values.send_amt !== "" ? formik.values.send_amt : "1", from: formik.values.from_type, to: currency })
                 .then((res) => {
-                    formik.setValues({ ...formik.values, exchange_amt: "", send_amt: "", to_type: currency })
+                    formik.setValues({ ...formik.values, exchange_amt: formik.values.send_amt !== "" ? res.amount : "", send_amt: formik.values.send_amt !== "" ? formik.values.send_amt : "", to_type: currency })
                     setTotal_rates(res.rate)
                     setLoading(false)
                     setCurrency(null)
@@ -496,6 +498,7 @@ const Home = () => {
                                                         name="send_amt"
                                                         type="text"
                                                         autoComplete='off'
+                                                        ref={currency_ref}
                                                         value={formik.values.send_amt}
                                                         onChange={(e) => inputvalidation(e)}
                                                         onKeyDown={e => amountDown(e, "From")}
@@ -522,7 +525,7 @@ const Home = () => {
                                                     </select>
 
                                                 </div>
-                                                {formik.touched.send_amt && formik.errors.send_amt === "Minimum $1 required" && (
+                                                {formik.touched.send_amt && formik.errors.send_amt === "Minimum $100 required" && (
                                                     <div className='fv-plugins-message-container mt-1 home-error'>
                                                         <div className='fv-help-block'>
                                                             <span role='alert' className="text-danger">{formik.errors.send_amt}</span>
@@ -537,7 +540,6 @@ const Home = () => {
                                                         name="exchange_amt"
                                                         type="text"
                                                         autoComplete='off'
-                                                        ref={currency_ref}
                                                         value={formik.values.exchange_amt}
                                                         onChange={(e) => inputvalidation(e)}
                                                         onKeyDown={e => amountDown(e, "To")}

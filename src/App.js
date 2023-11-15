@@ -104,7 +104,6 @@ const App = () => {
           </>
         ) : (
           <>
-            <Header />
             {routing}
             <Footer />
           </>

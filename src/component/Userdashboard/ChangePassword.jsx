@@ -87,140 +87,135 @@ const Profile = () => {
 
   return (
     <>
-      <div className="margin-set">
-        <div className="tabs-page">
-          <Sidebar />
-          <div className="content-body">
-            <div className="col-md-12">
-              <section className="change-password">
 
-                <div className="form-head mb-4">
-                  <h2 className="text-black font-w600 mb-0"><b>Change Password</b>
-                  </h2>
-                </div>
-                <div className="card">
-                  <div className="card-body">
-                    <div className="update-profile">
+      <div className="col-md-12">
+        <section className="change-password">
 
-                      <form onSubmit={formik.handleSubmit} noValidate >
-                        <div className="row each-row">
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" >
-                              <p className="get-text">Current Password<span style={{ color: 'red' }} >*</span></p>
-                              <Form.Control
-                                type={show_old ? "text" : "password"}
-                                placeholder="Current password"
-                                autoComplete='off'
-                                {...formik.getFieldProps('old_password')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.old_password && formik.errors.old_password },
-                                  {
-                                    'is-valid': formik.touched.old_password && !formik.errors.old_password,
-                                  }
-                                )}
-                              />
-                              <span onClick={() => setShowOld(!show_old)} className="eye_iconn">
-                                {show_old ? <FaEyeSlash /> : <FaEye />}
-                              </span>
-                              {formik.touched.old_password && formik.errors.old_password && (
-                                <div className='fv-plugins-message-container mt-1'>
-                                  <div className='fv-help-block'>
-                                    <span role='alert' className="text-danger">{formik.errors.old_password}</span>
-                                  </div>
-                                </div>
-                              )}
-                            </Form.Group>
+          <div className="form-head mb-4">
+            <h2 className="text-black font-w600 mb-0"><b>Change Password</b>
+            </h2>
+          </div>
+          <div className="card">
+            <div className="card-body">
+              <div className="update-profile">
+
+                <form onSubmit={formik.handleSubmit} noValidate >
+                  <div className="row each-row">
+                    <div className="col-md-4">
+                      <Form.Group className="form_label" >
+                        <p className="get-text">Current Password<span style={{ color: 'red' }} >*</span></p>
+                        <Form.Control
+                          type={show_old ? "text" : "password"}
+                          placeholder="Current password"
+                          autoComplete='off'
+                          {...formik.getFieldProps('old_password')}
+                          className={clsx(
+                            'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.old_password && formik.errors.old_password },
+                            {
+                              'is-valid': formik.touched.old_password && !formik.errors.old_password,
+                            }
+                          )}
+                        />
+                        <span onClick={() => setShowOld(!show_old)} className="eye_iconn">
+                          {show_old ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                        {formik.touched.old_password && formik.errors.old_password && (
+                          <div className='fv-plugins-message-container mt-1'>
+                            <div className='fv-help-block'>
+                              <span role='alert' className="text-danger">{formik.errors.old_password}</span>
+                            </div>
                           </div>
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" >
-                              <p className="get-text">New Password<span style={{ color: 'red' }} >*</span></p>
-                              <Form.Control
-                                type={show_new ? "text" : "password"}
-                                placeholder="New password"
-                                autoComplete='off'
-                                {...formik.getFieldProps('new_password')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.new_password && formik.errors.new_password },
-                                  {
-                                    'is-valid': formik.touched.new_password && !formik.errors.new_password,
-                                  }
-                                )}
-                              />
-                              <span onClick={() => setShowNew(!show_new)} className="eye_iconn">
-                                {show_new ? <FaEyeSlash /> : <FaEye />}
-                              </span>
-                              {formik.touched.new_password && formik.errors.new_password && (
-                                <div className='fv-plugins-message-container mt-1'>
-                                  <div className='fv-help-block'>
-                                    <span role='alert' className="text-danger">{formik.errors.new_password}</span>
-                                  </div>
-                                </div>
-                              )}
-                            </Form.Group>
+                        )}
+                      </Form.Group>
+                    </div>
+                    <div className="col-md-4">
+                      <Form.Group className="form_label" >
+                        <p className="get-text">New Password<span style={{ color: 'red' }} >*</span></p>
+                        <Form.Control
+                          type={show_new ? "text" : "password"}
+                          placeholder="New password"
+                          autoComplete='off'
+                          {...formik.getFieldProps('new_password')}
+                          className={clsx(
+                            'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.new_password && formik.errors.new_password },
+                            {
+                              'is-valid': formik.touched.new_password && !formik.errors.new_password,
+                            }
+                          )}
+                        />
+                        <span onClick={() => setShowNew(!show_new)} className="eye_iconn">
+                          {show_new ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                        {formik.touched.new_password && formik.errors.new_password && (
+                          <div className='fv-plugins-message-container mt-1'>
+                            <div className='fv-help-block'>
+                              <span role='alert' className="text-danger">{formik.errors.new_password}</span>
+                            </div>
                           </div>
-                          <div className="col-md-4">
-                            <Form.Group className="form_label" >
-                              <p className="get-text">Confirm Password<span style={{ color: 'red' }} >*</span></p>
-                              <Form.Control
-                                type={show_confirm ? "text" : "password"}
-                                placeholder="Confirm password"
-                                autoComplete='off'
-                                {...formik.getFieldProps('confirmPassword')}
-                                className={clsx(
-                                  'form-control bg-transparent',
-                                  { 'is-invalid': formik.touched.confirmPassword && formik.errors.confirmPassword },
-                                  {
-                                    'is-valid': formik.touched.confirmPassword && !formik.errors.confirmPassword,
-                                  }
-                                )}
-                              />
-                              <span onClick={() => setShowConfirm(!show_confirm)} className="eye_iconn">
-                                {show_confirm ? <FaEyeSlash /> : <FaEye />}
-                              </span>
-                              {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-                                <div className='fv-plugins-message-container mt-1'>
-                                  <div className='fv-help-block'>
-                                    <span role='alert' className="text-danger">{formik.errors.confirmPassword}</span>
-                                  </div>
-                                </div>
-                              )}
-                            </Form.Group>
+                        )}
+                      </Form.Group>
+                    </div>
+                    <div className="col-md-4">
+                      <Form.Group className="form_label" >
+                        <p className="get-text">Confirm Password<span style={{ color: 'red' }} >*</span></p>
+                        <Form.Control
+                          type={show_confirm ? "text" : "password"}
+                          placeholder="Confirm password"
+                          autoComplete='off'
+                          {...formik.getFieldProps('confirmPassword')}
+                          className={clsx(
+                            'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.confirmPassword && formik.errors.confirmPassword },
+                            {
+                              'is-valid': formik.touched.confirmPassword && !formik.errors.confirmPassword,
+                            }
+                          )}
+                        />
+                        <span onClick={() => setShowConfirm(!show_confirm)} className="eye_iconn">
+                          {show_confirm ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                        {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                          <div className='fv-plugins-message-container mt-1'>
+                            <div className='fv-help-block'>
+                              <span role='alert' className="text-danger">{formik.errors.confirmPassword}</span>
+                            </div>
                           </div>
-                        </div>
-                        <div className="row each-row">
-                          <div className="col-md-4">
-                            <button
-                              type="button"
-                              className="start-form-button full-col"
-                              onClick={() => handleCancel()}
-                            >Cancel</button>
-                          </div>
-                          <div className="col-md-8 full-col">
-                            <button
-                              type="submit"
-                              className="profile-form-button"
-                            >
-                              Change Password
-                              {loading ? <>
-                                <div className="loader-overly">
-                                  <div className="loader" >
-                                  </div>
-                                </div>
-                              </> : <></>}
-                            </button>
-                          </div>
-                        </div>
-                      </form>
+                        )}
+                      </Form.Group>
                     </div>
                   </div>
-                </div>
-              </section>
+                  <div className="row each-row">
+                    <div className="col-md-4">
+                      <button
+                        type="button"
+                        className="start-form-button full-col"
+                        onClick={() => handleCancel()}
+                      >Cancel</button>
+                    </div>
+                    <div className="col-md-8 full-col">
+                      <button
+                        type="submit"
+                        className="profile-form-button"
+                      >
+                        Change Password
+                        {loading ? <>
+                          <div className="loader-overly">
+                            <div className="loader" >
+                            </div>
+                          </div>
+                        </> : <></>}
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
+
       <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
         <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} />
       </Modal>

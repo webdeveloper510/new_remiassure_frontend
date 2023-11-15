@@ -43,23 +43,16 @@ const SendMoney = () => {
 
 
     return (
-        <div className="margin-set">
-            <div className="tabs-page">
-                <Sidebar />
-                <div className="content-body">
-                    <div className="col-md-12">
-                        {
-                            step === 0 ? <AmountDetail handleStep={handleStep} step={step} />
-                                :
-                                step === 1 ? <BankDetails handleStep={handleStep} step={step} />
-                                    :
-                                    step === 2 ? <PaymentDetails handleStep={handleStep} step={step} />
-                                        :
-                                        <></>
-                        }
-                    </div>
-                </div>
-            </div>
+        <div className="col-md-12">
+            {
+                step === 0 ? <AmountDetail handleStep={handleStep} step={step} />
+                    :
+                    step === 1 ? <BankDetails handleStep={handleStep} step={step} />
+                        :
+                        step === 2 ? <PaymentDetails handleStep={handleStep} step={step} />
+                            :
+                            <></>
+            }
         </div>
     )
 }
