@@ -96,9 +96,9 @@ const Verification = () => {
                     localStorage.setItem('tkn-exp', d)
                     localStorage.setItem('token', res.access_token)
                     setLoading(false)
-                    if (res?.data?.digital_id_verified && res?.data.digital_id_verified == "true") {
+                    if (obj.page !== "register") {
                         const user = res?.data
-                        user.digital_id_verified = "true"
+                        user.digital_id_verified = res?.digital_id_verified ? res?.digital_id_verified : "true"
                         localStorage.setItem("remi-user-dt", JSON.stringify(user))
                         if (localStorage.getItem("transfer_data")) {
                             navigate(`/user-send-money`)

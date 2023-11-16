@@ -92,32 +92,28 @@ const Editrecipientuser = () => {
   }
 
   useEffect(() => {
-    if (authDashHelper('dashCheck') === false) {
-      navigate("/send-money")
-    } else {
-      setLoading(true);
-      getUserRecipient(id).then((response) => {
-        if (response.code == "200") {
-          let values = response.data
-          let found = false
-          for (let i = 0; i < Bank_list.length; i++) {
-            if (Bank_list[i].label === values?.bank_name && Bank_list[i].value === values?.bank_name) {
-              found = true
-              break;
-            }
+    setLoading(true);
+    getUserRecipient(id).then((response) => {
+      if (response.code == "200") {
+        let values = response.data
+        let found = false
+        for (let i = 0; i < Bank_list.length; i++) {
+          if (Bank_list[i].label === values?.bank_name && Bank_list[i].value === values?.bank_name) {
+            found = true
+            break;
           }
-          if (found !== true) {
-            values.other_name = values.bank_name
-            values.bank_name = "other"
-          }
-          setData(values)
-          formik.setValues({ ...values })
         }
-        setLoading(false)
-      }).catch((error) => {
-        setLoading(false)
-      })
-    }
+        if (found !== true) {
+          values.other_name = values.bank_name
+          values.bank_name = "other"
+        }
+        setData(values)
+        formik.setValues({ ...values })
+      }
+      setLoading(false)
+    }).catch((error) => {
+      setLoading(false)
+    })
   }, [])
 
   useEffect(() => {

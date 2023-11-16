@@ -22,6 +22,7 @@ const Profile = () => {
 
   const navigate = useNavigate()
   const user_data = JSON.parse(localStorage.getItem("remi-user-dt"))
+  console.log(user_data)
   const [open_modal, setOpenModal] = useState(false)
   const [is_otp_verified, setIsOtpVerfied] = useState(false)
   const [loading, setLoading] = React.useState(false);
@@ -73,38 +74,34 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    if (authDashHelper('dashCheck') === false) {
-      navigate("/send-money")
-    } else {
-      setLoading(true)
-      userProfile().then((res) => {
-        if (res.code == "200") {
-          setLoading(false)
-          let p = res.data.mobile
-          let phone = p.split("+");
-          setData({ ...res.data, mobile: phone[1] })
-          formik.setValues({ ...res.data, mobile: phone[1] })
-          setIsUpdate({ email: res.data.email, mobile: phone[1] })
-        }
-      }).catch((error) => {
-        if (error.response.data.code == "400") {
-          toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-        }
+    setLoading(true)
+    userProfile().then((res) => {
+      if (res.code == "200") {
         setLoading(false)
-      })
-      var dtToday = new Date();
-      var month = dtToday.getMonth() + 1;
-      var day = dtToday.getDate();
-      var year = dtToday.getFullYear() - 18;
-      if (month < 10)
-        month = '0' + month.toString();
-      if (day < 10)
-        day = '0' + day.toString();
-      var maxDate = year + '-' + month + '-' + day;
-      var minDate = year - 100 + '-' + month + "-" + day
-      document.getElementById("dob").setAttribute('max', maxDate);
-      document.getElementById("dob").setAttribute('min', minDate);
-    }
+        let p = res.data.mobile
+        let phone = p.split("+");
+        setData({ ...res.data, mobile: phone[1] })
+        formik.setValues({ ...res.data, mobile: phone[1] })
+        setIsUpdate({ email: res.data.email, mobile: phone[1] })
+      }
+    }).catch((error) => {
+      if (error.response.data.code == "400") {
+        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+      }
+      setLoading(false)
+    })
+    var dtToday = new Date();
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear() - 18;
+    if (month < 10)
+      month = '0' + month.toString();
+    if (day < 10)
+      day = '0' + day.toString();
+    var maxDate = year + '-' + month + '-' + day;
+    var minDate = year - 100 + '-' + month + "-" + day
+    document.getElementById("dob").setAttribute('max', maxDate);
+    document.getElementById("dob").setAttribute('min', minDate);
   }, [])
 
   const formik = useFormik({
@@ -321,7 +318,7 @@ const Profile = () => {
           <span className="text-black font-w600 mb-0 h2"><b>Profile Information</b>
           </span>
           {
-            user_data?.digital_id_verified.toLowerCase() === "true" ? (
+            user_data?.digital_id_verified?.toString().toLowerCase() === "true" ? (
               <span className="verified_text px-2 py-1 fs-5 mx-3">
                 <i className="bi bi-check-circle-fill text-success">&nbsp;</i>
                 Verified

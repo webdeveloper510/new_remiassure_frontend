@@ -27,73 +27,67 @@ const UserDashboard = () => {
   const token = localStorage.getItem("token")
   const navigate = useNavigate()
 
-useEffect(()=>{
-  if (authDashHelper('dashCheck') === false) {
-    navigate("/send-money")
- }
-},[])
-
 
   /**************************Feild of state ************************ */
 
 
   return (
     <>
-          <div className="margin-set">
-            <div class="tabs-page">
-              <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+      <div className="margin-set">
+        <div class="tabs-page">
+          <Tab.Container id="left-tabs-example" defaultActiveKey="first">
 
-                <div className="sidebar">
-                  <Nav variant="pills" className="flex-column">
-                    <Nav.Item>
-                      <Nav.Link eventKey="first"><RxDashboard />Dashboard</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="second"><BsCurrencyExchange />New Transfer</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="third"><BsFilePersonFill />Profile Information</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="fourth"><BiTransfer />Transfer</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="fifth"><BsFillPersonPlusFill />Recipients</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="sixth"><RiLockPasswordLine />Password</Nav.Link>
-                    </Nav.Item>
+            <div className="sidebar">
+              <Nav variant="pills" className="flex-column">
+                <Nav.Item>
+                  <Nav.Link eventKey="first"><RxDashboard />Dashboard</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="second"><BsCurrencyExchange />New Transfer</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="third"><BsFilePersonFill />Profile Information</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="fourth"><BiTransfer />Transfer</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="fifth"><BsFillPersonPlusFill />Recipients</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="sixth"><RiLockPasswordLine />Password</Nav.Link>
+                </Nav.Item>
 
-                  </Nav>
-                </div>
-                <div className="content-body">
-                  <Tab.Content>
-
-                    <Tab.Pane eventKey="first">
-
-                      <Dashboard />
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="second">
-
-                      <div className="user-sendmoney"> <UserMoney /></div>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="third">
-                      <div className="user-sendmoney"><UserProfile /></div>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="fourth">
-                      <Transfer />
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="fifth">
-                      <div className="tabs-recipent"> <AddNewRecipient /></div>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="sixth">
-                      <div className="tabs-recipent"> <ChangePassword /></div>
-                    </Tab.Pane>
-                  </Tab.Content>
-                </div>
-              </Tab.Container>
+              </Nav>
             </div>
-          </div>
+            <div className="content-body">
+              <Tab.Content>
+
+                <Tab.Pane eventKey="first">
+
+                  <Dashboard />
+                </Tab.Pane>
+                <Tab.Pane eventKey="second">
+
+                  <div className="user-sendmoney"> <UserMoney /></div>
+                </Tab.Pane>
+                <Tab.Pane eventKey="third">
+                  <div className="user-sendmoney"><UserProfile /></div>
+                </Tab.Pane>
+                <Tab.Pane eventKey="fourth">
+                  <Transfer />
+                </Tab.Pane>
+                <Tab.Pane eventKey="fifth">
+                  <div className="tabs-recipent"> <AddNewRecipient /></div>
+                </Tab.Pane>
+                <Tab.Pane eventKey="sixth">
+                  <div className="tabs-recipent"> <ChangePassword /></div>
+                </Tab.Pane>
+              </Tab.Content>
+            </div>
+          </Tab.Container>
+        </div>
+      </div>
 
     </>
   )

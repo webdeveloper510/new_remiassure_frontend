@@ -26,9 +26,7 @@ const AllTranfer = ({ status, data }) => {
   // const paymetTransactionId = localStorage.getItem("paymetTransactionId");
 
   useEffect(() => {
-    if (authDashHelper('dashCheck') === false) {
-      navigate("/send-money")
-    }
+
     if (data?.length != 0) {
       if (status == "pending") {
         let pending = data.filter((item) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -29,7 +29,10 @@ import { AiOutlineLogin } from "react-icons/ai";
 import { FaUserPlus } from "react-icons/fa";
 
 import app from '../../assets/img/home/Group 01.svg';
-import { exchangeRate } from "../../utils/Api";
+import { exchangeRate, getVeriffStatus } from "../../utils/Api";
+import { Modal } from "react-bootstrap";
+import { createVeriffFrame, MESSAGES } from '@veriff/incontext-sdk';
+import { Veriff } from '@veriff/js-sdk';
 
 
 const DashHeader = () => {
@@ -40,7 +43,10 @@ const DashHeader = () => {
 
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("remi-user-dt"));
-    const LoginDigitalidVerified = user?.digital_id_verified
+    const LoginDigitalidVerified = user?.digital_id_verified;
+    const [verification, setVerification] = useState(false)
+    const [isVerified, setIsVerified] = useState(user?.digital_id_verified?.toString().toLowerCase() || false)
+    const [loader, setLoader] = useState(false)
 
     const navigate = useNavigate();
 
@@ -51,138 +57,220 @@ const DashHeader = () => {
         navigate("/login")
     }
 
-    return (
-        <div className="fixed-top">
-            {
-                user?.digital_id_verified?.toString() === "false" ? (
-                    <div className="bg-info" >User account is not verified. <a>Click here</a> to verify</div>
+    const start = () => {
+        setVerification(true)
+        setLoader(true)
+    }
 
-                ) : (<></>)
-            }
-            <header id="header" className=" d-flex align-items-center header-transparent">
-                <div className="container d-flex justify-content-between align-items-center">
-                    <div className="logo">
-                        <h1 className="text-light">
-                            <NavLink to="/">
-                                <img src={logo} alt="logo" />
-                            </NavLink>
-                        </h1>
-                    </div>
-                    <nav id="navbar" className="navbar">
-                        <ul>
-                            <li>
-                                <NavLink className="" to="/">Home</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/about-us"> About us</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/help">Help</NavLink>
-                            </li>
-                            {/* <li>
+    const end = () => {
+        setLoader(false)
+        setVerification(false)
+        setIsVerified(true)
+    }
+
+    return (
+        <>
+            <div className="fixed-top">
+                {
+                    isVerified !== "true" ? (
+                        <div className="verify-banner" >Your Account is not Digitally Verified. <a onClick={() => start()}>Click here</a> to Verify</div>
+
+                    ) : (<></>)
+                }
+                <header id="header" className=" d-flex align-items-center header-transparent">
+                    <div className="container d-flex justify-content-between align-items-center">
+                        <div className="logo">
+                            <h1 className="text-light">
+                                <NavLink to="/">
+                                    <img src={logo} alt="logo" />
+                                </NavLink>
+                            </h1>
+                        </div>
+                        <nav id="navbar" className="navbar">
+                            <ul>
+                                <li>
+                                    <NavLink className="" to="/">Home</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/about-us"> About us</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/help">Help</NavLink>
+                                </li>
+                                {/* <li>
                 <NavLink to="/referral">Referral</NavLink>
               </li> */}
-                            {
-                                token && user ? (
-                                    <li class="dropdown">
-                                        <span>
-                                            My account <IoIosArrowDown style={{ color: 'rgb(20, 34, 224);' }} />
-                                        </span>
-                                        <ul>
-                                            {
-                                                LoginDigitalidVerified == "true" ? (
-                                                    <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
-                                                ) : (
-                                                    <li> <NavLink to="/send-money">Send Money</NavLink></li>
-                                                )
-                                            }
-                                            <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
-                                        </ul>
-                                    </li>
-                                ) : (
-                                    <>
+                                {
+                                    token && user ? (
+                                        <li class="dropdown">
+                                            <span>
+                                                My account <IoIosArrowDown style={{ color: 'rgb(20, 34, 224);' }} />
+                                            </span>
+                                            <ul>
+                                                {
+                                                    LoginDigitalidVerified == "true" ? (
+                                                        <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
+                                                    ) : (
+                                                        <li> <NavLink to="/send-money">Send Money</NavLink></li>
+                                                    )
+                                                }
+                                                <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
+                                            </ul>
+                                        </li>
+                                    ) : (
+                                        <>
+                                            <li>
+                                                <NavLink to="/sign-up">Signup</NavLink>
+                                            </li>
+                                            <li>
+                                                <NavLink to="/login">Login</NavLink>
+                                            </li>
+                                        </>
+                                    )
+                                }
+                            </ul>
+                        </nav>
+                        <RxHamburgerMenu onClick={mobilemenuShow} className="mobile-btn" />
+                        <Offcanvas show={show} onHide={handleClose}>
+                            <Offcanvas.Header closeButton>
+                                <Offcanvas.Title> <div className="logo">
+                                    <h1 className="text-light">
+                                        <NavLink to="/">
+                                            <img src={logo} alt="logo" />
+                                        </NavLink>
+                                    </h1>
+                                </div></Offcanvas.Title>
+                            </Offcanvas.Header>
+                            <Offcanvas.Body>
+                                <nav id="navbar" className="navbar">
+                                    <ul>
                                         <li>
-                                            <NavLink to="/sign-up">Signup</NavLink>
+                                            <NavLink className="" to="/" onClick={handleClose}><GoHome /> Home</NavLink>
                                         </li>
                                         <li>
-                                            <NavLink to="/login">Login</NavLink>
+                                            <NavLink to="/about-us" onClick={handleClose}> <HiInformationCircle /> About us</NavLink>
                                         </li>
-                                    </>
-                                )
-                            }
-                        </ul>
-                    </nav>
-                    <RxHamburgerMenu onClick={mobilemenuShow} className="mobile-btn" />
-                    <Offcanvas show={show} onHide={handleClose}>
-                        <Offcanvas.Header closeButton>
-                            <Offcanvas.Title> <div className="logo">
-                                <h1 className="text-light">
-                                    <NavLink to="/">
-                                        <img src={logo} alt="logo" />
-                                    </NavLink>
-                                </h1>
-                            </div></Offcanvas.Title>
-                        </Offcanvas.Header>
-                        <Offcanvas.Body>
-                            <nav id="navbar" className="navbar">
-                                <ul>
-                                    <li>
-                                        <NavLink className="" to="/" onClick={handleClose}><GoHome /> Home</NavLink>
-                                    </li>
-                                    <li>
-                                        <NavLink to="/about-us" onClick={handleClose}> <HiInformationCircle /> About us</NavLink>
-                                    </li>
-                                    <li>
-                                        <NavLink to="/help" onClick={handleClose}><FaHandsHelping />Help</NavLink>
-                                    </li>
-                                    {/* <li>
+                                        <li>
+                                            <NavLink to="/help" onClick={handleClose}><FaHandsHelping />Help</NavLink>
+                                        </li>
+                                        {/* <li>
                     <NavLink to="/referral" onClick={handleClose}><HiUserGroup />Referral</NavLink>
                   </li> */}
-                                    {
-                                        token && user ? (
-                                            <li class="dropdown">
-                                                <a href="#">
-                                                    <span>
-                                                        My account <IoIosArrowDown style={{ color: 'rgb(20, 34, 224);' }} />
-                                                    </span>
-                                                </a>
-                                                <ul>
-                                                    {
-                                                        LoginDigitalidVerified == "true" ? (
-                                                            <li> <NavLink to="/dashboard" onClick={handleClose}>User Dashboard</NavLink></li>
-                                                        ) : (
-                                                            <li> <NavLink to="/send-money" onClick={handleClose}>Send Money</NavLink></li>
-                                                        )
-                                                    }
-                                                    <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
-                                                </ul>
-                                            </li>
-                                        ) : (
-                                            <>
-                                                <li>
-                                                    <NavLink to="/sign-up" onClick={handleClose}><FaUserPlus />Signup</NavLink>
+                                        {
+                                            token && user ? (
+                                                <li class="dropdown">
+                                                    <a href="#">
+                                                        <span>
+                                                            My account <IoIosArrowDown style={{ color: 'rgb(20, 34, 224);' }} />
+                                                        </span>
+                                                    </a>
+                                                    <ul>
+                                                        {
+                                                            LoginDigitalidVerified == "true" ? (
+                                                                <li> <NavLink to="/dashboard" onClick={handleClose}>User Dashboard</NavLink></li>
+                                                            ) : (
+                                                                <li> <NavLink to="/send-money" onClick={handleClose}>Send Money</NavLink></li>
+                                                            )
+                                                        }
+                                                        <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
+                                                    </ul>
                                                 </li>
-                                                <li>
-                                                    <NavLink to="/login" onClick={handleClose}><AiOutlineLogin />Login</NavLink>
-                                                </li>
-                                            </>
-                                        )
-                                    }
-                                </ul>
-                            </nav>
-                            <div className="row">
-                                <div className="mobile-app-section">
-                                    <p>Download the RemitAssure App</p>
-                                    <img src={app} alt="app-icons" />
+                                            ) : (
+                                                <>
+                                                    <li>
+                                                        <NavLink to="/sign-up" onClick={handleClose}><FaUserPlus />Signup</NavLink>
+                                                    </li>
+                                                    <li>
+                                                        <NavLink to="/login" onClick={handleClose}><AiOutlineLogin />Login</NavLink>
+                                                    </li>
+                                                </>
+                                            )
+                                        }
+                                    </ul>
+                                </nav>
+                                <div className="row">
+                                    <div className="mobile-app-section">
+                                        <p>Download the RemitAssure App</p>
+                                        <img src={app} alt="app-icons" />
+                                    </div>
                                 </div>
-                            </div>
-                        </Offcanvas.Body>
-                    </Offcanvas>
-                </div>
-            </header>
-        </div >
+                            </Offcanvas.Body>
+                        </Offcanvas>
+                    </div>
+                </header>
+            </div >
+            < Modal show={verification} backdrop="static" onHide={() => setVerification(false)} centered >
+                <Modal.Header closeButton >
+                    <img src="https://veriff.cdn.prismic.io/veriff/1565ec7d-5815-4d28-ac00-5094d1714d4c_Logo.svg" alt="Veriff logo" width="90" height="25" />
+                </Modal.Header>
+                < Modal.Body className='w-100 m-auto' >
+                    <VerificationModal toggleLoader={(value) => setLoader(value)} handler={() => end()} />
+                </Modal.Body>
+            </Modal>
+            {
+                loader ? <>
+                    <div className="loader-overly" >
+                        <div className="loader" >
+                        </div>
+                    </div>
+                </> : ""}
+        </>
     )
 }
 
+
+const VerificationModal = ({ handler, toggleLoader }) => {
+
+    useEffect(() => {
+        const veriff = Veriff({
+            apiKey: '55bdee3e-850a-4930-a7e6-e713a86a3cc9',
+            parentId: 'veriff-root',
+            onSession: function (err, response) {
+                createVeriffFrame({
+                    url: response.verification.url,
+                    onEvent: function (msg) {
+                        switch (msg) {
+                            case MESSAGES.CANCELED:
+                                break;
+                            case MESSAGES.STARTED:
+                                break;
+                            case MESSAGES.FINISHED:
+                                toggleLoader(true)
+                                const interval = setInterval(() => {
+                                    getVeriffStatus({ session_id: response.verification.id }).then(res => {
+                                        if (res.code === "200") {
+                                            handler()
+                                            clearInterval(interval)
+                                            toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
+                                            let user = JSON.parse(localStorage.getItem("remi-user-dt"));
+                                            user.digital_id_verified = true
+                                            localStorage.setItem("remi-user-dt", JSON.stringify(user))
+                                            // handleSubmit()
+                                        }
+                                    })
+                                }, 10000)
+                                break;
+                        }
+                    }
+                });
+            }
+        });
+        veriff.mount({
+            formLabel: {
+                givenName: 'First name',
+                lastName: 'Last name',
+                vendorData: 'Unique id/Document id'
+            },
+            submitBtnText: 'Get verified',
+            loadingText: 'Please wait...'
+        })
+    }, [])
+
+    return (
+
+        <div id='veriff-root' style={{ margin: "auto", padding: "25px 0px" }}>
+        </div>
+    )
+}
 
 export default DashHeader;

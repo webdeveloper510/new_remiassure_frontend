@@ -124,17 +124,8 @@ const Login = () => {
                                                                 isMobile ? (
                                                                     <div className="col-md-4 pe-1">
                                                                         <Form.Select className="login-code-select form-select" value={countryCode} onChange={(e) => setCountryCode(e.target.value)}>
-                                                                            {/* {
-                                                                                myCountryList && myCountryList.length > 0 ?
-                                                                                    myCountryList.map((item) => {
-                                                                                        return (
-                                                                                            <option value={item?.value}>+{item?.name}</option>
-                                                                                        )
-                                                                                    }) : <option>N/A</option>
-                                                                            } */}
                                                                             <option value="+61">+61 (AU)</option>
                                                                             <option value="+64">+64 (NZ)</option>
-                                                                            {/* <option value="+91">+91 (IN)</option> */}
                                                                         </Form.Select>
                                                                     </div>
                                                                 ) : ""

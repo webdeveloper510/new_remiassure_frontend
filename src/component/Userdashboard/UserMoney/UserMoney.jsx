@@ -18,9 +18,7 @@ const SendMoney = () => {
     }
 
     useEffect(() => {
-        if (authDashHelper('dashCheck') === false) {
-            navigate("/send-money")
-        }
+
         pendingTransactions().then(res => {
             if (res.code === "200") {
                 localStorage.setItem("transaction_id", res.data[0].transaction_id)

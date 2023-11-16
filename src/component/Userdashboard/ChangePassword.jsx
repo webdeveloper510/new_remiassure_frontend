@@ -21,12 +21,6 @@ const Profile = () => {
   const [show_new, setShowNew] = useState(false);
   const [show_confirm, setShowConfirm] = useState(false);
 
-  useEffect(() => {
-    if (authDashHelper('dashCheck') === false) {
-      navigate("/send-money")
-    }
-  }, [])
-
   const updateSchema = Yup.object().shape({
     old_password: Yup.string().required("Current password is required"),
     new_password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),

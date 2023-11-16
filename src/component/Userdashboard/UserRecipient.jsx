@@ -45,9 +45,6 @@ const UserRecipients = () => {
     }
 
     useEffect(() => {
-        if (authDashHelper('dashCheck') === false) {
-            navigate("/send-money")
-        }
         getList();
     }, [])
 

@@ -42,11 +42,6 @@ const Addnewrecipient = () => {
     postcode: "", state: "", country: ""
   }
 
-  useEffect(() => {
-    if (authDashHelper('dashCheck') === false) {
-      navigate("/send-money")
-    }
-  }, [])
 
   useEffect(() => {
     const value = data.country !== "" ? data.country : countryList[0]?.name

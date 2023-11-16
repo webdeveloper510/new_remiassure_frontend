@@ -80,17 +80,13 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
-        if (authDashHelper('dashCheck') === false) {
-            navigate("/send-money")
-        } else {
-            userProfile().then((response) => {
-                if (response.code == 200) {
-                    setFirstName(response.data.First_name);
-                    setLastName(response.data.Last_name)
-                }
-            }).catch((error) => {
-            })
-        }
+        userProfile().then((response) => {
+            if (response.code == 200) {
+                setFirstName(response.data.First_name);
+                setLastName(response.data.Last_name)
+            }
+        }).catch((error) => {
+        })
     }, [])
 
     useEffect(() => {

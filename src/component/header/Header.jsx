@@ -84,7 +84,7 @@ const Header = () => {
                     </span>
                     <ul>
                       {
-                        LoginDigitalidVerified == "true" ? (
+                        LoginDigitalidVerified.toString() === "true" ? (
                           <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
                         ) : (
                           <li> <NavLink to="/send-money">Send Money</NavLink></li>

@@ -16,21 +16,17 @@ const Transaction = () => {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        if (authDashHelper('dashCheck') === false) {
-            navigate("/send-money")
-        } else {
-            setLoading(true)
-            transactionHistory().then((res) => {
-                if (res.code == "200") {
-                    setData(res.data)
-                    setLoading(false)
-                } else {
-                    setLoading(false)
-                }
-            }).catch(err => {
+        setLoading(true)
+        transactionHistory().then((res) => {
+            if (res.code == "200") {
+                setData(res.data)
                 setLoading(false)
-            })
-        }
+            } else {
+                setLoading(false)
+            }
+        }).catch(err => {
+            setLoading(false)
+        })
     }, [])
 
     return (
