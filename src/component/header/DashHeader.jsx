@@ -30,7 +30,7 @@ import { FaUserPlus } from "react-icons/fa";
 
 import app from '../../assets/img/home/Group 01.svg';
 import { exchangeRate, getVeriffStatus } from "../../utils/Api";
-import { Modal } from "react-bootstrap";
+import { Modal, Table } from "react-bootstrap";
 import { createVeriffFrame, MESSAGES } from '@veriff/incontext-sdk';
 import { Veriff } from '@veriff/js-sdk';
 
@@ -59,7 +59,6 @@ const DashHeader = () => {
 
     const start = () => {
         setVerification(true)
-        setLoader(true)
     }
 
     const end = () => {
@@ -72,7 +71,7 @@ const DashHeader = () => {
         <>
             <div className="fixed-top">
                 {
-                    isVerified !== "true" ? (
+                    isVerified === "true" ? (
                         <div className="verify-banner" >Your Account is not Digitally Verified. <a onClick={() => start()}>Click here</a> to Verify</div>
 
                     ) : (<></>)
@@ -221,6 +220,8 @@ const DashHeader = () => {
 
 const VerificationModal = ({ handler, toggleLoader }) => {
 
+
+    const user = JSON.parse(localStorage.getItem("remi-user-dt"))
     useEffect(() => {
         const veriff = Veriff({
             apiKey: '55bdee3e-850a-4930-a7e6-e713a86a3cc9',
@@ -255,21 +256,30 @@ const VerificationModal = ({ handler, toggleLoader }) => {
                 });
             }
         });
+        veriff.setParams({
+            vendorData: `${user?.customer_id}`,
+            person: {
+                givenName: `${user?.First_name}`,
+                lastName: `${user?.Last_name}`
+            }
+        });
         veriff.mount({
             formLabel: {
                 givenName: 'First name',
                 lastName: 'Last name',
                 vendorData: 'Unique id/Document id'
             },
-            submitBtnText: 'Get verified',
+
+            submitBtnText: 'Start Verification',
             loadingText: 'Please wait...'
         })
     }, [])
 
     return (
-
-        <div id='veriff-root' style={{ margin: "auto", padding: "25px 0px" }}>
-        </div>
+        <>
+            <div id='veriff-root' style={{ margin: "auto", padding: "25px 0px" }}>
+            </div>
+        </>
     )
 }
 

@@ -79,6 +79,13 @@ function HowRenderingArrayOfObjects() {
             src: "assets/img/home/transaction.png",
             circle_heading: "Enter your transaction details",
             circle_content: "Provide some personal information and sign up online or via the RemitAssure app.",
+        },
+        {
+            id: 4,
+            src: "assets/img/zai/transfer1.png",
+            circle_heading: "Pay for your transaction",
+            circle_content: "We offer different payment rails for our customers. You can pay through: PayID , PayTo Agreements."
+
         }
     ];
 
@@ -886,7 +893,7 @@ const Home = () => {
                     </div>
 
                     <div className="row custom-row-hows">
-                        <div className="col-lg-6 text-start">
+                        {/* <div className="col-lg-6 text-start">
                             <img src="assets/img/footer/trans5.png" alt="background-images" />
                         </div>
                         <div className="col-lg-6">
@@ -898,11 +905,10 @@ const Home = () => {
                                 <ul>
                                     <li><img src="assets/img/zai/payid_light.svg" alt="background-images" /><p>PayID</p></li>
                                     <li><img src="assets/img/zai/payto_light.svg" alt="background-images" /><p>PayTo</p></li>
-                                    {/* <li><img src="assets/img/zai/card.png" alt="background-images" /><p>Debit / Credit Card</p></li> */}
                                 </ul>
                                 <p>All options are real-time so you can rest assured that your funds will be sent once payment is received for your transfer. </p>
                             </div>
-                        </div>
+                        </div> */}
 
 
                     </div>
@@ -912,7 +918,7 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="why-us_section homepage-why-us hows-section-light">
+            {/* <section className="why-us_section homepage-why-us hows-section-light">
                 <div className="container">
 
                     <div className="row custom-row-hows">
@@ -937,7 +943,7 @@ const Home = () => {
                     </div>
 
                 </div>
-            </section>
+            </section> */}
 
 
 
