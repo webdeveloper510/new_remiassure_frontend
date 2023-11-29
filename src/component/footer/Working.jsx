@@ -193,7 +193,7 @@ const Working = () => {
                                 </div>
                             </div>
                             <div className="col-sm-4 right_side">
-                               
+
                                 <img src="assets/img/home/img03.svg" alt="background-images" />
                             </div>
                         </div>
@@ -209,16 +209,16 @@ const Working = () => {
             <section className="why-us_section homepage-why-us hows-section-light">
                 <div className="container">
                     <div className="row custom-row-hows">
-                    <div className="col-lg-6 text-start">
-                        <img src="assets/img/footer/how-work.webp" />
+                        <div className="col-lg-6 text-start">
+                            <img src="assets/img/footer/how-work.webp" />
                         </div>
                         <div className="col-lg-6">
-                        <div className="vl about_v1">
-                                    <h1 className="vl-heading">Create a RemitAssure account</h1>
-                                </div>
+                            <div className="vl about_v1 working-h">
+                                <h1 className="vl-heading">Create a RemitAssure account</h1>
+                            </div>
                             <div className="vl-content">
-                              
-                               <p>Provide some personal information and sign up online or via the RemitAssure app.</p>
+
+                                <p>Provide some personal information and sign up online or via the RemitAssure app.</p>
                             </div>
                         </div>
                     </div>
@@ -232,22 +232,22 @@ const Working = () => {
                 <div className="container">
 
                     <div className="row custom-row-hows">
-                   
+
                         <div className="col-lg-6">
-                        <div className="vl about_v1">
-                                    <h1 className="vl-heading">Verify your Identity</h1>
-                                </div>
+                            <div className="vl about_v1">
+                                <h1 className="vl-heading">Verify your Identity</h1>
+                            </div>
                             <div className="vl-content">
-                               <p>We verify your identity as part of our AML/CTF obligation. Verifying your identity also helps also safeguard your account against potential fraudulent activities.</p>
+                                <p>We verify your identity as part of our AML/CTF obligation. Verifying your identity also helps also safeguard your account against potential fraudulent activities.</p>
                             </div>
                         </div>
                         <div className="col-lg-6 text-end">
-                        <img src="assets/img/footer/trans2.png" alt="background-images" />
+                            <img src="assets/img/footer/trans2.png" alt="background-images" />
                         </div>
-                       
+
                     </div>
-                    
-            </div>
+
+                </div>
             </section>
 
 
@@ -255,19 +255,19 @@ const Working = () => {
             <section className="why-us_section homepage-why-us hows-section-light">
                 <div className="container">
                     <div className="row custom-row-hows">
-                    <div className="col-lg-6 align-left">
-                    <img src="assets/img/footer/trans3.png" alt="background-images" />
+                        <div className="col-lg-6 align-left">
+                            <img src="assets/img/footer/trans3.png" alt="background-images" />
                         </div>
                         <div className="col-lg-6">
-                        <div className="vl about_v1">
-                                    <h1 className="vl-heading">Enter your transaction details</h1>
-                                </div>
+                            <div className="vl about_v1">
+                                <h1 className="vl-heading">Enter your transaction details</h1>
+                            </div>
                             <div className="vl-content">
-                               <p>Enter the amount you want to send or that you want the recipient to receive. Then, provide the recipient account details. Review and confirm transfer details.
-</p>
+                                <p>Enter the amount you want to send or that you want the recipient to receive. Then, provide the recipient account details. Review and confirm transfer details.
+                                </p>
                             </div>
                         </div>
-                       
+
                     </div>
 
 
@@ -277,28 +277,28 @@ const Working = () => {
 
             <section className="why-us_section homepage-why-us hows-section">
                 <div className="container">
-                   
+
 
                     <div className="row custom-row-hows">
-                    
+
                         <div className="col-lg-6">
-                        <div className="vl about_v1">
-                                    <h1 className="vl-heading">Pay for your transaction</h1>
-                                </div>
+                            <div className="vl about_v1">
+                                <h1 className="vl-heading">Pay for your transaction</h1>
+                            </div>
                             <div className="vl-content">
-                               <p>We offer different payment rails for our customers. You can pay through:</p>
-                               <ul>
-                                <li><img src="assets/img/zai/payid_light.svg" alt="background-images" /><p>PayID</p></li>
-                                <li><img src="assets/img/zai/payto_light.svg" alt="background-images" /><p>PayTo</p></li>
-                                <li><img src="assets/img/zai/card.png" alt="background-images" /><p>Debit / Credit Card</p></li>
-                               </ul>
-                               <p>All three options are real-time so you can rest assured that your funds will be sent once payment is received for your transfer. </p>
+                                <p>We offer different payment rails for our customers. You can pay through:</p>
+                                <ul>
+                                    <li><img src="assets/img/zai/payid_light.svg" alt="background-images" /><p>PayID</p></li>
+                                    <li><img src="assets/img/zai/payto_light.svg" alt="background-images" /><p>PayTo</p></li>
+                                    <li><img src="assets/img/zai/card.png" alt="background-images" /><p>Debit / Credit Card</p></li>
+                                </ul>
+                                <p>All three options are real-time so you can rest assured that your funds will be sent once payment is received for your transfer. </p>
                             </div>
                         </div>
                         <div className="col-lg-6 text-end">
                             <img src="assets/img/footer/trans5.png" alt="background-images" />
                         </div>
-                       
+
                     </div>
 
                 </div>
@@ -306,26 +306,26 @@ const Working = () => {
 
             <section className="why-us_section homepage-why-us hows-section-light">
                 <div className="container">
-                  
+
                     <div className="row custom-row-hows">
-                    <div className="col-lg-6 text-start">
+                        <div className="col-lg-6 text-start">
                             <img src="assets/img/footer/trans4.png" alt="background-images" />
                         </div>
-                    <div className="col-lg-6">
-                    <div className="vl about_v1">
-                                    <h1 className="vl-heading">Track the status of your transfer</h1> 
-                                </div>
+                        <div className="col-lg-6">
+                            <div className="vl about_v1">
+                                <h1 className="vl-heading">Track the status of your transfer</h1>
+                            </div>
                             <div className="vl-content">
-                               <p>We notify you at each stage of your transfer through email and SMS. The main stages are:</p>
-                               <ul>
-                                <li><img src="assets/img/zai/arrows.png" alt="background-images" /><p>Creation of a Transfer</p></li>
-                                <li><img src="assets/img/zai/transfer.png" alt="background-images" /><p>Receipt of Funds</p></li>
-                                <li><img src="assets/img/zai/transfer1.png" alt="background-images" /><p>Transfer Processed</p></li>
-                                <li><img src="assets/img/zai/account.png" alt="background-images" /><p>Transfer Paid out to Beneficiary</p> </li>
-                               </ul>
+                                <p>We notify you at each stage of your transfer through email and SMS. The main stages are:</p>
+                                <ul>
+                                    <li><img src="assets/img/zai/arrows.png" alt="background-images" /><p>Creation of a Transfer</p></li>
+                                    <li><img src="assets/img/zai/transfer.png" alt="background-images" /><p>Receipt of Funds</p></li>
+                                    <li><img src="assets/img/zai/transfer1.png" alt="background-images" /><p>Transfer Processed</p></li>
+                                    <li><img src="assets/img/zai/account.png" alt="background-images" /><p>Transfer Paid out to Beneficiary</p> </li>
+                                </ul>
                             </div>
                         </div>
-                       
+
                     </div>
 
                 </div>
@@ -333,7 +333,7 @@ const Working = () => {
 
 
             {/* <!-- ======= AboUs Why RemitAssure-Section  start======= --> */}
-            
+
             {/* <!-- ======= AboUs Why RemitAssure-Section  End======= --> */}
 
             {/* <!-- ======= Testimonial-Section  start======= --> */}

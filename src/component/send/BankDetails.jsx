@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import PhoneInput from "react-phone-input-2";
 import { createRecipient, createTransaction, updateUserRecipient } from '../../utils/Api';
 import Bank_list from '../../utils/Bank_list';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 import { toast } from 'react-toastify';
 
 const BankDetails = ({ handleBankDetail, handleStep, step }) => {
@@ -19,7 +19,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   const [inConfirmation, setInConfirmation] = useState(false)
 
   const [data, setData] = useState({
-    bank: "Select a bank...", other_name: "", acc_name: "", acc_no: "",
+    bank: null, other_name: "", acc_name: "", acc_no: "",
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
@@ -27,7 +27,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   })
 
   const initialValues = {
-    bank: "Select a bank...", other_name: "", acc_name: "", acc_no: "",
+    bank: null, other_name: "", acc_name: "", acc_no: "",
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
@@ -92,7 +92,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     bank: Yup.string()
       .min(3, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
-      .required('Email is required').trim().notOneOf(["Select a bank..."]),
+      .required('Email is required').trim().notOneOf([null]),
     other_name: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
       const {
         createError,
@@ -360,6 +360,10 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     }),
   };
 
+  const Placeholder = (props) => {
+    return <components.Placeholder {...props} />;
+  };
+
   return (
     <div>
 
@@ -440,9 +444,11 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                   <Select
                     options={Bank_list}
                     onChange={handleBank}
-                    value={{ label: formik.values.bank, value: formik.values.bank }}
+                    value={formik.values.bank !== null ? { label: formik.values.bank, value: formik.values.bank } : ""}
                     name='bank'
                     styles={customStyles}
+                    components={{ Placeholder }}
+                    placeholder="Select a bank...."
                   />
                 </div>
               </div>

@@ -14,7 +14,7 @@ import clsx from "clsx";
 import { createRecipient } from "../../utils/Api";
 import authDashHelper from "../../utils/AuthDashHelper";
 import Bank_list from "../../utils/Bank_list";
-import Select from "react-select";
+import Select, { components } from "react-select";
 
 
 const Addnewrecipient = () => {
@@ -26,7 +26,7 @@ const Addnewrecipient = () => {
 
 
   const [data, setData] = useState({
-    bank_name: "Select a bank...", other_name: "", account_name: "", account_number: "",
+    bank_name: null, other_name: "", account_name: "", account_number: "",
     first_name: "", last_name: "", middle_name: "",
     email: "", mobile: "", flat: "",
     building: "", street: "", city: "",
@@ -35,7 +35,7 @@ const Addnewrecipient = () => {
   })
 
   const initialValues = {
-    bank_name: "Select a bank...", other_name: "", account_name: "", account_number: "",
+    bank_name: null, other_name: "", account_name: "", account_number: "",
     first_name: "", last_name: "", middle_name: "",
     email: "", mobile: "", flat: "",
     building: "", street: "", city: "",
@@ -84,7 +84,7 @@ const Addnewrecipient = () => {
     bank_name: Yup.string()
       .min(3, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
-      .required('Email is required').trim().notOneOf(["Select a bank..."]),
+      .required('Email is required').trim().notOneOf([null]),
     other_name: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
       const {
         createError,
@@ -261,6 +261,10 @@ const Addnewrecipient = () => {
     }),
   };
 
+  const Placeholder = (props) => {
+    return <components.Placeholder {...props} />;
+  };
+
   return (
     <section className="showrecepient">
       <div class="form-head mb-4">
@@ -289,9 +293,11 @@ const Addnewrecipient = () => {
                   <Select
                     options={Bank_list}
                     onChange={handleBank}
-                    value={{ label: formik.values.bank_name, value: formik.values.bank_name }}
+                    value={formik.values.bank_name !== null ? { label: formik.values.bank_name, value: formik.values.bank_name } : ""}
                     name='bank_name'
                     styles={customStyles}
+                    components={{ Placeholder }}
+                    placeholder="Select a bank...."
                   />
                   {/* <select
                           className={clsx(

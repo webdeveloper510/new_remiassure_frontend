@@ -11,15 +11,16 @@ const TransactionConfirm = ({ data, handleCancel, handleContinue }) => {
             behavior: "smooth"
         })
     }, [])
+    let transaction_id = localStorage.getItem("transaction_id")
 
     return (
-        <div className='col-md-12 '>
-            <div class="form-head mb-4">
-                <h2 class="text-black font-w600 mb-0"><b>Review Your Transfer</b>
+        <div className='col-md-12 d-grid m-0 p-0' style={{ placeItems: "center" }}>
+            <div className="form-head mb-4">
+                <h2 class="text-black font-w600 mb-0"><b>{!data?.data?.reason ? "Review Your Transfer" : "Confirm Your Transfer"}</b>
                 </h2>
             </div>
-            <div className='card'>
-                <div className='card-body py-5'>
+            <div className='card w-75'>
+                <div className='card-body'>
                     <Table className='recipint-details-popup'>
                         <thead>
                             <tr>
@@ -80,7 +81,7 @@ const TransactionConfirm = ({ data, handleCancel, handleContinue }) => {
                             }
                         </tbody>
                     </Table>
-                    <div className="row mt-5">
+                    <div className="row mt-4">
                         <div className="col-md-4">
                             <button className="start-form-button" variant="secondary" onClick={() => handleCancel()}>
                                 Back

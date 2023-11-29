@@ -44,10 +44,10 @@ const DashHeader = () => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("remi-user-dt"));
     const LoginDigitalidVerified = user?.digital_id_verified;
-    const [verification, setVerification] = useState(false)
     const [isVerified, setIsVerified] = useState(user?.digital_id_verified?.toString().toLowerCase() || false)
+    const [verification, setVerification] = useState(false)
     const [loader, setLoader] = useState(false)
-
+    console.log(isVerified)
     const navigate = useNavigate();
 
     const handleLogout = (event) => {
@@ -71,7 +71,7 @@ const DashHeader = () => {
         <>
             <div className="fixed-top">
                 {
-                    isVerified === "true" ? (
+                    isVerified !== "true" ? (
                         <div className="verify-banner" >Your Account is not Digitally Verified. <a onClick={() => start()}>Click here</a> to Verify</div>
 
                     ) : (<></>)
@@ -239,14 +239,18 @@ const VerificationModal = ({ handler, toggleLoader }) => {
                                 toggleLoader(true)
                                 const interval = setInterval(() => {
                                     getVeriffStatus({ session_id: response.verification.id }).then(res => {
+                                        handler()
                                         if (res.code === "200") {
-                                            handler()
                                             clearInterval(interval)
-                                            toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
-                                            let user = JSON.parse(localStorage.getItem("remi-user-dt"));
-                                            user.digital_id_verified = true
-                                            localStorage.setItem("remi-user-dt", JSON.stringify(user))
-                                            // handleSubmit()
+                                            if (res?.data?.verification?.status === "approved") {
+                                                toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
+                                                let user = JSON.parse(localStorage.getItem("remi-user-dt"));
+                                                user.digital_id_verified = "true"
+                                                localStorage.setItem("remi-user-dt", JSON.stringify(user))
+                                            } else if (res?.data?.verification?.status === "declined") {
+                                                toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
+                                            }
+
                                         }
                                     })
                                 }, 10000)

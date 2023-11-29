@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { NavLink, generatePath } from 'react-router-dom';
+import { NavLink, generatePath, useLocation } from 'react-router-dom';
 import { BsCurrencyExchange, BsChevronCompactDown, BsChevronCompactUp, BsFillWalletFill, BsFillPersonPlusFill, BsFilePersonFill } from "react-icons/bs";
 import { BiTransfer } from "react-icons/bi";
 import { RiLockPasswordLine } from "react-icons/ri";
@@ -43,6 +43,16 @@ const Sidebar = () => {
     }));
   };
 
+  const location = useLocation()
+
+  const handleClick = () => {
+    if (location.pathname === "/user-send-money") {
+      window.location.reload()
+    }
+  }
+
+
+
   return (
 
     <>
@@ -58,7 +68,7 @@ const Sidebar = () => {
           <nav>
             <ul>
               <li><NavLink to="/dashboard"><RxDashboard />Dashboard</NavLink></li>
-              <li><NavLink to={`/user-send-money`}><BsCurrencyExchange />New Transfer</NavLink></li>
+              <li><NavLink onClick={() => { handleClick() }} to={`/user-send-money`}><BsCurrencyExchange />New Transfer</NavLink></li>
               <li><NavLink to="/user-profile"><BsFilePersonFill />Profile Information</NavLink></li>
               <li>
                 {/* <Accordion className="sidebar_accord">

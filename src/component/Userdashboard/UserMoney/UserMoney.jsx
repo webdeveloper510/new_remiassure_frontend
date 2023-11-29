@@ -3,14 +3,13 @@ import React, { useEffect, useState } from 'react'
 import AmountDetail from './AmountDetail'
 import BankDetails from './BankDetails'
 import PaymentDetails from './PaymentDetails'
-import { useNavigate } from 'react-router-dom'
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
 import authDashHelper from '../../../utils/AuthDashHelper';
 import { pendingTransactions } from '../../../utils/Api';
 
 const SendMoney = () => {
 
     const [step, setStep] = useState(0)
-
     const navigate = useNavigate()
 
     const handleStep = (data) => {
@@ -18,7 +17,6 @@ const SendMoney = () => {
     }
 
     useEffect(() => {
-
         pendingTransactions().then(res => {
             if (res.code === "200") {
                 localStorage.setItem("transaction_id", res.data[0].transaction_id)
@@ -38,7 +36,11 @@ const SendMoney = () => {
         localStorage.setItem("send-step", step)
     }, [step])
 
-
+    useEffect(() => {
+        if (authDashHelper('dashCheck') === false) {
+            navigate("/dashboard")
+        }
+    }, [])
 
     return (
         <div className="col-md-12">

@@ -16,7 +16,7 @@ import { createTransaction } from '../../../utils/Api';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import TransactionConfirm from '../../modals/TransactionConfirm';
 import Bank_list from '../../../utils/Bank_list';
-import Select from "react-select"
+import Select, { components } from "react-select"
 
 
 const BankDetails = ({ handleStep, step }) => {
@@ -31,7 +31,7 @@ const BankDetails = ({ handleStep, step }) => {
   const serverUrl = process.env.REACT_APP_API_URL
 
   const [data, setData] = useState({
-    bank: "Select a bank...", other_name: "", acc_name: "", acc_no: "",
+    bank: null, other_name: "", acc_name: "", acc_no: "",
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
@@ -39,7 +39,7 @@ const BankDetails = ({ handleStep, step }) => {
   })
 
   const initialValues = {
-    bank: "Select a bank...", other_name: "", acc_name: "", acc_no: "",
+    bank: null, other_name: "", acc_name: "", acc_no: "",
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
@@ -56,7 +56,7 @@ const BankDetails = ({ handleStep, step }) => {
     bank: Yup.string()
       .min(3, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
-      .required('Email is required').trim().notOneOf(["Select a bank..."]),
+      .required('Email is required').trim().notOneOf([null]),
     other_name: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
       const {
         createError,
@@ -374,6 +374,10 @@ const BankDetails = ({ handleStep, step }) => {
     }),
   };
 
+  const Placeholder = (props) => {
+    return <components.Placeholder {...props} />;
+  };
+
 
   return (
     <section>
@@ -446,9 +450,11 @@ const BankDetails = ({ handleStep, step }) => {
                           <Select
                             options={Bank_list}
                             onChange={handleBank}
-                            value={{ label: formik.values.bank, value: formik.values.bank }}
+                            value={formik.values.bank !== null ? { label: formik.values.bank, value: formik.values.bank } : ""}
                             name='bank'
                             styles={customStyles}
+                            components={{ Placeholder }}
+                            placeholder="Select a bank...."
                           />
                         </div>
                       </div>

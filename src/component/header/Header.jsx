@@ -53,7 +53,7 @@ const Header = () => {
 
   return (
     <>
-      <header id="header" className="fixed-top d-flex align-items-center header-transparent">
+      <header id="header" style={{ paddingRight: "-17px" }} className="fixed-top d-flex align-items-center header-transparent">
         <div className="container d-flex justify-content-between align-items-center">
           <div className="logo">
             <h1 className="text-light">
@@ -65,7 +65,7 @@ const Header = () => {
           <nav id="navbar" className="navbar">
             <ul>
               <li>
-                <NavLink className="" to="/">Home</NavLink>
+                <NavLink to="/">Home</NavLink>
               </li>
               <li>
                 <NavLink to="/about-us"> About us</NavLink>
@@ -84,7 +84,7 @@ const Header = () => {
                     </span>
                     <ul>
                       {
-                        LoginDigitalidVerified.toString() === "true" ? (
+                        LoginDigitalidVerified?.toString() === "true" ? (
                           <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
                         ) : (
                           <li> <NavLink to="/send-money">Send Money</NavLink></li>

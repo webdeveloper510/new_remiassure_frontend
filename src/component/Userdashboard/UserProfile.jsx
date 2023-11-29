@@ -272,8 +272,9 @@ const Profile = () => {
     updateProfile(d).then(res => {
       setLoading(false)
       if (res.code === "200") {
+        let user = JSON.parse(localStorage.getItem("remi-user-dt"))
+        let local = { ...res.data, digital_id_verified: user?.digital_id_verified }
         localStorage.removeItem("remi-user-dt")
-        let local = { ...res.data, digital_id_verified: "true" }
         localStorage.setItem("remi-user-dt", JSON.stringify(local))
         setLoading(false)
         toast.success("Profile Update Successful", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })

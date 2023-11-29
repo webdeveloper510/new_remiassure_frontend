@@ -38,8 +38,8 @@ const App = () => {
         if (res.code === "200") {
           if (res.data.source_currency !== null && res.data.source_currency !== "null") {
             let types = res.data
-            exchangeRate({ amount: "1", from: types.source_currency, to: types.destination_currency }).then(res => {
-              const data = { send_amt: "1", exchange_amt: res.amount, from_type: types.source_currency, to_type: types.destination_currency, exch_rate: res.rate }
+            exchangeRate({ amount: "100", from: types.source_currency, to: types.destination_currency, direction: "from" }).then(res => {
+              const data = { send_amt: "100", exchange_amt: res.amount, from_type: types.source_currency, to_type: types.destination_currency, exch_rate: res.rate, defaultExchange: res.default_exchange }
               localStorage.removeItem("exchange_curr")
               localStorage.setItem("exchange_curr", JSON.stringify(data))
             })
@@ -47,8 +47,8 @@ const App = () => {
         }
       })
     } else {
-      exchangeRate({ amount: "1", from: "AUD", to: "NGN" }).then(res => {
-        const data = { send_amt: "1", exchange_amt: res.amount, from_type: "AUD", to_type: "NGN", exch_rate: res.rate }
+      exchangeRate({ amount: "100", from: "AUD", to: "NGN", direction: "from" }).then(res => {
+        const data = { send_amt: "100", exchange_amt: res.amount, from_type: "AUD", to_type: "NGN", exch_rate: res.rate, defaultExchange: res.default_exchange }
         localStorage.removeItem("exchange_curr")
         localStorage.setItem("exchange_curr", JSON.stringify(data))
       })
@@ -75,8 +75,6 @@ const App = () => {
         }
       }
     }
-
-
 
     // window.dataLayer = window.dataLayer || [];
     // window.dataLayer.push({

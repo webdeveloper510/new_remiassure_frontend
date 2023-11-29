@@ -228,7 +228,7 @@ const Footer = () => {
                 <div className="container">
                     <div className="row reserved_content">
                         <div className="copyright">
-                            &copy; Copyright <strong><span>Remit-Assure</span></strong>. All Rights Reserved
+                            &copy; Copyright <strong><span>RemitAssure</span></strong>. All Rights Reserved
                         </div>
                     </div>
                 </div>

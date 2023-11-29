@@ -189,7 +189,7 @@ const Aboutus = () => {
                <div className="container">
                   <div className="row custom-height">
                      <div className="col-sm-8">
-                        <div className="vl about_v1">
+                        <div className="vl about_v1 head-neww">
                            <h1 className="vl-heading">About Us</h1>
                            <div className="vl-content about_content">
                               {/* <p className="our_vission">Our vission and mission statement will go here</p> */}

@@ -17,7 +17,9 @@
     .fullwidth {
         width: 50%;
     }
-    
+    section.user_recipients_section .card.fullwidth {
+    width: 100% !important;
+}
 }
 
 
@@ -90,7 +92,21 @@
         float: left;
         width: 100%;
     }
+.vl.about_v1.working-h {
+    height: 70px;
 }
+
+p.material-heading {
+  font-size: 14px;
+}
+}
+
+@media screen and (max-width: 1023px) {
+.banner-content {
+    width: 50%!important;
+    padding-left: 30px;
+}}
+
 
 @media screen and (max-width: 992px) {
     button.start-form-button.full-col {
@@ -265,6 +281,17 @@
         width: 50%;
         margin-bottom: 28px;
     }
+    p.vission_content {
+    height: 120px;
+}
+
+.payment, .sidebar nav ul li a {
+    padding: 15px 15px;
+    font-size: 14px;
+}
+.col-md-8.full-col button.profile-form-button {
+    margin-top: 0px !important;
+}
 }
 
 @media screen and (max-width: 768px) {
@@ -569,9 +596,13 @@
     .testimonial_vl {
         height: auto;
     }
+
 }
 
 @media screen and (max-width: 767px) {
+    .col-md-8.full-col button.profile-form-button {
+    margin-top: 10px !important;
+}
     .row.each-row.remove_mb {
         margin-top: 0px;
     }
@@ -719,7 +750,9 @@
     .about_why_heading {
         margin-left: 10px;
         }
-
+.vl.about_v1.working-h {
+    height: 70px;
+}
 }
 
 @media screen and (max-width: 645px) {
@@ -777,6 +810,13 @@
 
 @media screen and (max-width: 480px) {
 
+    .head-new {
+    height: 40px !important;
+    margin-top: 0px;
+}
+    .head-neww {
+    height: 40px !important;
+}
  p.material-heading {
     min-height:120px;
 }
@@ -825,6 +865,9 @@
     .email-mobile-input{
         line-height:45px;
     }
+    p.vission_content {
+    height: auto !important;
+}
 }
 
 

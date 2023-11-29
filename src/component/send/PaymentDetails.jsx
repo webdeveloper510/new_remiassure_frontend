@@ -487,15 +487,13 @@ const PayToModal = ({ modal, method, handler, handleStep, step, authModal }) => 
                 toast.success(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
                 getAgreementList().then(res => {
                   if (res.code === "200") {
-                    if (res.data.status.toLowerCase() === "active") {
-                      if (localStorage.getItem("send-step")) {
-                        localStorage.removeItem("send-step")
-                      }
-                      localStorage.setItem("send-step", Number(step) + 1)
-                      handleStep(Number(step) + 1)
-                    } else {
-                      authModal(true)
+
+                    if (localStorage.getItem("send-step")) {
+                      localStorage.removeItem("send-step")
                     }
+                    localStorage.setItem("send-step", Number(step) + 1)
+                    handleStep(Number(step) + 1)
+
                   }
                 })
               } else if (res.code === "400") {
@@ -568,16 +566,13 @@ const PayToModal = ({ modal, method, handler, handleStep, step, authModal }) => 
               localStorage.setItem("transfer_data", JSON.stringify(local))
               toast.success(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
               getAgreementList().then(res => {
-                if (res.code === "200") {
-                  if (res.data.status.toLowerCase() === "active") {
-                    if (localStorage.getItem("send-step")) {
-                      localStorage.removeItem("send-step")
-                    }
-                    localStorage.setItem("send-step", Number(step) + 1)
-                    handleStep(Number(step) + 1)
-                  } else {
-                    authModal(true)
+
+                if (res.data.status.toLowerCase() === "active") {
+                  if (localStorage.getItem("send-step")) {
+                    localStorage.removeItem("send-step")
                   }
+                  localStorage.setItem("send-step", Number(step) + 1)
+                  handleStep(Number(step) + 1)
                 }
               })
             } else if (res.code === "400") {

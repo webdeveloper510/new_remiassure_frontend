@@ -7,7 +7,7 @@ import { createTransaction, exchangeRate, getPreferredCurrency, setPreferredCurr
 import { toast } from 'react-toastify';
 import Bank_list from '../../../utils/Bank_list';
 import { commaRemover, commaSeperator } from '../../../utils/hook';
-import Select from "react-select"
+import Select, { components } from "react-select"
 
 
 const AmountDetail = ({ handleStep, step }) => {
@@ -21,31 +21,31 @@ const AmountDetail = ({ handleStep, step }) => {
         from_type: "AUD",
         to_type: "NGN",
         recieve_meth: "Bank Transfer",
-        part_type: "Select a bank...",
+        part_type: null,
         payout_part: ""
     })
 
     const curr_in = ["AUD", "NZD"]
     const curr_out = ["USD", "NGN", "GHS", "KES", "PHP", "THB", "VND"]
-
+    const [defaultExchange, setDefaultExchange] = useState("")
     const [blur_off, setBlurOff] = useState(false)
 
     const amtSchema = Yup.object().shape({
-        send_amt: Yup.string("Please enter a valid amount").min(1).required('Amount is required').notOneOf(["."]).test("value-test", (value, validationcontext) => {
+        send_amt: Yup.string("Please enter a valid amount").notOneOf(["."]).test("value-test", (value, validationcontext) => {
             const {
                 createError,
             } = validationcontext;
-            if (Number(value) < 100) {
+            if (Number(value) < 100 && value !== "") {
                 return createError({ message: "Minimum $100 required" })
             } else {
                 return true
             }
         }),
-        exchange_amt: Yup.string("Please enter a valid amount").required('Amount is required').notOneOf(["."]),
-        from_type: Yup.string(),
+        exchange_amt: Yup.string("Please enter a valid amount").notOneOf(["."]),
+        from_type: Yup.string().required(),
         to_type: Yup.string().required(),
-        exchange_amt: Yup.string().required(),
-        part_type: Yup.string().required().notOneOf(["Select a bank..."]),
+        exchange_amt: Yup.string(),
+        part_type: Yup.string().required().notOneOf([null]),
         payout_part: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
             const {
                 createError,
@@ -67,7 +67,7 @@ const AmountDetail = ({ handleStep, step }) => {
         from_type: "AUD",
         to_type: "NGN",
         recieve_meth: "Bank Transfer",
-        part_type: "Select a bank...",
+        part_type: null,
         payout_part: ""
     }
 
@@ -82,8 +82,8 @@ const AmountDetail = ({ handleStep, step }) => {
             let payload = {
                 transaction_id: transaction_id,
                 amount: {
-                    send_amount: commaRemover(values.send_amt),
-                    receive_amount: commaRemover(values.exchange_amt),
+                    send_amount: values?.send_amt !== "" ? commaRemover(values.send_amt) : "100",
+                    receive_amount: values?.exchange_amt !== "" ? commaRemover(values.exchange_amt) : defaultExchange,
                     send_currency: values.from_type,
                     receive_currency: values.to_type,
                     receive_method: "Bank transfer",
@@ -101,14 +101,14 @@ const AmountDetail = ({ handleStep, step }) => {
                     if (localStorage.getItem("transfer_data")) {
                         local = JSON.parse(localStorage.getItem("transfer_data"))
                     }
-                    local.amount = { ...values, send_amt: commaRemover(values.send_amt), exchange_amt: commaRemover(values.exchange_amt), exchange_rate: exch_rate }
+                    local.amount = { ...values, send_amt: values.send_amt !== "" ? commaRemover(values.send_amt) : "100", exchange_amt: values.exchange_amt !== "" ? commaRemover(values.exchange_amt) : defaultExchange, exchange_rate: exch_rate, defaultExchange: defaultExchange }
                     localStorage.setItem("transfer_data", JSON.stringify(local))
                 }
             })
             if (localStorage.getItem("transfer_data")) {
                 local = JSON.parse(localStorage.getItem("transfer_data"))
             }
-            local.amount = { ...values, exchange_rate: exch_rate }
+            local.amount = { ...values, exchange_rate: exch_rate, defaultExchange: defaultExchange }
 
             localStorage.setItem("transfer_data", JSON.stringify(local))
             if (localStorage.getItem("send-step")) {
@@ -131,6 +131,7 @@ const AmountDetail = ({ handleStep, step }) => {
                     if (direction === "From") {
                         formik.setFieldValue("exchange_amt", data)
                         setAmtDetail({ ...amt_detail, exchange_amt: data })
+                        setDefaultExchange(response?.default_exchange)
                     } else {
                         formik.setFieldValue("send_amt", data)
                         setAmtDetail({ ...amt_detail, send_amt: data })
@@ -198,6 +199,7 @@ const AmountDetail = ({ handleStep, step }) => {
         exchangeRate({ amount: amt, from: e.target.value, to: formik.values.to_type })
             .then(function (response) {
                 setExchRate(response.rate)
+                setDefaultExchange(response?.default_exchange)
                 if (formik.values.send_amt != 0 && formik.values.send_amt != "" && formik.values.send_amt != undefined) {
                     formik.setFieldValue("exchange_amt", commaSeperator(response.amount))
                     setAmtDetail({ ...amt_detail, exchange_amt: commaSeperator(response.amount) })
@@ -223,6 +225,7 @@ const AmountDetail = ({ handleStep, step }) => {
         exchangeRate({ amount: amt, from: formik.values.from_type, to: e.target.value })
             .then(function (response) {
                 setExchRate(response.rate)
+                setDefaultExchange(response?.default_exchange)
                 if (formik.values.send_amt != 0 && formik.values.send_amt != undefined && formik.values.send_amt != "") {
                     formik.setFieldValue("exchange_amt", commaSeperator(response.amount))
                     setAmtDetail({ ...amt_detail, exchange_amt: commaSeperator(response.amount) })
@@ -267,9 +270,10 @@ const AmountDetail = ({ handleStep, step }) => {
         if (localStorage.getItem("transfer_data")) {
             let tdata = JSON.parse(localStorage.getItem("transfer_data"))
             if (tdata?.amount) {
-                setAmtDetail({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt), recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "Select a bank..." })
-                formik.setValues({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt), recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || "Select a bank..." })
+                setAmtDetail({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt), recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || null })
+                formik.setValues({ ...tdata?.amount, send_amt: commaSeperator(tdata.amount.send_amt), exchange_amt: commaSeperator(tdata.amount.exchange_amt), recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || null })
                 setExchRate(tdata?.amount?.exchange_rate)
+                setDefaultExchange(tdata?.amount?.defaultExchange)
             }
         }
         else {
@@ -277,6 +281,7 @@ const AmountDetail = ({ handleStep, step }) => {
             setAmtDetail({ ...amt_detail, send_amt: "", exchange_amt: "", from_type: data?.from_type, to_type: data?.to_type })
             setExchRate(data?.exch_rate)
             formik.setValues({ ...formik.values, send_amt: "", exchange_amt: "", from_type: data?.from_type, to_type: data?.to_type })
+            setDefaultExchange(data?.defaultExchange)
         }
 
     }, [])
@@ -299,6 +304,10 @@ const AmountDetail = ({ handleStep, step }) => {
             ...base,
             borderColor: formik.errors.part_type && formik.touched.part_type ? 'red' : base.borderColor, // Change the border color when it's invalid
         }),
+    };
+
+    const Placeholder = (props) => {
+        return <components.Placeholder {...props} />;
     };
 
     return (
@@ -373,7 +382,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                             }
                                         )}
                                         onBlurCapture={(e) => amountBlur(e, "From")}
-                                        placeholder='1'
+                                        placeholder='100'
                                     />
                                     {formik.touched.send_amt && formik.errors.send_amt === "Minimum $100 required" && (
                                         <div className='fv-plugins-message-container mt-1'>
@@ -403,7 +412,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                             }
                                         )}
                                         onBlurCapture={(e) => amountBlur(e, "To")}
-                                        placeholder={commaSeperator(exch_rate)}
+                                        placeholder={defaultExchange !== "" && undefined ? commaSeperator(defaultExchange) : defaultExchange}
                                     />
                                 </div>
                             </div>
@@ -411,20 +420,6 @@ const AmountDetail = ({ handleStep, step }) => {
                         <div className="row each-row">
                             <div className="col-md-6">
                                 <h5>Receive Method</h5>
-                                <div className="col-md-12">
-                                    <label className="container-new">
-                                        <span className="radio-tick">Mobile Wallet</span>
-                                        <input
-                                            className="form-check-input"
-                                            type="radio"
-                                            name="recivedMethod"
-                                            value="Mobile Wallet"
-                                            checked={amt_detail.recieve_meth == "Mobile Wallet"}
-                                            onChange={(e) => { handleRecieveMethod(e) }}
-                                        />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                </div>
                                 <div className="col-md-12">
                                     <label className="container-new">
                                         <span className="radio-tick">Bank Transfer</span>
@@ -439,6 +434,21 @@ const AmountDetail = ({ handleStep, step }) => {
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
+                                <div className="col-md-12">
+                                    <label className="container-new">
+                                        <span className="radio-tick">Mobile Wallet</span>
+                                        <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="recivedMethod"
+                                            value="Mobile Wallet"
+                                            checked={amt_detail.recieve_meth == "Mobile Wallet"}
+                                            onChange={(e) => { handleRecieveMethod(e) }}
+                                        />
+                                        <span className="checkmark"></span>
+                                    </label>
+                                </div>
+
                             </div>
                             <div className="col-md-6">
                                 <h5>Payout Partners</h5>
@@ -462,10 +472,12 @@ const AmountDetail = ({ handleStep, step }) => {
                                     <Select
                                         options={Bank_list}
                                         onChange={handlePayoutPart}
-                                        value={{ label: formik.values.part_type, value: formik.values.part_type }}
+                                        value={formik.values.part_type !== null ? { label: formik.values.part_type, value: formik.values.part_type } : ""}
                                         name='part_type'
                                         styles={customStyles}
-                                        placeholder=""
+                                        components={{ Placeholder }}
+                                        placeholder="Select a bank...."
+
                                         className='payout_part'
                                     />
                                     {/* <select

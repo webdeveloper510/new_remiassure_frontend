@@ -17,6 +17,8 @@ import { ZaiPayId, ZaiPayTo, createAgreement, createPayId, createTransaction, ge
 import { Line } from 'rc-progress'
 import { commaSeperator } from '../../../utils/hook'
 import TransactionConfirm from '../../modals/TransactionConfirm'
+import { Link } from 'react-router-dom'
+import { PayIdInstructions, PayToInstructions } from '../../modals/Instructions'
 
 
 const stripe_key = process.env.REACT_APP_STRIPE_KEY
@@ -36,7 +38,7 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [message, setMessage] = useState("")
   const payRef = useRef(null)
   const navigate = useNavigate()
-  const [transaction, setTransaction] = useState({ id: "", status: "", amount: "", curr: "", pay_id: "" })
+  const [transaction, setTransaction] = useState({ id: "", status: "", amount: "", curr: "", pay_id: "", type: "" })
   const [modalView, setModalView] = useState(false)
   const [loader, setLoader] = useState(false)
   const [token, setToken] = useState({})
@@ -56,10 +58,6 @@ const PaymentDetails = ({ handleStep, step }) => {
   useEffect(() => {
     if (transaction.id) {
       setModalView(true)
-      // setTimeout(() => {
-      //   navigate("/dashboard")
-
-      // }, 10 * 1000)
     }
   }, [transaction])
 
@@ -218,10 +216,10 @@ const PaymentDetails = ({ handleStep, step }) => {
     setOpenModal(true)
   }
 
-  const OpenConfirmation = () => {
+  const OpenConfirmation = (value) => {
     let storage = JSON.parse(localStorage.getItem("transfer_data"))
     // console.log(data)
-    setDisplayConfirm({ toggle: true, data: { amount: storage?.amount, recipient: storage?.recipient, receive_method: data?.payment_type, reason: data?.reason === "Other" ? other_reason : data.reason } })
+    setDisplayConfirm({ toggle: true, data: { amount: storage?.amount, recipient: storage?.recipient, receive_method: data?.payment_type, reason: data?.reason === "Other" ? other_reason : data.reason, pay_id: value } })
   }
 
   useEffect(() => {
@@ -242,7 +240,7 @@ const PaymentDetails = ({ handleStep, step }) => {
         if (data.payment_type === "PayByID") {
           ZaiPayId({ transaction_id: pay_id_data.payment_id }).then(res => {
             if (res.code === "200") {
-              setTransaction({ id: res.data.id, pay_id: res.data.transaction_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+              setTransaction({ id: res.data.transaction_id, pay_id: pay_id_data.id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type, type: "pay_id" })
               localStorage.removeItem("transfer_data")
               localStorage.removeItem("conversion_data")
               if (localStorage.getItem("send-step")) {
@@ -288,7 +286,7 @@ const PaymentDetails = ({ handleStep, step }) => {
           ZaiPayTo({ agreement_uuid: pay_to_data.agreement_uuid, transaction_id: localStorage.getItem("transaction_id") }).then(res => {
             setLoader(false)
             if (res.code == "200") {
-              setTransaction({ id: res.data.id, pay_id: res.data.transaction_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+              setTransaction({ id: res.data.transaction_id, pay_id: null, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type, type: "pay_to" })
               localStorage.removeItem("transfer_data")
               localStorage.removeItem("conversion_data")
 
@@ -300,7 +298,7 @@ const PaymentDetails = ({ handleStep, step }) => {
               localStorage.removeItem("rid")
               setLoader(false)
             } else if (res.code === "400") {
-              setTransaction({ id: res.data.id, pay_id: res.data.transaction_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+              setTransaction({ id: res.data.transaction_id, pay_id: null, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type, type: "pay_to" })
               // toast.error(res.message, { position: "bottom-right", hideProgressBar: true, autoClose: 3000 })
               localStorage.removeItem("transfer_data")
               localStorage.removeItem("conversion_data")
@@ -347,7 +345,7 @@ const PaymentDetails = ({ handleStep, step }) => {
         userCharge({ card_token: token.id, transaction_id: localStorage.getItem("transaction_id") }).then(res => {
           setLoader(false)
           if (res.code == "200") {
-            setTransaction({ id: res?.data?.id, pay_id: res?.data?.transaction_id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type })
+            setTransaction({ id: res?.data?.transaction_id, pay_id: null, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type, type: "stripe" })
 
             localStorage.removeItem("transfer_data")
             localStorage.removeItem("conversion_data")
@@ -512,9 +510,9 @@ const PaymentDetails = ({ handleStep, step }) => {
                   </section>
                 )
               }
-              <PayIDModal modal={pay_id_modal.toggle} handler={(value) => { setPayIdModal(value) }} otp={(value) => OpenConfirmation()} data={pay_id_modal} setData={(data) => setPayIdData(data)} />
+              <PayIDModal modal={pay_id_modal.toggle} handler={(value) => { setPayIdModal(value) }} otp={(value) => OpenConfirmation(value)} data={pay_id_modal} setData={(data) => setPayIdData(data)} />
 
-              <PayToModal modal={pay_to_modal} handler={(value) => { setPayToModal(value) }} otp={(value) => OpenConfirmation()} setData={(data) => setPayToData(data)} handleLoader={(value) => { setLoader(value) }} authModal={(value) => setErrorModal(value)} />
+              <PayToModal modal={pay_to_modal} handler={(value) => { setPayToModal(value) }} otp={(value) => OpenConfirmation(null)} setData={(data) => setPayToData(data)} handleLoader={(value) => { setLoader(value) }} />
 
               {/* ---------------STRIPE------------- */}
               <Modal className="modal-card" show={modal} onHide={() => setModal(false)} backdrop="static" centered>
@@ -542,7 +540,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                 <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} />
               </Modal>
 
-              <ErrorModal show={error_modal} handler={(value) => setErrorModal(value)} otp={(value) => OpenConfirmation()} />
+              <ErrorModal show={error_modal} handler={(value) => setErrorModal(value)} otp={(value) => OpenConfirmation(null)} />
             </>
 
           ) : (
@@ -599,7 +597,7 @@ const PayIDModal = ({ modal, handler, otp, data, setData, }) => {
     setData({ id: data.id, payment_id: data.payment_id });
     handler({ toggle: false, id: null, payment_id: null });
     handler(false)
-    otp(true)
+    otp(data.id)
   }
 
   const copyToClipboard = (value, state) => {
@@ -752,11 +750,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, authModal }) =
                 setData({ agreement_uuid: res.data.agreement_uuid })
                 getAgreementList().then(res => {
                   if (res.code === "200") {
-                    if (res.data.status.toLowerCase() === "active") {
-                      otp(true)
-                    } else {
-                      authModal(true)
-                    }
+                    otp(true)
                   }
                 })
               } else if (res.code === "400") {
@@ -776,11 +770,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, authModal }) =
             setData({ agreement_uuid: agreement_list?.agreement_uuid })
             getAgreementList().then(res => {
               if (res.code === "200") {
-                if (res.data.status.toLowerCase() === "active") {
-                  otp(true)
-                } else {
-                  authModal(true)
-                }
+                otp(true)
               }
             })
           }
@@ -828,11 +818,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, authModal }) =
               setData({ agreement_uuid: res.data.agreement_uuid })
               getAgreementList().then(res => {
                 if (res.code === "200") {
-                  if (res.data.status.toLowerCase() === "active") {
-                    otp(true)
-                  } else {
-                    authModal(true)
-                  }
+                  otp(true)
                 }
               })
             } else if (res.code === "400") {
@@ -963,6 +949,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, authModal }) =
     setFieldValue("payid_type", event.target.value)
     setFieldValue("pay_id", "")
   }
+
 
 
   return (
@@ -1391,47 +1378,60 @@ const TransactionRecipiet = ({ transaction, modalView }) => {
 
   let navigate = useNavigate()
 
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: "smooth"
     })
-  }, [])
+  }, [transaction])
 
   return (
-    <section className='row'>
-      <div className="form_body col-md-8">
-        <div className="header mt-3 mb-5">
-          <h1 className='text-success'><BsCheckCircleFill />Transaction Being Processed</h1>
-        </div>
-        <Table style={{ lineHeight: "2" }}>
-          <tbody>
-            <tr>
-              <th>Transaction Id:</th>
-              <td>{transaction?.pay_id}</td>
-            </tr>
-            <tr>
-              <th>Transaction Amount</th>
-              <td>{transaction.curr}&nbsp;{commaSeperator(transaction.amount)}</td>
-            </tr>
-            <tr>
-              <th>Transaction Status:</th>
-              <td>{transaction?.status}</td>
-            </tr>
-          </tbody>
-        </Table>
-        <div className='row text-center mt-5'>
-          <div className="col-md-6">
-            {/* <NavLink target='_blank' href={`${serverUrl}/payment/receipt/${transaction.id}`}> */}
-            <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => navigate(`/transaction-detail/${transaction.pay_id}`)}>View Reciept</button>
-            {/* </NavLink> */}
+    <section>
+      <div className='row d-flex justify-content-center'>
+        <div className='col-md-8 col-lg-8 col-sm-12'>
+          <div className='form_body'>
+            <div className="header mt-3 mb-5">
+              <h1 className='text-success'><BsCheckCircleFill />Your transaction is being processed</h1>
+            </div>
+            <Table style={{ lineHeight: "2" }}>
+              <tbody>
+                <tr>
+                  <th>Transaction Id:</th>
+                  <td>{transaction?.id}</td>
+                </tr>
+                <tr>
+                  <th>Transaction Amount</th>
+                  <td>{transaction?.curr}&nbsp;{commaSeperator(transaction?.amount)}</td>
+                </tr>
+                <tr>
+                  <th>Transaction Status:</th>
+                  <td>{transaction?.status}</td>
+                </tr>
+              </tbody>
+            </Table>
+            <div className='my-4'>
+              {
+                transaction?.type === "pay_id" ? (
+                  <PayIdInstructions amount={transaction.amount} pay_id={transaction.pay_id} currency={transaction.curr} transaction_id={transaction.id} />
+                ) : (
+                  <PayToInstructions amount={transaction.amount} currency={transaction.curr} transaction_id={transaction.id} />
+                )
+              }
+            </div>
+            <div className='row text-center mt-3'>
+              <div className="col-md-6">
+                {/* <NavLink target='_blank' href={`${serverUrl}/payment/receipt/${transaction.id}`}> */}
+                <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => navigate(`/transaction-detail/${transaction.id}`)}>View Reciept</button>
+                {/* </NavLink> */}
+              </div>
+              <div className="col-md-6">
+                <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>Go To Dashboard</button>
+              </div>
+            </div>
           </div>
-          <div className="col-md-6">
-            <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>Go To Dashboard</button>
-          </div>
         </div>
-
       </div>
     </section>
   )

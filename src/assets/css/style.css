@@ -78,7 +78,6 @@ h6,
   height: 80px;
   transition: all 0.5s;
   z-index: 9999999;
-  transition: all 0.5s;
   background: #fff;
   /* border-bottom: 1px solid rgb(217, 224, 232); */
 }
@@ -1924,7 +1923,7 @@ h1.vl-support {
   left: 0;
   top: 69px;
   position: absolute;
-
+  background-size: contain;
 }
 
 .Sign-heading {
@@ -3971,13 +3970,23 @@ img.quotup_icons {
 }
 
 .link {
+  justify-content: center;
   display: flex;
+  width: 100%;
+  align-items: center;
 }
 
 .left_link {
   width: 177.51px;
   margin-right: 0px;
   margin-top: 40px;
+  text-align: center;
+}
+
+.left_link a {
+  margin-bottom: 20px;
+  float: left;
+  width: 100%;
 }
 
 .link img.home_icons {
@@ -7394,3 +7403,50 @@ p.no-entry {
 .verify-banner a:hover {
   color: blueviolet !important
 }
+
+.css-1jqq78o-placeholder {
+  color: #0b0e2e !important;
+  font-weight: 500;
+}
+
+.instructions p,
+ol {
+  margin-bottom: 5px;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+
+.instructions ol {
+  line-height: 2;
+}
+
+.instructions {
+  color: grey
+}
+
+.instructions .thank {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.verify-alert {
+  background: rgba(114, 62, 235, 0.07);
+  color: #000;
+  border: none;
+}
+
+
+.verify-alert span {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.apps-image {
+  width: 100%;
+}
+
+/* body:not(.modal-open) .fixed-top {
+  padding-right: 0px !important;
+  color: red !important
+} */

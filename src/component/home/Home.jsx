@@ -10,6 +10,7 @@ import clsx from "clsx";
 import { useRef } from "react";
 import { exchangeRate, getPreferredCurrency } from "../../utils/Api";
 import { commaRemover, commaSeperator, generateRandomKey } from "../../utils/hook";
+import QRCode from "react-qr-code";
 
 function WhyRenderingArrayOfObjects() {
     const dataItems = [
@@ -115,6 +116,7 @@ const Home = () => {
 
     const currency_ref = useRef()
     const token = localStorage.getItem("token");
+    const [defaultExchange, setDefaultExchange] = useState("")
     const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
     const items = [
         {
@@ -147,17 +149,17 @@ const Home = () => {
     }, [carouselItems])
 
     const amountSchema = Yup.object().shape({
-        send_amt: Yup.string("Please enter a valid amount").min(1).required('Amount is required').notOneOf(["."]).test("value-test", (value, validationcontext) => {
+        send_amt: Yup.string("Please enter a valid amount").notOneOf(["."]).test("value-test", (value, validationcontext) => {
             const {
                 createError,
             } = validationcontext;
-            if (Number(value) < 100) {
+            if (Number(value) < 100 && value !== "") {
                 return createError({ message: "Minimum $100 required" })
             } else {
                 return true
             }
         }),
-        exchange_amt: Yup.string("Please enter a valid amount").required('Amount is required').notOneOf(["."])
+        exchange_amt: Yup.string("Please enter a valid amount").notOneOf(["."])
     })
 
     const initialValues = {
@@ -183,33 +185,45 @@ const Home = () => {
         validateOnChange: false,
         validateOnBlur: false,
         onSubmit: async (values) => {
+            let object = {
+                send_amt: values.send_amt !== "" ? commaRemover(values.send_amt) : "100",
+                exchange_amt: values.exchange_amt !== "" ? commaRemover(values.exchange_amt) : commaRemover(defaultExchange),
+                from_type: values.from_type,
+                to_type: values.to_type,
+                recieve_meth: values.recieve_meth,
+                payout_part: "none",
+                exchange_rate: "",
+            }
             if (blur_off === false) {
                 setLoading(true)
-                exchangeRate({ amount: commaRemover(values.send_amt), from: values.from_type, to: values.to_type, paymentMethod: values.recieve_meth }).then((res) => {
+
+                exchangeRate({ amount: object.send_amt, from: object.from_type, to: object.to_type, paymentMethod: object.recieve_meth, direction: "from" }).then((res) => {
                     setLoading(false)
                     if (localStorage.getItem("transfer_data")) {
                         localStorage.removeItem("transfer_data")
                     }
                     localStorage.setItem("transfer_data", JSON.stringify({
                         amount: {
-                            send_amt: commaRemover(values.send_amt),
+                            send_amt: commaRemover(object.send_amt),
                             exchange_amt: commaRemover(res?.amount),
-                            from_type: values.from_type,
-                            to_type: values.to_type,
-                            recieve_meth: values.recieve_meth,
+                            from_type: object.from_type,
+                            to_type: object.to_type,
+                            recieve_meth: object.recieve_meth,
                             payout_part: "none",
-                            exchange_rate: res?.rate
+                            exchange_rate: res?.rate,
+                            defaultExchange: res?.default_exchange
                         }
                     }))
                     localStorage.setItem("conversion_data", JSON.stringify({
                         amount: {
-                            send_amt: commaRemover(values.send_amt),
+                            send_amt: commaRemover(object.send_amt),
                             exchange_amt: commaRemover(res?.amount),
-                            from_type: values.from_type,
-                            to_type: values.to_type,
-                            recieve_meth: values.recieve_meth,
+                            from_type: object.from_type,
+                            to_type: object.to_type,
+                            recieve_meth: object.recieve_meth,
                             payout_part: "none",
-                            exchange_rate: res?.rate
+                            exchange_rate: res?.rate,
+                            defaultExchange: res?.default_exchange
                         }
                     }))
                     if (token) {
@@ -235,24 +249,26 @@ const Home = () => {
                 }
                 localStorage.setItem("transfer_data", JSON.stringify({
                     amount: {
-                        send_amt: values.send_amt,
-                        exchange_amt: values?.exchange_amt,
-                        from_type: values.from_type,
-                        to_type: values.to_type,
-                        recieve_meth: values.recieve_meth,
+                        send_amt: object.send_amt,
+                        exchange_amt: object?.exchange_amt,
+                        from_type: object.from_type,
+                        to_type: object.to_type,
+                        recieve_meth: object.recieve_meth,
                         payout_part: "none",
-                        exchange_rate: total_rates
+                        exchange_rate: total_rates,
+                        defaultExchange: defaultExchange
                     }
                 }))
                 localStorage.setItem("conversion_data", JSON.stringify({
                     amount: {
-                        send_amt: values.send_amt,
-                        exchange_amt: values?.exchange_amt,
-                        from_type: values.from_type,
-                        to_type: values.to_type,
-                        recieve_meth: values.recieve_meth,
+                        send_amt: object.send_amt,
+                        exchange_amt: object?.exchange_amt,
+                        from_type: object.from_type,
+                        to_type: object.to_type,
+                        recieve_meth: object.recieve_meth,
                         payout_part: "none",
-                        exchange_rate: total_rates
+                        exchange_rate: total_rates,
+                        defaultExchange: defaultExchange
                     }
                 }))
                 if (token) {
@@ -275,7 +291,8 @@ const Home = () => {
             const tdata = JSON.parse(localStorage.getItem("conversion_data"))
             formik.setValues({ send_amt: commaSeperator(tdata?.amount?.send_amt), from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, recieve_meth: tdata?.amount?.recieve_meth, exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
             setTotal_rates(tdata?.amount?.exchange_rate)
-            let obj = { send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, exchange_amt: tdata?.amount?.exchange_amt, exch_rate: tdata?.amount?.exchange_rate }
+            setDefaultExchange(tdata?.amount?.defaultExchange)
+            let obj = { send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, exchange_amt: tdata?.amount?.exchange_amt, exch_rate: tdata?.amount?.exchange_rate, defaultExchange: tdata?.amount?.defaultExchange }
             localStorage.setItem("exchange_curr", JSON.stringify(obj))
         } else {
             let login = localStorage.getItem("token")
@@ -285,30 +302,33 @@ const Home = () => {
                     if (res.code === "200") {
                         if (res.data.source_currency !== null && res.data.source_currency !== "null") {
                             let types = res.data
-                            exchangeRate({ amount: "1", from: types.source_currency, to: types.destination_currency }).then(res => {
+                            exchangeRate({ amount: "100", from: types.source_currency, to: types.destination_currency, direction: "from" }).then(res => {
                                 setTotal_rates(res.rate)
+                                setDefaultExchange(res?.default_exchange)
                                 localStorage.removeItem("exchange_curr")
                                 formik.setValues({ send_amt: "", exchange_amt: "", from_type: types.source_currency, to_type: types.destination_currency })
-                                let obj = { send_amt: "1", from_type: types.source_currency, to_type: types.destination_currency, exchange_amt: res.amount, exch_rate: res.rate }
+                                let obj = { send_amt: "100", from_type: types.source_currency, to_type: types.destination_currency, exchange_amt: res.amount, exch_rate: res.rate, defaultExchange: res.default_exchange }
                                 localStorage.setItem("exchange_curr", JSON.stringify(obj))
                             })
                         } else {
-                            exchangeRate({ amount: "1", from: "AUD", to: "NGN" }).then(res => {
+                            exchangeRate({ amount: "100", from: "AUD", to: "NGN", direction: "from" }).then(res => {
                                 setTotal_rates(res.rate)
+                                setDefaultExchange(res?.default_exchange)
                                 localStorage.removeItem("exchange_curr")
                                 formik.setValues({ send_amt: "", exchange_amt: "", from_type: "AUD", to_type: "NGN" })
-                                let obj = { send_amt: "1", from_type: "AUD", to_type: "NGN", exchange_amt: res.amount, exch_rate: res.rate }
+                                let obj = { send_amt: "100", from_type: "AUD", to_type: "NGN", exchange_amt: res.amount, exch_rate: res.rate, defaultExchange: res.default_exchange }
                                 localStorage.setItem("exchange_curr", JSON.stringify(obj))
                             })
                         }
                     }
                 })
             } else {
-                exchangeRate({ amount: "1", from: "AUD", to: "NGN" }).then(res => {
+                exchangeRate({ amount: "100", from: "AUD", to: "NGN", direction: "from" }).then(res => {
                     setTotal_rates(res.rate)
+                    setDefaultExchange(res.default_exchange)
                     localStorage.removeItem("exchange_curr")
                     formik.setValues({ send_amt: "", exchange_amt: "", from_type: "AUD", to_type: "NGN" })
-                    let obj = { send_amt: "1", from_type: "AUD", to_type: "NGN", exchange_amt: res.amount, exch_rate: res.rate }
+                    let obj = { send_amt: "100", from_type: "AUD", to_type: "NGN", exchange_amt: res.amount, exch_rate: res.rate, defaultExchange: res?.default_exchange }
                     localStorage.setItem("exchange_curr", JSON.stringify(obj))
                 })
             }
@@ -319,10 +339,11 @@ const Home = () => {
         if (currency !== null) {
             setLoading(true);
             currency_ref.current.focus()
-            exchangeRate({ amount: formik.values.send_amt !== "" ? formik.values.send_amt : "1", from: formik.values.from_type, to: currency })
+            exchangeRate({ amount: formik.values.send_amt !== "" ? formik.values.send_amt : "100", from: formik.values.from_type, to: currency, direction: "from" })
                 .then((res) => {
                     formik.setValues({ ...formik.values, exchange_amt: formik.values.send_amt !== "" ? res.amount : "", send_amt: formik.values.send_amt !== "" ? formik.values.send_amt : "", to_type: currency })
                     setTotal_rates(res.rate)
+                    setDefaultExchange(res?.default_exchange)
                     setLoading(false)
                     setCurrency(null)
                 }).catch((error) => {
@@ -345,6 +366,7 @@ const Home = () => {
                     let data = commaSeperator(res?.amount)
                     if (direction === "From") {
                         formik.setFieldValue("exchange_amt", data)
+                        setDefaultExchange(res?.default_exchange)
                     } else {
                         formik.setFieldValue("send_amt", data)
                     }
@@ -397,11 +419,12 @@ const Home = () => {
         formik.setFieldValue("from_type", e.target.value)
         formik.setFieldTouched("from_type", true)
         setLoading(true)
-        let amt = commaRemover(formik.values.send_amt !== '' ? formik.values.send_amt : "1")
-        exchangeRate({ amount: amt, from: e.target.value, to: formik.values.to_type })
+        let amt = commaRemover(formik.values.send_amt !== '' ? formik.values.send_amt : "100")
+        exchangeRate({ amount: amt, from: e.target.value, to: formik.values.to_type, direction: "from" })
             .then(function (response) {
                 setTotal_rates(response.rate)
-                if (formik.values.send_amt != 0) {
+                setDefaultExchange(response?.default_exchange)
+                if (formik.values.send_amt != 0 || "") {
                     let data = commaSeperator(response.amount)
                     formik.setFieldValue("exchange_amt", data)
                     setBlurOff(true)
@@ -421,11 +444,12 @@ const Home = () => {
         formik.setFieldValue("to_type", e.target.value)
         formik.setFieldTouched("to_type", true)
         setLoading(true)
-        let amt = (formik.values.send_amt !== '' ? formik.values.send_amt : "1")
-        exchangeRate({ amount: amt, from: formik.values.from_type, to: e.target.value })
+        let amt = commaRemover(formik.values.send_amt !== '' ? formik.values.send_amt : "100")
+        exchangeRate({ amount: amt, from: formik.values.from_type, to: e.target.value, direction: "from" })
             .then(function (response) {
                 setTotal_rates(response.rate)
-                if (formik.values.send_amt != 0) {
+                setDefaultExchange(response?.default_exchange)
+                if (formik.values.send_amt != "" || 0) {
                     let data = commaSeperator(response?.amount)
                     formik.setFieldValue("exchange_amt", data)
                     setBlurOff(true)
@@ -516,7 +540,7 @@ const Home = () => {
                                                                 'is-valid': formik.touched.send_amt && !formik.errors.send_amt,
                                                             }
                                                         )}
-                                                        placeholder={"1"}
+                                                        placeholder={"100"}
                                                         onBlur={(e) => amountBlur(e, "From")}
 
                                                     />
@@ -557,7 +581,7 @@ const Home = () => {
                                                                 'is-valid': formik.touched.exchange_amt && !formik.errors.exchange_amt,
                                                             }
                                                         )}
-                                                        placeholder={commaSeperator(total_rates)}
+                                                        placeholder={defaultExchange !== "" && undefined ? commaSeperator(defaultExchange) : defaultExchange}
                                                         onBlur={(e) => amountBlur(e, "To")}
 
                                                     />
@@ -645,37 +669,66 @@ const Home = () => {
                     </div>
                     <div className="Money_section">
                         <div className="row">
-                            <div className="col-lg-6 right_sections">
-                                <img src="assets/img/home/img03.svg" alt="background-images" />
+                            <div className="col-lg-6 ">
+                                <div className="row">
+                                    <div className="col-md-6 text-center">
+                                        {/* <div style={{
+                                            height: "auto", margin: "0 auto", width: "100%", padding: '23px',
+                                            background: 'white',
+                                            borderRadius: '31px'
+                                        }}>
+                                            < QRCode
+                                                size={256}
+                                                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                                value={"https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"}
+                                                viewBox={`0 0 256 256`}
+                                            />
+                                        </div> */}
+                                        <img className="apps-image" src="assets/img/home/img03.svg" alt="background-images" />
+
+                                    </div>
+
+                                </div>
                             </div>
                             <div className="col-lg-6 better_sections">
-                                {/* <div className="vl">
-                                    <h1 className="vl-heading">A Better Way</h1>
-                                    <h1 className="vl-heading01">To Send Money ?</h1>
-                                </div> */}
 
-                                {/* <div className="vl-content">
-                                    <p className="vl-paragraph">
-                                        Download our app for free to send money online in minutes to over 130 other countries. Track your payments and view your transfer history from anywhere.
-                                    </p>
-                                </div> */}
-
-                                <div className="fw-semibold text-light mt-4 display-3">
-                                    Coming Soon
+                                <div className="fw-semibold text-light mt-4 display-4">
+                                    Download Our App
                                 </div>
+                                <div className="popular-content">
+                                    <h4 className="popular-paragraph01">Best App that will help you to Send Money.
+                                    </h4>
+
+                                </div>
+
                                 <div className="link my-0">
                                     <div className="left_link">
-                                        <img src="assets/img/home/playstore.svg" alt="home_icons" className="home_icons" />
+
+                                        <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target>
+                                            <img src="assets/img/home/images.jpg" alt="home_icons" className="home_icons rounded-2" />
+                                        </a>
+                                        <img src="assets/img/home/images1.png" alt="home_icons" className="home_icons rounded-2" />
                                     </div>
                                     <div className="rihjt_link">
-                                        <img src="assets/img/home/appstore.svg" alt="home_icons" className="home_icons" />
+                                        <div style={{
+                                            height: "auto", margin: "0 auto", width: "40%", padding: '7px',
+                                            margin: "10px auto",
+                                            background: 'white',
+                                        }}>
+                                            < QRCode
+                                                size={256}
+                                                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                                value={"https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"}
+                                                viewBox={`0 0 256 256`}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
             {/* <section className="why-us section-bgba banner_section05" >
                 <div className="container">
                     <div className="row">
@@ -723,7 +776,7 @@ const Home = () => {
                     </div>
                 </div>
             </section> */}
-            <section className="why-us section-bgba banner_section01">
+            < section className="why-us section-bgba banner_section01" >
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
@@ -837,7 +890,7 @@ const Home = () => {
                         </div>
                     </div> */}
                 </div>
-            </section>
+            </section >
 
 
             <section className="why-us section-bgba innre_about hows-work-section ">
@@ -845,7 +898,7 @@ const Home = () => {
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-8">
-                                <div className="vl about_v1">
+                                <div className="vl about_v1 head-new">
                                     <h1 className="vl-heading">How it Works</h1>
                                 </div>
                                 <div className="vl-content">
@@ -854,7 +907,8 @@ const Home = () => {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="col-sm-4 right_side">
+                            <div className="col-sm-4 right_side d-flex justify-content-center align-items-center">
+                                {/* <img src="assets/img/home/img03.svg" alt="background-images" /> */}
                                 <img src="assets/img/footer/trans3.png" alt="background-images" />
                             </div>
                         </div>

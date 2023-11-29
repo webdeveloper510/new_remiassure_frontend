@@ -10,6 +10,10 @@ import axios from 'axios';
 import global from '../../utils/global';
 import { toast } from 'react-toastify';
 import { createTransaction, updateProfile } from '../../utils/Api';
+import { Modal } from 'react-bootstrap';
+import { createVeriffFrame, MESSAGES } from '@veriff/incontext-sdk';
+import { getVeriffStatus } from '../../utils/Api';
+import { Veriff } from '@veriff/js-sdk';
 
 const SenderDetails = ({ handleStep, step }) => {
 
@@ -19,7 +23,8 @@ const SenderDetails = ({ handleStep, step }) => {
   const [state_list, setStateList] = useState([])
   const [loader, setLoader] = useState(false)
   const [postal_list, setPostalList] = useState([])
-  const verificationValue = localStorage.getItem("DigitalCode")
+  const [isVerified, setIsVerified] = useState(false)
+  const [start_verify, setStartVerify] = useState(false)
   const { digital_id_verified } = JSON.parse(localStorage.getItem("remi-user-dt"))
   const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
@@ -128,6 +133,11 @@ const SenderDetails = ({ handleStep, step }) => {
         delete d['flat'];
       }
       updateProfile(d).then(res => {
+        if (localStorage.getItem("send-step")) {
+          localStorage.removeItem("send-step")
+        }
+        localStorage.setItem("send-step", Number(step) + 1)
+        handleStep(Number(step) + 1)
         updateTransaction(d)
       })
 
@@ -179,61 +189,61 @@ const SenderDetails = ({ handleStep, step }) => {
 
   useEffect(() => {
 
-    const script = document.createElement('script');
+    // const script = document.createElement('script');
 
-    script.src = `${div_url}`;
+    // script.src = `${div_url}`;
 
-    script.async = true;
+    // script.async = true;
 
-    document.body.appendChild(script);
+    // document.body.appendChild(script);
 
-    script.onload = () => {
-      window.digitalId.init({
-        clientId: `${div_id}`,
-        uxMode: 'popup',
-        onLoadComplete: function (res) {
-        },
-        onComplete: function (res) {
-          if (res.code != undefined || null) {
-            if (localStorage.getItem("send-step")) {
-              localStorage.removeItem("send-step")
-            }
-            localStorage.setItem("send-step", Number(step) + 1)
-            handleStep(Number(step) + 1)
-            formik.handleSubmit()
-            axios.post(`${serverUrl}/digital-verification/`, { code: res.code }, {
-              headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${localStorage.getItem("token")}`
-              }
-            }).then(res => {
-              if (res?.data?.code == "200") {
-                window.setTimeout(() => {
-                  setLoader(false)
-                }, 2000)
-                const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
-                userdt.digital_id_verified = "true"
-                localStorage.setItem("remi-user-dt", JSON.stringify(userdt))
-                toast.success("Digital Id successfully verified", { position: "bottom-right", hideProgressBar: true })
-              } else {
-                setLoader(false)
-                toast.error("Digital Id verification failed", { position: "bottom-right", hideProgressBar: true })
-              }
-            }).catch((error) => {
-              setLoader(false)
-              toast.error("Digital Id verification failed", { position: "bottom-right", hideProgressBar: true })
-            })
-          } else {
-            setLoader(false)
-          }
-        },
-        onClick: function (res) {
-          setLoader(true)
-        },
-        onKeepAlive: function (res) {
-        },
-      });
-    }
+    // script.onload = () => {
+    //   window.digitalId.init({
+    //     clientId: `${div_id}`,
+    //     uxMode: 'popup',
+    //     onLoadComplete: function (res) {
+    //     },
+    //     onComplete: function (res) {
+    //       if (res.code != undefined || null) {
+    //         if (localStorage.getItem("send-step")) {
+    //           localStorage.removeItem("send-step")
+    //         }
+    //         localStorage.setItem("send-step", Number(step) + 1)
+    //         handleStep(Number(step) + 1)
+    //         formik.handleSubmit()
+    //         axios.post(`${serverUrl}/digital-verification/`, { code: res.code }, {
+    //           headers: {
+    //             'Content-Type': 'application/json',
+    //             "Authorization": `Bearer ${localStorage.getItem("token")}`
+    //           }
+    //         }).then(res => {
+    //           if (res?.data?.code == "200") {
+    //             window.setTimeout(() => {
+    //               setLoader(false)
+    //             }, 2000)
+    //             const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
+    //             userdt.digital_id_verified = "true"
+    //             localStorage.setItem("remi-user-dt", JSON.stringify(userdt))
+    //             toast.success("Digital Id successfully verified", { position: "bottom-right", hideProgressBar: true })
+    //           } else {
+    //             setLoader(false)
+    //             toast.error("Digital Id verification failed", { position: "bottom-right", hideProgressBar: true })
+    //           }
+    //         }).catch((error) => {
+    //           setLoader(false)
+    //           toast.error("Digital Id verification failed", { position: "bottom-right", hideProgressBar: true })
+    //         })
+    //       } else {
+    //         setLoader(false)
+    //       }
+    //     },
+    //     onClick: function (res) {
+    //       setLoader(true)
+    //     },
+    //     onKeepAlive: function (res) {
+    //     },
+    //   });
+    // }
 
     var dtToday = new Date();
     var month = dtToday.getMonth() + 1;
@@ -340,12 +350,7 @@ const SenderDetails = ({ handleStep, step }) => {
 
   return (
     <>
-      {loader ? <>
-        <div className="loader-overly" style={{ background: "rgb(0 0 0 / 100%)" }}>
-          <div className="loader" >
-          </div>
-        </div>
-      </> : <></>}
+
       <div className="form_body">
 
         <div className="header">
@@ -725,29 +730,117 @@ const SenderDetails = ({ handleStep, step }) => {
 
           </div>
         </form>
-        <div className="row each-row">
-          <div className="col-md-4 new_buttonss">
-            <button className="start-form-button full-col" onClick={() => handleClear()}>Cancel</button>
+        < div className="row each-row" >
+          <div className="col-md-4 new_buttonss" >
+            <button className="start-form-button full-col" onClick={() => handleClear()}> Cancel </button>
           </div>
-          <div className="col-md-8 new_buttons">
-            <button type="button" className="form-button full-col w-25" onClick={() => { handlePrevious() }}>Previous</button>
-            {!verificationValue && (!digital_id_verified || digital_id_verified === "false") ? (
+          < div className="col-md-8 new_buttons" >
+            {isVerified === false ? (
+              // <>
+              //   <div className='digital_verification full-col' style={{ display: `${display == "none" ? "none" : "block"}` }}>
+              //     <div id='veriff-root'></div>
+              //   </div>
+              // </>
               <>
-                <div className='digital_verification w-75 text-end' style={{ display: `${display == "none" ? "none" : "block"}` }}>
-                  <div id="digitalid-verify"></div>
-                </div>
+                <button type='button' className="form-button full-col" disabled={display === "none" ? true : false} style={display === "none" ? { cursor: "not-allowed" } : { cursor: "pointer" }} onClick={() => setStartVerify(true)}> Get Verified </button>
               </>
             ) : (
               <>
-                <button type='button' className="form-button full-col" onClick={() => handleContinue()}> Continue</button>
+                <button type='button' className="form-button full-col" onClick={() => formik.handleSubmit()}> Continue </button>
               </>
             )
             }
           </div>
         </div>
+        < Modal show={start_verify} backdrop="static" onHide={() => setStartVerify(false)} centered >
+          <Modal.Header closeButton >
+            <img src="https://veriff.cdn.prismic.io/veriff/1565ec7d-5815-4d28-ac00-5094d1714d4c_Logo.svg" alt="Veriff logo" width="90" height="25" />
+          </Modal.Header>
+          < Modal.Body className='w-100 m-auto' >
+            <Verification handler={() => setStartVerify(false)} submit={formik.handleSubmit} toggleLoader={(value) => setLoader(value)} formdata={formik.values} />
+          </Modal.Body>
+        </Modal>
+        {
+          loader ? <>
+            <div className="loader-overly" >
+              <div className="loader" >
+              </div>
+            </div>
+          </> : ""}
       </div>
     </>
 
+  )
+}
+
+
+const Verification = ({ handler, submit, formdata, toggleLoader }) => {
+
+  let user = JSON.parse(localStorage.getItem("remi-user-dt"))
+
+
+  useEffect(() => {
+    const veriff = Veriff({
+      apiKey: `${process.env.REACT_APP_VERIFF_KEY}`,
+      parentId: 'veriff-root',
+      onSession: function (err, response) {
+        createVeriffFrame({
+          url: response.verification.url,
+          onEvent: function (msg) {
+            switch (msg) {
+              case MESSAGES.CANCELED:
+                break;
+              case MESSAGES.STARTED:
+                break;
+              case MESSAGES.FINISHED:
+                toggleLoader(true)
+                handler()
+                const interval = setInterval(() => {
+                  getVeriffStatus({ session_id: response.verification.id }).then(res => {
+                    if (res.code === "200") {
+                      if (res?.data?.verification?.status === "approved") {
+                        toggleLoader(false)
+                        clearInterval(interval)
+                        toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
+                        user.digital_id_verified = "true";
+                        localStorage.setItem("remi-user-dt", JSON.stringify(user))
+                        submit()
+                      } else if (res?.data?.verification?.status === "declined") {
+                        toggleLoader(false)
+                        clearInterval(interval)
+                        toast.error(res.message, { position: "bottom-right", hideProgressBar: true })
+                      }
+
+                    }
+                  })
+                }, 10000)
+                break;
+            }
+          }
+        });
+      }
+    });
+    veriff.setParams({
+      vendorData: `${user?.customer_id}`,
+      person: {
+        givenName: `${formdata?.f_name}`,
+        lastName: `${formdata?.l_name}`
+      }
+    });
+    veriff.mount({
+      formLabel: {
+        givenName: 'Given name',
+        lastName: 'Last name',
+        vendorData: 'Unique id of an end-user'
+      },
+      submitBtnText: 'Get verified',
+      loadingText: 'Please wait...'
+    });
+  }, []);
+
+  return (
+    <div id='veriff-root' style={{ margin: "auto", padding: "25px 0px" }
+    }> </div>
   )
 }
 

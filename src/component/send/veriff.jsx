@@ -7,9 +7,9 @@ import birthCountryList from 'react-select-country-list';
 import { useEffect } from 'react';
 import countryList from '../../utils/AuNz.json';
 import { createVeriffFrame, MESSAGES } from '@veriff/incontext-sdk';
+import { getVeriffStatus } from '../../utils/Api';
 import { Veriff } from '@veriff/js-sdk';
 import { Modal } from 'react-bootstrap';
-import { getVeriffStatus } from '../../utils/Api';
 import { toast } from 'react-toastify';
 
 

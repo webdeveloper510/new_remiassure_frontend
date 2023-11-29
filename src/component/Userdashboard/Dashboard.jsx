@@ -7,8 +7,13 @@ import authDashHelper from "../../utils/AuthDashHelper";
 import Sidebar from './Sidebar';
 import nodata from '../../assets/img/userdashboard/nodata.avif';
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
-import { recipientList, transactionHistory, userProfile } from "../../utils/Api";
+import { getVeriffStatus, recipientList, transactionHistory, userProfile } from "../../utils/Api";
 import { commaSeperator, generateRandomKey } from "../../utils/hook";
+import { Alert, Modal } from "react-bootstrap";
+import { createVeriffFrame, MESSAGES } from '@veriff/incontext-sdk';
+import { Veriff } from '@veriff/js-sdk';
+import { toast } from "react-toastify";
+import important from "../../assets/img/userdashboard/important.png";
 
 
 const Dashboard = () => {
@@ -16,7 +21,7 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     /**************************token ************************ */
-    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("remi-user-dt"));
 
     const [transactionData, setTransactionData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -25,6 +30,9 @@ const Dashboard = () => {
     const [recipientData, setRecipientData] = useState([]);
     const [total_amount, setTotalAmount] = useState(0)
     const [total_recipients, setTotalRecipients] = useState(0)
+    const [verification, setVerification] = useState(false)
+    const [loader, setLoader] = useState(false)
+    const [isVerified, setIsVerified] = useState(user?.digital_id_verified?.toString()?.toLowerCase() || "false")
 
 
     const transHistory = () => {
@@ -99,6 +107,16 @@ const Dashboard = () => {
         return d[2] + "-" + d[1] + "-" + d[0]
     }
 
+    const start = () => {
+        setVerification(true)
+    }
+
+    const end = () => {
+        setLoader(false)
+        setVerification(false)
+        setIsVerified(true)
+    }
+
     return (
         <section className="dashboard">
             <div className="row">
@@ -106,6 +124,15 @@ const Dashboard = () => {
                     <div class="form-head mb-4">
                         <h2 class="text-black font-w600 mb-0"><b>Welcome, <span style={{ "color": "#6414e9" }}>{firstName}</span></b></h2>
                     </div>
+                    {
+                        isVerified === "false" ? (
+                            <div>
+                                <Alert className="verify-alert" >
+                                    <img src={important} height={40} width={40} />  Your Account is not Digitally Verified. <span className="fw-bold" onClick={() => start()}>Click here</span> to Verify
+                                </Alert>
+                            </div>
+                        ) : (<></>)
+                    }
                     <div className="row g-3">
                         <div className="col-xl-4 col-lg-4 col-md-6 fullwidth">
                             <div className="dashbord-user dCard-1">
@@ -330,6 +357,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </>
+
             ) : (
                 <>
                     <div className="loader-overly">
@@ -339,10 +367,92 @@ const Dashboard = () => {
                 </>
             )
             }
+            < Modal show={verification} backdrop="static" onHide={() => setVerification(false)} centered >
+                <Modal.Header closeButton >
+                    <img src="https://veriff.cdn.prismic.io/veriff/1565ec7d-5815-4d28-ac00-5094d1714d4c_Logo.svg" alt="Veriff logo" width="90" height="25" />
+                </Modal.Header>
+                < Modal.Body className='w-100 m-auto' >
+                    <VerificationModal toggleLoader={(value) => setLoader(value)} handler={() => end()} />
+                </Modal.Body>
+            </Modal>
+            {
+                loader ? <>
+                    <div className="loader-overly" >
+                        <div className="loader" >
+                        </div>
+                    </div>
+                </> : ""}
         </section>
     )
 }
 
+const VerificationModal = ({ handler, toggleLoader }) => {
 
+
+    const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+    useEffect(() => {
+        const veriff = Veriff({
+            apiKey: `${process.env.REACT_APP_VERIFF_KEY}`,
+            parentId: 'veriff-root',
+            onSession: function (err, response) {
+                createVeriffFrame({
+                    url: response.verification.url,
+                    onEvent: function (msg) {
+                        switch (msg) {
+                            case MESSAGES.CANCELED:
+                                break;
+                            case MESSAGES.STARTED:
+                                break;
+                            case MESSAGES.FINISHED:
+                                toggleLoader(true)
+                                const interval = setInterval(() => {
+                                    getVeriffStatus({ session_id: response.verification.id }).then(res => {
+                                        handler()
+                                        if (res.code === "200") {
+                                            clearInterval(interval)
+                                            if (res?.data?.verification?.status === "approved") {
+                                                toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
+                                                let user = JSON.parse(localStorage.getItem("remi-user-dt"));
+                                                user.digital_id_verified = "true"
+                                                localStorage.setItem("remi-user-dt", JSON.stringify(user))
+                                            } else if (res?.data?.verification?.status === "declined") {
+                                                toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
+                                            }
+
+                                        }
+                                    })
+                                }, 10000)
+                                break;
+                        }
+                    }
+                });
+            }
+        });
+        veriff.setParams({
+            vendorData: `${user?.customer_id}`,
+            person: {
+                givenName: `${user?.First_name}`,
+                lastName: `${user?.Last_name}`
+            }
+        });
+        veriff.mount({
+            formLabel: {
+                givenName: 'First name',
+                lastName: 'Last name',
+                vendorData: 'Unique id/Document id'
+            },
+
+            submitBtnText: 'Start Verification',
+            loadingText: 'Please wait...'
+        })
+    }, [])
+
+    return (
+        <>
+            <div id='veriff-root' style={{ margin: "auto", padding: "25px 0px" }}>
+            </div>
+        </>
+    )
+}
 
 export default Dashboard;

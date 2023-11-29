@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import PopVerify from '../verification/PopVerify'
 import { ZaiPayId, ZaiPayTo, userCharge } from '../../utils/Api'
 import { commaSeperator } from '../../utils/hook'
+import { PayIdInstructions, PayToInstructions } from '../modals/Instructions'
 
 
 const PaymentSummary = ({ handleStep, step }) => {
@@ -25,8 +26,10 @@ const PaymentSummary = ({ handleStep, step }) => {
   const [transaction, setTransaction] = useState({ id: "", status: "", pay_id: "" })
   const [is_otp_verified, setIsOtpVerfied] = useState(null)
 
+  const local = JSON.parse(localStorage.getItem("transfer_data"));
+  let transaction_id = localStorage.getItem("transaction_id")
+
   useEffect(() => {
-    const local = JSON.parse(localStorage.getItem("transfer_data"));
     setData({
       send_amount: local?.amount?.send_amt,
       to: local?.amount?.to_type,
@@ -56,7 +59,7 @@ const PaymentSummary = ({ handleStep, step }) => {
         ZaiPayTo({ agreement_uuid: agreement_uuid, transaction_id: localStorage.getItem("transaction_id") }).then((res) => {
           setLoader(false)
           if (res.code === "200") {
-            setTransaction({ status: res?.message, id: res?.data?.id, pay_id: res?.data?.transaction_id })
+            setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: null })
             localStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(localStorage.getItem("remi-user-dt"))
             user.digital_id_verified = "true"
@@ -100,7 +103,8 @@ const PaymentSummary = ({ handleStep, step }) => {
         ZaiPayId({ transaction_id: payment_id }).then((res) => {
           setLoader(false)
           if (res.code === "200") {
-            setTransaction({ status: res?.message, id: res?.data?.id, pay_id: res?.data?.transaction_id })
+
+            setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: local?.payment?.pay_id })
             localStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(localStorage.getItem("remi-user-dt"))
             // localStorage.removeItem("remi-user-dt")
@@ -129,7 +133,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       userCharge({ transaction_id: localStorage.getItem("transaction_id"), card_token: local?.payment?.token?.id }).then((res) => {
         setLoader(false)
         if (res.code == "200") {
-          setTransaction({ status: res?.message, id: res?.data?.id, pay_id: res?.data?.transaction_id })
+          setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: null })
           const user = JSON.parse(localStorage.getItem("remi-user-dt"))
           user.digital_id_verified = "true"
           localStorage.setItem("remi-user-dt", JSON.stringify(user))
@@ -261,13 +265,13 @@ const PaymentSummary = ({ handleStep, step }) => {
         ) : (
           <div className="form_body">
             <div className="header my-3">
-              <h1 className='text-success'><BsCheckCircleFill />Transaction Being Processed</h1>
+              <h1 className='text-success'><BsCheckCircleFill />Your transaction is being processed</h1>
             </div>
             <Table style={{ lineHeight: "2" }}>
               <tbody>
                 <tr>
                   <th>Transaction Id:</th>
-                  <td>{transaction?.pay_id}</td>
+                  <td>{transaction?.id}</td>
                 </tr>
                 <tr>
                   <th>Transaction Amount</th>
@@ -279,12 +283,19 @@ const PaymentSummary = ({ handleStep, step }) => {
                 </tr>
               </tbody>
             </Table>
+            <div className='my-4'>
+              {
+                data?.send_method === "PayByID" ? (
+                  <PayIdInstructions amount={data.send_amount} pay_id={transaction.pay_id} currency={data.from} transaction_id={transaction.id} />
+                ) : (
+                  <PayToInstructions amount={data.send_amount} currency={data.from} transaction_id={transaction.id} />
+                )
+              }
+            </div>
             <div className="col-md-12 align-center">
-              {/* <img className="verifies-img" src={verified} alt="verified" /> */}
-              <p className='fw-semibold my-4'>Thanks for choosing RemitAssure</p>
               <div className='row text-center'>
                 <div className="col-md-6">
-                  <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => navigate(`/transaction-detail/${transaction?.pay_id}`)}>View Reciept</button>
+                  <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => navigate(`/transaction-detail/${transaction?.id}`)}>View Reciept</button>
                 </div>
                 <div className="col-md-6">
                   <button type="button" className="form-button" style={{ "width": '100%' }} onClick={() => { navigate("/dashboard") }}>Go To Dashboard</button>

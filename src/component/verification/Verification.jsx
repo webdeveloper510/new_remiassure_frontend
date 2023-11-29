@@ -98,7 +98,7 @@ const Verification = () => {
                     setLoading(false)
                     if (obj.page !== "register") {
                         const user = res?.data
-                        user.digital_id_verified = res?.digital_id_verified ? res?.digital_id_verified : "true"
+                        user.digital_id_verified = `${res?.data?.digital_id_verified}`
                         localStorage.setItem("remi-user-dt", JSON.stringify(user))
                         if (localStorage.getItem("transfer_data")) {
                             navigate(`/user-send-money`)
