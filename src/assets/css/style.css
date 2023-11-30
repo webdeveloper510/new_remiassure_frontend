@@ -75,7 +75,7 @@ h6,
 # Header
 --------------------------------------------------------------*/
 #header {
-  height: 80px;
+  height: 120px;
   transition: all 0.5s;
   z-index: 9999999;
   background: #fff;
@@ -139,20 +139,29 @@ h6,
   position: relative;
 }
 
-.navbar a,
-.navbar a:focus {
+.navbar a
+ {
   /* display: flex; */
   align-items: center;
   justify-content: space-between;
   padding: 10px 15px 10px 15px;
-  font-family: var(--font-family) !important;
+  font-family: var(--font-global) !important;
   font-size: 14px;
   color: #191970;
   white-space: nowrap;
   transition: 0.3s;
   position: relative;
 }
-
+.navbar a:focus{
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px 10px 15px;
+  font-size: 14px;
+  color: #191970;
+  white-space: nowrap;
+  transition: 0.3s;
+  position: relative;
+}
 .navbar a i,
 .navbar a:focus i {
   font-size: 12px;
@@ -171,12 +180,13 @@ h6,
 nav#navbar ul li a.active:after,
 nav#navbar ul li a:hover:after,
 nav#navbar ul li a:focus:after {
-  border: 1px solid #6414E9;
   position: absolute;
-  content: "";
-  bottom: -5px;
-  width: 28px;
-  left: 0;
+  content: url("../img/home/dot.png");
+  bottom: -18px;
+    width: 28px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
 }
 
 nav#navbar ul li ul li a:after {
@@ -4059,21 +4069,20 @@ img.quotup_icons {
 
 }
 
-section.top_sections {
-  width: 100%;
-  background-image: url(../img/home/top-main.svg);
-  width: 100%;
+.top_sections {
+  background-image: url(../img/home/top-banner.png);
   background-repeat: no-repeat;
-  background-size: cover;
-  padding: 81px 0px 40px 0px;
-  min-height: px;
+  background-size: 85% 100%;
+    padding: 0px;
+    margin-top: 122px;
+    background-position: center;
 }
 
-.col-lg-6.right_sections {
+/* .col-lg-6.right_sections {
   padding-top: 0px;
   width: 534.55px;
 
-}
+} */
 
 .col-lg-6.right_sections01 {
   padding-top: 30px;
@@ -4350,12 +4359,10 @@ li.suppot_footer img {
 }
 
 nav#navbar li a {
-  color: #191970;
-  font-size: 15px;
-  font-family: var(--font-family) !important;
-  font-weight: 500 !important;
-  padding: 0;
-  padding-bottom: 2px;
+  color: rgb(25 2 120 / 40%);
+  font-size: 14px;
+  /* font-family: var(--font-global) !important; */
+  text-transform: uppercase;
 }
 
 .navbar li {
@@ -4363,8 +4370,8 @@ nav#navbar li a {
 }
 
 a.active {
-  color: #6413E9 !important;
-  padding: 0;
+  color:#190278 !important;
+  font-family: var(--font-Navigation) !important;
 }
 
 p.send-text {
@@ -4507,10 +4514,10 @@ a.dropdown-item {
   font-size: 12px;
 }
 
-.container {
+/* .container {
   width: 1180.21px;
   padding: 0;
-}
+} */
 
 .timeline {
   width: 100%;
@@ -4704,9 +4711,9 @@ input#myInput {
   padding: 0px;
 }
 
-.banner-content {
+/* .banner-content {
   width: 614px;
-}
+} */
 
 .homepage-why-us {
   padding-top: 0px;

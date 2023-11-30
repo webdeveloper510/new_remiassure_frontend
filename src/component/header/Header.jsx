@@ -15,7 +15,9 @@ import '../../assets/vendor/swiper/swiper-bundle.min.css';
 import logo from '../../assets/img/home/logo.svg';
 
 // Main CSS File
+import '../../assets/css/global.css';
 import '../../assets/css/style.css';
+
 // responsive CSS File
 import '../../assets/css/responsive.css';
 
@@ -95,17 +97,21 @@ const Header = () => {
                   </li>
                 ) : (
                   <>
-                    <li>
-                      <NavLink to="/sign-up">Signup</NavLink>
-                    </li>
-                    <li>
-                      <NavLink to="/login">Login</NavLink>
-                    </li>
                   </>
                 )
               }
             </ul>
           </nav>
+          <nav  className="login-navbar">
+        <ul>
+              <li>
+                      <NavLink to="/sign-up" className="signactin">Sign <b>up</b></NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/login" className="logactin">Log <b>in</b></NavLink>
+                    </li>
+          </ul>
+            </nav>
           <RxHamburgerMenu onClick={mobilemenuShow} className="mobile-btn" />
           <Offcanvas show={show} onHide={handleClose}>
             <Offcanvas.Header closeButton>

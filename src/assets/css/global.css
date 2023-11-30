@@ -1,0 +1,242 @@
+@font-face {
+    font-family: 'tt_firs_neue_trlbold';
+    src: url('../fonts/tt_firs_neue_trial_bold-webfont.woff2') format('woff2'),
+         url('../fonts/tt_firs_neue_trial_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'tt_firs_neue_trldemibold';
+    src: url('../fonts/tt_firs_neue_trial_demibold-webfont.woff2') format('woff2'),
+         url('../fonts/tt_firs_neue_trial_demibold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'tt_firs_neue_trlextrabold';
+    src: url('../fonts/tt_firs_neue_trial_extrabold-webfont.woff2') format('woff2'),
+         url('../fonts/tt_firs_neue_trial_extrabold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'tt_firs_neue_trlit';
+    src: url('../fonts/tt_firs_neue_trial_italic-webfont.woff2') format('woff2'),
+         url('../fonts/tt_firs_neue_trial_italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'tt_firs_neue_trllight';
+    src: url('../fonts/tt_firs_neue_trial_light-webfont.woff2') format('woff2'),
+         url('../fonts/tt_firs_neue_trial_light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'tt_firs_neue_trlmedium';
+    src: url('../fonts/tt_firs_neue_trial_medium-webfont.woff2') format('woff2'),
+         url('../fonts/tt_firs_neue_trial_medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'tt_firs_neue_trlregular';
+    src: url('../fonts/tt_firs_neue_trial_regular-webfont.woff2') format('woff2'),
+         url('../fonts/tt_firs_neue_trial_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'tt_firs_neue_trlthin';
+    src: url('../fonts/tt_firs_neue_trial_thin-webfont.woff2') format('woff2'),
+         url('../fonts/tt_firs_neue_trial_thin-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+:root {
+    --font-global: 'tt_firs_neue_trlregular' !important;
+    --font-SubHeding: 'tt_firs_neue_trlregular'  !important;
+    --font-Headings:'tt_firs_neue_trlbold' !important;
+    --font-Navigation:'tt_firs_neue_trlbold' !important;
+    --font-Text:'tt_firs_neue_trllight' !important;
+  }
+
+  body{
+    font-family: var(--font-global) !important;
+  }
+
+
+  nav.login-navbar ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+nav.login-navbar li {
+    padding-left: 0px;
+}
+
+nav.login-navbar ul li a {
+    font-family: var(--font-global) !important;
+    font-size: 17px;
+    text-transform: uppercase;
+    color: #190278;
+    padding:24px;
+}
+/* nav.login-navbar ul li a.active{
+    background-image: url("../img/home/Subtract.png") !important;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    color:#fff !important;
+} */
+
+a.logactin.active {
+    background: #fd696c;
+    color: #fff !important;
+    border-top-right-radius: 53px;
+    padding: 15px 30px !important;
+    border-bottom-right-radius: 53px;
+    position: relative;
+    color:#fff !important;
+}
+
+a.logactin.active:before {
+    position: absolute;
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    -moz-border-radius: 7.5px;
+    -webkit-border-radius: 7.5px;
+    border-radius: 100px;
+    background-color: #fff;
+    left: -13px;
+    top: 12px;
+}
+
+a.signactin.active{
+    background: #fd696c;
+    color: #fff !important;
+    border-top-left-radius: 53px;
+    padding: 15px 30px !important;
+    border-bottom-left-radius: 53px;
+    position: relative;
+    color:#fff !important;
+}
+
+a.signactin.active:after {
+    position: absolute;
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    -moz-border-radius: 7.5px;
+    -webkit-border-radius: 7.5px;
+    border-radius: 100px;
+    background-color: #fff;
+    right: -13px;
+    top: 12px;
+}
+
+section.top_sections h1 {
+    font-family: var(--font-SubHeding) !important;
+    font-size: 73px;
+    color: #fff;
+}
+
+section.top_sections h1 span {
+    color: #6515E9;
+    position:relative;
+}
+section.top_sections h1 span:before {
+    position: absolute;
+    content: url("../img/home/text-bg.png");
+    display: inline-block;
+}
+section.top_sections p.vl-paragraph {
+    font-family: var(--font-Text) !important;
+    font-size: 20px;
+}
+ul.hero-btn li {
+    display: flex;
+    float: left;
+}
+ul.hero-btn {
+    padding: 0;
+    list-style: none;
+    margin-top: 30px;
+    float: left;
+}
+ul.hero-btn li a{
+    color: #fff !important;
+    border-top-left-radius: 53px;
+    padding: 15px 30px !important;
+    border-bottom-left-radius: 53px;
+    position: relative;
+    color:#fff !important;
+}
+ul.hero-btn li a.Get-start{
+    background: #6414E9;
+    color: #fff !important;
+    border-top-left-radius: 53px;
+    padding: 15px 30px !important;
+    border-bottom-left-radius: 53px;
+    position: relative;
+    color:#fff !important;
+}
+
+ul.hero-btn li a.Get-start:after {
+    position: absolute;
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    -moz-border-radius: 7.5px;
+    -webkit-border-radius: 7.5px;
+    border-radius: 100px;
+    background-color: #fff;
+    right: -13px;
+    top: 12px;
+}

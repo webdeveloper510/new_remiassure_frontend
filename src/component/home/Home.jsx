@@ -488,32 +488,42 @@ const Home = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6 no-padding banner-content">
-                            <div className="vl">
-                                <h1 className="vl-heading">Welcome</h1>
-                                <h1 className="vl-heading01">To Remittance 2.0</h1>
-                            </div>
+                           
+                                <h1 className="vl-heading">Simple Way <br></br>To <span>Transfer</span> Your <br></br>Money
+                                </h1>
+                            
                             <div className="vl-content">
                                 <p className="vl-paragraph">
-                                    We have re-imagined international money transfer to provide reliable, efficient and<br />
-                                    cost effective services to our customers.
-                                </p>
-                                <p className="vl-paragraph">
-                                    Leveraging cutting edge digital technologies and an ecosystem of proven global <br />
-                                    partners, we are ushering in a new world of seamless, secure and speedy global<br />
-                                    payments.
-                                </p>
-                                <p className="vl-paragraph">
-                                    We invite you to come onboard and enjoy the unparalleled experience provided by our<br />
-                                    platform.
+                                We have re-imagined international money transfer to provide reliable, efficient andcost effective services to our customers.
                                 </p>
                             </div>
+                         <ul className="hero-btn">
+                            <li>
+                                <a href="#" class="Get-start">
+                                    Get <b>Started</b> <img src="assets/img/home/Union.png"/>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                   Exchange <b>rate</b> <img src="assets/img/home/Black.png"/>
+                                </a>
+                            </li>
+                         </ul>
+
                         </div>
                         <div className="col-lg-6 right_sections">
-                            <img src="assets/img/home/bank.svg" alt="background-images" />
+                            <img src="assets/img/home/Handphone.png" alt="background-images" />
                         </div>
                     </div>
 
-                    <div className="row">
+                   
+                </div>
+            </section>
+
+
+            <section class="payment-box">
+                <div class="container">
+                <div className="row">
                         <div className="col-lg-12">
                             <div className="card card-flag new_card">
                                 <div className="card-body">
