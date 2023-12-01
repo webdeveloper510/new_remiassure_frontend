@@ -1,4 +1,9 @@
 /*************************** responsive start *****************/
+@media screen and (max-width: 1399px) {
+    .money-exchange-box:after {
+        left: 360px;
+    }
+}
 @media screen and (max-width: 1325px) {
     span.text-light.custom-number {
         font-size: 13px;

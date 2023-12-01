@@ -487,7 +487,7 @@ const Home = () => {
             <section className="top_sections">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-6 no-padding banner-content">
+                        <div className="col-lg-6 banner-content">
                            
                                 <h1 className="vl-heading">Simple Way <br></br>To <span>Transfer</span> Your <br></br>Money
                                 </h1>
@@ -499,20 +499,42 @@ const Home = () => {
                             </div>
                          <ul className="hero-btn">
                             <li>
-                                <a href="#" class="Get-start">
+                                <a href="#" className="Get-start">
                                     Get <b>Started</b> <img src="assets/img/home/Union.png"/>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="#payment-box" className="exchangebtn" >
                                    Exchange <b>rate</b> <img src="assets/img/home/Black.png"/>
                                 </a>
                             </li>
                          </ul>
+                         <div className="playstoreicon-section">
+                         <div className="col-md-3">
+                         <ul className="playstoreicon">
+                            <li>
+                                <a href="#">
+                                    <img src="assets/img/home/play.png"/>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                  <img src="assets/img/home/play1.png"/>
+                                </a>
+                            </li>
+                         </ul>
+                         </div>
+                         <div className="col-md-1">
+                            </div>
+                         <div className="col-md-8">
+                            <p><b>Download our App</b></p>
+                            <span>Over <b>26,000+ Clients</b> all over the world</span>
+                         </div>
+                         </div>
 
                         </div>
                         <div className="col-lg-6 right_sections">
-                            <img src="assets/img/home/Handphone.png" alt="background-images" />
+                            <img src="assets/img/home/Handiphone.png" alt="background-images" />
                         </div>
                     </div>
 
@@ -521,18 +543,24 @@ const Home = () => {
             </section>
 
 
-            <section class="payment-box">
+            <section class="payment-box" id="payment-box">
+          
                 <div class="container">
+                <div className="money-exchange-box">
                 <div className="row">
-                        <div className="col-lg-12">
-                            <div className="card card-flag new_card">
+                       
+                            <div className="col-md-4">
+                            <h6 className="exchange-heading">Exchange <br></br>Rate<span className="calculation">1 {formik.values.from_type} = {commaSeperator(total_rates)} {formik.values.to_type}</span></h6>
+                                    
+                            </div>
+                            <div className="col-md-8">
+                            <div className="new_card">
                                 <div className="card-body">
-                                    <h6 className="exchange-heading">EXCHANGE RATE</h6>
-                                    <p className="calculation">1 {formik.values.from_type} = {commaSeperator(total_rates)} {formik.values.to_type}</p>
+                                    
                                     <form onSubmit={formik.handleSubmit} noValidate>
                                         <div className="row mb-2 " style={{ alignItems: 'normal' }}>
 
-                                            <div className="col-md-4">
+                                            <div className="col-md-6">
                                                 <p className="send-text">You Send<span style={{ color: 'red' }} >*</span></p>
                                                 <div className="inline select-currency">
                                                     <Form.Control
@@ -574,8 +602,24 @@ const Home = () => {
                                                     </div>
                                                 )}
                                             </div>
-                                            <div className="col-md-4">
-                                                <p className="get-text">They get<span style={{ color: 'red' }} >*</span></p>
+
+                                            <div className="col-md-6">
+                                                <p className="send-text">Receive Method</p>
+                                                <select
+                                                    {...formik.getFieldProps('recieve_meth')}
+                                                    className='form-select rate_input form-control mb-3 home-select-method bg-transparent'
+                                                    aria-label="Select a reason">
+                                                    <option value="Bank Transfer">Bank Transfer</option>
+                                                    <option value="Mobile Wallet">Mobile Wallet</option>
+                                                </select>
+                                            </div>
+
+                                            
+                                            </div>
+                                            <div className="row mb-2 " style={{ alignItems: 'normal' }}>
+                                            
+                                            <div className="col-md-6">
+                                                <p className="send-text">They Get<span style={{ color: 'red' }} >*</span></p>
                                                 <div className="inline select-currency">
                                                     <Form.Control
                                                         name="exchange_amt"
@@ -612,32 +656,11 @@ const Home = () => {
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div className="col-md-4">
-                                                <p className="get-text">Receive method</p>
-                                                <select
-                                                    {...formik.getFieldProps('recieve_meth')}
-                                                    className='form-select rate_input form-control mb-3 home-select-method bg-transparent'
-                                                    aria-label="Select a reason">
-                                                    <option value="Bank Transfer">Bank Transfer</option>
-                                                    <option value="Mobile Wallet">Mobile Wallet</option>
-                                                </select>
-                                            </div>
-                                            <div className="col-12 text-center">
-                                                <button
-                                                    type="submit"
-                                                    className="btn btn continue-button"
-                                                >
-                                                    Continue
-                                                    {loading ? <>
-                                                        <div className="loader-overly">
-                                                            <div className="loader" >
-                                                            </div>
-                                                        </div>
-                                                    </> : <></>}
-                                                </button>
-                                                <button
+
+                                            <div className="col-md-6">
+                                            <button
                                                     type="button"
-                                                    className="btn btn continue-button"
+                                                    className="btn btn reset-button"
                                                     onClick={() => handleReset()}
                                                 >
                                                     Reset
@@ -648,34 +671,74 @@ const Home = () => {
                                                         </div>
                                                     </> : <></>}
                                                 </button>
+                                            <button
+                                                    type="submit"
+                                                    className="btn btn continue-button"
+                                                >
+                                                    Continue
+                                                    {loading ? <>
+                                                        <div className="loader-overly">
+                                                            <div className="loader" >
+                                                            </div>
+                                                        </div>
+                                                    </> : <></>}
+                                                    <img src="assets/img/home/Black1.png"/>
+                                                </button>
+                                               
 
                                             </div>
+                                           
 
                                         </div>
                                     </form>
                                 </div>
                             </div>
+                            </div>
+                       
                         </div>
+
+                    </div>
+
+                    <div className="partners-section">
+                    <div className="row">
+                    <h1 className="vl-heading">Our Partners</h1>
+                    <p>Reference site about Lorem Ipsum, giving as a random Lipsum generator.</p>
+                    
+                  
+                    <div className="col-md-2">
+                    <img src="assets/img/home/image1.png" alt="partner-images" />
+                    </div>
+                    <div className="col-md-2">
+                    <img src="assets/img/home/image22.png" alt="partner-images" />
+                    </div>
+                    <div className="col-md-2">
+                    <img src="assets/img/home/image2.png" alt="partner-images" />
+                    </div>
+                    <div className="col-md-2">
+                    <img src="assets/img/home/image3.png" alt="partner-images" />
+                    </div>
+                    <div className="col-md-2">
+                    <img src="assets/img/home/image4.png" alt="partner-images" />
+                    </div>
+                    <div className="col-md-2">
+                    <img src="assets/img/home/image5.png" alt="partner-images" />
+                    </div>
+                   
+                    </div>
                     </div>
                 </div>
             </section>
+
+
+            
             <section className="why-us_section homepage-why-us">
                 <div className="container">
+                <h1 className="vl-heading">Why RemitAssure ?</h1>
                     <div className="row">
-                        <div className="col-lg-6">
-                            <div className="vl">
-                                <h1 className="vl-heading">Why</h1>
-                                <h1 className="vl-heading01">RemitAssure ?</h1>
-                            </div>
-                            <div className="vl-content">
                                 <ul className="list-">
                                     < WhyRenderingArrayOfObjects />
                                 </ul>
-                            </div>
-                        </div>
-                        <div className="col-lg-6 right_sections">
-                            <img src="assets/img/home/img02.svg" alt="background-images" />
-                        </div>
+
                     </div>
                     <div className="Money_section">
                         <div className="row">

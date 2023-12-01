@@ -192,8 +192,14 @@ section.top_sections h1 span {
 }
 section.top_sections h1 span:before {
     position: absolute;
-    content: url("../img/home/text-bg.png");
+    content: "";
     display: inline-block;
+    background:url("../img/home/text-bg.png");
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 section.top_sections p.vl-paragraph {
     font-family: var(--font-Text) !important;
@@ -218,16 +224,15 @@ ul.hero-btn li a{
     color:#fff !important;
 }
 ul.hero-btn li a.Get-start{
-    background: #6414E9;
-    color: #fff !important;
-    border-top-left-radius: 53px;
-    padding: 15px 30px !important;
-    border-bottom-left-radius: 53px;
+    background:url("../img/home/Subtract1.png");
     position: relative;
     color:#fff !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 100%;
 }
 
-ul.hero-btn li a.Get-start:after {
+/* ul.hero-btn li a.Get-start:after {
     position: absolute;
     content: '';
     display: inline-block;
@@ -239,4 +244,144 @@ ul.hero-btn li a.Get-start:after {
     background-color: #fff;
     right: -13px;
     top: 12px;
+} */
+
+.money-exchange-box {
+    background-color: #fd696c;
+    box-shadow: 0px 4px 94px 0px rgba(217, 84, 108, 0.32);
+    border-radius: 50px;
+    //background-image:url('../img/home/Rectangle1.png');
+    background-repeat: no-repeat;
+    background-position: right;
+    padding:40px 50px;
+    position: relative;
+}
+.money-exchange-box:after{
+    position: absolute;
+    content: url('../img/home/Rectangle2.png');
+    left: 400px;
+    top: 33px;
+  }
+.money-exchange-box .row {
+    align-items: center;
+}
+.exchangebtn{
+    position: relative;
+}
+
+.exchangebtn:after{
+    position: absolute;
+    content: url('../img/home/Union1.png');
+    right: -42px;
+    top: 30px;
+}
+.playstoreicon-section {
+    float: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 40px;
+}
+ul.playstoreicon {
+    padding: 0;
+    list-style: none;
+    float: left;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    margin: 0;
+    position: relative;
+}
+ul.playstoreicon:after {
+    position: absolute;
+    content: "";
+    border: 1px solid #fff;
+    right: -28px;
+    height: 70px;
+    top: -9px;
+    opacity: 20%;
+}
+ul.playstoreicon li {
+    background: #fff;
+    margin-right: 7px;
+    border-radius: 70px;
+    padding: 10px;
+    width: 82px;
+    text-align: center;
+}
+ul.playstoreicon li a {
+    width: 100%;
+    display: block;
+}
+
+.playstoreicon-section p{
+    font-family: var(--font-SubHeding) !important;
+    color:#fff;
+    font-size: 21.26px;
+}
+.playstoreicon-section span{
+    font-family: var(--font-Text) !important;
+    color:#fff;
+    font-size: 14px;
+}
+.new_card button {
+    font-family: var(--font-global) !important;
+    font-size: 17px;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 24px;
+    background: transparent;
+    height: auto !important;
+    position:relative;
+}
+
+.new_card button {
+    padding: 15px 30px !important;
+    border-bottom-right-radius: 53px !important;
+    border-top-right-radius: 53px !important;
+    margin-top: 24px;
+    border-radius: 0px;
+    width:50%;
+}
+
+.new_card button.continue-button{
+    background-color:#fff;
+    color:#FD696C;
+}
+.new_card button.continue-button:before{
+    position: absolute;
+    content: '';
+    display: inline-block;
+    width: 33px;
+    height: 33px;
+    border-radius: 100px;
+    background-color:#FD696C;
+    left: -13px;
+    top: 12px;
+}
+
+.new_card button.continue-button:hover {
+    color: #FD696C !important;
+    background: #fff !important;
+}
+.partners-section {
+    margin-top: 130px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.partners-section h1 {
+    font-family: var(--font-SubHeding) !important;
+    font-size: 43px;
+    color: #190079;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.partners-section p {
+    font-family: var(--font-Text) !important;
+    font-size: 17px;
+    color: #040A2E;
+    font-weight: 400;
+    margin-bottom: 50px;
 }
