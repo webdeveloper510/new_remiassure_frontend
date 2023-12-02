@@ -1,7 +1,26 @@
 /*************************** responsive start *****************/
+@media screen and (min-width: 1500px) {
+    .banner_section01 .react-multi-carousel-list.carousel-container-with-scrollbar {
+        width: 86%;
+        margin-left: auto;
+    }
+}
+@media screen and (max-width: 1500px) {
+    .banner_section01 .react-multi-carousel-list.carousel-container-with-scrollbar {
+        width: 93%;
+        margin-left: auto;
+    }
+}
 @media screen and (max-width: 1399px) {
+    .banner_section01{
+        background-position: center right;
+    }
     .money-exchange-box:after {
         left: 360px;
+    }
+    .banner_section01 .react-multi-carousel-list.carousel-container-with-scrollbar {
+        width: 93%;
+        margin-left: auto;
     }
 }
 @media screen and (max-width: 1325px) {

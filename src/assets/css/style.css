@@ -1061,8 +1061,11 @@ ul.list- li {
 --------------------------------------------------------------*/
 .banner_section01 {
   width: 100%;
-  background: linear-gradient(91.12deg, #FD696C -11.6%, #6414E9 124.46%);
-
+  background-image:url('../img/home/reviewbanner.png');
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: 97% 100%;
+  padding: 100px 0px;
 }
 
 .vl02 {
@@ -1070,13 +1073,12 @@ ul.list- li {
 }
 
 .money-heading {
-  font-family: var(--font-family) !important;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 30px;
-  text-transform: capitalize;
-  color: #FFFFFF;
-  padding-left: 10px;
+  font-family: var(--font-SubHeding) !important;
+  font-size: 43px;
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
 .worldwide-heading01 {
@@ -1100,12 +1102,11 @@ ul.list- li {
 }
 
 .popular-paragraph01 {
-  font-family: var(--font-family) !important;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  color: #FFFFFF;
-  padding-top: 34px;
+  font-family: var(--font-Text) !important;
+    font-size: 17px;
+    color: rgb(255 255 255 / 50%);
+    font-weight: 400;
+    margin-bottom: 50px;
 
 }
 
@@ -4148,16 +4149,21 @@ button#input-group-dropdown-2 {
 }
 
 section.why-us_section {
-  background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%)
-    /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected;; */
-  ;
-  opacity: 0.9;
+  /* background: radial-gradient(100% 972.64% at 100% 0.04%, #6414E9 0%, #191970 100%);
+  opacity: 0.9; */
 }
 
 section.why-us_section .vl {
   border-left: 6px solid #fff;
 }
-
+section.why-us_section.homepage-why-us h1 {
+  font-family: var(--font-SubHeding) !important;
+  font-size: 43px;
+  color: #190079;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
 section.why-us_section .vl h1 {
   font-family: var(--font-SubHeding) !important;
   font-size: 43px;

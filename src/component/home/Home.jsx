@@ -11,55 +11,8 @@ import { useRef } from "react";
 import { exchangeRate, getPreferredCurrency } from "../../utils/Api";
 import { commaRemover, commaSeperator, generateRandomKey } from "../../utils/hook";
 import QRCode from "react-qr-code";
+import Scrollbar from '../countriesSlider/Scrollbar';
 
-function WhyRenderingArrayOfObjects() {
-    const dataItems = [
-        {
-            id: 1,
-            src: "assets/img/home/Vector02.svg",
-            circle_heading: "We're Secure",
-            circle_content: "We use industry-leading technology to secure your money.",
-        },
-        {
-            id: 2,
-            src: "assets/img/home/Vector01.svg",
-            circle_heading: "We're Fast",
-            circle_content: "95% of our transfers are completed in minutes…",
-        },
-        {
-            id: 3,
-            src: "assets/img/home/Vector03.svg",
-            circle_heading: "We’re Cost-effective",
-            circle_content: "Our rates are competitive compared to banks and other remittance services.",
-        },
-        {
-            id: 4,
-            src: "assets/img/about/Vector04.svg",
-            circle_heading: "We’re Innovative",
-            circle_content: "We're committed to researching new ideas and technology to serve you better.",
-        }
-    ];
-
-    const circlItems = dataItems.map((value) => {
-        return (
-            <li className="" key={value.id}>
-                <div className="circle-image">
-                    <img src={value.src} alt="circle-image" />
-                </div>
-                <div className="circle-content">
-                    <p className="fast_text">{value.circle_heading}</p>
-                    <p className="fast_texto1">{value.circle_content}</p>
-                </div>
-            </li>
-        )
-
-    })
-    return (
-        <div>
-            {circlItems}
-        </div>
-    )
-}
 
 function HowRenderingArrayOfObjects() {
     const dataItems = [
@@ -734,29 +687,65 @@ const Home = () => {
             <section className="why-us_section homepage-why-us">
                 <div className="container">
                 <h1 className="vl-heading">Why RemitAssure ?</h1>
-                    <div className="row">
-                                <ul className="list-">
-                                    < WhyRenderingArrayOfObjects />
-                                </ul>
+
+                <div className="vl-content">
+                                <p className="vl-paragraph">
+                                Reference site about Lorem Ipsum, giving information on its origins, as well <br></br>as a random Lipsum generator.
+                                </p>
+                            </div>
+                    <div className="row mb-3">
+                                <div className="custom-col5">
+                                 <div className="remit_keypoints light_box_bg">
+                                  <img src="assets/img/home/icons4.png" alt="background-icons" />
+                                  <h4>We're Secure</h4>
+                                  <p>We use industry-leading <br></br>technology to secure <br></br>your money.</p>
+                                 </div>
+                                </div>
+                                <div className="custom-col2 no-padding">
+                                <div className="remit_keypoints">
+                                  <img src="assets/img/home/icons1.png" alt="background-icons" />
+                                  <h4>We're Fast</h4>
+                                  <p>95% of our transfers<br></br> are completed in<br></br> minutes…</p>
+                                 </div>
+                                </div>
+                                <div className="custom-col5">
+                                <div className="remit_keypoints">
+                                    <h1>Know more in detail about <p>RemitAssure</p></h1>
+                                    <a href="#"><img src="assets/img/home/Union.png"/></a>
+                                    </div>
+                                </div>
 
                     </div>
-                    <div className="Money_section">
+
+                    <div className="row">
+                                <div className="custom-col5">
+                                 <div className="remit_keypoints dark_box_bg">
+
+                                 </div>
+                                </div>
+                                <div className="custom-col2 no-padding">
+                                <div className="remit_keypoints">
+                                  <img src="assets/img/home/icons2.png" alt="background-icons" />
+                                  <h4>We're Cost-effective</h4>
+                                  <p>Our rates are competitive <br></br>compared to banks and <br></br>other remittance services.</p>
+                                 </div>
+                                </div>
+                                <div className="custom-col5">
+                                <div className="remit_keypoints light_box_bg">
+                                  <img src="assets/img/home/icons3.png" alt="background-icons" />
+                                  <h4>We're Innovative</h4>
+                                  <p>We're committed to researching <br></br>new ideas and technology to <br></br>serve you better.</p>
+                                 </div>
+                                </div>
+
+                    </div>
+
+                    {/* <div className="Money_section">
                         <div className="row">
                             <div className="col-lg-6 ">
                                 <div className="row">
                                     <div className="col-md-6 text-center">
-                                        {/* <div style={{
-                                            height: "auto", margin: "0 auto", width: "100%", padding: '23px',
-                                            background: 'white',
-                                            borderRadius: '31px'
-                                        }}>
-                                            < QRCode
-                                                size={256}
-                                                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                                                value={"https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"}
-                                                viewBox={`0 0 256 256`}
-                                            />
-                                        </div> */}
+                                       
                                         <img className="apps-image" src="assets/img/home/img03.svg" alt="background-images" />
 
                                     </div>
@@ -799,7 +788,7 @@ const Home = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </section >
             {/* <section className="why-us section-bgba banner_section05" >
@@ -849,120 +838,28 @@ const Home = () => {
                     </div>
                 </div>
             </section> */}
-            < section className="why-us section-bgba banner_section01" >
+
+            <section className="why-us section-bgba banner_section01" >
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-12">
-                            <div className="row">
-                                <div className="col-lg-6">
-                                    <div className="vl02">
-                                        <h1 className="money-heading">Our global payment network enables our customers to seamlessly transfer funds to vast
-                                            number of countries</h1>
-                                    </div>
+                     
+                           
+                                <div className="col-lg-12">
+                                    
+                                        <h1 className="money-heading">Global Payment Network Enables<br></br> Seamless Fund Transfers</h1>
+                                   
                                     <div className="popular-content">
-                                        <h4 className="popular-paragraph01">Our most popular payout corridors
+                                        <h4 className="popular-paragraph01">Our most popular payout corridors reference site about Lorem Ipsum,<br></br> giving information on its origins.
+
                                         </h4>
-                                        {/* <p className="popular-paragraph02">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        </p>
-                                        <p className="popular-paragraph02"> incididunt ut labore et dolore magna aliqua. Facilisi morbi tempus iaculis urna.
-                                        </p> */}
                                     </div>
                                 </div>
-                                <div className="col-lg-6">
-                                    <div className="row">
-                                        {/* <ul>
-                                             < FlagHomeArrayofoObjects />
-                                            <li></li>
-                                        </ul> */}
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("USD") }}>
-                                                <img src="assets/img/home/nigeria.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6 className="mx">Nigeria (USD)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("NGN") }}>
-                                                <img src="assets/img/home/nigeria.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>Nigeria (NGN)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards w-100" onClick={() => { setCurrency("GHS") }}>
-                                                <img src="assets/img/home/ghana.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>GHANA (GHS)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("KES") }}>
-                                                <img src="assets/img/home/kenya.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>KENYA (KES)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("PHP") }}>
-                                                <img src="assets/img/home/philippines.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>PHILIPPINES (PHP)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("THB") }}>
-                                                <img src="assets/img/home/thailand.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>THAILAND (THB)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("VND") }}>
-                                                <img src="assets/img/home/vietnam.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>VIETNAM (VND)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* {
-                                        userdt && token ? (
-                                            <div className="view-button">
-                                                <NavLink to={"/userdashboard"}>
-                                                    <button className="btn btn view_button">View all</button>
-                                                </NavLink>
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <div className="view-button">
-                                                    <NavLink to={"/login"}>
-                                                        <button className="btn btn view_button">View all</button>
-                                                    </NavLink>
-                                                </div>
-                                            </>
-                                        )
-                                    } */}
-                                </div>
-                            </div>
-                        </div>
+                            
+                       
                     </div>
-                    {/* main row End*/}
-                    {/* <div className="row">
-                        <div className="col-lg-12 call_heading">
-                            <h3 className="cal-heading">We are here to help!</h3>
-                            <p className="call-paragraph">Do you need assistance? Our dedicated support centre is purpose-built to
-                                support you.</p>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="view-button">
-                                <Link to="/help">
-                                    <button className="btn btn call_button">Go to our Support Centre</button>
-                                </Link>
-                            </div>
-                        </div>
-                    </div> */}
+                    
                 </div>
+                <Scrollbar />
             </section >
 
 

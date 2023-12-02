@@ -385,3 +385,157 @@ ul.playstoreicon li a {
     font-weight: 400;
     margin-bottom: 50px;
 }
+section.why-us_section.homepage-why-us .vl-paragraph p {
+    font-family: var(--font-Text) !important;
+    font-size: 17px;
+    color: #040A2E;
+    font-weight: 400;
+    margin-bottom: 50px;
+    text-align: center;
+}
+.custom-col5 {
+    width: 37%;
+}
+.custom-col2 {
+    width: 26%;
+}
+.remit_keypoints {
+    background: rgb(25 2 120 / 5%);
+    border-radius: 22px;
+    padding: 30px 30px 30px 50px;
+    height: 304px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.remit_keypoints h4{
+    font-family: var(--font-Headings) !important;
+    font-size: 22px;
+    color: #190079;
+    margin-top: 15px;
+}
+.remit_keypoints p {
+    color: rgb(4 10 46 / 60%);
+    font-family: var(--font-Text) !important;
+    font-size: 17px;
+    font-weight:400;
+}
+
+
+.dark_box_bg {
+    width: 100%;
+    height: 100%;
+    background-color: #6515E9;
+    background-image:url('../img/home/mask.png');
+    background-repeat: no-repeat;
+    background-position: right 7px;
+    background-size: cover;
+    overflow: hidden;
+}
+.remit_keypoints h1{
+    color:#190278;
+}
+.remit_keypoints h1 p {
+    background: linear-gradient(86.01deg, #190278 1.99%, #E15C6D 48.03%, #6515E9 98.14%), linear-gradient(0deg, #190278, #190278);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 43px;
+    font-weight: 600;
+}
+.light_box_bg{
+    background-image:url('../img/home/Vector5.png');
+    background-repeat: no-repeat;
+    background-position: right top;
+}
+.remit_keypoints a {
+    text-align: center;
+    margin: 0 auto;
+    background: #6414e9;
+    padding: 15px 30px !important;
+    border-radius: 53px;
+}
+.why-us_section p.vl-paragraph {
+    font-family: var(--font-Text) !important;
+    font-size: 17px;
+    color: #040A2E;
+    font-weight: 400;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.banner_section01 button {
+    background: transparent !important;
+    border: 1px solid #0AEDC7;
+    padding: 10px 30px;
+    border-radius: 53px !important;
+}
+
+.banner_section01 button:hover {
+    background: #0AEDC7 !important;
+}
+
+.banner_section01 .react-multiple-carousel__arrow--left::before{
+    content:url('../img/home/arrowgl.png');
+    top: 4px;
+}
+
+.banner_section01 .react-multiple-carousel__arrow--left:hover::before{
+    content:url('../img/home/arrowbl.png');
+}
+
+.banner_section01 button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
+    margin-right: 40px;
+}
+
+.banner_section01 .react-multiple-carousel__arrow--right::before{
+    content:url('../img/home/arrowgr.png');
+    top: 4px;
+}
+.banner_section01 .react-multiple-carousel__arrow--right:hover::before{
+    content:url('../img/home/arrowbr.png');
+}
+
+
+.flags-container {
+    background: #6515E9;
+    border-radius: 20px;
+    padding: 30px;
+    border-top-left-radius: 86px;
+    border-bottom-left-radius: 86px;
+    border: 1px solid #6515E9;
+}
+.flags-container:hover {
+    border: 1px solid #A595EB;
+    box-shadow: 0px 1px 26px 12px #A595EB inset;
+}
+.flags-container img{
+    width:auto;
+}
+
+.flags-container label {
+    font-family: var(--font-Text) !important;
+    font-size: 17px;
+    color: #fff;
+    font-weight: 400;
+    display: contents;
+}
+.flags-container .items-start {
+    justify-content: start;
+    align-items: center;
+}
+.flags-container .image-item{
+    margin-right: 33px;
+    padding:0px !important;
+}
+.image-item:after {
+    position: absolute;
+    content:url('../img/home/flags-arrow.png');
+    right: -33px;
+    top: 40px;
+
+}
+
+.flags-container button.react-multiple-carousel__arrow--right, .flags-container button.react-multiple-carousel__arrow--left{
+    top: -150px;
+}
