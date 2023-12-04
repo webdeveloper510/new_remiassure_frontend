@@ -487,7 +487,7 @@ const Home = () => {
 
                         </div>
                         <div className="col-lg-6 right_sections">
-                            <img src="assets/img/home/Handiphone.png" alt="background-images" />
+                            <img src="assets/img/home/Handphone.png" alt="background-images" />
                         </div>
                     </div>
 
@@ -867,20 +867,71 @@ const Home = () => {
                 <div id="about">
                     <div className="container">
                         <div className="row">
-                            <div className="col-sm-8">
-                                <div className="vl about_v1 head-new">
-                                    <h1 className="vl-heading">How it Works</h1>
-                                </div>
-                                <div className="vl-content">
+                         
+                                    <h1 className="head-new">How it Works</h1>
+                                    <div className="vl-content">
+                                <p className="vl-paragraph">
+                                Reference site about Lorem Ipsum, giving information on its origins, as well <br></br>as a random Lipsum generator.
+                                </p>
+                            </div>
+
+                                {/* <div className="vl-content">
                                     <ul className="list-">
                                         < HowRenderingArrayOfObjects />
                                     </ul>
-                                </div>
-                            </div>
-                            <div className="col-sm-4 right_side d-flex justify-content-center align-items-center">
-                                {/* <img src="assets/img/home/img03.svg" alt="background-images" /> */}
-                                <img src="assets/img/footer/trans3.png" alt="background-images" />
-                            </div>
+                                </div> */}
+                         
+                         <div class="row">
+       
+            <div className="timeline-steps aos-init aos-animate" data-aos="fade-up">
+                <div className="timeline-step step1bg">
+                    <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
+                        
+                        <div className="inner-circle1"><label>Step <b>1</b></label><img src="assets/img/home/dot1.png" /></div>
+                        <img className="how-works-icons" src="assets/img/home/howicon1.png" />
+                        <p className="h6 mt-3 mb-1">Create a RemitAssure<br></br> account</p>
+                        <p className="h6  mb-0 mb-lg-0">Provide some personal information and sign up online or via the RemitAssure app.</p>
+                    </div>
+                </div>
+                <div className="timeline-step">
+                    <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2004">
+                     
+                        <div className="inner-circle1"><label>Step <b>2</b></label><img src="assets/img/home/dot1.png" /></div>
+                        <img  className="how-works-icons"  src="assets/img/home/howicon2.png" />
+                        <p className="h6 mt-3 mb-1">Verify your <br></br>Identity</p>
+                        <p className="h6  mb-0 mb-lg-0">We verify your identity as part of our AML/CTF obligation. Verifying your identity also helps also safeguard your account against potential fraudulent activities.</p>
+                    </div>
+                </div>
+                <div className="timeline-step step3bg">
+                    <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2005">
+                        
+                        <div className="inner-circle1"><label>Step <b>3</b></label><img src="assets/img/home/dot1.png" /></div>
+                        <img  className="how-works-icons"  src="assets/img/home/howicon3.png" />
+                        <p className="h6 mt-3 mb-1">Enter your <br></br>transaction details</p>
+                        <p className="h6  mb-0 mb-lg-0">Provide some personal information and sign up online or via the RemitAssure app.</p>
+                    </div>
+                </div>
+                <div className="timeline-step">
+                    <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2010">
+                        
+                        <div className="inner-circle1"><label>Step <b>4</b></label><img src="assets/img/home/dot1.png" /></div>
+                        <img  className="how-works-icons"  src="assets/img/home/howicon4.png" />
+                        <p className="h6 mt-3 mb-1">Pay for your<br></br> transaction</p>
+                        <p className="h6 mb-0 mb-lg-0">We offer different payment rails for our customers. You can pay through: PayID , PayTo Agreements.</p>
+                    </div>
+                </div>
+            </div>
+        
+                         </div>
+
+<div className="row">
+<div className="col-md-8">
+
+</div>
+<div className="col-md-4">
+
+</div>
+</div>
                         </div>
 
                     </div>

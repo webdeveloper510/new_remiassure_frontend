@@ -4733,14 +4733,16 @@ input#myInput {
 .no-padding {
   padding: 0px;
 }
-
+section.why-us_section.homepage-why-us {
+  padding-bottom: 150px;
+}
 /* .banner-content {
   width: 614px;
 } */
 
-.homepage-why-us {
+/* .homepage-why-us {
   padding-top: 0px;
-}
+} */
 
 /*-.col-lg-10.reserved_content {
   /* text-align: center; 

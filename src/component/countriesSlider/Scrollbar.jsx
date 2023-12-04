@@ -36,9 +36,6 @@ class Scrollbar extends React.Component {
         heading: "Nigeria (USD)",
         image: "assets/img/home/country1.png"
       }, {
-        heading: "Nigeria (NGN)",
-        image: "assets/img/home/country1.png"
-      }, {
         heading: "Kenya (KES)",
         image: "assets/img/home/country4.png"
       }, {
@@ -47,6 +44,9 @@ class Scrollbar extends React.Component {
       }, {
         heading: "VIETNAM (VND)",
         image: "assets/img/home/country6.png"
+      }, {
+        heading: "Nigeria (NGN)",
+        image: "assets/img/home/country1.png"
       }
     ];
     return (
@@ -62,14 +62,6 @@ class Scrollbar extends React.Component {
         responsive={responsive}
         containerClass="carousel-container-with-scrollbar"
         additionalTransfrom={-this.state.additionalTransfrom}
-        beforeChange={nextSlide => {
-          if (nextSlide !== 0 && this.state.additionalTransfrom !== 120) {
-            this.setState({ additionalTransfrom: -0 });
-          }
-          if (nextSlide === 0 && this.state.additionalTransfrom === 150) {
-            this.setState({ additionalTransfrom: 0 });
-          }
-        }}
       >
    
     
