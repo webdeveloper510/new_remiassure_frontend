@@ -108,7 +108,7 @@ const Header = () => {
                       <NavLink to="/sign-up" className="signactin">Sign <b>up</b></NavLink>
                     </li>
                     <li>
-                      <NavLink to="/login" className="logactin">Log <b>in</b></NavLink>
+                      <NavLink to="/login" className="logactin">Log  <b>in</b></NavLink>
                     </li>
           </ul>
             </nav>

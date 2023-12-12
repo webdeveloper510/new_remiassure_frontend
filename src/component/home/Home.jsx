@@ -12,8 +12,8 @@ import { exchangeRate, getPreferredCurrency } from "../../utils/Api";
 import { commaRemover, commaSeperator, generateRandomKey } from "../../utils/hook";
 import QRCode from "react-qr-code";
 import Scrollbar from '../countriesSlider/Scrollbar';
-
-
+import Scrollbar1 from '../scrollbar/Scrollbar';
+import Blogs from '../blogs/Blogs';
 function HowRenderingArrayOfObjects() {
     const dataItems = [
         {
@@ -487,7 +487,7 @@ const Home = () => {
 
                         </div>
                         <div className="col-lg-6 right_sections">
-                            <img src="assets/img/home/Handphone.png" alt="background-images" />
+                            <img src="assets/img/home/phone.png" alt="background-images" />
                         </div>
                     </div>
 
@@ -610,7 +610,7 @@ const Home = () => {
                                                 </div>
                                             </div>
 
-                                            <div className="col-md-6">
+                                            <div className="col-md-6 flexx">
                                             <button
                                                     type="button"
                                                     className="btn btn reset-button"
@@ -941,29 +941,124 @@ const Home = () => {
 
 
 
-            <section className="why-us_section homepage-why-us hows-section">
-                <div className="container">
+            <section className="why-us_section homepage-why-us hows-section Enjoy-Free">
+                <div className="container1">
 
-
+               
                     <div className="row custom-row-hows free-transaction">
+                    <div className="col-lg-7 text-end">
+                        <div className="images-1 images-1 col-md-10 marauto">
+                            <div className="image1">
+                            <img src="assets/img/home/free1.png" alt="background-images" />
+                            </div>
+<div className="contant-img">
+<div className="icon-img">
+    <img src="assets/img/home/blueicon.png" />
+</div>
+   
+    <h4 className="content-heading">
+    Weekend
+Gateway
+    </h4>
+    <p>For our weekend trip</p>
+    <p className="number">
+    + $11.95
+    </p>
+</div>
 
-                        <div className="col-lg-6">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8 margintop">
+                            <div className="images-1 ">
+                            <div className="image1">
+                            <img src="assets/img/home/img2.png" alt="background-images" class="dd" />
+                            </div>
+<div className="contant-img right-aligned">
+<div className="icon-img pink">
+    <img src="assets/img/home/pinkicon.png"  />
+</div>
+   
+    <h4 className="content-heading">
+    Trainers Cashback
+    </h4>
+    <p>For our weekend trip</p>
+    <p className="number">
+    + $11.95
+    </p>
+</div>
+
+
+
+                        </div>
+
+                        
+                            </div>
+							
+							  <div class="col-lg-4 margintop">
+                            <div className="images-1 ">
+                            <div className="image1">
+                            <img src="assets/img/home/img3.png" alt="background-images" class="dd" />
+                            </div>
+<div className="bottom-aligend">
+    <div className="iconandcon">
+<div className="icon-img skyicon">
+    <img src="assets/img/home/skyicon.png"  />
+    
+</div>
+<h4 className="content-heading">
+    Trainers Cashback
+    </h4>
+    </div>
+   
+    <p>Well Deserved</p>
+    <p className="number">
+    + $11.95
+    </p>
+</div>
+
+
+
+                        </div>
+
+                        
+                            </div>
+
+                        </div>
+                           
+                        </div>
+                        <div className="col-lg-5 padding-right-box">
                             <div className="vl about_v1">
-                                <h1 className="vl-heading">Enjoy Free Transactions <br></br>with Us!</h1>
+                                <h1 className="vl-heading left-align">Enjoy Free <br></br> Transactions with Us!</h1>
                             </div>
                             <div className="vl-content">
-                                <p>RemitAssure is proud to offer you completely free transactions.</p>
+                                <p>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
 
-                                <ul>
-                                    <li><strong>• No Hidden Fee</strong></li>
-                                    <li><strong>• Free Account Transfers</strong></li>
-                                    <li><strong>• Online and Mobile Banking</strong></li>
-                                </ul>
-                            </div>
+                              <div class="bottom-content">
+                              <h2> <span> +</span>  Online and Mobile Banking </h2>
+                              <p class="mar-t">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+
+</div>
+
+
+<div class="bottom-content">
+                              <h2> <span> +</span> Free Account Transfers </h2>
+                              <p class="mar-t">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator. Reference site.</p>
+
+</div>
+
+
+<div class="bottom-content border-none">
+                              <h2> <span> +</span> No Hidden Fee  </h2>
+                              <p class="mar-t">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+
+</div>
+
+
+
+
+</div>
                         </div>
-                        <div className="col-lg-6 text-end">
-                            <img src="assets/img/home/freepik.png" alt="background-images" />
-                        </div>
+                        
 
                     </div>
 
@@ -992,6 +1087,68 @@ const Home = () => {
 
                 </div>
             </section>
+			
+			
+			<section className="why-us_section homepage-why-us hows-section Download-P">
+			<div className="container">
+			<div className="row align-center">
+			<div className="col-lg-5">
+			  <div className="vl about_v1">
+                                <h1 className="vl-heading left-align">Download our App</h1>
+                            </div>
+							<p className="text-bottom">In publishing and graphic design, Lorem ipsum is
+a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may
+be used as a placeholder before final copy
+is available.</p>
+<div class="row margintop-40">
+<div class="col-md-6 col-lg-6">
+<div class="scaner-code">
+<img src="assets/img/home/scaner.png"/>
+
+</div>
+</div>
+
+			
+			<div className="col-lg-6">
+			<div className="buttonsdownload">
+			<div className="apple download">
+			<a href=""><span class="icon-btn"><img src="assets/img/home/apple.png"/>
+</span> <span>Download on the<br></br>  <span class="bigtext">App Store</span></span></a>
+			</div>
+			<div className="Andoried download">
+				<a href=""><span class="icon-btn"><img src="assets/img/home/googled.png"/>
+</span><span>Get it on<br></br> <span class="bigtext">Google Play</span></span></a>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			<div class="col-md-6 col-lg-6">
+<div class="leftt-img">
+<img src="assets/img/home/Download-our-App 1.png"/>
+
+</div>
+</div>
+			</div>
+			
+			<div className="contact-section">
+			<div className="row align-center">
+                <div className="rel-pos row">
+			<div className="col-md-8">
+			<div className="vl about_v1">
+                                <h1 className="vl-heading left-align">We Are Here To Help!</h1>
+                            </div>
+							<p>Do you need assistance? Our dedicated support centre is purpose-built to support you.</p>
+			</div>
+			<div className="col-md-4">
+                <div className="btn-contact"><a href="/contact "className="skybtn">Contact</a></div>
+                <div className="btn-contact "><a href="/contact" className="appbtn">What’s App</a></div>
+            </div>
+			</div>
+			</div>
+			</div>
+            </div>
+			</section>
 
             {/* <section className="why-us_section homepage-why-us hows-section-light">
                 <div className="container">
@@ -1020,6 +1177,25 @@ const Home = () => {
                 </div>
             </section> */}
 
+{/*testtimonial section */ }
+<section className="why-us_section homepage-why-us hows-section1 test-P">
+<div className="container">
+<h1 class="head-new">Testimonial</h1>
+<div class="vl-content"><p class="vl-paragraph">Reference site about Lorem Ipsum, giving information on its origins, as well <br></br>as a random Lipsum generator.</p></div>
+<Scrollbar1/>
+    </div>
+
+</section>
+
+{/*testtimonial section */ }
+<section className="why-us_section homepage-why-us hows-section1 blogs-P">
+<div className="container">
+<h1 class="head-new">Blogs</h1>
+<div class="vl-content"><p class="vl-paragraph">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p></div>
+<Blogs/>
+    </div>
+
+</section>
 
 
 

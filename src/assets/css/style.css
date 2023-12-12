@@ -9,7 +9,7 @@
 # General
 --------------------------------------------------------------*/
 :root {
-  --font-family: 'poppins' !important;
+  --font-family: var(--font-SubHeding) !important;
   color: #0b0e2e;
 }
 
@@ -35,7 +35,7 @@ h4,
 h5,
 h6,
 .font-primary {
-  font-family: var(--font-family) !important;
+  font-family: var(--font-SubHeding) !important;
 }
 
 /*--------------------------------------------------------------
@@ -1498,9 +1498,9 @@ p.material-heading {
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
-  text-align: center;
+  text-align: left;
   margin-bottom: 0px;
-  min-height: 150px
+
 }
 
 img.testimonial-rating {
@@ -1583,7 +1583,14 @@ li.card.li_card {
   letter-spacing: 0.003em;
   color: #0b0e2e;
 }
-
+.testimonail {
+  background: #F3F2F8;
+  border-radius: 21.91px;
+  padding: 30px;
+}
+img.bloggim {
+  width: 100%;
+}
 .accordion-button:not(.collapsed) {
   font-family: var(--font-family) !important;
   font-style: normal;
@@ -1732,7 +1739,21 @@ img.serch_img {
   padding-top: 20px;
 
 }
+.blogheading {
+  margin-top: 20px;
+}
 
+.blogheading h3 {
+  color: #190079;
+  font-weight: bold;
+  font-size: 21px;
+}
+
+.bloginfo p {
+  color: #040A2E;
+  font-size: 15px;
+  margin-top: 5px;
+}
 div#align_list ul li {
   display: flex;
   float: left;
@@ -1740,7 +1761,32 @@ div#align_list ul li {
   align-content: center;
   width: 33.33%;
 }
+.col-md-6.flexx {
+  display: flex;
+  align-items: center;
+}
+.col-md-6.flexx {
+  display: flex;
+  align-items: center;
+}
 
+.date {
+  display: flex;
+  align-items: center;
+}
+
+.dattenum {
+  color: #190278;
+  font-size: 14px;
+  margin-left: 10px;
+  margin-top: 4px;
+}
+.dattenum {
+  color: #190278;
+  font-size: 14px;
+  margin-left: 10px;
+  margin-top: 4px;
+}
 div#align_list {
   margin: 0 auto;
   float: left;
@@ -1750,7 +1796,9 @@ div#align_list {
   align-items: center;
   align-content: center;
 }
-
+section.why-us_section.homepage-why-us.hows-section1.test-P {
+  padding-bottom: 60px !important;
+}
 .support-image img {
   align-items: center;
   display: flex;
@@ -7495,3 +7543,6 @@ ol {
 
 
 
+.testimonail .row {
+  align-items: center;
+}
