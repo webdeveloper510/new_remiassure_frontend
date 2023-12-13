@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -35,7 +35,22 @@ import { exchangeRate } from "../../utils/Api";
 
 
 const Header = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      // Set isScrolled to true if the scroll position is greater than a certain threshold
+      setIsScrolled(window.scrollY > 60); // Adjust the threshold as needed
+    };
+
+    // Attach the scroll event listener when the component mounts
+    window.addEventListener('scroll', handleScroll);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []); // Empty dependency array ensures that this effect runs only once on mount
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const mobilemenuShow = () => setShow(true);
@@ -55,7 +70,7 @@ const Header = () => {
 
   return (
     <>
-      <header id="header" style={{ paddingRight: "-17px" }} className="fixed-top d-flex align-items-center header-transparent">
+      <header id="header" style={{ paddingRight: "-17px" }} className={`fixed-top d-flex align-items-center header-transparent ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container d-flex justify-content-between align-items-center">
           <div className="logo">
             <h1 className="text-light">

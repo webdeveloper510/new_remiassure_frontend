@@ -14,6 +14,7 @@ import QRCode from "react-qr-code";
 import Scrollbar from '../countriesSlider/Scrollbar';
 import Scrollbar1 from '../scrollbar/Scrollbar';
 import Blogs from '../blogs/Blogs';
+import RemitAssure from "../WhyRemitAssure/RemitAssure";
 function HowRenderingArrayOfObjects() {
     const dataItems = [
         {
@@ -652,7 +653,11 @@ const Home = () => {
 
                     </div>
 
-                    <div className="partners-section">
+                  
+                </div>
+            </section>
+			<section>
+			  <div className="partners-section">
                     <div className="row">
                     <h1 className="vl-heading">Our Partners</h1>
                     <p>Reference site about Lorem Ipsum, giving as a random Lipsum generator.</p>
@@ -679,118 +684,12 @@ const Home = () => {
                    
                     </div>
                     </div>
-                </div>
-            </section>
+			</section>
 
 
             
-            <section className="why-us_section homepage-why-us">
-                <div className="container">
-                <h1 className="vl-heading">Why RemitAssure ?</h1>
-
-                <div className="vl-content">
-                                <p className="vl-paragraph">
-                                Reference site about Lorem Ipsum, giving information on its origins, as well <br></br>as a random Lipsum generator.
-                                </p>
-                            </div>
-                    <div className="row mb-3">
-                                <div className="custom-col5">
-                                 <div className="remit_keypoints light_box_bg">
-                                  <img src="assets/img/home/icons4.png" alt="background-icons" />
-                                  <h4>We're Secure</h4>
-                                  <p>We use industry-leading <br></br>technology to secure <br></br>your money.</p>
-                                 </div>
-                                </div>
-                                <div className="custom-col2 no-padding">
-                                <div className="remit_keypoints">
-                                  <img src="assets/img/home/icons1.png" alt="background-icons" />
-                                  <h4>We're Fast</h4>
-                                  <p>95% of our transfers<br></br> are completed in<br></br> minutes…</p>
-                                 </div>
-                                </div>
-                                <div className="custom-col5">
-                                <div className="remit_keypoints">
-                                    <h1>Know more in detail about <p>RemitAssure</p></h1>
-                                    <a href="#"><img src="assets/img/home/Union.png"/></a>
-                                    </div>
-                                </div>
-
-                    </div>
-
-                    <div className="row">
-                                <div className="custom-col5">
-                                 <div className="remit_keypoints dark_box_bg">
-
-                                 </div>
-                                </div>
-                                <div className="custom-col2 no-padding">
-                                <div className="remit_keypoints">
-                                  <img src="assets/img/home/icons2.png" alt="background-icons" />
-                                  <h4>We're Cost-effective</h4>
-                                  <p>Our rates are competitive <br></br>compared to banks and <br></br>other remittance services.</p>
-                                 </div>
-                                </div>
-                                <div className="custom-col5">
-                                <div className="remit_keypoints light_box_bg">
-                                  <img src="assets/img/home/icons3.png" alt="background-icons" />
-                                  <h4>We're Innovative</h4>
-                                  <p>We're committed to researching <br></br>new ideas and technology to <br></br>serve you better.</p>
-                                 </div>
-                                </div>
-
-                    </div>
-
-                    {/* <div className="Money_section">
-                        <div className="row">
-                            <div className="col-lg-6 ">
-                                <div className="row">
-                                    <div className="col-md-6 text-center">
-                                       
-                                        <img className="apps-image" src="assets/img/home/img03.svg" alt="background-images" />
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div className="col-lg-6 better_sections">
-
-                                <div className="fw-semibold text-light mt-4 display-4">
-                                    Download Our App
-                                </div>
-                                <div className="popular-content">
-                                    <h4 className="popular-paragraph01">Best App that will help you to Send Money.
-                                    </h4>
-
-                                </div>
-
-                                <div className="link my-0">
-                                    <div className="left_link">
-
-                                        <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target>
-                                            <img src="assets/img/home/images.jpg" alt="home_icons" className="home_icons rounded-2" />
-                                        </a>
-                                        <img src="assets/img/home/images1.png" alt="home_icons" className="home_icons rounded-2" />
-                                    </div>
-                                    <div className="rihjt_link">
-                                        <div style={{
-                                            height: "auto", margin: "0 auto", width: "40%", padding: '7px',
-                                            margin: "10px auto",
-                                            background: 'white',
-                                        }}>
-                                            < QRCode
-                                                size={256}
-                                                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                                                value={"https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"}
-                                                viewBox={`0 0 256 256`}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
-                </div>
-            </section >
+            <RemitAssure></RemitAssure>
+   
             {/* <section className="why-us section-bgba banner_section05" >
                 <div className="container">
                     <div className="row">
@@ -838,7 +737,7 @@ const Home = () => {
                     </div>
                 </div>
             </section> */}
-
+<section>
             <section className="why-us section-bgba banner_section01" >
                 <div className="container">
                     <div className="row">
@@ -861,7 +760,7 @@ const Home = () => {
                 </div>
                 <Scrollbar />
             </section >
-
+            </section >
 
             <section className="why-us section-bgba innre_about hows-work-section ">
                 <div id="about">
@@ -1199,9 +1098,9 @@ is available.</p>
 
 
 
-            <section className="why-us section-bgba banner_section01">
+            {/* <section className="why-us section-bgba banner_section01">
                 <div className="container">
-                    {/* main row End*/}
+                   
                     <div className="row">
                         <div className="col-lg-12">
                             <h3 className="cal-heading">We are here to help!</h3>
@@ -1220,6 +1119,7 @@ is available.</p>
                     </div>
                 </div>
             </section>
+        */}
 
 
 

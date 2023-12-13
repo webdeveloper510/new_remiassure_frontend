@@ -44,14 +44,17 @@ const Scrollbar = () => {
         image: "assets/img/referral/Group_star.png",
         paragraph: 'RemitAssure is an execellent platform to use. I was taken aback by the speed at which my transfer was completed. It certainly beat my expectation'
       }, {
+        author: "assets/img/home/image 96 (1).png",
         heading: "Best on the market",
         image: "assets/img/referral/Group_star2.png",
         paragraph: 'RemitAssures exchange rates are amazing, certainly the best I have seen. For such an efficient and user-friendly service, they are are certainly value for money'
       }, {
+        author: "assets/img/home/image 96 (1).png",
         heading: "Best on the market",
         image: "assets/img/referral/Group_star.png",
         paragraph: 'I have tried several money transfer services, but RemitAssure has won me over.Their platform is easy to navigate, making the entire process smooth and hassle- free.RemitAssure has become my go - to choice for sending money internationally.'
       }, {
+        author: "assets/img/home/image 96 (1).png",
         heading: "Best on the market",
         image: "assets/img/referral/Group_star1.png",
         paragraph: 'I especially love the rigour of this platform and its focus on security and fraud prevention. Once onbaorded, one feels like this is a platform to be trusted for secure money transfer'
@@ -84,13 +87,18 @@ const Scrollbar = () => {
           // ... your beforeChange logic
         }}
       >
-        {items?.map((item) => {
+        {items?.map((item, index) => {
           return (
-            <div class="testimonail">
+
+            <div
+            key={index}
+            className={`testimonail ${index % 2 === 0 ? 'even' : 'odd'}`}
+            testimonail  >
+          
 
                 <div class="image-container-text" draggable={false}>
 				<div className="row">
-                  <div className="col-md-4">
+                  <div className="col-md-4 img-con">
                   <img src={item.author} alt="quote-up" className="authrimg" />
                   </div>
                   <div className="col-md-8">

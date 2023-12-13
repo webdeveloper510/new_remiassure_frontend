@@ -154,17 +154,16 @@ const Footer = () => {
     return (
         <>
             {/* <!-- ======= Footer ======= --> */}
+			<div className="container">
             <footer id="footer">
-                <div className="footer-top">
-                    <div className="container">
+                <div className="footer-top1">
+                    
                         <div className="row">
 
-                            <div className="col-lg-1 col-md-6 footer-links">
-                                <img src="assets/img/home/footer-logo.svg" alt="imge_footer_icons" className="footer_icon" />
-                            </div>
+                        
 
 
-                            <div className="col-lg-2 col-md-6 footer-links">
+                            <div className="col-lg-3 col-md-3">
                                 <h4>Quick Links</h4>
 
                                 <ul>
@@ -176,7 +175,7 @@ const Footer = () => {
                                 </ul>
                             </div>
 
-                            <div className="col-lg-3 col-md-6 footer-links">
+                            <div className="col-lg-3 col-md-3">
                                 <h4>Company</h4>
                                 <ul>
                                     <li><NavLink to="/about-us">About Us</NavLink></li>
@@ -186,7 +185,7 @@ const Footer = () => {
                                 </ul>
                             </div>
 
-                            <div className="col-lg-3 col-md-6 footer-links">
+                            <div className="col-lg-3 col-md-3">
                                 <h4>Legal</h4>
                                 <ul>
                                     <li><NavLink to="/terms-and-condition">Terms And Conditions</NavLink></li>
@@ -196,43 +195,138 @@ const Footer = () => {
 
                             </div>
 
-                            <div className="col-lg-3 col-md-6 footer-info">
+                            <div className="col-lg-3 col-md-3">
 
-                                <h4>Contact Us</h4>
-                                <li className="suppot_footer">
-                                    <img src="assets/img/footer/email.svg" alt="emai_icons" className="email_icons" />
-                                    <p><a href="mailto:service@remitassure.com" className="text-white">crm@remitassure.com</a></p>
-                                </li>
-
-                                <li className="suppot_footer">
-                                    <img src="assets/img/footer/phone.svg" alt="phone_icons" className="phone_icons" />
-                                    <p>
-                                        <a href="tel:1300 284 228" className="text-white">
-                                            1300 284 228
-                                        </a>
-                                        &nbsp;(toll free)
-                                    </p>
-                                </li>
-                                <div className="social-links mt-3">
-                                    <a className="twitter" target="_blank" href="https://twitter.com/remitassure"><i className="bx bxl-twitter"></i></a>
-                                    <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><i className="bx bxl-facebook"></i></a>
-                                    <a className="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/"><i className="bx bxl-instagram"></i></a>
-                                    <a className="linkedin" target="_blank" href="https://www.linkedin.com/company/remitassure/"><i className="bx bxl-linkedin"></i></a>
-                                </div>
+                                <h4>Join our newsletter</h4>
+                              
+<div className="newsletterform">
+    <div className="form-ffoter">
+        <div class="input-news">
+        <input type="text" name="name"  placeholder="Email address"/>
+        </div>
+        <div class="button-new">
+        <div class="btn-con "><button><img src="assets/img/home/nextsli.png"/></button></div>
+        </div>
+    </div>
+    <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p>
+</div>
+                              
+                             
                             </div>
 
                         </div>
                     </div>
-                </div>
+              
 
-                <div className="container">
-                    <div className="row reserved_content">
-                        <div className="copyright">
-                            &copy; Copyright <strong><span>RemitAssure</span></strong>. All Rights Reserved
-                        </div>
-                    </div>
+              <div className="bottom-footer">
+			  <div className="row">
+                <div className="col-md-4">
+<div className="footer-info1">
+    <div className="icon-ffoter">
+    <img src="assets/img/home/footer1.png"  />
+
+      
+    </div>
+    <div className="infor-content">
+<a href="mailto:crm@remitassure.com">crm@remitassure.com</a>
+    </div>
+</div>
                 </div>
+                <div className="col-md-4">
+                  
+                    <div className="footer-info1 center-content">
+    <div className="icon-ffoter">
+    <img src="assets/img/home/footer2.png"  />
+
+      
+    </div>
+    <div className="infor-content">
+    <span>1300 284 228</span>
+    </div>
+                   
+
+                </div>
+				</div>
+                <div className="col-md-4">
+  <div className="footer-info1 right-content">
+    <div className="icon-ffoter">
+    <img src="assets/img/home/footer3.png"  />
+
+      
+    </div>
+    <div className="infor-content">
+    <span>1300 284 228 (toll free)</span>
+    </div>
+                   
+
+                </div>
+                </div>
+				</div>
+              </div>
+			  <div className="footer-divder">
+			<div className="borderdevider"></div>  
+			  </div>
+			  
+			  
+			     <div className="bottom-footer bottom-none">
+			  <div className="row">
+                <div className="col-md-4">
+<div className="footer-info1">
+    <div className="icon-ffoter">
+    <img src="assets/img/home/footer-logo.png"  />
+
+      
+    </div>
+   
+</div>
+                </div>
+                <div className="col-md-4">
+                  
+                    <div className="footer-info1 center-content">
+    <div className="icon-ffoter">
+  
+  <ul className="footer-bottom-links">
+                                    <li><NavLink to="/terms-and-condition">Terms </NavLink></li>
+                                   
+                                    <li> <NavLink to="/privacy-policy">Privacy</NavLink></li>
+									 <li> <NavLink to="/aml-policy">Cookies </NavLink></li>
+                                </ul>
+
+
+      
+    </div>
+    
+                   
+
+                </div>
+				</div>
+                <div className="col-md-4">
+  <div className="footer-info1 right-content">
+    <div className="icon-ffoter">
+     <div className="social-links ">
+                                    <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/facebook (2).png"  /></a>
+                                    <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook (1).png"  /></a>
+                                    
+                                    <a className="linkedin" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/home/facebook (3).png"  /></a>
+                                </div>
+
+      
+    </div>
+  
+                   
+
+                </div>
+                </div>
+				</div>
+              </div>
+			  
+			  
+			  
+                 
+              
+				
             </footer>
+			</div>
             {/* <!-- ======= End-footer ======= --> */}
         </>
     )

@@ -405,9 +405,9 @@ button.btn.btn.reset-button {
     background: #fff !important;
 }
 .partners-section {
-    margin-top: 130px;
+   
     text-align: center;
-    margin-bottom: 50px;
+   
 }
 
 .partners-section h1 {
@@ -588,6 +588,9 @@ h1.head-new {
     margin-bottom: 20px;
     text-align: center;
 }
+.scrolled {
+    background: #fff !important;
+}
 .hows-work-section .vl-paragraph {
     font-family: var(--font-Text) !important;
     font-size: 17px;
@@ -595,10 +598,9 @@ h1.head-new {
     font-weight: 400;
     margin-bottom: 50px;
     text-align: center;
-    padding-top:0px !important;
+   
 }
 .hows-work-section {
-    padding: 150px 0px;
     /*background-image:url('../img/home/howbg.png');*/
     background-repeat: no-repeat;
     background-position: center center;
@@ -1185,6 +1187,10 @@ button.pre-sli {
     backface-visibility: hidden;
     padding: 10px;
 }
+ul.list-sty {
+    padding-left: 0;
+    list-style: none;
+}
 .custom-button-group {
     text-align: center;
     margin-top: 50px;
@@ -1198,3 +1204,102 @@ button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right,butt
     padding: 15px;
     border-radius: 20px;
 }
+h3.sub-heading {
+    color: #190278;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 23px;
+    font-weight: 600;
+}
+
+
+
+
+
+body.aboutus-page,body.bg-image {
+    background-image:url('../img/home/page-bg.png'); 
+    background-size: 400px;
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+h1.about-heading {
+    font-size: 63px;
+    color: #190278;
+    line-height: 84px;
+    font-weight: bold;
+}
+h2.sec-title {
+    color: #190079;
+    font-size: 43px;
+    font-weight: 700;
+}
+.help-li.pinkbg {
+    background: #FD696C !important;
+}
+.help-li.pinkbg h3 a {
+   color: #fff !important;
+}
+
+.about_v1.headabout {
+    float: left;
+    margin-top: 60px;
+}
+span.grading-color {
+    background: linear-gradient(91.17deg, #190278 7.06%, #E15C6D 47.68%, #6515E9 87.74%);
+    background-clip: text;
+    color: transparent;
+}
+.vis {
+    display: flex;
+}
+.my-3.help-accordian.active.accordion-item .accordion-collapse.collapse {
+    display: block;
+    background: #efefef !important;
+}
+.my-3.help-accordian.active.accordion-item  p.icon-acc {
+    border-color: #fff;
+}
+.active.accordion-item .accordion-button {
+    background: #6414E9;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+}
+section.section-img
+{
+    background-size: contain;
+    background-image:url('../img/home/page-main-bg.png'); 
+    
+    background-repeat: no-repeat;
+    background-position: top right;   
+    background-position: top left;
+}
+
+p.icon-acc {
+    width: 12px;
+    height: 12px;
+    border: 2px solid #190079;
+    border-radius: 100px;
+    margin-right: 17px;
+}
+
+.accordion-button:not(.collapsed) p.icon-acc
+{
+    border-color: #fff;
+}
+
+
+
+
+
+    .accordion-button::after {
+        content: "";
+        width: 30px;
+        height: 30px;
+        background-image:url('../img/help/Union.png');
+        /* background-color: red; */
+        top: 18px;
+        right: 5px;
+        position: absolute;
+        display: inline-block;
+    }

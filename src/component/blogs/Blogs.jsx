@@ -115,6 +115,13 @@ const Blogs = () => {
     <p>{item.paragraph}</p>
 
 </div>
+<div className="Morelink">
+<a href="{item.link}">
+  MORE. <img src="assets/img/home/arrowmore.png">
+
+  </img>
+</a>
+</div>
                   
 				  </div>
                   {/* <img src="assets/img/home/quote-up.svg" alt="quote-up" className="quotup_icons" /> */}

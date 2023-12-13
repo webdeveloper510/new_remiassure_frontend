@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import AuthProtect from './auth/AuthProtect';
 import AuthDashProtect from './auth/AuthProtect';
@@ -33,20 +33,32 @@ import PayIdDetail from './component/Userdashboard/paymentDetails/PayIdDetail';
 import PayToDetail from './component/Userdashboard/paymentDetails/PayToDetail';
 import Layout from './component/layout/Layout';
 import NonDashLayout from './component/layout/NonDashLayout';
+const RouteWithBodyClass = ({ element, bodyClass }) => {
+  useEffect(() => {
+    document.body.className = bodyClass;
 
+    // Cleanup when the component is unmounted
+    return () => {
+      document.body.className = '';
+    };
+  }, [bodyClass]);
+
+  return element;
+};
 const routes = [
+  
   {
     path: '/',
     children: [
       { path: '/', element: <NonDashLayout><Home /></NonDashLayout> },
-      { path: 'about-us', element: <NonDashLayout> <Aboutus /></NonDashLayout> },
+      { path: 'about-us', element: <NonDashLayout><RouteWithBodyClass element={<Aboutus />} bodyClass="aboutus-page" /></NonDashLayout> },
       { path: 'working', element: <NonDashLayout><Working /> </NonDashLayout> },
       { path: 'news', element: <NonDashLayout><News /> </NonDashLayout> },
-      { path: 'privacy-policy', element: <NonDashLayout><Privacy /></NonDashLayout> },
-      { path: 'terms-and-condition', element: <NonDashLayout><T_c /> </NonDashLayout> },
+      { path: 'privacy-policy', element: <NonDashLayout><RouteWithBodyClass element={<Privacy />} bodyClass="bg-image" /></NonDashLayout> },
+      { path: 'terms-and-condition', element: <NonDashLayout> <T_c /> </NonDashLayout> },
       { path: 'apps', element: <NonDashLayout><Mobile /> </NonDashLayout> },
       { path: 'aml-policy', element: <NonDashLayout> <AML /> </NonDashLayout> },
-      { path: 'help', element: <NonDashLayout><Help /> </NonDashLayout> },
+      { path: 'help', element: <NonDashLayout><RouteWithBodyClass element={<Help />} bodyClass="bg-image" /></NonDashLayout> },
       { path: 'sign-up', element: <NonDashLayout><Signup /> </NonDashLayout> },
       { path: 'login', element: <NonDashLayout><Login /></NonDashLayout> },
       { path: 'forgot-password', element: <NonDashLayout><ForgotPassword /></NonDashLayout> },
