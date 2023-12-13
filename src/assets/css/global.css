@@ -673,7 +673,7 @@ h1.head-new {
     text-align: center;
     align-items: center;
     height: 100%;
-    display: flex;
+    margin-top: 81px;
     flex-direction: column;
     justify-content: center;
 }
