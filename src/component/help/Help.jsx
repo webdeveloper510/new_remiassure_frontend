@@ -236,7 +236,7 @@ const Help = () => {
         </div>
 		</div>
         </div>
-  </section>
+ 
   <section id="faq">
   <div className="container">
     <div className="row">
@@ -251,6 +251,34 @@ const Help = () => {
 	  </div>
     </div>
     </div>
+  </section>
+  </section>
+
+  <section className="contct-info">
+    <div className="container">
+    <div className="darkpink">
+      <div className="">
+      <div class="row align-center">
+
+<div class="col-md-8">
+
+<h2 className="sec-title">
+Can't Find Your Answers?
+      </h2>
+
+<p>We're here 24 hours a day, 7 days a week to support you.</p></div>
+<div class="col-md-4"><div class="btn-contact">
+<a href="/contact " class="skybtn">Contact</a></div>
+<div class="btn-contact "><a href="https://wa.me/1300284228"  class="appbtn">What’s App</a>
+</div>
+</div>
+
+</div>
+</div>
+      </div>
+
+    </div>
+
   </section>
 </div>
      

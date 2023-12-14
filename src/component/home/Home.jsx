@@ -15,6 +15,7 @@ import Scrollbar from '../countriesSlider/Scrollbar';
 import Scrollbar1 from '../scrollbar/Scrollbar';
 import Blogs from '../blogs/Blogs';
 import RemitAssure from "../WhyRemitAssure/RemitAssure";
+import Partners from "../Partners/Partners";
 function HowRenderingArrayOfObjects() {
     const dataItems = [
         {
@@ -438,7 +439,7 @@ const Home = () => {
 
     return (
         <>
-            <section className="top_sections">
+            <section className="top_sections desktop_only">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6 banner-content">
@@ -495,7 +496,39 @@ const Home = () => {
                    
                 </div>
             </section>
-
+  <section className="top_sections mobile-top mobile-only">
+  <div className="container">
+                    <div className="row">
+					 <div className="col-lg-6 banner-content">
+                           
+                                <h1 className="vl-heading">Simple Way <br></br>To <span>Transfer</span> Your <br></br>Money
+                                </h1>
+								
+								  <div className="vl-content">
+                                <p className="vl-paragraph">
+                                We have re-imagined international money transfer to provide reliable, efficient andcost effective services to our customers.
+                                </p>
+                            </div>
+							<div  className="row">
+							   <div className="col-lg-8 right_sections">
+                            <img src="assets/img/home/phone.png" alt="background-images" />
+                        </div>
+						<div className="col-md-4 libuttons">
+						<ul class="playstoreicon"><li><a href="#"><img src="assets/img/home/play.png"/></a></li><li><a href="#"><img src="assets/img/home/play1.png"/></a></li></ul>
+						</div>
+						</div>
+								</div>
+					</div>
+					</div>
+  </section>
+  <div className="get-started">
+<li>
+                                <a href="#" className="Get-start mobile-btn">
+                                    Get <b>Started</b> <img src="assets/img/home/Union.png"/>
+                                </a>
+</li>
+  </div>
+  
 
             <section class="payment-box" id="payment-box">
           
@@ -662,8 +695,9 @@ const Home = () => {
                     <h1 className="vl-heading">Our Partners</h1>
                     <p>Reference site about Lorem Ipsum, giving as a random Lipsum generator.</p>
                     
-                  
-                    <div className="col-md-2">
+                  <Partners></Partners>
+                  {/* 
+                   <div className="col-md-2">
                     <img src="assets/img/home/image1.png" alt="partner-images" />
                     </div>
                     <div className="col-md-2">
@@ -681,9 +715,11 @@ const Home = () => {
                     <div className="col-md-2">
                     <img src="assets/img/home/image5.png" alt="partner-images" />
                     </div>
+                   */}
+                    </div>
+                    
+                    </div>
                    
-                    </div>
-                    </div>
 			</section>
 
 

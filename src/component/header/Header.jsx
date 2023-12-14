@@ -118,7 +118,7 @@ const Header = () => {
             </ul>
           </nav>
           <nav  className="login-navbar">
-        <ul>
+        <ul className='mobile-hide'>
               <li>
                       <NavLink to="/sign-up" className="signactin">Sign <b>up</b></NavLink>
                     </li>
@@ -127,7 +127,9 @@ const Header = () => {
                     </li>
           </ul>
             </nav>
-          <RxHamburgerMenu onClick={mobilemenuShow} className="mobile-btn" />
+
+            <img src="assets/img/home/mobilemenu.png" onClick={mobilemenuShow} className="mobile-btn" />
+        
           <Offcanvas show={show} onHide={handleClose}>
             <Offcanvas.Header closeButton>
               <Offcanvas.Title> <div className="logo">

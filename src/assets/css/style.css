@@ -385,7 +385,13 @@ nav#navbar ul li ul li a:hover {
   .mobile-btn {
     display: block;
   }
-
+  .money-exchange-box:after
+  {
+    display: none;
+  }
+  ul.mobile-hide {
+    display: none !important;
+}
   .navbar ul {
     display: none;
   }
@@ -1957,7 +1963,8 @@ h1.vl-support {
 
 .card-signup p.already_content a {
   margin-left: 10px;
-  text-transform: capitalize;
+  
+  
   border-bottom: 1px solid;
   padding-bottom: 2px;
 }
@@ -1988,10 +1995,10 @@ h1.vl-support {
   font-family: var(--font-family) !important;
   font-style: normal;
   font-weight: 600;
-  font-size: 30px;
+  font-size: 50px;
   line-height: 25px;
-  text-align: center;
-  color: #6414E9;
+  text-align: left;
+  color: #190079;
   text-transform: capitalize;
 }
 
@@ -2014,11 +2021,11 @@ h1.vl-support {
   font-size: 14px;
   line-height: 15px;
   color: #191970;
-  padding-top: 30px;
+  padding-top: 20px;
 }
 
 .form_label {
-  padding-top: 15px;
+  padding-top: 10px;
 }
 
 .form_switch {
@@ -2044,9 +2051,9 @@ h1.vl-support {
 
 p.already_content {
   padding-top: 18px;
-  text-align: center;
+  text-align: left;
   font-size: 17px;
-  color: #191970;
+  color: rgba(166, 166, 168, 1);
   font-family: var(--font-family) !important;
 }
 
@@ -2055,7 +2062,9 @@ label.form-check-label {
 }
 
 p.already_content a {
-  color: #191970;
+  color: #6515E9;
+  font-weight:600;
+  margin-left: 10px;
 }
 
 /*--------------------------------------------------------------
@@ -4145,6 +4154,15 @@ img.quotup_icons {
 
 .top_sections {
   background-image: url(../img/home/top-banner.png);
+  background-repeat: no-repeat;
+  background-size: 92% 100%;
+    padding: 0px;
+    margin-top: 100px;
+    background-position: center;
+}
+.mobile-top
+{
+  background-image: url(../img/home/mobilefirst.png) !important;
   background-repeat: no-repeat;
   background-size: 92% 100%;
     padding: 0px;
@@ -6448,7 +6466,7 @@ span.fs-14 {
 span.pass_icons {
   float: right;
   margin-right: 30px;
-  margin-top: -25px;
+  margin-top: -32px;
   position: relative;
   z-index: 1;
 }
@@ -7249,7 +7267,19 @@ section.why-us.section-bgba.hows-it-section .vl-heading {
   #how-it-work .main-timeline4 {
     overflow: visible
   }
-
+  .mobile-only
+  {
+    display: block  !important;
+  }
+  
+  .custom-col5, .custom-col2.no-padding {
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 15px;
+}
+  .desktop_only
+  {display: none;}
   .position-absolute {
     position: unset !important;
   }
@@ -7877,3 +7907,4 @@ h3.title-help a {margin-top: 20px;color: #190278 !important;font-size: 21px;font
   height: 66px;
   margin: 0 auto;
 }
+
