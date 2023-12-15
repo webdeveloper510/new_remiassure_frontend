@@ -7935,7 +7935,7 @@ img.authrimg {
   font-weight: 700;
   line-height: 18px;
 }
-.footer-top1 ul li a,li.exchange-rate-link {
+.footer-top1 ul li a,li.exchange-rate-link,p.content-news {
   color: rgba(255, 255, 255, 0.5) !important;
   padding-top: 5px !important;
   width: 100%;
