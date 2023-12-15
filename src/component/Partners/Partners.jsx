@@ -79,12 +79,12 @@ const Partners = () => {
             <div class="partners">
 
                 <div class="image-container-text" draggable={false}>
-				<div className="row">
-                  <div className="col-md-12">
+			
+                  <div className="">
                     <div className="">
                         <img src={item.image} alt="quote-up" className="vs" /></div>
                   
-                  </div>
+              
              
 
 

@@ -547,7 +547,7 @@ section.why-us_section.homepage-why-us .vl-paragraph p {
     padding: 30px;
     border-top-left-radius: 86px;
     border-bottom-left-radius: 86px;
-    border: 1px solid #6515E9;
+    border: 1px solid #A595EB;
 }
 .flags-container:hover {
     border: 1px solid #A595EB;
@@ -559,7 +559,7 @@ section.why-us_section.homepage-why-us .vl-paragraph p {
 
 .flags-container label {
     font-family: var(--font-Text) !important;
-    font-size: 17px;
+    font-size: 14px;
     color: #fff;
     font-weight: 400;
     display: contents;
@@ -644,15 +644,33 @@ h1.head-new {
 }
 
 @media (min-width:768px) {
-    .timeline-steps:after{
-        content: "";
-    display: block;
-    border-top: 4px solid #190079;
-    position: absolute;
-    left: 12rem;
-    top: -62px;
-    width: 68%;
+
+       
+
+    .timeline-steps::after {
+        content:"";
+        margin: auto;
+        position: absolute;
+        border: navajowhite;
+        left: 0 !important;
+        right: 0 !important;
+        height: 36px;
+        background-repeat: no-repeat;
+        background: none !important;
+        border: 3.5px solid #190278;
+        width: 74% !important;
+        border-top-right-radius: 25px;
+        border-top-left-radius: 25px;
+        border-bottom: none !important;
+        top: -64px;
     }
+    
+.timeline-step:first-child .inner-circle1:before,.timeline-step:last-child .inner-circle1:before
+{
+    display: none;
+}
+    
+    
     /* .timeline-steps .timeline-step:not(:last-child):after {
         content: "";
         display: block;
@@ -1368,7 +1386,7 @@ p.icon-acc {
     
     .darkpink p {
         text-align: left;
-        color: #fff;
+        color: rgba(255, 255, 255, 0.6);
     }
 
     section#faq {
@@ -1610,4 +1628,21 @@ a.Get-start.mobile-btn:before {
     right: -13px;
     top: 12px;
     
+}
+.footer-top1.mobile-footer
+{
+    display: none;
+}
+
+.Download-P p {
+    text-align: left !IMPORTANT;
+}
+
+.padding-v {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.free-transaction {
+    display: flex;
 }

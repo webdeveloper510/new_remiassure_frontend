@@ -691,7 +691,7 @@ const Home = () => {
             </section>
 			<section>
 			  <div className="partners-section">
-                    <div className="row">
+                    <div className="">
                     <h1 className="vl-heading">Our Partners</h1>
                     <p>Reference site about Lorem Ipsum, giving as a random Lipsum generator.</p>
                     
@@ -880,8 +880,8 @@ const Home = () => {
                 <div className="container1">
 
                
-                    <div className="row custom-row-hows free-transaction">
-                    <div className="col-lg-7 text-end">
+                    <div className="  free-transaction">
+                    <div className="col-lg-7  col-sm-7 text-end">
                         <div className="images-1 images-1 col-md-10 marauto">
                             <div className="image1">
                             <img src="assets/img/home/free1.png" alt="background-images" />
@@ -902,8 +902,9 @@ Gateway
 </div>
 
                         </div>
+                        <div className="padding-v">
                         <div class="row">
-                            <div class="col-lg-8 margintop">
+                            <div class="col-lg-8 col-sm-8 margintop">
                             <div className="images-1 ">
                             <div className="image1">
                             <img src="assets/img/home/img2.png" alt="background-images" class="dd" />
@@ -929,7 +930,7 @@ Gateway
                         
                             </div>
 							
-							  <div class="col-lg-4 margintop">
+							  <div class="col-lg-4 col-sm-4 margintop">
                             <div className="images-1 ">
                             <div className="image1">
                             <img src="assets/img/home/img3.png" alt="background-images" class="dd" />
@@ -958,6 +959,7 @@ Gateway
                         
                             </div>
 
+                        </div>
                         </div>
                            
                         </div>
@@ -997,7 +999,7 @@ Gateway
 
                     </div>
 
-                    <div className="row custom-row-hows">
+                    <div className="">
                         {/* <div className="col-lg-6 text-start">
                             <img src="assets/img/footer/trans5.png" alt="background-images" />
                         </div>
@@ -1027,7 +1029,7 @@ Gateway
 			<section className="why-us_section homepage-why-us hows-section Download-P">
 			<div className="container">
 			<div className="row align-center">
-			<div className="col-lg-5">
+			<div className="col-md-6">
 			  <div className="vl about_v1">
                                 <h1 className="vl-heading left-align">Download our App</h1>
                             </div>
@@ -1036,7 +1038,7 @@ a placeholder text commonly used to demonstrate the visual form of a document or
 be used as a placeholder before final copy
 is available.</p>
 <div class="row margintop-40">
-<div class="col-md-6 col-lg-6">
+<div class="col-md-6 col-sm-6">
 <div class="scaner-code">
 <img src="assets/img/home/scaner.png"/>
 
@@ -1044,7 +1046,7 @@ is available.</p>
 </div>
 
 			
-			<div className="col-lg-6">
+			<div className="col-lg-6 col-sm-6">
 			<div className="buttonsdownload">
 			<div className="apple download">
 			<a href=""><span class="icon-btn"><img src="assets/img/home/apple.png"/>
