@@ -125,13 +125,22 @@ const Dashboard = () => {
                         <h2 class="text-black font-w600 mb-0"><b>Welcome, <span style={{ "color": "#6414e9" }}>{firstName}</span></b></h2>
                     </div>
                     {
-                        isVerified === "false" ? (
-                            <div>
+                        firstName == "" ? (
+                            < div >
                                 <Alert className="verify-alert" >
-                                    <img src={important} height={40} width={40} />  Your Account is not Digitally Verified. <span className="fw-bold" onClick={() => start()}>Click here</span> to Verify
+                                    <img src={important} height={40} width={40} />  Please Complete <span className="fw-bold" onClick={() => navigate("/user-profile")}>Your Profile</span> to start making Transactions.
                                 </Alert>
                             </div>
-                        ) : (<></>)
+                        )
+                            : isVerified === "false" ? (
+                                <div>
+                                    <Alert className="verify-alert" >
+                                        <img src={important} height={40} width={40} />  Your Account is not Digitally Verified. <span className="fw-bold" onClick={() => start()}>Click here</span> to Verify
+                                    </Alert>
+                                </div>
+                            ) : (
+                                <></>
+                            )
                     }
                     <div className="row g-3">
                         <div className="col-xl-4 col-lg-4 col-md-6 fullwidth">
@@ -221,151 +230,154 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {loading ? <>
-                <div className="loader-overly">
-                    <div className="loader" >
-                    </div>
-
-                </div>
-            </> : <></>}
-
-            {!loading ? (
-                <>
-                    <div className="row">
-
-                        <div class="col-xl-8">
-                            <div className="card">
-                                <div className="card-header d-block d-sm-flex border-0">
-                                    <div className="me-3">
-                                        <h4 className="fs-20 text-black">Latest Transactions</h4>
-                                    </div>
-                                </div>
-                                {transactionData?.length != 0 ? (
-                                    <div className="table-responsive">
-                                        <table className="table table-responsive-md card-table previous-transactions">
-                                            <thead>
-                                                <tr>
-                                                    <th>Date</th>
-                                                    <th>Recipient</th>
-                                                    <th>Amount</th>
-                                                    <th >Status</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                {
-                                                    transactionData?.map((res, index) => {
-                                                        return (
-                                                            <tr onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)} style={{ cursor: "pointer" }}>
-                                                                <td>
-                                                                    <h6 className="fs-16 text-black font-w400 mb-0">{modified_date(res?.date)}</h6>
-                                                                </td>
-                                                                <td>
-                                                                    <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res?.recipient_name ? res?.recipient_name : "N/A"}</span></h6>
-
-                                                                </td>
-                                                                <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res?.send_currency} </span> {commaSeperator(res?.amount)}</span></td>
-                                                                <td>
-                                                                    {
-                                                                        res?.payment_status === "cancelled" || res?.payment_status === "Cancelled" ? (
-                                                                            <span className="text-danger fs-16 font-w500 d-block"> <span className="btn btn-outline-danger btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)}>{res?.payment_status}</span></span>
-
-                                                                        ) : (
-                                                                            <span className="text-success fs-16 font-w500 d-block"> <span className="btn btn-outline-success btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)}>{res?.payment_status}</span></span>
-                                                                        )
-                                                                    }
-
-                                                                </td>
-                                                            </tr>
-                                                        )
-                                                    })}
-
-                                            </tbody>
-
-                                        </table>
-                                    </div>
-                                ) : (
-                                    <div className="table-responsive">
-                                        <table className="table table-responsive-md card-table previous-transactions">
-                                            <thead>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                )
-                                }
-                            </div>
-                        </div>
-                        <div class="col-xl-4">
-                            <div className="card">
-                                <div className="card-header d-block d-sm-flex border-0">
-                                    <div className="me-3">
-                                        <h4 className="fs-20 text-black">Recent Recipients</h4>
-                                    </div>
-                                </div>
-
-                                {recipientData?.length > 0 ? (
-                                    <div className="table-responsive">
-                                        <table className="table table-responsive-md card-table previous-transactions">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Destination</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                {
-                                                    recipientData?.map((res, index) => {
-                                                        return (
-
-                                                            <tr key={res.id}>
-                                                                <td>
-                                                                    <div class="me-auto">
-                                                                        <h6 class="fs-16 font-w600 mb-0">{res?.first_name}&nbsp;{res?.last_name}</h6>
-                                                                        <span class="fs-12">{res?.date}</span>
-                                                                    </div>
-                                                                </td>
-
-                                                                <td>
-
-                                                                    {res?.country}
-
-                                                                </td>
-                                                            </tr>
-
-                                                        )
-                                                    })}
-
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                ) : (
-                                    <div className="table-responsive">
-                                        <table className="table table-responsive-md card-table previous-transactions">
-                                            <thead>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                )
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </>
-
-            ) : (
-                <>
+            {
+                loading ? <>
                     <div className="loader-overly">
                         <div className="loader" >
                         </div>
+
                     </div>
-                </>
-            )
+                </> : <></>
+            }
+
+            {
+                !loading ? (
+                    <>
+                        <div className="row">
+
+                            <div class="col-xl-8">
+                                <div className="card">
+                                    <div className="card-header d-block d-sm-flex border-0">
+                                        <div className="me-3">
+                                            <h4 className="fs-20 text-black">Latest Transactions</h4>
+                                        </div>
+                                    </div>
+                                    {transactionData?.length != 0 ? (
+                                        <div className="table-responsive">
+                                            <table className="table table-responsive-md card-table previous-transactions">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Recipient</th>
+                                                        <th>Amount</th>
+                                                        <th >Status</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    {
+                                                        transactionData?.map((res, index) => {
+                                                            return (
+                                                                <tr onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)} style={{ cursor: "pointer" }}>
+                                                                    <td>
+                                                                        <h6 className="fs-16 text-black font-w400 mb-0">{modified_date(res?.date)}</h6>
+                                                                    </td>
+                                                                    <td>
+                                                                        <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res?.recipient_name ? res?.recipient_name : "N/A"}</span></h6>
+
+                                                                    </td>
+                                                                    <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res?.send_currency} </span> {commaSeperator(res?.amount)}</span></td>
+                                                                    <td>
+                                                                        {
+                                                                            res?.payment_status === "cancelled" || res?.payment_status === "Cancelled" ? (
+                                                                                <span className="text-danger fs-16 font-w500 d-block"> <span className="btn btn-outline-danger btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)}>{res?.payment_status}</span></span>
+
+                                                                            ) : (
+                                                                                <span className="text-success fs-16 font-w500 d-block"> <span className="btn btn-outline-success btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)}>{res?.payment_status}</span></span>
+                                                                            )
+                                                                        }
+
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        })}
+
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    ) : (
+                                        <div className="table-responsive">
+                                            <table className="table table-responsive-md card-table previous-transactions">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div className="card">
+                                    <div className="card-header d-block d-sm-flex border-0">
+                                        <div className="me-3">
+                                            <h4 className="fs-20 text-black">Recent Recipients</h4>
+                                        </div>
+                                    </div>
+
+                                    {recipientData?.length > 0 ? (
+                                        <div className="table-responsive">
+                                            <table className="table table-responsive-md card-table previous-transactions">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Destination</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    {
+                                                        recipientData?.map((res, index) => {
+                                                            return (
+
+                                                                <tr key={res.id}>
+                                                                    <td>
+                                                                        <div class="me-auto">
+                                                                            <h6 class="fs-16 font-w600 mb-0">{res?.first_name}&nbsp;{res?.last_name}</h6>
+                                                                            <span class="fs-12">{res?.date}</span>
+                                                                        </div>
+                                                                    </td>
+
+                                                                    <td>
+
+                                                                        {res?.country}
+
+                                                                    </td>
+                                                                </tr>
+
+                                                            )
+                                                        })}
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    ) : (
+                                        <div className="table-responsive">
+                                            <table className="table table-responsive-md card-table previous-transactions">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </>
+
+                ) : (
+                    <>
+                        <div className="loader-overly">
+                            <div className="loader" >
+                            </div>
+                        </div>
+                    </>
+                )
             }
             < Modal show={verification} backdrop="static" onHide={() => setVerification(false)} centered >
                 <Modal.Header closeButton >
@@ -381,8 +393,9 @@ const Dashboard = () => {
                         <div className="loader" >
                         </div>
                     </div>
-                </> : ""}
-        </section>
+                </> : ""
+            }
+        </section >
     )
 }
 
@@ -409,7 +422,6 @@ const VerificationModal = ({ handler, toggleLoader }) => {
                                     getVeriffStatus({ session_id: response.verification.id }).then(res => {
                                         handler()
                                         if (res.code === "200") {
-                                            clearInterval(interval)
                                             if (res?.data?.verification?.status === "approved") {
                                                 toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
                                                 let user = JSON.parse(localStorage.getItem("remi-user-dt"));
@@ -418,6 +430,7 @@ const VerificationModal = ({ handler, toggleLoader }) => {
                                             } else if (res?.data?.verification?.status === "declined") {
                                                 toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
                                             }
+                                            clearInterval(interval)
 
                                         }
                                     })

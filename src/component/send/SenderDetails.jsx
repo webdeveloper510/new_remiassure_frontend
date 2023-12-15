@@ -23,7 +23,7 @@ const SenderDetails = ({ handleStep, step }) => {
   const [state_list, setStateList] = useState([])
   const [loader, setLoader] = useState(false)
   const [postal_list, setPostalList] = useState([])
-  const [isVerified, setIsVerified] = useState(false)
+  const [isVerified, setIsVerified] = useState(userd?.digital_id_verified || "false")
   const [start_verify, setStartVerify] = useState(false)
   const { digital_id_verified } = JSON.parse(localStorage.getItem("remi-user-dt"))
   const countryOptions = useMemo(() => birthCountryList().getData(), [])
@@ -735,12 +735,8 @@ const SenderDetails = ({ handleStep, step }) => {
             <button className="start-form-button full-col" onClick={() => handleClear()}> Cancel </button>
           </div>
           < div className="col-md-8 new_buttons" >
-            {isVerified === false ? (
-              // <>
-              //   <div className='digital_verification full-col' style={{ display: `${display == "none" ? "none" : "block"}` }}>
-              //     <div id='veriff-root'></div>
-              //   </div>
-              // </>
+            <button type="button" className="form-button" onClick={() => { handlePrevious() }}>Previous</button>
+            {isVerified === "false" ? (
               <>
                 <button type='button' className="form-button full-col" disabled={display === "none" ? true : false} style={display === "none" ? { cursor: "not-allowed" } : { cursor: "pointer" }} onClick={() => setStartVerify(true)}> Get Verified </button>
               </>

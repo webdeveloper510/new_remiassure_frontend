@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import clsx from 'clsx'
 import { createAgreement, createPayId, createTransaction, getAgreementList, updateAgreement } from '../../utils/Api'
 import { Line } from 'rc-progress'
+import { PayIDInst, PayToInst } from '../modals/beforeInstructions'
 
 const PaymentDetails = ({ handleStep, step }) => {
 
@@ -23,6 +24,8 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [error_modal, setErrorModal] = useState(false)
   const [other_reason, setOtherReason] = useState("")
   const [error_other, setErrorOther] = useState(false)
+  const [showIDinst, setShowIDinst] = useState(false)
+  const [showToinst, setShowToinst] = useState(false)
 
   const reason_list = ["Family Support", "Education", "Tax Payment", "Loan Payment", "Travel Payment", "Utility Payment", "Personal Use", "Other"]
 
@@ -130,7 +133,7 @@ const PaymentDetails = ({ handleStep, step }) => {
             <h5>Payment type</h5>
             <div className="col-md-12">
               <label className="container-new">
-                <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={24} /></span>
+                <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={24} /> (click here to <a onClick={() => setShowToinst(true)}>learn more...</a>)</span>
                 <input
                   className="form-check-input"
                   type="radio"
@@ -144,7 +147,7 @@ const PaymentDetails = ({ handleStep, step }) => {
             </div>
             <div className="col-md-12">
               <label className="container-new">
-                <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /></span>
+                <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /> (click here to <a onClick={() => setShowIDinst(true)}>learn more...</a>)</span>
                 <input
                   className="form-check-input"
                   type="radio"
@@ -156,20 +159,6 @@ const PaymentDetails = ({ handleStep, step }) => {
                 <span className="checkmark"></span>
               </label>
             </div>
-            {/* <div className="col-md-12">
-              <label className="container-new">
-                <span className="radio-tick">Debit/Credit Card</span>
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="payment_type"
-                  defaultChecked={data.payment_type == "Debit/Credit Card"}
-                  value="Debit/Credit Card"
-                  onChange={handleChange}
-                />
-                <span className="checkmark"></span>
-              </label>
-            </div> */}
             <div className={`row each-row ${data.reason === "Other" ? "" : "mb-3"}`}>
               <div className="col-md-5">
                 <div className="input_field">
@@ -267,6 +256,9 @@ const PaymentDetails = ({ handleStep, step }) => {
       <PayIDModal modal={pay_id_modal.toggle} handler={(value) => { setPayIdModal(value) }} data={pay_id_modal} method={data.payment_type} handleStep={handleStep} step={step} />
 
       <ErrorModal show={error_modal} handleStep={handleStep} step={step} handler={(value) => setErrorModal(value)} />
+
+      <PayIDInst show={showIDinst} handler={() => { setShowIDinst(false) }} />
+      <PayToInst show={showToinst} handler={() => { setShowToinst(false) }} />
 
     </>
   )
@@ -497,6 +489,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step, authModal }) => 
                   }
                 })
               } else if (res.code === "400") {
+
                 toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
               }
               else {
@@ -566,14 +559,11 @@ const PayToModal = ({ modal, method, handler, handleStep, step, authModal }) => 
               localStorage.setItem("transfer_data", JSON.stringify(local))
               toast.success(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
               getAgreementList().then(res => {
-
-                if (res.data.status.toLowerCase() === "active") {
-                  if (localStorage.getItem("send-step")) {
-                    localStorage.removeItem("send-step")
-                  }
-                  localStorage.setItem("send-step", Number(step) + 1)
-                  handleStep(Number(step) + 1)
+                if (localStorage.getItem("send-step")) {
+                  localStorage.removeItem("send-step")
                 }
+                localStorage.setItem("send-step", Number(step) + 1)
+                handleStep(Number(step) + 1)
               })
             } else if (res.code === "400") {
               setLoader(false)
