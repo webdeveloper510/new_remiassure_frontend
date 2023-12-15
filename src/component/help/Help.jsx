@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import Img from "react-image";
 import Accordion from 'react-bootstrap/Accordion';
 import { Link, NavLink } from "react-router-dom";
@@ -20,6 +21,7 @@ const Help = () => {
       return "/login"
     }
   }
+  
   // start objects RenderingArrayOfObjects
   function RenderingArrayOfObjects() {
     const data = [
@@ -27,7 +29,8 @@ const Help = () => {
         id: 1,
         name: "How it works",
         src: "assets/img/help/icon01.svg",
-        link: "/working"
+        link: "/working",
+        icon: ""
       },
 
       {
@@ -73,7 +76,15 @@ const Help = () => {
   // start objects RenderingArrayOfObjects
 
   // start Accordion functionality section 
+
+ 
+  
   function AccordionArrayOfObjects() {
+    const [activeIndex, setActiveIndex] = useState(0); // Set initial state to 0
+  
+    const handleAccordionToggle = (index) => {
+      setActiveIndex(activeIndex === index ? null : index);
+    }
     const dataarray = [
       {
         id: 1,
@@ -159,8 +170,10 @@ const Help = () => {
     ];
     const accordionItems = dataarray.map((value, index) => {
       return (
-        <Accordion.Item eventKey={index} className="my-3 help-accordian">
-          <Accordion.Header>{value.title}</Accordion.Header>
+        <Accordion.Item eventKey={index} className={`my-3 help-accordian ${activeIndex === index ? 'active' : ''}`}>
+         
+         <Accordion.Header onClick={() => handleAccordionToggle(index)}> <p className="icon-acc"></p> {value.title}</Accordion.Header>
+        
           <Accordion.Body>
             {value.content}
           </Accordion.Body>
@@ -188,120 +201,91 @@ const Help = () => {
 
   return (
     <>
-
-      {/* <!-- ======= help Remitassure Support-Section  start======= --> */}
-      <section className="why-us section-bgba help_banner">
-        <div className="container">
-
-          <div className="support_image help_support">
-            <img src="assets/img/help/suport.svg" alt="support_images" />
-          </div>
-
-
-          {/* start-- card */}
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="card card-support">
-                <div className="card-body">
-                  <h5 className="Support-heading">Remitassure Support Center</h5>
-                  {/* <p className="Support-paragraph">Hi, How can we help you?</p>
-
-                  <div className="search-div">
-                    <input type="text" className="search_input" />
-                  <img src="assets/img/help/search.svg" alt="serch_img" className="serch_img" />
-                                    <span className="serch_content"> {input_content}</span> 
-                  </div> */}
-
-                  <div className="row justify-content-center w-100 mx-auto my-4 py-4">
-                    <div className="col-md-3 col-lg-3 mt-2">
-                      <NavLink to={`/working`} style={{ color: "#0b0e2e" }}>
-                        <div className="d-flex justify-content-start align-items-center">
-                          <div className="support-image">
-                            <img src={"assets/img/help/icon01.svg"} alt="can't show image" />
-                          </div>
-                          <div className="circle-content">
-                            <p style={{ color: "#0b0e2e" }}>How it works</p>
-                          </div>
-                        </div>
-                      </NavLink>
-                    </div>
-                    <div className="col-md-3 col-lg-3 mt-2">
-                      <a href="#faq">
-                        <div className="d-flex justify-content-start align-items-center">
-                          <div className="support-image">
-                            <img src={"assets/img/help/Shape.svg"} alt="can't show image" />
-                          </div>
-                          <div className="circle-content">
-                            <p style={{ color: "#0b0e2e" }}>FAQ's</p>
-                          </div>
-                        </div>
-                      </a>
-                    </div >
-                    <div className="col-md-3 col-lg-3 mt-2">
-                      <NavLink to={linking()} style={{ color: "#0b0e2e" }}>
-                        <div className="d-flex justify-content-start align-items-center">
-                          <div className="support-image">
-                            <img src={"assets/img/help/contact01.svg"} alt="can't show image" />
-                          </div>
-                          <div className="circle-content">
-                            <p style={{ color: "#0b0e2e" }}>My Account</p>
-                          </div>
-                        </div>
-                      </NavLink>
-                    </div >
+<div className="site-content">
+<section className="section-img">
+<div className="container">
+       
+       <div className="row">
+        
+       <div className=" headabout">
+                           <h1 className="about-heading"><span className="grading-color">RemitAssure</span><br></br>Support Center</h1>
+                           
+						   </div>
+               <div className="help-content-bottom">
+                <div className="row">
+                  <div className="col-md-4 col-sm-4">
+                  <div className="help-li">
+<img src="assets/img/help/icon1.svg" className="vission_image" alt="alt_image"/>
+<h3 className="title-help"><NavLink to={`/working`} >How it works</NavLink></h3>
+</div>
                   </div>
-
+                 <div className="col-md-4 col-sm-4">
+                              <div className="help-li pinkbg">
+<img src="assets/img/help/icon01.svg" className="vission_image" alt="alt_image"/>
+<h3 className="title-help"> <a href="#faq">FAQ’s</a></h3>
+</div> 
+                    </div>
+                    <div className="col-md-4 col-sm-4">
+                              <div className="help-li">
+<img src="assets/img/help/layer1.svg" className="vission_image" alt="alt_image"/>
+<h3 className="title-help"> <NavLink to={`/working`} >My Account </NavLink></h3>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          {/* End-- card */}
 
-
-
+               </div>
         </div>
-      </section >
+		</div>
+        </div>
+ 
+  <section id="faq">
+  <div className="container">
+    <div className="row">
+      <h2 className="sec-title">
+      Frequently asked questions
+      </h2>
+      <p className="title-con">Reference site about Lorem Ipsum, giving as a random Lipsum generator.</p>
+	  <div className="accrodions_contents">
+	  <div className="accrodion_contents">
+                <AccordionArrayOfObjects />
+              </div>
+	  </div>
+    </div>
+    </div>
+  </section>
+  </section>
+
+  <section className="contct-info">
+    <div className="container">
+    <div className="darkpink">
+      <div className="">
+      <div class="row align-center">
+
+<div class="col-md-8">
+
+<h2 className="sec-title">
+Can't Find Your Answers?
+      </h2>
+
+<p>We're here 24 hours a day, 7 days a week to support you.</p></div>
+<div class="col-md-4"><div class="btn-contact">
+<a href="/contact " class="skybtn">Contact</a></div>
+<div class="btn-contact "><a href="https://wa.me/1300284228"  class="appbtn">What’s App</a>
+</div>
+</div>
+
+</div>
+</div>
+      </div>
+
+    </div>
+
+  </section>
+</div>
+     
       {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
 
       {/* <!-- ======= Frequently asked questions FAQs  start======= --> */}
-      <section id="faq" className="why-us section-bgba">
-        <div className="container my-5">
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="support-vl02">
-                <h1 className="vl-support" >Frequently asked questions FAQs</h1>
-              </div>
-              <div className="accrodion_contents">
-                <AccordionArrayOfObjects />
-              </div>
-            </div>
-
-            <div className="col-lg-6">
-              <div className="help_image" >
-                <img src="assets/img/help/help_img01.svg" alt="help_img01" />
-              </div>
-            </div>
-          </div>
-
-          <div className="row" id="support-centre">
-            <div className="col-lg-12 mt-5">
-              <h3 className="answer-heading">Can't find your answers?</h3>
-              <p className="answer-paragraph">We're here 24 hours a day, 7 days a week to support you.</p>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="view-button">
-                <a href="tel:1300284228">
-                  <button className="btn btn call_button">Contact Us</button>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </section>
+     
       {/* <!-- ======= Help Frequently asked questions FAQs End-Section ======= --> */}
 
 

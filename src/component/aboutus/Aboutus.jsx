@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Scrollbar from '../scrollbar/Scrollbar';
-
+import RemitAssure from "../WhyRemitAssure/RemitAssure";
+import Scrollbar1 from '../scrollbar/Scrollbar';
 
 // card carousel start
 const Card = (props) => {
@@ -33,22 +34,22 @@ const Aboutus = () => {
       const vissionData = [
          {
             id: 1,
-            vission_src: "assets/img/about/1st_icons.svg",
+            vission_src: "assets/img/about/icon1 (1).png",
             vission_content: "Our essence is to serve our customers. We are committed to going above and beyond in our quest to ensure the satisfaction of our customers.",
          },
          {
             id: 2,
-            vission_src: "assets/img/about/02nd_icons.svg",
+            vission_src: "assets/img/about/icon1 (4).png",
             vission_content: "RemitAssure offers customers secure, efficient and cost-effective remittance services.",
          },
          {
             id: 3,
-            vission_src: "assets/img/about/03thired_icons.svg",
+            vission_src: "assets/img/about/icon1 (3).png",
             vission_content: "We offer very competitive foreign exchange rates due to our lean business model.",
          },
          {
             id: 4,
-            vission_src: "assets/img/about/04four_icons.svg",
+            vission_src: "assets/img/about/icon1 (2).png",
             vission_content: "Through our digital channels we are able to serve customers irrespective of their location, 24 hours a day, 7 days a week (24/7).",
          },
 
@@ -57,13 +58,15 @@ const Aboutus = () => {
       const VissionItems = vissionData.map((vission) => {
          return (
             <li key={vission.id}>
+                 <div className="li-vision">
                <img src={vission.vission_src} className="vission_image" alt="alt_image" />
                <p className="vission_content">{vission.vission_content}</p>
+               </div>
             </li>
          )
       })
       return (
-         <div>
+         <div className="vis">
             {VissionItems}
          </div>
       )
@@ -103,6 +106,7 @@ const Aboutus = () => {
          return (
 
             <li key={icon.id}>
+               <div className="li-22">
                <div className="circle-icons">
                   <img src={icon.icon_src} alt="circle-image" />
                </div>
@@ -110,7 +114,7 @@ const Aboutus = () => {
                   <p className="why_text">{icon.icon_title}</p>
                   <p className="why_texto1">{icon.icon_content}</p>
                </div>
-
+</div>
             </li>
 
          )
@@ -182,126 +186,57 @@ const Aboutus = () => {
 
    return (
       <>
-
+<div className="site-content">
          {/* <!-- ======= AboutUs Our vission and mission-Section  start======= --> */}
-         <section className="why-us section-bgba banner_section about_banner innre_about">
-            <div id="about">
+         <section className="top_sections1">
+       
                <div className="container">
-                  <div className="row custom-height">
-                     <div className="col-sm-8">
-                        <div className="vl about_v1 head-neww">
-                           <h1 className="vl-heading">About Us</h1>
+       
+                  <div className="row">
+                     <div className="col-md-7">
+                        <div className=" headabout">
+                           <h1 className="about-heading">About <br></br><span className="grading-color">RemitAssure</span></h1>
                            <div className="vl-content about_content">
                               {/* <p className="our_vission">Our vission and mission statement will go here</p> */}
-                              <br />
+                            
                               <p className="our_vission01">RemitAssure is an innovative Fintech that offers disruptive digital peer-to-peer (P2P) remittance services across the globe.</p>
                               <p className="our_vission01">Underpinning our Services is our industry leading remittance platform purpose-built to offer robust and scalable digital payment solutions to our clients.</p>
                               <p className="our_vission01">Leveraging digital technology and emerging service-sharing models, we offer international remittances at very competitive rates. Our lean business structure and exchanging rate hedging know-how affords us marginal cost savings that we happily pass through to customers.</p>
                            </div>
                         </div>
                      </div>
-                     <div className="col-sm-4 right_side">
-                        <img src="assets/img/about/right_about.svg" />
-                     </div>
+                   
                   </div>
-                  <div className="bottpm_banner">
+           
+                  
+               </div>
+      
+         </section>
+		 <section>
+		   <div className="container">
+		 <div className="bottpm_banner">
                      <div className="row">
                         <ul className="About_why-content">
                            <OurVissionArrayObjects />
                         </ul>
                      </div>
                   </div>
-               </div>
-            </div>
-         </section>
-         {/* <!-- ======= AboutUs Our vission and mission-Section  End======= --> */}
+				  </div>
+		 </section>
+             {/* <!-- ======= why remitsure*/}
+       <RemitAssure></RemitAssure>
+   
+       <section className="why-us_section homepage-why-us hows-section1 test-P aos-animate" data-aos="fade-up" date-aos-delay="200" >
+<div className="container">
+<h1 class="head-new">Testimonial</h1>
+<div class="vl-content"><p class="vl-paragraph">Reference site about Lorem Ipsum, giving information on its origins, as well <br></br>as a random Lipsum generator.</p></div>
+<Scrollbar1/>
+    </div>
 
-         {/* <!-- ======= AboUs Why RemitAssure-Section  start======= --> */}
-         <section className="why-us section-bgba aos-init aos-animate">
-            <div className="container">
-
-               <div className="row">
-                  <div className="col-sm-12">
-                     <div className="vl about_v1 about_vl about_v1">
-                        <h1 className="vl-heading">Why RemitAssure ?</h1>
-                        <div className="about_why_heading">
-                           <p>Our essence is to offer exceptional remittance services to our customers</p>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-
-               <div className="row">
-                  <div className="col-md-12 col-lg-12 secure_content">
-                     <ul className="about_why-ramit-assure page_about-sec">
-                        < WhyIconsRenderingArrayOfObjects />
-                     </ul>
-                  </div>
-               </div>
-
-            </div>
-         </section>
-         {/* <!-- ======= AboUs Why RemitAssure-Section  End======= --> */}
-
-         {/* <!-- ======= Testimonial-Section  start======= --> */}
-         <section className="why-us section-bgba why_banner aos-init aos-animate" data-aos="fade-up" date-aos-delay="200">
-            <div className="container">
-
-               {/* main row  start*/}
-               <div className="row">
-
-                  <div className="testimonial_vl">
-                     <h1 className="chose-heading">What customers say <span className="close-heading_aboutus">about us</span></h1>
-
-
-
-                     {/* <div className="button_icons_referral">
-                        <button className="btn btn prev left_icon" onClick={() => setMoveClass('prev')}>
-                        <i className="bx bx-chevron-left prev_button"></i>
-                        </button>
-
-                        <button className="btn btn next right_icon" onClick={() => setMoveClass('next')} >
-                        <i className="bx bx-chevron-right "></i>
-                        </button>
-                      
-                    </div> */}
-                  </div>
-               </div>
-
-               <div className="row">
-                  <div className="col-lg-12">
-                     <p className="review_content">We do our best to provide you the best experience ever
-                     </p>
-                  </div>
-               </div>
-
-               {/* carousel start  */}
-               <div className="row">
-                  <div className="col-lg-12">
-
-                     <Scrollbar />
-
-                     {/* <div className="carouselwrapper module-wrapper">
-              
+</section>
       
-                        <ul onAnimationEnd={handleAnimationEnd} className={`${moveClass} carousel`}>
-                            {carouselItems.map((items, index) => 
-                            <Card key={items.paragraph + index} heading={items.heading} paragraph={items.paragraph} />
-                            
-                            
-                            )}
-                        </ul>
-                        </div>      */}
-                  </div>
 
-               </div>
-               {/* carousel End  */}
-
-
-               {/* main row  End*/}
-
-            </div>
-         </section>
+       
          {/* <!-- ======= Home Testimonial-Section End ======= --> */}
 
 
@@ -310,7 +245,7 @@ const Aboutus = () => {
 
 
 
-
+         </div>
       </>
    )
 }

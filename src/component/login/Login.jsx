@@ -103,22 +103,37 @@ const Login = () => {
 
     return (
         <>
-            <section className="why-us section-bgba login_banner">
-                <div className="container">
+     <section className="sigupsec">
+           
                     <div className="row">
 
                         <div className="col-lg-12">
                             {/* start-- card */}
                             <div className="row">
-                                <div className="col-lg-12">
-                                    <div className="card card-login">
-                                        <div className="card-body login-card-body">
-                                            <h5 className="login-heading">Login</h5>
+                            <div className="col-lg-6">
+                                    <div className="sign-image-sec">
+                                <img src="assets/img/home/signup.png" className="signup" alt="alt_image"/>
+                                <div className="inner-image-sig">
+                                <img src="assets/img/home/signup2.png" className="upper-image" alt="alt_image"/>
+                                </div>
+                                </div>
+                                </div>
+								
+								
+								    <div className="col-lg-6">
+                                    <div className="row">
+                                        <div className="col-lg-12">
+                                            <div className="card1 card-signup1">
+                                                <div className="card-body">
+                                                    <h2 className="Sign-heading">Sign in</h2>
+                             
 
                                             <div className="form_login">
+                                                <p className="space-div"></p>
                                                 <form onSubmit={formik.handleSubmit} noValidate>
-                                                    <Form.Group className="mb-3 form_label">
+                                                    <Form.Group className="mb-2 form_label">
                                                         <Form.Label>Email/Mobile Number<span style={{ color: 'red' }} >*</span></Form.Label>
+														<div className="email-phone">
                                                         <div className="row">
                                                             {
                                                                 isMobile ? (
@@ -148,9 +163,11 @@ const Login = () => {
                                                                 />
                                                             </div>
                                                         </div>
+														</div>
                                                     </Form.Group>
                                                     <div className="row">
-                                                        <Form.Group className="mb-3 form_label">
+													<div className="pass-row">
+                                                        <Form.Group className="mb-2 form_label">
                                                             <Form.Label> Your Password<span style={{ color: 'red' }} >*</span></Form.Label>
                                                             <Form.Control
                                                                 type={showPassword ? 'text' : 'password'}
@@ -162,7 +179,7 @@ const Login = () => {
                                                                         'is-invalid': formik.touched.password && formik.errors.password,
                                                                     }
                                                                 )}
-                                                                placeholder="Password"
+                                                                placeholder="Enter Password..."
                                                             />
 
                                                             <span className="login_pass_icons" type="button" onClick={() => toggleShowPassword()}>
@@ -178,6 +195,7 @@ const Login = () => {
 
 
                                                         </Form.Group>
+														</div>
                                                     </div>
 
                                                     <div className="row">
@@ -216,14 +234,16 @@ const Login = () => {
                                                         <NavLink to="/sign-up">Sign up</NavLink>
                                                     </p>
                                                 </form>
-                                            </div>
-                                        </div>
+                                            </div> 
                                     </div>
                                 </div>
+								</div>
+								</div>
+                            </div>
                             </div>
                         </div>
                     </div>
-                </div>
+            
             </section>
         </>
 

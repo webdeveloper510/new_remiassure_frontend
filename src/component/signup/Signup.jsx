@@ -254,25 +254,29 @@ const Signup = () => {
         <>
             {
                 !isGetOtp ? (
-                    <section className="why-us section-bgba signup_banner">
-                        <div className="container">
+                    <section className="sigupsec">
+                        
                             <div className="row">
                                 <div className="col-lg-6">
-                                    <div className="support_image">
-                                        <img src="assets/img/help/help_img02.svg" alt="support_images" />
-                                    </div>
+                                    <div className="sign-image-sec">
+                                <img src="assets/img/home/signup.png" className="signup" alt="alt_image"/>
+                                <div className="inner-image-sig">
+                                <img src="assets/img/home/signup2.png" className="upper-image" alt="alt_image"/>
+                                </div>
+                                </div>
                                 </div>
                                 <div className="col-lg-6">
                                     <div className="row">
                                         <div className="col-lg-12">
-                                            <div className="card card-signup">
+                                            <div className="card1 card-signup1">
                                                 <div className="card-body">
-                                                    <h5 className="Sign-heading">Sign Up</h5>
+                                                    <h2 className="Sign-heading">Sign Up</h2>
+                                                    <p className="money-form">Where are you sending money from?</p>
                                                     <div className="form_signup">
                                                         <form onSubmit={formik.handleSubmit} autoComplete="on">
-                                                            <Form.Label>Where are you sending money from?<span style={{ color: 'red' }} >*</span></Form.Label>
-                                                            <Form.Group className="mb-3 form_label">
-                                                                <Form.Label>Location<span style={{ color: 'red' }} >*</span> </Form.Label>
+                                                           
+                                                            <Form.Group className="mb-2 form_label">
+                                                                <Form.Label>Location<span style={{ color: '#FD6063' }} >*</span> </Form.Label>
                                                                 <Form.Select
                                                                     name="location"
                                                                     value={formik.values.location ? formik.values.location : "Australia"}
@@ -289,11 +293,38 @@ const Signup = () => {
                                                                     }
                                                                 </Form.Select>
                                                             </Form.Group>
-                                                            <Form.Group className="mb-3 form_label" >
-                                                                <Form.Label>Your Email<span style={{ color: 'red' }} >*</span> </Form.Label>
+															<div className="row">
+																<div className="col-md-6 phone-row">
+                                                            <Form.Group className="mb-2 form_label" >
+                                                                <Form.Label>Your Phone<span style={{ color: 'red' }} >*</span> </Form.Label>
+                                                                <PhoneInput
+                                                                    onlyCountries={["au", "nz"]}
+                                                                    country={country_code ? country_code.toLowerCase() : "au"}
+                                                                    name="mobile"
+                                                                    inputStyle={{ border: "none", margin: "none" }}
+                                                                    inputClass="phoneInp"
+                                                                    placeholder="Enter Phone..."
+                                                                    defaultCountry={"au"}
+                                                                    inputProps={{ required: true }}
+                                                                    countryCodeEditable={false}
+                                                                    onChange={(val, coun) => { handlePhone(val, coun) }}
+                                                                    className={clsx(
+                                                                        'form-control form-control-sm bg-transparent',
+                                                                        { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                                                                        {
+                                                                            'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                                                                        }
+                                                                    )}
+                                                                    onBlur={handleBlur}
+                                                                />
+                                                            </Form.Group>
+															</div>
+															<div className="col-md-6 email-row">
+                                                            <Form.Group className="mb-2 form_label" >
+                                                                <Form.Label>Your Email<span style={{ color: '#FD6063' }} >*</span> </Form.Label>
                                                                 <Form.Control
                                                                     type="email"
-                                                                    placeholder="Enter email"
+                                                                    placeholder="Enter Your Email..."
                                                                     {...formik.getFieldProps('email')}
                                                                     className={clsx(
                                                                         'form-control bg-transparent',
@@ -311,29 +342,12 @@ const Signup = () => {
                                                                     </div>
                                                                 )}
                                                             </Form.Group>
-                                                            <Form.Group className="mb-3 form_label" >
-                                                                <Form.Label>Your Phone<span style={{ color: 'red' }} >*</span> </Form.Label>
-                                                                <PhoneInput
-                                                                    onlyCountries={["au", "nz"]}
-                                                                    country={country_code ? country_code.toLowerCase() : "au"}
-                                                                    name="mobile"
-                                                                    inputStyle={{ border: "none", margin: "none" }}
-                                                                    inputClass="phoneInp"
-                                                                    defaultCountry={"au"}
-                                                                    inputProps={{ required: true }}
-                                                                    countryCodeEditable={false}
-                                                                    onChange={(val, coun) => { handlePhone(val, coun) }}
-                                                                    className={clsx(
-                                                                        'form-control form-control-sm bg-transparent',
-                                                                        { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
-                                                                        {
-                                                                            'is-valid': formik.touched.mobile && !formik.errors.mobile,
-                                                                        }
-                                                                    )}
-                                                                    onBlur={handleBlur}
-                                                                />
-                                                            </Form.Group>
-                                                            <Form.Group className="mb-3 form_label">
+															</div>
+															
+															</div>
+															<div className="row">
+																<div className="col-md-6 pass-row">
+                                                            <Form.Group className="mb-2 form_label">
                                                                 <Form.Label> Your Password<span style={{ color: 'red' }} >*</span> </Form.Label>
                                                                 <Form.Control
                                                                     type={showPassword ? 'text' : 'password'}
@@ -341,7 +355,7 @@ const Signup = () => {
                                                                     name="password"
                                                                     autoComplete="off"
                                                                     {...formik.getFieldProps('password')}
-                                                                    placeholder="Password"
+                                                                    placeholder="Enter Password..."
                                                                     className={clsx(
                                                                         'form-control bg-transparent',
                                                                         { 'is-invalid': formik.touched.password && formik.errors.password },
@@ -361,7 +375,9 @@ const Signup = () => {
                                                                     </div>
                                                                 )}
                                                             </Form.Group>
-                                                            <Form.Group className="mb-3 form_label">
+															</div>
+																<div className="col-md-6 cnfirmpass-row">
+                                                            <Form.Group className="mb-2 form_label">
                                                                 <Form.Label> Confirm Password<span style={{ color: 'red' }} >*</span> </Form.Label>
                                                                 <Form.Control
                                                                     type={showConfirmPassword ? 'text' : 'password'}
@@ -388,6 +404,8 @@ const Signup = () => {
                                                                     </div>
                                                                 )}
                                                             </Form.Group>
+															</div>
+															</div>
                                                             {/*<Form.Check className="form_switch"
                                                                 type="switch"
                                                                 onClick={() => setShow(!show)}
@@ -435,7 +453,7 @@ const Signup = () => {
                                                             <button variant="primary"
                                                                 type="submit"
                                                                 className="signup_button ">
-                                                                Signup
+                                                                Sign <b>up</b> <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image"/>
                                                                 {loading ? <>
                                                                     <div className="loader-overly">
                                                                         <div className="loader" >
@@ -444,7 +462,7 @@ const Signup = () => {
                                                                 </> : <></>}
                                                             </button>
                                                             <p className="already_content">Already have an account?
-                                                                <NavLink to="/login">Log In</NavLink>
+                                                                <NavLink to="/login">Sign In</NavLink>
                                                             </p>
                                                         </form>
                                                     </div>
@@ -454,7 +472,7 @@ const Signup = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                    
                     </section>
                 ) : (
                     <section className="why-us section-bgba verification_banner">

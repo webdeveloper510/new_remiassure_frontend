@@ -1,4 +1,28 @@
 /*************************** responsive start *****************/
+@media screen and (min-width: 1500px) {
+    .banner_section01 .react-multi-carousel-list.carousel-container-with-scrollbar {
+        width: 86%;
+        margin-left: auto;
+    }
+}
+@media screen and (max-width: 1500px) {
+    .banner_section01 .react-multi-carousel-list.carousel-container-with-scrollbar {
+        width: 93%;
+        margin-left: auto;
+    }
+}
+@media screen and (max-width: 1399px) {
+    .banner_section01{
+        background-position: center right;
+    }
+    .money-exchange-box:after {
+        left: 360px;
+    }
+    .banner_section01 .react-multi-carousel-list.carousel-container-with-scrollbar {
+        width: 93%;
+        margin-left: auto;
+    }
+}
 @media screen and (max-width: 1325px) {
     span.text-light.custom-number {
         font-size: 13px;
@@ -825,12 +849,17 @@ p.material-heading {
         padding-right: 0px !important;
     }
 
-    h1.vl-heading {
+    h1.vl-heading,section.why-us_section.homepage-why-us h1 {
         font-size: 23px;
         line-height: 31px;
     }
+    .bottom-aligend
+    {
+        left: 28px;
+    }
     .vl {
-        height: 75px;
+        height: auto;
+        margin: 0px !important;
     }
     .card-verification {
         width: auto !important;
@@ -869,6 +898,9 @@ p.material-heading {
     height: auto !important;
 }
 }
-
+.image1 img {
+    width: 100%;
+    padding: 0px !important;
+}
 
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -15,7 +15,9 @@ import '../../assets/vendor/swiper/swiper-bundle.min.css';
 import logo from '../../assets/img/home/logo.svg';
 
 // Main CSS File
+import '../../assets/css/global.css';
 import '../../assets/css/style.css';
+
 // responsive CSS File
 import '../../assets/css/responsive.css';
 
@@ -33,7 +35,22 @@ import { exchangeRate } from "../../utils/Api";
 
 
 const Header = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      // Set isScrolled to true if the scroll position is greater than a certain threshold
+      setIsScrolled(window.scrollY > 60); // Adjust the threshold as needed
+    };
+
+    // Attach the scroll event listener when the component mounts
+    window.addEventListener('scroll', handleScroll);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []); // Empty dependency array ensures that this effect runs only once on mount
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const mobilemenuShow = () => setShow(true);
@@ -53,7 +70,7 @@ const Header = () => {
 
   return (
     <>
-      <header id="header" style={{ paddingRight: "-17px" }} className="fixed-top d-flex align-items-center header-transparent">
+      <header id="header" style={{ paddingRight: "-17px" }} className={`fixed-top d-flex align-items-center header-transparent ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container d-flex justify-content-between align-items-center">
           <div className="logo">
             <h1 className="text-light">
@@ -95,18 +112,24 @@ const Header = () => {
                   </li>
                 ) : (
                   <>
-                    <li>
-                      <NavLink to="/sign-up">Signup</NavLink>
-                    </li>
-                    <li>
-                      <NavLink to="/login">Login</NavLink>
-                    </li>
                   </>
                 )
               }
             </ul>
           </nav>
-          <RxHamburgerMenu onClick={mobilemenuShow} className="mobile-btn" />
+          <nav  className="login-navbar">
+        <ul className='mobile-hide'>
+              <li>
+                      <NavLink to="/sign-up" className="signactin">Sign <b>up</b></NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/login" className="logactin">Log  <b>in</b></NavLink>
+                    </li>
+          </ul>
+            </nav>
+
+            <img src="assets/img/home/mobilemenu.png" onClick={mobilemenuShow} className="mobile-btn" />
+        
           <Offcanvas show={show} onHide={handleClose}>
             <Offcanvas.Header closeButton>
               <Offcanvas.Title> <div className="logo">

@@ -11,56 +11,11 @@ import { useRef } from "react";
 import { exchangeRate, getPreferredCurrency } from "../../utils/Api";
 import { commaRemover, commaSeperator, generateRandomKey } from "../../utils/hook";
 import QRCode from "react-qr-code";
-
-function WhyRenderingArrayOfObjects() {
-    const dataItems = [
-        {
-            id: 1,
-            src: "assets/img/home/Vector02.svg",
-            circle_heading: "We're Secure",
-            circle_content: "We use industry-leading technology to secure your money.",
-        },
-        {
-            id: 2,
-            src: "assets/img/home/Vector01.svg",
-            circle_heading: "We're Fast",
-            circle_content: "95% of our transfers are completed in minutes…",
-        },
-        {
-            id: 3,
-            src: "assets/img/home/Vector03.svg",
-            circle_heading: "We’re Cost-effective",
-            circle_content: "Our rates are competitive compared to banks and other remittance services.",
-        },
-        {
-            id: 4,
-            src: "assets/img/about/Vector04.svg",
-            circle_heading: "We’re Innovative",
-            circle_content: "We're committed to researching new ideas and technology to serve you better.",
-        }
-    ];
-
-    const circlItems = dataItems.map((value) => {
-        return (
-            <li className="" key={value.id}>
-                <div className="circle-image">
-                    <img src={value.src} alt="circle-image" />
-                </div>
-                <div className="circle-content">
-                    <p className="fast_text">{value.circle_heading}</p>
-                    <p className="fast_texto1">{value.circle_content}</p>
-                </div>
-            </li>
-        )
-
-    })
-    return (
-        <div>
-            {circlItems}
-        </div>
-    )
-}
-
+import Scrollbar from '../countriesSlider/Scrollbar';
+import Scrollbar1 from '../scrollbar/Scrollbar';
+import Blogs from '../blogs/Blogs';
+import RemitAssure from "../WhyRemitAssure/RemitAssure";
+import Partners from "../Partners/Partners";
 function HowRenderingArrayOfObjects() {
     const dataItems = [
         {
@@ -484,45 +439,115 @@ const Home = () => {
 
     return (
         <>
-            <section className="top_sections">
+            <section className="top_sections desktop_only">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-6 no-padding banner-content">
-                            <div className="vl">
-                                <h1 className="vl-heading">Welcome</h1>
-                                <h1 className="vl-heading01">To Remittance 2.0</h1>
-                            </div>
+                        <div className="col-lg-6 banner-content">
+                           
+                                <h1 className="vl-heading">Simple Way <br></br>To <span>Transfer</span> Your <br></br>Money
+                                </h1>
+                            
                             <div className="vl-content">
                                 <p className="vl-paragraph">
-                                    We have re-imagined international money transfer to provide reliable, efficient and<br />
-                                    cost effective services to our customers.
-                                </p>
-                                <p className="vl-paragraph">
-                                    Leveraging cutting edge digital technologies and an ecosystem of proven global <br />
-                                    partners, we are ushering in a new world of seamless, secure and speedy global<br />
-                                    payments.
-                                </p>
-                                <p className="vl-paragraph">
-                                    We invite you to come onboard and enjoy the unparalleled experience provided by our<br />
-                                    platform.
+                                We have re-imagined international money transfer to provide reliable, efficient andcost effective services to our customers.
                                 </p>
                             </div>
+                         <ul className="hero-btn">
+                            <li>
+                                <a href="#" className="Get-start">
+                                    Get <b>Started</b> <img src="assets/img/home/Union.png"/>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#payment-box" className="exchangebtn" >
+                                   Exchange <b>rate</b> <img src="assets/img/home/Black.png"/>
+                                </a>
+                            </li>
+                         </ul>
+                         <div className="playstoreicon-section">
+                         <div className="col-md-3">
+                         <ul className="playstoreicon">
+                            <li>
+                                <a href="#">
+                                    <img src="assets/img/home/play.png"/>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                  <img src="assets/img/home/play1.png"/>
+                                </a>
+                            </li>
+                         </ul>
+                         </div>
+                         <div className="col-md-1">
+                            </div>
+                         <div className="col-md-8">
+                            <p><b>Download our App</b></p>
+                            <span>Over <b>26,000+ Clients</b> all over the world</span>
+                         </div>
+                         </div>
+
                         </div>
                         <div className="col-lg-6 right_sections">
-                            <img src="assets/img/home/bank.svg" alt="background-images" />
+                            <img src="assets/img/home/phone.png" alt="background-images" />
                         </div>
                     </div>
 
+                   
+                </div>
+            </section>
+  <section className="top_sections mobile-top mobile-only">
+  <div className="container">
                     <div className="row">
-                        <div className="col-lg-12">
-                            <div className="card card-flag new_card">
+					 <div className="col-lg-6 banner-content">
+                           
+                                <h1 className="vl-heading">Simple Way <br></br>To <span>Transfer</span> Your <br></br>Money
+                                </h1>
+								
+								  <div className="vl-content">
+                                <p className="vl-paragraph">
+                                We have re-imagined international money transfer to provide reliable, efficient andcost effective services to our customers.
+                                </p>
+                            </div>
+							<div  className="row">
+							   <div className="col-lg-8 right_sections">
+                            <img src="assets/img/home/phone.png" alt="background-images" />
+                        </div>
+						<div className="col-md-4 libuttons">
+						<ul class="playstoreicon"><li><a href="#"><img src="assets/img/home/play.png"/></a></li><li><a href="#"><img src="assets/img/home/play1.png"/></a></li></ul>
+						</div>
+						</div>
+								</div>
+					</div>
+					</div>
+  </section>
+  <div className="get-started">
+<li>
+                                <a href="#" className="Get-start mobile-btn">
+                                    Get <b>Started</b> <img src="assets/img/home/Union.png"/>
+                                </a>
+</li>
+  </div>
+  
+
+            <section class="payment-box" id="payment-box">
+          
+                <div class="container">
+                <div className="money-exchange-box">
+                <div className="row">
+                       
+                            <div className="col-md-4">
+                            <h6 className="exchange-heading">Exchange <br></br>Rate<span className="calculation">1 {formik.values.from_type} = {commaSeperator(total_rates)} {formik.values.to_type}</span></h6>
+                                    
+                            </div>
+                            <div className="col-md-8">
+                            <div className="new_card">
                                 <div className="card-body">
-                                    <h6 className="exchange-heading">EXCHANGE RATE</h6>
-                                    <p className="calculation">1 {formik.values.from_type} = {commaSeperator(total_rates)} {formik.values.to_type}</p>
+                                    
                                     <form onSubmit={formik.handleSubmit} noValidate>
                                         <div className="row mb-2 " style={{ alignItems: 'normal' }}>
 
-                                            <div className="col-md-4">
+                                            <div className="col-md-6">
                                                 <p className="send-text">You Send<span style={{ color: 'red' }} >*</span></p>
                                                 <div className="inline select-currency">
                                                     <Form.Control
@@ -564,8 +589,24 @@ const Home = () => {
                                                     </div>
                                                 )}
                                             </div>
-                                            <div className="col-md-4">
-                                                <p className="get-text">They get<span style={{ color: 'red' }} >*</span></p>
+
+                                            <div className="col-md-6">
+                                                <p className="send-text">Receive Method</p>
+                                                <select
+                                                    {...formik.getFieldProps('recieve_meth')}
+                                                    className='form-select rate_input form-control mb-3 home-select-method bg-transparent'
+                                                    aria-label="Select a reason">
+                                                    <option value="Bank Transfer">Bank Transfer</option>
+                                                    <option value="Mobile Wallet">Mobile Wallet</option>
+                                                </select>
+                                            </div>
+
+                                            
+                                            </div>
+                                            <div className="row mb-2 " style={{ alignItems: 'normal' }}>
+                                            
+                                            <div className="col-md-6">
+                                                <p className="send-text">They Get<span style={{ color: 'red' }} >*</span></p>
                                                 <div className="inline select-currency">
                                                     <Form.Control
                                                         name="exchange_amt"
@@ -602,32 +643,11 @@ const Home = () => {
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div className="col-md-4">
-                                                <p className="get-text">Receive method</p>
-                                                <select
-                                                    {...formik.getFieldProps('recieve_meth')}
-                                                    className='form-select rate_input form-control mb-3 home-select-method bg-transparent'
-                                                    aria-label="Select a reason">
-                                                    <option value="Bank Transfer">Bank Transfer</option>
-                                                    <option value="Mobile Wallet">Mobile Wallet</option>
-                                                </select>
-                                            </div>
-                                            <div className="col-12 text-center">
-                                                <button
-                                                    type="submit"
-                                                    className="btn btn continue-button"
-                                                >
-                                                    Continue
-                                                    {loading ? <>
-                                                        <div className="loader-overly">
-                                                            <div className="loader" >
-                                                            </div>
-                                                        </div>
-                                                    </> : <></>}
-                                                </button>
-                                                <button
+
+                                            <div className="col-md-6 flexx">
+                                            <button
                                                     type="button"
-                                                    className="btn btn continue-button"
+                                                    className="btn btn reset-button"
                                                     onClick={() => handleReset()}
                                                 >
                                                     Reset
@@ -638,97 +658,74 @@ const Home = () => {
                                                         </div>
                                                     </> : <></>}
                                                 </button>
+                                            <button
+                                                    type="submit"
+                                                    className="btn btn continue-button"
+                                                >
+                                                    Continue
+                                                    {loading ? <>
+                                                        <div className="loader-overly">
+                                                            <div className="loader" >
+                                                            </div>
+                                                        </div>
+                                                    </> : <></>}
+                                                    <img src="assets/img/home/Black1.png"/>
+                                                </button>
+                                               
 
                                             </div>
+                                           
 
                                         </div>
                                     </form>
                                 </div>
                             </div>
+                            </div>
+                       
                         </div>
+
                     </div>
+
+                  
                 </div>
             </section>
-            <section className="why-us_section homepage-why-us">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-6">
-                            <div className="vl">
-                                <h1 className="vl-heading">Why</h1>
-                                <h1 className="vl-heading01">RemitAssure ?</h1>
-                            </div>
-                            <div className="vl-content">
-                                <ul className="list-">
-                                    < WhyRenderingArrayOfObjects />
-                                </ul>
-                            </div>
-                        </div>
-                        <div className="col-lg-6 right_sections">
-                            <img src="assets/img/home/img02.svg" alt="background-images" />
-                        </div>
+			<section>
+			  <div className="partners-section">
+                    <div className="">
+                    <h1 className="vl-heading">Our Partners</h1>
+                    <p>Reference site about Lorem Ipsum, giving as a random Lipsum generator.</p>
+                    
+                  <Partners></Partners>
+                  {/* 
+                   <div className="col-md-2">
+                    <img src="assets/img/home/image1.png" alt="partner-images" />
                     </div>
-                    <div className="Money_section">
-                        <div className="row">
-                            <div className="col-lg-6 ">
-                                <div className="row">
-                                    <div className="col-md-6 text-center">
-                                        {/* <div style={{
-                                            height: "auto", margin: "0 auto", width: "100%", padding: '23px',
-                                            background: 'white',
-                                            borderRadius: '31px'
-                                        }}>
-                                            < QRCode
-                                                size={256}
-                                                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                                                value={"https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"}
-                                                viewBox={`0 0 256 256`}
-                                            />
-                                        </div> */}
-                                        <img className="apps-image" src="assets/img/home/img03.svg" alt="background-images" />
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div className="col-lg-6 better_sections">
-
-                                <div className="fw-semibold text-light mt-4 display-4">
-                                    Download Our App
-                                </div>
-                                <div className="popular-content">
-                                    <h4 className="popular-paragraph01">Best App that will help you to Send Money.
-                                    </h4>
-
-                                </div>
-
-                                <div className="link my-0">
-                                    <div className="left_link">
-
-                                        <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target>
-                                            <img src="assets/img/home/images.jpg" alt="home_icons" className="home_icons rounded-2" />
-                                        </a>
-                                        <img src="assets/img/home/images1.png" alt="home_icons" className="home_icons rounded-2" />
-                                    </div>
-                                    <div className="rihjt_link">
-                                        <div style={{
-                                            height: "auto", margin: "0 auto", width: "40%", padding: '7px',
-                                            margin: "10px auto",
-                                            background: 'white',
-                                        }}>
-                                            < QRCode
-                                                size={256}
-                                                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                                                value={"https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"}
-                                                viewBox={`0 0 256 256`}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="col-md-2">
+                    <img src="assets/img/home/image22.png" alt="partner-images" />
                     </div>
-                </div>
-            </section >
+                    <div className="col-md-2">
+                    <img src="assets/img/home/image2.png" alt="partner-images" />
+                    </div>
+                    <div className="col-md-2">
+                    <img src="assets/img/home/image3.png" alt="partner-images" />
+                    </div>
+                    <div className="col-md-2">
+                    <img src="assets/img/home/image4.png" alt="partner-images" />
+                    </div>
+                    <div className="col-md-2">
+                    <img src="assets/img/home/image5.png" alt="partner-images" />
+                    </div>
+                   */}
+                    </div>
+                    
+                    </div>
+                   
+			</section>
+
+
+            
+            <RemitAssure></RemitAssure>
+   
             {/* <section className="why-us section-bgba banner_section05" >
                 <div className="container">
                     <div className="row">
@@ -776,141 +773,100 @@ const Home = () => {
                     </div>
                 </div>
             </section> */}
-            < section className="why-us section-bgba banner_section01" >
+<section>
+            <section className="why-us section-bgba banner_section01" >
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-12">
-                            <div className="row">
-                                <div className="col-lg-6">
-                                    <div className="vl02">
-                                        <h1 className="money-heading">Our global payment network enables our customers to seamlessly transfer funds to vast
-                                            number of countries</h1>
-                                    </div>
+                     
+                           
+                                <div className="col-lg-12">
+                                    
+                                        <h1 className="money-heading">Global Payment Network Enables<br></br> Seamless Fund Transfers</h1>
+                                   
                                     <div className="popular-content">
-                                        <h4 className="popular-paragraph01">Our most popular payout corridors
-                                        </h4>
-                                        {/* <p className="popular-paragraph02">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        </p>
-                                        <p className="popular-paragraph02"> incididunt ut labore et dolore magna aliqua. Facilisi morbi tempus iaculis urna.
-                                        </p> */}
-                                    </div>
-                                </div>
-                                <div className="col-lg-6">
-                                    <div className="row">
-                                        {/* <ul>
-                                             < FlagHomeArrayofoObjects />
-                                            <li></li>
-                                        </ul> */}
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("USD") }}>
-                                                <img src="assets/img/home/nigeria.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6 className="mx">Nigeria (USD)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("NGN") }}>
-                                                <img src="assets/img/home/nigeria.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>Nigeria (NGN)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards w-100" onClick={() => { setCurrency("GHS") }}>
-                                                <img src="assets/img/home/ghana.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>GHANA (GHS)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("KES") }}>
-                                                <img src="assets/img/home/kenya.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>KENYA (KES)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("PHP") }}>
-                                                <img src="assets/img/home/philippines.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>PHILIPPINES (PHP)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("THB") }}>
-                                                <img src="assets/img/home/thailand.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>THAILAND (THB)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 my-3">
-                                            <div className="d-flex currency_cards" onClick={() => { setCurrency("VND") }}>
-                                                <img src="assets/img/home/vietnam.svg" height={45} width={45} alt="flag" style={{ borderRadius: "50%" }} />
-                                                <h6>VIETNAM (VND)</h6>
-                                                <img src="assets/img/home/arrow01.svg" alt="arrow01" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* {
-                                        userdt && token ? (
-                                            <div className="view-button">
-                                                <NavLink to={"/userdashboard"}>
-                                                    <button className="btn btn view_button">View all</button>
-                                                </NavLink>
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <div className="view-button">
-                                                    <NavLink to={"/login"}>
-                                                        <button className="btn btn view_button">View all</button>
-                                                    </NavLink>
-                                                </div>
-                                            </>
-                                        )
-                                    } */}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* main row End*/}
-                    {/* <div className="row">
-                        <div className="col-lg-12 call_heading">
-                            <h3 className="cal-heading">We are here to help!</h3>
-                            <p className="call-paragraph">Do you need assistance? Our dedicated support centre is purpose-built to
-                                support you.</p>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="view-button">
-                                <Link to="/help">
-                                    <button className="btn btn call_button">Go to our Support Centre</button>
-                                </Link>
-                            </div>
-                        </div>
-                    </div> */}
-                </div>
-            </section >
+                                        <h4 className="popular-paragraph01">Our most popular payout corridors reference site about Lorem Ipsum,<br></br> giving information on its origins.
 
+                                        </h4>
+                                    </div>
+                                </div>
+                            
+                       
+                    </div>
+                    
+                </div>
+                <Scrollbar />
+            </section >
+            </section >
 
             <section className="why-us section-bgba innre_about hows-work-section ">
                 <div id="about">
                     <div className="container">
                         <div className="row">
-                            <div className="col-sm-8">
-                                <div className="vl about_v1 head-new">
-                                    <h1 className="vl-heading">How it Works</h1>
-                                </div>
-                                <div className="vl-content">
+                         
+                                    <h1 className="head-new">How it Works</h1>
+                                    <div className="vl-content">
+                                <p className="vl-paragraph">
+                                Reference site about Lorem Ipsum, giving information on its origins, as well <br></br>as a random Lipsum generator.
+                                </p>
+                            </div>
+
+                                {/* <div className="vl-content">
                                     <ul className="list-">
                                         < HowRenderingArrayOfObjects />
                                     </ul>
-                                </div>
-                            </div>
-                            <div className="col-sm-4 right_side d-flex justify-content-center align-items-center">
-                                {/* <img src="assets/img/home/img03.svg" alt="background-images" /> */}
-                                <img src="assets/img/footer/trans3.png" alt="background-images" />
-                            </div>
+                                </div> */}
+                         
+                         <div class="row">
+       
+            <div className="timeline-steps aos-init aos-animate" data-aos="fade-up">
+                <div className="timeline-step step1bg">
+                    <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
+                        
+                        <div className="inner-circle1"><label>Step <b>1</b></label><img src="assets/img/home/dot1.png" /></div>
+                        <img className="how-works-icons" src="assets/img/home/howicon1.png" />
+                        <p className="h6 mt-3 mb-1">Create a RemitAssure<br></br> account</p>
+                        <p className="h6  mb-0 mb-lg-0">Provide some personal information and sign up online or via the RemitAssure app.</p>
+                    </div>
+                </div>
+                <div className="timeline-step">
+                    <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2004">
+                     
+                        <div className="inner-circle1"><label>Step <b>2</b></label><img src="assets/img/home/dot1.png" /></div>
+                        <img  className="how-works-icons"  src="assets/img/home/howicon2.png" />
+                        <p className="h6 mt-3 mb-1">Verify your <br></br>Identity</p>
+                        <p className="h6  mb-0 mb-lg-0">We verify your identity as part of our AML/CTF obligation. Verifying your identity also helps also safeguard your account against potential fraudulent activities.</p>
+                    </div>
+                </div>
+                <div className="timeline-step step3bg">
+                    <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2005">
+                        
+                        <div className="inner-circle1"><label>Step <b>3</b></label><img src="assets/img/home/dot1.png" /></div>
+                        <img  className="how-works-icons"  src="assets/img/home/howicon3.png" />
+                        <p className="h6 mt-3 mb-1">Enter your <br></br>transaction details</p>
+                        <p className="h6  mb-0 mb-lg-0">Provide some personal information and sign up online or via the RemitAssure app.</p>
+                    </div>
+                </div>
+                <div className="timeline-step">
+                    <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2010">
+                        
+                        <div className="inner-circle1"><label>Step <b>4</b></label><img src="assets/img/home/dot1.png" /></div>
+                        <img  className="how-works-icons"  src="assets/img/home/howicon4.png" />
+                        <p className="h6 mt-3 mb-1">Pay for your<br></br> transaction</p>
+                        <p className="h6 mb-0 mb-lg-0">We offer different payment rails for our customers. You can pay through: PayID , PayTo Agreements.</p>
+                    </div>
+                </div>
+            </div>
+        
+                         </div>
+
+<div className="row">
+<div className="col-md-8">
+
+</div>
+<div className="col-md-4">
+
+</div>
+</div>
                         </div>
 
                     </div>
@@ -920,33 +876,130 @@ const Home = () => {
 
 
 
-            <section className="why-us_section homepage-why-us hows-section">
-                <div className="container">
+            <section className="why-us_section homepage-why-us hows-section Enjoy-Free">
+                <div className="container1">
+
+               
+                    <div className="  free-transaction">
+                    <div className="col-lg-7  col-sm-7 text-end">
+                        <div className="images-1 images-1 col-md-10 marauto">
+                            <div className="image1">
+                            <img src="assets/img/home/free1.png" alt="background-images" />
+                            </div>
+<div className="contant-img">
+<div className="icon-img">
+    <img src="assets/img/home/blueicon.png" />
+</div>
+   
+    <h4 className="content-heading">
+    Weekend
+Gateway
+    </h4>
+    <p>For our weekend trip</p>
+    <p className="number">
+    + $11.95
+    </p>
+</div>
+
+                        </div>
+                        <div className="padding-v">
+                        <div class="row">
+                            <div class="col-lg-8 col-sm-8 margintop">
+                            <div className="images-1 ">
+                            <div className="image1">
+                            <img src="assets/img/home/img2.png" alt="background-images" class="dd" />
+                            </div>
+<div className="contant-img right-aligned">
+<div className="icon-img pink">
+    <img src="assets/img/home/pinkicon.png"  />
+</div>
+   
+    <h4 className="content-heading">
+    Trainers Cashback
+    </h4>
+    <p>For our weekend trip</p>
+    <p className="number">
+    + $11.95
+    </p>
+</div>
 
 
-                    <div className="row custom-row-hows free-transaction">
 
-                        <div className="col-lg-6">
+                        </div>
+
+                        
+                            </div>
+							
+							  <div class="col-lg-4 col-sm-4 margintop">
+                            <div className="images-1 ">
+                            <div className="image1">
+                            <img src="assets/img/home/img3.png" alt="background-images" class="dd" />
+                            </div>
+<div className="bottom-aligend">
+    <div className="iconandcon">
+<div className="icon-img skyicon">
+    <img src="assets/img/home/skyicon.png"  />
+    
+</div>
+<h4 className="content-heading">
+    Trainers Cashback
+    </h4>
+    </div>
+   
+    <p>Well Deserved</p>
+    <p className="number">
+    + $11.95
+    </p>
+</div>
+
+
+
+                        </div>
+
+                        
+                            </div>
+
+                        </div>
+                        </div>
+                           
+                        </div>
+                        <div className="col-lg-5 padding-right-box">
                             <div className="vl about_v1">
-                                <h1 className="vl-heading">Enjoy Free Transactions <br></br>with Us!</h1>
+                                <h1 className="vl-heading left-align">Enjoy Free <br></br> Transactions with Us!</h1>
                             </div>
                             <div className="vl-content">
-                                <p>RemitAssure is proud to offer you completely free transactions.</p>
+                                <p>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
 
-                                <ul>
-                                    <li><strong>• No Hidden Fee</strong></li>
-                                    <li><strong>• Free Account Transfers</strong></li>
-                                    <li><strong>• Online and Mobile Banking</strong></li>
-                                </ul>
-                            </div>
+                              <div class="bottom-content">
+                              <h2> <span> +</span>  Online and Mobile Banking </h2>
+                              <p class="mar-t">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+
+</div>
+
+
+<div class="bottom-content">
+                              <h2> <span> +</span> Free Account Transfers </h2>
+                              <p class="mar-t">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator. Reference site.</p>
+
+</div>
+
+
+<div class="bottom-content border-none">
+                              <h2> <span> +</span> No Hidden Fee  </h2>
+                              <p class="mar-t">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+
+</div>
+
+
+
+
+</div>
                         </div>
-                        <div className="col-lg-6 text-end">
-                            <img src="assets/img/home/freepik.png" alt="background-images" />
-                        </div>
+                        
 
                     </div>
 
-                    <div className="row custom-row-hows">
+                    <div className="">
                         {/* <div className="col-lg-6 text-start">
                             <img src="assets/img/footer/trans5.png" alt="background-images" />
                         </div>
@@ -971,6 +1024,68 @@ const Home = () => {
 
                 </div>
             </section>
+			
+			
+			<section className="why-us_section homepage-why-us hows-section Download-P">
+			<div className="container">
+			<div className="row align-center">
+			<div className="col-md-6">
+			  <div className="vl about_v1">
+                                <h1 className="vl-heading left-align">Download our App</h1>
+                            </div>
+							<p className="text-bottom">In publishing and graphic design, Lorem ipsum is
+a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may
+be used as a placeholder before final copy
+is available.</p>
+<div class="row margintop-40">
+<div class="col-md-6 col-sm-6">
+<div class="scaner-code">
+<img src="assets/img/home/scaner.png"/>
+
+</div>
+</div>
+
+			
+			<div className="col-lg-6 col-sm-6">
+			<div className="buttonsdownload">
+			<div className="apple download">
+			<a href=""><span class="icon-btn"><img src="assets/img/home/apple.png"/>
+</span> <span>Download on the<br></br>  <span class="bigtext">App Store</span></span></a>
+			</div>
+			<div className="Andoried download">
+				<a href=""><span class="icon-btn"><img src="assets/img/home/googled.png"/>
+</span><span>Get it on<br></br> <span class="bigtext">Google Play</span></span></a>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			<div class="col-md-6 col-lg-6">
+<div class="leftt-img">
+<img src="assets/img/home/Download-our-App 1.png"/>
+
+</div>
+</div>
+			</div>
+			
+			<div className="contact-section">
+			<div className="row align-center">
+                <div className="rel-pos row">
+			<div className="col-md-8">
+			<div className="vl about_v1">
+                                <h1 className="vl-heading left-align">We Are Here To Help!</h1>
+                            </div>
+							<p>Do you need assistance? Our dedicated support centre is purpose-built to support you.</p>
+			</div>
+			<div className="col-md-4">
+                <div className="btn-contact"><a href="/contact "className="skybtn">Contact</a></div>
+                <div className="btn-contact "><a href="/contact" className="appbtn">What’s App</a></div>
+            </div>
+			</div>
+			</div>
+			</div>
+            </div>
+			</section>
 
             {/* <section className="why-us_section homepage-why-us hows-section-light">
                 <div className="container">
@@ -999,12 +1114,31 @@ const Home = () => {
                 </div>
             </section> */}
 
+{/*testtimonial section */ }
+<section className="why-us_section homepage-why-us hows-section1 test-P">
+<div className="container">
+<h1 class="head-new">Testimonial</h1>
+<div class="vl-content"><p class="vl-paragraph">Reference site about Lorem Ipsum, giving information on its origins, as well <br></br>as a random Lipsum generator.</p></div>
+<Scrollbar1/>
+    </div>
+
+</section>
+
+{/*testtimonial section */ }
+<section className="why-us_section homepage-why-us hows-section1 blogs-P">
+<div className="container">
+<h1 class="head-new">Blogs</h1>
+<div class="vl-content"><p class="vl-paragraph">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p></div>
+<Blogs/>
+    </div>
+
+</section>
 
 
 
-            <section className="why-us section-bgba banner_section01">
+            {/* <section className="why-us section-bgba banner_section01">
                 <div className="container">
-                    {/* main row End*/}
+                   
                     <div className="row">
                         <div className="col-lg-12">
                             <h3 className="cal-heading">We are here to help!</h3>
@@ -1023,6 +1157,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+        */}
 
 
 
