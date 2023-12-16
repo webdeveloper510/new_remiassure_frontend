@@ -853,7 +853,18 @@ h1.vl-heading.left-align {
 }
 
 
+.inner-circle-stapes {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #190278;
+    display: none;;
+}
 
+b.color-sp {
+    color: #FD696C;
+}
 
 .image1 {
     position: relative;

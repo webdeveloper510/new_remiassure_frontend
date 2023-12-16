@@ -816,27 +816,30 @@ const Home = () => {
                                     </ul>
                                 </div> */}
                          
-                         <div class="row">
+                         <div class="row1">
        
             <div className="timeline-steps aos-init aos-animate" data-aos="fade-up">
+			   <div className="inner-circle-stapes">Step <b className="color-sp">1</b></div>
                 <div className="timeline-step step1bg">
                     <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
-                        
+                     
                         <div className="inner-circle1"><label>Step <b>1</b></label><img src="assets/img/home/dot1.png" /></div>
                         <img className="how-works-icons" src="assets/img/home/howicon1.png" />
                         <p className="h6 mt-3 mb-1">Create a RemitAssure<br></br> account</p>
                         <p className="h6  mb-0 mb-lg-0">Provide some personal information and sign up online or via the RemitAssure app.</p>
                     </div>
                 </div>
+				   <div className="inner-circle-stapes">Step <b className="color-sp">2</b></div>
                 <div className="timeline-step">
                     <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2004">
-                     
-                        <div className="inner-circle1"><label>Step <b>2</b></label><img src="assets/img/home/dot1.png" /></div>
+                        <div className="inner-circle-stapes">Step <b className="color-sp">1</b></div>
+                       
                         <img  className="how-works-icons"  src="assets/img/home/howicon2.png" />
                         <p className="h6 mt-3 mb-1">Verify your <br></br>Identity</p>
                         <p className="h6  mb-0 mb-lg-0">We verify your identity as part of our AML/CTF obligation. Verifying your identity also helps also safeguard your account against potential fraudulent activities.</p>
                     </div>
                 </div>
+				   <div className="inner-circle-stapes">Step <b className="color-sp">3</b></div>
                 <div className="timeline-step step3bg">
                     <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2005">
                         
@@ -846,6 +849,7 @@ const Home = () => {
                         <p className="h6  mb-0 mb-lg-0">Provide some personal information and sign up online or via the RemitAssure app.</p>
                     </div>
                 </div>
+				   <div className="inner-circle-stapes">Step <b className="color-sp">4</b></div>
                 <div className="timeline-step">
                     <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2010">
                         
@@ -1069,7 +1073,7 @@ is available.</p>
 			</div>
 			
 			<div className="contact-section">
-			<div className="row align-center">
+			<div className="row1 align-center">
                 <div className="rel-pos row">
 			<div className="col-md-8">
 			<div className="vl about_v1">

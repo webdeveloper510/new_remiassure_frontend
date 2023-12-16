@@ -626,9 +626,10 @@ section {
 }
 
 @media (max-width: 768px) {
-  .breadcrumbs .d-flex {
+  .breadcrumbs .d-flex,.free-transaction{
     display: block !important;
   }
+
   .darkpink .col-md-4 .btn-contact a {
     width: 100%;
 }
@@ -843,7 +844,7 @@ a.btn.btn.call_button:hover {
   background-size: cover;
 } */
 .vl {
-  border-left: 6px solid #6414E9;
+
   height: 90px;
   margin-top: 70px;
   margin-bottom: 20px;
@@ -4403,9 +4404,7 @@ section.why-us_section {
   opacity: 0.9; */
 }
 
-section.why-us_section .vl {
-  border-left: 6px solid #fff;
-}
+
 section.why-us_section.homepage-why-us h1 {
   font-family: var(--font-SubHeding) !important;
   font-size: 43px;
@@ -4421,7 +4420,9 @@ section.why-us_section .vl h1 {
   font-weight: 600;
   margin-bottom: 20px;
 }
-
+section.why-us_section .vl h1 {
+  float: left;
+}
 section.why-us_section .right_sections img {
   width: 90%;
 }
@@ -7447,7 +7448,11 @@ section.why-us.section-bgba.hows-it-section .vl-heading {
  .desktop-only {
     display: none;
 }
-.scaner-code img {
+.inner-circle-stapes {
+  
+    display: block !important;
+  }
+.scaner-code img,#footer {
   width: 100%;
 }
   .free-transaction h1.vl-heading.left-align {
@@ -8190,7 +8195,54 @@ h3.title-help a {margin-top: 20px;color: #190278 !important;font-size: 21px;font
     top: 8px;
     padding: 13px;
 }
-
+ul.footer-bottom-links li a
+{
+  margin-left: 10px !important;
+}
+.free-transaction h1.vl-heading.left-align
+{
+  font-size: 23px !important;
+}
+.Enjoy-Free h1.vl-heading.left-align {
+  margin-top: 35px;
+}
+.blogs-P p.vl-paragraph,.test-P p.vl-paragraph {
+  padding-top: 0px !important;
+}
+.Enjoy-Free .vl-content p
+{
+  text-align: center !important;
+}
+.partners-section img {
+  width: 100%;
+  height: auto !important;
+}
+.btn-contact a {
+    width: 100%;
+    text-align: center;
+}
+.buttonsdownload a span {
+  font-size: 12px !IMPORTANT;
+}
+.Enjoy-Free {
+  padding-bottom: 0px !important;
+}
+.download a
+{
+  
+  padding: 10px 6px !important;
+}
+.bottom-content.border-none {
+  padding-bottom: 0px !important;
+}
+.bottom-aligend p {
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+.free-transaction p
+{
+  text-align: left  !important;
+}
 .contant-img {
  
   top: 108px;
@@ -8225,7 +8277,7 @@ h4.content-heading {
 
 @media screen and (max-width: 480px) {
   .contant-img,.contant-img.right-aligned{
-    top: 20px !important;
+    top: 14px !important;
 }
 
 }
