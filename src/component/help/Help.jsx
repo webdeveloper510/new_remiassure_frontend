@@ -170,7 +170,7 @@ const Help = () => {
     ];
     const accordionItems = dataarray.map((value, index) => {
       return (
-        <Accordion.Item eventKey={index} className={`my-3 help-accordian ${activeIndex === index ? 'active' : ''}`}>
+        <Accordion.Item eventKey={index} className={`my-3 help-accordian`}>
          
          <Accordion.Header onClick={() => handleAccordionToggle(index)}> <p className="icon-acc"></p> {value.title}</Accordion.Header>
         
@@ -216,18 +216,21 @@ const Help = () => {
                   <div className="col-md-4 col-sm-4">
                   <div className="help-li">
 <img src="assets/img/help/icon1.svg" className="vission_image" alt="alt_image"/>
+<img src="assets/img/help/faq-c-svg.png" className="vission_hover" alt="alt_image"/>
 <h3 className="title-help"><NavLink to={`/working`} >How it works</NavLink></h3>
 </div>
                   </div>
                  <div className="col-md-4 col-sm-4">
-                              <div className="help-li pinkbg">
-<img src="assets/img/help/icon01.svg" className="vission_image" alt="alt_image"/>
+                              <div className="help-li ">
+<img src="assets/img/help/faq-icon-svg.png" className="vission_image" alt="alt_image"/>
+<img src="assets/img/help/faq-icon-hover.png" className="vission_hover" alt="alt_image"/>
 <h3 className="title-help"> <a href="#faq">FAQ’s</a></h3>
 </div> 
                     </div>
                     <div className="col-md-4 col-sm-4">
                               <div className="help-li">
 <img src="assets/img/help/layer1.svg" className="vission_image" alt="alt_image"/>
+<img src="assets/img/help/faq-ac-svg.png" className="vission_hover" alt="alt_image"/>
 <h3 className="title-help"> <NavLink to={`/working`} >My Account </NavLink></h3>
                     </div>
                 </div>
@@ -269,7 +272,7 @@ Can't Find Your Answers?
 <p>We're here 24 hours a day, 7 days a week to support you.</p></div>
 <div class="col-md-4"><div class="btn-contact">
 <a href="/contact " class="skybtn">Contact</a></div>
-<div class="btn-contact "><a href="https://wa.me/1300284228"  class="appbtn">What’s App</a>
+<div class="btn-contact "><a href="https://wa.me/1300284228"  class="appbtn">WhatsApp</a>
 </div>
 </div>
 

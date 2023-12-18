@@ -312,7 +312,6 @@ const Footer = () => {
                 <div className="col-md-4">
 <div className="footer-info1 footer-logo">
     <div className="icon-ffoter ">
-    <img src="assets/img/home/footer1.png"  />
 
       
     </div>
@@ -361,7 +360,7 @@ const Footer = () => {
                 <div className="col-md-4">
 <div className="footer-info1 footer-last-logo">
     <div className="icon-ffoter">
-    <img src="assets/img/home/footer-logo.png"  />
+    <img src="assets/img/home/footer-logo.png" className="logo-foo" />
 
       
     </div>
@@ -395,7 +394,7 @@ const Footer = () => {
                                     <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/facebook (2).png"  /></a>
                                     <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook (1).png"  /></a>
                                     
-                                    <a className="linkedin" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/home/facebook (3).png"  /></a>
+                                    <a className="linkedin" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/footer/link1.png"  /></a>
                                 </div>
 
       

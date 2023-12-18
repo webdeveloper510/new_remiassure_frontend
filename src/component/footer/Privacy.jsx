@@ -45,9 +45,9 @@ How We Collect Personal Information
 </h3>
 
  <p className="our_vission01">
- RemitAssure collect customer personal information in several ways, including from:
-You: when you interact with us either through the Web of Mobile App For, we collect personal information relating to you or a 3 rd party whom you represent.
-Other sources: such as public databases, joint marketing partners, social media platforms (including from people with whom you are friends or otherwise connected), and from other third parties.
+ RemitAssure collect customer personal information in several ways, including from:<br></br>
+<b>You:</b> when you interact with us either through the Web of Mobile App For, we collect personal information relating to you or a 3 rd party whom you represent.<br></br>
+<b>Other sources: </b>such as public databases, joint marketing partners, social media platforms (including from people with whom you are friends or otherwise connected), and from other third parties.
  </p>
   </div>
   </div>

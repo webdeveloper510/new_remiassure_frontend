@@ -26,7 +26,8 @@ const Scrollbar = () => {
   };
 
  const items = [
-      {name:"Peter Willson",
+      {
+        name:"Peter Willson",
         author: "assets/img/home/image 96 (1).png",
         heading: "Best on the market",
         image: "assets/img/referral/Group_star1.png",
@@ -98,6 +99,11 @@ const Scrollbar = () => {
 
                 <div class="image-container-text" draggable={false}>
 				<div className="row">
+          <div className="arrow-sy">
+<img src="assets/img/home/testsy.png">
+
+</img>
+          </div>
                   <div className="col-md-4 img-con">
                   <img src={item.author} alt="quote-up" className="authrimg" />
                   </div>

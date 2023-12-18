@@ -35,21 +35,25 @@ const Aboutus = () => {
          {
             id: 1,
             vission_src: "assets/img/about/icon1 (1).png",
+            hover_img: "assets/img/about/about-ac.png", 
             vission_content: "Our essence is to serve our customers. We are committed to going above and beyond in our quest to ensure the satisfaction of our customers.",
          },
          {
             id: 2,
-            vission_src: "assets/img/about/icon1 (4).png",
+            vission_src: "assets/img/home/abouticon.png",
+            hover_img: "assets/img/about/icon1 (4).png", 
             vission_content: "RemitAssure offers customers secure, efficient and cost-effective remittance services.",
          },
          {
             id: 3,
             vission_src: "assets/img/about/icon1 (3).png",
+            hover_img: "assets/img/about/about-3.png", 
             vission_content: "We offer very competitive foreign exchange rates due to our lean business model.",
          },
          {
             id: 4,
             vission_src: "assets/img/about/icon1 (2).png",
+            hover_img: "assets/img/about/about-4.png", 
             vission_content: "Through our digital channels we are able to serve customers irrespective of their location, 24 hours a day, 7 days a week (24/7).",
          },
 
@@ -60,6 +64,7 @@ const Aboutus = () => {
             <li key={vission.id}>
                  <div className="li-vision">
                <img src={vission.vission_src} className="vission_image" alt="alt_image" />
+               <img src={vission.hover_img} className="vission_image-hover" alt="alt_image" />
                <p className="vission_content">{vission.vission_content}</p>
                </div>
             </li>
