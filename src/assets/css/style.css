@@ -3935,6 +3935,7 @@ th.popup-heading {
    display: flex;
     flex-direction: column;
 }*/
+
 #footer {
   padding: 60px;
   color: #fff;
@@ -3942,9 +3943,24 @@ th.popup-heading {
   background: #190278;
   border-radius: 50px;
   float: left;
+  margin-bottom: 50px;
 }
- 
+.padding-right-box {
 
+  padding-left: 30px;
+}
+ul.hero-btn li a.Get-start {
+  text-transform: uppercase !important;
+}
+a.exchangebtn {
+  text-decoration: underline !important;
+}
+a.exchangebtn {
+    text-transform: uppercase;
+}
+a.exchangebtn {
+  text-transform: uppercase;
+}
 #footer .footer-newsletter {
   padding: 50px 0;
   /* background: #0d2735; */
@@ -7445,8 +7461,25 @@ section.why-us.section-bgba.hows-it-section .vl-heading {
 }
 
 @media only screen and (max-width:767px) {
- .desktop-only {
+ .desktop-only,.for-desk {
     display: none;
+}
+.icon-ffoter .logo-foo {
+  width: 100%;
+}
+.homepage-why-us p.vl-paragraph {
+  padding-top: 0px !IMPORTANT;
+}
+.custom-button-group
+{
+  margin-bottom: 30px;
+}
+.custom-button-group.country-slider-arrow.for-mobilee {
+  position: initial !important;
+  width: 100%;
+  float: left;
+  margin-top: 20px !important;
+  display: block !important;
 }
 .inner-circle-stapes {
   
@@ -7486,6 +7519,7 @@ section.why-us.section-bgba.hows-it-section .vl-heading {
 }
 .bottom-content
 {
+  padding-bottom: 0px !IMPORTANT;
   border-bottom: none;
 }
 .free-transaction p,section.why-us_section .vl h1 {
@@ -8020,7 +8054,9 @@ p.content-news {
   width: 30%;
   float: left;
 }
-
+.flags-container label b {
+  margin-left: 5px !important;
+}
 .bottom-footer {
   float: left;
   width: 100%;
@@ -8034,7 +8070,7 @@ p.content-news {
 .social-links a {
   width: 38px;
   height: 38px;
-  line-height: 38px;
+  line-height: 32px;
   border: 1px solid rgba(255, 255, 255, 0.4);
   display: inline-block;
   text-align: center;
@@ -8130,16 +8166,18 @@ ul.About_why-content li {
  color:#fff !important
 }
 
-.vis li:nth-child(2) .li-vision
-{
-  background: #FD696C !important;
+.li-vision:hover img.vission_image {
+  display: none;
 }
 
-.vis li:nth-child(2) .li-vision p
-{
-  color:#fff !important
+.li-vision:hover img.vission_image-hover {
+  display: block !important;
+  text-align: center;
+  margin: 0 auto;
 }
-
+.li-vision img.vission_image-hover {
+  display: none;
+}
 
 
 .help-li {
@@ -8194,6 +8232,13 @@ h3.title-help a {margin-top: 20px;color: #190278 !important;font-size: 21px;font
     width: 35%;
     top: 8px;
     padding: 13px;
+}
+.Enjoy-Free .vl-content p {
+  text-align: center !important;
+  margin-top: 0px !important;
+}
+.Enjoy-Free h1.vl-heading.left-align {
+  width: 100%;
 }
 ul.footer-bottom-links li a
 {
@@ -8290,4 +8335,120 @@ h4.content-heading {
 section {
   float: left;
   width: 100%;
+}
+
+
+.country-slider-arrow {
+  margin: 0;
+  position: absolute;
+  bottom: 132%;
+  width: max-content;
+  margin: 0 auto;
+  left: 60%;
+  right: 0;
+}
+.custome-country
+{
+  position: relative;
+}
+
+
+.country-slider-arrow button.next-sli {
+  background: #0AEDC7 !important;
+}
+
+.country-slider-arrow button.pre-sli {
+  border: 1px solid #0AEDC7;
+}
+
+
+.country-slider-arrow button.pre-sli:hover
+{
+  background: none !important;
+}
+
+.arrow-sy {
+  text-align: right;
+}
+
+.arrow-sy img {
+  width: 28px;
+}
+
+
+.btn-contact a {
+  text-transform: uppercase;
+}
+
+.contact-section p {
+  width: 100%;
+  float: left;
+}
+
+
+.Morelink a {
+  text-decoration: underline;
+}
+
+.buttonsdownload a {
+  width: max-content !important;
+  padding-right: 19px;
+}
+
+.home-error span {
+  color: #fff !important;
+}
+.home-error {
+  position: relative !important;
+}
+.partners-section li .partners {
+  border: 1px solid #efefef47;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 12px;
+  border-radius: 15px;
+}
+.partners-section li .partners img {
+  width: 100%;
+}
+body.aboutus-page footer#footer {
+  margin-top: 50px !important;
+}
+
+.help-li:hover {
+  background: #FD696C;
+}
+.get-started li {
+    list-style: none;
+}
+.get-started li {
+  list-style: none;
+  float: left;
+  width: 100%;
+  margin-top: 13px;
+}
+.help-li:hover h3.title-help a
+{
+  color:#fff !important;
+}
+
+
+.help-li:hover img.vission_image {
+  display: none;
+}
+
+
+.help-li:hover img.vission_hover {
+  display: block !important;
+}
+
+.help-li img.vission_hover
+{
+  display: none;
+}
+
+body.bg-image section.contct-info {
+  padding-bottom: 100px;
 }

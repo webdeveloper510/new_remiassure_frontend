@@ -62,6 +62,8 @@ const Partners = () => {
 
   return (
     <div>
+
+      
       <Carousel
         ssr={false}
         ref={carouselRef}
