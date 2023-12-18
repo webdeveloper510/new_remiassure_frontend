@@ -8,7 +8,7 @@ import SenderDetails from './SenderDetails'
 import PaymentSummary from './PaymentSummary'
 import { useLocation, useNavigate } from 'react-router-dom'
 import authDashHelper from '../../utils/AuthDashHelper'
-import { pendingTransactions } from '../../utils/Api'
+import { getDiscountedPrice, pendingTransactions } from '../../utils/Api'
 import { commaSeperator, generateRandomKey } from '../../utils/hook'
 
 const SendMoney = () => {
@@ -19,6 +19,7 @@ const SendMoney = () => {
   const data = useLocation()?.state
 
   const [step, setStep] = useState(0)
+  const [final_amount, setFinalAmount] = useState("")
 
   const [amt_detail, setAmtDetail] = useState({
     send_amt: data?.send_amt || "", exchange_amt: data?.exchange_amt || "", from_type: data?.from_type || "", to_type: data?.to_type || "", recieve_meth: data?.recieve_meth || "", payout_part: ""
@@ -90,6 +91,9 @@ const SendMoney = () => {
       n--
     }
     setActiveStep(Number(s) + 1)
+
+
+
   }, [step])
 
 

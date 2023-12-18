@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 import clsx from 'clsx'
 import { createAgreement, createPayId, createTransaction, getAgreementList, updateAgreement } from '../../utils/Api'
 import { Line } from 'rc-progress'
-import { PayIDInst, PayToInst } from '../modals/beforeInstructions'
+import { PayIDInst, PayToInst } from '../modals/guideLines'
 
 const PaymentDetails = ({ handleStep, step }) => {
 
@@ -396,7 +396,7 @@ const PayIDModal = ({ modal, handler, data, method, step, handleStep }) => {
   )
 }
 
-const PayToModal = ({ modal, method, handler, handleStep, step, authModal }) => {
+const PayToModal = ({ modal, method, handler, handleStep, step }) => {
 
   const [disabled, setDisabled] = useState(null)
   const [stage, setStage] = useState(1)

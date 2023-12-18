@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
 import { commaSeperator } from '../../utils/hook'
+import { getDiscountedPrice } from '../../utils/Api'
 
 const TransactionConfirm = ({ data, handleCancel, handleContinue }) => {
+
+    let transaction_id = localStorage.getItem("transaction_id")
+    const [discounts, setDiscounts] = useState({ amount: "", discount_amount: "", final_amount: "" })
 
     useEffect(() => {
         window.scrollTo({
@@ -10,8 +14,11 @@ const TransactionConfirm = ({ data, handleCancel, handleContinue }) => {
             left: 0,
             behavior: "smooth"
         })
+
+        getDiscountedPrice(transaction_id).then(res => {
+            setDiscounts(res.data)
+        })
     }, [])
-    let transaction_id = localStorage.getItem("transaction_id")
 
     return (
         <div className='col-md-12 d-grid m-0 p-0' style={{ placeItems: "center" }}>
@@ -38,7 +45,7 @@ const TransactionConfirm = ({ data, handleCancel, handleContinue }) => {
                             </tr>
                             <tr>
                                 <th>Total Cost</th>
-                                <td>{data?.data?.amount?.from_type}&nbsp;{data?.data?.amount?.send_amt !== "" && data?.data?.amount?.send_amt !== undefined && data?.data?.amount?.send_amt !== null ? commaSeperator(data?.data?.amount?.send_amt) : data?.data?.amount?.send_amt}</td>
+                                <td>{data?.data?.amount?.from_type}&nbsp;{discounts?.final_amount} {Number(discounts?.discount_amount) !== 0 ? "(Referral discount applied)" : ""}</td>
                             </tr>
                             <tr>
                                 <th>Total To Recipient</th>

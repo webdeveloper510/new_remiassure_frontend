@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router'
 import { BsCheckCircleFill } from 'react-icons/bs'
 import { toast } from 'react-toastify'
 import PopVerify from '../verification/PopVerify'
-import { ZaiPayId, ZaiPayTo, userCharge } from '../../utils/Api'
+import { ZaiPayId, ZaiPayTo, getDiscountedPrice, userCharge } from '../../utils/Api'
 import { commaSeperator } from '../../utils/hook'
 import { PayIdInstructions, PayToInstructions } from '../modals/Instructions'
 
@@ -25,7 +25,7 @@ const PaymentSummary = ({ handleStep, step }) => {
   const [loader, setLoader] = useState(false)
   const [transaction, setTransaction] = useState({ id: "", status: "", pay_id: "" })
   const [is_otp_verified, setIsOtpVerfied] = useState(null)
-
+  const [discounts, setDiscounts] = useState({ amount: "", discount_amount: "", final_amount: "" })
   const local = JSON.parse(localStorage.getItem("transfer_data"));
   let transaction_id = localStorage.getItem("transaction_id")
 
@@ -45,7 +45,9 @@ const PaymentSummary = ({ handleStep, step }) => {
       pay_id: local?.payment?.bsb ? local?.payment?.bsb : "",
       pay_id: local?.payment?.acc_no ? local?.payment?.acc_no : "",
     })
-
+    getDiscountedPrice(localStorage.getItem("transaction_id")).then(res => {
+      setDiscounts(res.data)
+    })
   }, [])
 
   const handleFinalStep = () => {
@@ -208,6 +210,12 @@ const PaymentSummary = ({ handleStep, step }) => {
                     <td><span>{data?.to}</span>&nbsp;
                       {data?.recieve_amount !== "" ? commaSeperator(data?.recieve_amount) : data?.recieve_amount}</td>
                   </tr>
+                  <tr>
+                    <td>Total Cost</td>
+                    <td>
+                      <span>{data?.from}</span>&nbsp;{discounts?.final_amount}&nbsp;{Number(discounts?.discount_amount) !== 0 ? "(Referral discount applied)" : ""}
+                    </td>
+                  </tr>
                 </tbody>
                 <thead>
                   <tr>
@@ -275,7 +283,7 @@ const PaymentSummary = ({ handleStep, step }) => {
                 </tr>
                 <tr>
                   <th>Transaction Amount</th>
-                  <td>{data.from}&nbsp;{commaSeperator(data.send_amount)}</td>
+                  <td>{data.from}&nbsp;{commaSeperator(discounts?.final_amount)}</td>
                 </tr>
                 <tr>
                   <th>Transaction Status:</th>
@@ -286,9 +294,9 @@ const PaymentSummary = ({ handleStep, step }) => {
             <div className='my-4'>
               {
                 data?.send_method === "PayByID" ? (
-                  <PayIdInstructions amount={data.send_amount} pay_id={transaction.pay_id} currency={data.from} transaction_id={transaction.id} />
+                  <PayIdInstructions amount={discounts?.final_amount} pay_id={transaction.pay_id} currency={data.from} transaction_id={transaction.id} />
                 ) : (
-                  <PayToInstructions amount={data.send_amount} currency={data.from} transaction_id={transaction.id} />
+                  <PayToInstructions amount={discounts?.final_amount} currency={data.from} transaction_id={transaction.id} />
                 )
               }
             </div>

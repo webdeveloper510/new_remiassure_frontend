@@ -525,8 +525,8 @@ export const getPayID = async () => {
   return response
 }
 
-export const getDiscountedPrice = async () => {
-  const response = await Axios.post("payment/get-discount/", {
+export const getDiscountedPrice = async (data) => {
+  const response = await Axios.post("payment/get-discount/", { transaction_id: data }, {
     headers: {
       "Authorization": `Bearer ${localStorage.getItem("token")}`
     }
