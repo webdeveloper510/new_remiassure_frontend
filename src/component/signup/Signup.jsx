@@ -14,7 +14,12 @@ import countryList from "../../utils/senderCountries.json"
 import { Alert, Modal, Button, ModalBody } from "react-bootstrap";
 import OtpInput from "react18-input-otp";
 const Signup = () => {
+    const [isOn, setOn] = useState(false);
 
+    const handleToggle = () => {
+      setOn(!isOn);
+    };
+  
     const search = useLocation()
     const [show, setShow] = useState(false);
     const [country_code, setCountryCode] = useState("AU")
@@ -248,21 +253,19 @@ const Signup = () => {
 
     const handleOtpChange = (enteredOtp) => {
         setOtp(enteredOtp);
-    };
-
+    }
+    
     return (
         <>
             {
                 !isGetOtp ? (
                     <section className="sigupsec">
-                        
+                        <div className="container">
                             <div className="row">
                                 <div className="col-lg-6">
                                     <div className="sign-image-sec">
-                                <img src="assets/img/home/signup.png" className="signup" alt="alt_image"/>
-                                <div className="inner-image-sig">
-                                <img src="assets/img/home/signup2.png" className="upper-image" alt="alt_image"/>
-                                </div>
+                                <img src="assets/img/home/signup-left.png" className="signup" alt="alt_image"/>
+                               
                                 </div>
                                 </div>
                                 <div className="col-lg-6">
@@ -440,7 +443,15 @@ const Signup = () => {
                                                                     )}
                                                                 </Form.Group>
                                                             </div>} */}
-                                                            <Form.Group className="mb-3 form_checkbox">
+ <Form.Group className="mb-2 form_on-off">
+Referred by a friend? Use the referral code below.
+<label className={`toggle-container ${isOn ? 'on' : 'off'}`}>
+      <input type="checkbox" checked={isOn} onChange={handleToggle} />
+      <span className="toggle-slider"></span>
+    </label>
+	
+	  </Form.Group>
+                                             <Form.Group className="mb-3 form_checkbox">
                                                                 <Form.Check className="form_label"
                                                                     type="checkbox"
                                                                     value="1"
@@ -472,7 +483,7 @@ const Signup = () => {
                                     </div>
                                 </div>
                             </div>
-                    
+                    </div>
                     </section>
                 ) : (
                     <section className="why-us section-bgba verification_banner">

@@ -1414,7 +1414,7 @@ p.icon-acc {
     }
     
     img.signup {
-        width: 100%;
+        width: 80%;
     }
 
     body.signup-page footer#footer
@@ -1656,4 +1656,71 @@ a.Get-start.mobile-btn:before {
 
 .free-transaction {
     display: flex;
+}
+
+.toggle-container {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .toggle-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #d9d9d9; /* Default background color for the slider */
+    border-radius: 20px; /* Rounded corners for the slider */
+    transition: 0.4s; /* Add a smooth transition effect */
+  }
+  label.toggle-container input {
+    width: 50px;
+    height: 20px;
+}
+label.toggle-container
+{
+    margin-left: 10px;
+}
+  .toggle-slider:before {
+    content: "";
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 3px;
+    background-color: white; /* Color for the toggle "knob" */
+    border-radius: 50%; /* Make the "knob" round */
+    transition: 0.4s; /* Add a smooth transition effect */
+  }
+  
+  .toggle-container.on .toggle-slider {
+    background-color: #2196F3; /* Change background color when the toggle is on */
+  }
+  
+  .toggle-container.on .toggle-slider:before {
+    transform: translateX(20px); /* Move the "knob" to the right when the toggle is on */
+  }
+
+  .form_on-off {
+    color: rgba(0, 0, 0, 0.6);
+    margin-top: 20px;
+}
+.fv-plugins-message-container.mt-1 {
+    position: absolute;
+}
+.login-page
+{
+    display: flex;
+    align-items: center;
+    height: 100vh;
+}
+
+.backlogin {
+    color: #A6a6a8;
+}
+
+.backlogin a {
+    color: #6515E9;
+    font-weight: 600;
 }

@@ -103,19 +103,17 @@ const Login = () => {
 
     return (
         <>
-     <section className="sigupsec">
-           
+     <section className="sigupsec login-page">
+     <div className="container">
                     <div className="row">
-
+                 
                         <div className="col-lg-12">
                             {/* start-- card */}
                             <div className="row">
                             <div className="col-lg-6">
                                     <div className="sign-image-sec">
-                                <img src="assets/img/home/signup.png" className="signup" alt="alt_image"/>
-                                <div className="inner-image-sig">
-                                <img src="assets/img/home/signup2.png" className="upper-image" alt="alt_image"/>
-                                </div>
+                                <img src="assets/img/home/signup-left.png" className="signup" alt="alt_image"/>
+                               
                                 </div>
                                 </div>
 								
@@ -243,7 +241,7 @@ const Login = () => {
                             </div>
                         </div>
                     </div>
-            
+            </div>
             </section>
         </>
 
