@@ -31,17 +31,17 @@ const AmountDetail = ({ handleStep, step }) => {
     const [blur_off, setBlurOff] = useState(false)
 
     const amtSchema = Yup.object().shape({
-        send_amt: Yup.string("Please enter a valid amount").notOneOf(["."]).test("value-test", (value, validationcontext) => {
+        send_amt: Yup.string("Please enter a valid amount").notOneOf([".", ""]).test("value-test", (value, validationcontext) => {
             const {
                 createError,
             } = validationcontext;
-            if (Number(value) < 100 && value !== "") {
+            if (Number(value) < 100) {
                 return createError({ message: "Minimum $100 required" })
             } else {
                 return true
             }
-        }),
-        exchange_amt: Yup.string("Please enter a valid amount").notOneOf(["."]),
+        }).required(),
+        exchange_amt: Yup.string("Please enter a valid amount").notOneOf([".", ""]).required(),
         from_type: Yup.string().required(),
         to_type: Yup.string().required(),
         exchange_amt: Yup.string(),
@@ -82,8 +82,8 @@ const AmountDetail = ({ handleStep, step }) => {
             let payload = {
                 transaction_id: transaction_id,
                 amount: {
-                    send_amount: values?.send_amt !== "" ? commaRemover(values.send_amt) : "100",
-                    receive_amount: values?.exchange_amt !== "" ? commaRemover(values.exchange_amt) : defaultExchange,
+                    send_amount: commaRemover(values.send_amt),
+                    receive_amount: commaRemover(values.exchange_amt),
                     send_currency: values.from_type,
                     receive_currency: values.to_type,
                     receive_method: "Bank transfer",
@@ -101,7 +101,7 @@ const AmountDetail = ({ handleStep, step }) => {
                     if (localStorage.getItem("transfer_data")) {
                         local = JSON.parse(localStorage.getItem("transfer_data"))
                     }
-                    local.amount = { ...values, send_amt: values.send_amt !== "" ? commaRemover(values.send_amt) : "100", exchange_amt: values.exchange_amt !== "" ? commaRemover(values.exchange_amt) : defaultExchange, exchange_rate: exch_rate, defaultExchange: defaultExchange }
+                    local.amount = { ...values, send_amt: commaRemover(values.send_amt), exchange_amt: commaRemover(values.exchange_amt), exchange_rate: exch_rate, defaultExchange: defaultExchange }
                     localStorage.setItem("transfer_data", JSON.stringify(local))
                 }
             })

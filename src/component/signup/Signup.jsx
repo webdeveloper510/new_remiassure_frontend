@@ -17,9 +17,9 @@ const Signup = () => {
     const [isOn, setOn] = useState(false);
 
     const handleToggle = () => {
-      setOn(!isOn);
+        setOn(!isOn);
     };
-  
+
     const search = useLocation()
     const [show, setShow] = useState(false);
     const [country_code, setCountryCode] = useState("AU")
@@ -51,7 +51,7 @@ const Signup = () => {
         email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/, "Invalid email format").min(6).max(50).required("Email is required"),
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
-        referral_code: show ? Yup.string().length(6, "Referral code must contain 6 characters").required("Referral Code is required") : Yup.string().notRequired(),
+        referral_code: isOn ? Yup.string().length(6, "Referral code must contain 6 characters").required("Referral Code is required") : Yup.string().notRequired(),
         mobile: Yup.string().min(11).required()
     })
 
@@ -254,7 +254,7 @@ const Signup = () => {
     const handleOtpChange = (enteredOtp) => {
         setOtp(enteredOtp);
     }
-    
+
     return (
         <>
             {
@@ -264,9 +264,9 @@ const Signup = () => {
                             <div className="row">
                                 <div className="col-lg-6">
                                     <div className="sign-image-sec">
-                                <img src="assets/img/home/signup-left.png" className="signup" alt="alt_image"/>
-                               
-                                </div>
+                                        <img src="assets/img/home/signup-left.png" className="signup" alt="alt_image" />
+
+                                    </div>
                                 </div>
                                 <div className="col-lg-6">
                                     <div className="row">
@@ -277,7 +277,7 @@ const Signup = () => {
                                                     <p className="money-form">Where are you sending money from?</p>
                                                     <div className="form_signup">
                                                         <form onSubmit={formik.handleSubmit} autoComplete="on">
-                                                           
+
                                                             <Form.Group className="mb-2 form_label">
                                                                 <Form.Label>Location<span style={{ color: '#FD6063' }} >*</span> </Form.Label>
                                                                 <Form.Select
@@ -296,127 +296,136 @@ const Signup = () => {
                                                                     }
                                                                 </Form.Select>
                                                             </Form.Group>
-															<div className="row">
-																<div className="col-md-6 phone-row">
-                                                            <Form.Group className="mb-2 form_label" >
-                                                                <Form.Label>Your Phone<span style={{ color: 'red' }} >*</span> </Form.Label>
-                                                                <PhoneInput
-                                                                    onlyCountries={["au", "nz"]}
-                                                                    country={country_code ? country_code.toLowerCase() : "au"}
-                                                                    name="mobile"
-                                                                    inputStyle={{ border: "none", margin: "none" }}
-                                                                    inputClass="phoneInp"
-                                                                    placeholder="Enter Phone..."
-                                                                    defaultCountry={"au"}
-                                                                    inputProps={{ required: true }}
-                                                                    countryCodeEditable={false}
-                                                                    onChange={(val, coun) => { handlePhone(val, coun) }}
-                                                                    className={clsx(
-                                                                        'form-control form-control-sm bg-transparent',
-                                                                        { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
-                                                                        {
-                                                                            'is-valid': formik.touched.mobile && !formik.errors.mobile,
-                                                                        }
-                                                                    )}
-                                                                    onBlur={handleBlur}
-                                                                />
-                                                            </Form.Group>
-															</div>
-															<div className="col-md-6 email-row">
-                                                            <Form.Group className="mb-2 form_label" >
-                                                                <Form.Label>Your Email<span style={{ color: '#FD6063' }} >*</span> </Form.Label>
-                                                                <Form.Control
-                                                                    type="email"
-                                                                    placeholder="Enter Your Email..."
-                                                                    {...formik.getFieldProps('email')}
-                                                                    className={clsx(
-                                                                        'form-control bg-transparent',
-                                                                        { 'is-invalid': formik.touched.email && formik.errors.email },
-                                                                        {
-                                                                            'is-valid': formik.touched.email && !formik.errors.email,
-                                                                        }
-                                                                    )}
-                                                                />
-                                                                {formik.touched.email && formik.errors.email && (
-                                                                    <div className='fv-plugins-message-container mt-1'>
-                                                                        <div className='fv-help-block'>
-                                                                            <span role='alert' className="text-danger">{formik.errors.email}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </Form.Group>
-															</div>
-															
-															</div>
-															<div className="row">
-																<div className="col-md-6 pass-row">
-                                                            <Form.Group className="mb-2 form_label">
-                                                                <Form.Label> Your Password<span style={{ color: 'red' }} >*</span> </Form.Label>
-                                                                <Form.Control
-                                                                    type={showPassword ? 'text' : 'password'}
-                                                                    id="password"
-                                                                    name="password"
-                                                                    autoComplete="off"
-                                                                    {...formik.getFieldProps('password')}
-                                                                    placeholder="Enter Password..."
-                                                                    className={clsx(
-                                                                        'form-control bg-transparent',
-                                                                        { 'is-invalid': formik.touched.password && formik.errors.password },
-                                                                        {
-                                                                            'is-valid': formik.touched.password && !formik.errors.password,
-                                                                        }
-                                                                    )}
-                                                                />
-                                                                <span onClick={toggleShowPassword} className="pass_icons">
-                                                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                                                                </span>
-                                                                {formik.touched.password && formik.errors.password && (
-                                                                    <div className='fv-plugins-message-container mt-1'>
-                                                                        <div className='fv-help-block'>
-                                                                            <span role='alert' className="text-danger">{formik.errors.password}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </Form.Group>
-															</div>
-																<div className="col-md-6 cnfirmpass-row">
-                                                            <Form.Group className="mb-2 form_label">
-                                                                <Form.Label> Confirm Password<span style={{ color: 'red' }} >*</span> </Form.Label>
-                                                                <Form.Control
-                                                                    type={showConfirmPassword ? 'text' : 'password'}
-                                                                    name="confirm Password"
-                                                                    autoComplete="off"
-                                                                    placeholder="Confirm Password"
-                                                                    {...formik.getFieldProps('confirmPassword')}
-                                                                    className={`${clsx(
-                                                                        'form-control bg-transparent',
-                                                                        { 'is-invalid': formik.touched.confirmPassword && formik.errors.confirmPassword },
-                                                                        {
-                                                                            'is-valid': formik.touched.confirmPassword && !formik.errors.confirmPassword,
-                                                                        }
-                                                                    )} rate_input form-control`}
-                                                                />
-                                                                <span onClick={toggleShowConfirmPassword} className="pass_icons">
-                                                                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                                                                </span>
-                                                                {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-                                                                    <div className='fv-plugins-message-container mt-1'>
-                                                                        <div className='fv-help-block'>
-                                                                            <span role='alert' className="text-danger">{formik.errors.confirmPassword}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </Form.Group>
-															</div>
-															</div>
+                                                            <div className="row">
+                                                                <div className="col-md-6 phone-row">
+                                                                    <Form.Group className="mb-2 form_label" >
+                                                                        <Form.Label>Your Phone<span style={{ color: 'red' }} >*</span> </Form.Label>
+                                                                        <PhoneInput
+                                                                            onlyCountries={["au", "nz"]}
+                                                                            country={country_code ? country_code.toLowerCase() : "au"}
+                                                                            name="mobile"
+                                                                            inputStyle={{ border: "none", margin: "none" }}
+                                                                            inputClass="phoneInp"
+                                                                            placeholder="Enter Phone..."
+                                                                            defaultCountry={"au"}
+                                                                            inputProps={{ required: true }}
+                                                                            countryCodeEditable={false}
+                                                                            onChange={(val, coun) => { handlePhone(val, coun) }}
+                                                                            className={clsx(
+                                                                                'form-control form-control-sm bg-transparent',
+                                                                                { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                                                                                {
+                                                                                    'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                                                                                }
+                                                                            )}
+                                                                            onBlur={handleBlur}
+                                                                        />
+                                                                    </Form.Group>
+                                                                </div>
+                                                                <div className="col-md-6 email-row">
+                                                                    <Form.Group className="mb-2 form_label" >
+                                                                        <Form.Label>Your Email<span style={{ color: '#FD6063' }} >*</span> </Form.Label>
+                                                                        <Form.Control
+                                                                            type="email"
+                                                                            placeholder="Enter Your Email..."
+                                                                            {...formik.getFieldProps('email')}
+                                                                            className={clsx(
+                                                                                'form-control bg-transparent',
+                                                                                { 'is-invalid': formik.touched.email && formik.errors.email },
+                                                                                {
+                                                                                    'is-valid': formik.touched.email && !formik.errors.email,
+                                                                                }
+                                                                            )}
+                                                                        />
+                                                                        {formik.touched.email && formik.errors.email && (
+                                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                                <div className='fv-help-block'>
+                                                                                    <span role='alert' className="text-danger">{formik.errors.email}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        )}
+                                                                    </Form.Group>
+                                                                </div>
+
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-md-6 pass-row">
+                                                                    <Form.Group className="mb-2 form_label">
+                                                                        <Form.Label> Your Password<span style={{ color: 'red' }} >*</span> </Form.Label>
+                                                                        <Form.Control
+                                                                            type={showPassword ? 'text' : 'password'}
+                                                                            id="password"
+                                                                            name="password"
+                                                                            autoComplete="off"
+                                                                            {...formik.getFieldProps('password')}
+                                                                            placeholder="Enter Password..."
+                                                                            className={clsx(
+                                                                                'form-control bg-transparent',
+                                                                                { 'is-invalid': formik.touched.password && formik.errors.password },
+                                                                                {
+                                                                                    'is-valid': formik.touched.password && !formik.errors.password,
+                                                                                }
+                                                                            )}
+                                                                        />
+                                                                        <span onClick={toggleShowPassword} className="pass_icons">
+                                                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                                                        </span>
+                                                                        {formik.touched.password && formik.errors.password && (
+                                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                                <div className='fv-help-block'>
+                                                                                    <span role='alert' className="text-danger">{formik.errors.password}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        )}
+                                                                    </Form.Group>
+                                                                </div>
+                                                                <div className="col-md-6 cnfirmpass-row">
+                                                                    <Form.Group className="mb-2 form_label">
+                                                                        <Form.Label> Confirm Password<span style={{ color: 'red' }} >*</span> </Form.Label>
+                                                                        <Form.Control
+                                                                            type={showConfirmPassword ? 'text' : 'password'}
+                                                                            name="confirm Password"
+                                                                            autoComplete="off"
+                                                                            placeholder="Confirm Password"
+                                                                            {...formik.getFieldProps('confirmPassword')}
+                                                                            className={`${clsx(
+                                                                                'form-control bg-transparent',
+                                                                                { 'is-invalid': formik.touched.confirmPassword && formik.errors.confirmPassword },
+                                                                                {
+                                                                                    'is-valid': formik.touched.confirmPassword && !formik.errors.confirmPassword,
+                                                                                }
+                                                                            )} rate_input form-control`}
+                                                                        />
+                                                                        <span onClick={toggleShowConfirmPassword} className="pass_icons">
+                                                                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                                                        </span>
+                                                                        {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                                <div className='fv-help-block'>
+                                                                                    <span role='alert' className="text-danger">{formik.errors.confirmPassword}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        )}
+                                                                    </Form.Group>
+                                                                </div>
+                                                            </div>
                                                             {/*<Form.Check className="form_switch"
                                                                 type="switch"
                                                                 onClick={() => setShow(!show)}
                                                                 id="custom-switch"
                                                                 label="Referred by a friend? Use the referral code below."
 
-                                                            />
-                                                            {show && <div>
+                                                            />*/}
+
+                                                            <Form.Group className="mb-2 form_on-off">
+                                                                Referred by a friend? Use the referral code below.
+                                                                <label className={`toggle-container ${isOn ? 'on' : 'off'}`}>
+                                                                    <input type="checkbox" checked={isOn} onChange={handleToggle} />
+                                                                    <span className="toggle-slider"></span>
+                                                                </label>
+
+                                                            </Form.Group>
+                                                            {isOn && <div>
                                                                 <Form.Group className="mb-3 form_label">
                                                                     <Form.Label>Your Referral Code</Form.Label>
                                                                     <input
@@ -442,16 +451,8 @@ const Signup = () => {
                                                                         </div>
                                                                     )}
                                                                 </Form.Group>
-                                                            </div>} */}
- <Form.Group className="mb-2 form_on-off">
-Referred by a friend? Use the referral code below.
-<label className={`toggle-container ${isOn ? 'on' : 'off'}`}>
-      <input type="checkbox" checked={isOn} onChange={handleToggle} />
-      <span className="toggle-slider"></span>
-    </label>
-	
-	  </Form.Group>
-                                             <Form.Group className="mb-3 form_checkbox">
+                                                            </div>}
+                                                            <Form.Group className="mb-3 form_checkbox">
                                                                 <Form.Check className="form_label"
                                                                     type="checkbox"
                                                                     value="1"
@@ -464,7 +465,7 @@ Referred by a friend? Use the referral code below.
                                                             <button variant="primary"
                                                                 type="submit"
                                                                 className="signup_button ">
-                                                                Sign <b>up</b> <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image"/>
+                                                                Sign <b>up</b> <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" />
                                                                 {loading ? <>
                                                                     <div className="loader-overly">
                                                                         <div className="loader" >
@@ -483,7 +484,7 @@ Referred by a friend? Use the referral code below.
                                     </div>
                                 </div>
                             </div>
-                    </div>
+                        </div>
                     </section>
                 ) : (
                     <section className="why-us section-bgba verification_banner">

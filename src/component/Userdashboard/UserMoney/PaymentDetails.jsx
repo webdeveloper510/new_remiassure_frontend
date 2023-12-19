@@ -13,12 +13,13 @@ import PopVerify from '../../verification/PopVerify'
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import clsx from 'clsx'
-import { ZaiPayId, ZaiPayTo, createAgreement, createPayId, createTransaction, getAgreementList, updateAgreement, userCharge, userProfile, verifyPayTo } from '../../../utils/Api'
+import { ZaiPayId, ZaiPayTo, createAgreement, createPayId, createTransaction, getAgreementList, getDiscountedPrice, updateAgreement, userCharge, userProfile, verifyPayTo } from '../../../utils/Api'
 import { Line } from 'rc-progress'
 import { commaSeperator } from '../../../utils/hook'
 import TransactionConfirm from '../../modals/TransactionConfirm'
 import { Link } from 'react-router-dom'
 import { PayIdInstructions, PayToInstructions } from '../../modals/Instructions'
+import { PayIDInst, PayToInst } from '../../modals/guideLines'
 
 
 const stripe_key = process.env.REACT_APP_STRIPE_KEY
@@ -48,6 +49,8 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [display_confirm, setDisplayConfirm] = useState({ toggle: false, data: null })
   let local = JSON.parse(localStorage.getItem("transfer_data"))
   const [display_value, setDisplayValue] = useState({ amount: local?.amount?.send_amt || "", currency: local?.amount?.from_type || "", first_name: local?.recipient?.first_name || "", last_name: local?.recipient?.last_name || "" })
+  const [show_payid_inst, setShowIDinst] = useState(false)
+  const [show_payto_inst, setShowToinst] = useState(false)
 
   const stripePromise = loadStripe(`${stripe_key}`);
 
@@ -409,7 +412,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                         <h5>Payment type</h5>
                         <div className="col-md-12">
                           <label className="container-new">
-                            <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={25} /></span>
+                            <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={25} /> &nbsp;&nbsp;<a onClick={() => setShowToinst(true)}>(click here to learn more...)</a></span>
                             <input
                               className="form-check-input"
                               type="radio"
@@ -423,7 +426,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                         </div>
                         <div className="col-md-12">
                           <label className="container-new">
-                            <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} /></span>
+                            <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} />&nbsp;&nbsp;<a onClick={() => setShowIDinst(true)}>(click here to learn more...)</a></span>
                             <input
                               className="form-check-input"
                               type="radio"
@@ -541,6 +544,8 @@ const PaymentDetails = ({ handleStep, step }) => {
               </Modal>
 
               <ErrorModal show={error_modal} handler={(value) => setErrorModal(value)} otp={(value) => OpenConfirmation(null)} />
+              <PayIDInst show={show_payid_inst} handler={() => { setShowIDinst(false) }} />
+              <PayToInst show={show_payto_inst} handler={() => { setShowToinst(false) }} />
             </>
 
           ) : (
@@ -1377,7 +1382,7 @@ const ErrorModal = ({ show, handler, otp }) => {
 const TransactionRecipiet = ({ transaction, modalView }) => {
 
   let navigate = useNavigate()
-
+  const [final_amount, setFinalAmount] = useState("")
 
   useEffect(() => {
     window.scrollTo({
@@ -1385,6 +1390,10 @@ const TransactionRecipiet = ({ transaction, modalView }) => {
       left: 0,
       behavior: "smooth"
     })
+    getDiscountedPrice(transaction?.id).then(res => {
+      setFinalAmount(res.data.final_amount)
+    })
+
   }, [transaction])
 
   return (
@@ -1403,7 +1412,7 @@ const TransactionRecipiet = ({ transaction, modalView }) => {
                 </tr>
                 <tr>
                   <th>Transaction Amount</th>
-                  <td>{transaction?.curr}&nbsp;{commaSeperator(transaction?.amount)}</td>
+                  <td>{transaction?.curr}&nbsp;{commaSeperator(final_amount)}</td>
                 </tr>
                 <tr>
                   <th>Transaction Status:</th>
@@ -1414,9 +1423,9 @@ const TransactionRecipiet = ({ transaction, modalView }) => {
             <div className='my-4'>
               {
                 transaction?.type === "pay_id" ? (
-                  <PayIdInstructions amount={transaction.amount} pay_id={transaction.pay_id} currency={transaction.curr} transaction_id={transaction.id} />
+                  <PayIdInstructions amount={final_amount} pay_id={transaction.pay_id} currency={transaction.curr} transaction_id={transaction.id} />
                 ) : (
-                  <PayToInstructions amount={transaction.amount} currency={transaction.curr} transaction_id={transaction.id} />
+                  <PayToInstructions amount={final_amount} currency={transaction.curr} transaction_id={transaction.id} />
                 )
               }
             </div>
