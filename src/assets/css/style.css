@@ -629,7 +629,26 @@ section {
   .breadcrumbs .d-flex,.free-transaction{
     display: block !important;
   }
+  .buttonsdownload .download a {
+    width: 100% !important;
+}
+  .buttonsdownload .download a {
+    width: 100% !important;
+}
+  h2.Sign-heading {
+    font-size: 20px;
+    text-align: center;
+}
+h2.Sign-heading.mb-5 {
+  margin-bottom: 10px !important;
+}
 
+  .buttonsdownload a {
+    width: 100% !important;
+}
+  .buttonsdownload a {
+    justify-content: center;
+}
   .darkpink .col-md-4 .btn-contact a {
     width: 100%;
 }
@@ -748,9 +767,10 @@ section#faq
 .newsletterform .input-news {
   margin-bottom: 10px;
 }
-.Download-P .col-sm-6 {
-  width: 50% !important;
-  float: left;
+.scaner-code {
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 20px;
 }
 .bottom-content {
   text-align: center;
@@ -2220,7 +2240,7 @@ h1.vl-support {
 }
 
 .form_checkbox {
-  padding-top: 10px;
+  padding-top: 0px;
   font-family: var(--font-family) !important;
   font-style: normal;
   font-weight: 400;

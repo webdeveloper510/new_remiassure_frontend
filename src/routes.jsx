@@ -61,7 +61,7 @@ const routes = [
       { path: 'help', element: <NonDashLayout><RouteWithBodyClass element={<Help />} bodyClass="bg-image" /></NonDashLayout> },
       { path: 'sign-up', element: <NonDashLayout><RouteWithBodyClass element={<Signup />} bodyClass="signup-page" /> </NonDashLayout> },
       { path: 'login', element:  <NonDashLayout><RouteWithBodyClass element={<Login />} bodyClass="signup-page" /> </NonDashLayout>},
-      { path: 'forgot-password', element: <NonDashLayout><ForgotPassword /></NonDashLayout> },
+      { path: 'forgot-password', element: <NonDashLayout><RouteWithBodyClass element={<ForgotPassword />} bodyClass="signup-page" /></NonDashLayout> },
       { path: 'reset-password', element: <NonDashLayout><RecentPassword /> </NonDashLayout> },
       { path: 'reset-password/:id', element: <NonDashLayout><LocalStorage /> </NonDashLayout> },
       { path: '/verification', element: <NonDashLayout><Verification /></NonDashLayout> },

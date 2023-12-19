@@ -801,7 +801,7 @@ const Home = () => {
             <section className="why-us section-bgba innre_about hows-work-section ">
                 <div id="about">
                     <div className="container">
-                        <div className="row">
+                        <div className="row1">
                          
                                     <h1 className="head-new">How it Works</h1>
                                     <div className="vl-content">
