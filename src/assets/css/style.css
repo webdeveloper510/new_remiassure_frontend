@@ -624,7 +624,10 @@ section {
   color: #6c757d;
   content: "/";
 }
-
+h5.Sign-heading {
+  font-size: 18px;
+  text-align: center;
+}
 @media (max-width: 768px) {
   .breadcrumbs .d-flex,.free-transaction{
     display: block !important;
