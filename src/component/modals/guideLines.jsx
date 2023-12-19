@@ -4,7 +4,7 @@ import { Modal } from 'react-bootstrap'
 export const PayToInst = ({ show, handler }) => {
     return (
         <Modal show={show} onHide={handler} centered>
-            <Modal.Header>
+            <Modal.Header closeButton>
                 <Modal.Title className='fs-5'><img src="/assets/img/zai/payto.svg" height={30} /></Modal.Title>
             </Modal.Header>
             <Modal.Body className="my-3 guideline">
@@ -23,7 +23,7 @@ export const PayToInst = ({ show, handler }) => {
 export const PayIDInst = ({ show, handler }) => {
     return (
         <Modal show={show} onHide={handler} centered>
-            <Modal.Header>
+            <Modal.Header closeButton>
                 <Modal.Title className='fs-5'><img src="/assets/img/zai/payid.svg" height={30} /></Modal.Title>
             </Modal.Header>
             <Modal.Body className="my-3 guideline">

@@ -112,24 +112,25 @@ const Header = () => {
                   </li>
                 ) : (
                   <>
+                    <nav className="login-navbar">
+                      <ul className='mobile-hide'>
+                        <li>
+                          <NavLink to="/sign-up" className="signactin">Sign <b>up</b></NavLink>
+                        </li>
+                        <li>
+                          <NavLink to="/login" className="logactin">Log  <b>in</b></NavLink>
+                        </li>
+                      </ul>
+                    </nav>
                   </>
                 )
               }
             </ul>
           </nav>
-          <nav  className="login-navbar">
-        <ul className='mobile-hide'>
-              <li>
-                      <NavLink to="/sign-up" className="signactin">Sign <b>up</b></NavLink>
-                    </li>
-                    <li>
-                      <NavLink to="/login" className="logactin">Log  <b>in</b></NavLink>
-                    </li>
-          </ul>
-            </nav>
 
-            <img src="assets/img/home/mobilemenu.png" onClick={mobilemenuShow} className="mobile-btn" />
-        
+
+          <img src="assets/img/home/mobilemenu.png" onClick={mobilemenuShow} className="mobile-btn" />
+
           <Offcanvas show={show} onHide={handleClose}>
             <Offcanvas.Header closeButton>
               <Offcanvas.Title> <div className="logo">
