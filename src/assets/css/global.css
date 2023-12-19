@@ -878,7 +878,7 @@ b.color-sp {
     border-radius: 39px;
     position: absolute;
     z-index: 999;
-    top: 50px;
+    top: 25px;
     left: 48px;
     padding: 20px;
 }
@@ -944,7 +944,7 @@ p.number {
 }
 
 .margintop .contant-img {
-    top: 14px;
+    top: 33px;
 }
 
 .contant-img.right-aligned {

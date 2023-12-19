@@ -883,7 +883,7 @@ const Home = () => {
 
                     <div className="  free-transaction">
                         <div className="col-lg-7  col-sm-7 text-end">
-                            <div className="images-1 images-1 col-md-10 marauto">
+                            <div className="images-1 images-1 col-md-8 marauto">
                                 <div className="image1">
                                     <img src="assets/img/home/free1.png" alt="background-images" />
                                 </div>
