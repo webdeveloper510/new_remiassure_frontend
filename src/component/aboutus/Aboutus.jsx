@@ -234,7 +234,7 @@ const Aboutus = () => {
        <section className="why-us_section homepage-why-us hows-section1 test-P aos-animate" data-aos="fade-up" date-aos-delay="200" >
 <div className="container">
 <h1 class="head-new">Testimonial</h1>
-<div class="vl-content"><p class="vl-paragraph">Reference site about Lorem Ipsum, giving information on its origins, as well <br></br>as a random Lipsum generator.</p></div>
+<div class="vl-content"><p class="vl-paragraph"> A few carefully chosen customers who have faith in our abilities.</p></div>
 <Scrollbar1/>
     </div>
 

@@ -246,7 +246,7 @@ const Help = () => {
       <h2 className="sec-title">
       Frequently asked questions
       </h2>
-      <p className="title-con">Reference site about Lorem Ipsum, giving as a random Lipsum generator.</p>
+      <p className="title-con">Please find detailed information on our services, fees, and <br></br>security measures, and ensure a smooth and informed money transfer experience.</p>
 	  <div className="accrodions_contents">
 	  <div className="accrodion_contents">
                 <AccordionArrayOfObjects />

@@ -85,7 +85,7 @@ const routes = [
       { path: '/transaction-detail/:id', element: <Layout><TransactionDetails /></Layout> },
       { path: '/user-send-money', element: <Layout><UserMoney /></Layout> },
       { path: '/add-new-recipient', element: <Layout><AddNewRecipient /></Layout> },
-      { path: '/user-profile', element: <Layout><UserProfile /></Layout> },
+      { path: '/user-profile', element: <Layout> <RouteWithBodyClass element={<UserProfile />} bodyClass="footer-space" /> </Layout> },
       { path: '/user-recipients', element: <Layout><UserRecipient /></Layout> },
       { path: '/change-password', element: <Layout><ChangePassword /></Layout> },
       { path: '/dashboard', element: <Layout><RouteWithBodyClass element={<Dashboard />} bodyClass="footer-space" /></Layout> },

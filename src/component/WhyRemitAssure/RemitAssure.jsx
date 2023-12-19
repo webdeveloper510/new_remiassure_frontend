@@ -19,7 +19,7 @@ const RemitAssure = () => {
 
     <div className="vl-content">
                     <p className="vl-paragraph">
-                    Reference site about Lorem Ipsum, giving information on its origins, as well <br></br>as a random Lipsum generator.
+                    RemitAssure leverages cutting edge digital technologies and an ecosystem of proven global partners to provide <br></br>seamless, secure, cost-effective and speedy global payments.
                     </p>
                 </div>
         <div className="row mb-3">

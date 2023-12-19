@@ -4441,7 +4441,7 @@ img.quotup_icons {
   background-repeat: no-repeat;
   background-size: 92% 100%;
   padding: 0px;
-  margin-top: 100px;
+  margin-top: 0px;
   background-position: center;
 }
 
@@ -6135,6 +6135,10 @@ label.container-new.form-gender {
 }
 .Sidebar {
   background: #fff;
+}
+.payment {
+  display: flex;
+  align-items: center;
 }
 /**************** sidebar css ***********************/
 .sidebar {

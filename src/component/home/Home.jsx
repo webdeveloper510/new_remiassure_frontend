@@ -693,7 +693,7 @@ const Home = () => {
                 <div className="partners-section">
                     <div className="">
                         <h1 className="vl-heading">Our Partners</h1>
-                        <p>Reference site about Lorem Ipsum, giving as a random Lipsum generator.</p>
+                        <p>Our money transfer service collaborates with reputable banks, payment networks, and financial <br></br> institutions to provide safe and easy transactions.</p>
 
                         <Partners></Partners>
                         {/* 
@@ -806,7 +806,8 @@ const Home = () => {
                             <h1 className="head-new">How it Works</h1>
                             <div className="vl-content">
                                 <p className="vl-paragraph">
-                                    Reference site about Lorem Ipsum, giving information on its origins, as well <br></br>as a random Lipsum generator.
+                                We assist you in a simple way, how you can transfer your money internationally with Remit Assure.
+
                                 </p>
                             </div>
 
@@ -968,25 +969,28 @@ const Home = () => {
                                 <h1 className="vl-heading left-align">Enjoy Free <br></br> Transactions with Us!</h1>
                             </div>
                             <div className="vl-content">
-                                <p>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+                                <p>Experience the freedom of seamless money transfers with RemitAssure, where every transaction comes with the added benefit of enjoying free transfers, making your financial transactions hassle-free and cost-effective!
+</p>
 
                                 <div class="bottom-content">
                                     <h2> <span> +</span>  Online and Mobile Banking </h2>
-                                    <p class="mar-t">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+                                    <p class="mar-t">Our online and mobile banking platforms empower you to manage your finances anytime, anywhere. Enjoy secure access to your accounts, effortless money transfers, and real-time transaction tracking. Experience the freedom of modern banking, tailored to your lifestyle.
+</p>
 
                                 </div>
 
 
                                 <div class="bottom-content">
                                     <h2> <span> +</span> Free Account Transfers </h2>
-                                    <p class="mar-t">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator. Reference site.</p>
+                                    <p class="mar-t">RemitAssure offers the convenience of free account transfers, allowing you to send money globally without incurring additional fees. Enjoy a cost-effective and efficient way to move funds securely across borders with our user-friendly platform.</p>
 
                                 </div>
 
 
                                 <div class="bottom-content border-none">
                                     <h2> <span> +</span> No Hidden Fee  </h2>
-                                    <p class="mar-t">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+                                    <p class="mar-t">At RemitAssure, we believe in transparency. Enjoy peace of mind with our no hidden fee policy – your transactions are straightforward, and you'll only pay what you see, ensuring a clear and honest money transfer experience.
+</p>
 
                                 </div>
 
@@ -1033,10 +1037,8 @@ const Home = () => {
                             <div className="vl about_v1">
                                 <h1 className="vl-heading left-align">Download our App</h1>
                             </div>
-                            <p className="text-bottom">In publishing and graphic design, Lorem ipsum is
-                                a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may
-                                be used as a placeholder before final copy
-                                is available.</p>
+                            <p className="text-bottom">Download our app for quick and convenient transactions allowing you to send money securely, track transfers effortlessly, and enjoy a seamless financial journey on the go. 
+</p>
                             <div class="row margintop-40">
                                 <div class="col-md-6 col-sm-6">
                                     <div class="scaner-code">
@@ -1118,7 +1120,9 @@ const Home = () => {
             <section className="why-us_section homepage-why-us hows-section1 test-P">
                 <div className="container">
                     <h1 class="head-new">Testimonials</h1>
-                    <div class="vl-content"><p class="vl-paragraph">Reference site about Lorem Ipsum, giving information on its origins, as well <br></br>as a random Lipsum generator.</p></div>
+                    <div class="vl-content"><p class="vl-paragraph">
+                    A few carefully chosen customers who have faith in our abilities.
+                        </p></div>
                     <Scrollbar1 />
                 </div>
 
