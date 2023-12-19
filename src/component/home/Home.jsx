@@ -141,8 +141,8 @@ const Home = () => {
         validateOnBlur: false,
         onSubmit: async (values) => {
             let object = {
-                send_amt: values.send_amt !== "" ? commaRemover(values.send_amt) : "100",
-                exchange_amt: values.exchange_amt !== "" ? commaRemover(values.exchange_amt) : commaRemover(defaultExchange),
+                send_amt: commaRemover(values.send_amt),
+                exchange_amt: commaRemover(values.exchange_amt),
                 from_type: values.from_type,
                 to_type: values.to_type,
                 recieve_meth: values.recieve_meth,
@@ -160,25 +160,25 @@ const Home = () => {
                     localStorage.setItem("transfer_data", JSON.stringify({
                         amount: {
                             send_amt: commaRemover(object.send_amt),
-                            exchange_amt: commaRemover(res?.amount),
+                            exchange_amt: object.send_amt !== "" ? commaRemover(res?.amount) : "",
                             from_type: object.from_type,
                             to_type: object.to_type,
                             recieve_meth: object.recieve_meth,
                             payout_part: "none",
-                            exchange_rate: res?.rate,
-                            defaultExchange: res?.default_exchange
+                            exchange_rate: object.send_amt !== "" ? res?.rate : total_rates,
+                            defaultExchange: object.send_amt !== "" ? res?.default_exchange : defaultExchange
                         }
                     }))
                     localStorage.setItem("conversion_data", JSON.stringify({
                         amount: {
                             send_amt: commaRemover(object.send_amt),
-                            exchange_amt: commaRemover(res?.amount),
+                            exchange_amt: object.send_amt !== "" ? commaRemover(res?.amount) : "",
                             from_type: object.from_type,
                             to_type: object.to_type,
                             recieve_meth: object.recieve_meth,
                             payout_part: "none",
-                            exchange_rate: res?.rate,
-                            defaultExchange: res?.default_exchange
+                            exchange_rate: object.send_amt !== "" ? res?.rate : total_rates,
+                            defaultExchange: object.send_amt !== "" ? res?.default_exchange : defaultExchange
                         }
                     }))
                     if (token) {
@@ -806,7 +806,7 @@ const Home = () => {
                             <h1 className="head-new">How it Works</h1>
                             <div className="vl-content">
                                 <p className="vl-paragraph">
-                                We assist you in a simple way, how you can transfer your money internationally with Remit Assure.
+                                    We assist you in a simple way, how you can transfer your money internationally with Remit Assure.
 
                                 </p>
                             </div>
@@ -970,12 +970,12 @@ const Home = () => {
                             </div>
                             <div className="vl-content">
                                 <p>Experience the freedom of seamless money transfers with RemitAssure, where every transaction comes with the added benefit of enjoying free transfers, making your financial transactions hassle-free and cost-effective!
-</p>
+                                </p>
 
                                 <div class="bottom-content">
                                     <h2> <span> +</span>  Online and Mobile Banking </h2>
                                     <p class="mar-t">Our online and mobile banking platforms empower you to manage your finances anytime, anywhere. Enjoy secure access to your accounts, effortless money transfers, and real-time transaction tracking. Experience the freedom of modern banking, tailored to your lifestyle.
-</p>
+                                    </p>
 
                                 </div>
 
@@ -990,7 +990,7 @@ const Home = () => {
                                 <div class="bottom-content border-none">
                                     <h2> <span> +</span> No Hidden Fee  </h2>
                                     <p class="mar-t">At RemitAssure, we believe in transparency. Enjoy peace of mind with our no hidden fee policy – your transactions are straightforward, and you'll only pay what you see, ensuring a clear and honest money transfer experience.
-</p>
+                                    </p>
 
                                 </div>
 
@@ -1037,8 +1037,8 @@ const Home = () => {
                             <div className="vl about_v1">
                                 <h1 className="vl-heading left-align">Download our App</h1>
                             </div>
-                            <p className="text-bottom">Download our app for quick and convenient transactions allowing you to send money securely, track transfers effortlessly, and enjoy a seamless financial journey on the go. 
-</p>
+                            <p className="text-bottom">Download our app for quick and convenient transactions allowing you to send money securely, track transfers effortlessly, and enjoy a seamless financial journey on the go.
+                            </p>
                             <div class="row margintop-40">
                                 <div class="col-md-6 col-sm-6">
                                     <div class="scaner-code">
@@ -1121,8 +1121,8 @@ const Home = () => {
                 <div className="container">
                     <h1 class="head-new">Testimonials</h1>
                     <div class="vl-content"><p class="vl-paragraph">
-                    A few carefully chosen customers who have faith in our abilities.
-                        </p></div>
+                        A few carefully chosen customers who have faith in our abilities.
+                    </p></div>
                     <Scrollbar1 />
                 </div>
 
