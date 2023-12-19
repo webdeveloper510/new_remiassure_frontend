@@ -40,7 +40,7 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       // Set isScrolled to true if the scroll position is greater than a certain threshold
-      setIsScrolled(window.scrollY > 60); // Adjust the threshold as needed
+      setIsScrolled(window.scrollY > 5); // Adjust the threshold as needed
     };
 
     // Attach the scroll event listener when the component mounts

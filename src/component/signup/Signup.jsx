@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+
+
+ import React, { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import { NavLink, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -425,7 +427,8 @@ const Signup = () => {
                                                                 </label>
 
                                                             </Form.Group>
-                                                            {isOn && <div>
+															
+                                                            {isOn && <div className="referral-code">
                                                                 <Form.Group className="mb-3 form_label">
                                                                     <Form.Label>Your Referral Code</Form.Label>
                                                                     <input

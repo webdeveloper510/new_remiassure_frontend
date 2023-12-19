@@ -594,7 +594,9 @@ h1.head-new {
 }
 .scrolled {
     background: #fff !important;
+    position: fixed !important;
 }
+
 .hows-work-section .vl-paragraph {
     font-family: var(--font-Text) !important;
     font-size: 17px;
@@ -1429,7 +1431,7 @@ p.icon-acc {
         margin-bottom: 15px;
         padding-left: 16px;
     }
-    select.form-control.bg-transparent.form-select{
+    .form_signup select.form-control.bg-transparent.form-select{
         border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 67.27px;
         height: 50px;
@@ -1460,7 +1462,7 @@ p.icon-acc {
 }
 
 
-.react-tel-input.form-control.form-control-sm.bg-transparent.is-invalid {
+.form_signup .react-tel-input.form-control.form-control-sm.bg-transparent.is-invalid {
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 67.27px;
     height: 50px;
@@ -1469,7 +1471,7 @@ p.icon-acc {
     border-bottom-right-radius: 0px;
 }
 
-.react-tel-input.form-control.form-control-sm.bg-transparent.is-invalid input {
+.form_signup .react-tel-input.form-control.form-control-sm.bg-transparent.is-invalid input {
     padding-right: 0px !important;
     width: 100%;
     display: flex;
@@ -1487,7 +1489,7 @@ label.form-check-label {
     color: rgba(0, 0, 0, 0.5);
     font-size: 15px;
 }
-.react-tel-input.form-control.form-control-sm.bg-transparent ,.pass-row input{
+.form_signup .react-tel-input.form-control.form-control-sm.bg-transparent ,.pass-row input{
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 67.27px;
     height: 50px;
@@ -1521,7 +1523,7 @@ button.signup_button,button.login_button {
     width: max-content;
     height: 58px;
 }
-.selected-flag {
+.form_signup .selected-flag {
     border-right: 1px solid #4B4B4B;
     padding-left: 0px !important;
     
@@ -1723,4 +1725,14 @@ label.toggle-container
 .backlogin a {
     color: #6515E9;
     font-weight: 600;
+}
+
+.referral-code input {
+    border-radius: 67.27px;
+    height: 50px;
+    padding: 10px 30px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border: 1px solid #eaeaea;
+    width: 100%;
 }

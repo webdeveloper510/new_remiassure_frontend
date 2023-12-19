@@ -78,6 +78,7 @@ h6,
   height: 100px;
   transition: all 0.5s;
   z-index: 9999999;
+  position: relative;
 
 
   /* border-bottom: 1px solid rgb(217, 224, 232); */
@@ -3779,9 +3780,7 @@ select.form-select option {
   background: white;
 }
 
-.form-check-input:checked+.form-check-label {
-  background: #e8f0ff;
-}
+
 
 .summary {
   font-family: var(--font-family) !important;
@@ -5366,7 +5365,7 @@ input.mb-3.new_input:focus {
 /******************** userdahsboard css  start **************/
 
 .margin-set {
-  margin-top: 80px;
+  margin-top: 0px;
   height: 100%;
   min-height: 600px;
   background: #E8F0FF;
@@ -6134,7 +6133,9 @@ label.container-new.form-gender {
   text-align: center;
   margin-bottom: 13px;
 }
-
+.Sidebar {
+  background: #fff;
+}
 /**************** sidebar css ***********************/
 .sidebar {
   width: 300px;
@@ -6146,7 +6147,7 @@ label.container-new.form-gender {
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
   height: 100vh;
-  padding-top: 30px;
+  padding-top: 0px;
 }
 
 .content-body {
@@ -6797,13 +6798,19 @@ input.form-control.userPhone.w-100 {
 
 /********************** new progress bar ************/
 
-
+li.dropdown span {
+  text-transform: uppercase !important;
+  font-size: 14px;
+  color: rgb(25 2 120 / 40%);
+}
 .send_money_section {
   /* background-color: #dcc8fc; */
   background: url(../img/home/top-main.svg);
   background-repeat: no-repeat;
   background-size: cover;
   POSITION: RELATIVE;
+  width: 100%;
+    float: left;
 }
 
 .send_money_section:after {
@@ -6841,10 +6848,12 @@ input.form-control.userPhone.w-100 {
   display: table;
   table-layout: fixed;
   width: 100%;
-  margin-top: 100px;
+  margin-top:0px;
   margin-bottom: 80px;
 }
-
+body.footer-space footer#footer {
+  margin-top: 50px;
+}
 .multi-steps>li {
   counter-increment: stepNum;
   text-align: center;

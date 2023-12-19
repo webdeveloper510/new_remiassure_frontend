@@ -111,7 +111,7 @@ const SendMoney = () => {
 
   return (
     <>
-      <div>
+     <div class="site-content-money">
         {
           1 ? (
             <div className="form send_money_section">

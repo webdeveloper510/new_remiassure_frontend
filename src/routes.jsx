@@ -74,7 +74,7 @@ const routes = [
     guard: AuthProtect,
     children: [
       // { path: '/referral', element: <Referral /> },
-      { path: '/send-money', element: <NonDashLayout><SendMoney /></NonDashLayout> },
+      { path: '/send-money', element: <NonDashLayout><RouteWithBodyClass element={<SendMoney />} bodyClass="footer-space" /></NonDashLayout> },
     ]
   },
   {
@@ -88,7 +88,7 @@ const routes = [
       { path: '/user-profile', element: <Layout><UserProfile /></Layout> },
       { path: '/user-recipients', element: <Layout><UserRecipient /></Layout> },
       { path: '/change-password', element: <Layout><ChangePassword /></Layout> },
-      { path: '/dashboard', element: <Layout><Dashboard /></Layout> },
+      { path: '/dashboard', element: <Layout><RouteWithBodyClass element={<Dashboard />} bodyClass="footer-space" /></Layout> },
       { path: '/edit-recipient-user', element: <Layout><Editrecipientuser /></Layout> },
       { path: "/payment-detail/agreement-detail", element: <Layout><PayToDetail /></Layout> },
       { path: "/payment-detail/pay-id-detail", element: <Layout><PayIdDetail /></Layout> },
