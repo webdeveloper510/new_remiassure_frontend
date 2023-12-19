@@ -1407,10 +1407,13 @@ p.icon-acc {
         padding-top:120px
     }
 
-    body.signup-page header#header {
-        display: none !important;
+    a.signactin.active {
+        background: none;
+        color: rgb(25 2 120 / 40%) !important;
     }
-
+    a.signactin.active:after{
+    display: none;
+    }
     section.sigupsec {
         padding: 0px;
     }
@@ -1419,10 +1422,6 @@ p.icon-acc {
         width: 80%;
     }
 
-    body.signup-page footer#footer
-    {
-        display:none;
-    }
 
     label.form-label {
         font-size: 17px;

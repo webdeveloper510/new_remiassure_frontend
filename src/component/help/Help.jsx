@@ -229,8 +229,8 @@ const Help = () => {
                     </div>
                     <div className="col-md-4 col-sm-4">
                               <div className="help-li">
-<img src="assets/img/help/layer1.svg" className="vission_image" alt="alt_image"/>
-<img src="assets/img/help/faq-ac-svg.png" className="vission_hover" alt="alt_image"/>
+<img src="assets/img/help/new-account.png" className="vission_image" alt="alt_image"/>
+<img src="assets/img/help/new-account-white.png" className="vission_hover" alt="alt_image"/>
 <h3 className="title-help"> <NavLink to={`/working`} >My Account </NavLink></h3>
                     </div>
                 </div>
