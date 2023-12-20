@@ -74,7 +74,7 @@ const routes = [
     path: '/',
     guard: AuthProtect,
     children: [
-      { path: '/referral', element: <Referral /> },
+      { path: '/referral', element: <NonDashLayout> <RouteWithBodyClass element={<Referral />} bodyClass="bg-image" /></NonDashLayout> },
       { path: '/send-money', element: <NonDashLayout><RouteWithBodyClass element={<SendMoney />} bodyClass="footer-space" /></NonDashLayout> },
     ]
   },
