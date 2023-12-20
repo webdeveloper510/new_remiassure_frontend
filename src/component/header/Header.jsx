@@ -116,7 +116,10 @@ const Header = () => {
                         LoginDigitalidVerified?.toString() === "true" ? (
                           <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
                         ) : (
-                          <li> <NavLink to="/send-money">Send Money</NavLink></li>
+                          <>
+                            <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
+                            <li> <NavLink to="/send-money">Send Money</NavLink></li>
+                          </>
                         )
                       }
                       <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
@@ -181,7 +184,10 @@ const Header = () => {
                             LoginDigitalidVerified == "true" ? (
                               <li> <NavLink to="/dashboard" onClick={handleClose}>User Dashboard</NavLink></li>
                             ) : (
-                              <li> <NavLink to="/send-money" onClick={handleClose}>Send Money</NavLink></li>
+                              <>
+                                <li> <NavLink to="/dashboard" onClick={handleClose}>User Dashboard</NavLink></li>
+                                <li> <NavLink to="/send-money" onClick={handleClose}>Send Money</NavLink></li>
+                              </>
                             )
                           }
                           <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
@@ -210,8 +216,8 @@ const Header = () => {
           </Offcanvas>
         </div>
       </header>
-    <div className='spacer-div-he'>
-    </div>
+      <div className='spacer-div-he'>
+      </div>
     </>
   )
 }
