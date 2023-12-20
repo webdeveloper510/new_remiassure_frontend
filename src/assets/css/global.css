@@ -895,7 +895,9 @@ b.color-sp {
     align-items: center;
     justify-content: center;
 }
-
+ul.mobile-hide li:nth-child(1) {
+    padding-left: 0px !important;
+}
 .row.custom-row-hows img {
     width: auto !important;
 }
@@ -1741,7 +1743,12 @@ label.toggle-container
     align-items: center;
     height: 100vh;
 }
-
+.buttonsdownload {
+    height: 100;
+    align-items: center;
+    height: 100%;
+    display: flex;
+}
 .backlogin {
     color: #A6a6a8;
 }
@@ -1759,4 +1766,24 @@ label.toggle-container
     border-bottom-right-radius: 0px;
     border: 1px solid #eaeaea;
     width: 100%;
+}
+.form_signup input.form-control.phoneInp {
+    padding-right: 0px !important;
+}
+.form_signup .mb-2.form_label {
+    position: relative;
+}
+.form_signup .fv-plugins-message-container.mt-1 {
+    position: absolute;
+    font-size: 0.8rem;
+    top: 100%;
+    left: 0;
+    white-space: normal;
+    word-wrap: break-word;
+    background-color: #fff;
+    padding: 5px;
+    z-index: 1000;
+    border: 1px solid #dc354530;
+    width: 100%;
+    border-radius: 5px;
 }
