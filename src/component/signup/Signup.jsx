@@ -1,6 +1,6 @@
 
 
- import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import { NavLink, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -353,6 +353,7 @@ const Signup = () => {
                                                             <div className="row">
                                                                 <div className="col-md-6 pass-row">
                                                                     <Form.Group className="mb-2 form_label">
+																	<div className="f-le">
                                                                         <Form.Label> Your Password<span style={{ color: 'red' }} >*</span> </Form.Label>
                                                                         <Form.Control
                                                                             type={showPassword ? 'text' : 'password'}
@@ -372,6 +373,7 @@ const Signup = () => {
                                                                         <span onClick={toggleShowPassword} className="pass_icons">
                                                                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                                         </span>
+																		</div>
                                                                         {formik.touched.password && formik.errors.password && (
                                                                             <div className='fv-plugins-message-container mt-1'>
                                                                                 <div className='fv-help-block'>
@@ -410,6 +412,7 @@ const Signup = () => {
                                                                         )}
                                                                     </Form.Group>
                                                                 </div>
+                                                               
                                                             </div>
                                                             {/*<Form.Check className="form_switch"
                                                                 type="switch"

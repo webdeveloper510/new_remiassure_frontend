@@ -1061,14 +1061,17 @@ const Home = () => {
 
                                 <div className="col-lg-6 col-sm-6">
                                     <div className="buttonsdownload">
-                                        <div className="apple download">
-                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank"><span class="icon-btn"><img src="assets/img/home/apple.png" />
-                                            </span> <span>Download on the<br></br>  <span class="bigtext">App Store</span></span></a>
-                                        </div>
-                                        <div className="Andoried download">
-                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank"><span class="icon-btn"><img src="assets/img/home/googled.png" />
-                                            </span><span>Get it on<br></br> <span class="bigtext">Google Play</span></span></a>
-                                        </div>
+									
+	 <div className="f my-0">
+                                <div className="col-md-12">
+                                     <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank"> <img src="assets/img/home/playstore.svg" alt="home_icons" className="" /></a>
+                                </div>
+                                  <div className="col-md-12">
+                                  <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank">  <img src="assets/img/home/appstore.svg" alt="home_icons" className="" /></a>
+                                </div>
+                            </div> 
+                                    
+                                        
                                     </div>
                                 </div>
                             </div>

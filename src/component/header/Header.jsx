@@ -75,7 +75,19 @@ const Header = () => {
     toast.success('Logout Successfully', { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
     navigate("/login")
   }
-
+  const commonMenuItems = (
+    <>
+     <li>
+                <NavLink to="/">Home</NavLink>
+              </li>
+              <li>
+                <NavLink to="/about-us"> About us</NavLink>
+              </li>
+              <li>
+                <NavLink to="/help">Help</NavLink>
+              </li>
+    </>
+  );
   return (
     <>
       <header id="header" style={{ paddingRight: "-17px" }} className={`fixed-top d-flex align-items-center header-transparent ${isScrolled ? 'scrolled1' : ''}`}>
@@ -87,26 +99,17 @@ const Header = () => {
               </NavLink>
             </h1>
           </div>
-          <nav id="navbar" className="navbar">
-            <ul>
-              <li>
-                <NavLink to="/">Home</NavLink>
-              </li>
-              <li>
-                <NavLink to="/about-us"> About us</NavLink>
-              </li>
-              <li>
-                <NavLink to="/help">Help</NavLink>
-              </li>
+        
+              
+             
               {
                 token && user ? (
-                  <li>
+				  <nav id="navbar" className="navbar">
+				    <ul>
+				 {commonMenuItems}
+				  <li>
                     <NavLink to="/referral">Referral</NavLink>
                   </li>
-                ) : (<></>)
-              }
-              {
-                token && user ? (
                   <li class="dropdown">
                     <span>
                       My account <IoIosArrowDown style={{ color: 'rgb(20, 34, 224);' }} />
@@ -116,33 +119,35 @@ const Header = () => {
                         LoginDigitalidVerified?.toString() === "true" ? (
                           <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
                         ) : (
-                          <>
-                            <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
-                            <li> <NavLink to="/send-money">Send Money</NavLink></li>
-                          </>
+                          <li> <NavLink to="/send-money">Send Money</NavLink></li>
                         )
                       }
                       <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
                     </ul>
                   </li>
+				  </ul></nav>
                 ) : (
                   <>
-             
+                    <nav id="navbar" className="navbar">
+            <ul>
+              {commonMenuItems}
+			  </ul>
+			  </nav>
+               <nav id="navbar" className="navbar">
+                
                       <ul className='mobile-hide'>
                         <li>
-                          <NavLink to="/sign-up" className="signactin">Sign <b>up</b></NavLink>
+                          <NavLink to="/sign-up" className="signactin"><b>Sign</b> <b>up</b></NavLink>
                         </li>
                         <li>
                           <NavLink to="/login" className="logactin">Log  <b>in</b></NavLink>
                         </li>
                       </ul>
-                  
+                  </nav>
                   </>
                 )
               }
-            </ul>
-          </nav>
-
+        
 
           <img src="assets/img/home/mobilemenu.png" onClick={mobilemenuShow} className="mobile-btn" />
 
@@ -184,10 +189,7 @@ const Header = () => {
                             LoginDigitalidVerified == "true" ? (
                               <li> <NavLink to="/dashboard" onClick={handleClose}>User Dashboard</NavLink></li>
                             ) : (
-                              <>
-                                <li> <NavLink to="/dashboard" onClick={handleClose}>User Dashboard</NavLink></li>
-                                <li> <NavLink to="/send-money" onClick={handleClose}>Send Money</NavLink></li>
-                              </>
+                              <li> <NavLink to="/send-money" onClick={handleClose}>Send Money</NavLink></li>
                             )
                           }
                           <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
@@ -216,8 +218,8 @@ const Header = () => {
           </Offcanvas>
         </div>
       </header>
-      <div className='spacer-div-he'>
-      </div>
+    <div className='spacer-div-he'>
+    </div>
     </>
   )
 }
