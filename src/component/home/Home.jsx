@@ -28,7 +28,7 @@ function HowRenderingArrayOfObjects() {
             id: 2,
             src: "assets/img/home/user.png",
             circle_heading: "Verify your Identity",
-            circle_content: "We verify your identity as part of our AML/CTF obligation. Verifying your identity also helps also safeguard your account against potential fraudulent activities.",
+            circle_content: "We verify your identity as part of our AML/CTF obligation. Verifying your identity also helps safeguard your account against potential fraudulent activities.",
         },
         {
             id: 3,
@@ -468,12 +468,12 @@ const Home = () => {
                                 <div className="col-md-3">
                                     <ul className="playstoreicon">
                                         <li>
-                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1">
+                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank">
                                                 <img src="assets/img/home/play.png" />
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1">
+                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank">
                                                 <img src="assets/img/home/play1.png" />
                                             </a>
                                         </li>
@@ -1062,11 +1062,11 @@ const Home = () => {
                                 <div className="col-lg-6 col-sm-6">
                                     <div className="buttonsdownload">
                                         <div className="apple download">
-                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"><span class="icon-btn"><img src="assets/img/home/apple.png" />
+                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank"><span class="icon-btn"><img src="assets/img/home/apple.png" />
                                             </span> <span>Download on the<br></br>  <span class="bigtext">App Store</span></span></a>
                                         </div>
                                         <div className="Andoried download">
-                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"><span class="icon-btn"><img src="assets/img/home/googled.png" />
+                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank"><span class="icon-btn"><img src="assets/img/home/googled.png" />
                                             </span><span>Get it on<br></br> <span class="bigtext">Google Play</span></span></a>
                                         </div>
                                     </div>

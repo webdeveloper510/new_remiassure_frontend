@@ -78,17 +78,20 @@ h6,
   height: 100px;
   transition: all 0.5s;
   z-index: 9999999;
- background-color: #fff;
+  background-color: #fff;
 
 
   /* border-bottom: 1px solid rgb(217, 224, 232); */
 }
+
 body.aboutus-page section.top_sections1 {
   padding-top: 0px;
 }
+
 .spacer-div-he {
   padding-bottom: 100px;
 }
+
 /* #header.header-transparent {
   background: none;
 } */
@@ -633,10 +636,12 @@ section {
   color: #6c757d;
   content: "/";
 }
+
 h5.Sign-heading {
   font-size: 18px;
   text-align: center;
 }
+
 @media (max-width: 768px) {
 
   .breadcrumbs .d-flex,
@@ -2539,17 +2544,20 @@ p.vission_content {
   color: #0b0e2e;
   margin-bottom: 0;
 }
+
 .scaner-code div {
   width: 100% !important;
   margin: 0px !important;
   padding: 0px !important;
 }
+
 .scaner-code svg {
   border: 1.41px solid #9C92C5;
   padding: 20px !important;
   border-radius: 10px;
   width: 69% !important;
 }
+
 .button_copy {
   width: 135px;
   height: 68px;
@@ -5001,8 +5009,9 @@ section.why-us.section-bgba.referal-section .vl04 {
   border: navajowhite;
   height: auto !important;
 }
+
 .timeline-text {
-  background:linear-gradient(91.17deg, #190278 7.06%, #E15C6D 47.68%, #6515E9 87.74%) !important;
+  background: linear-gradient(91.17deg, #190278 7.06%, #E15C6D 47.68%, #6515E9 87.74%) !important;
   box-shadow: 0px 7px 15px rgb(100 20 233 / 19%);
   font-family: var(--font-family) !important;
   font-style: normal;
@@ -6153,13 +6162,16 @@ label.container-new.form-gender {
   text-align: center;
   margin-bottom: 13px;
 }
+
 .Sidebar {
   background: #fff;
 }
+
 .payment {
   display: flex;
   align-items: center;
 }
+
 /**************** sidebar css ***********************/
 .sidebar {
   width: 300px;
@@ -6827,6 +6839,7 @@ li.dropdown span {
   font-size: 14px;
   color: rgb(25 2 120 / 40%);
 }
+
 .send_money_section {
   /* background-color: #dcc8fc; */
   background: url(../img/home/top-main.svg);
@@ -6834,7 +6847,7 @@ li.dropdown span {
   background-size: cover;
   POSITION: RELATIVE;
   width: 100%;
-    float: left;
+  float: left;
 }
 
 .send_money_section:after {
@@ -6872,12 +6885,14 @@ li.dropdown span {
   display: table;
   table-layout: fixed;
   width: 100%;
-  margin-top:0px;
+  margin-top: 0px;
   margin-bottom: 80px;
 }
+
 body.footer-space footer#footer {
   margin-top: 50px;
 }
+
 .multi-steps>li {
   counter-increment: stepNum;
   text-align: center;
@@ -8667,12 +8682,14 @@ body.aboutus-page footer#footer {
 .help-li img.vission_hover {
   display: none;
 }
+
 .term-co h6 {
   font-size: 24px;
   color: #190278;
   font-weight: bold;
   margin-bottom: 0px !important;
 }
+
 body.bg-image section.contct-info {
   padding-bottom: 100px;
 }
@@ -8685,4 +8702,8 @@ body.bg-image header#header {
 
 body.bg-image .scrolled1 {
   background: #fff !important;
+}
+
+.referral_input {
+  font-weight: 600;
 }
