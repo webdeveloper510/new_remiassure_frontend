@@ -36,21 +36,29 @@ import { exchangeRate } from "../../utils/Api";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Set isScrolled to true if the scroll position is greater than a certain threshold
-      setIsScrolled(window.scrollY > 5); // Adjust the threshold as needed
+      const currentScrollPos = window.scrollY;
+      const scrolledDown = currentScrollPos > prevScrollPos;
+
+      setIsScrolled(currentScrollPos > 50);
+      setPrevScrollPos(currentScrollPos);
+
+      // Add class to handle animation when scrolling up
+      if (!scrolledDown) {
+        setIsScrolled(true);
+        setTimeout(() => setIsScrolled(false), 300); // Adjust the delay as needed
+      }
     };
 
-    // Attach the scroll event listener when the component mounts
     window.addEventListener('scroll', handleScroll);
 
-    // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []); // Empty dependency array ensures that this effect runs only once on mount
+  }, [prevScrollPos]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const mobilemenuShow = () => setShow(true);
@@ -70,7 +78,7 @@ const Header = () => {
 
   return (
     <>
-      <header id="header" style={{ paddingRight: "-17px" }} className={`fixed-top d-flex align-items-center header-transparent ${isScrolled ? 'scrolled' : ''}`}>
+      <header id="header" style={{ paddingRight: "-17px" }} className={`fixed-top d-flex align-items-center header-transparent ${isScrolled ? 'scrolled1' : ''}`}>
         <div className="container d-flex justify-content-between align-items-center">
           <div className="logo">
             <h1 className="text-light">
@@ -202,6 +210,8 @@ const Header = () => {
           </Offcanvas>
         </div>
       </header>
+    <div className='spacer-div-he'>
+    </div>
     </>
   )
 }

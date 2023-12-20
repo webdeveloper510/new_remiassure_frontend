@@ -595,6 +595,9 @@ h1.head-new {
 .scrolled {
     background: #fff !important;
     position: fixed !important;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .hows-work-section .vl-paragraph {
@@ -1304,7 +1307,7 @@ span.grading-color {
     font-weight: 700;
 }
 section.section-img
-{
+{padding-top: 0;
     background-size: contain;
     background-image:url('../img/home/page-main-bg.png'); 
     
@@ -1521,6 +1524,7 @@ button.signup_button,button.login_button {
     padding-left: 35px !important;
     width: max-content;
     height: 58px;
+    text-transform: uppercase;
 }
 .form_signup .selected-flag {
     border-right: 1px solid #4B4B4B;
@@ -1688,8 +1692,8 @@ label.toggle-container
     position: absolute;
     height: 16px;
     width: 16px;
-    left: 2px;
-    bottom: 3px;
+    left: 9px;
+    bottom: 4px;
     background-color: white; /* Color for the toggle "knob" */
     border-radius: 50%; /* Make the "knob" round */
     transition: 0.4s; /* Add a smooth transition effect */
@@ -1707,9 +1711,7 @@ label.toggle-container
     color: rgba(0, 0, 0, 0.6);
     margin-top: 20px;
 }
-.fv-plugins-message-container.mt-1 {
-    position: absolute;
-}
+
 .login-page
 {
     display: flex;
