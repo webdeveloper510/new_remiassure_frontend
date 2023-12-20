@@ -35,25 +35,25 @@ const Aboutus = () => {
          {
             id: 1,
             vission_src: "assets/img/about/icon1 (1).png",
-            hover_img: "assets/img/about/about-ac.png", 
+            hover_img: "assets/img/about/about-ac.png",
             vission_content: "Our essence is to serve our customers. We are committed to going above and beyond in our quest to ensure the satisfaction of our customers.",
          },
          {
             id: 2,
             vission_src: "assets/img/home/abouticon.png",
-            hover_img: "assets/img/about/icon1 (4).png", 
+            hover_img: "assets/img/about/icon1 (4).png",
             vission_content: "RemitAssure offers customers secure, efficient and cost-effective remittance services.",
          },
          {
             id: 3,
             vission_src: "assets/img/about/icon1 (3).png",
-            hover_img: "assets/img/about/about-3.png", 
+            hover_img: "assets/img/about/about-3.png",
             vission_content: "We offer very competitive foreign exchange rates due to our lean business model.",
          },
          {
             id: 4,
             vission_src: "assets/img/about/icon1 (2).png",
-            hover_img: "assets/img/about/about-4.png", 
+            hover_img: "assets/img/about/about-4.png",
             vission_content: "Through our digital channels we are able to serve customers irrespective of their location, 24 hours a day, 7 days a week (24/7).",
          },
 
@@ -62,10 +62,10 @@ const Aboutus = () => {
       const VissionItems = vissionData.map((vission) => {
          return (
             <li key={vission.id}>
-                 <div className="li-vision">
-               <img src={vission.vission_src} className="vission_image" alt="alt_image" />
-               <img src={vission.hover_img} className="vission_image-hover" alt="alt_image" />
-               <p className="vission_content">{vission.vission_content}</p>
+               <div className="li-vision">
+                  <img src={vission.vission_src} className="vission_image" alt="alt_image" />
+                  <img src={vission.hover_img} className="vission_image-hover" alt="alt_image" />
+                  <p className="vission_content">{vission.vission_content}</p>
                </div>
             </li>
          )
@@ -112,14 +112,14 @@ const Aboutus = () => {
 
             <li key={icon.id}>
                <div className="li-22">
-               <div className="circle-icons">
-                  <img src={icon.icon_src} alt="circle-image" />
+                  <div className="circle-icons">
+                     <img src={icon.icon_src} alt="circle-image" />
+                  </div>
+                  <div className="circle-content">
+                     <p className="why_text">{icon.icon_title}</p>
+                     <p className="why_texto1">{icon.icon_content}</p>
+                  </div>
                </div>
-               <div className="circle-content">
-                  <p className="why_text">{icon.icon_title}</p>
-                  <p className="why_texto1">{icon.icon_content}</p>
-               </div>
-</div>
             </li>
 
          )
@@ -191,58 +191,58 @@ const Aboutus = () => {
 
    return (
       <>
-<div className="site-content">
-         {/* <!-- ======= AboutUs Our vission and mission-Section  start======= --> */}
-         <section className="top_sections1">
-       
+         <div className="site-content">
+            {/* <!-- ======= AboutUs Our vission and mission-Section  start======= --> */}
+            <section className="top_sections1">
+
                <div className="container">
-       
+
                   <div className="row">
                      <div className="col-md-7">
                         <div className=" headabout">
                            <h1 className="about-heading">About <br></br><span className="grading-color">RemitAssure</span></h1>
                            <div className="vl-content about_content">
                               {/* <p className="our_vission">Our vission and mission statement will go here</p> */}
-                            
+
                               <p className="our_vission01">RemitAssure is an innovative Fintech that offers disruptive digital peer-to-peer (P2P) remittance services across the globe.</p>
                               <p className="our_vission01">Underpinning our Services is our industry leading remittance platform purpose-built to offer robust and scalable digital payment solutions to our clients.</p>
                               <p className="our_vission01">Leveraging digital technology and emerging service-sharing models, we offer international remittances at very competitive rates. Our lean business structure and exchanging rate hedging know-how affords us marginal cost savings that we happily pass through to customers.</p>
                            </div>
                         </div>
                      </div>
-                   
+
                   </div>
-           
-                  
+
+
                </div>
-      
-         </section>
-		 <section>
-		   <div className="container">
-		 <div className="bottpm_banner">
+
+            </section>
+            <section>
+               <div className="container">
+                  <div className="bottpm_banner">
                      <div className="row">
                         <ul className="About_why-content">
                            <OurVissionArrayObjects />
                         </ul>
                      </div>
                   </div>
-				  </div>
-		 </section>
-             {/* <!-- ======= why remitsure*/}
-       <RemitAssure></RemitAssure>
-   
-       <section className="why-us_section homepage-why-us hows-section1 test-P aos-animate" data-aos="fade-up" date-aos-delay="200" >
-<div className="container">
-<h1 class="head-new">Testimonial</h1>
-<div class="vl-content"><p class="vl-paragraph"> A few carefully chosen customers who have faith in our abilities.</p></div>
-<Scrollbar1/>
-    </div>
+               </div>
+            </section>
+            {/* <!-- ======= why remitsure*/}
+            <RemitAssure></RemitAssure>
 
-</section>
-      
+            <section className="why-us_section homepage-why-us hows-section1 test-P aos-animate" data-aos="fade-up" date-aos-delay="200" >
+               <div className="container">
+                  <h1 class="head-new">Testimonial</h1>
+                  <div class="vl-content"><p class="vl-paragraph">We do our best to provide you the best experience ever</p></div>
+                  <Scrollbar1 />
+               </div>
 
-       
-         {/* <!-- ======= Home Testimonial-Section End ======= --> */}
+            </section>
+
+
+
+            {/* <!-- ======= Home Testimonial-Section End ======= --> */}
 
 
 

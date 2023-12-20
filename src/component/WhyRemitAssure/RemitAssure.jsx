@@ -20,7 +20,7 @@ const RemitAssure = () => {
 
         <div className="vl-content">
           <p className="vl-paragraph">
-            RemitAssure leverages cutting edge digital technologies and an ecosystem of proven global partners to provide <br></br>seamless, secure, cost-effective and speedy global payments.
+            Our essence is to offer exceptional remittance services to our customers
           </p>
         </div>
         <div className="row mb-3">

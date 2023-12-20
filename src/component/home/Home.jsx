@@ -1132,7 +1132,7 @@ const Home = () => {
                 <div className="container">
                     <h1 class="head-new">Testimonials</h1>
                     <div class="vl-content"><p class="vl-paragraph">
-                        A few carefully chosen customers who have faith in our abilities.
+                        We do our best to provide you the best experience ever
                     </p></div>
                     <Scrollbar1 />
                 </div>

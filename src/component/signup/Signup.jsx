@@ -1,6 +1,6 @@
 
 
- import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import { NavLink, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -53,8 +53,8 @@ const Signup = () => {
         email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/, "Invalid email format").min(6).max(50).required("Email is required"),
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
-        referral_code: isOn ? Yup.string().length(6, "Referral code must contain 6 characters").required("Referral Code is required") : Yup.string().notRequired(),
-        mobile: Yup.string().min(11).required()
+        referral_code: isOn ? Yup.string().length(8, "Referral code must contain 8 characters").required("Referral Code is required") : Yup.string().notRequired(),
+        mobile: Yup.string().min(11, "Minimum 9 digits").required("Mobile is required")
     })
 
     useEffect(() => {
@@ -88,10 +88,12 @@ const Signup = () => {
                 left: 0,
                 behavior: "smooth"
             })
+            console.log(values)
             let data = { ...values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + values.mobile }
-            if (data.referral_code === "" || show === false) {
+            if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
             }
+            console.log(data)
             userRegisterCheck(data).then((res) => {
                 if (res.code === "200") {
                     toast.success(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
@@ -322,6 +324,13 @@ const Signup = () => {
                                                                             )}
                                                                             onBlur={handleBlur}
                                                                         />
+                                                                        {formik.touched.mobile && formik.errors.mobile && (
+                                                                            <div className='fv-plugins-message-container mt-1'>
+                                                                                <div className='fv-help-block'>
+                                                                                    <span role='alert' className="text-danger">{formik.errors.mobile}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        )}
                                                                     </Form.Group>
                                                                 </div>
                                                                 <div className="col-md-6 email-row">
@@ -427,17 +436,17 @@ const Signup = () => {
                                                                 </label>
 
                                                             </Form.Group>
-															
+
                                                             {isOn && <div className="referral-code">
                                                                 <Form.Group className="mb-3 form_label">
                                                                     <Form.Label>Your Referral Code</Form.Label>
                                                                     <input
                                                                         type="text"
-                                                                        maxLength="6"
+                                                                        maxLength="8"
                                                                         name="referral_code"
                                                                         value={formik.values.referral_code}
                                                                         onChange={handleRef}
-                                                                        className={show ? clsx(
+                                                                        className={isOn ? clsx(
                                                                             'form-control bg-transparent',
                                                                             { 'is-invalid': formik.touched.referral_code && formik.errors.referral_code },
                                                                             {

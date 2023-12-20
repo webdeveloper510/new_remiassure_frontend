@@ -7,7 +7,7 @@ import Scrollbar from '../referralscrollbar/ReferralScrollbar';
 
 import global from "../../utils/global";
 import axios from "axios";
-import { getReferral } from "../../utils/Api";
+import { getReferral, getReferralAmount } from "../../utils/Api";
 // import Scrollbar from "../scrollbar/Scrollbar";
 
 
@@ -52,7 +52,8 @@ const Referral = () => {
     // console.log("Verification Message", verification_otp)
 
     /**************************Recipient of state ************************ */
-    const [dataRefferal, setDataRefferal] = useState([]);
+    const [dataRefferal, setDataRefferal] = useState({});
+    const [referral_cost, setReferralCost] = useState({})
 
 
     /**************************************************************************
@@ -63,6 +64,14 @@ const Referral = () => {
         getReferral().then(res => {
             console.log(res)
             setDataRefferal(res.data)
+        })
+        getReferralAmount().then(res => {
+            for (let i = 0; i < res.data.length; i++) {
+                if (res.data[i].referral_type_id__type === "Invite") {
+                    setReferralCost(res.data[i])
+                    break;
+                }
+            }
         })
     }, [])
 
@@ -232,12 +241,12 @@ const Referral = () => {
                         <div className="row">
                             <div className="col-md-7">
                                 <div className=" headabout">
-                                    <h1 className="about-heading">50 AUD For You And <br></br><span className="grading-color">25 AUD For Your Friends</span></h1>
+                                    <h1 className="about-heading">{referral_cost?.referred_by_amount} AUD For You And <br></br><span className="grading-color">{referral_cost?.referred_to_amount} AUD For Your Friends</span></h1>
                                 </div>
                                 <div className="content_referral">
 
                                     <p className="our_vission01">Once they’ve sent AUD 100 or more,
-                                        you’ll be emailed a AUD 50 RemitAssure Voucher</p>
+                                        you’ll be emailed a AUD {referral_cost?.referred_by_amount} RemitAssure Voucher</p>
                                 </div>
 
                             </div>

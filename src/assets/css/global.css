@@ -1458,16 +1458,23 @@ p.icon-acc {
 }
 
 
-.form_signup .react-tel-input.form-control.form-control-sm.bg-transparent.is-invalid {
-    border: 1px solid rgba(0, 0, 0, 0.2);
+.form_signup .react-tel-input.form-control.form-control-sm.bg-transparent {
+    border: 1px solid #EAEAEA;
     border-radius: 67.27px;
     height: 50px;
     padding: 10px 30px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
+.form_signup .react-tel-input.form-control.form-control-sm.bg-transparent.is-invalid {
+    border: 1px solid #dc3545;
+}
 
-.form_signup .react-tel-input.form-control.form-control-sm.bg-transparent.is-invalid input {
+.form_signup .react-tel-input.form-control.form-control-sm.bg-transparent.is-valid {
+    border: 1px solid #198754;
+}
+
+.form_signup .react-tel-input.form-control.form-control-sm.bg-transparent input {
     padding-right: 0px !important;
     width: 100%;
     display: flex;
@@ -1486,7 +1493,7 @@ label.form-check-label {
     font-size: 15px;
 }
 .form_signup .react-tel-input.form-control.form-control-sm.bg-transparent ,.pass-row input{
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid #EAEAEA;
     border-radius: 67.27px;
     height: 50px;
     padding: 10px 30px;

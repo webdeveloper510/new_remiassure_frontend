@@ -551,3 +551,13 @@ export const getReferral = async () => {
   })
   return response
 }
+
+
+export const getReferralAmount = async () => {
+  let response = Axios.get("/payment/referrals/").then(res => {
+    return res.data
+  }).catch(err => {
+    return err.response.data
+  })
+  return response
+}
