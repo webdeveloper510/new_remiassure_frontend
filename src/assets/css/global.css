@@ -1573,6 +1573,9 @@ p.space-div {
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
 }
+.bg-colored {
+    background: #e8f0ff;
+}
 .email-phone input,.email-phone select {
     padding: 0;
     height: auto !IMPORTANT;
