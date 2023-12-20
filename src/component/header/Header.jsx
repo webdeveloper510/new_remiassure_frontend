@@ -90,9 +90,13 @@ const Header = () => {
               <li>
                 <NavLink to="/help">Help</NavLink>
               </li>
-              {/* <li>
-                <NavLink to="/referral">Referral</NavLink>
-              </li> */}
+              {
+                token && user ? (
+                  <li>
+                    <NavLink to="/referral">Referral</NavLink>
+                  </li>
+                ) : (<></>)
+              }
               {
                 token && user ? (
                   <li class="dropdown">

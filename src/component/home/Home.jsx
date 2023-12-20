@@ -454,9 +454,9 @@ const Home = () => {
                             </div>
                             <ul className="hero-btn">
                                 <li>
-                                    <a href="#" className="Get-start">
+                                    <Link to={"/send-money"} className="Get-start">
                                         Get <b>Started</b> <img src="assets/img/home/Union.png" />
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <a href="#payment-box" className="exchangebtn" >
@@ -468,12 +468,12 @@ const Home = () => {
                                 <div className="col-md-3">
                                     <ul className="playstoreicon">
                                         <li>
-                                            <a href="#">
+                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1">
                                                 <img src="assets/img/home/play.png" />
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1">
                                                 <img src="assets/img/home/play1.png" />
                                             </a>
                                         </li>
@@ -523,9 +523,9 @@ const Home = () => {
             </section>
             <div className="get-started">
                 <li>
-                    <a href="#" className="Get-start mobile-btn">
+                    <Link to={"/send-money"} className="Get-start mobile-btn">
                         Get <b>Started</b> <img src="assets/img/home/Union.png" />
-                    </a>
+                    </Link>
                 </li>
             </div>
 
@@ -794,7 +794,7 @@ const Home = () => {
                         </div>
 
                     </div>
-                    <Scrollbar />
+                    <Scrollbar handler={(value) => setCurrency(value)} />
                 </section >
             </section >
 
@@ -1042,8 +1042,19 @@ const Home = () => {
                             <div class="row margintop-40">
                                 <div class="col-md-6 col-sm-6">
                                     <div class="scaner-code">
-                                        <img src="assets/img/home/scaner.png" />
-
+                                        {/* <img src="assets/img/home/scaner.png" /> */}
+                                        <div style={{
+                                            height: "auto", margin: "0 auto", width: "40%", padding: '7px',
+                                            margin: "10px auto",
+                                            background: 'white',
+                                        }}>
+                                            < QRCode
+                                                size={256}
+                                                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                                value={"https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"}
+                                                viewBox={`0 0 256 256`}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
 
@@ -1051,11 +1062,11 @@ const Home = () => {
                                 <div className="col-lg-6 col-sm-6">
                                     <div className="buttonsdownload">
                                         <div className="apple download">
-                                            <a href=""><span class="icon-btn"><img src="assets/img/home/apple.png" />
+                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"><span class="icon-btn"><img src="assets/img/home/apple.png" />
                                             </span> <span>Download on the<br></br>  <span class="bigtext">App Store</span></span></a>
                                         </div>
                                         <div className="Andoried download">
-                                            <a href=""><span class="icon-btn"><img src="assets/img/home/googled.png" />
+                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"><span class="icon-btn"><img src="assets/img/home/googled.png" />
                                             </span><span>Get it on<br></br> <span class="bigtext">Google Play</span></span></a>
                                         </div>
                                     </div>

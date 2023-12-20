@@ -28,6 +28,7 @@ import Privacy from './component/footer/Privacy';
 import T_c from './component/footer/T_c';
 import Mobile from './component/footer/Mobile';
 import AML from './component/footer/Aml';
+import Referral from "./component/referral/Referral"
 import TransactionDetails from './component/Userdashboard/TransactionDetails';
 import PayIdDetail from './component/Userdashboard/paymentDetails/PayIdDetail';
 import PayToDetail from './component/Userdashboard/paymentDetails/PayToDetail';
@@ -46,7 +47,7 @@ const RouteWithBodyClass = ({ element, bodyClass }) => {
   return element;
 };
 const routes = [
-  
+
   {
     path: '/',
     children: [
@@ -60,7 +61,7 @@ const routes = [
       { path: 'aml-policy', element: <NonDashLayout> <AML /> </NonDashLayout> },
       { path: 'help', element: <NonDashLayout><RouteWithBodyClass element={<Help />} bodyClass="bg-image" /></NonDashLayout> },
       { path: 'sign-up', element: <NonDashLayout><RouteWithBodyClass element={<Signup />} bodyClass="signup-page" /> </NonDashLayout> },
-      { path: 'login', element:  <NonDashLayout><RouteWithBodyClass element={<Login />} bodyClass="signup-page" /> </NonDashLayout>},
+      { path: 'login', element: <NonDashLayout><RouteWithBodyClass element={<Login />} bodyClass="signup-page" /> </NonDashLayout> },
       { path: 'forgot-password', element: <NonDashLayout><RouteWithBodyClass element={<ForgotPassword />} bodyClass="signup-page" /></NonDashLayout> },
       { path: 'reset-password', element: <NonDashLayout><RecentPassword /> </NonDashLayout> },
       { path: 'reset-password/:id', element: <NonDashLayout><LocalStorage /> </NonDashLayout> },
@@ -73,7 +74,7 @@ const routes = [
     path: '/',
     guard: AuthProtect,
     children: [
-      // { path: '/referral', element: <Referral /> },
+      { path: '/referral', element: <Referral /> },
       { path: '/send-money', element: <NonDashLayout><RouteWithBodyClass element={<SendMoney />} bodyClass="footer-space" /></NonDashLayout> },
     ]
   },

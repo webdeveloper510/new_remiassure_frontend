@@ -21,7 +21,7 @@ const Help = () => {
       return "/login"
     }
   }
-  
+
   // start objects RenderingArrayOfObjects
   function RenderingArrayOfObjects() {
     const data = [
@@ -77,11 +77,11 @@ const Help = () => {
 
   // start Accordion functionality section 
 
- 
-  
+
+
   function AccordionArrayOfObjects() {
     const [activeIndex, setActiveIndex] = useState(0); // Set initial state to 0
-  
+
     const handleAccordionToggle = (index) => {
       setActiveIndex(activeIndex === index ? null : index);
     }
@@ -171,9 +171,9 @@ const Help = () => {
     const accordionItems = dataarray.map((value, index) => {
       return (
         <Accordion.Item eventKey={index} className={`my-3 help-accordian`}>
-         
-         <Accordion.Header onClick={() => handleAccordionToggle(index)}> <p className="icon-acc"></p> {value.title}</Accordion.Header>
-        
+
+          <Accordion.Header onClick={() => handleAccordionToggle(index)}> <p className="icon-acc"></p> {value.title}</Accordion.Header>
+
           <Accordion.Body>
             {value.content}
           </Accordion.Body>
@@ -201,94 +201,94 @@ const Help = () => {
 
   return (
     <>
-<div className="site-content">
-<section className="section-img">
-<div className="container">
-       
-       <div className="row">
-        
-       <div className=" headabout">
-                           <h1 className="about-heading"><span className="grading-color">RemitAssure</span><br></br>Support Center</h1>
-                           
-						   </div>
-               <div className="help-content-bottom">
+      <div className="site-content">
+        <section className="section-img">
+          <div className="container">
+
+            <div className="row">
+
+              <div className=" headabout">
+                <h1 className="about-heading"><span className="grading-color">RemitAssure</span><br></br>Support Center</h1>
+
+              </div>
+              <div className="help-content-bottom">
                 <div className="row">
                   <div className="col-md-4 col-sm-4">
-                  <div className="help-li">
-<img src="assets/img/help/icon1.svg" className="vission_image" alt="alt_image"/>
-<img src="assets/img/help/faq-c-svg.png" className="vission_hover" alt="alt_image"/>
-<h3 className="title-help"><NavLink to={`/working`} >How it works</NavLink></h3>
-</div>
+                    <div className="help-li">
+                      <img src="assets/img/help/icon1.svg" className="vission_image" alt="alt_image" />
+                      <img src="assets/img/help/faq-c-svg.png" className="vission_hover" alt="alt_image" />
+                      <h3 className="title-help"><NavLink to={`/working`} >How it works</NavLink></h3>
+                    </div>
                   </div>
-                 <div className="col-md-4 col-sm-4">
-                              <div className="help-li ">
-<img src="assets/img/help/faq-icon-svg.png" className="vission_image" alt="alt_image"/>
-<img src="assets/img/help/faq-icon-hover.png" className="vission_hover" alt="alt_image"/>
-<h3 className="title-help"> <a href="#faq">FAQ’s</a></h3>
-</div> 
+                  <div className="col-md-4 col-sm-4">
+                    <div className="help-li ">
+                      <img src="assets/img/help/faq-icon-svg.png" className="vission_image" alt="alt_image" />
+                      <img src="assets/img/help/faq-icon-hover.png" className="vission_hover" alt="alt_image" />
+                      <h3 className="title-help"> <a href="#faq">FAQ’s</a></h3>
                     </div>
-                    <div className="col-md-4 col-sm-4">
-                              <div className="help-li">
-<img src="assets/img/help/new-account.png" className="vission_image" alt="alt_image"/>
-<img src="assets/img/help/new-account-white.png" className="vission_hover" alt="alt_image"/>
-<h3 className="title-help"> <NavLink to={`/working`} >My Account </NavLink></h3>
+                  </div>
+                  <div className="col-md-4 col-sm-4">
+                    <div className="help-li">
+                      <img src="assets/img/help/new-account.png" className="vission_image" alt="alt_image" />
+                      <img src="assets/img/help/new-account-white.png" className="vission_hover" alt="alt_image" />
+                      <h3 className="title-help"> <NavLink to={`/user-profile`} >My Account </NavLink></h3>
                     </div>
+                  </div>
+
                 </div>
-
-               </div>
-        </div>
-		</div>
-        </div>
- 
-  <section id="faq">
-  <div className="container">
-    <div className="row">
-      <h2 className="sec-title">
-      Frequently asked questions
-      </h2>
-      <p className="title-con">Please find detailed information on our services, fees, and <br></br>security measures, and ensure a smooth and informed money transfer experience.</p>
-	  <div className="accrodions_contents">
-	  <div className="accrodion_contents">
-                <AccordionArrayOfObjects />
               </div>
-	  </div>
-    </div>
-    </div>
-  </section>
-  </section>
+            </div>
+          </div>
 
-  <section className="contct-info">
-    <div className="container">
-    <div className="darkpink">
-      <div className="">
-      <div class="row align-center">
+          <section id="faq">
+            <div className="container">
+              <div className="row">
+                <h2 className="sec-title">
+                  Frequently asked questions
+                </h2>
+                <p className="title-con">Please find detailed information on our services, fees, and <br></br>security measures, and ensure a smooth and informed money transfer experience.</p>
+                <div className="accrodions_contents">
+                  <div className="accrodion_contents">
+                    <AccordionArrayOfObjects />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
 
-<div class="col-md-8">
+        <section className="contct-info">
+          <div className="container">
+            <div className="darkpink">
+              <div className="">
+                <div class="row align-center">
 
-<h2 className="sec-title">
-Can't Find Your Answers?
-      </h2>
+                  <div class="col-md-8">
 
-<p>We're here 24 hours a day, 7 days a week to support you.</p></div>
-<div class="col-md-4"><div class="btn-contact">
-<a href="/contact " class="skybtn">Contact</a></div>
-<div class="btn-contact "><a href="https://wa.me/1300284228"  class="appbtn">WhatsApp</a>
-</div>
-</div>
+                    <h2 className="sec-title">
+                      Can't Find Your Answers?
+                    </h2>
 
-</div>
-</div>
+                    <p>We're here 24 hours a day, 7 days a week to support you.</p></div>
+                  <div class="col-md-4"><div class="btn-contact">
+                    <a href="/contact " class="skybtn">Contact</a></div>
+                    <div class="btn-contact "><a href="https://wa.me/1300284228" class="appbtn">WhatsApp</a>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
       </div>
 
-    </div>
-
-  </section>
-</div>
-     
       {/* <!-- ======= Help Better-Way-Section End-Section ======= --> */}
 
       {/* <!-- ======= Frequently asked questions FAQs  start======= --> */}
-     
+
       {/* <!-- ======= Help Frequently asked questions FAQs End-Section ======= --> */}
 
 

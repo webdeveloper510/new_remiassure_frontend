@@ -3,7 +3,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 
-const Scrollbar = () => {
+const Scrollbar = ({ handler }) => {
   const carouselRef = useRef(null);
 
   const responsive = {
@@ -32,31 +32,32 @@ const Scrollbar = () => {
   const items = [
     {
       heading: "Philippines ",
-      abbreviation:"(PHP)",
-      image: "assets/img/home/country2.png"
+      abbreviation: "PHP",
+      image: "assets/img/home/country2.png",
     }, {
       heading: "Ghana  ",
-      abbreviation:"(GHS)",
-      image: "assets/img/home/country3.png" 
-     }, {
+      abbreviation: "GHS",
+      image: "assets/img/home/country3.png",
+    }, {
       heading: "Nigeria ",
-      abbreviation:"(USD)",
-      image: "assets/img/home/country1.png"
+      abbreviation: "USD",
+      image: "assets/img/home/country1.png",
+      value: "USD"
     }, {
       heading: "Kenya ",
-      abbreviation:"(KES)",
-      image: "assets/img/home/country4.png"
+      abbreviation: "KES",
+      image: "assets/img/home/country4.png",
     }, {
       heading: "Thailand ",
-      abbreviation:"(THB)",
+      abbreviation: "THB",
       image: "assets/img/home/country5.png"
     }, {
       heading: "Vietnam ",
-      abbreviation:"(VND)",
+      abbreviation: "VND",
       image: "assets/img/home/country6.png"
     }, {
       heading: "Nigeria ",
-      abbreviation:"(NGN)",
+      abbreviation: "NGN",
       image: "assets/img/home/country1.png"
     }
   ];
@@ -76,8 +77,8 @@ const Scrollbar = () => {
   return (
     <div className="custome-country">
       <div className="custom-button-group country-slider-arrow for-desk">
-        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/skyiconarrow.png"/></button>
-        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/bluearrow.png"/></button>
+        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/skyiconarrow.png" /></button>
+        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/bluearrow.png" /></button>
       </div>
       <Carousel
         ssr={false}
@@ -95,28 +96,28 @@ const Scrollbar = () => {
         {items?.map((item, index) => {
           return (
 
-            <div class="flags-container">
+            <div class="flags-container" key={index} onClick={() => handler(item.abbreviation)} style={{ cursor: "pointer" }}>
 
-            <div class="image-container-text" draggable={false} >
-             
+              <div class="image-container-text" draggable={false} >
+
                 <div className="row items-start">
-                <img src={item.image} alt="quote-up"/>
-                <label>{item.heading} <b> {item.abbreviation}</b></label>
+                  <img src={item.image} alt="quote-up" />
+                  <label>{item.heading} <b> ({item.abbreviation})</b></label>
                 </div>
 
-            
+
+
+              </div>
 
             </div>
-
-          </div>
           );
         })}
       </Carousel>
       <div className="custom-button-group country-slider-arrow for-mobilee">
-        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/skyiconarrow.png"/></button>
-        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/bluearrow.png"/></button>
+        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/skyiconarrow.png" /></button>
+        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/bluearrow.png" /></button>
       </div>
-      
+
     </div>
   );
 };
