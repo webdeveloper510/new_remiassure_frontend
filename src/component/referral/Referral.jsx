@@ -229,23 +229,25 @@ const Referral = () => {
 
     return (
         <>
+        <div class="site-content">
+      
             {/* <!-- ======= GBP for friends Remitassur -Section  start======= --> */}
-            <section className="why-us section-bgba help_banner">
+            <section className="section-img">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-6">
+                            <div className="col-md-7">
+							 <div className=" headabout">
+                           <h1 className="about-heading">50 AUD For You And <br></br><span className="grading-color">25 AUD For Your Friends</span></h1>
+						   </div>
                             <div className="content_referral">
-                                <h3 className="gbp_friends text-bold">50 AUD for You and<br /> 25 AUD for your Friends</h3>
-                                <p className="gbp_paragraph">Once they’ve sent AUD 100 or more, <br />you’ll be emailed a AUD 50 RemitAssure Voucher</p>
+                          
+<p className="our_vission01">Once they’ve sent AUD 100 or more,
+you’ll be emailed a AUD 50 RemitAssure Voucher</p>
                             </div>
 
                         </div>
 
-                        <div className="col-lg-6">
-                            <div className="support_image">
-                                <img src="assets/img/referral/img01.svg" alt="support_images" />
-                            </div>
-                        </div>
+                     
 
                     </div>
                 </div>
@@ -374,145 +376,13 @@ const Referral = () => {
                       </div>
                   </div>
                              */}
-                    <div className="row social_links_change" >
-                        <div className="col-lg-12">
-                            <p className="share_content ms-3">Find us on</p>
-                            <div className="social_icons">
-                                <ul className="social-media-icons">
-                                    < SocialArrayObjects />
-                                </ul>
-                            </div>
-
-                            {/* <div className="view-button">
-                                <button className="btn btn find_button">Find out more</button>
-                            </div> */}
-                            <div className="terms_content">
-                                <p>*T&Cs apply. <span> <Link to="/terms-and-condition"> See terms and conditions</Link></span> for details*</p>
-                            </div>
-                        </div>
-                    </div>
+                   
                 </div>
             </section>
-            {/* <!-- ======= How do I refer a friend? Remitassur -Section  End======= --> */}
-
-            {/* <!-- ======= Why RemitAssure Remitassur -Section  start======= --> */}
-            <section className="why-us section-bgba why_banner">
-                <div className="container">
-
-                    <div className="row">
-                        <div className="col-lg-12">
-
-                            <div className="vl05">
-                                <h1 className="why-heading">Why RemitAssure ?</h1>
-                            </div>
-                            {/* <p className="why_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p> */}
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-md-12 col-lg-12">
-                            <ul className="why-ramit-assure">
-                                < WhyIconsRenderingArrayOfObjects />
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            {/* <!-- ======= Why RemitAssure Remitassur -Section  End======= --> */}
+          
 
 
-            {/* <!-- ======= Testimonial-Section  start======= --> */}
-            <section className="why-us section-bgba testimonials">
-                <div className="container">
-                    {/* main row start*/}
-                    <div className="row">
-                        <div className="testimonial_vl">
-                            <h1 className="chose-heading">Testimonial</h1>
-                            {/* <div className="button_icons_referral">
-                        <button className="btn btn prev left_icon" onClick={() => setMoveClass('prev')}>
-                        <i className="bx bx-chevron-left prev_button"></i>
-                        </button>
-                        <button className="btn btn next right_icon"   onClick={() => setMoveClass('next')}>
-                        <i className="bx bx-chevron-right "></i>
-                        </button>
-                    </div> */}
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <label className="review_content">Reviews 66,081 · Great
-                                <span className="line_drow"></span>
-                            </label>
-                            <img src="assets/img/referral/Group_star.png" alt="group_image" className="group_image" />
-                            <label className="button_rating" >4.1</label>
-                        </div>
-                        {/* <div className="col-lg-9">
-                        <img src="assets/img/referral/Group_star.png" alt="group_image" className="group_image" />
-                        <label className="button_rating" >4.1</label>
-                    </div> */}
-                    </div>
-                    {/* carousel start  */}
-                    <div className="row">
-                        <div className="col-col-lg-12 referal_testimonial my-4">
-                            {/* <div className="carouselwrapper module-wrapper">
-                        <ul onAnimationEnd={handleAnimationEnd} className={`${moveClass} carousel`}>
-                            {carouselItems.map((t, index) => 
-                            <Card key={t.paragraph + index} crad_icons={t.crad_icons} paragraph={t.paragraph} />
-                            )}
-                        </ul>
-                        </div>      */}
-                            <Scrollbar />
-                        </div>
-                    </div>
-                    {/* carousel End  */}
-                    {/* main row  End*/}
-                </div>
-            </section>
-            {/* <!-- ======= Home Testimonial-Section End ======= --> */}
-
-
-            {/* <!-- ======= Fast-security RemitAssure-Section start ======= --> */}
-            <section className="why-us section-bg referal_apps" style={{ backgroundColor: "rgba(232, 240, 255, 1) !important" }}>
-                <div className="container">
-                    {/* -----======= first row End ====--- */} {/* -----======= second row start ====--- */}
-                    <div className="row">
-                        <div className="col-lg-6 right_sections01">
-                            <img src="assets/img/home/img03.svg" alt="background-images" />
-                        </div>
-
-                        <div className="col-lg-6 better_sections">
-                            {/* <div className="vl">
-                                    <h1 className="vl-heading">A Better Way</h1>
-                                    <h1 className="vl-heading01">To Send Money ?</h1>
-                                </div> */}
-
-                            {/* <div className="vl-content">
-                                    <p className="vl-paragraph">
-                                        Download our app for free to send money online in minutes to over 130 other countries. Track your payments and view your transfer history from anywhere.
-                                    </p>
-                                </div> */}
-
-                            <div className="fw-semibold mt-4 display-3" style={{ color: "#6414E9" }}>
-                                Coming Soon
-                            </div>
-                            <div className="link my-0">
-                                <div className="left_link">
-                                    <img src="assets/img/home/playstore.svg" alt="home_icons" className="home_icons" />
-                                </div>
-                                <div className="rihjt_link">
-                                    <img src="assets/img/home/appstore.svg" alt="home_icons" className="home_icons" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* -----======= second row End ====--- */}
-                </div>
-
-            </section>
-            {/* <!-- ======= Fast -security RemitAssure-Section End ======= --> */}
-
-
-
+</div>
 
 
         </>
