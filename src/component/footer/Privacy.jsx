@@ -14,9 +14,8 @@ const Privacy = () => {
     <div className=" headabout">
 	 <h1 className="about-heading">Privacy Policy</h1>
 	</div>
-    <p className="our_vission01">RemitAssure is an innovative Fintech that offers disruptive digital peer-to-peer (P2P) 
-	remittance services across the globe.</p>
-	
+  <p className="our_vission01"> As a reporting entity under the AML/CTF Act of Australia, RemitAssure is obligated to collect money transfer details which include the personal information of customers.</p>
+  
 	 <p className="our_vission01">We would like to assure our customers that we take their privacy very seriously. Our handling of the personal information of customers is in line with the stipulations of Australia’s Privacy Act of 1988 (Privacy Act).</p>
 	 
 	 

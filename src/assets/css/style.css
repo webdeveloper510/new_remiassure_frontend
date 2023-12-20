@@ -78,12 +78,17 @@ h6,
   height: 100px;
   transition: all 0.5s;
   z-index: 9999999;
-  position: relative;
+ background-color: #fff;
 
 
   /* border-bottom: 1px solid rgb(217, 224, 232); */
 }
-
+body.aboutus-page section.top_sections1 {
+  padding-top: 0px;
+}
+.spacer-div-he {
+  padding-bottom: 100px;
+}
 /* #header.header-transparent {
   background: none;
 } */
@@ -727,9 +732,6 @@ h5.Sign-heading {
     font-size: 13px !important;
   }
 
-  .site-content {
-    padding-top: 90px !important;
-  }
 
   .help-li {
     margin-bottom: 20px;
@@ -2633,9 +2635,7 @@ button.btn.btn.find_button:focus {
   padding-left: 10px;
 }
 
-.site-content {
-  padding-top: 60px;
-}
+
 
 .why_content {
   font-family: var(--font-family) !important;
@@ -3216,7 +3216,7 @@ span.progress-step {
   width: 100%;
   background: linear-gradient(182deg, #A374F2 1.68%, #6414E9 97.64%);
   position: relative;
-  margin-top: 80px;
+  margin-top: 0px;
   height: 100%;
   min-height: 600px;
 }
@@ -8647,7 +8647,22 @@ body.aboutus-page footer#footer {
 .help-li img.vission_hover {
   display: none;
 }
-
+.term-co h6 {
+  font-size: 24px;
+  color: #190278;
+  font-weight: bold;
+  margin-bottom: 0px !important;
+}
 body.bg-image section.contct-info {
   padding-bottom: 100px;
+}
+
+body.bg-image header#header {
+  background: no-repeat;
+}
+
+
+
+body.bg-image .scrolled1 {
+  background: #fff !important;
 }
