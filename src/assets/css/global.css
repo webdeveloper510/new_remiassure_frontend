@@ -1548,15 +1548,30 @@ p.space-div {
 .email-phone {
     border-radius: 67.27px;
     height: 50px;
-    padding: 10px 30px;
+   
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
     border: 1px solid rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
+   
 }
-.email-phone .row {
-    width: 100%;
+.col-md-4.paddingg-l {
+    padding: 10px 30px;
+}
+.col-md-12.padding-dd.mobiletext input{
+    padding-left:  30px;
+    padding-right:  30px;
+    background: transparent;
+}
+
+
+
+.col-md-12.padding-dd.mobiletext input {
+    padding-left: 30px;
+    padding-right: 30px;
+    background: transparent;
+    border-radius: 67.27px;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
 }
 .email-phone input,.email-phone select {
     padding: 0;

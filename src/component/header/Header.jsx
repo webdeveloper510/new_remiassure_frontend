@@ -124,7 +124,7 @@ const Header = () => {
                   </li>
                 ) : (
                   <>
-                    <nav className="login-navbar">
+             
                       <ul className='mobile-hide'>
                         <li>
                           <NavLink to="/sign-up" className="signactin">Sign <b>up</b></NavLink>
@@ -133,7 +133,7 @@ const Header = () => {
                           <NavLink to="/login" className="logactin">Log  <b>in</b></NavLink>
                         </li>
                       </ul>
-                    </nav>
+                  
                   </>
                 )
               }
