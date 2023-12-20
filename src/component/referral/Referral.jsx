@@ -7,6 +7,7 @@ import Scrollbar from '../referralscrollbar/ReferralScrollbar';
 
 import global from "../../utils/global";
 import axios from "axios";
+import { getReferral } from "../../utils/Api";
 // import Scrollbar from "../scrollbar/Scrollbar";
 
 
@@ -59,17 +60,10 @@ const Referral = () => {
    * ***********************************************************************/
 
     useEffect(() => {
-        axios.post(global.serverUrl + '/referral-link/', {}, {
-            headers: {
-                "Authorization": `Bearer ${signup_token ? signup_token : token}`,
-            }
+        getReferral().then(res => {
+            console.log(res)
+            setDataRefferal(res.data)
         })
-            .then(function (response) {
-                //   console.log("Recipients APIIIII", response.data);
-                setDataRefferal(response.data);
-            })
-            .catch(function (error) {
-            })
     }, [])
 
     // Social Function start
@@ -196,6 +190,7 @@ const Referral = () => {
             paragraph: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the'
         }
     ];
+
     const [moveClass, setMoveClass] = useState('');
     const [carouselItems, setCarouselItems] = useState(items);
     //console.log(items, "carouselItemscarouselItemscarouselItemscarouselItemscarouselItems")
@@ -229,138 +224,139 @@ const Referral = () => {
 
     return (
         <>
-        <div class="site-content">
-      
-            {/* <!-- ======= GBP for friends Remitassur -Section  start======= --> */}
-            <section className="section-img">
-                <div className="container">
-                    <div className="row">
+            <div class="site-content">
+
+                {/* <!-- ======= GBP for friends Remitassur -Section  start======= --> */}
+                <section className="section-img">
+                    <div className="container">
+                        <div className="row">
                             <div className="col-md-7">
-							 <div className=" headabout">
-                           <h1 className="about-heading">50 AUD For You And <br></br><span className="grading-color">25 AUD For Your Friends</span></h1>
-						   </div>
-                            <div className="content_referral">
-                          
-<p className="our_vission01">Once they’ve sent AUD 100 or more,
-you’ll be emailed a AUD 50 RemitAssure Voucher</p>
+                                <div className=" headabout">
+                                    <h1 className="about-heading">50 AUD For You And <br></br><span className="grading-color">25 AUD For Your Friends</span></h1>
+                                </div>
+                                <div className="content_referral">
+
+                                    <p className="our_vission01">Once they’ve sent AUD 100 or more,
+                                        you’ll be emailed a AUD 50 RemitAssure Voucher</p>
+                                </div>
+
                             </div>
 
-                        </div>
-
-                     
-
-                    </div>
-                </div>
-            </section>
-            {/* <!-- ======= GBP for friends Remitassur -Section  End======= --> */}
 
 
-            {/* <!-- ======= How do I refer a friend? Remitassur -Section  start======= --> */}
-            <section className="why-us section-bgba referal-section">
-                <div className="container">
-
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="vl04">
-                                <h1 className="vl-heading">How do I refer a friend?</h1>
-                            </div>
-                            <p className="refer_content">Follow these 4 easy steps</p>
                         </div>
                     </div>
+                </section>
+                {/* <!-- ======= GBP for friends Remitassur -Section  End======= --> */}
 
 
-                    <div className="timeline desktop_timeline">
+                {/* <!-- ======= How do I refer a friend? Remitassur -Section  start======= --> */}
+                <section className="why-us section-bgba referal-section">
+                    <div className="container">
 
-                        <div className="timeline-content col-lg-3">
-                            <p className="timeline-text odd">Sign up</p>
-
-                            <div className="popup_content odd-text">
-                                <p className="signup_content">1</p>
-
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <div className="vl04">
+                                    <h1 className="vl-heading">How do I refer a friend?</h1>
+                                </div>
+                                <p className="refer_content">Follow these 4 easy steps</p>
                             </div>
                         </div>
-                        <div className="timeline-content col-lg-3">
-                            <div className="popup_content even-text">
-                                <p className="signup_content">2</p>
-                            </div>
-                            <p class="timeline-text even">Transfer Funds</p>
-                        </div>
-                        <div className="timeline-content col-lg-3">
-                            <p class="timeline-text odd"> Share your referral code with family and friends</p>
-                            <div className="popup_content odd-text">
-                                <p className="signup_content">3</p>
-                            </div>
-                        </div>
-                        <div className="timeline-content col-lg-3">
-
-                            <div className="popup_content even-text">
-                                <p className="signup_content">4</p>
-                            </div>
-                            <p class="timeline-text even"> When they sign up and send funds through their account, you both receive a voucher</p>
-                        </div>
-
-                    </div>
 
 
-                    <div className="timeline mobile_timeline">
+                        <div className="timeline desktop_timeline">
 
-                        <div className="timeline-content col-lg-3">
-                            <p className="timeline-text odd">Sign up</p>
+                            <div className="timeline-content col-lg-3">
+                                <p className="timeline-text odd">Sign up</p>
 
-                            <div className="popup_content odd-text">
-                                <p className="signup_content">1</p>
+                                <div className="popup_content odd-text">
+                                    <p className="signup_content">1</p>
 
-                            </div>
-                        </div>
-                        <div className="timeline-content col-lg-3">
-                            <p class="timeline-text odd">Transfer Funds</p>
-                            <div className="popup_content odd-text">
-                                <p className="signup_content">2</p>
-                            </div>
-
-                        </div>
-                        <div className="timeline-content col-lg-3">
-                            <p class="timeline-text odd"> Share your referral code with family and friends</p>
-                            <div className="popup_content odd-text">
-                                <p className="signup_content">3</p>
-                            </div>
-                        </div>
-                        <div className="timeline-content col-lg-3">
-                            <p class="timeline-text odd"> When they sign up and send funds through their account, you both receive a voucher</p>
-                            <div className="popup_content odd-text">
-                                <p className="signup_content">4</p>
-                            </div>
-                        </div>
-                    </div>
-                    {
-                        verification_otp || token != undefined || '' ? (
-                            <div className="referal_code">
-                                <div className="row">
-                                    <div className="col-lg-12">
-                                        <p className="share_referal_code">Share your unique referral code:</p>
-
-                                        <InputGroup className="mb-3">
-                                            <Form.Control
-                                                aria-label="Recipient's username"
-                                                aria-describedby="basic-addon2"
-                                                value={dataRefferal.referrallink}
-                                                id="myInput" className="copy_input"
-                                            />
-                                            <button variant="outline-secondary" id="button-addon2" className="button_copy">
-                                                Copy
-                                            </button>
-                                        </InputGroup>
-                                    </div>
                                 </div>
                             </div>
-                        ) : (
-                            <>
-                                <div className="social_links_change"></div>
-                            </>
-                        )
-                    }
+                            <div className="timeline-content col-lg-3">
+                                <div className="popup_content even-text">
+                                    <p className="signup_content">2</p>
+                                </div>
+                                <p class="timeline-text even">Transfer Funds</p>
+                            </div>
+                            <div className="timeline-content col-lg-3">
+                                <p class="timeline-text odd"> Share your referral code with family and friends</p>
+                                <div className="popup_content odd-text">
+                                    <p className="signup_content">3</p>
+                                </div>
+                            </div>
+                            <div className="timeline-content col-lg-3">
 
-                    {/* <div className="referal_code">
+                                <div className="popup_content even-text">
+                                    <p className="signup_content">4</p>
+                                </div>
+                                <p class="timeline-text even"> When they sign up and send funds through their account, you both receive a voucher</p>
+                            </div>
+
+                        </div>
+
+
+                        <div className="timeline mobile_timeline">
+
+                            <div className="timeline-content col-lg-3">
+                                <p className="timeline-text odd">Sign up</p>
+
+                                <div className="popup_content odd-text">
+                                    <p className="signup_content">1</p>
+
+                                </div>
+                            </div>
+                            <div className="timeline-content col-lg-3">
+                                <p class="timeline-text odd">Transfer Funds</p>
+                                <div className="popup_content odd-text">
+                                    <p className="signup_content">2</p>
+                                </div>
+
+                            </div>
+                            <div className="timeline-content col-lg-3">
+                                <p class="timeline-text odd"> Share your referral code with family and friends</p>
+                                <div className="popup_content odd-text">
+                                    <p className="signup_content">3</p>
+                                </div>
+                            </div>
+                            <div className="timeline-content col-lg-3">
+                                <p class="timeline-text odd"> When they sign up and send funds through their account, you both receive a voucher</p>
+                                <div className="popup_content odd-text">
+                                    <p className="signup_content">4</p>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            verification_otp || token != undefined || '' ? (
+                                <div className="referal_code">
+                                    <div className="row">
+                                        <div className="col-lg-12">
+                                            <p className="share_referal_code">Share your unique referral code:</p>
+
+                                            <InputGroup className="mb-3">
+                                                <Form.Control
+                                                    aria-label="Recipient's username"
+                                                    aria-describedby="basic-addon2"
+                                                    value={dataRefferal?.referral_code}
+                                                    id="myInput" className="copy_input referral_input"
+                                                    readOnly
+                                                />
+                                                <button variant="outline-secondary" id="button-addon2" className="button_copy" onClick={() => { navigator.clipboard.writeText(dataRefferal?.referral_code) }}>
+                                                    Copy
+                                                </button>
+                                            </InputGroup>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <div className="social_links_change"></div>
+                                </>
+                            )
+                        }
+
+                        {/* <div className="referal_code">
                       <div className="row">
                           <div className="col-lg-12">
                               <p className="share_referal_code">Share your unique referral code:</p>
@@ -376,13 +372,13 @@ you’ll be emailed a AUD 50 RemitAssure Voucher</p>
                       </div>
                   </div>
                              */}
-                   
-                </div>
-            </section>
-          
+
+                    </div>
+                </section>
 
 
-</div>
+
+            </div>
 
 
         </>

@@ -537,3 +537,17 @@ export const getDiscountedPrice = async (data) => {
   })
   return response
 }
+
+
+export const getReferral = async () => {
+  const response = await Axios.post("/referral-link/", {}, {
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  }).catch(err => {
+    return err.response.data
+  })
+  return response
+}
