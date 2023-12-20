@@ -63,9 +63,9 @@ const routes = [
       { path: 'sign-up', element: <NonDashLayout><RouteWithBodyClass element={<Signup />} bodyClass="signup-page" /> </NonDashLayout> },
       { path: 'login', element: <NonDashLayout><RouteWithBodyClass element={<Login />} bodyClass="signup-page" /> </NonDashLayout> },
       { path: 'forgot-password', element: <NonDashLayout><RouteWithBodyClass element={<ForgotPassword />} bodyClass="signup-page" /></NonDashLayout> },
-      { path: 'reset-password', element: <NonDashLayout><RecentPassword /> </NonDashLayout> },
+      { path: 'reset-password', element:  <NonDashLayout> <RouteWithBodyClass element={<RecentPassword />} bodyClass="footer-space bg-colored" /></NonDashLayout> },
       { path: 'reset-password/:id', element: <NonDashLayout><LocalStorage /> </NonDashLayout> },
-      { path: '/verification', element: <NonDashLayout><Verification /></NonDashLayout> },
+      { path: '/verification', element: <NonDashLayout> <RouteWithBodyClass element={<Verification />} bodyClass="footer-space bg-colored" /> </NonDashLayout> },
       { path: '404', element: <Page404 /> },
       { path: '*', element: <Navigate to="/404" /> },
     ]
@@ -84,8 +84,8 @@ const routes = [
     children: [
       { path: '/transactions', element: <Layout>  <RouteWithBodyClass element={<Transfer />} bodyClass="footer-space bg-colored" /></Layout> },
       { path: '/transaction-detail/:id', element: <Layout><TransactionDetails /></Layout> },
-      { path: '/user-send-money', element: <Layout><UserMoney /></Layout> },
-      { path: '/add-new-recipient', element: <Layout><AddNewRecipient /></Layout> },
+      { path: '/user-send-money', element: <Layout><RouteWithBodyClass element={<UserMoney />} bodyClass="footer-space bg-colored" /> </Layout> },
+      { path: '/add-new-recipient', element: <Layout> <RouteWithBodyClass element={<AddNewRecipient />} bodyClass="footer-space bg-colored" />  </Layout> },
       { path: '/user-profile', element: <Layout> <RouteWithBodyClass element={<UserProfile />} bodyClass="footer-space bg-colored" /> </Layout> },
       { path: '/user-recipients', element: <Layout>  <RouteWithBodyClass element={<UserRecipient />} bodyClass="footer-space bg-colored" />  </Layout> },
       { path: '/change-password', element: <Layout> <RouteWithBodyClass element={<ChangePassword /> } bodyClass="footer-space bg-colored" /> </Layout> },

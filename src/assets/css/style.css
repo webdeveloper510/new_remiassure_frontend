@@ -3173,7 +3173,7 @@ span.progress-step {
   background-size: cover;
   background: linear-gradient(182deg, #A374F2 1.68%, #6414E9 97.64%);
   position: relative;
-  margin-top: 80px;
+  margin-top: 0px;
   height: 100%;
 }
 
@@ -8695,7 +8695,7 @@ body.bg-image section.contct-info {
 }
 
 body.bg-image header#header {
-  background: no-repeat;
+  background: #fff;
 }
 
 

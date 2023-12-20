@@ -181,7 +181,7 @@ const Footer = () => {
     return (
         <>
             {/* <!-- ======= Footer ======= --> */}
-			<div className="container">
+			<div className="container-foter">
             <footer id="footer">
                 <div className="footer-top1 desktop-only">
                     

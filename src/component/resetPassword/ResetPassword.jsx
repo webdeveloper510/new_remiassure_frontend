@@ -72,7 +72,7 @@ const RecentPassword = () => {
 
     return (
         <>
-            <section className="why-us section-bgba recent_banner">
+            <section className="why-us section-bgba">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">

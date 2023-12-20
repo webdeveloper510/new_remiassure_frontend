@@ -9,6 +9,7 @@ import * as Yup from "yup"
 import clsx from "clsx";
 import * as CountryData from "country-codes-list";
 
+  
 const Login = () => {
 
 
@@ -131,7 +132,12 @@ const Login = () => {
                                                 <form onSubmit={formik.handleSubmit} noValidate>
                                                     <Form.Group className="mb-2 form_label">
                                                         <Form.Label>Email/Mobile Number<span style={{ color: 'red' }} >*</span></Form.Label>
-														<div className="email-phone">
+													
+														
+<div className={clsx("email-phone", {
+  
+    'invalid': formik.touched.email && formik.errors.email
+})}>
                                                         <div className="row">
                                                             {
                                                                 isMobile ? (

@@ -156,15 +156,7 @@ a.logactin.active:before {
     top: 12px;
 }
 
-a.signactin.active{
-    background: #fd696c;
-    color: #fff !important;
-    border-top-left-radius: 53px;
-    padding: 15px 30px !important;
-    border-bottom-left-radius: 53px;
-    position: relative;
-    color:#fff !important;
-}
+
 
 a.signactin.active:after {
     position: absolute;
@@ -885,7 +877,9 @@ b.color-sp {
     left: 48px;
     padding: 20px;
 }
-
+.email-phone.invalid {
+    border: 1px solid #dc3545;
+}
 .images-1 {
     position: relative;
 }
@@ -1412,7 +1406,7 @@ p.icon-acc {
 
     a.signactin.active {
         background: none;
-        color: rgb(25 2 120 / 40%) !important;
+        color: #191970 !important;
     }
     a.signactin.active:after{
     display: none;
@@ -1513,7 +1507,7 @@ button.signup_button,button.login_button {
     padding: 14px 44px !important;
     border-bottom-left-radius: 53px !important;
     border-top-left-radius: 53px !important;
-    font-size: 21px !important;
+    font-size: 17px !important;
     font-family: var(--font-SubHeding) !important;
     width: 50%;
     background: #6414E9;
@@ -1522,7 +1516,7 @@ button.signup_button,button.login_button {
     display: inline-block;
     position: relative;
     padding-left: 35px !important;
-    width: max-content;
+    width: 267px;
     height: 58px;
     text-transform: uppercase;
 }
@@ -1572,6 +1566,10 @@ p.space-div {
     border-radius: 67.27px;
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
+}
+.container-foter {
+    padding-left: 60px;
+    padding-right: 60px;
 }
 .bg-colored {
     background: #e8f0ff;
