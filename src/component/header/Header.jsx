@@ -77,15 +77,15 @@ const Header = () => {
   }
   const commonMenuItems = (
     <>
-     <li>
-                <NavLink to="/">Home</NavLink>
-              </li>
-              <li>
-                <NavLink to="/about-us"> About us</NavLink>
-              </li>
-              <li>
-                <NavLink to="/help">Help</NavLink>
-              </li>
+      <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/about-us"> About us</NavLink>
+      </li>
+      <li>
+        <NavLink to="/help">Help</NavLink>
+      </li>
     </>
   );
   return (
@@ -99,15 +99,15 @@ const Header = () => {
               </NavLink>
             </h1>
           </div>
-        
-              
-             
-              {
-                token && user ? (
-				  <nav id="navbar" className="navbar">
-				    <ul>
-				 {commonMenuItems}
-				  <li>
+
+
+
+          {
+            token && user ? (
+              <nav id="navbar" className="navbar">
+                <ul>
+                  {commonMenuItems}
+                  <li>
                     <NavLink to="/referral">Referral</NavLink>
                   </li>
                   <li class="dropdown">
@@ -119,35 +119,38 @@ const Header = () => {
                         LoginDigitalidVerified?.toString() === "true" ? (
                           <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
                         ) : (
-                          <li> <NavLink to="/send-money">Send Money</NavLink></li>
+                          <>
+                            <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
+                            <li> <NavLink to="/send-money">Send Money</NavLink></li>
+                          </>
                         )
                       }
                       <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
                     </ul>
                   </li>
-				  </ul></nav>
-                ) : (
-                  <>
-                    <nav id="navbar" className="navbar">
-            <ul>
-              {commonMenuItems}
-			  </ul>
-			  </nav>
-               <nav id="navbar" className="navbar">
-                
-                      <ul className='mobile-hide'>
-                        <li>
-                          <NavLink to="/sign-up" className="signactin"><b>Sign</b> <b>up</b></NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/login" className="logactin">Log  <b>in</b></NavLink>
-                        </li>
-                      </ul>
-                  </nav>
-                  </>
-                )
-              }
-        
+                </ul></nav>
+            ) : (
+              <>
+                <nav id="navbar" className="navbar">
+                  <ul>
+                    {commonMenuItems}
+                  </ul>
+                </nav>
+                <nav id="navbar" className="navbar">
+
+                  <ul className='mobile-hide'>
+                    <li>
+                      <NavLink to="/sign-up" className="signactin"><b>Sign</b> <b>up</b></NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/login" className="logactin">Log  <b>in</b></NavLink>
+                    </li>
+                  </ul>
+                </nav>
+              </>
+            )
+          }
+
 
           <img src="assets/img/home/mobilemenu.png" onClick={mobilemenuShow} className="mobile-btn" />
 
@@ -189,7 +192,10 @@ const Header = () => {
                             LoginDigitalidVerified == "true" ? (
                               <li> <NavLink to="/dashboard" onClick={handleClose}>User Dashboard</NavLink></li>
                             ) : (
-                              <li> <NavLink to="/send-money" onClick={handleClose}>Send Money</NavLink></li>
+                              <>
+                                <li> <NavLink to="/dashboard" onClick={handleClose}>User Dashboard</NavLink></li>
+                                <li> <NavLink to="/send-money" onClick={handleClose}>Send Money</NavLink></li>
+                              </>
                             )
                           }
                           <li><NavLink onClick={handleLogout}>Logout</NavLink></li>
@@ -218,8 +224,8 @@ const Header = () => {
           </Offcanvas>
         </div>
       </header>
-    <div className='spacer-div-he'>
-    </div>
+      <div className='spacer-div-he'>
+      </div>
     </>
   )
 }
