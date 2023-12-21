@@ -53,7 +53,7 @@ const Signup = () => {
         email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/, "Invalid email format").min(6).max(50).required("Email is required"),
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
-        referral_code: isOn ? Yup.string().length(8, "Referral code must contain 8 characters").required("Referral Code is required") : Yup.string().notRequired(),
+        referral_code: isOn ? Yup.string().min(8, "Referral code must contain 8 characters").max(8, "Referral code must contain 8 characters").required("Referral Code is required") : Yup.string().notRequired(),
         mobile: Yup.string().min(11, "Minimum 9 digits").required("Mobile is required")
     })
 
@@ -81,6 +81,7 @@ const Signup = () => {
     const formik = useFormik({
         initialValues,
         validationSchema: signSchema,
+        validateOnChange: false,
         onSubmit: async (values) => {
             setLoading(true)
             window.scrollTo({
@@ -159,7 +160,7 @@ const Signup = () => {
     const handleRef = (event) => {
         const result = event.target.value.replace(/[^A-z0-9_-]/gi, "")
         formik.setFieldValue(event.target.name, result)
-        formik.setFieldTouched(event.target.name, true)
+        formik.handleChange(event)
         // if(result.length == 6){
         //     formik.setErrors({...formik.errors, referral_code:""})
         // }
