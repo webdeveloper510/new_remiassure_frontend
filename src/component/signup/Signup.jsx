@@ -198,7 +198,7 @@ const Signup = () => {
         if (length.length == 6) {
             setLoading(true)
             let data = { ...formik.values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + formik.values.mobile, otp: otp }
-            if (data.referral_code === "" || show === false) {
+            if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
             }
             userRegisterVerify(data).then((res) => {
@@ -362,27 +362,27 @@ const Signup = () => {
                                                             <div className="row">
                                                                 <div className="col-md-6 pass-row">
                                                                     <Form.Group className="mb-2 form_label">
-																	<div className="f-le">
-                                                                        <Form.Label> Your Password<span style={{ color: 'red' }} >*</span> </Form.Label>
-                                                                        <Form.Control
-                                                                            type={showPassword ? 'text' : 'password'}
-                                                                            id="password"
-                                                                            name="password"
-                                                                            autoComplete="off"
-                                                                            {...formik.getFieldProps('password')}
-                                                                            placeholder="Enter Password..."
-                                                                            className={clsx(
-                                                                                'form-control bg-transparent',
-                                                                                { 'is-invalid': formik.touched.password && formik.errors.password },
-                                                                                {
-                                                                                    'is-valid': formik.touched.password && !formik.errors.password,
-                                                                                }
-                                                                            )}
-                                                                        />
-                                                                        <span onClick={toggleShowPassword} className="pass_icons">
-                                                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                                                                        </span>
-																		</div>
+                                                                        <div className="f-le">
+                                                                            <Form.Label> Your Password<span style={{ color: 'red' }} >*</span> </Form.Label>
+                                                                            <Form.Control
+                                                                                type={showPassword ? 'text' : 'password'}
+                                                                                id="password"
+                                                                                name="password"
+                                                                                autoComplete="off"
+                                                                                {...formik.getFieldProps('password')}
+                                                                                placeholder="Enter Password..."
+                                                                                className={clsx(
+                                                                                    'form-control bg-transparent',
+                                                                                    { 'is-invalid': formik.touched.password && formik.errors.password },
+                                                                                    {
+                                                                                        'is-valid': formik.touched.password && !formik.errors.password,
+                                                                                    }
+                                                                                )}
+                                                                            />
+                                                                            <span onClick={toggleShowPassword} className="pass_icons">
+                                                                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                                                            </span>
+                                                                        </div>
                                                                         {formik.touched.password && formik.errors.password && (
                                                                             <div className='fv-plugins-message-container mt-1'>
                                                                                 <div className='fv-help-block'>
@@ -421,7 +421,7 @@ const Signup = () => {
                                                                         )}
                                                                     </Form.Group>
                                                                 </div>
-                                                               
+
                                                             </div>
                                                             {/*<Form.Check className="form_switch"
                                                                 type="switch"
