@@ -1,9 +1,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
-import Sidebar from './Sidebar';
 import "react-phone-input-2/lib/bootstrap.css";
 import { useFormik } from "formik";
 import birthCountryList from 'react-select-country-list';
@@ -12,17 +10,13 @@ import * as Yup from "yup"
 import clsx from "clsx";
 import PhoneInput from "react-phone-input-2";
 import { userProfile, updateProfile } from "../../utils/Api";
-import authDashHelper from "../../utils/AuthDashHelper";
 import { Modal } from "react-bootstrap";
 import PopVerify from "../verification/PopVerify";
 
 
 
 const Profile = () => {
-
-  const navigate = useNavigate()
   const user_data = JSON.parse(localStorage.getItem("remi-user-dt"))
-  console.log(user_data)
   const [open_modal, setOpenModal] = useState(false)
   const [is_otp_verified, setIsOtpVerfied] = useState(false)
   const [loading, setLoading] = React.useState(false);
@@ -78,10 +72,11 @@ const Profile = () => {
     userProfile().then((res) => {
       if (res.code == "200") {
         setLoading(false)
+        console.log(res.data)
         let p = res.data.mobile
         let phone = p.split("+");
-        setData({ ...res.data, mobile: phone[1] })
-        formik.setValues({ ...res.data, mobile: phone[1] })
+        setData({ ...data, ...res.data, mobile: phone[1], occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "" })
+        formik.setValues({ ...formik.values, ...res.data, mobile: phone[1], occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "" })
         setIsUpdate({ email: res.data.email, mobile: phone[1] })
       }
     }).catch((error) => {
