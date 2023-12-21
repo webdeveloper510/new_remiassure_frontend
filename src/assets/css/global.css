@@ -1787,3 +1787,19 @@ label.toggle-container
     width: 100%;
     border-radius: 5px;
 }
+
+.form_signup .react-tel-input .form-control {
+
+    padding-left: 34px !important;
+}
+
+.flag {
+    left: -12px;
+}
+.selected-flag {
+    width: 29px !IMPORTANT;
+}
+
+.referral-code {
+    position: relative;
+}
