@@ -972,19 +972,10 @@ p.number {
     text-align: left;
 }
 
-.iconandcon {
-    display: flex;
-    align-items: center;
-}
 
-.iconandcon h4 {
-    width: 50%;
-    word-break: break-all;
-    margin-left: 10px;
-}
 
 .bottom-aligend p {
-    color: #040A2E !important;
+  
     text-align: left;
     font-size: 14px;
     line-height: 17.5px;
@@ -1802,4 +1793,8 @@ label.toggle-container
 
 .referral-code {
     position: relative;
+}
+
+.Download-P h1.vl-heading.left-align {
+    padding-left: 0px;
 }

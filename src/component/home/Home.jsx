@@ -1035,7 +1035,7 @@ const Home = () => {
                     <div className="row align-center">
                         <div className="col-md-6">
                             <div className="vl about_v1">
-                                <h1 className="vl-heading left-align">Download our App</h1>
+                                <h1 className="vl-heading left-align">Download Our App</h1>
                             </div>
                             <p className="text-bottom">Download our app for quick and convenient transactions allowing you to send money securely, track transfers effortlessly, and enjoy a seamless financial journey on the go.
                             </p>

@@ -4468,7 +4468,7 @@ img.quotup_icons {
   background-repeat: no-repeat;
   background-size: 92% 100%;
   padding: 0px;
-  margin-top: 100px;
+  margin-top: 0px;
   background-position: center;
 }
 
@@ -7604,7 +7604,13 @@ section.why-us.section-bgba.hows-it-section .vl-heading {
 }
 
 @media only screen and (max-width:767px) {
-
+  .col-md-4.libuttons ul.playstoreicon:after {
+    display: none;
+}
+.partners-section p {
+  padding-left: 10px;
+  padding-right: 10px;
+}
   .desktop-only,
   .for-desk {
     display: none;
@@ -7657,7 +7663,7 @@ section.why-us.section-bgba.hows-it-section .vl-heading {
 
   .Download-P h1.vl-heading.left-align {
     text-align: center !important;
-    margin-bottom: 30px !important;
+    margin-bottom: 0px !important;
     float: left;
     width: 100%;
   }
@@ -7677,8 +7683,16 @@ section.why-us.section-bgba.hows-it-section .vl-heading {
   .bottom-content {
     padding-bottom: 0px !IMPORTANT;
     border-bottom: none;
+    padding-left: 0px !important;
   }
+  .remit_keypoints h1,.remit_keypoints p {
+    text-align: center !important;
+}
 
+.remit_keypoints {
+    padding: 10px !important;
+    align-items: center;
+}
   .free-transaction p,
   section.why-us_section .vl h1 {
     text-align: center;
@@ -8549,11 +8563,43 @@ h3.title-help a {
 }
 
 @media screen and (max-width: 480px) {
-
+  .col-lg-5.padding-right-box {
+    float: left;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.Download-P .row.align-center .col-sm-6 {
+  width: 100%;
+  float: left;
+}
+.buttonsdownload a
+{
+  padding: 0px !important;
+}
+.Download-P .row.align-center {
+  display: block !IMPORTANT;
+  margin:0px !important
+}
+.scaner-code div
+{
+  text-align: center !important;
+}
+.Download-P p.text-bottom {
+  text-align: center !important;
+}
   .contant-img,
   .contant-img.right-aligned {
     top: 14px !important;
   }
+  .container-foter {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+  footer#footer {
+    padding-left: 20px;
+    padding-right: 20px;
+}
 
 }
 
