@@ -4042,6 +4042,7 @@ th.popup-heading {
   background: #190278;
   border-radius: 50px;
   float: left;
+  width:100%;
   margin-bottom: 50px;
 }
 
