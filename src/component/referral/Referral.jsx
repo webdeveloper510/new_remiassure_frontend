@@ -229,6 +229,16 @@ const Referral = () => {
         setCarouselItems(paragraph);
     }
 
+    const [is_copied, setIsCopied] = useState(false)
+
+    const copyToClip = (value) => {
+        navigator.clipboard.writeText(value)
+        setIsCopied(true)
+        setTimeout(() => {
+            setIsCopied(false)
+        }, 3000)
+    }
+
     // End carousel End
 
     return (
@@ -351,8 +361,8 @@ const Referral = () => {
                                                     id="myInput" className="copy_input referral_input"
                                                     readOnly
                                                 />
-                                                <button variant="outline-secondary" id="button-addon2" className="button_copy" onClick={() => { navigator.clipboard.writeText(dataRefferal?.referral_code) }}>
-                                                    Copy
+                                                <button variant="outline-secondary" id="button-addon2" className="button_copy" onClick={() => { copyToClip(dataRefferal?.referral_code) }}>
+                                                    {is_copied ? "Copied" : "Copy"}
                                                 </button>
                                             </InputGroup>
                                         </div>
