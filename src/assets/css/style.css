@@ -8570,6 +8570,13 @@ h3.title-help a {
     padding-left: 15px;
     padding-right: 15px;
 }
+.contant-img {
+  top: 3px !important;
+}
+.images-1.images-1.col-md-8.marauto {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 .Download-P .row.align-center .col-sm-6 {
   width: 100%;
   float: left;
