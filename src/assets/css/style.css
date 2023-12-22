@@ -8562,7 +8562,9 @@ h3.title-help a {
     height: 35px;
   }
 }
-
+.site-content-money .flag {
+  left: 0 !important;
+}
 @media screen and (max-width: 480px) {
   .col-lg-5.padding-right-box {
     float: left;
