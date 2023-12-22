@@ -63,15 +63,30 @@ const TransactionDetails = () => {
                                     <Card>
                                         <Card.Body>
                                             <div className="row my-4">
-                                                <div className='d-grid col-md-4 my-1 border-end'>
-                                                    <span className='fs-6'>Send Amount</span>
-                                                    <span className='fw-semibold fs-4'><span className=' fs-6'>{detail?.send_currency}&nbsp;</span>{detail?.send_amount ? commaSeperator(detail?.send_amount) : "N/A"}</span>
+                                                <div className='d-grid col-md-3 my-1 border-end'>
+                                                    <span className='fs-6'>Amount Paid</span>
+                                                    <span className='fw-semibold fs-4'>
+                                                        <span className={detail?.discount_amount !== "0" ? "fs-6" : "fs-4"}>{detail?.send_currency}&nbsp;</span>{detail?.amount ? commaSeperator(detail?.amount) : "N/A"}
+                                                        {
+                                                            detail?.discount_amount !== "0" ? (
+                                                                <span className='small'>
+                                                                    {detail?.send_currency}&nbsp;{detail?.discount_amount} Discount Applied
+                                                                </span>
+                                                            ) : (
+                                                                <></>
+                                                            )
+                                                        }
+                                                    </span>
                                                 </div>
-                                                <div className='d-grid my-1 col-md-4 border-end'>
-                                                    <span className='fs-6'>Received Amount</span>
+                                                <div className='d-grid col-md-3 my-1 border-end'>
+                                                    <span className='fs-6'>Amount Sent</span>
+                                                    <span className='fw-semibold fs-4'><span className=' fs-6'>{detail?.send_currency}&nbsp;</span>{detail?.total_amount ? commaSeperator(detail?.total_amount) : "N/A"}</span>
+                                                </div>
+                                                <div className='d-grid my-1 col-md-3 border-end'>
+                                                    <span className='fs-6'>Amount Received</span>
                                                     <span className='fw-semibold fs-4'><span className=' fs-6'> {detail?.receive_currency}&nbsp;</span>{detail?.send_amount ? commaSeperator(detail?.receive_amount) : "N/A"}</span>
                                                 </div>
-                                                <div className='d-grid my-1 col-md-4'>
+                                                <div className='d-grid my-1 col-md-3'>
                                                     <span className='fs-6'> Exchange Rate</span>
                                                     <span className='fw-semibold d-grid'><span className='fs-4'>{detail?.exchange_rate ? commaSeperator(detail?.exchange_rate) : "N/A"}</span><span className='small'>{detail?.send_currency} {detail?.send_currency ? (<>&rarr;</>) : ""} {detail?.receive_currency}</span></span>
                                                 </div>

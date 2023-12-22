@@ -3,10 +3,8 @@ import { Table } from 'react-bootstrap'
 import { commaSeperator } from '../../utils/hook'
 import { getDiscountedPrice } from '../../utils/Api'
 
-const TransactionConfirm = ({ data, handleCancel, handleContinue }) => {
+const TransactionConfirm = ({ data, discount, handleCancel, handleContinue }) => {
 
-    let transaction_id = localStorage.getItem("transaction_id")
-    const [discounts, setDiscounts] = useState({ amount: "", discount_amount: "", final_amount: "" })
 
     useEffect(() => {
         window.scrollTo({
@@ -15,9 +13,6 @@ const TransactionConfirm = ({ data, handleCancel, handleContinue }) => {
             behavior: "smooth"
         })
 
-        getDiscountedPrice(transaction_id).then(res => {
-            setDiscounts(res.data)
-        })
     }, [])
 
     return (
@@ -43,9 +38,20 @@ const TransactionConfirm = ({ data, handleCancel, handleContinue }) => {
                                 <th>Amount Exchanged</th>
                                 <td>{data?.data?.amount?.to_type}&nbsp;{data?.data?.amount?.exchange_amt !== "" && data?.data?.amount?.exchange_amt !== undefined && data?.data?.amount?.exchange_amt !== null ? commaSeperator(data?.data?.amount?.exchange_amt) : data?.data?.amount?.exchange_amt}</td>
                             </tr>
+                            {
+                                discount?.discount_amount !== 0 ? (
+                                    <tr>
+                                        <th>Discount Applied</th>
+                                        <td>{data?.data?.amount?.from_type}&nbsp;{discount?.discount_amount}&nbsp;{discount?.type?.toLowerCase() === "invite" ? "Refferal" : discount?.type}&nbsp;discount
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    <></>
+                                )
+                            }
                             <tr>
                                 <th>Total Cost</th>
-                                <td>{data?.data?.amount?.from_type}&nbsp;{discounts?.final_amount} {Number(discounts?.discount_amount) !== 0 ? "(Referral discount applied)" : ""}</td>
+                                <td>{data?.data?.amount?.from_type}&nbsp;{discount?.final_amount}</td>
                             </tr>
                             <tr>
                                 <th>Total To Recipient</th>

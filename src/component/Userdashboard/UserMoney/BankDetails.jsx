@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import axios from "axios"
 import { toast } from 'react-toastify';
 import PhoneInput from 'react-phone-input-2';
-import { createTransaction } from '../../../utils/Api';
+import { createTransaction, getDiscountedPrice } from '../../../utils/Api';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import TransactionConfirm from '../../modals/TransactionConfirm';
 import Bank_list from '../../../utils/Bank_list';
@@ -27,6 +27,7 @@ const BankDetails = ({ handleStep, step }) => {
   const [loading, setLoading] = useState(false)
   const [isAfrican, setIsAfrican] = useState(true)
   const [display_confirm, setDisplayConfirm] = useState({ toggle: false, data: null })
+  const [discounts, setDiscounts] = useState({})
 
   const serverUrl = process.env.REACT_APP_API_URL
 
@@ -147,7 +148,9 @@ const BankDetails = ({ handleStep, step }) => {
       setData({ ...data, bank: storage?.amount?.part_type, other_name: storage?.amount?.payout_part })
       formik.setValues({ ...formik.values, bank: storage?.amount?.part_type, other_name: storage?.amount?.payout_part })
     }
+
   }, [])
+
 
   const handleChange = (e) => {
     if (e.target.name === 'country') {
@@ -298,7 +301,11 @@ const BankDetails = ({ handleStep, step }) => {
 
   const selectRecipient = (value) => {
     let storage = JSON.parse(localStorage.getItem("transfer_data"))
-    setDisplayConfirm({ toggle: true, data: { amount: storage?.amount, recipient: value } })
+    let transaction_id = localStorage.getItem("transaction_id")
+    getDiscountedPrice(transaction_id).then(res => {
+      setDiscounts(res.data)
+      setDisplayConfirm({ toggle: true, data: { amount: storage?.amount, recipient: value } })
+    })
     window.scrollTo({
       top: 0,
       left: 0,
@@ -822,7 +829,7 @@ const BankDetails = ({ handleStep, step }) => {
             </div>
           </>
         ) : (
-          <TransactionConfirm data={display_confirm} handleCancel={() => { setDisplayConfirm({ toggle: false, data: null }) }} handleContinue={() => nextStep()} />
+          <TransactionConfirm data={display_confirm} discount={discounts} handleCancel={() => { setDisplayConfirm({ toggle: false, data: null }) }} handleContinue={() => nextStep()} />
         )
       }
 

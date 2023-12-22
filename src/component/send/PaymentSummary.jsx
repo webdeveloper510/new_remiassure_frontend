@@ -25,7 +25,7 @@ const PaymentSummary = ({ handleStep, step }) => {
   const [loader, setLoader] = useState(false)
   const [transaction, setTransaction] = useState({ id: "", status: "", pay_id: "" })
   const [is_otp_verified, setIsOtpVerfied] = useState(null)
-  const [discounts, setDiscounts] = useState({ amount: "", discount_amount: "", final_amount: "" })
+  const [discounts, setDiscounts] = useState({ amount: "", discount_amount: "", final_amount: "", type: "" })
   const local = JSON.parse(localStorage.getItem("transfer_data"));
   let transaction_id = localStorage.getItem("transaction_id")
 
@@ -210,10 +210,24 @@ const PaymentSummary = ({ handleStep, step }) => {
                     <td><span>{data?.to}</span>&nbsp;
                       {data?.recieve_amount !== "" ? commaSeperator(data?.recieve_amount) : data?.recieve_amount}</td>
                   </tr>
+                  {
+                    discounts?.discount_amount !== 0 ? (
+                      <>
+                        <tr>
+                          <td>Discount Applied</td>
+                          <td>
+                            <span>{data?.from}</span>&nbsp;{discounts?.discount_amount}&nbsp;{discounts?.type?.toLowerCase() === "invite" ? "Refferal" : discounts?.type}&nbsp;discount
+                          </td>
+                        </tr>
+                      </>
+                    ) : (
+                      <></>
+                    )
+                  }
                   <tr>
                     <td>Total Cost</td>
                     <td>
-                      <span>{data?.from}</span>&nbsp;{discounts?.final_amount}&nbsp;{Number(discounts?.discount_amount) !== 0 ? "(Referral discount applied)" : ""}
+                      <span>{data?.from}</span>&nbsp;{discounts?.final_amount}
                     </td>
                   </tr>
                 </tbody>

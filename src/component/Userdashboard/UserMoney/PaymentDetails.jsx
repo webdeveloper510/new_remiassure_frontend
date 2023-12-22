@@ -51,6 +51,7 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [display_value, setDisplayValue] = useState({ amount: local?.amount?.send_amt || "", currency: local?.amount?.from_type || "", first_name: local?.recipient?.first_name || "", last_name: local?.recipient?.last_name || "" })
   const [show_payid_inst, setShowIDinst] = useState(false)
   const [show_payto_inst, setShowToinst] = useState(false)
+  const [discounts, setDiscounts] = useState({})
 
   const stripePromise = loadStripe(`${stripe_key}`);
 
@@ -230,6 +231,10 @@ const PaymentDetails = ({ handleStep, step }) => {
       if (res.code === "200") {
         setUserData(res.data)
       }
+    })
+    let transaction_id = localStorage.getItem("transaction_id")
+    getDiscountedPrice(transaction_id).then(res => {
+      setDiscounts(res.data)
     })
   }, [])
 
@@ -505,11 +510,11 @@ const PaymentDetails = ({ handleStep, step }) => {
                   </section>
                 ) : display_confirm.toggle === true && modalView === false ? (
                   <section>
-                    <TransactionConfirm data={display_confirm} handleCancel={() => setDisplayConfirm({ toggle: false, data: null })} handleContinue={() => { handleConfirmation() }} />
+                    <TransactionConfirm data={display_confirm} discount={discounts} handleCancel={() => setDisplayConfirm({ toggle: false, data: null })} handleContinue={() => { handleConfirmation() }} />
                   </section>
                 ) : (
                   <section>
-                    <TransactionRecipiet transaction={transaction} modalView={modalView} />
+                    <TransactionRecipiet transaction={transaction} modalView={modalView} final_amount={discounts?.final_amount} />
                   </section>
                 )
               }
@@ -1379,19 +1384,15 @@ const ErrorModal = ({ show, handler, otp }) => {
   )
 }
 
-const TransactionRecipiet = ({ transaction, modalView }) => {
+const TransactionRecipiet = ({ transaction, modalView, final_amount }) => {
 
   let navigate = useNavigate()
-  const [final_amount, setFinalAmount] = useState("")
 
   useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: "smooth"
-    })
-    getDiscountedPrice(transaction?.id).then(res => {
-      setFinalAmount(res.data.final_amount)
     })
 
   }, [transaction])
