@@ -865,8 +865,13 @@ h5.Sign-heading {
   button.btn.btn.continue-button {
     width: 100%;
     float: left;
+    justify-content: center;
   }
 
+  .col-md-12.padding-dd.mobiletext input {
+    padding-left: 0px !important;
+    margin:0px  !important;
+}
   .col-md-6.flexx {
     display: block !important;
   }
@@ -7608,6 +7613,30 @@ section.why-us.section-bgba.hows-it-section .vl-heading {
   .col-md-4.libuttons ul.playstoreicon:after {
     display: none;
 }
+.login-page .col-md-4.paddingg-l {
+  width: 30%;
+  float: left;
+  padding: 0px !important;
+}
+
+.login-page .col-md-8.mobiletext {
+  width: 70%;
+  float: left;
+  line-height: normal !important;
+  margin: 0;
+  padding: 0px !IMPORTANT;
+}
+
+button.accordion-button.collapsed,.accordion-button:not(.collapsed){
+  padding-right: 50px !important;
+  font-size: 13px !important;
+}
+.login-page .email-phone {
+  padding-left: 35px !important;
+  padding-right: 50px;
+}
+
+
 .partners-section p {
   padding-left: 10px;
   padding-right: 10px;
@@ -8578,6 +8607,14 @@ h3.title-help a {
     padding-left: 15px;
     padding-right: 15px;
 }
+.col-md-12.padding-dd.mobiletext
+{
+  margin: 0px !important;
+}
+label.toggle-container {
+  margin-left: 10px;
+  margin-top: 13px;
+}
 .contant-img {
   top: 3px !important;
 }
@@ -8790,4 +8827,8 @@ body.bg-image .scrolled1 {
 
 .referral_input {
   font-weight: 600;
+}
+.react-tel-input .selected-flag:before
+{
+  display: none;
 }
