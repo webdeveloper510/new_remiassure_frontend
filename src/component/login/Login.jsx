@@ -111,7 +111,7 @@ const Login = () => {
                         <div className="col-lg-12">
                             {/* start-- card */}
                             <div className="row">
-                            <div className="col-lg-6">
+                            <div className="col-lg-5">
                                     <div className="sign-image-sec">
                                 <img src="assets/img/home/signup-left.png" className="signup" alt="alt_image"/>
                                
@@ -119,7 +119,7 @@ const Login = () => {
                                 </div>
 								
 								
-								    <div className="col-lg-6">
+								    <div className="col-lg-7">
                                     <div className="row">
                                         <div className="col-lg-12">
                                             <div className="card1 card-signup1">
