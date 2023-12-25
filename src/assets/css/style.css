@@ -869,7 +869,7 @@ h5.Sign-heading {
   }
 
   .col-md-12.padding-dd.mobiletext input {
-    padding-left: 0px !important;
+    padding-left: 30px !important;
     margin:0px  !important;
 }
   .col-md-6.flexx {
@@ -7613,6 +7613,15 @@ section.why-us.section-bgba.hows-it-section .vl-heading {
   .col-md-4.libuttons ul.playstoreicon:after {
     display: none;
 }
+.email-phone .form-select {
+  background-position: right center;
+}
+button.signup_button, button.login_button {
+  width: 100% !important;
+}
+ .email-phone .mobiletext {
+    padding: 0px !important;
+}
 .login-page .col-md-4.paddingg-l {
   width: 30%;
   float: left;
@@ -7632,10 +7641,27 @@ button.accordion-button.collapsed,.accordion-button:not(.collapsed){
   font-size: 13px !important;
 }
 .login-page .email-phone {
-  padding-left: 35px !important;
-  padding-right: 50px;
+  padding-left: 0px !important;
+ 
 }
-
+.email-phone input, .email-phone select
+{
+  background-color: transparent;
+}
+.email-phone select
+{
+  padding-left: 15px !important;
+}
+.email-phone .row {
+  width: 100%;
+  float: left;
+ 
+  margin: 0;
+}
+.login-page .email-phone input {
+ background-color: transparent !important;
+ 
+}
 
 .partners-section p {
   padding-left: 10px;
