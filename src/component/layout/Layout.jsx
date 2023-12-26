@@ -1,19 +1,20 @@
-import React from 'react'
-import routes from '../../routes';
-import { useNavigate, useRoutes } from 'react-router';
+import React, { useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router';
 import Sidebar from '../Userdashboard/Sidebar';
-// import DashHeader from '../header/DashHeader';
 import Header from '../header/Header';
 
 const Layout = ({ children }) => {
 
-    // const navigate = useNavigate()
-    // const
-    //     useEffect(() => {
-    //         if (authDashHelper('dashCheck') === false) {
-    //             navigate("/send-money")
-    //         }
-    //     }, [])
+    const navigate = useNavigate()
+    const path = useLocation().pathname
+
+    useEffect(() => {
+        let token = localStorage.getItem("token")
+        let user = JSON.parse(localStorage.getItem("remi-user-dt"))
+        if ((!token && !user) || (token && !user)) {
+            navigate("/login")
+        }
+    }, [path])
 
     return (
         <div>

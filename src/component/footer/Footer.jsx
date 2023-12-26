@@ -225,20 +225,20 @@ const Footer = () => {
                             <div className="col-lg-3 col-md-3">
 
                                 <h4>Join our newsletter</h4>
-                              
-<div className="newsletterform">
-    <div className="form-ffoter">
-        <div class="input-news">
-        <input type="text" name="name"  placeholder="Email address"/>
-        </div>
-        <div class="button-new">
-        <div class="btn-con "><button><img src="assets/img/home/nextsli.png"/></button></div>
-        </div>
-    </div>
-    <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p>
-</div>
-                              
-                             
+
+                                <div className="newsletterform">
+                                    <div className="form-ffoter">
+                                        <div class="input-news">
+                                            <input type="text" name="name" placeholder="Email address" />
+                                        </div>
+                                        <div class="button-new">
+                                            <div class="btn-con "><button><img src="assets/img/home/nextsli.png" /></button></div>
+                                        </div>
+                                    </div>
+                                    {/* <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p> */}
+                                </div>
+
+
                             </div>
 
                         </div>
@@ -289,23 +289,23 @@ const Footer = () => {
                         )}
 
 
-<div onClick={() => toggleAccordion(3)}>
-<h4>Join our newsletter {accordionOpen === 2 ? <img src="assets/img/home/up.png"/> : <img src="assets/img/home/down.png"/>}</h4>
-      </div>
-      {accordionOpen === 3 && (
-    <div className="newsletterform">
-    <div className="form-ffoter">
-        <div class="input-news">
-        <input type="text" name="name"  placeholder="Email address"/>
-        </div>
-        <div class="button-new">
-        <div class="btn-con "><button><img src="assets/img/home/nextsli.png"/></button></div>
-        </div>
-    </div>
-    <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p>
-</div>
-      )}
-			  </div>
+                        <div onClick={() => toggleAccordion(3)}>
+                            <h4>Join our newsletter {accordionOpen === 2 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" />}</h4>
+                        </div>
+                        {accordionOpen === 3 && (
+                            <div className="newsletterform">
+                                <div className="form-ffoter">
+                                    <div class="input-news">
+                                        <input type="text" name="name" placeholder="Email address" />
+                                    </div>
+                                    <div class="button-new">
+                                        <div class="btn-con "><button><img src="assets/img/home/nextsli.png" /></button></div>
+                                    </div>
+                                </div>
+                                {/* <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p> */}
+                            </div>
+                        )}
+                    </div>
 
                     <div className="bottom-footer">
                         <div className="row">
@@ -329,7 +329,7 @@ const Footer = () => {
 
                                     </div>
                                     <div className="infor-content">
-                                        <span>1300 284 228</span>
+                                        <a href="https://api.whatsapp.com/send?phone=1300284228" target="_blank">1300 284 228</a>
                                     </div>
 
 
@@ -343,7 +343,7 @@ const Footer = () => {
 
                                     </div>
                                     <div className="infor-content">
-                                        <span>1300 284 228 (toll free)</span>
+                                        <a href="tel:1300284228" target="_blank">1300 284 228 (toll free)</a>
                                     </div>
 
                                 </div>
@@ -385,34 +385,38 @@ const Footer = () => {
 
 
 
-                </div>
-				</div>
-                <div className="col-md-4">
-  <div className="footer-info1 right-content">
-    <div className="icon-ffoter">
-     <div className="social-links ">
-                                    <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/facebook (2).png"  /></a>
-                                    <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook (1).png"  /></a>
-                                    
-                                    <a className="linkedin" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/footer/link1.png"  /></a>
                                 </div>
-
-
+                            </div>
+                            <div className="col-md-4">
+                                <div className="footer-info1 right-content">
+                                    <div className="icon-ffoter">
+                                        <div className="social-links ">
+                                            <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/facebook (2).png" /></a>
+                                            <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook (1).png" /></a>
+                                            <a class="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/"><img src="assets/img/footer/instagram.png" /></a>
+                                            <a className="instagram" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/footer/link1.png" /></a>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="container pt-4">
+                                <div class="row reserved_content">
+                                    <div class="copyright">&copy; Copyright &nbsp;
+                                        <strong>
+                                            <span>Remit-Assure</span>
+                                        </strong>. All Rights Reserved
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
 
-                </div>
-                </div>
-				</div>
-              </div>
-			  
-			  
-			  
-           
-				
-            </footer>
-			</div>
+
+
+                </footer>
+            </div>
             {/* <!-- ======= End-footer ======= --> */}
         </>
     )
