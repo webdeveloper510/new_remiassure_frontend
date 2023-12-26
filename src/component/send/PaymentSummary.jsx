@@ -211,7 +211,7 @@ const PaymentSummary = ({ handleStep, step }) => {
                       {data?.recieve_amount !== "" ? commaSeperator(data?.recieve_amount) : data?.recieve_amount}</td>
                   </tr>
                   {
-                    discounts?.discount_amount !== 0 ? (
+                    discounts?.discount_amount !== "0" && discounts?.discount_amount !== "" && discounts?.discount_amount !== 0 ? (
                       <>
                         <tr>
                           <td>Discount Applied</td>

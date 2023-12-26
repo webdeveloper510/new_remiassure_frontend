@@ -68,7 +68,7 @@ const TransactionDetails = () => {
                                                     <span className='fw-semibold d-grid'>
                                                         <span className="fs-4"><span className='fs-6'>{detail?.send_currency}</span>&nbsp;{detail?.amount ? commaSeperator(detail?.amount) : "N/A"}</span>
                                                         {
-                                                            detail?.discount_amount !== "0" ? (
+                                                            detail?.discount_amount !== "0" && detail?.discount_amount !== "" && detail?.discount_amount !== 0 ? (
                                                                 <span className='small'>
                                                                     {detail?.send_currency}&nbsp;{detail?.discount_amount} Discount Applied
                                                                 </span>

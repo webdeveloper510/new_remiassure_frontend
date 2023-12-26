@@ -39,7 +39,7 @@ const TransactionConfirm = ({ data, discount, handleCancel, handleContinue }) =>
                                 <td>{data?.data?.amount?.to_type}&nbsp;{data?.data?.amount?.exchange_amt !== "" && data?.data?.amount?.exchange_amt !== undefined && data?.data?.amount?.exchange_amt !== null ? commaSeperator(data?.data?.amount?.exchange_amt) : data?.data?.amount?.exchange_amt}</td>
                             </tr>
                             {
-                                discount?.discount_amount !== 0 ? (
+                                discount?.discount_amount !== "0" && discount?.discount_amount !== "" && discount?.discount_amount !== 0 ? (
                                     <tr>
                                         <th>Discount Applied</th>
                                         <td>{data?.data?.amount?.from_type}&nbsp;{discount?.discount_amount}&nbsp;{discount?.type?.toLowerCase() === "invite" ? "Refferal" : discount?.type}&nbsp;discount

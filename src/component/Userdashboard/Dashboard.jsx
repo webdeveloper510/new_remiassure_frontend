@@ -276,7 +276,7 @@ const Dashboard = () => {
                                                                         <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res?.recipient_name ? res?.recipient_name : "N/A"}</span></h6>
 
                                                                     </td>
-                                                                    <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res?.send_currency} </span> {commaSeperator(res?.amount)}</span></td>
+                                                                    <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res?.send_currency} </span> {commaSeperator(res?.total_amount)}</span></td>
                                                                     <td>
                                                                         {
                                                                             res?.payment_status === "cancelled" || res?.payment_status === "Cancelled" ? (
