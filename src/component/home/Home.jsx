@@ -1061,17 +1061,17 @@ const Home = () => {
 
                                 <div className="col-lg-6 col-sm-6">
                                     <div className="buttonsdownload">
-									
-	 <div className="f my-0">
-                                <div className="col-md-12">
-                                     <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank"> <img src="assets/img/home/playstore.svg" alt="home_icons" className="" /></a>
-                                </div>
-                                  <div className="col-md-12">
-                                  <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank">  <img src="assets/img/home/appstore.svg" alt="home_icons" className="" /></a>
-                                </div>
-                            </div> 
-                                    
-                                        
+
+                                        <div className="f my-0">
+                                            <div className="col-md-12">
+                                                <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank"> <img src="assets/img/home/playstore.svg" alt="home_icons" className="" /></a>
+                                            </div>
+                                            <div className="col-md-12">
+                                                <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank">  <img src="assets/img/home/appstore.svg" alt="home_icons" className="" /></a>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -1094,8 +1094,8 @@ const Home = () => {
                                     <p>Do you need assistance? Our dedicated support centre is purpose-built to support you.</p>
                                 </div>
                                 <div className="col-md-4">
-                                    <div className="btn-contact"><a href="/contact " className="skybtn">Contact</a></div>
-                                    <div className="btn-contact "><a href="/contact" className="appbtn">WhatsApp</a></div>
+                                    <div className="btn-contact"><a href="tel:1300284228" target="_blank" className="skybtn">Contact</a></div>
+                                    <div className="btn-contact "><a href="https://api.whatsapp.com/send?phone=1300284228&text=" target="_blank" className="appbtn">WhatsApp</a></div>
                                 </div>
                             </div>
                         </div>

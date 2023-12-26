@@ -271,8 +271,8 @@ const Help = () => {
 
                     <p>We're here 24 hours a day, 7 days a week to support you.</p></div>
                   <div class="col-md-4"><div class="btn-contact">
-                    <a href="/contact " class="skybtn">Contact</a></div>
-                    <div class="btn-contact "><a href="https://wa.me/1300284228" class="appbtn">WhatsApp</a>
+                    <a href="tel:1300284228" target="_blank" class="skybtn">Contact</a></div>
+                    <div class="btn-contact "><a href="https://wa.me/1300284228" target="_blank" class="appbtn">WhatsApp</a>
                     </div>
                   </div>
 

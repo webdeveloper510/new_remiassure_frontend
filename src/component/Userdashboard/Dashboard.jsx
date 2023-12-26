@@ -41,7 +41,7 @@ const Dashboard = () => {
                 let d = response.data
                 let amount = 0
                 for (let i = 0; i < d.length; i++) {
-                    amount = amount + Number(d[i].amount)
+                    amount = amount + Number(d[i].total_amount)
                 }
                 let list = []
                 if (response.data.length > 5) {
