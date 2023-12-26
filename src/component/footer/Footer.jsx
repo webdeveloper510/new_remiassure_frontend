@@ -235,7 +235,7 @@ const Footer = () => {
         <div class="btn-con "><button><img src="assets/img/home/nextsli.png"/></button></div>
         </div>
     </div>
-    <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p>
+   
 </div>
                               
                              
@@ -302,7 +302,7 @@ const Footer = () => {
         <div class="btn-con "><button><img src="assets/img/home/nextsli.png"/></button></div>
         </div>
     </div>
-    <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p>
+
 </div>
       )}
 			  </div>
@@ -393,8 +393,8 @@ const Footer = () => {
      <div className="social-links ">
                                     <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/facebook (2).png"  /></a>
                                     <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook (1).png"  /></a>
-                                    
-                                    <a className="linkedin" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/footer/link1.png"  /></a>
+                                    <a className="facebook" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/footer/link1.png"  /></a>
+                                    <a className="linkedin" target="_blank" href="https://www.instagram.com/media.remitassure/"><img src="assets/img/footer/instagram.png"  /></a>
                                 </div>
 
       
@@ -407,8 +407,14 @@ const Footer = () => {
 				</div>
               </div>
 			  
+              <div className="footer-divder">
+			<div className="borderdevider"></div>  
+			  </div>
+			   
+			  <div className="copy-right">
+			  <p className="Copy-rih">© Copyright <b>Remit-Assure</b>. All Rights Reserved</p>
 			  
-			  
+			  </div>
            
 				
             </footer>

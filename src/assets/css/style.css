@@ -4031,9 +4031,14 @@ th.popup-heading {
 }
 
 .bottom-footer.bottom-none {
-  margin-bottom: 0px !important;
+  margin-bottom: 20px !important;
 }
-
+.copy-right {
+  width: 100%;
+  float: left;
+  text-align: center;
+  margin-top: 30px;
+}
 /*#root{
   min-height: 100vh; 
    display: flex;
@@ -7299,12 +7304,49 @@ button.btn.view_mobile_sidebar.toggle-button {
 .hows-section-light .vl.about_v1 {
   border-color: #6414E9;
 }
-
+body.Working .bg-grey {
+    background: #efefef !important;
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+}
+body.Working .vl.about_v1 {
+  margin: 0px;
+  height: auto !IMPORTANT;
+}
+body.Working h1.vl-heading {
+  text-align: left;
+  padding: 0;
+  float: left;
+  width: 100%;
+}
+body.Working p {
+  color: #040a2e !important;
+  margin: 0px;
+ 
+  
+}
+ul.new-work1 li p {
+  margin-left: 10px;
+}
+body.Working  p.Copy-rih
+{
+  color:#fff !important;
+}
+body.Working  vl-content {
+  float: left;
+  width: 100%;
+}
 .hows-section-light h1.vl-heading {
-  color: #6414E9 !important;
+  color: #190079 !important;
   font-size: xx-large;
 }
-
+body.Working h1.vl-heading {
+  text-align: left;
+}
+body.Working section.why-us_section.homepage-why-us.hows-section
+{
+  padding: 0px !important;
+}
 .hows-section-light p,
 .hows-section-lightul li {
   color: #000 !important;
@@ -7614,6 +7656,38 @@ ul.country-list li .flag {
 @media only screen and (max-width:767px) {
   .col-md-4.libuttons ul.playstoreicon:after {
     display: none;
+}
+body.Working section.why-us_section.homepage-why-us.hows-section-light {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+body.Working section.why-us_section.homepage-why-us.hows-section-light .text-start,body.Working .text-end{
+  text-align: center !IMPORTANT;
+}
+body.Working section.why-us_section.homepage-why-us.hows-section-light .text-start img{
+  margin-bottom: 20px;}
+body.Working .row.custom-row-hows {
+  padding-top: 50px !important;
+  padding-bottom: 50px !important;
+}
+body.Working vl-content {
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+body.Working .top_sections1
+{
+background-size: cover !important;
+}
+body.Working .hows-section ul li p
+{
+	margin-left:0px !Important;
+}
+
+.email-phone .form-select {
+  background-position: 100% !important;
+  width: max-content !important;
+  padding-right: 12px !important;
 }
 a.forgot_pass {
   text-align: left;
@@ -8324,8 +8398,8 @@ p.content-news {
 .bottom-footer {
   float: left;
   width: 100%;
-  margin-top: 40px;
-  margin-bottom: 40px;
+  margin-top: 20px;
+  margin-bottom: 40px ;
 }
 
 .bottom-footer {
@@ -8371,12 +8445,12 @@ p.content-news {
 }
 
 .social-links a:nth-child(1),
-.social-links a:nth-child(2) {
+.social-links a:nth-child(2),.social-links a:nth-child(3) {
   margin-right: 10px;
 }
 
 .footer-divder .borderdevider {
-  width: 70%;
+  width: 100%;
   margin: 0 auto;
   border-top: 1px solid rgba(255, 255, 255, 0.4);
 
@@ -8642,6 +8716,23 @@ h3.title-help a {
     padding-left: 15px;
     padding-right: 15px;
 }
+ul.new-work li {
+  width: 100% !important;
+  float: left;
+  display: block !important;
+  margin: 0px !important;
+}
+
+ul.new-work {
+  float: left;
+  width: 100%;
+  display: block !important;
+}
+
+ul.new-work1 li {
+  width: 100% !important;
+  float: left;
+}
 .btn-con button
 {
   margin-left: 0px !important;
@@ -8859,6 +8950,9 @@ body.bg-image header#header {
 }
 
 
+body.signup-page p.already_content {
+  margin-bottom: 50px;
+}
 
 body.bg-image .scrolled1 {
   background: #fff !important;
@@ -8870,4 +8964,9 @@ body.bg-image .scrolled1 {
 .react-tel-input .selected-flag:before
 {
   display: none;
+}
+
+body.Working section.why-us_section.homepage-why-us.hows-section-light .row.custom-row-hows {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
 }

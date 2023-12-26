@@ -206,7 +206,7 @@ const Working = () => {
 
 
 
-            <section className="why-us_section homepage-why-us hows-section-light">
+            <section className="why-us_section homepage-why-us hows-section-light ">
                 <div className="container">
                     <div className="row custom-row-hows">
                         <div className="col-lg-6 text-start">
@@ -228,7 +228,7 @@ const Working = () => {
 
 
 
-            <section className="why-us_section homepage-why-us hows-section">
+            <section className="why-us_section homepage-why-us hows-section bg-grey">
                 <div className="container">
 
                     <div className="row custom-row-hows">
@@ -252,7 +252,7 @@ const Working = () => {
 
 
 
-            <section className="why-us_section homepage-why-us hows-section-light">
+            <section className="why-us_section homepage-why-us hows-section-light ">
                 <div className="container">
                     <div className="row custom-row-hows">
                         <div className="col-lg-6 align-left">
@@ -275,7 +275,7 @@ const Working = () => {
             </section>
 
 
-            <section className="why-us_section homepage-why-us hows-section">
+            <section className="why-us_section homepage-why-us hows-section bg-grey">
                 <div className="container">
 
 
@@ -287,7 +287,7 @@ const Working = () => {
                             </div>
                             <div className="vl-content">
                                 <p>We offer different payment rails for our customers. You can pay through:</p>
-                                <ul>
+                                <ul className="new-work">
                                     <li><img src="assets/img/zai/payid_light.svg" alt="background-images" /><p>PayID</p></li>
                                     <li><img src="assets/img/zai/payto_light.svg" alt="background-images" /><p>PayTo</p></li>
                                     <li><img src="assets/img/zai/card.png" alt="background-images" /><p>Debit / Credit Card</p></li>
@@ -304,7 +304,7 @@ const Working = () => {
                 </div>
             </section>
 
-            <section className="why-us_section homepage-why-us hows-section-light">
+            <section className="why-us_section homepage-why-us hows-section-light ">
                 <div className="container">
 
                     <div className="row custom-row-hows">
@@ -317,7 +317,7 @@ const Working = () => {
                             </div>
                             <div className="vl-content">
                                 <p>We notify you at each stage of your transfer through email and SMS. The main stages are:</p>
-                                <ul>
+                                <ul className="new-work1">
                                     <li><img src="assets/img/zai/arrows.png" alt="background-images" /><p>Creation of a Transfer</p></li>
                                     <li><img src="assets/img/zai/transfer.png" alt="background-images" /><p>Receipt of Funds</p></li>
                                     <li><img src="assets/img/zai/transfer1.png" alt="background-images" /><p>Transfer Processed</p></li>

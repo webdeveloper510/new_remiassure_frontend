@@ -608,6 +608,12 @@ p.material-heading {
         width: 32%;
     }
 
+    .help-li img
+    {
+width: auto  !important;
+height: auto !important;
+    }
+
     .about_why-ramit-assure li {
         width: 100%;
         margin-bottom: 28px;
@@ -904,3 +910,6 @@ p.material-heading {
 }
 
 
+p.send-text span {
+    margin-left: 4px;
+}
