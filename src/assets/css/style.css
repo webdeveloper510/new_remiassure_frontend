@@ -869,7 +869,7 @@ h5.Sign-heading {
   }
 
   .col-md-12.padding-dd.mobiletext input {
-    padding-left: 0px !important;
+    padding-left: 30px !important;
     margin:0px  !important;
 }
   .col-md-6.flexx {
@@ -7608,19 +7608,37 @@ section.why-us.section-bgba.hows-it-section .vl-heading {
     left: 45%;
   }
 }
-
+ul.country-list li .flag {
+  left: 13px !important;
+}
 @media only screen and (max-width:767px) {
   .col-md-4.libuttons ul.playstoreicon:after {
     display: none;
 }
+a.forgot_pass {
+  text-align: left;
+}
+.form-select:focus
+{
+  box-shadow: none !important
+}
+.email-phone .form-select {
+  background-position: right center;
+}
+button.signup_button, button.login_button {
+  width: 100% !important;
+}
+ .email-phone .mobiletext {
+    padding: 0px !important;
+}
 .login-page .col-md-4.paddingg-l {
-  width: 30%;
+  width: 40%;
   float: left;
   padding: 0px !important;
 }
 
 .login-page .col-md-8.mobiletext {
-  width: 70%;
+  width: 60%;
   float: left;
   line-height: normal !important;
   margin: 0;
@@ -7632,10 +7650,27 @@ button.accordion-button.collapsed,.accordion-button:not(.collapsed){
   font-size: 13px !important;
 }
 .login-page .email-phone {
-  padding-left: 35px !important;
-  padding-right: 50px;
+  padding-left: 0px !important;
+ 
 }
-
+.email-phone input, .email-phone select
+{
+  background-color: transparent;
+}
+.email-phone select
+{
+  padding-left: 15px !important;
+}
+.email-phone .row {
+  width: 100%;
+  float: left;
+ 
+  margin: 0;
+}
+.login-page .email-phone input {
+ background-color: transparent !important;
+ 
+}
 
 .partners-section p {
   padding-left: 10px;
@@ -8606,6 +8641,10 @@ h3.title-help a {
     width: 100%;
     padding-left: 15px;
     padding-right: 15px;
+}
+.btn-con button
+{
+  margin-left: 0px !important;
 }
 .col-md-12.padding-dd.mobiletext
 {

@@ -1779,17 +1779,11 @@ label.toggle-container
     border-radius: 5px;
 }
 
-.form_signup .react-tel-input .form-control {
-
-    padding-left: 34px !important;
-}
 
 .flag {
     left: -12px;
 }
-.selected-flag {
-    width: 29px !IMPORTANT;
-}
+
 
 .referral-code {
     position: relative;
@@ -1797,4 +1791,7 @@ label.toggle-container
 
 .Download-P h1.vl-heading.left-align {
     padding-left: 0px;
+}
+.sign-image-sec {
+    text-align: center;
 }

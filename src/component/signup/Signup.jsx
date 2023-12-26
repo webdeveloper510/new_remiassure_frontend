@@ -267,13 +267,13 @@ const Signup = () => {
                     <section className="sigupsec">
                         <div className="container">
                             <div className="row">
-                                <div className="col-lg-6">
+                                <div className="col-lg-5">
                                     <div className="sign-image-sec">
                                         <img src="assets/img/home/signup-left.png" className="signup" alt="alt_image" />
 
                                     </div>
                                 </div>
-                                <div className="col-lg-6">
+                                <div className="col-lg-7">
                                     <div className="row">
                                         <div className="col-lg-12">
                                             <div className="card1 card-signup1">
