@@ -1,4 +1,4 @@
-import React, { Component ,useState } from "react";
+import React, { Component, useState } from "react";
 import { links, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { generateRandomKey } from "../../utils/hook";
 
@@ -7,29 +7,29 @@ const Footer = () => {
     const [accordionOpen, setAccordionOpen] = useState(null);
 
     const toggleAccordion = (index) => {
-      if (accordionOpen === index) {
-        setAccordionOpen(null);
-      } else {
-        setAccordionOpen(index);
-      }
+        if (accordionOpen === index) {
+            setAccordionOpen(null);
+        } else {
+            setAccordionOpen(index);
+        }
     };
 
     const renderAccordionContent = (data) => {
         return data.map((item, index) => (
-          <div key={item.id}>
-            <div onClick={() => toggleAccordion(index)}>
-              <NavLink to="#">{item.content}</NavLink>
+            <div key={item.id}>
+                <div onClick={() => toggleAccordion(index)}>
+                    <NavLink to="#">{item.content}</NavLink>
+                </div>
+                {accordionOpen === index && (
+                    <div>
+                        {/* Additional content for the accordion item */}
+                    </div>
+                )}
             </div>
-            {accordionOpen === index && (
-              <div>
-                {/* Additional content for the accordion item */}
-              </div>
-            )}
-          </div>
         ));
-      };
+    };
 
-      
+
 
 
     // Navigator Footer Content Start 
@@ -181,13 +181,13 @@ const Footer = () => {
     return (
         <>
             {/* <!-- ======= Footer ======= --> */}
-			<div className="container-foter">
-            <footer id="footer">
-                <div className="footer-top1 desktop-only">
-                    
+            <div className="container-foter">
+                <footer id="footer">
+                    <div className="footer-top1 desktop-only">
+
                         <div className="row">
 
-                        
+
 
 
                             <div className="col-lg-3 col-md-3">
@@ -225,194 +225,194 @@ const Footer = () => {
                             <div className="col-lg-3 col-md-3">
 
                                 <h4>Join our newsletter</h4>
-                              
-<div className="newsletterform">
-    <div className="form-ffoter">
-        <div class="input-news">
-        <input type="text" name="name"  placeholder="Email address"/>
-        </div>
-        <div class="button-new">
-        <div class="btn-con "><button><img src="assets/img/home/nextsli.png"/></button></div>
-        </div>
-    </div>
-    <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p>
-</div>
-                              
-                             
+
+                                <div className="newsletterform">
+                                    <div className="form-ffoter">
+                                        <div class="input-news">
+                                            <input type="text" name="name" placeholder="Email address" />
+                                        </div>
+                                        <div class="button-new">
+                                            <div class="btn-con "><button><img src="assets/img/home/nextsli.png" /></button></div>
+                                        </div>
+                                    </div>
+                                    {/* <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p> */}
+                                </div>
+
+
                             </div>
 
                         </div>
                     </div>
-              <div className=" footer-top1  mobile-footer">
-			  
-			        
-               <div onClick={() => toggleAccordion(0)}>
-      <h4>Quick Links  {accordionOpen === 0 ? <img src="assets/img/home/up.png"/> : <img src="assets/img/home/down.png"/>} </h4>
-      </div>
-      {accordionOpen === 0 && (
-       <ul>
-                                    <li><NavLink to="/login">Login</NavLink></li>
-                                    <li> <NavLink to="/sign-up">Signup</NavLink></li>
-                                    <li className="exchange-rate-link" style={{ cursor: "pointer" }} onClick={() => checkExchangeRate()}>Check Exchange Rates</li>
-                                    <li><NavLink className="exchange-rate-link" to={links()}>Send Money Overseas</NavLink></li>
-                                    {/* <NavigationFooterArrayObjects  /> */}
-                                </ul>
-      )}
-
-      <div onClick={() => toggleAccordion(1)}>
-      <h4>Company {accordionOpen === 1 ? <img src="assets/img/home/up.png"/> : <img src="assets/img/home/down.png"/>}</h4>
-      </div>
-      {accordionOpen === 1 && (
-        <ul>
-        <li><NavLink to="/about-us">About Us</NavLink></li>
-        <li> <NavLink to="/working">How It Works </NavLink></li>
-        <li> <NavLink to="/apps">Mobile Apps</NavLink></li>
-        {/* <li> <NavLink to="/news">News</NavLink></li> */}
-    </ul>
-      )}
+                    <div className=" footer-top1  mobile-footer">
 
 
+                        <div onClick={() => toggleAccordion(0)}>
+                            <h4>Quick Links  {accordionOpen === 0 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" />} </h4>
+                        </div>
+                        {accordionOpen === 0 && (
+                            <ul>
+                                <li><NavLink to="/login">Login</NavLink></li>
+                                <li> <NavLink to="/sign-up">Signup</NavLink></li>
+                                <li className="exchange-rate-link" style={{ cursor: "pointer" }} onClick={() => checkExchangeRate()}>Check Exchange Rates</li>
+                                <li><NavLink className="exchange-rate-link" to={links()}>Send Money Overseas</NavLink></li>
+                                {/* <NavigationFooterArrayObjects  /> */}
+                            </ul>
+                        )}
+
+                        <div onClick={() => toggleAccordion(1)}>
+                            <h4>Company {accordionOpen === 1 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" />}</h4>
+                        </div>
+                        {accordionOpen === 1 && (
+                            <ul>
+                                <li><NavLink to="/about-us">About Us</NavLink></li>
+                                <li> <NavLink to="/working">How It Works </NavLink></li>
+                                <li> <NavLink to="/apps">Mobile Apps</NavLink></li>
+                                {/* <li> <NavLink to="/news">News</NavLink></li> */}
+                            </ul>
+                        )}
 
 
 
 
 
-<div onClick={() => toggleAccordion(2)}>
-<h4>Legal {accordionOpen === 2 ? <img src="assets/img/home/up.png"/> : <img src="assets/img/home/down.png"/>}</h4>
-      </div>
-      {accordionOpen === 2 && (
-          <ul>
-          <li><NavLink to="/terms-and-condition">Terms And Conditions</NavLink></li>
-          <li> <NavLink to="/aml-policy">AML Policy </NavLink></li>
-          <li> <NavLink to="/privacy-policy">Privacy Policy</NavLink></li>
-      </ul>
-      )}
 
 
-<div onClick={() => toggleAccordion(3)}>
-<h4>Join our newsletter {accordionOpen === 2 ? <img src="assets/img/home/up.png"/> : <img src="assets/img/home/down.png"/>}</h4>
-      </div>
-      {accordionOpen === 3 && (
-    <div className="newsletterform">
-    <div className="form-ffoter">
-        <div class="input-news">
-        <input type="text" name="name"  placeholder="Email address"/>
-        </div>
-        <div class="button-new">
-        <div class="btn-con "><button><img src="assets/img/home/nextsli.png"/></button></div>
-        </div>
-    </div>
-    <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p>
-</div>
-      )}
-			  </div>
-
-              <div className="bottom-footer">
-			  <div className="row">
-                <div className="col-md-4">
-<div className="footer-info1 footer-logo">
-    <div className="icon-ffoter ">
-    <img src="assets/img/home/mail.png"  />
-      
-    </div>
-    <div className="infor-content">
-<a href="mailto:crm@remitassure.com">crm@remitassure.com</a>
-    </div>
-</div>
-                </div>
-                <div className="col-md-4">
-                  
-                    <div className="footer-info1 center-content">
-    <div className="icon-ffoter">
-    <img src="assets/img/home/footer2.png"  />
-
-      
-    </div>
-    <div className="infor-content">
-    <span>1300 284 228</span>
-    </div>
-                   
-
-                </div>
-				</div>
-                <div className="col-md-4">
-  <div className="footer-info1 right-content">
-    <div className="icon-ffoter">
-    <img src="assets/img/home/footer3.png"  />
-
-      
-    </div>
-    <div className="infor-content">
-    <span>1300 284 228 (toll free)</span>
-    </div>
-                   
-</div>
-                </div>
-				</div>
-              </div>
-			  <div className="footer-divder">
-			<div className="borderdevider"></div>  
-			  </div>
-			  
-			  
-			     <div className="bottom-footer bottom-none">
-			  <div className="row">
-                <div className="col-md-4">
-<div className="footer-info1 footer-last-logo">
-    <div className="icon-ffoter">
-    <img src="assets/img/home/footer-logo.png" className="logo-foo" />
-
-      
-    </div>
-   
-</div>
-                </div>
-                <div className="col-md-4 footer-linksss">
-                  
-                    <div className="footer-info1 center-content">
-    <div className="icon-ffoter">
-  
-  <ul className="footer-bottom-links">
-                                    <li><NavLink to="/terms-and-condition">Terms </NavLink></li>
-                                   
-                                    <li> <NavLink to="/privacy-policy">Privacy</NavLink></li>
-									 <li> <NavLink to="/aml-policy">Cookies </NavLink></li>
-                                </ul>
+                        <div onClick={() => toggleAccordion(2)}>
+                            <h4>Legal {accordionOpen === 2 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" />}</h4>
+                        </div>
+                        {accordionOpen === 2 && (
+                            <ul>
+                                <li><NavLink to="/terms-and-condition">Terms And Conditions</NavLink></li>
+                                <li> <NavLink to="/aml-policy">AML Policy </NavLink></li>
+                                <li> <NavLink to="/privacy-policy">Privacy Policy</NavLink></li>
+                            </ul>
+                        )}
 
 
-      
-    </div>
-    
-                   
-
-                </div>
-				</div>
-                <div className="col-md-4">
-  <div className="footer-info1 right-content">
-    <div className="icon-ffoter">
-     <div className="social-links ">
-                                    <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/facebook (2).png"  /></a>
-                                    <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook (1).png"  /></a>
-                                    
-                                    <a className="linkedin" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/footer/link1.png"  /></a>
+                        <div onClick={() => toggleAccordion(3)}>
+                            <h4>Join our newsletter {accordionOpen === 2 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" />}</h4>
+                        </div>
+                        {accordionOpen === 3 && (
+                            <div className="newsletterform">
+                                <div className="form-ffoter">
+                                    <div class="input-news">
+                                        <input type="text" name="name" placeholder="Email address" />
+                                    </div>
+                                    <div class="button-new">
+                                        <div class="btn-con "><button><img src="assets/img/home/nextsli.png" /></button></div>
+                                    </div>
                                 </div>
+                                <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p>
+                            </div>
+                        )}
+                    </div>
 
-      
-    </div>
-  
-                   
+                    <div className="bottom-footer">
+                        <div className="row">
+                            <div className="col-md-4">
+                                <div className="footer-info1 footer-logo">
+                                    <div className="icon-ffoter ">
+                                        <img src="assets/img/home/mail.png" />
 
-                </div>
-                </div>
-				</div>
-              </div>
-			  
-			  
-			  
-           
-				
-            </footer>
-			</div>
+                                    </div>
+                                    <div className="infor-content">
+                                        <a href="mailto:crm@remitassure.com">crm@remitassure.com</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+
+                                <div className="footer-info1 center-content">
+                                    <div className="icon-ffoter">
+                                        <img src="assets/img/home/footer2.png" />
+
+
+                                    </div>
+                                    <div className="infor-content">
+                                        <span>1300 284 228</span>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="footer-info1 right-content">
+                                    <div className="icon-ffoter">
+                                        <img src="assets/img/home/footer3.png" />
+
+
+                                    </div>
+                                    <div className="infor-content">
+                                        <span>1300 284 228 (toll free)</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="footer-divder">
+                        <div className="borderdevider"></div>
+                    </div>
+
+
+                    <div className="bottom-footer bottom-none">
+                        <div className="row">
+                            <div className="col-md-4">
+                                <div className="footer-info1 footer-last-logo">
+                                    <div className="icon-ffoter">
+                                        <img src="assets/img/home/footer-logo.png" className="logo-foo" />
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div className="col-md-4 footer-linksss">
+
+                                <div className="footer-info1 center-content">
+                                    <div className="icon-ffoter">
+
+                                        <ul className="footer-bottom-links">
+                                            <li><NavLink to="/terms-and-condition">Terms </NavLink></li>
+
+                                            <li> <NavLink to="/privacy-policy">Privacy</NavLink></li>
+                                            <li> <NavLink to="/aml-policy">Aml </NavLink></li>
+                                        </ul>
+
+
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="footer-info1 right-content">
+                                    <div className="icon-ffoter">
+                                        <div className="social-links ">
+                                            <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/facebook (2).png" /></a>
+                                            <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook (1).png" /></a>
+
+                                            <a className="linkedin" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/footer/link1.png" /></a>
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </footer>
+            </div>
             {/* <!-- ======= End-footer ======= --> */}
         </>
     )
