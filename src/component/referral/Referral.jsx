@@ -256,7 +256,7 @@ const Referral = () => {
                                 <div className="content_referral">
 
                                     <p className="our_vission01">Once they’ve sent AUD 100 or more,
-                                        you’ll be emailed a AUD {referral_cost?.referred_by_amount} RemitAssure Voucher</p>
+                                        you’ll get an AUD {referral_cost?.referred_by_amount} RemitAssure Voucher</p>
                                 </div>
 
                             </div>

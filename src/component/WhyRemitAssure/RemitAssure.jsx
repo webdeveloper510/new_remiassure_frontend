@@ -1,17 +1,11 @@
 import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 
 
 
 const RemitAssure = () => {
-
-
-
-
-
-
-
+  const path = useLocation()?.pathname
 
   return (
     <section className="why-us_section homepage-why-us">
@@ -38,12 +32,22 @@ const RemitAssure = () => {
               <p>95% of our transfers<br></br> are completed in<br></br> minutes…</p>
             </div>
           </div>
-          <div className="custom-col5">
-            <div className="remit_keypoints">
-              <h1>Know more in detail about <p>RemitAssure</p></h1>
-              <Link to="/about-us"><img src="assets/img/home/Union.png" /></Link>
-            </div>
-          </div>
+          {
+            path !== "/about-us" ? (
+              <div className="custom-col5">
+                <div className="remit_keypoints">
+                  <h1>Know more in detail about <p>RemitAssure</p></h1>
+                  <Link to="/about-us"><img src="assets/img/home/Union.png" /></Link>
+                </div>
+              </div>
+            ) : (
+              <div className="custom-col5">
+                <div className="remit_keypoints">
+                  <h1><p>RemitAssure</p></h1>
+                </div>
+              </div>
+            )
+          }
 
         </div>
 
