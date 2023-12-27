@@ -66,12 +66,7 @@ const Referral = () => {
             setDataRefferal(res.data)
         })
         getReferralAmount().then(res => {
-            for (let i = 0; i < res.data.length; i++) {
-                if (res.data[i].referral_type_id__type === "Invite") {
-                    setReferralCost(res.data[i])
-                    break;
-                }
-            }
+            setReferralCost(res?.data)
         })
     }, [])
 
