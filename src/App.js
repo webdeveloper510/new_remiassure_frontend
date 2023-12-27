@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRoutes, useLocation, useNavigate } from 'react-router-dom';
 import Header from './component/header/Header';
 import Footer from './component/footer/Footer';
-import { exchangeRate, getPreferredCurrency } from './utils/Api';
+import { exchangeRate, getPreferredCurrency, getReferralAmount } from './utils/Api';
 
 const App = () => {
   const routing = useRoutes(routes);
@@ -84,6 +84,9 @@ const App = () => {
 
     // console.log(window.dataLayer)
     // fbq('track', 'PageView');
+    getReferralAmount().then(res => {
+      localStorage.setItem("ref-x-2-rem", JSON.stringify({ rt: res?.data?.referred_to_amount || 25, rb: res?.data?.referred_by_amount || 50 }))
+    })
   }, [location.pathname])
 
   return (

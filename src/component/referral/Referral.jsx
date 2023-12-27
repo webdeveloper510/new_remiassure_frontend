@@ -53,7 +53,12 @@ const Referral = () => {
 
     /**************************Recipient of state ************************ */
     const [dataRefferal, setDataRefferal] = useState({});
-    const [referral_cost, setReferralCost] = useState({})
+    const [referral_cost, setReferralCost] = useState(() => {
+        if (localStorage.getItem("ref-x-2-rem")) {
+            let obj = JSON.parse(localStorage.getItem("ref-x-2-rem"))
+            return { referred_by_amount: obj?.rb, referred_to_amount: obj?.rt }
+        }
+    })
 
 
     /**************************************************************************
@@ -66,6 +71,7 @@ const Referral = () => {
             setDataRefferal(res.data)
         })
         getReferralAmount().then(res => {
+            // console.log(res)
             setReferralCost(res?.data)
         })
     }, [])
