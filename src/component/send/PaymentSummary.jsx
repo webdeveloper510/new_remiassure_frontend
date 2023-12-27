@@ -215,8 +215,8 @@ const PaymentSummary = ({ handleStep, step }) => {
                       <>
                         <tr>
                           <td>Discount Applied</td>
-                          <td>
-                            <span>{data?.from}</span>&nbsp;{discounts?.discount_amount}&nbsp;{discounts?.type?.toLowerCase() === "invite" ? "Refferal" : discounts?.type}&nbsp;discount
+                          <td className='text-success'>
+                            <span>{data?.from}</span>&nbsp;{discounts?.discount_amount}&nbsp;{discounts?.type?.toLowerCase() === "invite" ? "(Refferal discount)" : `(${discounts?.type} discount)`}
                           </td>
                         </tr>
                       </>

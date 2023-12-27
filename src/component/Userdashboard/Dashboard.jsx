@@ -28,7 +28,8 @@ const Dashboard = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('')
     const [recipientData, setRecipientData] = useState([]);
-    const [total_amount, setTotalAmount] = useState(0)
+    const [total_amount_paid, setTotalAmountPaid] = useState(0)
+    const [total_amount_sent, setTotalAmountSent] = useState(0)
     const [total_recipients, setTotalRecipients] = useState(0)
     const [verification, setVerification] = useState(false)
     const [loader, setLoader] = useState(false)
@@ -39,9 +40,11 @@ const Dashboard = () => {
         transactionHistory().then((response) => {
             if (response.code == "200") {
                 let d = response.data
-                let amount = 0
+                let amount_sent = 0
+                let amount_paid = 0
                 for (let i = 0; i < d.length; i++) {
-                    amount = amount + Number(d[i].total_amount)
+                    amount_sent = amount_sent + Number(d[i].total_amount)
+                    amount_paid = amount_paid + Number(d[i].amount)
                 }
                 let list = []
                 if (response.data.length > 5) {
@@ -52,7 +55,8 @@ const Dashboard = () => {
                     list = response.data
                 }
                 setTransactionData(list);
-                setTotalAmount(Math.round(amount))
+                setTotalAmountPaid(Math.round(amount_paid))
+                setTotalAmountSent(Math.round(amount_sent))
                 setLoading(false)
             }
             else if (response.code == "400") {
@@ -125,14 +129,14 @@ const Dashboard = () => {
                         <h2 class="text-black font-w600 mb-0"><b>Welcome, <span style={{ "color": "#6414e9" }}>{firstName}</span></b></h2>
                     </div>
                     {
-                        firstName == "" ? (
+                        firstName == "" && !loading ? (
                             < div >
                                 <Alert className="verify-alert" >
                                     <img src={important} height={40} width={40} />  Please Complete <span className="fw-bold" onClick={() => navigate("/user-profile")}>Your Profile</span> to start making Transactions.
                                 </Alert>
                             </div>
                         )
-                            : isVerified === "false" ? (
+                            : isVerified === "false" && !loading ? (
                                 <div>
                                     <Alert className="verify-alert" >
                                         <img src={important} height={40} width={40} />  Your Account is not Digitally Verified. <span className="fw-bold" onClick={() => start()}>Click here</span> to Verify
@@ -194,7 +198,8 @@ const Dashboard = () => {
                                         <NavLink to={`/user-send-money`} className="btn btn-outline-dark btn-rounded">
                                             Send Money
                                         </NavLink>
-                                        <span className="text-light custom-number">Amount Sent ⇒ {commaSeperator(total_amount)}</span>
+                                        <span className="text-light custom-number">Amount Paid ⇒ {commaSeperator(total_amount_paid)}</span>
+                                        <span className="text-light custom-number">Amount Sent ⇒ {commaSeperator(total_amount_sent)}</span>
                                     </div>
                                 </div>
                             </div>
@@ -259,7 +264,7 @@ const Dashboard = () => {
                                                     <tr>
                                                         <th>Date</th>
                                                         <th>Recipient</th>
-                                                        <th>Amount</th>
+                                                        <th>Amount Paid</th>
                                                         <th >Status</th>
                                                     </tr>
                                                 </thead>
@@ -276,7 +281,7 @@ const Dashboard = () => {
                                                                         <h6 className="fs-16 font-w600 mb-0"><span className="text-black">{res?.recipient_name ? res?.recipient_name : "N/A"}</span></h6>
 
                                                                     </td>
-                                                                    <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res?.send_currency} </span> {commaSeperator(res?.total_amount)}</span></td>
+                                                                    <td><span className="fs-16 text-black font-w500"><span className="text-capitalize">{res?.send_currency} </span> {commaSeperator(res?.amount)}</span></td>
                                                                     <td>
                                                                         {
                                                                             res?.payment_status === "cancelled" || res?.payment_status === "Cancelled" ? (

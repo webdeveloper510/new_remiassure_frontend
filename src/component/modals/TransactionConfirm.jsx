@@ -41,8 +41,9 @@ const TransactionConfirm = ({ data, discount, handleCancel, handleContinue }) =>
                             {
                                 discount?.discount_amount?.toString()?.split(".")[0] !== "0" && discount?.discount_amount !== "" ? (
                                     <tr>
-                                        <th>Discount Applied</th>
-                                        <td>{data?.data?.amount?.from_type}&nbsp;{discount?.discount_amount}&nbsp;{discount?.type?.toLowerCase() === "invite" ? "Refferal" : discount?.type}&nbsp;discount
+                                        <td>Discount Applied</td>
+                                        <td className='text-success'>
+                                            <span>{data?.data?.amount?.from_type}</span>&nbsp;{discount?.discount_amount}&nbsp;{discount?.type?.toLowerCase() === "invite" ? "(Refferal discount)" : `(${discount?.type} discount)`}
                                         </td>
                                     </tr>
                                 ) : (
