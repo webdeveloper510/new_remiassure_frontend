@@ -79,7 +79,8 @@ const Home = () => {
   
   
   	  const containerStylemobile = {
-    backgroundImage: `url(${backgroundImageUrlmobile})`,
+    backgroundImage: `url(${backgroundImageUrlmobile}) !important
+    `,
     backgroundSize: '92% 100%', // Adjust as needed
     backgroundPosition: 'center', // Adjust as needed
     /* Additional background styles can be added here */
@@ -550,7 +551,7 @@ const Home = () => {
             <section class="payment-box" id="payment-box">
 
                 <div class="container">
-                    <div className="money-exchange-box">
+                    <div className="money-exchange-box" id="home-section">
                         <div className="row">
 
                             <div className="col-md-4">

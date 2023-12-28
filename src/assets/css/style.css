@@ -1008,7 +1008,9 @@ input.form-control {
   border: 1px solid #EAEAEA;
   border: 1px solid #EAEAEA;
 }
-
+section.top_sections11 {
+  padding: 0;
+}
 .exchange-heading {
   font-family: var(--font-SubHeding) !important;
   font-size: 43px;
@@ -1016,7 +1018,9 @@ input.form-control {
   color: #fff;
   font-weight: 600;
 }
-
+section.why-us_section.homepage-why-us.hows-section-light.transs {
+  background: transparent !important;
+}
 .calculation {
   font-family: var(--font-Text) !important;
   font-size: 15.59px;
@@ -1024,7 +1028,7 @@ input.form-control {
   line-height: 25px;
   text-align: center;
   color: #FFFFFF;
-  opacity: 50%;
+
   margin-left: 25px;
   font-weight: 400;
 }
@@ -2291,7 +2295,7 @@ h1.vl-support {
   font-size: 14px;
   line-height: 15px;
   color: #191970;
-  padding-top: 20px;
+  padding-top: 15px;
 }
 
 .form_label {

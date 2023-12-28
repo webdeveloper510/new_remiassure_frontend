@@ -181,32 +181,20 @@ const Working = () => {
 
     return (
         <>
-
+  <div class="site-content">
             {/* <!-- ======= AboutUs Our vission and mission-Section  start======= --> */}
-            <section className="why-us section-bgba top_sections innre_about hows-work-section ">
-                <div id="about">
-                    <div className="container">
-                        <div className="row custom-height">
-                            <div className="col-sm-8">
-                                <div className="vl about_v1">
-                                    <h1 className="vl-heading">How it Works</h1>
-                                </div>
-                            </div>
-                            <div className="col-sm-4 right_side">
-
-                                <img src="assets/img/home/img03.svg" alt="background-images" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <section class="top_sections11"><div class="container">
+<div class="row"><div class="col-md-7">
+<div class=" headabout">
+<h1 class="about-heading">How it <span class="grading-color">Works</span></h1>
+</div></div></div></div></section>
             {/* <!-- ======= AboutUs Our vission and mission-Section  End======= --> */}
 
 
 
 
 
-            <section className="why-us_section homepage-why-us hows-section-light ">
+            <section className="why-us_section homepage-why-us hows-section-light transs ">
                 <div className="container">
                     <div className="row custom-row-hows">
                         <div className="col-lg-6 text-start">
@@ -377,7 +365,7 @@ const Working = () => {
 
 
 
-
+            </div>
 
 
         </>

@@ -431,10 +431,13 @@ section.why-us_section.homepage-why-us .vl-paragraph p {
 .custom-col2 {
     width: 26%;
 }
+.remit-h h1 {
+    width: 100%;
+}
 .remit_keypoints {
     background: rgb(25 2 120 / 5%);
     border-radius: 22px;
-    padding: 30px 30px 30px 50px;
+    padding: 30px 30px 30px 30px;
     height: 304px;
     display: flex;
     justify-content: center;
@@ -1431,7 +1434,7 @@ p.icon-acc {
     }
     p.money-form {
         color: #190079;
-        font-size: 21px;
+        font-size: 17px;
         font-weight: bold;
         margin-top: 40px;
     }
@@ -1580,8 +1583,9 @@ p.space-div {
     border: none !important;
     width: 100%;
 }
-section.sigupsec .row {
-    align-items: center;
+.sign-image-sec {
+    text-align: center;
+    padding-top: 150px;
 }
 a.forgot_pass {
     text-align: right;
@@ -1728,12 +1732,7 @@ label.toggle-container
     margin-top: 20px;
 }
 
-.login-page
-{
-    display: flex;
-    align-items: center;
-    height: 100vh;
-}
+
 .buttonsdownload {
     height: 100;
     align-items: center;
@@ -1742,6 +1741,9 @@ label.toggle-container
 }
 .backlogin {
     color: #A6a6a8;
+}
+.login-page .sign-image-sec {
+    padding-top: 50px;
 }
 
 .backlogin a {
@@ -1794,4 +1796,12 @@ label.toggle-container
 }
 .sign-image-sec {
     text-align: center;
+}
+.form-select:focus
+{
+    box-shadow:none !important;
+}
+
+.bottom-footer a:hover,footer#footer a:hover {
+    color: #c9efff !important;
 }

@@ -53,7 +53,7 @@ const routes = [
     children: [
       { path: '/', element: <NonDashLayout><Home /></NonDashLayout> },
       { path: 'about-us', element: <NonDashLayout><RouteWithBodyClass element={<Aboutus />} bodyClass="aboutus-page" /></NonDashLayout> },
-      { path: 'working', element: <NonDashLayout><RouteWithBodyClass element={<Working />} bodyClass=" Working" /> </NonDashLayout> },
+      { path: 'working', element: <NonDashLayout><RouteWithBodyClass element={<Working />} bodyClass=" Working bg-image" /> </NonDashLayout> },
       { path: 'news', element: <NonDashLayout><News /> </NonDashLayout> },
       { path: 'privacy-policy', element: <NonDashLayout><RouteWithBodyClass element={<Privacy />} bodyClass="bg-image" /></NonDashLayout> },
       { path: 'terms-and-condition', element: <NonDashLayout> <RouteWithBodyClass element={<T_c />} bodyClass="bg-image" /> </NonDashLayout> },

@@ -166,18 +166,23 @@ const Footer = () => {
     }
     let location = useLocation()
     let navigate = useNavigate()
-    const checkExchangeRate = () => {
+   const checkExchangeRate = () => {
+    // Assuming the target section has the id "home-section"
+    const targetSectionId = "payment-box";
 
-        if (location.pathname === "/") {
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "smooth"
-            })
-        } else {
-            navigate("/")
-        }
+    if (location.pathname === "/") {
+        const targetElement = document.getElementById(targetSectionId);
+
+        targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start",  // You can adjust this based on your layout
+            inline: "nearest",  // You can adjust this based on your layout
+        
+        });
+    } else {
+        navigate("/");
     }
+};
     return (
         <>
             {/* <!-- ======= Footer ======= --> */}

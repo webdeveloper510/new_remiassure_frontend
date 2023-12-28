@@ -42,8 +42,8 @@ const RemitAssure = () => {
               </div>
             ) : (
               <div className="custom-col5">
-                <div className="remit_keypoints">
-                  <h1><p style={{ fontSize: "58px" }}>RemitAssure</p></h1>
+                <div className="remit_keypoints remit-h">
+                  <h1><p >RemitAssure</p></h1>
                 </div>
               </div>
             )

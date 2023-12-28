@@ -222,7 +222,7 @@ const Login = () => {
                                                         type="submit"
                                                         className="login_button"
                                                     >
-                                                        Login
+                                                        sIGN <b>in</b>   <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" />
 
                                                         {loading ? <>
                                                             <div className="loader-overly">
