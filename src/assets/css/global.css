@@ -1767,7 +1767,7 @@ label.toggle-container
     position: relative;
 }
 .form_signup .fv-plugins-message-container.mt-1 {
-    position: absolute;
+ 
     font-size: 0.8rem;
     top: 100%;
     left: 0;
@@ -1776,7 +1776,7 @@ label.toggle-container
     background-color: #fff;
     padding: 5px;
     z-index: 1000;
-    border: 1px solid #dc354530;
+  
     width: 100%;
     border-radius: 5px;
 }
