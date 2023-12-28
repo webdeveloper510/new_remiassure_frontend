@@ -2287,7 +2287,9 @@ h1.vl-support {
   margin-top: 20px;
   border: none;
 }
-
+.center-text-test, .center-text-test p {
+  text-align: center;
+}
 .form_signup {
   font-family: var(--font-family) !important;
   font-style: normal;
@@ -8973,4 +8975,12 @@ body.bg-image .scrolled1 {
 body.Working section.why-us_section.homepage-why-us.hows-section-light .row.custom-row-hows {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
+}
+.test-P .react-multi-carousel-item
+{
+    display: flex;
+}
+.test-P .testimonail
+{
+ flex:1
 }

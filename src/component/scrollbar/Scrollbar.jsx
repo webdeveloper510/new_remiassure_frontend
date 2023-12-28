@@ -104,11 +104,12 @@ const Scrollbar = () => {
 
 </img>
           </div>
-                  <div className="col-md-4 img-con">
+                  
+                  {/*<div className="col-md-4 img-con">
                   <img src={item.author} alt="quote-up" className="authrimg" />
-                  </div>
-                  <div className="col-md-8">
-<h2 className="author-name">{item.name}</h2>
+          </div>*/}
+                  <div className="col-md-12 center-text-test">
+ {/*<h2 className="author-name">{item.name}</h2> */}
    <p className="material-heading fw-light">{item.paragraph}</p>
            <img src={item.image} alt="quote-up" className="testimonial-rating" />
                   </div>
