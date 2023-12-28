@@ -68,6 +68,7 @@ function HowRenderingArrayOfObjects() {
 
 
 const Home = () => {
+<<<<<<< HEAD
     const backgroundImageUrl = 'assets/img/home/top-banner.png';
 	    const backgroundImageUrlmobile = 'assets/img/home/mobilefirst.png';
 	  const containerStyle = {
@@ -87,6 +88,26 @@ const Home = () => {
   };
   
  
+=======
+    const backgroundImageUrl = 'assets/img/home/top-banner.svg';
+    const backgroundImageUrlmobile = 'assets/img/home/mobilefirst.png';
+    const containerStyle = {
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundSize: '94% 100%', // Adjust as needed
+        backgroundPosition: 'center', // Adjust as needed
+        /* Additional background styles can be added here */
+    };
+
+
+    const containerStylemobile = {
+        backgroundImage: `url(${backgroundImageUrlmobile})`,
+        backgroundSize: '92% 100%', // Adjust as needed
+        backgroundPosition: 'center', // Adjust as needed
+        /* Additional background styles can be added here */
+    };
+
+
+>>>>>>> 2ad21b198c59df248bfbda5e54c32ecfed4b6655
     const currency_ref = useRef()
     const token = localStorage.getItem("token");
     const [defaultExchange, setDefaultExchange] = useState("")
@@ -514,7 +535,7 @@ const Home = () => {
 
                 </div>
             </section>
-            <section className="top_sections mobile-top mobile-only"  style={containerStylemobile}>
+            <section className="top_sections mobile-top mobile-only" style={containerStylemobile}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6 banner-content">
