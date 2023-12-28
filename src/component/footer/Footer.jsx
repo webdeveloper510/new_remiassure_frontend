@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import { links, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { generateRandomKey } from "../../utils/hook";
-
+import { debounce } from 'lodash';
 
 const Footer = () => {
     const [accordionOpen, setAccordionOpen] = useState(null);
@@ -166,7 +166,7 @@ const Footer = () => {
     }
     let location = useLocation()
     let navigate = useNavigate()
-   const checkExchangeRate = () => {
+   const checkExchangeRate = debounce(() => {
     // Assuming the target section has the id "home-section"
     const targetSectionId = "payment-box";
 
@@ -175,14 +175,14 @@ const Footer = () => {
 
         targetElement.scrollIntoView({
             behavior: "smooth",
-            block: "start",  // You can adjust this based on your layout
-            inline: "nearest",  // You can adjust this based on your layout
+            block: "start", // Scroll to the top of the element
+           
         
         });
     } else {
         navigate("/");
     }
-};
+}, 500);
     return (
         <>
             {/* <!-- ======= Footer ======= --> */}

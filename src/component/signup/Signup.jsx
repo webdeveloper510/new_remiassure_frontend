@@ -269,7 +269,7 @@ const Signup = () => {
                             <div className="row">
                                 <div className="col-lg-5">
                                     <div className="sign-image-sec">
-                                        <img src="assets/img/home/signup-left.png" className="signup" alt="alt_image" />
+                                        <img src="assets/img/home/signup-left.svg" className="signup" alt="alt_image" />
 
                                     </div>
                                 </div>
@@ -290,12 +290,13 @@ const Signup = () => {
                                                                     value={formik.values.location ? formik.values.location : "Australia"}
                                                                     onChange={handleChange}
                                                                     className='form-control bg-transparent'
+                                                                    id="default-select"
                                                                 >
                                                                     {
                                                                         countryList && countryList.length > 0 ?
                                                                             countryList?.map((opt) => {
                                                                                 return (
-                                                                                    <option value={opt?.name} key={opt?.id}>{opt?.name}</option>
+                                                                                    <option value={opt?.name} key={opt?.id}><li>{opt?.name}</li></option>
                                                                                 )
                                                                             }) : ""
                                                                     }

@@ -1805,3 +1805,26 @@ label.toggle-container
 .bottom-footer a:hover,footer#footer a:hover {
     color: #c9efff !important;
 }
+ul.country-list span, .react-tel-input .country-list .country .dial-code {
+    font-family: var(--font-family) !important;
+    color: #191893;
+}
+
+ul.country-list {
+    border: 1px solid #1900793b;
+    box-shadow: none !important;
+}
+
+ul.country-list li {
+    border-bottom: 1px solid #ddd;
+}
+
+ul.country-list li:nth-last-child(1) {
+    border: none;
+}
+select.form-select option {
+    background: #fff;
+}
+.social-links a:hover {
+    border: 1px solid #c9efff !important;
+}

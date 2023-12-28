@@ -546,7 +546,9 @@ const Home = () => {
                 </li>
             </div>
 
+<div className="" id="pay-box">
 
+</div>
             <section class="payment-box" id="payment-box">
 
                 <div class="container">
@@ -902,7 +904,7 @@ const Home = () => {
                         <div className="col-lg-7  col-sm-7 text-end">
                             <div className="images-1 images-1 col-md-8 marauto">
                                 <div className="image1">
-                                    <img src="assets/img/home/free1.png" alt="background-images" />
+                                    <img src="assets/img/home/free1.svg" alt="background-images" />
                                 </div>
                                 <div className="contant-img">
                                     <div className="icon-img">
@@ -925,7 +927,7 @@ const Home = () => {
                                     <div class="col-lg-8 col-sm-8 margintop">
                                         <div className="images-1 ">
                                             <div className="image1">
-                                                <img src="assets/img/home/img2.png" alt="background-images" class="dd" />
+                                                <img src="assets/img/home/img2.svg" alt="background-images" class="dd" />
                                             </div>
                                             <div className="contant-img right-aligned">
                                                 <div className="icon-img pink">
@@ -951,7 +953,7 @@ const Home = () => {
                                     <div class="col-lg-4 col-sm-4 margintop">
                                         <div className="images-1 ">
                                             <div className="image1">
-                                                <img src="assets/img/home/img3.png" alt="background-images" class="dd" />
+                                                <img src="assets/img/home/img3.svg" alt="background-images" class="dd" />
                                             </div>
                                             <div className="bottom-aligend">
                                                 <div className="iconandcon">
