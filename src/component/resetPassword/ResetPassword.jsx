@@ -82,7 +82,7 @@ const RecentPassword = () => {
                             </div>
                         </div>
                         <div className="col-lg-7 d-flex align-items-center">
-                            <div className="card-body forgot-pass">
+                            <div className="card-body forgot-pass resetpass">
                                 <h2 className="Sign-heading mb-5">Reset Password</h2>
                                 <form onSubmit={formik.handleSubmit}>
                                     <Form.Group className="mb-3 form_label" >
