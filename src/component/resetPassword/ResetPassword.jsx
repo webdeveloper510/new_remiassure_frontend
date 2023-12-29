@@ -72,7 +72,119 @@ const RecentPassword = () => {
 
     return (
         <>
-            <section className="why-us section-bgba">
+            <section className="sigupsec" style={{ minHeight: "100vh", backgroundColor: "transparent" }}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-5">
+                            <div className="sign-image-sec">
+                                <img src="assets/img/home/signup-left.png" className="signup" alt="alt_image" />
+
+                            </div>
+                        </div>
+                        <div className="col-lg-7 d-flex align-items-center">
+                            <div className="card-body forgot-pass">
+                                <h2 className="Sign-heading mb-5">Reset Password</h2>
+                                <form onSubmit={formik.handleSubmit}>
+                                    <Form.Group className="mb-3 form_label" >
+                                        <Form.Label>Reset Password Otp<span style={{ color: 'red' }} >*</span></Form.Label>
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Reset password otp"
+                                            name="reset_password_otp"
+                                            value={formik.values.reset_password_otp}
+                                            onChange={handleChange}
+                                            onBlur={formik.handleBlur}
+                                            maxLength="6"
+                                            className={clsx(
+                                                'form-control bg-transparent',
+                                                { 'is-invalid': formik.touched.reset_password_otp && formik.errors.reset_password_otp },
+                                                {
+                                                    'is-valid': formik.touched.reset_password_otp && !formik.errors.reset_password_otp,
+                                                }
+                                            )}
+                                        />
+                                        {formik.touched.reset_password_otp && formik.errors.reset_password_otp && (
+                                            <div className='fv-plugins-message-container mt-1'>
+                                                <div className='fv-help-block'>
+                                                    <span role='alert' className="text-danger">{formik.errors.reset_password_otp}</span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </Form.Group>
+                                    <Form.Group className="mb-3 form_label" >
+                                        <Form.Label>New Password<span style={{ color: 'red' }} >*</span></Form.Label>
+                                        <Form.Control
+                                            type={showPassword ? 'text' : 'password'}
+                                            id="password"
+                                            name="password"
+                                            autoComplete="off"
+                                            {...formik.getFieldProps('password')}
+                                            placeholder="Password"
+                                            className={clsx(
+                                                'form-control bg-transparent',
+                                                { 'is-invalid': formik.touched.password && formik.errors.password },
+                                                {
+                                                    'is-valid': formik.touched.password && !formik.errors.password,
+                                                }
+                                            )}
+                                        />
+                                        <span onClick={toggleShowPassword} className="pass_icons">
+                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                        </span>
+                                        {formik.touched.password && formik.errors.password && (
+                                            <div className='fv-plugins-message-container mt-1'>
+                                                <div className='fv-help-block'>
+                                                    <span role='alert' className="text-danger">{formik.errors.password}</span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </Form.Group>
+                                    <Form.Group className="mb-3 form_label" >
+                                        <Form.Label>Confirm Password<span style={{ color: 'red' }} >*</span></Form.Label>
+                                        <Form.Control
+                                            type={showConfirmPassword ? 'text' : 'password'}
+                                            name="confirm Password"
+                                            autoComplete="off"
+                                            placeholder="Confirm Password"
+                                            {...formik.getFieldProps('confirm_password')}
+                                            className={`${clsx(
+                                                'form-control bg-transparent',
+                                                { 'is-invalid': formik.touched.confirm_password && formik.errors.confirm_password },
+                                                {
+                                                    'is-valid': formik.touched.confirm_password && !formik.errors.confirm_password,
+                                                }
+                                            )} rate_input form-control`}
+                                        />
+                                        <span onClick={toggleShowConfirmPassword} className="pass_icons">
+                                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                        </span>
+                                        {formik.touched.confirm_password && formik.errors.confirm_password && (
+                                            <div className='fv-plugins-message-container mt-1'>
+                                                <div className='fv-help-block'>
+                                                    <span role='alert' className="text-danger">{formik.errors.confirm_password}</span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </Form.Group>
+                                    <button variant="primary"
+                                        type="submit"
+                                        className="login_button"
+                                    >
+                                        Reset Password
+                                        {loading ? <>
+                                            <div className="loader-overly">
+                                                <div className="loader" >
+                                                </div>
+                                            </div>
+                                        </> : <></>}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {/* <section className="why-us section-bgba">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
@@ -82,101 +194,7 @@ const RecentPassword = () => {
                                         <div className="card-body">
                                             <h5 className="Sign-heading">Reset Password </h5>
                                             <div className="form_login">
-                                                <form onSubmit={formik.handleSubmit}>
-                                                    <Form.Group className="mb-3 form_label" >
-                                                        <Form.Label>Reset Password Otp<span style={{ color: 'red' }} >*</span></Form.Label>
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Enter Reset password otp"
-                                                            name="reset_password_otp"
-                                                            value={formik.values.reset_password_otp}
-                                                            onChange={handleChange}
-                                                            onBlur={formik.handleBlur}
-                                                            maxLength="6"
-                                                            className={clsx(
-                                                                'form-control bg-transparent',
-                                                                { 'is-invalid': formik.touched.reset_password_otp && formik.errors.reset_password_otp },
-                                                                {
-                                                                    'is-valid': formik.touched.reset_password_otp && !formik.errors.reset_password_otp,
-                                                                }
-                                                            )}
-                                                        />
-                                                        {formik.touched.reset_password_otp && formik.errors.reset_password_otp && (
-                                                            <div className='fv-plugins-message-container mt-1'>
-                                                                <div className='fv-help-block'>
-                                                                    <span role='alert' className="text-danger">{formik.errors.reset_password_otp}</span>
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    </Form.Group>
-                                                    <Form.Group className="mb-3 form_label" >
-                                                        <Form.Label>New Password<span style={{ color: 'red' }} >*</span></Form.Label>
-                                                        <Form.Control
-                                                            type={showPassword ? 'text' : 'password'}
-                                                            id="password"
-                                                            name="password"
-                                                            autoComplete="off"
-                                                            {...formik.getFieldProps('password')}
-                                                            placeholder="Password"
-                                                            className={clsx(
-                                                                'form-control bg-transparent',
-                                                                { 'is-invalid': formik.touched.password && formik.errors.password },
-                                                                {
-                                                                    'is-valid': formik.touched.password && !formik.errors.password,
-                                                                }
-                                                            )}
-                                                        />
-                                                        <span onClick={toggleShowPassword} className="pass_icons">
-                                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                                                        </span>
-                                                        {formik.touched.password && formik.errors.password && (
-                                                            <div className='fv-plugins-message-container mt-1'>
-                                                                <div className='fv-help-block'>
-                                                                    <span role='alert' className="text-danger">{formik.errors.password}</span>
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    </Form.Group>
-                                                    <Form.Group className="mb-3 form_label" >
-                                                        <Form.Label>Confirm Password<span style={{ color: 'red' }} >*</span></Form.Label>
-                                                        <Form.Control
-                                                            type={showConfirmPassword ? 'text' : 'password'}
-                                                            name="confirm Password"
-                                                            autoComplete="off"
-                                                            placeholder="Confirm Password"
-                                                            {...formik.getFieldProps('confirm_password')}
-                                                            className={`${clsx(
-                                                                'form-control bg-transparent',
-                                                                { 'is-invalid': formik.touched.confirm_password && formik.errors.confirm_password },
-                                                                {
-                                                                    'is-valid': formik.touched.confirm_password && !formik.errors.confirm_password,
-                                                                }
-                                                            )} rate_input form-control`}
-                                                        />
-                                                        <span onClick={toggleShowConfirmPassword} className="pass_icons">
-                                                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                                                        </span>
-                                                        {formik.touched.confirm_password && formik.errors.confirm_password && (
-                                                            <div className='fv-plugins-message-container mt-1'>
-                                                                <div className='fv-help-block'>
-                                                                    <span role='alert' className="text-danger">{formik.errors.confirm_password}</span>
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    </Form.Group>
-                                                    <button variant="primary"
-                                                        type="submit"
-                                                        className="login_button"
-                                                    >
-                                                        Reset Password
-                                                        {loading ? <>
-                                                            <div className="loader-overly">
-                                                                <div className="loader" >
-                                                                </div>
-                                                            </div>
-                                                        </> : <></>}
-                                                    </button>
-                                                </form>
+                                              
                                             </div>
                                         </div>
                                     </div>
@@ -185,7 +203,7 @@ const RecentPassword = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
         </>
 
     )

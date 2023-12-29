@@ -75,66 +75,65 @@ const ForgotPassword = () => {
 
     return (
         <>
-             <section className="sigupsec login-page">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-lg-5">
-                                    <div className="sign-image-sec">
-                                <img src="assets/img/home/signup-left.png" className="signup" alt="alt_image"/>
-                               
-                                </div>
-								</div>
-							  <div className="col-lg-7">
-							  <div className="card-body forgot-pass">
-                              
-                                                    <h2 className="Sign-heading mb-5">Forgot password?</h2>
-							     <form onSubmit={formik.handleSubmit} noValidate>
-                                                    <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
-                                                        <Form.Label>Your Mobile Number<span style={{ color: 'red' }} >*</span></Form.Label>
-                                                        <PhoneInput
-                                                            onlyCountries={["au", "nz"]}
-                                                            country={"au"}
-                                                            name="mobile"
-                                                            inputStyle={{ border: "none", margin: "none" }}
-                                                            inputClass="userPhone w-100"
-                                                            defaultCountry={"au"}
-                                                            countryCodeEditable={false}
-                                                            onChange={(val, coun) => { handlePhone(val, coun) }}
-                                                            className={clsx(
-                                                                'form-control form-control-sm bg-transparent',
-                                                                { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
-                                                                {
-                                                                    'is-valid': formik.touched.mobile && !formik.errors.mobile,
-                                                                }
-                                                            )}
+            <section className="sigupsec" style={{ minHeight: "100vh" }}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-5">
+                            <div className="sign-image-sec">
+                                <img src="assets/img/home/signup-left.png" className="signup" alt="alt_image" />
+                            </div>
+                        </div>
+                        <div className="col-lg-7 d-flex align-items-center">
+                            <div className="card-body forgot-pass">
 
-                                                        />
-                                                    </Form.Group>
-                                                    <button variant="primary"
-                                                        type="submit"
-                                                        className="login_button"
-                                                    >
-                                                       Reset <img src="assets/img/home/Union.png">
+                                <h2 className="Sign-heading mb-5">Forgot password?</h2>
+                                <form onSubmit={formik.handleSubmit} noValidate>
+                                    <Form.Group className="mb-3 form_label" controlId="formBasicEmail">
+                                        <Form.Label>Your Mobile Number<span style={{ color: 'red' }} >*</span></Form.Label>
+                                        <PhoneInput
+                                            onlyCountries={["au", "nz"]}
+                                            country={"au"}
+                                            name="mobile"
+                                            inputStyle={{ border: "none", margin: "none" }}
+                                            inputClass="userPhone w-100"
+                                            defaultCountry={"au"}
+                                            countryCodeEditable={false}
+                                            onChange={(val, coun) => { handlePhone(val, coun) }}
+                                            className={clsx(
+                                                'form-control form-control-sm bg-transparent',
+                                                { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                                                {
+                                                    'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                                                }
+                                            )}
 
-                                                       </img>
-                                                        {loading ? <>
-                                                            <div className="loader-overly">
-                                                                <div className="loader" >
+                                        />
+                                    </Form.Group>
+                                    <button variant="primary"
+                                        type="submit"
+                                        className="login_button"
+                                    >
+                                        Reset <img src="assets/img/home/Union.png">
 
-                                                                </div>
+                                        </img>
+                                        {loading ? <>
+                                            <div className="loader-overly">
+                                                <div className="loader" >
 
-                                                            </div>
-                                                        </> : <></>}
-                                                    </button>
-                                                </form>
-                                                <div className="backlogin">
-                                                Back to Login  <a href="/login">Go Back</a>
                                                 </div>
-							  </div>
-								</div>
-								</div>
-								</div>
-							</section>
+
+                                            </div>
+                                        </> : <></>}
+                                    </button>
+                                </form>
+                                <div className="backlogin">
+                                    Back to Login  <a href="/login">Go Back</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </>
     )
 }
