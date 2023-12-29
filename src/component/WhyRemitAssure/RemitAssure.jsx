@@ -13,7 +13,7 @@ const RemitAssure = () => {
         <h1 className="vl-heading">Why RemitAssure ?</h1>
 
         <div className="vl-content">
-          <p className="vl-paragraph">
+          <p className="vl-paragraph padding-top-0">
             Our essence is to offer exceptional remittance services to our customers
           </p>
         </div>

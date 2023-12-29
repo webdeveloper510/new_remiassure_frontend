@@ -824,7 +824,7 @@ const Home = () => {
 
                             <h1 className="head-new">How it Works</h1>
                             <div className="vl-content">
-                                <p className="vl-paragraph">
+                                <p className="vl-paragraph padding-top-0">
                                     We assist you in a simple way, how you can transfer your money internationally with Remit Assure.
 
                                 </p>
@@ -1183,7 +1183,7 @@ const Home = () => {
             <section className="why-us_section homepage-why-us hows-section1 blogs-P">
                 <div className="container">
                     <h1 class="head-new">Blogs</h1>
-                    <div class="vl-content"><p class="vl-paragraph">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p></div>
+                    <div class="vl-content"><p class="vl-paragraph padding-top-0">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p></div>
                     <Blogs />
                 </div>
 
