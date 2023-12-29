@@ -19,7 +19,7 @@ const Transaction = () => {
         setLoading(true)
         transactionHistory().then((res) => {
             if (res.code == "200") {
-                setData(res.data)
+                setData(res.data.data)
                 setLoading(false)
             } else {
                 setLoading(false)
