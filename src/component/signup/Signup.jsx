@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
@@ -262,18 +262,88 @@ const Signup = () => {
 
     return (
         <>
-            {
-                !isGetOtp ? (
-                    <section className="sigupsec">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-lg-5">
-                                    <div className="sign-image-sec">
-                                        <img src="assets/img/home/signup-left.svg" className="signup" alt="alt_image" />
-
+            <section className="sigupsec" style={{ minHeight: "100vh" }}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-5">
+                            <div className="sign-image-sec">
+                                <img src="assets/img/home/signup-left.svg" className="signup" alt="alt_image" />
+                            </div>
+                        </div>
+                        <div className="col-lg-7 d-flex align-items-center">
+                            {
+                                isGetOtp ? (
+                                    <div className="row">
+                                        <div className="col-lg-12">
+                                            <div className="card1 card-signup1">
+                                                <div className="card-body">
+                                                    <h2 className="Sign-heading my-3">Verify your Account</h2>
+                                                    <div className="form_signup">
+                                                        <div className="my-3">
+                                                            {
+                                                                show_alert === 1 ? (
+                                                                    <Alert className="m-0" >
+                                                                        <span>
+                                                                            A verification code has been sent to your number.
+                                                                        </span>
+                                                                    </Alert>
+                                                                ) : show_alert === 2 ? (
+                                                                    <Alert className="m-0" >
+                                                                        <span>The verification code has been resent.</span>
+                                                                    </Alert>
+                                                                ) : show_alert === 3 ? (
+                                                                    <Alert className="m-0" >
+                                                                        <span>There might be an issue in resending, please try again.</span>
+                                                                    </Alert>
+                                                                ) : (
+                                                                    <Alert className="m-0" >
+                                                                        <span> Please enter the verification code to continue.</span>
+                                                                    </Alert>
+                                                                )
+                                                            }
+                                                        </div>
+                                                        <div className="my-3">
+                                                            <form onSubmit={handleEmailVerification} >
+                                                                <OtpInput
+                                                                    value={otp}
+                                                                    onChange={handleOtpChange}
+                                                                    numInputs={6}
+                                                                    isInputNum={true}
+                                                                    isSuccessed={true}
+                                                                    successStyle="success"
+                                                                    separator={<span></span>}
+                                                                    separateAfter={3}
+                                                                    className="verification_input"
+                                                                />
+                                                                <p className="already_content mb-3 my-2">
+                                                                    <Link
+                                                                        className="float-end"
+                                                                        onClick={(e) => { handleResendOtp(e) }}
+                                                                    >
+                                                                        Resend Otp
+                                                                    </Link>
+                                                                </p>
+                                                                <button variant={count_invalid === 3 ? "secondary" : "primary"}
+                                                                    type="submit"
+                                                                    className="signup_button w-50"
+                                                                    disabled={count_invalid === 3 ? true : false}
+                                                                >
+                                                                    Continue <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" />
+                                                                    {loading ? <>
+                                                                        <div className="loader-overly">
+                                                                            <div className="loader" >
+                                                                            </div>
+                                                                        </div>
+                                                                    </> : <></>}
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-lg-7">
+                                ) : (
                                     <div className="row">
                                         <div className="col-lg-12">
                                             <div className="card1 card-signup1">
@@ -425,13 +495,6 @@ const Signup = () => {
                                                                 </div>
 
                                                             </div>
-                                                            {/*<Form.Check className="form_switch"
-                                                                type="switch"
-                                                                onClick={() => setShow(!show)}
-                                                                id="custom-switch"
-                                                                label="Referred by a friend? Use the referral code below."
-
-                                                            />*/}
 
                                                             <Form.Group className="mb-2 form_on-off">
                                                                 Referred by a friend? Use the referral code below.
@@ -499,106 +562,21 @@ const Signup = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                )
+                            }
                         </div>
-                    </section>
-                ) : (
-                    <section className="why-us section-bgba verification_banner">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-lg-12">
-                                    <div className="card card-verification">
-                                        <div className="card-body">
-                                            <h5 className="Sign-heading mb-4">Verify your Account</h5>
-                                            {
-                                                show_alert === 1 ? (
-                                                    <Alert className="m-0" >
-                                                        {/*onClose={() => setShowAlert(0)} dismissible  */}
-                                                        <span>
-                                                            A verification code has been sent to your number.
-                                                        </span>
-                                                    </Alert>
-                                                ) : show_alert === 2 ? (
-                                                    <Alert className="m-0" >
-                                                        <span>The verification code has been resent.</span>
-                                                    </Alert>
-                                                ) : show_alert === 3 ? (
-                                                    <Alert className="m-0" >
-                                                        <span>There might be an issue in resending, please try again.</span>
-                                                    </Alert>
-                                                ) : (
-                                                    <Alert className="m-0" >
-                                                        <span> Please enter the verification code to continue.</span>
-                                                    </Alert>
-                                                )
-                                            }
-
-                                            <div className="form_verification">
-                                                <form onSubmit={handleEmailVerification} >
-                                                    <OtpInput
-                                                        value={otp}
-                                                        onChange={handleOtpChange}
-                                                        numInputs={6}
-                                                        isInputNum={true}
-                                                        isSuccessed={true}
-                                                        successStyle="success"
-                                                        separator={<span></span>}
-                                                        separateAfter={3}
-                                                        className="verification_input"
-                                                    />
-                                                    <div className="text-center pt-3">
-                                                        <button variant={count_invalid === 3 ? "secondary" : "primary"}
-                                                            type="submit"
-                                                            className="continue_button w-75"
-                                                            disabled={count_invalid === 3 ? true : false}
-                                                        >
-                                                            Continue
-                                                            {
-                                                                loading ? <>
-                                                                    <div className="loader-overly">
-                                                                        <div className="loader" >
-                                                                        </div>
-                                                                    </div>
-                                                                </> : <></>
-                                                            }
-                                                        </button>
-                                                        <button variant="primary"
-                                                            type="button"
-                                                            onClick={(e) => { handleResendOtp(e) }}
-                                                            className="continue_button w-75"
-                                                        >
-                                                            Resend OTP
-                                                            {
-                                                                loading ? <>
-                                                                    <div className="loader-overly">
-                                                                        <div className="loader" >
-                                                                        </div>
-                                                                    </div>
-                                                                </> : <></>
-                                                            }
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <Modal show={open_modal} centered backdrop="static">
-                            <Modal.Header><b style={{ color: "#6414E9" }}>Maximum limit reached</b></Modal.Header>
-                            <ModalBody>
-                                <h5>Please contact our <b style={{ color: "#6414E9" }}>Customer Service</b> to continue</h5>
-                            </ModalBody>
-                            <Modal.Footer className="pt-0">
-                                <Button onClick={() => handleClose()} variant="primary" className="continue_button w-50 p-0">Visit Support</Button>
-                            </Modal.Footer>
-                        </Modal>
-                    </section>
-                )
-            }
+                    </div>
+                </div>
+            </section>
+            <Modal show={open_modal} centered backdrop="static">
+                <Modal.Header><b style={{ color: "#6414E9" }}>Maximum limit reached</b></Modal.Header>
+                <ModalBody>
+                    <h5>Please contact our <b style={{ color: "#6414E9" }}>Customer Service</b> to continue</h5>
+                </ModalBody>
+                <Modal.Footer className="pt-0">
+                    <Button onClick={() => handleClose()} variant="primary" className="continue_button w-50 p-0">Visit Support</Button>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }

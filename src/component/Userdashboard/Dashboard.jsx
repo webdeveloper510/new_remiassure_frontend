@@ -39,24 +39,17 @@ const Dashboard = () => {
     const transHistory = () => {
         transactionHistory().then((response) => {
             if (response.code == "200") {
-                let d = response.data
-                let amount_sent = 0
-                let amount_paid = 0
-                for (let i = 0; i < d.length; i++) {
-                    amount_sent = amount_sent + Number(d[i].total_amount)
-                    amount_paid = amount_paid + Number(d[i].amount)
-                }
                 let list = []
-                if (response.data.length > 5) {
+                if (response.data.data.length > 5) {
                     for (let i = 0; i < 5; i++) {
-                        list.push(response.data[i])
+                        list.push(response.data.data[i])
                     }
                 } else {
-                    list = response.data
+                    list = response.data.data
                 }
                 setTransactionData(list);
-                setTotalAmountPaid(Math.round(amount_paid))
-                setTotalAmountSent(Math.round(amount_sent))
+                setTotalAmountPaid(response.data.final_amount)
+                setTotalAmountSent(response.data.total_amount)
                 setLoading(false)
             }
             else if (response.code == "400") {
@@ -195,11 +188,14 @@ const Dashboard = () => {
                                         </div>
                                     </div>
                                     <div className="mt-3">
+
+                                        <span className="text-light custom-number">Amount Sent ⇒ {total_amount_sent} <br />
+                                            Amount Paid ⇒ {total_amount_paid}
+                                        </span>
                                         <NavLink to={`/user-send-money`} className="btn btn-outline-dark btn-rounded">
                                             Send Money
                                         </NavLink>
-                                        <span className="text-light custom-number">Amount Paid ⇒ {commaSeperator(total_amount_paid)}</span>
-                                        <span className="text-light custom-number">Amount Sent ⇒ {commaSeperator(total_amount_sent)}</span>
+                                        {/* <span className="text-light custom-number"></span> */}
                                     </div>
                                 </div>
                             </div>

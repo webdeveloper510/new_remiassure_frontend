@@ -5,6 +5,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import { Link, NavLink } from "react-router-dom";
 import { RxLinkedinLogo } from "react-icons/rx";
 import { generateRandomKey } from "../../utils/hook";
+import { object } from "yup";
 
 const Help = () => {
 
@@ -190,10 +191,8 @@ const Help = () => {
   const linking = () => {
     let user = JSON.parse(localStorage.getItem('remi-user-dt'))
     let token = localStorage.getItem('token')
-    if (token && (user?.digital_id_verified === "True" || user?.digital_id_verified === "true")) {
-      return "/dashboard"
-    } else if (token && (user?.digital_id_verified === "False" || user?.digital_id_verified === "false")) {
-      return "/send-money"
+    if (token && user) {
+      return "/user-profile"
     } else {
       return "/login"
     }
@@ -231,7 +230,7 @@ const Help = () => {
                     <div className="help-li">
                       <img src="assets/img/help/new-account.png" className="vission_image" alt="alt_image" />
                       <img src="assets/img/help/new-account-white.png" className="vission_hover" alt="alt_image" />
-                      <h3 className="title-help"> <NavLink to={`/user-profile`} >My Account </NavLink></h3>
+                      <h3 className="title-help"> <NavLink to={linking()} >My Account </NavLink></h3>
                     </div>
                   </div>
 

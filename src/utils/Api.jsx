@@ -561,3 +561,17 @@ export const getReferralAmount = async () => {
   })
   return response
 }
+
+
+export const checkExistence = async () => {
+  let response = await Axios.get("/user-exist/", {
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  }).catch(err => {
+    return err.response.data
+  })
+  return response
+}
