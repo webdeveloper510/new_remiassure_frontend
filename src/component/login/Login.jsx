@@ -58,14 +58,9 @@ const Login = () => {
                     // navigate("/verification", { state: data })
                     setIsGetOtp(true)
                 }
-                // else if (res.code == "201") {
-                //     if (res.data.is_verified != "False") {
-                //         toast.warn(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-                //         navigate('/verification', { state: { mobile: values.email } })
-                //     } else {
-                //         toast.error("Please check your inbox to verify email.", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-                //     }
-                // }
+                else if (res.code == "201") {
+                    toast.error("Please check your inbox to verify email.", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+                }
                 else if (res.code == "400") {
                     toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                 }

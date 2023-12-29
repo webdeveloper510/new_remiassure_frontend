@@ -195,11 +195,14 @@ const Dashboard = () => {
                                         </div>
                                     </div>
                                     <div className="mt-3">
+
+                                        <span className="text-light custom-number">Amount Sent ⇒ {commaSeperator(total_amount_sent)} <br />
+                                            Amount Paid ⇒ {commaSeperator(total_amount_paid)}
+                                        </span>
                                         <NavLink to={`/user-send-money`} className="btn btn-outline-dark btn-rounded">
                                             Send Money
                                         </NavLink>
-                                        <span className="text-light custom-number">Amount Paid ⇒ {commaSeperator(total_amount_paid)}</span>
-                                        <span className="text-light custom-number">Amount Sent ⇒ {commaSeperator(total_amount_sent)}</span>
+                                        {/* <span className="text-light custom-number"></span> */}
                                     </div>
                                 </div>
                             </div>
