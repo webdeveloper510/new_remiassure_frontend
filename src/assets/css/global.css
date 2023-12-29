@@ -1843,6 +1843,7 @@ label.toggle-container
 }
 .sign-image-sec {
     text-align: center;
+    padding-bottom: 40px;
 }
 .form-select:focus
 {
@@ -1874,4 +1875,14 @@ select.form-select option {
 }
 .social-links a:hover {
     border: 1px solid #c9efff !important;
+}
+.forgot-pass .react-tel-input.form-control.form-control-sm.bg-transparent {
+    border-radius: 67.27px;
+    height: 50px;
+    padding: 10px 30px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.card-body.forgot-pass {
+    padding-bottom: 150px !important;
 }

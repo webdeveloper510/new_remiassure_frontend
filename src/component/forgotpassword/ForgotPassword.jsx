@@ -78,14 +78,14 @@ const ForgotPassword = () => {
              <section className="sigupsec login-page">
                         <div className="container">
                             <div className="row">
-                                <div className="col-lg-6">
+                                <div className="col-lg-5">
                                     <div className="sign-image-sec">
                                 <img src="assets/img/home/signup-left.png" className="signup" alt="alt_image"/>
                                
                                 </div>
 								</div>
-							  <div className="col-lg-6">
-							  <div className="">
+							  <div className="col-lg-7">
+							  <div className="card-body forgot-pass">
                               
                                                     <h2 className="Sign-heading mb-5">Forgot password?</h2>
 							     <form onSubmit={formik.handleSubmit} noValidate>

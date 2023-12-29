@@ -202,7 +202,7 @@ const Login = () => {
 														</div>
                                                     </div>
 
-                                                    <div className="row">
+                                                    <div className="row mt-4">
                                                         <div className="col-lg-6">
                                                             <Form.Group className="mb-3">
                                                                 <Form.Check

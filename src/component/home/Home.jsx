@@ -1064,7 +1064,7 @@ const Home = () => {
             <section className="why-us_section homepage-why-us hows-section Download-P">
                 <div className="container">
                     <div className="row align-center">
-                        <div className="col-md-6">
+                        <div className="col-md-6 heading-div">
                             <div className="vl about_v1">
                                 <h1 className="vl-heading left-align">Download Our App</h1>
                             </div>
@@ -1077,7 +1077,7 @@ const Home = () => {
                             </div>
                         </div>
                             <div class="row margintop-40">
-                                <div class="col-md-6 col-sm-6">
+                                <div class="col-md-6 col-sm-6 sc-div">
                                     <div class="scaner-code">
                                         {/* <img src="assets/img/home/scaner.png" /> */}
                                         <div style={{
@@ -1096,7 +1096,7 @@ const Home = () => {
                                 </div>
 
 
-                                <div className="col-lg-6 col-sm-6">
+                                <div className="col-lg-6 col-sm-6  dwonload-btn">
                                     <div className="buttonsdownload">
 
                                         <div className="f my-0">

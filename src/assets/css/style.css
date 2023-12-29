@@ -19,10 +19,10 @@ body {
 }
 @media only screen and (max-width: 768px) and (min-width: 480px)  {
 
-  div#home-section div {
-    width: 100% !important;
+  .mobile-only
+  {
+    background-size: cover !important;
   }
-  
     
   
 }
@@ -439,14 +439,62 @@ nav#navbar ul li ul li a:hover {
 .offcanvas-body nav ul li>ul>li>a.active {
   border-radius: inherit !important;
 }
-
+@media (max-width: 1140px) {
+  h4.content-heading
+  {
+    margin-top:10px !important;
+    margin-bottom: 10px !important;
+    font-size: 14px;
+  }
+  .contant-img
+  {
+    top: 95px;
+  }
+  .margintop .contant-img {
+    top: 50px;
+}
+  p.number
+  {
+    font-size: 15px !important;
+  }
+  .contant-img p
+  {
+    font-size: 14px  !important;
+    margin-top:10px;
+  }
+  .bottom-aligend p
+  {
+    margin-top:10px;
+  }
+  .icon-img
+  {
+    width: 50px;
+    height: 50px;
+  }
+}
+@media (max-width: 999px) {
+  .contant-img {
+    top: 70px;
+}
+.margintop .contant-img {
+  top: 30px;
+}
+}
 @media (max-width: 991px) {
-
-  .mobile-nav-toggle,
-  .mobile-btn {
+  .marauto {
+    margin: 0 auto;
+    width: 95% !IMPORTANT;
+}
+  .mobile-nav-toggle{
     display: block;
   }
-
+  .container, .container-md, .container-sm {
+    max-width: 95%;
+}
+  header#header .mobile-btn
+  {
+    display: block;
+  }
   .money-exchange-box:after {
     display: none;
   }
@@ -701,6 +749,24 @@ h5.Sign-heading {
     
     width: 100% !important;
 }
+.col-md-6.heading-div .vl.about_v1 {
+  margin-top: 0;
+  height: auto !important;
+  margin-bottom: 20px !important;
+  float: left;
+  width: 100%;
+}
+.col-md-6.heading-div p.text-bottom {
+  text-align: center !IMPORTANT;
+}
+.col-md-6.heading-div {
+  width: 100%;
+}
+  a.Get-start.mobile-btn
+  {
+    display: block;
+  }
+
 .step1bg
 {
   background-position: center center !important;
@@ -8821,6 +8887,9 @@ h3.title-help a {
     padding-left: 15px;
     padding-right: 15px;
 }
+button.btn.btn.reset-button,button.btn.btn.continue-button
+{
+width:100% !important}
 ul.new-work li {
   width: 100% !important;
   float: left;
@@ -9088,4 +9157,18 @@ body.Working section.why-us_section.homepage-why-us.hows-section-light .row.cust
 .timeline-step.step1bg:before,
 .timeline-step.step1bg .inner-circle1:before{
   display: none !important;
+}
+
+
+@media screen and (max-width: 999px) and (min-width: 769px) {
+  .free-transaction .col-lg-8.col-sm-8.margintop,.free-transaction .col-lg-4.col-sm-4.margintop {
+    width: 100%;
+}
+.remit_keypoints h1,.remit_keypoints h1 p {
+  font-size: 30px !important;
+}
+}
+button.signup_button img {
+  width: auto;
+  margin-left: 20px;
 }
