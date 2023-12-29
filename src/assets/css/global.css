@@ -642,7 +642,53 @@ h1.head-new {
     padding: 0px 15px;
     height: 440px;
 }
+.custom-button-group.for-mobileee {
+display: none;
+}
 
+@media (max-width:768px) {
+    .bottom-footer .col-md-4 {
+        width: 100%;
+    }
+    .contact-section .col-md-8, .contact-section .col-md-4{
+        width: 100% !important;
+    }
+    .contact-section .col-md-8 p {
+    text-align: center !important;
+    }
+    .col-md-4.footer-linksss .footer-info1.center-content {
+        justify-content: center !important;
+    }
+    .footer-info1.footer-last-logo.desktop-onlyy {
+        display: none;
+    }
+    .mobile--logo img.logo-foo {
+        width: auto;
+    }
+    .mobile--logo .icon-ffoter {
+        text-align: center;
+    }
+section.top_sections.desktop_only {
+    display: none;
+}
+.custom-button-group.for-mobileee {
+    margin-top: 14px;
+    display: block !important;
+}
+
+.mobile-only
+{
+    display:block !important;
+}
+.partners-section {
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.mobile-only .col-lg-6.banner-content {
+    width: 100% !important;
+}
+}
 @media (min-width:768px) {
 
        
@@ -808,7 +854,7 @@ h1.vl-heading.left-align {
     font-weight: 400;
     font-size: 17px;
     padding-left: 10px;
-    margin-top: 30px !important;
+    margin-top: 10px !important;
 }
 
 .bottom-content p.mar-t {
@@ -1646,11 +1692,12 @@ a.Get-start.mobile-btn {
     background: #6414E9;
     color: #fff;
     font-size: 16px;
-    font-weight: bold;
+  
     margin: 0 auto;
     position: relative;
     margin: 0 auto;
     width: max-content;
+    text-transform: uppercase;
 }
 
 a.Get-start.mobile-btn:before {

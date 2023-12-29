@@ -52,7 +52,7 @@ const RemitAssure = () => {
         </div>
 
         <div className="row">
-          <div className="custom-col5">
+          <div className="custom-col5 desktop-only">
             <div className="remit_keypoints dark_box_bg">
 
             </div>
@@ -73,7 +73,11 @@ const RemitAssure = () => {
           </div>
 
         </div>
+<div className="custom-col5 mobile-only">
+            <div className="remit_keypoints dark_box_bg">
 
+            </div>
+          </div>
 
       </div>
     </section >

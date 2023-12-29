@@ -88,6 +88,8 @@ const Scrollbar = ({ handler }) => {
         containerClass="carousel-container-with-scrollbar"
         additionalTransfrom={-0}
         itemClass="image-item"
+        autoPlay={true} // Enable autoplay
+        autoPlaySpeed={3000}
         // customButtonGroup={<CustomSlider />}
         beforeChange={(nextSlide) => {
           // ... your beforeChange logic

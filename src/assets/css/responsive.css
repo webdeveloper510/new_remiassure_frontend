@@ -323,6 +323,10 @@ p.material-heading {
     p.material-heading {
     font-size: 13px;
 }
+.timeline-steps::after,.timeline-steps .timeline-step:not(:first-child):before
+{
+    display: none;
+}
     .fullwidth {
         width: 100%;
     }
@@ -856,7 +860,7 @@ height: auto !important;
     }
 
     h1.vl-heading,section.why-us_section.homepage-why-us h1 {
-        font-size: 23px;
+        font-size: 30px;
         line-height: 31px;
     }
     .bottom-aligend
