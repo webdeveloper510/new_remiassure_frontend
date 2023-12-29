@@ -31,7 +31,7 @@ const Scrollbar = () => {
         author: "assets/img/home/image 96 (1).png",
         heading: "Best on the market",
         image: "assets/img/referral/Group_star1.png",
-        paragraph: 'I absolutely love this platform. Its so easy and user- friendly.Though my first time, it felt like second nature using it to transfer funds.I highly recommend it to anyone seeking a reliable and efficient money transfer service.'
+        paragraph: 'I absolutely love this platform. Its so easy and user- friendly. Though my first time, it felt like second nature using it to transfer funds.I highly recommend it to anyone seeking a reliable and efficient money transfer service.'
       }, {
         name:"Peter Willson",
         author: "assets/img/home/image 96 (1).png",

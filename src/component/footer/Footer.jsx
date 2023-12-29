@@ -250,7 +250,13 @@ const Footer = () => {
                     </div>
                     <div className=" footer-top1  mobile-footer">
 
+                    <div className="footer-info1 footer-last-logo mobile--logo">
+                                    <div className="icon-ffoter">
+                                        <img src="assets/img/home/footer-logo.png" className="logo-foo" />
 
+
+                                    </div>
+                                    </div>
                         <div onClick={() => toggleAccordion(0)}>
                             <h4>Quick Links  {accordionOpen === 0 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" />} </h4>
                         </div>
@@ -363,7 +369,7 @@ const Footer = () => {
                     <div className="bottom-footer bottom-none">
                         <div className="row">
                             <div className="col-md-4">
-                                <div className="footer-info1 footer-last-logo">
+                                <div className="footer-info1 footer-last-logo desktop-onlyy">
                                     <div className="icon-ffoter">
                                         <img src="assets/img/home/footer-logo.png" className="logo-foo" />
 

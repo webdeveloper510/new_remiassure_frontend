@@ -45,6 +45,12 @@ const Partners = () => {
       {
         image: "assets/img/home/image5.png",
       },
+      {
+        image: "assets/img/home/image5.png",
+      },
+      {
+        image: "assets/img/home/image22.png",
+      },
       
     ];
 
@@ -71,6 +77,8 @@ const Partners = () => {
         responsive={responsive}
         containerClass="carousel-container-with-scrollbar"
         additionalTransfrom={-0}
+        autoPlay={true} // Enable autoplay
+        autoPlaySpeed={3000}
         // customButtonGroup={<CustomSlider />}
         beforeChange={(nextSlide) => {
           // ... your beforeChange logic
@@ -104,6 +112,11 @@ const Partners = () => {
         })}
       </Carousel>
 
+      
+      <div className="custom-button-group for-mobileee">
+        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/arrow1 (1).png"/></button>
+        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/nextsli.png"/></button>
+      </div>
     
     </div>
   );

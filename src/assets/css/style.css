@@ -17,7 +17,58 @@ body {
   color: #0b0e2e;
   font-family: var(--font-family) !important;
 }
+@media only screen and (max-width: 768px) and (min-width: 480px)  {
 
+  div#home-section div {
+    width: 100% !important;
+  }
+  
+    
+  
+}
+@media (max-width: 1220px) {
+  .money-exchange-box {
+      padding-left: 10px !important;
+      padding-right: 10px !IMPORTANT;
+  }
+  section.top_sections.desktop_only {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.col-md-6.widh-mobile
+{
+  width: 100% !important;
+}
+  section.top_sections.desktop_only h1
+  {
+   
+    font-size: 50px !important;
+    color: #fff;
+    line-height: 50px Impo !important;
+    font-weight: bold;
+  }
+  section.top_sections p.vl-paragraph
+  {
+    font-size: 15px;
+  }
+  section.top_sections.desktop_only
+  {
+    background-size: cover !important;
+  }
+  .money-exchange-box:after {
+    left: 300px !important;
+}
+.money-exchange-box .col-md-6.flexx {
+  width: 100%;
+  display: block !IMPORTANT;
+  float: left !important;
+}
+
+
+.money-exchange-box .card-body {
+    padding-right: 0px !important;
+}
+  }
 a {
   color: #4fa6d5;
   text-decoration: none;
@@ -641,14 +692,40 @@ h5.Sign-heading {
   font-size: 18px;
   text-align: center;
 }
-
+.mobile-steps
+{
+  display: none;
+}
 @media (max-width: 768px) {
-
+  .buttonsdownload a img {
+    
+    width: 100% !important;
+}
+.step1bg
+{
+  background-position: center center !important;
+}
+.buttonsdownload
+{
+  width: 100% !IMPORTANT;
+    flex-direction: column;
+    justify-content: center;
+}
   .breadcrumbs .d-flex,
   .free-transaction {
     display: block !important;
   }
-
+  .mobile-steps b {
+    color: #FD696C !important;
+}
+.mobile-steps {
+    text-align: center;
+    margin-bottom: 14px;
+    font-size: 19px;
+    color: #190278 !important;
+    font-family: var(--font-SubHeding) !important;
+    display: block !important;
+}
   .buttonsdownload .download a {
     width: 100% !important;
   }
@@ -711,7 +788,7 @@ h5.Sign-heading {
   }
 
   button.btn.btn.reset-button {
-    width: 100% !important;
+    width: 50% !important;
     float: left;
   }
 
@@ -808,7 +885,7 @@ h5.Sign-heading {
   }
 
   .scaner-code {
-    width: 50%;
+    width: 100%;
     margin: 0 auto;
     margin-bottom: 20px;
   }
@@ -863,7 +940,7 @@ h5.Sign-heading {
   }
 
   button.btn.btn.continue-button {
-    width: 100%;
+    width: 50%;
     float: left;
     justify-content: center;
   }
@@ -4481,7 +4558,7 @@ img.quotup_icons {
 }
 
 .mobile-top {
-  background-image: url(../img/home/mobilefirst.png) !important;
+  
   background-repeat: no-repeat;
   background-size: 92% 100%;
   padding: 0px;
@@ -7659,9 +7736,25 @@ section.why-us.section-bgba.hows-it-section .vl-heading {
 ul.country-list li .flag {
   left: 13px !important;
 }
-@media only screen and (max-width:767px) {
+@media only screen and (max-width:768px) {
   .col-md-4.libuttons ul.playstoreicon:after {
     display: none;
+}
+
+
+.money-exchange-box span.calculation {
+  width: 100%;
+  float: left;
+  text-align: center;
+  margin: 0px;
+}
+
+.money-exchange-box h6.exchange-heading {
+  text-align: center;
+}
+
+.money-exchange-box h6.exchange-heading br {
+  display: none;
 }
 body.Working section.why-us_section.homepage-why-us.hows-section-light {
   padding-top: 50px;
@@ -7796,6 +7889,8 @@ button.accordion-button.collapsed,.accordion-button:not(.collapsed){
     padding: 0px !important;
     font-size: 30px;
     line-height: 43px;
+    float: left;
+    width: 100%;
   }
 
   .row.custom-row-hows {
@@ -8618,9 +8713,13 @@ h3.title-help a {
   }
 
   .free-transaction h1.vl-heading.left-align {
-    font-size: 23px !important;
+    font-size: 30px !important;
   }
 
+  h1.vl-heading,section.why-us_section.homepage-why-us h1 {
+    font-size: 30px !important;
+    line-height: 31px;
+}
   .Enjoy-Free h1.vl-heading.left-align {
     margin-top: 35px;
   }
@@ -8983,4 +9082,10 @@ body.Working section.why-us_section.homepage-why-us.hows-section-light .row.cust
 .test-P .testimonail
 {
  flex:1
+}
+
+
+.timeline-step.step1bg:before,
+.timeline-step.step1bg .inner-circle1:before{
+  display: none !important;
 }

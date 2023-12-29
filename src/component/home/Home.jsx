@@ -69,7 +69,7 @@ function HowRenderingArrayOfObjects() {
 
 const Home = () => {
     const backgroundImageUrl = 'assets/img/home/top-banner.svg';
-    const backgroundImageUrlmobile = 'assets/img/home/mobilefirst.png';
+    const backgroundImageUrlmobile = 'assets/img/home/home-page-mobil.svg';
     const containerStyle = {
         backgroundImage: `url(${backgroundImageUrl})`,
         backgroundSize: '94% 100%', // Adjust as needed
@@ -80,7 +80,7 @@ const Home = () => {
 
     const containerStylemobile = {
         backgroundImage: `url(${backgroundImageUrlmobile})`,
-        backgroundSize: '92% 100%', // Adjust as needed
+        backgroundSize: 'cover', // Adjust as needed
         backgroundPosition: 'center', // Adjust as needed
         /* Additional background styles can be added here */
     };
@@ -624,7 +624,7 @@ const Home = () => {
                                             </div>
                                             <div className="row mb-2 " style={{ alignItems: 'normal' }}>
 
-                                                <div className="col-md-6">
+                                                <div className="col-md-6 widh-mobile">
                                                     <p className="send-text">They Get<span style={{ color: 'red' }} >*</span></p>
                                                     <div className="inline select-currency">
                                                         <Form.Control
@@ -839,38 +839,50 @@ const Home = () => {
                             <div class="row">
 
                                 <div className="timeline-steps aos-init aos-animate" data-aos="fade-up">
+                                    <div className="mobile-steps">
+                                        Step <b className="">1</b>
+                                    </div>
                                     <div className="timeline-step step1bg">
                                         <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
 
                                             <div className="inner-circle1"><label>Step <b>1</b></label><img src="assets/img/home/dot1.png" /></div>
-                                            <img className="how-works-icons" src="assets/img/home/howicon1.png" />
+                                            <img className="how-works-icons" src="assets/img/home/howicon1.svg" />
                                             <p className="h6 mt-3 mb-1">Create a RemitAssure<br></br> account</p>
                                             <p className="h6  mb-0 mb-lg-0">Provide some personal information and sign up online or via the RemitAssure app.</p>
                                         </div>
+                                    </div>
+                                    <div className="mobile-steps">
+                                        Step <b className="">2</b>
                                     </div>
                                     <div className="timeline-step">
                                         <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2004">
 
                                             <div className="inner-circle1"><label>Step <b>2</b></label><img src="assets/img/home/dot1.png" /></div>
-                                            <img className="how-works-icons" src="assets/img/home/howicon2.png" />
+                                            <img className="how-works-icons" src="assets/img/home/howicon2.svg" />
                                             <p className="h6 mt-3 mb-1">Verify your <br></br>Identity</p>
                                             <p className="h6  mb-0 mb-lg-0">We verify your identity as part of our AML/CTF obligation. Verifying your identity also helps  safeguard your account against potential fraudulent activities.</p>
                                         </div>
+                                    </div>
+                                    <div className="mobile-steps">
+                                        Step <b className="">3</b>
                                     </div>
                                     <div className="timeline-step step3bg">
                                         <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2005">
 
                                             <div className="inner-circle1"><label>Step <b>3</b></label><img src="assets/img/home/dot1.png" /></div>
-                                            <img className="how-works-icons" src="assets/img/home/howicon3.png" />
+                                            <img className="how-works-icons" src="assets/img/home/howicon3.svg" />
                                             <p className="h6 mt-3 mb-1">Enter your <br></br>transaction details</p>
                                             <p className="h6  mb-0 mb-lg-0">Provide some personal information and sign up online or via the RemitAssure app.</p>
                                         </div>
+                                    </div>
+                                    <div className="mobile-steps">
+                                        Step <b className="">4</b>
                                     </div>
                                     <div className="timeline-step">
                                         <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2010">
 
                                             <div className="inner-circle1"><label>Step <b>4</b></label><img src="assets/img/home/dot1.png" /></div>
-                                            <img className="how-works-icons" src="assets/img/home/howicon4.png" />
+                                            <img className="how-works-icons" src="assets/img/home/howicon4.svg" />
                                             <p className="h6 mt-3 mb-1">Pay for your<br></br> transaction</p>
                                             <p className="h6 mb-0 mb-lg-0">We offer different payment rails for our customers. You can pay through: PayID , PayTo Agreements.</p>
                                         </div>
@@ -1058,6 +1070,12 @@ const Home = () => {
                             </div>
                             <p className="text-bottom">Download our app for quick and convenient transactions allowing you to send money securely, track transfers effortlessly, and enjoy a seamless financial journey on the go.
                             </p>
+							  <div class="col-md-12 mobile-only ">
+                            <div class="leftt-img">
+                                <img src="assets/img/home/Download-our-App 1.png" />
+
+                            </div>
+                        </div>
                             <div class="row margintop-40">
                                 <div class="col-md-6 col-sm-6">
                                     <div class="scaner-code">
@@ -1095,7 +1113,7 @@ const Home = () => {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-lg-6">
+                        <div class="col-md-6 col-lg-6  desktop_only">
                             <div class="leftt-img">
                                 <img src="assets/img/home/Download-our-App 1.png" />
 
