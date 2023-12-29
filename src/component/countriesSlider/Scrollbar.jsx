@@ -89,7 +89,8 @@ const Scrollbar = ({ handler }) => {
         additionalTransfrom={-0}
         itemClass="image-item"
         autoPlay={true} // Enable autoplay
-        autoPlaySpeed={3000}
+        autoPlaySpeed={2000}
+        infinite={true}
         // customButtonGroup={<CustomSlider />}
         beforeChange={(nextSlide) => {
           // ... your beforeChange logic

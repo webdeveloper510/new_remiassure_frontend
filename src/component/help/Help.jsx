@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Img from "react-image";
 import Accordion from 'react-bootstrap/Accordion';
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { RxLinkedinLogo } from "react-icons/rx";
 import { generateRandomKey } from "../../utils/hook";
 import { object } from "yup";
@@ -10,6 +10,7 @@ import { object } from "yup";
 const Help = () => {
 
   const [input_content, setInput_content] = useState('Search')
+  const navigate = useNavigate()
 
   const transferLinks = () => {
     let user = JSON.parse(localStorage.getItem('remi-user-dt'))
@@ -213,25 +214,25 @@ const Help = () => {
               <div className="help-content-bottom">
                 <div className="row">
                   <div className="col-md-4 col-sm-4">
-                    <div className="help-li">
+                    <NavLink to={`/working`} className="help-li">
                       <img src="assets/img/help/icon1.svg" className="vission_image" alt="alt_image" />
                       <img src="assets/img/help/faq-c-svg.png" className="vission_hover" alt="alt_image" />
                       <h3 className="title-help"><NavLink to={`/working`} >How it works</NavLink></h3>
-                    </div>
+                    </NavLink>
                   </div>
                   <div className="col-md-4 col-sm-4">
-                    <div className="help-li ">
+                    <a className="help-li" href="#faq">
                       <img src="assets/img/help/faq-icon-svg.png" className="vission_image" alt="alt_image" />
                       <img src="assets/img/help/faq-icon-hover.png" className="vission_hover" alt="alt_image" />
                       <h3 className="title-help"> <a href="#faq">FAQ’s</a></h3>
-                    </div>
+                    </a>
                   </div>
                   <div className="col-md-4 col-sm-4">
-                    <div className="help-li">
+                    <NavLink to={linking()} className="help-li">
                       <img src="assets/img/help/new-account.png" className="vission_image" alt="alt_image" />
                       <img src="assets/img/help/new-account-white.png" className="vission_hover" alt="alt_image" />
                       <h3 className="title-help"> <NavLink to={linking()} >My Account </NavLink></h3>
-                    </div>
+                    </NavLink>
                   </div>
 
                 </div>

@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import AllTransfer from "./AllTransfer";
-import Sidebar from './Sidebar';
 import { transactionHistory } from "../../utils/Api";
 import authDashHelper from "../../utils/AuthDashHelper";
 
