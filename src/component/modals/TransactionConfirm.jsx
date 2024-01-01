@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
 import { commaSeperator } from '../../utils/hook'
-import { getDiscountedPrice } from '../../utils/Api'
 
 const TransactionConfirm = ({ data, discount, handleCancel, handleContinue }) => {
 

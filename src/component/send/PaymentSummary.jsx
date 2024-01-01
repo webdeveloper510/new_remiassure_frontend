@@ -25,7 +25,7 @@ const PaymentSummary = ({ handleStep, step }) => {
   const [loader, setLoader] = useState(false)
   const [transaction, setTransaction] = useState({ id: "", status: "", pay_id: "" })
   const [is_otp_verified, setIsOtpVerfied] = useState(null)
-  const [discounts, setDiscounts] = useState({ amount: "", discount_amount: "", final_amount: "", type: "" })
+  const [discounts, setDiscounts] = useState({ amount: "", discount_amount: "", final_amount: "", type: "", referral_meta_id: null })
   const local = JSON.parse(localStorage.getItem("transfer_data"));
   let transaction_id = localStorage.getItem("transaction_id")
 
@@ -58,7 +58,7 @@ const PaymentSummary = ({ handleStep, step }) => {
       if (local?.payment?.payment_type === "PayTo") {
         let agreement_uuid = local?.payment?.agreement_uuid
 
-        ZaiPayTo({ agreement_uuid: agreement_uuid, transaction_id: localStorage.getItem("transaction_id") }).then((res) => {
+        ZaiPayTo({ agreement_uuid: agreement_uuid, transaction_id: localStorage.getItem("transaction_id"), referral_meta_id: discounts?.referral_meta_id }).then((res) => {
           setLoader(false)
           if (res.code === "200") {
             setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: null })
@@ -102,7 +102,7 @@ const PaymentSummary = ({ handleStep, step }) => {
         })
       } else if (local?.payment?.payment_type === "PayByID") {
         let payment_id = local?.payment?.payment_id
-        ZaiPayId({ transaction_id: payment_id }).then((res) => {
+        ZaiPayId({ transaction_id: payment_id, referral_meta_id: discounts?.referral_meta_id }).then((res) => {
           setLoader(false)
           if (res.code === "200") {
 

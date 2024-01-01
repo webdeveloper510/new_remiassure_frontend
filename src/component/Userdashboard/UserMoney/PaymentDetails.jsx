@@ -246,7 +246,7 @@ const PaymentDetails = ({ handleStep, step }) => {
         setLoader(true)
 
         if (data.payment_type === "PayByID") {
-          ZaiPayId({ transaction_id: pay_id_data.payment_id }).then(res => {
+          ZaiPayId({ transaction_id: pay_id_data.payment_id, referral_meta_id: discounts?.referral_meta_id }).then(res => {
             if (res.code === "200") {
               setTransaction({ id: res.data.transaction_id, pay_id: pay_id_data.id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type, type: "pay_id" })
               localStorage.removeItem("transfer_data")
@@ -291,7 +291,7 @@ const PaymentDetails = ({ handleStep, step }) => {
             }, 3 * 1000)
           })
         } else {
-          ZaiPayTo({ agreement_uuid: pay_to_data.agreement_uuid, transaction_id: localStorage.getItem("transaction_id") }).then(res => {
+          ZaiPayTo({ agreement_uuid: pay_to_data.agreement_uuid, transaction_id: localStorage.getItem("transaction_id"), referral_meta_id: discounts?.referral_meta_id }).then(res => {
             setLoader(false)
             if (res.code == "200") {
               setTransaction({ id: res.data.transaction_id, pay_id: null, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type, type: "pay_to" })

@@ -8,8 +8,8 @@ import SenderDetails from './SenderDetails'
 import PaymentSummary from './PaymentSummary'
 import { useLocation, useNavigate } from 'react-router-dom'
 import authDashHelper from '../../utils/AuthDashHelper'
-import { getDiscountedPrice, pendingTransactions } from '../../utils/Api'
-import { commaSeperator, generateRandomKey } from '../../utils/hook'
+import { pendingTransactions } from '../../utils/Api'
+import { commaSeperator } from '../../utils/hook'
 
 const SendMoney = () => {
 
@@ -111,7 +111,7 @@ const SendMoney = () => {
 
   return (
     <>
-     <div class="site-content-money">
+      <div class="site-content-money">
         {
           1 ? (
             <div className="form send_money_section">
