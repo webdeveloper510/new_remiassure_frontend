@@ -486,12 +486,12 @@ const Home = () => {
                                     <ul className="playstoreicon">
                                         <li>
                                             <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank">
-                                                <img src="assets/img/home/play.png" />
+                                                <img src="assets/img/home/apple.svg" />
                                             </a>
                                         </li>
                                         <li>
                                             <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank">
-                                                <img src="assets/img/home/play1.png" />
+                                                <img src="assets/img/home/google.svg" />
                                             </a>
                                         </li>
                                     </ul>
@@ -531,7 +531,7 @@ const Home = () => {
                                     <img src="assets/img/home/phone.png" alt="background-images" />
                                 </div>
                                 <div className="col-md-4 libuttons">
-                                    <ul class="playstoreicon"><li><a href="#"><img src="assets/img/home/play.png" /></a></li><li><a href="#"><img src="assets/img/home/play1.png" /></a></li></ul>
+                                    <ul class="playstoreicon"><li><a href="#"><img src="assets/img/home/apple.svg" /></a></li><li><a href="#"><img src="assets/img/home/google.svg" /></a></li></ul>
                                 </div>
                             </div>
                         </div>
