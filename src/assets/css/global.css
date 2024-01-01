@@ -462,7 +462,7 @@ section.why-us_section.homepage-why-us .vl-paragraph p {
     width: 100%;
 
     background-color: #6515E9;
-    background-image:url('../img/home/mask.png');
+    background-image:url('../img/home/mask.png') !important;
     background-repeat: no-repeat;
     background-position: right 7px;
     background-size: cover;
@@ -649,6 +649,10 @@ display: none;
 @media (max-width:768px) {
     .bottom-footer .col-md-4 {
         width: 100%;
+    }
+    span.pass_icons
+    {
+        margin-top: -34px;
     }
     .contact-section .col-md-8, .contact-section .col-md-4{
         width: 100% !important;
@@ -1255,7 +1259,7 @@ button.pre-sli {
     border-radius: 83px !important;
     border: none;
     padding: 10px 20px;
-    margin-left: 20px;
+    margin-left: 0px;
     border: navajowhite;
 }
 
@@ -1353,7 +1357,7 @@ section.section-img
 }
 
 p.icon-acc {
-    width: 12px;
+    min-width: 12px !important;
     height: 12px;
     border: 2px solid #190079;
     border-radius: 100px;
@@ -1629,10 +1633,16 @@ p.space-div {
     border: none !important;
     width: 100%;
 }
-.sign-image-sec {
-    text-align: center;
-    padding-top: 150px;
+@media only screen and (max-width: 1980px) and (min-width: 992px)  {
+    .sign-image-sec {
+
+        padding-top: 150px;
+    }
+
 }
+
+
+
 a.forgot_pass {
     text-align: right;
     width: 100%;
@@ -1874,7 +1884,7 @@ select.form-select option {
     background: #fff;
 }
 .social-links a:hover {
-    border: 1px solid #c9efff !important;
+    border: 2px solid #c9efff !important;
 }
 .forgot-pass .react-tel-input.form-control.form-control-sm.bg-transparent {
     border-radius: 67.27px;

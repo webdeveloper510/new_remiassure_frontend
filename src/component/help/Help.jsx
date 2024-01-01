@@ -174,7 +174,7 @@ const Help = () => {
       return (
         <Accordion.Item eventKey={index} className={`my-3 help-accordian`}>
 
-          <Accordion.Header onClick={() => handleAccordionToggle(index)}> <p className="icon-acc"></p> {value.title}</Accordion.Header>
+        <Accordion.Header onClick={() => handleAccordionToggle(index)}>   <p className="icon-acc"></p>  <div className="faq-div"> {value.title}</div></Accordion.Header>
 
           <Accordion.Body>
             {value.content}

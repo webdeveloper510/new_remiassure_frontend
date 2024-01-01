@@ -402,8 +402,8 @@ const Footer = () => {
                                 <div className="footer-info1 right-content">
                                     <div className="icon-ffoter">
                                         <div className="social-links ">
-                                            <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/facebook (2).png" /></a>
-                                            <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook (1).png" /></a>
+                                            <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/twiter.svg" /></a>
+                                            <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook.svg" /></a>
                                             <a class="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/"><img src="assets/img/footer/instagram.png" /></a>
                                             <a className="instagram" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/footer/link1.png" /></a>
                                         </div>
