@@ -8943,6 +8943,12 @@ section.top_sections.mobile-top.mobile-only
     padding-left: 15px;
     padding-right: 15px;
 }
+.banner_section01 {
+
+ 
+  background-image: url(../img/home/mobile-pay.svg);
+}
+
 button.btn.btn.reset-button,button.btn.btn.continue-button
 {
 width:100% !important}
@@ -8952,6 +8958,8 @@ ul.new-work li {
   display: block !important;
   margin: 0px !important;
 }
+
+
 
 ul.new-work {
   float: left;
@@ -9236,5 +9244,9 @@ button.signup_button img ,button.login_button img{
 }
 
 button.btn.btn.continue-button.mobile-only {
+  display: none;
+}
+
+.col-md-6.mobile_only-767 {
   display: none;
 }

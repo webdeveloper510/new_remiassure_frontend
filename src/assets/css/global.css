@@ -697,6 +697,14 @@ section.top_sections.desktop_only {
     width: 100% !important;
 }
 }
+@media (max-width:767px) {
+.col-md-6.mobile_only-767 {
+    display: block !important
+}
+.col-md-6.desktop_only-767 {
+    display: none !important
+}
+}
 @media (min-width:768px) {
 
        

@@ -609,7 +609,7 @@ const Home = () => {
                                                     )}
                                                 </div>
 
-                                                <div className="col-md-6">
+                                                <div className="col-md-6 desktop_only-767">
                                                     <p className="send-text">Receive Method</p>
                                                     <select
                                                         {...formik.getFieldProps('recieve_meth')}
@@ -661,6 +661,17 @@ const Home = () => {
                                                             }
                                                         </select>
                                                     </div>
+                                                </div>
+
+                                                <div className="col-md-6 mobile_only-767">
+                                                    <p className="send-text">Receive Method</p>
+                                                    <select
+                                                        {...formik.getFieldProps('recieve_meth')}
+                                                        className='form-select rate_input form-control mb-3 home-select-method bg-transparent'
+                                                        aria-label="Select a reason">
+                                                        <option value="Bank Transfer">Bank Transfer</option>
+                                                        <option value="Mobile Wallet">Mobile Wallet</option>
+                                                    </select>
                                                 </div>
 
                                                 <div className="col-md-6 flexx">
