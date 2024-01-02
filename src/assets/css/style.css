@@ -7833,7 +7833,9 @@ ul.country-list li .flag {
     display: none;
 }
 
-
+p.already_content {
+  text-align: center;
+}
 .money-exchange-box span.calculation {
   width: 100%;
   float: left;

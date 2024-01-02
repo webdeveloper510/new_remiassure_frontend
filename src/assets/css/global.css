@@ -650,6 +650,10 @@ display: none;
     .bottom-footer .col-md-4 {
         width: 100%;
     }
+    .react-tel-input .country-list
+    {
+        width: max-content !important;
+    }
     span.pass_icons
     {
         margin-top: -34px;
