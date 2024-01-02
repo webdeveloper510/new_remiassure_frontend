@@ -485,7 +485,7 @@ const Home = () => {
                                 <div className="col-md-3">
                                     <ul className="playstoreicon">
                                         <li>
-                                            <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank">
+                                            <a href="https://apps.apple.com/us/app/remitassure/id6451420844" target="_blank">
                                                 <img src="assets/img/home/apple.svg" />
                                             </a>
                                         </li>
@@ -531,7 +531,7 @@ const Home = () => {
                                     <img src="assets/img/home/phone.png" alt="background-images" />
                                 </div>
                                 <div className="col-md-4 libuttons">
-                                    <ul class="playstoreicon"><li><a href="#"><img src="assets/img/home/apple.svg" /></a></li><li><a href="#"><img src="assets/img/home/google.svg" /></a></li></ul>
+                                    <ul class="playstoreicon"><li><a href="https://apps.apple.com/us/app/remitassure/id6451420844"><img src="assets/img/home/apple.svg" /></a></li><li><a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"><img src="assets/img/home/google.svg" /></a></li></ul>
                                 </div>
                             </div>
                         </div>
@@ -664,6 +664,19 @@ const Home = () => {
                                                 </div>
 
                                                 <div className="col-md-6 flexx">
+                                                <button
+                                                        type="submit"
+                                                        className="btn btn continue-button mobile-only"
+                                                    >
+                                                        Continue
+                                                        {loading ? <>
+                                                            <div className="loader-overly">
+                                                                <div className="loader" >
+                                                                </div>
+                                                            </div>
+                                                        </> : <></>}
+                                                        <img src="assets/img/home/Black1.png" />
+                                                    </button>
                                                     <button
                                                         type="button"
                                                         className="btn btn reset-button"
@@ -679,7 +692,7 @@ const Home = () => {
                                                     </button>
                                                     <button
                                                         type="submit"
-                                                        className="btn btn continue-button"
+                                                        className="btn btn continue-button desktop_only"
                                                     >
                                                         Continue
                                                         {loading ? <>
@@ -1104,7 +1117,7 @@ const Home = () => {
                                                 <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank"> <img src="assets/img/home/playstore.svg" alt="home_icons" className="" /></a>
                                             </div>
                                             <div className="col-md-12">
-                                                <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank">  <img src="assets/img/home/appstore.svg" alt="home_icons" className="" /></a>
+                                                <a href="https://apps.apple.com/us/app/remitassure/id6451420844" target="_blank">  <img src="assets/img/home/appstore.svg" alt="home_icons" className="" /></a>
                                             </div>
                                         </div>
 

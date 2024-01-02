@@ -753,6 +753,29 @@ h5.Sign-heading {
     
     width: 100% !important;
 }
+.scaner-code div
+{
+  text-align: left !important;
+}
+
+button.btn.btn.continue-button.mobile_only {
+  display: block !important;
+}
+button.btn.btn.continue-button.desktop_only {
+  display: none;
+}
+.new_card button.continue-button:before
+{
+  left:-8px;
+}
+span.calculation {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.exchange-heading
+{
+  font-size: 30px !important;
+}
 .email-phone  .col-md-12.padding-dd
 
 {
@@ -7880,10 +7903,10 @@ body.Working .hows-section ul li p
 .email-phone .form-select {
   background-position: 100% !important;
   width: max-content !important;
-  padding-right: 20px !important;
+  padding-right: 13px !important;
 }
 a.forgot_pass {
-  text-align: left;
+  text-align: right;
 }
 .form-select:focus
 {
@@ -8907,7 +8930,12 @@ h3.title-help a {
 .react-tel-input .flag {
   left: 0 !important;
 }
-
+@media screen and (max-width: 540px) {
+section.top_sections.mobile-top.mobile-only
+{
+  background-size: 92% 100% !important;
+}
+}
 @media screen and (max-width: 480px) {
   .col-lg-5.padding-right-box {
     float: left;
@@ -8955,8 +8983,9 @@ label.toggle-container {
   padding-left: 10px;
   padding-right: 10px;
 }
+
 .Download-P .row.align-center .col-sm-6 {
-  width: 100%;
+  width: 50%;
   float: left;
 }
 .buttonsdownload {
@@ -8985,13 +9014,17 @@ h2.author-name {
   justify-content: center;
 }
 .Download-P .row.margintop-40{
-  display: block !IMPORTANT;
+  display: flex !IMPORTANT;
   margin:0px !important;
   margin-top:40px !important
 }
+.scaner-code
+{
+  margin-bottom: 0px !important
+}
 .scaner-code div
 {
-  text-align: center !important;
+  text-align: left !important;
 }
 .Download-P p.text-bottom {
   text-align: center !important;
@@ -9200,4 +9233,8 @@ body.Working section.why-us_section.homepage-why-us.hows-section-light .row.cust
 button.signup_button img ,button.login_button img{
   width: auto;
   margin-left: 20px;
+}
+
+button.btn.btn.continue-button.mobile-only {
+  display: none;
 }

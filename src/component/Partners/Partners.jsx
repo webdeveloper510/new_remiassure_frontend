@@ -45,9 +45,7 @@ const Partners = () => {
       {
         image: "assets/img/home/image5.png",
       },
-      {
-        image: "assets/img/home/image5.png",
-      },
+    
       {
         image: "assets/img/home/image22.png",
       },
