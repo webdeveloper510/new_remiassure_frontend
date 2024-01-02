@@ -34,14 +34,14 @@ const RemitAssure = () => {
           </div>
           {
             path !== "/about-us" ? (
-              <div className="custom-col5">
+              <div className="custom-col5 desktop-only">
                 <div className="remit_keypoints">
                   <h1>Know more in detail about <p>RemitAssure</p></h1>
                   <Link to="/about-us"><img src="assets/img/home/Union.png" /></Link>
                 </div>
               </div>
             ) : (
-              <div className="custom-col5">
+              <div className="custom-col5 desktop-only">
                 <div className="remit_keypoints remit-h">
                   <h1><p >RemitAssure</p></h1>
                 </div>
@@ -73,6 +73,22 @@ const RemitAssure = () => {
           </div>
 
         </div>
+		   {
+            path !== "/about-us" ? (
+              <div className="custom-col5 mobile-only">
+                <div className="remit_keypoints">
+                  <h1>Know more in detail about <p>RemitAssure</p></h1>
+                  <Link to="/about-us"><img src="assets/img/home/Union.png" /></Link>
+                </div>
+              </div>
+            ) : (
+              <div className="custom-col5 mobile-only">
+                <div className="remit_keypoints remit-h">
+                  <h1><p >RemitAssure</p></h1>
+                </div>
+              </div>
+            )
+          }
 <div className="custom-col5 mobile-only">
             <div className="remit_keypoints dark_box_bg">
 
