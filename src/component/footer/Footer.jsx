@@ -166,22 +166,25 @@ const Footer = () => {
     }
     let location = useLocation()
     let navigate = useNavigate()
-   const checkExchangeRate = debounce(() => {
-    // Assuming the target section has the id "home-section"
-    const targetSectionId = "payment-box";
+const checkExchangeRate = debounce(() => {
+  const targetSectionId = "pay-box";
 
-    if (location.pathname === "/") {
-        const targetElement = document.getElementById(targetSectionId);
+  // Get the target element using document.getElementById
+  const targetElement = document.getElementById(targetSectionId);
 
-        targetElement.scrollIntoView({
-            behavior: "smooth",
-            block: "start", // Scroll to the top of the element
-           
-        
-        });
-    } else {
-        navigate("/");
-    }
+  // Check if the target element exists
+  if (targetElement) {
+    // Use useNavigate to navigate to the root path "/"
+    navigate("/", { replace: true });
+
+    // Scroll to the target element
+    targetElement.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  } else {
+    console.error(`Element with id "${targetSectionId}" not found.`);
+  }
 }, 500);
     return (
         <>

@@ -469,7 +469,7 @@ const Home = () => {
                                     We have re-imagined international money transfer to provide reliable, efficient andcost effective services to our customers.
                                 </p>
                             </div>
-                            <ul className="hero-btn">
+                            <ul className="hero-btn" id="pa">
                                 <li>
                                     <Link to={"/send-money"} className="Get-start">
                                         Get <b>Started</b> <img src="assets/img/home/Union.png" />
