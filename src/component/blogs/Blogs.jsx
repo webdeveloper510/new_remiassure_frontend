@@ -28,16 +28,16 @@ const Blogs = () => {
  const items = [
       {
         date:"23rd Feb 2023",
-        dateicon:"assets/img/home/dateicon.png",
-        author: "assets/img/home/Shape-2.png",
+        dateicon:"assets/img/home/dateicon.svg",
+        author: "assets/img/home/Shape-2.svg",
         heading: "Lorem Ipsum",
         link: '/link1', // Add the link property
         image: "assets/img/referral/Group_star1.png",
         paragraph: 'Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.'
       },   {
         date:"23rd Feb 2023",
-        dateicon:"assets/img/home/dateicon.png",
-        author: "assets/img/home/Shape-2.png",
+        dateicon:"assets/img/home/dateicon.svg",
+        author: "assets/img/home/Shape-2.svg",
         heading: "Lorem Ipsum",
         link: '/link1', // Add the link property
         image: "assets/img/referral/Group_star1.png",
@@ -45,8 +45,8 @@ const Blogs = () => {
       },
       {
         date:"23rd Feb 2023",
-        dateicon:"assets/img/home/dateicon.png",
-        author: "assets/img/home/Shape-2.png",
+        dateicon:"assets/img/home/dateicon.svg",
+        author: "assets/img/home/Shape-2.svg",
         heading: "Lorem Ipsum",
         link: '/link1', // Add the link property
         image: "assets/img/referral/Group_star1.png",
@@ -54,8 +54,8 @@ const Blogs = () => {
       },
       {
         date:"23rd Feb 2023",
-        dateicon:"assets/img/home/dateicon.png",
-        author: "assets/img/home/Shape-2.png",
+        dateicon:"assets/img/home/dateicon.svg",
+        author: "assets/img/home/Shape-2.svg",
         heading: "Lorem Ipsum",
         link: '/link1', // Add the link property
         image: "assets/img/referral/Group_star1.png",
