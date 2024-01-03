@@ -166,26 +166,30 @@ const Footer = () => {
     }
     let location = useLocation()
     let navigate = useNavigate()
-const checkExchangeRate = debounce(() => {
-  const targetSectionId = "pay-box";
 
-  // Get the target element using document.getElementById
-  const targetElement = document.getElementById(targetSectionId);
+    const checkExchangeRate = debounce(() => {
 
-  // Check if the target element exists
-  if (targetElement) {
-    // Use useNavigate to navigate to the root path "/"
-    navigate("/", { replace: true });
+        // Get the target element using document.getElementById
+        if (location.pathname !== "/") {
+            console.log("helloooo ", location)
+            navigate("/");
+        }
 
-    // Scroll to the target element
-    targetElement.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  } else {
-    console.error(`Element with id "${targetSectionId}" not found.`);
-  }
-}, 500);
+        setTimeout(() => {
+            const targetSectionId = "pay-box";
+            const targetElement = document.getElementById(targetSectionId);
+            console.log("trannnnn", targetElement)
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+            } else {
+                console.error(`Element with id "${targetSectionId}" not found.`);
+            }
+        }, 500)
+    }, 200);
+
     return (
         <>
             {/* <!-- ======= Footer ======= --> */}
@@ -253,13 +257,13 @@ const checkExchangeRate = debounce(() => {
                     </div>
                     <div className=" footer-top1  mobile-footer">
 
-                    <div className="footer-info1 footer-last-logo mobile--logo">
-                                    <div className="icon-ffoter">
-                                        <img src="assets/img/home/footer-logo.png" className="logo-foo" />
+                        <div className="footer-info1 footer-last-logo mobile--logo">
+                            <div className="icon-ffoter">
+                                <img src="assets/img/home/footer-logo.png" className="logo-foo" />
 
 
-                                    </div>
-                                    </div>
+                            </div>
+                        </div>
                         <div onClick={() => toggleAccordion(0)}>
                             <h4>Quick Links  {accordionOpen === 0 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" />} </h4>
                         </div>
