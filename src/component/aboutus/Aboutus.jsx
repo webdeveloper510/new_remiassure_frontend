@@ -34,14 +34,14 @@ const Aboutus = () => {
       const vissionData = [
          {
             id: 1,
-            vission_src: "assets/img/about/icon1 (1).png",
+            vission_src: "assets/img/about/icon1.svg",
             hover_img: "assets/img/about/about-ac.png",
             vission_content: "Our essence is to serve our customers. We are committed to going above and beyond in our quest to ensure the satisfaction of our customers.",
          },
          {
             id: 2,
             vission_src: "assets/img/home/abouticon.png",
-            hover_img: "assets/img/about/icon1 (4).png",
+            hover_img: "assets/img/about/icon2.svg",
             vission_content: "RemitAssure offers customers secure, efficient and cost-effective remittance services.",
          },
          {
