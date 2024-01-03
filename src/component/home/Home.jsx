@@ -68,8 +68,8 @@ function HowRenderingArrayOfObjects() {
 
 
 const Home = () => {
-    const backgroundImageUrl = 'assets/img/home/top-banner.svg';
-    const backgroundImageUrlmobile = 'assets/img/home/home-page-mobil.svg';
+    const backgroundImageUrl = 'assets/img/home/top-banner (1).webp';
+    const backgroundImageUrlmobile = 'assets/img/home/home-page-mobil.webp';
     const containerStyle = {
         backgroundImage: `url(${backgroundImageUrl})`,
         backgroundSize: '94% 100%', // Adjust as needed
@@ -476,7 +476,7 @@ const Home = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <a href="#payment-box" className="exchangebtn" >
+                                    <a href="#pay-box" className="exchangebtn" >
                                         Exchange <b>rate</b> <img src="assets/img/home/Black.png" className="hover-none"/>
                                         <img src="assets/img/home/pink.svg"  className="hover-img"/>
                                     </a>
