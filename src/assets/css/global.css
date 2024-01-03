@@ -3887,7 +3887,7 @@ select.form-select option {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
-a.logactin:hover,.light_box_bg:hover,.remit_keypoints:hover,.timeline-step:hover,.testimonail:hover,.partners-section li .partners:hover,a.Get-start:hover,.li-vision:hover,.help-li:hover,button.accordion-button.collapsed:hover,button:hover{
+a.logactin:hover,.light_box_bg:hover,.remit_keypoints:hover,.timeline-step:hover,.testimonail:hover,.partners-section li .partners:hover,a.Get-start:hover,.li-vision:hover,.help-li:hover,button.accordion-button.collapsed:hover,button:hover,ul.playstoreicon li:hover,.buttonsdownload img:hover{
     box-shadow: 0px 1px 2px 3px #55378559 !important;
 }
 button:hover,.btn:hover,.btn-contact a:hover
@@ -3896,7 +3896,7 @@ button:hover,.btn:hover,.btn-contact a:hover
 }
 a.skybtn:hover,a.appbtn:hover,.custom-button-group.country-slider-arrow.for-mobilee button:hover,.btn-con button:hover{
     color: #fff !important;
-    box-shadow: 0px 1px 2px 3px #7e39ec59 !important;
+    box-shadow: 0px 1px 2px 3px #7e39ec !important;
 }
 button.btn.btn.reset-button:hover{
     box-shadow: none !important;
@@ -3906,4 +3906,22 @@ div#pay-box {
     height: 50px;
     float: left;
     width: 100%;
+}
+a.exchangebtn:hover {
+    color: #fd696c !important;
+}
+
+img.hover-img {
+    display: none;
+}
+
+a.exchangebtn:hover img.hover-none {
+    display: none;
+}
+
+a.exchangebtn:hover img.hover-img  {
+    display: inline !important;
+}
+button.btn.btn.reset-button:hover {
+    color: #190278 !important;
 }
