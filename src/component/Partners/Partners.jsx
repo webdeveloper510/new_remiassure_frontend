@@ -77,6 +77,7 @@ const Partners = () => {
         additionalTransfrom={-0}
         autoPlay={true} // Enable autoplay
         autoPlaySpeed={3000}
+        infinite={true} 
         // customButtonGroup={<CustomSlider />}
         beforeChange={(nextSlide) => {
           // ... your beforeChange logic
