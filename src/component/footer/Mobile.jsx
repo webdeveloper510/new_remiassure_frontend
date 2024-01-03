@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Scrollbar from '../scrollbar/Scrollbar';
-
+import RemitAssure from "../WhyRemitAssure/RemitAssure";
 
 // card carousel start
 const Card = (props) => {
@@ -217,30 +217,8 @@ const Mobile = () => {
             {/* <!-- ======= AboutUs Our vission and mission-Section  End======= --> */}
 
             {/* <!-- ======= AboUs Why RemitAssure-Section  start======= --> */}
-            <section className="why-us section-bgba aos-init aos-animate">
-                <div className="container">
-
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="vl about_v1 about_vl about_v1">
-                                <h1 className="vl-heading">Why RemitAssure ?</h1>
-                                <div className="about_why_heading">
-                                    <p>Our essence is to offer exceptional remittance services to our customers</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-md-12 col-lg-12 secure_content">
-                            <ul className="about_why-ramit-assure page_about-sec">
-                                < WhyIconsRenderingArrayOfObjects />
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
+            <RemitAssure></RemitAssure>
+           
             {/* <!-- ======= AboUs Why RemitAssure-Section  End======= --> */}
 
             {/* <!-- ======= Testimonial-Section  start======= --> */}

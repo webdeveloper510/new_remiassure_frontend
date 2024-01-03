@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { links, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { links, NavLink, useLocation, useNavigate} from 'react-router-dom';
 import { generateRandomKey } from "../../utils/hook";
 import { debounce } from 'lodash';
 
@@ -21,7 +21,8 @@ const Footer = () => {
                     <NavLink to="#">{item.content}</NavLink>
                 </div>
                 {accordionOpen === index && (
-                    <div>
+
+<div>
                         {/* Additional content for the accordion item */}
                     </div>
                 )}

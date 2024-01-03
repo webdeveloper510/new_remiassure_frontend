@@ -514,6 +514,7 @@ const Home = () => {
 
                 </div>
             </section>
+            <div className="extra-padding">
             <section className="top_sections mobile-top mobile-only" style={containerStylemobile}>
                 <div className="container">
                     <div className="row">
@@ -539,6 +540,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+            </div>
             <div className="get-started">
                 <li>
                     <Link to={"/send-money"} className="Get-start mobile-btn">
