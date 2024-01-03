@@ -319,7 +319,9 @@ p.material-heading {
 }
 
 @media screen and (max-width: 768px) {
-
+    input.form-control.email-mobile-input.is-invalid.form-control.form-control-lg {
+        border: 1px solid #dc3545 !important;
+    }
     p.material-heading {
     font-size: 13px;
 }

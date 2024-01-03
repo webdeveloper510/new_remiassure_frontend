@@ -661,6 +661,9 @@ display: none;
     .bottom-footer .col-md-4 {
         width: 100%;
     }
+    .email-phone.invalid {
+        border: none !important;
+    }
     .react-tel-input .country-list
     {
         width: max-content !important;
