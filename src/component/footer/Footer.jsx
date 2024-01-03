@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { links, NavLink, useLocation, useNavigate} from 'react-router-dom';
+import { links, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { generateRandomKey } from "../../utils/hook";
 import { debounce } from 'lodash';
 
@@ -22,7 +22,7 @@ const Footer = () => {
                 </div>
                 {accordionOpen === index && (
 
-<div>
+                    <div>
                         {/* Additional content for the accordion item */}
                     </div>
                 )}
@@ -412,7 +412,7 @@ const Footer = () => {
                                         <div className="social-links ">
                                             <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/twiter.svg" /></a>
                                             <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook.svg" /></a>
-                                            <a class="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/"><img src="assets/img/home/instagram.svg" /></a>
+                                            <a class="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/"><img src="assets/img/home/ig.svg" /></a>
                                             <a className="instagram" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/home/Linkedin Logo.svg" /></a>
                                         </div>
                                     </div>
