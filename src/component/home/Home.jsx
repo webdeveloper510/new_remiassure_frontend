@@ -477,7 +477,8 @@ const Home = () => {
                                 </li>
                                 <li>
                                     <a href="#payment-box" className="exchangebtn" >
-                                        Exchange <b>rate</b> <img src="assets/img/home/Black.png" />
+                                        Exchange <b>rate</b> <img src="assets/img/home/Black.png" className="hover-none"/>
+                                        <img src="assets/img/home/pink.svg"  className="hover-img"/>
                                     </a>
                                 </li>
                             </ul>
