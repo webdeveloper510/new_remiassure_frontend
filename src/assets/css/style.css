@@ -757,6 +757,11 @@ h5.Sign-heading {
     border-radius: 0px !important;
     padding: 0px;
 }
+.banner_section01
+{
+  background-position: left !important;
+  background-size: 100% 100% !important;
+}
 .email-phone select,.email-phone .mobiletext input {
   border: 1px solid #EAEAEA !important;
   border-radius: 67.27px;
