@@ -749,6 +749,25 @@ h5.Sign-heading {
   display: none;
 }
 @media (max-width: 768px) {
+  .email-phone {
+    height: auto;
+    border: none;
+    width: 100%;
+    float: left;
+    border-radius: 0px !important;
+    padding: 0px;
+}
+.email-phone select,.email-phone .mobiletext input {
+  border: 1px solid #EAEAEA !important;
+  border-radius: 67.27px;
+  height: 50px !important;
+  padding: 10px 30px !important;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.col-md-4.paddingg-l {
+  padding: 0px !important;
+}
   .buttonsdownload a img {
     
     width: 100% !important;
@@ -782,7 +801,7 @@ span.calculation {
   width: 100% !important;
 }
 .email-phone .paddingg-l {
-  width: 40%;
+  width: 100%;
 
   padding-left: 20px;
   margin-top: 3px;
@@ -793,7 +812,7 @@ span.calculation {
 }
 .email-phone .mobiletext {
   float: left;
-  width: 60% ;
+  width: 100% ;
 
   padding: 0px !important;
   margin: 0px !important;
@@ -7901,8 +7920,8 @@ body.Working .hows-section ul li p
 }
 
 .email-phone .form-select {
-  background-position: 100% !important;
-  width: max-content !important;
+  background-position: 89% !important;
+  width: 100% !important;
   padding-right: 13px !important;
 }
 a.forgot_pass {
@@ -7920,6 +7939,7 @@ button.signup_button, button.login_button {
 }
  .email-phone .mobiletext {
     padding: 0px !important;
+    margin-top:15px !important;
 }
 .login-page .col-md-4.paddingg-l {
   width: 40%;
