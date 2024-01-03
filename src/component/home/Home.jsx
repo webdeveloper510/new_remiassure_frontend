@@ -472,7 +472,7 @@ const Home = () => {
                             <ul className="hero-btn" id="pa">
                                 <li>
                                     <Link to={"/send-money"} className="Get-start">
-                                        Get <b>Started</b> <img src="assets/img/home/Union.png" />
+                                        Get <b>Started</b> <img src="assets/img/home/Union.svg" />
                                     </Link>
                                 </li>
                                 <li>
@@ -507,7 +507,7 @@ const Home = () => {
 
                         </div>
                         <div className="col-lg-6 right_sections">
-                            <img src="assets/img/home/phone.png" alt="background-images" />
+                            <img src="assets/img/home/phone.svg" alt="background-images" />
                         </div>
                     </div>
 
@@ -530,7 +530,7 @@ const Home = () => {
                             </div>
                             <div className="row">
                                 <div className="col-lg-8 right_sections">
-                                    <img src="assets/img/home/phone.png" alt="background-images" />
+                                    <img src="assets/img/home/phone.svg" alt="background-images" />
                                 </div>
                                 <div className="col-md-4 libuttons">
                                     <ul class="playstoreicon"><li><a href="https://apps.apple.com/us/app/remitassure/id6451420844"><img src="assets/img/home/apple.svg" /></a></li><li><a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"><img src="assets/img/home/google.svg" /></a></li></ul>
@@ -544,7 +544,7 @@ const Home = () => {
             <div className="get-started">
                 <li>
                     <Link to={"/send-money"} className="Get-start mobile-btn">
-                        Get <b>Started</b> <img src="assets/img/home/Union.png" />
+                        Get <b>Started</b> <img src="assets/img/home/Union.svg" />
                     </Link>
                 </li>
             </div>

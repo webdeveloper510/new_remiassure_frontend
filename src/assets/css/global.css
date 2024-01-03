@@ -2425,9 +2425,8 @@ section.why-us_section.homepage-why-us .vl-paragraph p {
 
 .dark_box_bg {
     width: 100%;
-
-    background-color: #6515E9;
-    background-image:url('../img/home/mask.png') !important;
+   background-color: #6515E9;
+    background-image:url('../img/home/mask.svg') !important;
     background-repeat: no-repeat;
     background-position: right 7px;
     background-size: cover;
