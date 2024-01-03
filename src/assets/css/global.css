@@ -3928,7 +3928,7 @@ a.exchangebtn:hover img.hover-img  {
 button.btn.btn.reset-button:hover {
     color: #190278 !important;
 }
-p.already_content a:hover,.backlogin a:hover {
+p.already_content a:hover,.backlogin a:hover,a.forgot_pass:hover {
     color: #fd696c !important;
 }
 ul.About_why-content li img:hover
