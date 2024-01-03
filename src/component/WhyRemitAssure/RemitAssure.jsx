@@ -20,14 +20,14 @@ const RemitAssure = () => {
         <div className="row mb-3">
           <div className="custom-col5">
             <div className="remit_keypoints light_box_bg">
-              <img src="assets/img/home/icons4.png" alt="background-icons" />
+              <img src="assets/img/home/icon1.svg" alt="background-icons" />
               <h4>We're Secure</h4>
               <p>We use industry-leading <br></br>technology to secure <br></br>your money.</p>
             </div>
           </div>
           <div className="custom-col2 no-padding">
             <div className="remit_keypoints">
-              <img src="assets/img/home/icons1.png" alt="background-icons" />
+              <img src="assets/img/home/icon2.svg" alt="background-icons" />
               <h4>We're Fast</h4>
               <p>95% of our transfers<br></br> are completed in<br></br> minutes…</p>
             </div>
@@ -59,14 +59,14 @@ const RemitAssure = () => {
           </div>
           <div className="custom-col2 no-padding">
             <div className="remit_keypoints">
-              <img src="assets/img/home/icons2.png" alt="background-icons" />
+              <img src="assets/img/home/icon3.svg" alt="background-icons" />
               <h4>We're Cost-effective</h4>
               <p>Our rates are competitive <br></br>compared to banks and <br></br>other remittance services.</p>
             </div>
           </div>
           <div className="custom-col5">
             <div className="remit_keypoints light_box_bg">
-              <img src="assets/img/home/icons3.png" alt="background-icons" />
+              <img src="assets/img/home/icon4.svg" alt="background-icons" />
               <h4>We're Innovative</h4>
               <p>We're committed to researching <br></br>new ideas and technology to <br></br>serve you better.</p>
             </div>

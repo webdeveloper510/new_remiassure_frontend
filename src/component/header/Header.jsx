@@ -217,7 +217,7 @@ const Header = () => {
               <div className="row">
                 <div className="mobile-app-section">
                   <p>Download the RemitAssure App</p>
-                  <img src={app} alt="app-icons" />
+                  <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank"><img src={app} alt="app-icons" /></a>
                 </div>
               </div>
             </Offcanvas.Body>
