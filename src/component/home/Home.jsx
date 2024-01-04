@@ -15,6 +15,7 @@ import Scrollbar from '../countriesSlider/Scrollbar';
 import Scrollbar1 from '../scrollbar/Scrollbar';
 import Blogs from '../blogs/Blogs';
 import RemitAssure from "../WhyRemitAssure/RemitAssure";
+import FreeTransctions from "../FreeTransactionsAcoordians/FreeTransactions";
 import Partners from "../Partners/Partners";
 function HowRenderingArrayOfObjects() {
     const dataItems = [
@@ -1030,28 +1031,12 @@ const Home = () => {
                                 <p>Experience the freedom of seamless money transfers with RemitAssure, where every transaction comes with the added benefit of enjoying free transfers, making your financial transactions hassle-free and cost-effective!
                                 </p>
 
-                                <div class="bottom-content">
-                                    <h2> <span> +</span>  Online and Mobile Banking </h2>
-                                    <p class="mar-t">Our online and mobile banking platforms empower you to manage your finances anytime, anywhere. Enjoy secure access to your accounts, effortless money transfers, and real-time transaction tracking. Experience the freedom of modern banking, tailored to your lifestyle.
-                                    </p>
-
-                                </div>
-
-
-                                <div class="bottom-content">
-                                    <h2> <span> +</span> Free Account Transfers </h2>
-                                    <p class="mar-t">RemitAssure offers the convenience of free account transfers, allowing you to send money globally without incurring additional fees. Enjoy a cost-effective and efficient way to move funds securely across borders with our user-friendly platform.</p>
-
-                                </div>
-
-
                                 <div class="bottom-content border-none">
-                                    <h2> <span> +</span> No Hidden Fee  </h2>
-                                    <p class="mar-t">At RemitAssure, we believe in transparency. Enjoy peace of mind with our no hidden fee policy – your transactions are straightforward, and you'll only pay what you see, ensuring a clear and honest money transfer experience.
-                                    </p>
-
+                                    <div className="free-acc">
+                                <FreeTransctions/>
                                 </div>
-
+                                  
+</div>
 
 
 

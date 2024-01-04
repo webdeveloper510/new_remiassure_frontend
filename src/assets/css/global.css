@@ -2850,7 +2850,7 @@ h1.vl-heading.left-align {
     color: #190079 !important;
     font-weight: bold;
     font-size: 21.02px;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
 }
 
 
@@ -3719,6 +3719,11 @@ a.Get-start.mobile-btn:before {
 
 .free-transaction {
     display: flex;
+    align-items: center;
+}
+.free-transaction .about_v1
+{
+    margin-top:0px !important;
 }
 
 .toggle-container {
@@ -3955,4 +3960,61 @@ ul.About_why-content li img:hover
     .vis .li-vision img:hover {
         box-shadow: none !important;
         border-radius: 0px !important;
+    }
+    .free-acc .accordion-item
+    {
+        margin: 0px !important;
+border: none !important;
+border-radius: 0px !important;
+background: transparent !important;
+    }
+    .free-acc h2.accordion-header {
+        margin: 0px !important;
+        border: none !important;
+    }
+    .free-acc h2.accordion-header button {
+        background: none !important;
+        border: none !important;
+        outline: none;
+        box-shadow: none !important;
+        border-radius: 0px !important;
+        padding: 0px !IMPORTANT;
+    }
+    .free-acc .accordion-button::before {
+        content: "+";
+        color: #FD696C;
+        font-size: 23px;
+        margin-right: 10px;
+    }
+    .my-3.free-accordian.accordion-item:last-child .border-div {
+        display: none;
+    }
+    
+    .border-div {
+        margin-top: 30px;
+        border-bottom: 1px solid #190278;
+        margin-bottom: 30px;
+        float: left;
+    width: 100%;
+    }
+    .accordion-button:not(.collapsed)::before, .active.accordion-item .accordion-button::before
+    {
+        content: "-";
+        color: #FD696C;
+        font-size: 23px;
+        margin-right: 10px;
+    }
+    .free-acc .accordion-button::after {
+   display: none !important;
+    }
+    .accordion-button:not(.collapsed)::after, .active.accordion-item .accordion-button::after
+    {
+    display: none !important;
+    }
+    .free-acc .accordion-body {
+        background: none;
+ 
+    }
+    .free-acc h2.accordion-header button:hover{
+        box-shadow: none !important;
     }
