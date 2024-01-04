@@ -80,7 +80,7 @@ const ForgotPassword = () => {
                     <div className="row">
                         <div className="col-lg-5">
                             <div className="sign-image-sec">
-                                <img src="assets/img/home/signup-left.png" className="signup" alt="alt_image" />
+                                <img src="assets/img/home/signup-left.webp" className="signup" alt="alt_image" />
                             </div>
                         </div>
                         <div className="col-lg-7 d-flex align-items-center">
