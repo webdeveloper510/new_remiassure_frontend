@@ -473,7 +473,7 @@ section.why-us_section.homepage-why-us .vl-paragraph p {
     width: 100%;
 
     background-color: #6515E9;
-    background-image:url('../img/home/mask.png') !important;
+    background-image:url('../img/home/mask.webp') !important;
     background-repeat: no-repeat;
     background-position: right 7px;
     background-size: cover;
@@ -616,7 +616,7 @@ h1.head-new {
    
 }
 .hows-work-section {
-    /*background-image:url('../img/home/howbg.png');*/
+
     background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
@@ -626,7 +626,7 @@ h1.head-new {
 .Enjoy-Free {
   
     padding-top: 60px !IMPORTANT;
-    background-image:url('../img/home/howbg.png');
+    background-image:url('../img/home/howbg.webp');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
@@ -1142,7 +1142,7 @@ section.why-us_section.homepage-why-us.hows-section.Download-P {
     padding: 30px;
     padding-top:50px;
     padding-bottom: 60px;
-    background-image:url('../img/home/contatcbg.png');
+    background-image:url('../img/home/contatcbg.webp');
     margin-top: 60px;
 }
 
@@ -2170,7 +2170,7 @@ section.top_sections h1 span:before {
     position: absolute;
     content: "";
     display: inline-block;
-    background:url("../img/home/text-bg.png");
+    background:url("../img/home/text-bg.webp");
     height: 100%;
     width: 100%;
     top: 0;
@@ -2548,21 +2548,13 @@ h1.head-new {
    
 }
 .hows-work-section {
-    /*background-image:url('../img/home/howbg.png');*/
+ 
     background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
     padding-bottom: 0px;
 }
 
-.Enjoy-Free {
-  
-    padding-top: 60px !IMPORTANT;
-    background-image:url('../img/home/howbg.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: contain;
-}
 
 
 /*************************** timeline css ************/
@@ -3067,16 +3059,7 @@ section.why-us_section.homepage-why-us.hows-section.Download-P {
 .row.align-center {
     align-items: center;
 }
-.contact-section {
-    margin-top: 55px;
-    position: relative;
-    border-radius: 39px;
-    padding: 30px;
-    padding-top:50px;
-    padding-bottom: 60px;
-    background-image:url('../img/home/contatcbg.png');
-    margin-top: 60px;
-}
+
 
 .contact-section h1 {
     border: none !important;

@@ -103,7 +103,7 @@ const Scrollbar = () => {
               <div class="image-container-text" draggable={false}>
                 <div className="row">
                   <div className="arrow-sy">
-                    <img src="assets/img/home/qote.svg">
+                    <img src="assets/img/home/qote.webp">
 
                     </img>
                   </div>

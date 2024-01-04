@@ -127,12 +127,12 @@ const Help = () => {
       {
         id: 8,
         title: "What should I do if the money I sent through RemitAssure is not received by the recipient?",
-        content: <>RemitAssure fully guarantees safely transferring funds to your beneficiary.We are committed to providing a reliable money transfer process.If for some exigency, your recipient has not received their funds within our operational timeframe, please contact our <a href="#support-centre">Support Centre</a> for help.We will diligently track and update you on the status of your transfer..</>,
+        content: <>RemitAssure fully guarantees safely transferring funds to your beneficiary.We are committed to providing a reliable money transfer process.If for some exigency, your recipient has not received their funds within our operational timeframe, please contact our <a href="#support">Support Centre</a> for help.We will diligently track and update you on the status of your transfer..</>,
       },
       {
         id: 9,
         title: "How can I get in touch with RemitAssure's customer support if I have questions or issues?",
-        content: <>We are available support you 24/7 online through our digital Channels.Please contact us through our <a href="#support-centre">Support Centre</a>.We can also be contacted during office hours on 1300 284 228.</>,
+        content: <>We are available support you 24/7 online through our digital Channels.Please contact us through our <a href="#support">Support Centre</a>.We can also be contacted during office hours on 1300 284 228.</>,
       },
       {
         id: 10,
@@ -257,9 +257,9 @@ const Help = () => {
           </section>
         </section>
 
-        <section className="contct-info">
+        <section className="contct-info" id="support">
           <div className="container">
-            <div className="darkpink">
+            <div className="darkpink" >
               <div className="">
                 <div class="row align-center">
 

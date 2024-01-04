@@ -1454,7 +1454,7 @@ img.flag_icons {
 }
 
 .bg_image {
-  background-image: url('../img/home/Ellipse.png');
+  background-image: url('../img/home/Ellipse.webp');
   background-repeat: no-repeat;
   height: 100px;
   margin-left: 124px;
@@ -1542,7 +1542,7 @@ ul.list- li {
 --------------------------------------------------------------*/
 .banner_section01 {
   width: 100%;
-  background-image: url('../img/home/reviewbanner.png');
+  background-image: url('../img/home/reviewbanner.webp');
   background-repeat: no-repeat;
   background-position: top right;
   background-size: 97% 100%;
@@ -3625,7 +3625,7 @@ button.cancel_button {
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-left: none !important;
-  background-image: url('../img/home/Union2.png') !important;
+  background-image: url('../img/home/Union2.webp') !important;
   background-size: auto;
   background-position: 75%;
 }
@@ -5560,7 +5560,7 @@ select.form-select.rate_input.form-control.mb-3.home-select-method {
   border-top-right-radius: 68px;
   border-bottom-right-radius: 68px;
   color: #fff;
-  background-image: url('../img/home/Union2.png') !important;
+  background-image: url('../img/home/Union2.webp') !important;
   background-size: auto;
   background-position: 93%;
   font-family: var(--font-Text) !important;
@@ -8980,7 +8980,7 @@ section.top_sections.mobile-top.mobile-only
 .banner_section01 {
 
  
-  background-image: url(../img/home/mobile-pay.svg);
+  background-image: url(../img/home/mobile-pay.webp);
 }
 
 button.btn.btn.reset-button,button.btn.btn.continue-button

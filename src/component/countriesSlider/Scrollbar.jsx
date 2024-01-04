@@ -33,32 +33,32 @@ const Scrollbar = ({ handler }) => {
     {
       heading: "Philippines ",
       abbreviation: "PHP",
-      image: "assets/img/home/philippines.svg",
+      image: "assets/img/home/philippines.webp",
     }, {
       heading: "Ghana  ",
       abbreviation: "GHS",
-      image: "assets/img/home/ghana.svg",
+      image: "assets/img/home/ghana.webp",
     }, {
       heading: "Nigeria ",
       abbreviation: "USD",
-      image: "assets/img/home/nigeria.svg",
+      image: "assets/img/home/nigeria.webp",
       value: "USD"
     }, {
       heading: "Kenya ",
       abbreviation: "KES",
-      image: "assets/img/home/kenya.svg",
+      image: "assets/img/home/kenya.webp",
     }, {
       heading: "Thailand ",
       abbreviation: "THB",
-      image: "assets/img/home/country5.png"
+      image: "assets/img/home/country5.webp"
     }, {
       heading: "Vietnam ",
       abbreviation: "VND",
-      image: "assets/img/home/country6.png"
+      image: "assets/img/home/country6.webp"
     }, {
       heading: "Nigeria ",
       abbreviation: "NGN",
-      image: "assets/img/home/nigeria.svg"
+      image: "assets/img/home/nigeria.webp"
     }
   ];
 

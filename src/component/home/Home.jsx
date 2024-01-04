@@ -886,7 +886,7 @@ const Home = () => {
                                         <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
 
                                             <div className="inner-circle1"><label>Step <b>1</b></label><img src="assets/img/home/dot1.png" /></div>
-                                            <img className="how-works-icons" src="assets/img/home/howicon1.svg" />
+                                            <img className="how-works-icons" src="assets/img/home/howicon1.webp" />
                                             <p className="h6 mt-3 mb-1">Create a RemitAssure<br></br> account</p>
                                             <p className="h6  mb-0 mb-lg-0">Provide some personal information and sign up online or via the RemitAssure app.</p>
                                         </div>
@@ -898,7 +898,7 @@ const Home = () => {
                                         <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2004">
 
                                             <div className="inner-circle1"><label>Step <b>2</b></label><img src="assets/img/home/dot1.png" /></div>
-                                            <img className="how-works-icons" src="assets/img/home/howicon2.svg" />
+                                            <img className="how-works-icons" src="assets/img/home/howicon2.webp" />
                                             <p className="h6 mt-3 mb-1">Verify your <br></br>Identity</p>
                                             <p className="h6  mb-0 mb-lg-0">We verify your identity as part of our AML/CTF obligation. Verifying your identity also helps  safeguard your account against potential fraudulent activities.</p>
                                         </div>
@@ -910,7 +910,7 @@ const Home = () => {
                                         <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2005">
 
                                             <div className="inner-circle1"><label>Step <b>3</b></label><img src="assets/img/home/dot1.png" /></div>
-                                            <img className="how-works-icons" src="assets/img/home/howicon3.svg" />
+                                            <img className="how-works-icons" src="assets/img/home/howicon3.webp" />
                                             <p className="h6 mt-3 mb-1">Enter your <br></br>transaction details</p>
                                             <p className="h6  mb-0 mb-lg-0">Provide some personal information and sign up online or via the RemitAssure app.</p>
                                         </div>
@@ -922,7 +922,7 @@ const Home = () => {
                                         <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2010">
 
                                             <div className="inner-circle1"><label>Step <b>4</b></label><img src="assets/img/home/dot1.png" /></div>
-                                            <img className="how-works-icons" src="assets/img/home/howicon4.svg" />
+                                            <img className="how-works-icons" src="assets/img/home/howicon4.webp" />
                                             <p className="h6 mt-3 mb-1">Pay for your<br></br> transaction</p>
                                             <p className="h6 mb-0 mb-lg-0">We offer different payment rails for our customers. You can pay through: PayID , PayTo Agreements.</p>
                                         </div>
