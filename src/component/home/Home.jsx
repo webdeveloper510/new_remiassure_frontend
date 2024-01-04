@@ -485,12 +485,12 @@ const Home = () => {
                             <ul className="hero-btn" id="pa">
                                 <li>
                                     <Link to={"/send-money"} className="Get-start">
-                                        Get <b>Started</b> <img src="assets/img/home/Union.svg" />
+                                        Get <b>Started</b> <img src="assets/img/home/Union.svg"  alt="logo" />
                                     </Link>
                                 </li>
                                 <li>
                                     <a onClick={() => exchangeRateClick()} style={{ cursor: "pointer" }} className="exchangebtn" >
-                                        Exchange <b>rate</b> <img src="assets/img/home/Black.png" className="hover-none" />
+                                        Exchange <b>rate</b> <img src="assets/img/home/Black.png" className="hover-none" alt="logo"/>
                                         <img src="assets/img/home/pink.svg" className="hover-img" />
                                     </a>
                                 </li>
@@ -500,12 +500,12 @@ const Home = () => {
                                     <ul className="playstoreicon">
                                         <li>
                                             <a href="https://apps.apple.com/us/app/remitassure/id6451420844" target="_blank">
-                                                <img src="assets/img/home/apple.svg" />
+                                                <img src="assets/img/home/apple.svg" alt="logo"/>
                                             </a>
                                         </li>
                                         <li>
                                             <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank">
-                                                <img src="assets/img/home/google.svg" />
+                                                <img src="assets/img/home/google.svg" alt="logo"/>
                                             </a>
                                         </li>
                                     </ul>
@@ -546,7 +546,7 @@ const Home = () => {
                                         <img src="assets/img/home/phone.svg" alt="background-images" />
                                     </div>
                                     <div className="col-md-4 libuttons">
-                                        <ul class="playstoreicon"><li><a href="https://apps.apple.com/us/app/remitassure/id6451420844"><img src="assets/img/home/apple.svg" /></a></li><li><a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"><img src="assets/img/home/google.svg" /></a></li></ul>
+                                        <ul class="playstoreicon"><li><a href="https://apps.apple.com/us/app/remitassure/id6451420844"><img src="assets/img/home/apple.svg" alt="logo" /></a></li><li><a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"><img src="assets/img/home/google.svg"  alt="logo"/></a></li></ul>
                                     </div>
                                 </div>
                             </div>
@@ -557,7 +557,7 @@ const Home = () => {
             <div className="get-started">
                 <li>
                     <Link to={"/send-money"} className="Get-start mobile-btn">
-                        Get <b>Started</b> <img src="assets/img/home/Union.svg" />
+                        Get <b>Started</b> <img src="assets/img/home/Union.svg" alt="logo" />
                     </Link>
                 </li>
             </div>
@@ -702,7 +702,7 @@ const Home = () => {
                                                                 </div>
                                                             </div>
                                                         </> : <></>}
-                                                        <img src="assets/img/home/Black1.png" />
+                                                        <img src="assets/img/home/Black1.png" alt="logo"/>
                                                     </button>
                                                     <button
                                                         type="button"
@@ -728,7 +728,7 @@ const Home = () => {
                                                                 </div>
                                                             </div>
                                                         </> : <></>}
-                                                        <img src="assets/img/home/Black1.png" />
+                                                        <img src="assets/img/home/Black1.png"  alt="logo"/>
                                                     </button>
 
 
@@ -885,8 +885,8 @@ const Home = () => {
                                     <div className="timeline-step step1bg">
                                         <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
 
-                                            <div className="inner-circle1"><label>Step <b>1</b></label><img src="assets/img/home/dot1.png" /></div>
-                                            <img className="how-works-icons" src="assets/img/home/howicon1.webp" />
+                                            <div className="inner-circle1"><label>Step <b>1</b></label><img src="assets/img/home/dot1.png" alt="logo"/></div>
+                                            <img className="how-works-icons" src="assets/img/home/howicon1.webp" alt="logo" />
                                             <p className="h6 mt-3 mb-1">Create a RemitAssure<br></br> account</p>
                                             <p className="h6  mb-0 mb-lg-0">Provide some personal information and sign up online or via the RemitAssure app.</p>
                                         </div>
@@ -897,8 +897,8 @@ const Home = () => {
                                     <div className="timeline-step">
                                         <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2004">
 
-                                            <div className="inner-circle1"><label>Step <b>2</b></label><img src="assets/img/home/dot1.png" /></div>
-                                            <img className="how-works-icons" src="assets/img/home/howicon2.webp" />
+                                            <div className="inner-circle1"><label>Step <b>2</b></label><img src="assets/img/home/dot1.png" alt="logo" /></div>
+                                            <img className="how-works-icons" src="assets/img/home/howicon2.webp"  alt="logo"/>
                                             <p className="h6 mt-3 mb-1">Verify your <br></br>Identity</p>
                                             <p className="h6  mb-0 mb-lg-0">We verify your identity as part of our AML/CTF obligation. Verifying your identity also helps  safeguard your account against potential fraudulent activities.</p>
                                         </div>
@@ -909,8 +909,8 @@ const Home = () => {
                                     <div className="timeline-step step3bg">
                                         <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2005">
 
-                                            <div className="inner-circle1"><label>Step <b>3</b></label><img src="assets/img/home/dot1.png" /></div>
-                                            <img className="how-works-icons" src="assets/img/home/howicon3.webp" />
+                                            <div className="inner-circle1"><label>Step <b>3</b></label><img src="assets/img/home/dot1.png" alt="logo" /></div>
+                                            <img className="how-works-icons" src="assets/img/home/howicon3.webp" alt="logo"/>
                                             <p className="h6 mt-3 mb-1">Enter your <br></br>transaction details</p>
                                             <p className="h6  mb-0 mb-lg-0">Provide some personal information and sign up online or via the RemitAssure app.</p>
                                         </div>
@@ -921,8 +921,8 @@ const Home = () => {
                                     <div className="timeline-step">
                                         <div className="timeline-contents" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2010">
 
-                                            <div className="inner-circle1"><label>Step <b>4</b></label><img src="assets/img/home/dot1.png" /></div>
-                                            <img className="how-works-icons" src="assets/img/home/howicon4.webp" />
+                                            <div className="inner-circle1"><label>Step <b>4</b></label><img src="assets/img/home/dot1.png" alt="logo"/></div>
+                                            <img className="how-works-icons" src="assets/img/home/howicon4.webp" alt="logo" />
                                             <p className="h6 mt-3 mb-1">Pay for your<br></br> transaction</p>
                                             <p className="h6 mb-0 mb-lg-0">We offer different payment rails for our customers. You can pay through: PayID , PayTo Agreements.</p>
                                         </div>
@@ -960,7 +960,7 @@ const Home = () => {
                                 </div>
                                 <div className="contant-img">
                                     <div className="icon-img">
-                                        <img src="assets/img/home/blueicon.png" />
+                                        <img src="assets/img/home/blueicon.png" alt="logo" />
                                     </div>
 
                                     <h4 className="content-heading">
@@ -983,7 +983,7 @@ const Home = () => {
                                             </div>
                                             <div className="contant-img right-aligned">
                                                 <div className="icon-img pink">
-                                                    <img src="assets/img/home/pinkicon.png" />
+                                                    <img src="assets/img/home/pinkicon.png" alt="logo"/>
                                                 </div>
 
                                                 <h4 className="content-heading">
@@ -1010,7 +1010,7 @@ const Home = () => {
                                             <div className="bottom-aligend">
                                                 <div className="iconandcon">
                                                     <div className="icon-img skyicon">
-                                                        <img src="assets/img/home/skyicon.png" />
+                                                        <img src="assets/img/home/skyicon.png" alt="logo"/>
 
                                                     </div>
                                                     <h4 className="content-heading">
@@ -1096,7 +1096,7 @@ const Home = () => {
                             </p>
                             <div class="col-md-12 mobile-only ">
                                 <div class="leftt-img">
-                                    <img src="assets/img/home/Download-our-App 1.webp" />
+                                    <img src="assets/img/home/Download-our-App 1.webp" alt="logo" />
 
                                 </div>
                             </div>
@@ -1139,7 +1139,7 @@ const Home = () => {
                         </div>
                         <div class="col-md-6 col-lg-6  desktop_only">
                             <div class="leftt-img">
-                                <img src="assets/img/home/Download-our-App 1.webp" />
+                                <img src="assets/img/home/Download-our-App 1.webp" alt="logo" />
 
                             </div>
                         </div>

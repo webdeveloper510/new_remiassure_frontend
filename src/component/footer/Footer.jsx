@@ -245,7 +245,7 @@ const Footer = () => {
                                             <input type="text" name="name" placeholder="Email address" />
                                         </div>
                                         <div class="button-new">
-                                            <div class="btn-con "><button><img src="assets/img/home/nextsli.png" /></button></div>
+                                            <div class="btn-con "><button><img src="assets/img/home/nextsli.png" alt="logo" /></button></div>
                                         </div>
                                     </div>
                                     {/* <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p> */}
@@ -260,13 +260,13 @@ const Footer = () => {
 
                         <div className="footer-info1 footer-last-logo mobile--logo">
                             <div className="icon-ffoter">
-                                <img src="assets/img/home/footer-logo.webp" className="logo-foo" />
+                                <img src="assets/img/home/footer-logo.webp" className="logo-foo" alt="logo" />
 
 
                             </div>
                         </div>
                         <div onClick={() => toggleAccordion(0)}>
-                            <h4>Quick Links  {accordionOpen === 0 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" />} </h4>
+                            <h4>Quick Links  {accordionOpen === 0 ? <img src="assets/img/home/up.png"  alt="logo"/> : <img src="assets/img/home/down.png"  alt="logo"/>} </h4>
                         </div>
                         {accordionOpen === 0 && (
                             <ul>
@@ -279,7 +279,7 @@ const Footer = () => {
                         )}
 
                         <div onClick={() => toggleAccordion(1)}>
-                            <h4>Company {accordionOpen === 1 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" />}</h4>
+                            <h4>Company {accordionOpen === 1 ? <img src="assets/img/home/up.png" alt="logo"/> : <img src="assets/img/home/down.png" alt="logo"/>}</h4>
                         </div>
                         {accordionOpen === 1 && (
                             <ul>
@@ -297,7 +297,7 @@ const Footer = () => {
 
 
                         <div onClick={() => toggleAccordion(2)}>
-                            <h4>Legal {accordionOpen === 2 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" />}</h4>
+                            <h4>Legal {accordionOpen === 2 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" alt="logo"/>}</h4>
                         </div>
                         {accordionOpen === 2 && (
                             <ul>
@@ -309,7 +309,7 @@ const Footer = () => {
 
 
                         <div onClick={() => toggleAccordion(3)}>
-                            <h4>Join our newsletter {accordionOpen === 2 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" />}</h4>
+                            <h4>Join our newsletter {accordionOpen === 2 ? <img src="assets/img/home/up.png" alt="logo"/> : <img src="assets/img/home/down.png" alt="logo"/>}</h4>
                         </div>
                         {accordionOpen === 3 && (
                             <div className="newsletterform">
@@ -318,7 +318,7 @@ const Footer = () => {
                                         <input type="text" name="name" placeholder="Email address" />
                                     </div>
                                     <div class="button-new">
-                                        <div class="btn-con "><button><img src="assets/img/home/nextsli.png" /></button></div>
+                                        <div class="btn-con "><button><img src="assets/img/home/nextsli.png" alt="logo" /></button></div>
                                     </div>
                                 </div>
                                 {/* <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p> */}
@@ -343,7 +343,7 @@ const Footer = () => {
 
                                 <div className="footer-info1 center-content">
                                     <div className="icon-ffoter">
-                                        <img src="assets/img/home/footer2.png" />
+                                        <img src="assets/img/home/footer2.png" alt="logo"/>
 
 
                                     </div>
@@ -357,7 +357,7 @@ const Footer = () => {
                             <div className="col-md-4">
                                 <div className="footer-info1 right-content">
                                     <div className="icon-ffoter">
-                                        <img src="assets/img/home/footer3.png" />
+                                        <img src="assets/img/home/footer3.png" alt="logo"/>
 
 
                                     </div>
@@ -379,7 +379,7 @@ const Footer = () => {
                             <div className="col-md-4">
                                 <div className="footer-info1 footer-last-logo desktop-onlyy">
                                     <div className="icon-ffoter">
-                                        <img src="assets/img/home/footer-logo.webp" className="logo-foo" />
+                                        <img src="assets/img/home/footer-logo.webp" className="logo-foo" alt="logo" />
 
 
                                     </div>
@@ -410,10 +410,10 @@ const Footer = () => {
                                 <div className="footer-info1 right-content">
                                     <div className="icon-ffoter">
                                         <div className="social-links ">
-                                            <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/twiter.svg" /></a>
-                                            <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook.svg" /></a>
-                                            <a class="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/"><img src="assets/img/home/ig.svg" /></a>
-                                            <a className="instagram" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/home/Linkedin Logo.svg" /></a>
+                                            <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/twiter.svg" alt="logo"/></a>
+                                            <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook.svg" alt="logo"/></a>
+                                            <a class="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/"><img src="assets/img/home/ig.svg" alt="logo"/></a>
+                                            <a className="instagram" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/home/Linkedin Logo.svg" alt="logo"/></a>
                                         </div>
                                     </div>
                                 </div>

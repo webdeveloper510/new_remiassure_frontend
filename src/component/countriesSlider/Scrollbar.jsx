@@ -77,8 +77,8 @@ const Scrollbar = ({ handler }) => {
   return (
     <div className="custome-country">
       <div className="custom-button-group country-slider-arrow for-desk">
-        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/skyiconarrow.png" /></button>
-        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/bluearrow.png" /></button>
+        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/skyiconarrow.png" alt="logo"/></button>
+        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/bluearrow.png" alt="logo"/></button>
       </div>
       <Carousel
         ssr={false}
@@ -117,8 +117,8 @@ const Scrollbar = ({ handler }) => {
         })}
       </Carousel>
       <div className="custom-button-group country-slider-arrow for-mobilee">
-        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/skyiconarrow.png" /></button>
-        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/bluearrow.png" /></button>
+        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/skyiconarrow.png" alt="logo"/></button>
+        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/bluearrow.png" alt="logo"/></button>
       </div>
 
     </div>

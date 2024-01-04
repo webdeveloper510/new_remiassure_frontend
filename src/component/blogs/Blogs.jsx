@@ -96,7 +96,7 @@ const Blogs = () => {
                 <div class="image-container-text" draggable={false}>
 				<div className="row">
                   <div className="col-md-12">
-                    <div className="blogimag"><img src={item.author} alt="quote-up" className="bloggim" /></div>
+                    <div className="blogimag"><img src={item.author} alt="quote-up" className="bloggim"  /></div>
                   
                   </div>
                   <div className="date">
@@ -117,7 +117,7 @@ const Blogs = () => {
 </div>
 <div className="Morelink">
 <a href="{item.link}">
-  MORE. <img src="assets/img/home/arrowmore.png">
+  MORE. <img src="assets/img/home/arrowmore.png" alt="logo">
 
   </img>
 </a>
@@ -136,8 +136,8 @@ const Blogs = () => {
       </Carousel>
 
       <div className="custom-button-group">
-        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/arrow1 (1).png"/></button>
-        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/nextsli.png"/></button>
+        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/arrow1 (1).png" alt="logo" /></button>
+        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/nextsli.png" alt="logo"/></button>
       </div>
     </div>
   );
