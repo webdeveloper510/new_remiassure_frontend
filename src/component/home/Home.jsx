@@ -449,6 +449,18 @@ const Home = () => {
         }
     }
 
+    const exchangeRateClick = () => {
+        const targetSectionId = "pay-box";
+        const targetElement = document.getElementById(targetSectionId);
+        console.log("trannnnn", targetElement)
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
+    }
+
     const handleReset = () => {
         setReset(true)
         // exchangeRate({ amount: "1", from: "AUD" })
@@ -477,9 +489,9 @@ const Home = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <a href="#pay-box" className="exchangebtn" >
-                                        Exchange <b>rate</b> <img src="assets/img/home/Black.png" className="hover-none"/>
-                                        <img src="assets/img/home/pink.svg"  className="hover-img"/>
+                                    <a onClick={() => exchangeRateClick()} style={{ cursor: "pointer" }} className="exchangebtn" >
+                                        Exchange <b>rate</b> <img src="assets/img/home/Black.png" className="hover-none" />
+                                        <img src="assets/img/home/pink.svg" className="hover-img" />
                                     </a>
                                 </li>
                             </ul>
@@ -516,31 +528,31 @@ const Home = () => {
                 </div>
             </section>
             <div className="extra-padding">
-            <section className="top_sections mobile-top mobile-only" style={containerStylemobile}>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-6 banner-content">
+                <section className="top_sections mobile-top mobile-only" style={containerStylemobile}>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-6 banner-content">
 
-                            <h1 className="vl-heading">Simple Way <br></br>To <span>Transfer</span> Your <br></br>Money
-                            </h1>
+                                <h1 className="vl-heading">Simple Way <br></br>To <span>Transfer</span> Your <br></br>Money
+                                </h1>
 
-                            <div className="vl-content">
-                                <p className="vl-paragraph">
-                                    We have re-imagined international money transfer to provide reliable, efficient andcost effective services to our customers.
-                                </p>
-                            </div>
-                            <div className="row">
-                                <div className="col-lg-8 right_sections">
-                                    <img src="assets/img/home/phone.svg" alt="background-images" />
+                                <div className="vl-content">
+                                    <p className="vl-paragraph">
+                                        We have re-imagined international money transfer to provide reliable, efficient andcost effective services to our customers.
+                                    </p>
                                 </div>
-                                <div className="col-md-4 libuttons">
-                                    <ul class="playstoreicon"><li><a href="https://apps.apple.com/us/app/remitassure/id6451420844"><img src="assets/img/home/apple.svg" /></a></li><li><a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"><img src="assets/img/home/google.svg" /></a></li></ul>
+                                <div className="row">
+                                    <div className="col-lg-8 right_sections">
+                                        <img src="assets/img/home/phone.svg" alt="background-images" />
+                                    </div>
+                                    <div className="col-md-4 libuttons">
+                                        <ul class="playstoreicon"><li><a href="https://apps.apple.com/us/app/remitassure/id6451420844"><img src="assets/img/home/apple.svg" /></a></li><li><a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"><img src="assets/img/home/google.svg" /></a></li></ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
             </div>
             <div className="get-started">
                 <li>
@@ -550,9 +562,9 @@ const Home = () => {
                 </li>
             </div>
 
-<div className="" id="pay-box">
+            <div className="" id="pay-box">
 
-</div>
+            </div>
             <section class="payment-box" id="payment-box">
 
                 <div class="container">
@@ -679,7 +691,7 @@ const Home = () => {
                                                 </div>
 
                                                 <div className="col-md-6 flexx">
-                                                <button
+                                                    <button
                                                         type="submit"
                                                         className="btn btn continue-button mobile-only"
                                                     >
@@ -1033,10 +1045,10 @@ const Home = () => {
 
                                 <div class="bottom-content border-none">
                                     <div className="free-acc">
-                                <FreeTransctions/>
+                                        <FreeTransctions />
+                                    </div>
+
                                 </div>
-                                  
-</div>
 
 
 
@@ -1082,12 +1094,12 @@ const Home = () => {
                             </div>
                             <p className="text-bottom">Download our app for quick and convenient transactions allowing you to send money securely, track transfers effortlessly, and enjoy a seamless financial journey on the go.
                             </p>
-							  <div class="col-md-12 mobile-only ">
-                            <div class="leftt-img">
-                                <img src="assets/img/home/Download-our-App 1.webp" />
+                            <div class="col-md-12 mobile-only ">
+                                <div class="leftt-img">
+                                    <img src="assets/img/home/Download-our-App 1.webp" />
 
+                                </div>
                             </div>
-                        </div>
                             <div class="row margintop-40">
                                 <div class="col-md-6 col-sm-6 sc-div">
                                     <div class="scaner-code">
