@@ -1084,7 +1084,7 @@ const Home = () => {
                             </p>
 							  <div class="col-md-12 mobile-only ">
                             <div class="leftt-img">
-                                <img src="assets/img/home/Download-our-App 1.png" />
+                                <img src="assets/img/home/Download-our-App 1.webp" />
 
                             </div>
                         </div>
@@ -1127,7 +1127,7 @@ const Home = () => {
                         </div>
                         <div class="col-md-6 col-lg-6  desktop_only">
                             <div class="leftt-img">
-                                <img src="assets/img/home/Download-our-App 1.png" />
+                                <img src="assets/img/home/Download-our-App 1.webp" />
 
                             </div>
                         </div>

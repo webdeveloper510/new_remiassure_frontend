@@ -12,7 +12,7 @@ import '../../assets/vendor/bootstrap-icons/bootstrap-icons.css';
 import '../../assets/vendor/boxicons/css/boxicons.min.css';
 import '../../assets/vendor/glightbox/css/glightbox.min.css';
 import '../../assets/vendor/swiper/swiper-bundle.min.css';
-import logo from '../../assets/img/home/logo.svg';
+import logo from '../../assets/img/home/logo.webp';
 
 // Main CSS File
 import '../../assets/css/global.css';

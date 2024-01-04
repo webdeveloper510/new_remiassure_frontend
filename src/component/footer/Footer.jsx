@@ -260,7 +260,7 @@ const Footer = () => {
 
                         <div className="footer-info1 footer-last-logo mobile--logo">
                             <div className="icon-ffoter">
-                                <img src="assets/img/home/footer-logo.png" className="logo-foo" />
+                                <img src="assets/img/home/footer-logo.webp" className="logo-foo" />
 
 
                             </div>
@@ -379,7 +379,7 @@ const Footer = () => {
                             <div className="col-md-4">
                                 <div className="footer-info1 footer-last-logo desktop-onlyy">
                                     <div className="icon-ffoter">
-                                        <img src="assets/img/home/footer-logo.png" className="logo-foo" />
+                                        <img src="assets/img/home/footer-logo.webp" className="logo-foo" />
 
 
                                     </div>

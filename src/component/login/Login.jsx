@@ -224,7 +224,7 @@ const Login = () => {
                             <div className="row">
                                 <div className="col-lg-5">
                                     <div className="sign-image-sec">
-                                        <img src="assets/img/home/signup-left.svg" className="signup" alt="alt_image" />
+                                        <img src="assets/img/home/signup-left.webp" className="signup" alt="alt_image" />
                                     </div>
                                 </div>
                                 <div className="col-lg-7 d-flex align-items-center">
