@@ -4691,7 +4691,7 @@ img.quotup_icons {
 }
 
 .top_sections {
-  background-image: url(../img/home/top-banner.png);
+  background-image: url(../img/home/banner.webp);
   background-repeat: no-repeat;
   background-size: 92% 100%;
   padding: 0px;
@@ -8843,6 +8843,9 @@ h3.title-help a {
     top: 8px;
     padding: 13px;
   }
+  .partners img {
+    width: 100% !important;
+}
   .mobile-top .right_sections img
   {
     margin-top: 0px !important;
