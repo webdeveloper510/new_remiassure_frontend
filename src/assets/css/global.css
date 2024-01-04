@@ -1125,7 +1125,7 @@ span.bigtext {
 section.why-us_section.homepage-why-us.hows-section.Download-P {
     padding-top: 60px !IMPORTANT;
 
-    background-image:url('../img/home/zigzag.png');
+    background-image:url('../img/home/zigzag.webp');
     background-repeat: no-repeat;
     background-position: right;
     background-size: contain;
@@ -1324,7 +1324,7 @@ h3.sub-heading {
 
 
 body.aboutus-page,body.bg-image {
-    background-image:url('../img/home/page-bg.png'); 
+    background-image:url('../img/home/page-bg.webp'); 
     background-size: 400px;
     background-repeat: no-repeat;
     background-position: top right;
@@ -3079,7 +3079,7 @@ span.bigtext {
 section.why-us_section.homepage-why-us.hows-section.Download-P {
     padding-top: 60px !IMPORTANT;
 
-    background-image:url('../img/home/zigzag.png');
+    background-image:url('../img/home/zigzag.webp');
     background-repeat: no-repeat;
     background-position: right;
     background-size: contain;
@@ -3278,7 +3278,7 @@ h3.sub-heading {
 
 
 body.aboutus-page,body.bg-image {
-    background-image:url('../img/home/page-bg.png'); 
+    background-image:url('../img/home/page-bg.webp'); 
     background-size: 400px;
     background-repeat: no-repeat;
     background-position: top right;
@@ -3997,7 +3997,7 @@ background: transparent !important;
         float: left;
     width: 100%;
     }
-    .accordion-button:not(.collapsed)::before, .active.accordion-item .accordion-button::before
+    .free-acc .accordion-button:not(.collapsed)::before, .free-acc .active.accordion-item .accordion-button::before
     {
         content: "-";
         color: #FD696C;
@@ -4017,4 +4017,7 @@ background: transparent !important;
     }
     .free-acc h2.accordion-header button:hover{
         box-shadow: none !important;
+    }
+    .partners img {
+        width: 50% !important;
     }

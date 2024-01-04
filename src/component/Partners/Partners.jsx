@@ -28,22 +28,22 @@ const Partners = () => {
  const items = [
       {
       
-        image: "assets/img/home/amazon.svg",
+        image: "assets/img/home/amazon.webp",
        
       },   {
-        image: "assets/img/home/vriff.svg",
+        image: "assets/img/home/vriff.webp",
       },
       {
-        image: "assets/img/home/com.svg",
+        image: "assets/img/home/com.webp",
       },
       {
-        image: "assets/img/home/fraud.svg",
+        image: "assets/img/home/fraud.webp",
       },
       {
-        image: "assets/img/home/ss.svg",
+        image: "assets/img/home/ss.webp",
       },
       {
-        image: "assets/img/home/go.svg",
+        image: "assets/img/home/go.webp",
       },
     
      
