@@ -265,20 +265,6 @@ a.Get-start:before {
     top: 12px;
 }
 
-/* ul.hero-btn li a.Get-start:after {
-    position: absolute;
-    content: '';
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    -moz-border-radius: 7.5px;
-    -webkit-border-radius: 7.5px;
-    border-radius: 100px;
-    background-color: #fff;
-    right: -13px;
-    top: 12px;
-} */
-
 .money-exchange-box {
     background-color: #fd696c;
     box-shadow: 0px 4px 94px 0px rgba(217, 84, 108, 0.32);
@@ -408,11 +394,8 @@ button.btn.btn.reset-button {
     background: #fff !important;
 }
 .partners-section {
-   
-    text-align: center;
-   
-}
-
+text-align: center;
+   }
 .partners-section h1 {
     font-family: var(--font-SubHeding) !important;
     font-size: 43px;
@@ -420,7 +403,6 @@ button.btn.btn.reset-button {
     font-weight: 600;
     margin-bottom: 20px;
 }
-
 .partners-section p {
     font-family: var(--font-Text) !important;
     font-size: 17px;
@@ -467,12 +449,9 @@ section.why-us_section.homepage-why-us .vl-paragraph p {
     font-size: 17px;
     font-weight:400;
 }
-
-
 .dark_box_bg {
     width: 100%;
-
-    background-color: #6515E9;
+   background-color: #6515E9;
     background-image:url('../img/home/mask.webp') !important;
     background-repeat: no-repeat;
     background-position: right 7px;
@@ -545,8 +524,6 @@ section.why-us_section.homepage-why-us .vl-paragraph p {
 .banner_section01 .react-multiple-carousel__arrow--right:hover::before{
     content:url('../img/home/arrowbr.png');
 }
-
-
 .flags-container {
     background: #6515E9;
     border-radius: 20px;
@@ -583,7 +560,6 @@ section.why-us_section.homepage-why-us .vl-paragraph p {
     content:url('../img/home/flags-arrow.png');
     right: -33px;
     top: 40px;
-
 }
 
 .banner_section01 button.react-multiple-carousel__arrow--right, .banner_section01 button.react-multiple-carousel__arrow--left{
@@ -661,6 +637,27 @@ display: none;
     .bottom-footer .col-md-4 {
         width: 100%;
     }
+    .arrow-sy.mobile-only.center-arr {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .testimonail .col-md-4.img-con {
+        margin: 0 auto !important;
+        margin-bottom: 40px !important;
+
+    }
+    .testimonail .col-md-8 {
+        width: 100% !important;
+        
+    }
+    .testimonail .col-md-4{
+        width: 100% !important;
+        
+    }
+    
+    .testimonail .col-md-4.img-con {
+        margin-bottom: 40px;
+    }
     .email-phone.invalid {
         border: none !important;
     }
@@ -723,10 +720,7 @@ button.btn.btn.reset-button {
 }
 }
 @media (min-width:768px) {
-
-       
-
-    .timeline-steps::after {
+.timeline-steps::after {
         content:"";
         margin: auto;
         position: absolute;
@@ -748,17 +742,7 @@ button.btn.btn.reset-button {
 {
     display: none;
 }
-    
-    
-    /* .timeline-steps .timeline-step:not(:last-child):after {
-        content: "";
-        display: block;
-        border-top: 3px solid #190079;
-        width: 107%;
-        position: absolute;
-        left: 10rem;
-        top: -62px;
-    } */
+
     .timeline-steps .timeline-step:not(:first-child):before {
         content:url('../img/home/timeline-arrow.png');
         display: block;
@@ -870,9 +854,6 @@ button.btn.btn.reset-button {
     top: -46px;
     background: none;
 }
-/* .timeline-step:first-child .inner-circle1:before , .timeline-step:last-child .inner-circle1:before{
-    display:none;
-} */
 
 h1.vl-heading.left-align {
     text-align: left !important;
@@ -930,8 +911,6 @@ h1.vl-heading.left-align {
     width: 95% !important;
     margin: 0 auto !important;
 }
-
-
 .inner-circle-stapes {
     text-align: center;
     margin-bottom: 10px;
@@ -977,8 +956,6 @@ b.color-sp {
     align-items: center;
     justify-content: center;
 }
-
-
 .contant-img p {
     color: #040A2E !important;
     text-align: left;
@@ -991,8 +968,6 @@ p.number {
     font-weight: bold;
     font-size: 20px !important;
 }
-
-
 .marauto {
     margin: 0 auto;
 }
@@ -1000,7 +975,6 @@ p.number {
 .margintop .contant-img {
     top: 33px;
 }
-
 .contant-img.right-aligned {
     right: 15px;
     left: auto;

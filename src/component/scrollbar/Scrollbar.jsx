@@ -28,34 +28,34 @@ const Scrollbar = () => {
   const items = [
     {
       name: "Peter Willson",
-      author: "assets/img/home/image 96 (1).png",
+      author: "assets/img/home/test2.webp",
       heading: "Best on the market",
       image: "assets/img/referral/Group_star1.png",
       paragraph: 'I absolutely love this platform. Its so easy and user- friendly. Though my first time, it felt like second nature using it to transfer funds.I highly recommend it to anyone seeking a reliable and efficient money transfer service.'
     }, {
       name: "Peter Willson",
-      author: "assets/img/home/image 96 (1).png",
+      author: "assets/img/home/test2.webp",
       heading: "Best on the market ",
       image: "assets/img/referral/Group_star1.png",
       paragraph: 'I have tried various international money transfer services, but RemitAssure truly stands out. Its user-friendly and the service is seamless. I certainly will use RemitAssure again.'
     }, {
 
-      author: "assets/img/home/image 96 (1).png",
+      author: "assets/img/home/test2.webp",
       heading: "Best on the market",
       image: "assets/img/referral/Group_star.png",
       paragraph: 'RemitAssure is an execellent platform to use. I was taken aback by the speed at which my transfer was completed. It certainly beat my expectation'
     }, {
-      author: "assets/img/home/image 96 (1).png",
+      author: "assets/img/home/test2.webp",
       heading: "Best on the market",
       image: "assets/img/referral/Group_star2.png",
       paragraph: 'RemitAssures exchange rates are amazing, certainly the best I have seen. For such an efficient and user-friendly service, they are are certainly value for money'
     }, {
-      author: "assets/img/home/image 96 (1).png",
+      author: "assets/img/home/test2.webp",
       heading: "Best on the market",
       image: "assets/img/referral/Group_star.png",
       paragraph: 'I have tried several money transfer services, but RemitAssure has won me over.Their platform is easy to navigate, making the entire process smooth and hassle- free.RemitAssure has become my go - to choice for sending money internationally.'
     }, {
-      author: "assets/img/home/image 96 (1).png",
+      author: "assets/img/home/test2.webp",
       heading: "Best on the market",
       image: "assets/img/referral/Group_star1.png",
       paragraph: 'I especially love the rigour of this platform and its focus on security and fraud prevention. Once onbaorded, one feels like this is a platform to be trusted for secure money transfer'
@@ -102,16 +102,21 @@ const Scrollbar = () => {
 
               <div class="image-container-text" draggable={false}>
                 <div className="row">
-                  <div className="arrow-sy">
-                    <img src="assets/img/home/qote.webp">
+                  <div className="arrow-sy desktop-only">
+                    <img src="assets/img/home/qote.webp" alt="qt">
 
                     </img>
                   </div>
 
-                  {/*<div className="col-md-4 img-con">
+                  <div className="col-md-4 img-con">
                   <img src={item.author} alt="quote-up" className="authrimg" />
-          </div>*/}
-                  <div className="col-md-12 center-text-test">
+          </div>
+          <div className="arrow-sy mobile-only center-arr">
+                    <img src="assets/img/home/qote.webp" alt="qt">
+
+                    </img>
+                  </div>
+                  <div className="col-md-8 center-text-test">
                     {/*<h2 className="author-name">{item.name}</h2> */}
                     <p className="material-heading fw-light">{item.paragraph}</p>
                     <img src={item.image} alt="quote-up" className="testimonial-rating" />

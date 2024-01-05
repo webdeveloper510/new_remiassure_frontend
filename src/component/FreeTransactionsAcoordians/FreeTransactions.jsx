@@ -48,7 +48,7 @@ const FreeTransctions = () => {
           )
         })
         return (
-          <Accordion className="">
+          <Accordion activeKey={activeIndex}>
             {accordionItems}
           </Accordion>
         )

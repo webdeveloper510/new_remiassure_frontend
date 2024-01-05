@@ -329,7 +329,7 @@ const Footer = () => {
                             <div className="col-md-4">
                                 <div className="footer-info1 footer-logo">
                                     <div className="icon-ffoter ">
-                                        <img src="assets/img/home/mail.png" />
+                                        <img src="assets/img/home/mail.png" alt="qqt"/>
 
                                     </div>
                                     <div className="infor-content">
