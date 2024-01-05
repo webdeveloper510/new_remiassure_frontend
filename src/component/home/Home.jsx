@@ -557,11 +557,13 @@ const Home = () => {
                 </section>
             </div>
             <div className="get-started">
+                <ul>
                 <li>
                     <Link to={"/user-send-money"} className="Get-start mobile-btn">
                         Get <b>Started</b> <img src="assets/img/home/Union.svg" alt="logo" />
                     </Link>
                 </li>
+                </ul>
             </div>
 
             <div className="" id="pay-box">
@@ -958,7 +960,7 @@ const Home = () => {
                         <div className="col-lg-7  col-sm-7 text-end">
                             <div className="images-1 images-1 col-md-8 marauto">
                                 <div className="image1">
-                                    <img src="assets/img/home/free1.webp" alt="background-images" />
+                                    <img src="assets/img/home/free1.webp" alt="background-images" width="100%" height="100%" />
                                 </div>
                                 <div className="contant-img">
                                     <div className="icon-img">
@@ -981,7 +983,7 @@ const Home = () => {
                                     <div class="col-lg-8 col-sm-8 margintop">
                                         <div className="images-1 ">
                                             <div className="image1">
-                                                <img src="assets/img/home/img2.webp" alt="background-images" class="dd" />
+                                                <img src="assets/img/home/img2.webp" alt="background-images" class="dd"width="100%" height="100%" />
                                             </div>
                                             <div className="contant-img right-aligned">
                                                 <div className="icon-img pink">
@@ -1007,7 +1009,7 @@ const Home = () => {
                                     <div class="col-lg-4 col-sm-4 margintop">
                                         <div className="images-1 ">
                                             <div className="image1">
-                                                <img src="assets/img/home/women.webp" alt="background-images" class="dd" />
+                                                <img src="assets/img/home/women.webp" alt="background-images" class="dd" width="100%" height="100%" />
                                             </div>
                                             <div className="bottom-aligend">
                                                 <div className="iconandcon">
