@@ -555,11 +555,13 @@ const Home = () => {
                 </section>
             </div>
             <div className="get-started">
+                <ul>
                 <li>
                     <Link to={"/send-money"} className="Get-start mobile-btn">
                         Get <b>Started</b> <img src="assets/img/home/Union.svg" alt="logo" />
                     </Link>
                 </li>
+                </ul>
             </div>
 
             <div className="" id="pay-box">
