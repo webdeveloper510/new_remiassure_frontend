@@ -152,7 +152,7 @@ const Header = () => {
           }
 
 
-          <img src="assets/img/home/mobilemenu.png" onClick={mobilemenuShow} className="mobile-btn" />
+          <img src="assets/img/home/mobilemenu.png" onClick={mobilemenuShow} className="mobile-btn" alt="mobile" />
 
           <Offcanvas show={show} onHide={handleClose}>
             <Offcanvas.Header closeButton>
