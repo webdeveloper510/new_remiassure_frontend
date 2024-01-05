@@ -136,8 +136,8 @@ const Blogs = () => {
       </Carousel>
 
       <div className="custom-button-group">
-        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/arrow1 (1).png" alt="logo" /></button>
-        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/nextsli.png" alt="logo"/></button>
+        <button onClick={handlePrev} class="pre-sli" aria-label="Previous Slide"><img src="assets/img/home/arrow1 (1).png" alt="logo"  /></button>
+        <button onClick={handleNext} class="next-sli" aria-label="next Slide"><img src="assets/img/home/nextsli.png" alt="logo"/></button>
       </div>
     </div>
   );
