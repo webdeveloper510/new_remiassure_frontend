@@ -47,6 +47,8 @@ const BankDetails = ({ handleStep, step }) => {
     post_code: "", state: "", country: "", country_code: "AU"
   }
 
+  const [phone_code, setPhoneCode] = useState("")
+
   const handleToggle = () => {
     setActive(!isActive);
   };
@@ -120,6 +122,11 @@ const BankDetails = ({ handleStep, step }) => {
         delete d['postcode'];
       }
 
+      let mno;
+      if (phone_code.length > 2) mno = d.mobile.substring(3)
+      else mno = d.mobile.substring(2)
+      d.mobile = phone_code + parseInt(mno, 10)
+
       axios.post(`${serverUrl}/payment/recipient-create/`, d, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -169,6 +176,7 @@ const BankDetails = ({ handleStep, step }) => {
     formik.setFieldValue('mobile', e);
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
+    setPhoneCode(coun.dailCode)
     setData({ ...data, country: coun.name, mobile: e })
   }
 

@@ -13,7 +13,7 @@ function AuthDashProtect({ children }) {
   if (auth) {
     return <Navigate to={children} />;
   }
-  return <Navigate to="/send-money" />;
+  return <Navigate to="/dashboard" />;
 }
 AuthProtect.propTypes = {
   children: PropTypes.string

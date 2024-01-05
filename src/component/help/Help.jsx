@@ -17,8 +17,6 @@ const Help = () => {
     let token = localStorage.getItem('token')
     if (token && (user?.digital_id_verified === "True" || user?.digital_id_verified === "true")) {
       return `/user-send-money`
-    } else if (token && (user?.digital_id_verified === "False" || user?.digital_id_verified === "false")) {
-      return "/send-money"
     } else {
       return "/login"
     }
@@ -174,7 +172,7 @@ const Help = () => {
       return (
         <Accordion.Item eventKey={index} className={`my-3 help-accordian`}>
 
-        <Accordion.Header onClick={() => handleAccordionToggle(index)}>   <p className="icon-acc"></p>  <div className="faq-div"> {value.title}</div></Accordion.Header>
+          <Accordion.Header onClick={() => handleAccordionToggle(index)}>   <p className="icon-acc"></p>  <div className="faq-div"> {value.title}</div></Accordion.Header>
 
           <Accordion.Body>
             {value.content}

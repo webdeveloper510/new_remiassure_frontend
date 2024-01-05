@@ -43,12 +43,7 @@ const ForgotPassword = () => {
 
     useEffect(() => {
         if (localStorage.getItem("token") && localStorage.getItem("remi-user-dt")) {
-            let user = JSON.parse(localStorage.getItem("remi-user-dt"));
-            if (user?.digital_id_verified && user.digital_id_verified === "true") {
-                navigate("/dashboard")
-            } else {
-                navigate("/send-money")
-            }
+            navigate("/dashboard")
         }
     }, [])
 

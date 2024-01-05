@@ -42,6 +42,8 @@ const Addnewrecipient = () => {
     postcode: "", state: "", country: ""
   }
 
+  const [phone_code, setPhone_code] = useState("")
+
 
   useEffect(() => {
     const value = data.country !== "" ? data.country : countryList[0]?.name
@@ -138,7 +140,12 @@ const Addnewrecipient = () => {
       if (d.middle_name === "" || d.middle_name === undefined || d.middle_name === " ") {
         delete d['middle_name'];
       }
-      createRecipient({ ...d, country_code: data.country_code }).then((res) => {
+      let mno;
+      if (phone_code.length > 2) mno = d.mobile.substring(3);
+      else mno = d.mobile.substring(2);
+      const mobileNumber = parseInt(mno, 10);
+
+      createRecipient({ ...d, mobile: phone_code + mobileNumber, country_code: data.country_code }).then((res) => {
         if (res.code === "200") {
           toast.success("Successfuly added new recipient", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
           setTimeout(() => {
@@ -162,6 +169,7 @@ const Addnewrecipient = () => {
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
     setData({ ...data, country: coun.name, mobile: e })
+    setPhone_code(coun.dialCode)
   }
 
   const handleChange = (e) => {

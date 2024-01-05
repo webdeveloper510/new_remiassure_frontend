@@ -74,12 +74,7 @@ const App = () => {
 
     if (p[1] == "login" || p[1] == "sign-up" || p[1] == "verification" || p[1] == "forgot-password") {
       if (localStorage.getItem("token")) {
-        let user = JSON.parse(localStorage.getItem("remi-user-dt"));
-        if (user?.digital_id_verified && user.digital_id_verified === "true") {
-          navigate("/dashboard")
-        } else {
-          navigate("/send-money")
-        }
+        navigate("/dashboard")
       }
     }
 
