@@ -451,6 +451,7 @@ const Profile = () => {
                       value={data.Date_of_birth}
                       id="dob"
                       onChange={(e) => handleChange(e)}
+                      readOnly={data.Date_of_birth !== "" || null || undefined}
                       // onkeydown={(e) => { e.stopPropagation() }}
                       className={clsx(
                         'form-control bg-transparent',
