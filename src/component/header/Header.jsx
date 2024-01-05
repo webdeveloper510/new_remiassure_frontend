@@ -121,7 +121,7 @@ const Header = () => {
                         ) : (
                           <>
                             <li> <NavLink to="/dashboard">Dashboard</NavLink></li>
-                            <li> <NavLink to="/send-money">Send Money</NavLink></li>
+                            {/* <li> <NavLink to="/send-money">Send Money</NavLink></li> */}
                           </>
                         )
                       }
@@ -194,7 +194,7 @@ const Header = () => {
                             ) : (
                               <>
                                 <li> <NavLink to="/dashboard" onClick={handleClose}>User Dashboard</NavLink></li>
-                                <li> <NavLink to="/send-money" onClick={handleClose}>Send Money</NavLink></li>
+                                {/* <li> <NavLink to="/send-money" onClick={handleClose}>Send Money</NavLink></li> */}
                               </>
                             )
                           }

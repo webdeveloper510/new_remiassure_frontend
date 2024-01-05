@@ -29,6 +29,7 @@ const Editrecipientuser = () => {
     last_name: '', email: '', mobile: '', country: '', flat: "", street: "", postcode: "", building: "",
     city: "", state: "", country_code: "AU"
   });
+  const [phone_code, setPhoneCode] = useState()
 
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
@@ -171,6 +172,11 @@ const Editrecipientuser = () => {
         delete d['postcode'];
       }
       d.country_code = data.country_code
+
+      let mno;
+      if (phone_code.length > 2) mno = d.mobile.substring(3)
+      else mno = d.mobile.substring(2)
+      d.mobile = phone_code + parseInt(mno, 10)
       setLoading(true)
       updateUserRecipient(id, d).then((response) => {
         if (response.code == "200") {
@@ -187,9 +193,7 @@ const Editrecipientuser = () => {
         if (error.response.data.code == "400") {
           toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         }
-
       })
-
     }
   })
 
@@ -285,6 +289,7 @@ const Editrecipientuser = () => {
     formik.setFieldValue('mobile', e);
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
+    setPhoneCode(coun.dialCode)
     setData({ ...data, country: coun.name })
   }
 

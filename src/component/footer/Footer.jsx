@@ -159,8 +159,6 @@ const Footer = () => {
         let token = localStorage.getItem('token')
         if (token && (user?.digital_id_verified === "True" || user?.digital_id_verified === "true")) {
             return `/user-send-money`
-        } else if (token && (user?.digital_id_verified === "False" || user?.digital_id_verified === "false")) {
-            return "/send-money"
         } else {
             return "/login"
         }
@@ -266,7 +264,7 @@ const Footer = () => {
                             </div>
                         </div>
                         <div onClick={() => toggleAccordion(0)}>
-                            <h4>Quick Links  {accordionOpen === 0 ? <img src="assets/img/home/up.png"  alt="logo"/> : <img src="assets/img/home/down.png"  alt="logo"/>} </h4>
+                            <h4>Quick Links  {accordionOpen === 0 ? <img src="assets/img/home/up.png" alt="logo" /> : <img src="assets/img/home/down.png" alt="logo" />} </h4>
                         </div>
                         {accordionOpen === 0 && (
                             <ul>
@@ -279,7 +277,7 @@ const Footer = () => {
                         )}
 
                         <div onClick={() => toggleAccordion(1)}>
-                            <h4>Company {accordionOpen === 1 ? <img src="assets/img/home/up.png" alt="logo"/> : <img src="assets/img/home/down.png" alt="logo"/>}</h4>
+                            <h4>Company {accordionOpen === 1 ? <img src="assets/img/home/up.png" alt="logo" /> : <img src="assets/img/home/down.png" alt="logo" />}</h4>
                         </div>
                         {accordionOpen === 1 && (
                             <ul>
@@ -297,7 +295,7 @@ const Footer = () => {
 
 
                         <div onClick={() => toggleAccordion(2)}>
-                            <h4>Legal {accordionOpen === 2 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" alt="logo"/>}</h4>
+                            <h4>Legal {accordionOpen === 2 ? <img src="assets/img/home/up.png" /> : <img src="assets/img/home/down.png" alt="logo" />}</h4>
                         </div>
                         {accordionOpen === 2 && (
                             <ul>
@@ -309,7 +307,7 @@ const Footer = () => {
 
 
                         <div onClick={() => toggleAccordion(3)}>
-                            <h4>Join our newsletter {accordionOpen === 2 ? <img src="assets/img/home/up.png" alt="logo"/> : <img src="assets/img/home/down.png" alt="logo"/>}</h4>
+                            <h4>Join our newsletter {accordionOpen === 2 ? <img src="assets/img/home/up.png" alt="logo" /> : <img src="assets/img/home/down.png" alt="logo" />}</h4>
                         </div>
                         {accordionOpen === 3 && (
                             <div className="newsletterform">
@@ -343,7 +341,7 @@ const Footer = () => {
 
                                 <div className="footer-info1 center-content">
                                     <div className="icon-ffoter">
-                                        <img src="assets/img/home/footer2.png" alt="logo"/>
+                                        <img src="assets/img/home/footer2.png" alt="logo" />
 
 
                                     </div>
@@ -357,7 +355,7 @@ const Footer = () => {
                             <div className="col-md-4">
                                 <div className="footer-info1 right-content">
                                     <div className="icon-ffoter">
-                                        <img src="assets/img/home/footer3.png" alt="logo"/>
+                                        <img src="assets/img/home/footer3.png" alt="logo" />
 
 
                                     </div>
@@ -410,10 +408,10 @@ const Footer = () => {
                                 <div className="footer-info1 right-content">
                                     <div className="icon-ffoter">
                                         <div className="social-links ">
-                                            <a className="twitter" target="_blank" href="https://twitter.com/remitassure" aria-label="twitter">  <img src="assets/img/home/twiter.svg" alt="logo"/></a>
-                                            <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure" aria-label="facebook"><img src="assets/img/home/facebook.svg" alt="logo"/></a>
-                                            <a class="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/" aria-label="instagram"><img src="assets/img/home/ig.svg" alt="logo"/></a>
-                                            <a className="instagram" target="_blank" href="https://www.linkedin.com/company/remitassure/" aria-label="link Us"><img src="assets/img/home/Linkedin Logo.svg" alt="logo"/></a>
+                                            <a className="twitter" target="_blank" href="https://twitter.com/remitassure" aria-label="twitter">  <img src="assets/img/home/twiter.svg" alt="logo" /></a>
+                                            <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure" aria-label="facebook"><img src="assets/img/home/facebook.svg" alt="logo" /></a>
+                                            <a class="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/" aria-label="instagram"><img src="assets/img/home/ig.svg" alt="logo" /></a>
+                                            <a className="instagram" target="_blank" href="https://www.linkedin.com/company/remitassure/" aria-label="link Us"><img src="assets/img/home/Linkedin Logo.svg" alt="logo" /></a>
                                         </div>
                                     </div>
                                 </div>

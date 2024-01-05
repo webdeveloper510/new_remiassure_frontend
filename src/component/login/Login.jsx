@@ -140,7 +140,7 @@ const Login = () => {
                         const user = res?.data
                         user.digital_id_verified = "false"
                         localStorage.setItem("remi-user-dt", JSON.stringify(user))
-                        navigate('/send-money')
+                        navigate('/dashboard')
                     }
                 } else if (res.code == "400") {
                     toast.error(res.message,
@@ -203,13 +203,7 @@ const Login = () => {
             setShowAlert(0)
         }, 5000)
         if (localStorage.getItem("token") && localStorage.getItem("remi-user-dt")) {
-            let user = JSON.parse(localStorage.getItem("remi-user-dt"));
-            if (user?.digital_id_verified && user.digital_id_verified === "true") {
-                navigate("/dashboard")
-            }
-            else {
-                navigate("/send-money")
-            }
+            navigate("/dashboard")
         }
 
     }, [show_alert])
