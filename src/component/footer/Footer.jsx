@@ -410,10 +410,10 @@ const Footer = () => {
                                 <div className="footer-info1 right-content">
                                     <div className="icon-ffoter">
                                         <div className="social-links ">
-                                            <a className="twitter" target="_blank" href="https://twitter.com/remitassure">  <img src="assets/img/home/twiter.svg" alt="logo"/></a>
-                                            <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure"><img src="assets/img/home/facebook.svg" alt="logo"/></a>
-                                            <a class="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/"><img src="assets/img/home/ig.svg" alt="logo"/></a>
-                                            <a className="instagram" target="_blank" href="https://www.linkedin.com/company/remitassure/"><img src="assets/img/home/Linkedin Logo.svg" alt="logo"/></a>
+                                            <a className="twitter" target="_blank" href="https://twitter.com/remitassure" aria-label="twitter">  <img src="assets/img/home/twiter.svg" alt="logo"/></a>
+                                            <a className="facebook" target="_blank" href="https://www.facebook.com/remitassure" aria-label="facebook"><img src="assets/img/home/facebook.svg" alt="logo"/></a>
+                                            <a class="instagram" target="_blank" href="https://www.instagram.com/media.remitassure/" aria-label="instagram"><img src="assets/img/home/ig.svg" alt="logo"/></a>
+                                            <a className="instagram" target="_blank" href="https://www.linkedin.com/company/remitassure/" aria-label="link Us"><img src="assets/img/home/Linkedin Logo.svg" alt="logo"/></a>
                                         </div>
                                     </div>
                                 </div>

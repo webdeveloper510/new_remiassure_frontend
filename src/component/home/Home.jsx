@@ -546,7 +546,7 @@ const Home = () => {
                                         <img src="assets/img/home/phone.svg" alt="background-images" />
                                     </div>
                                     <div className="col-md-4 libuttons">
-                                        <ul class="playstoreicon"><li><a href="https://apps.apple.com/us/app/remitassure/id6451420844"><img src="assets/img/home/apple.svg" alt="logo" /></a></li><li><a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"><img src="assets/img/home/google.svg"  alt="logo"/></a></li></ul>
+                                        <ul class="playstoreicon"><li><a href="https://apps.apple.com/us/app/remitassure/id6451420844" aria-label="Apple"><img src="assets/img/home/apple.svg" alt="logo" /></a></li><li><a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"><img src="assets/img/home/google.svg"  alt="logo"/></a></li></ul>
                                     </div>
                                 </div>
                             </div>

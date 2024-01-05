@@ -37,7 +37,7 @@ const RemitAssure = () => {
               <div className="custom-col5 desktop-only">
                 <div className="remit_keypoints">
                   <h1>Know more in detail about <p>RemitAssure</p></h1>
-                  <Link to="/about-us" className="btn-ab"><img src="assets/img/home/Union.png" /></Link>
+                  <Link to="/about-us" className="btn-ab" aria-label="About Us"><img src="assets/img/home/Union.png" /></Link>
                 </div>
               </div>
             ) : (
@@ -78,7 +78,7 @@ const RemitAssure = () => {
               <div className="custom-col5 mobile-only">
                 <div className="remit_keypoints">
                   <h1>Know more in detail about <p>RemitAssure</p></h1>
-                  <Link to="/about-us" className="btn-ab"><img src="assets/img/home/Union.png" /></Link>
+                  <Link to="/about-us" className="btn-ab" aria-label="About Us"><img src="assets/img/home/Union.png" /></Link>
                 </div>
               </div>
             ) : (
