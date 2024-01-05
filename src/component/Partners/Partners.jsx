@@ -111,8 +111,8 @@ const Partners = () => {
 
       
       <div className="custom-button-group for-mobileee">
-        <button onClick={handlePrev} class="pre-sli"><img src="assets/img/home/arrow1 (1).png"/></button>
-        <button onClick={handleNext} class="next-sli"><img src="assets/img/home/nextsli.png"/></button>
+        <button onClick={handlePrev} class="pre-sli" aria-label="Previous Slide"><img src="assets/img/home/arrow1 (1).png"/></button>
+        <button onClick={handleNext} class="next-sli" aria-label="Nex Slide"><img src="assets/img/home/nextsli.png"/></button>
       </div>
     
     </div>
