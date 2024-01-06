@@ -659,23 +659,20 @@ nav#navbar ul li ul li a:hover {
   #hero-no-slider h2 {
     font-size: 30px;
   }
-  .col-md-6.footer-linksss .footer-info1.center-content {
-    display: block !important;
+  .footer-info1.center-content li a {
+    margin: 0px !important;
 }
 
-.col-md-6.footer-linksss .footer-info1.center-content li {
-    width: 100% !important;
-    display: block !important;
-    text-align: left;
+.footer-info1.center-content li{
+  width: 100%;
 }
-
-.footer-info1.center-content {
-    width: 100% !important;
-    float: left;
+ul.footer-bottom-links
+{
+  display: block !important;
 }
-
-ul.footer-bottom-links {
-    display: block !important;
+.footer-info1.center-content li {
+  width: 100% !important;
+  display: block;
 }
 }
 
