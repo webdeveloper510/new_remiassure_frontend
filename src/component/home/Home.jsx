@@ -558,11 +558,11 @@ const Home = () => {
             </div>
             <div className="get-started">
                 <ul>
-                <li>
-                    <Link to={"/user-send-money"} className="Get-start mobile-btn">
-                        Get <b>Started</b> <img src="assets/img/home/Union.svg" alt="logo" />
-                    </Link>
-                </li>
+                    <li>
+                        <Link to={"/user-send-money"} className="Get-start mobile-btn">
+                            Get <b>Started</b> <img src="assets/img/home/Union.svg" alt="logo" />
+                        </Link>
+                    </li>
                 </ul>
             </div>
 
@@ -983,7 +983,7 @@ const Home = () => {
                                     <div class="col-lg-8 col-sm-8 margintop">
                                         <div className="images-1 ">
                                             <div className="image1">
-                                                <img src="assets/img/home/img2.webp" alt="background-images" class="dd"width="100%" height="100%" />
+                                                <img src="assets/img/home/img2.webp" alt="background-images" class="dd" width="100%" height="100%" />
                                             </div>
                                             <div className="contant-img right-aligned">
                                                 <div className="icon-img pink">
@@ -1116,7 +1116,7 @@ const Home = () => {
                                             < QRCode
                                                 size={256}
                                                 style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                                                value={"https://play.google.com/store/apps/details?id=com.remitAssure&pli=1"}
+                                                value={"https://onelink.to/pwkb72"}
                                                 viewBox={`0 0 256 256`}
                                             />
                                         </div>
