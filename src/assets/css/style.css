@@ -659,6 +659,24 @@ nav#navbar ul li ul li a:hover {
   #hero-no-slider h2 {
     font-size: 30px;
   }
+  .col-md-6.footer-linksss .footer-info1.center-content {
+    display: block !important;
+}
+
+.col-md-6.footer-linksss .footer-info1.center-content li {
+    width: 100% !important;
+    display: block !important;
+    text-align: left;
+}
+
+.footer-info1.center-content {
+    width: 100% !important;
+    float: left;
+}
+
+ul.footer-bottom-links {
+    display: block !important;
+}
 }
 
 /*--------------------------------------------------------------
@@ -2510,9 +2528,7 @@ h1.vl-support {
   margin-top: 20px;
   border: none;
 }
-.center-text-test, .center-text-test p {
-  text-align: center;
-}
+
 .form_signup {
   font-family: var(--font-family) !important;
   font-style: normal;
@@ -7887,6 +7903,12 @@ ul.country-list li .flag {
     display: none;
 }
 
+.center-text-test, .center-text-test p {
+  text-align: center;
+}
+.center-text-test h2 {
+ margin-top: 0px !important;
+}
 p.already_content {
   text-align: center;
 }
@@ -9175,9 +9197,6 @@ section {
   border-radius: 15px;
 }
 
-.partners-section li .partners img {
-  width: 100%;
-}
 
 body.aboutus-page footer#footer {
   margin-top: 50px !important;

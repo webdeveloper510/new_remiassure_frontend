@@ -33,29 +33,32 @@ const Scrollbar = () => {
       image: "assets/img/referral/Group_star1.png",
       paragraph: 'I absolutely love this platform. Its so easy and user- friendly. Though my first time, it felt like second nature using it to transfer funds.I highly recommend it to anyone seeking a reliable and efficient money transfer service.'
     }, {
-      name: "Peter Willson",
-      author: "assets/img/home/test2.webp",
+      name: "Luca",
+      author: "assets/img/home/test22.webp",
       heading: "Best on the market ",
       image: "assets/img/referral/Group_star1.png",
       paragraph: 'I have tried various international money transfer services, but RemitAssure truly stands out. Its user-friendly and the service is seamless. I certainly will use RemitAssure again.'
     }, {
-
+      name: "Dario",
       author: "assets/img/home/test2.webp",
       heading: "Best on the market",
       image: "assets/img/referral/Group_star.png",
       paragraph: 'RemitAssure is an execellent platform to use. I was taken aback by the speed at which my transfer was completed. It certainly beat my expectation'
     }, {
-      author: "assets/img/home/test2.webp",
+      name: "Arianna",
+      author: "assets/img/home/test22.webp",
       heading: "Best on the market",
       image: "assets/img/referral/Group_star2.png",
       paragraph: 'RemitAssures exchange rates are amazing, certainly the best I have seen. For such an efficient and user-friendly service, they are are certainly value for money'
     }, {
+      name: "Dante",
       author: "assets/img/home/test2.webp",
       heading: "Best on the market",
       image: "assets/img/referral/Group_star.png",
       paragraph: 'I have tried several money transfer services, but RemitAssure has won me over.Their platform is easy to navigate, making the entire process smooth and hassle- free.RemitAssure has become my go - to choice for sending money internationally.'
     }, {
-      author: "assets/img/home/test2.webp",
+      name: "Bianca",
+      author: "assets/img/home/test22.webp",
       heading: "Best on the market",
       image: "assets/img/referral/Group_star1.png",
       paragraph: 'I especially love the rigour of this platform and its focus on security and fraud prevention. Once onbaorded, one feels like this is a platform to be trusted for secure money transfer'

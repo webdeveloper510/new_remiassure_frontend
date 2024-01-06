@@ -7,7 +7,7 @@ const Commingsoon = () =>{
         <>
          <div className='container'>
             <div className='notfound-section'>
-            <img src="assets/img/home/comming.webp" alt="404error" />
+            <img src="assets/img/home/coming.webp" alt="404error" />
 
             
             <NavLink to="/">Go to Homepage</NavLink>

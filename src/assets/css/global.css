@@ -336,6 +336,7 @@ ul.playstoreicon li a {
     display: block;
 }
 
+
 .playstoreicon-section p{
     font-family: var(--font-SubHeding) !important;
     color:#fff;
@@ -636,6 +637,22 @@ display: none;
 @media (max-width:768px) {
     .bottom-footer .col-md-4 {
         width: 100%;
+    }
+    .bottom-footer .col-md-6{
+        width: 100%;
+    }
+    .bottom-footer .col-md-3 {
+        width: 100%;
+    }
+    .get-started {
+        float: left;
+        width: 100%;
+    }
+    
+    .get-started ul {
+        width: 100%;
+        float: left;
+        padding: 0;
     }
     .arrow-sy.mobile-only.center-arr {
         text-align: center;
@@ -2119,7 +2136,7 @@ background: transparent !important;
         box-shadow: none !important;
     }
     .partners img {
-        width: 50% !important;
+        width: 90% !important;
     }
 
     .help-sc
