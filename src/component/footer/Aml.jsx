@@ -10,7 +10,7 @@ const AML = () => {
         <section className="section-img">
             <div className="container">
 			  <div className="row">
-    <div className="col-md-7">
+    <div className="col-md-7 extra-large">
 	   <div className=" headabout">
 	 <h1 className="about-heading">Anti-Money Laundering and Counter Terrorism (AML/CTF) Policy</h1>
 	</div>

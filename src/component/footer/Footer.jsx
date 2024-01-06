@@ -374,7 +374,7 @@ const Footer = () => {
 
                     <div className="bottom-footer bottom-none">
                         <div className="row">
-                            <div className="col-md-4">
+                            <div className="col-md-3">
                                 <div className="footer-info1 footer-last-logo desktop-onlyy">
                                     <div className="icon-ffoter">
                                         <img src="assets/img/home/footer-logo.webp" className="logo-foo" alt="logo" />
@@ -384,16 +384,16 @@ const Footer = () => {
 
                                 </div>
                             </div>
-                            <div className="col-md-4 footer-linksss">
+                            <div className="col-md-6 footer-linksss">
 
                                 <div className="footer-info1 center-content">
                                     <div className="icon-ffoter">
 
                                         <ul className="footer-bottom-links">
-                                            <li><NavLink to="/terms-and-condition">Terms </NavLink></li>
+                                            <li><NavLink to="/terms-and-condition">Terms And Conditions</NavLink></li>
 
-                                            <li> <NavLink to="/privacy-policy">Privacy</NavLink></li>
-                                            <li> <NavLink to="/aml-policy">Aml </NavLink></li>
+                                            <li> <NavLink to="/privacy-policy">Privacy Policy</NavLink></li>
+                                            <li> <NavLink to="/aml-policy"> AML Policy  </NavLink></li>
                                         </ul>
 
 
@@ -404,7 +404,7 @@ const Footer = () => {
 
                                 </div>
                             </div>
-                            <div className="col-md-4">
+                            <div className="col-md-3">
                                 <div className="footer-info1 right-content">
                                     <div className="icon-ffoter">
                                         <div className="social-links ">

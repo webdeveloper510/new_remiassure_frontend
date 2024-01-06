@@ -34,6 +34,7 @@ import PayIdDetail from './component/Userdashboard/paymentDetails/PayIdDetail';
 import PayToDetail from './component/Userdashboard/paymentDetails/PayToDetail';
 import Layout from './component/layout/Layout';
 import NonDashLayout from './component/layout/NonDashLayout';
+import Commingsoon from './component/commingsoon/Commingsoon';
 const RouteWithBodyClass = ({ element, bodyClass }) => {
   useEffect(() => {
     document.body.className = bodyClass;
@@ -67,6 +68,7 @@ const routes = [
       { path: 'reset-password/:id', element: <NonDashLayout><LocalStorage /> </NonDashLayout> },
       { path: '/verification', element: <NonDashLayout> <RouteWithBodyClass element={<Verification />} bodyClass="footer-space bg-colored" /> </NonDashLayout> },
       { path: '404', element: <Page404 /> },
+      { path: 'CommingSoon', element: <Commingsoon /> },
       { path: '*', element: <Navigate to="/404" /> },
     ]
   },

@@ -184,7 +184,7 @@ const Working = () => {
   <div class="site-content">
             {/* <!-- ======= AboutUs Our vission and mission-Section  start======= --> */}
             <section class="top_sections11"><div class="container">
-<div class="row"><div class="col-md-7">
+<div class="row"><div class="col-md-7 extra-large">
 <div class=" headabout">
 <h1 class="about-heading">How it <span class="grading-color">Works</span></h1>
 </div></div></div></div></section>

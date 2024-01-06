@@ -6,7 +6,7 @@ const T_c = () => {
         <section className="section-img">
             <div className="container">
 						  <div className="row">
-    <div className="col-md-7 term-co">
+    <div className="col-md-7 term-co extra-large">
 	
 	   <div className=" headabout">
 	 <h1 className="about-heading">Terms and conditions</h1>

@@ -1600,8 +1600,18 @@ p.space-div {
         padding-top: 150px;
     }
 
+    
 }
-
+@media  (min-width: 1920px)  {
+body.aboutus-page, body.bg-image
+{
+    background-size:600px;
+}
+.extra-large
+{
+    width: 100% !important;
+}
+}
 
 
 a.forgot_pass {
@@ -2117,4 +2127,10 @@ background: transparent !important;
         width: 100%;
         float: left;
     padding: 20px;
+    }
+    .bottom-footer.bottom-none .row{
+        align-items: center;
+    }
+    li.dropdown ul:hover {
+        box-shadow: 0px 1px 2px 3px #55378559 !important;
     }

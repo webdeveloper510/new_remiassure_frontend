@@ -117,7 +117,7 @@ const Scrollbar = () => {
                     </img>
                   </div>
                   <div className="col-md-8 center-text-test">
-                    {/*<h2 className="author-name">{item.name}</h2> */}
+                  <h2 className="author-name">{item.name}</h2> 
                     <p className="material-heading fw-light">{item.paragraph}</p>
                     <img src={item.image} alt="quote-up" className="testimonial-rating" />
                   </div>

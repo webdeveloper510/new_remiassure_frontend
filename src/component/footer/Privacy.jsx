@@ -10,7 +10,7 @@ const Privacy = () => {
         <section className="section-img">
  <div className="container">
   <div className="row">
-    <div className="col-md-7">
+    <div className="col-md-7 extra-large">
     <div className=" headabout">
 	 <h1 className="about-heading">Privacy Policy</h1>
 	</div>

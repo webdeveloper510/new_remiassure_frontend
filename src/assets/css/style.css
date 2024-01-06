@@ -254,6 +254,10 @@ nav#navbar ul li a:focus:after {
   right: 0;
   margin: 0 auto;
 }
+nav#navbar li.dropdown ul li a:hover
+{
+  color: #6414E9 !important;
+}
 
 nav#navbar ul li ul li a:after {
   display: none;

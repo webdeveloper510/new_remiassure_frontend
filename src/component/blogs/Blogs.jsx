@@ -31,7 +31,7 @@ const Blogs = () => {
         dateicon:"assets/img/home/dateicon.svg",
         author: "assets/img/home/Shape-2.svg",
         heading: "Lorem Ipsum",
-        link: '/link1', // Add the link property
+        link: '/CommingSoon', // Add the link property
         image: "assets/img/referral/Group_star1.png",
         paragraph: 'Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.'
       },   {
@@ -39,7 +39,7 @@ const Blogs = () => {
         dateicon:"assets/img/home/dateicon.svg",
         author: "assets/img/home/Shape-2.svg",
         heading: "Lorem Ipsum",
-        link: '/link1', // Add the link property
+        link: '/CommingSoon', // Add the link property
         image: "assets/img/referral/Group_star1.png",
         paragraph: 'Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.'
       },
@@ -48,7 +48,7 @@ const Blogs = () => {
         dateicon:"assets/img/home/dateicon.svg",
         author: "assets/img/home/Shape-2.svg",
         heading: "Lorem Ipsum",
-        link: '/link1', // Add the link property
+        link: '/CommingSoon', // Add the link property
         image: "assets/img/referral/Group_star1.png",
         paragraph: 'Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.'
       },
@@ -57,7 +57,7 @@ const Blogs = () => {
         dateicon:"assets/img/home/dateicon.svg",
         author: "assets/img/home/Shape-2.svg",
         heading: "Lorem Ipsum",
-        link: '/link1', // Add the link property
+        link: '/CommingSoon', // Add the link property
         image: "assets/img/referral/Group_star1.png",
         paragraph: 'Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.'
       },
@@ -116,7 +116,7 @@ const Blogs = () => {
 
 </div>
 <div className="Morelink">
-<a href="{item.link}">
+<a href="/CommingSoon">
   MORE. <img src="assets/img/home/arrowmore.png" alt="logo">
 
   </img>
