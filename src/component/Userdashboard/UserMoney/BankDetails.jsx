@@ -121,9 +121,11 @@ const BankDetails = ({ handleStep, step }) => {
       if (d.postcode === "" || d.postcode === undefined || d.postcode === " ") {
         delete d['postcode'];
       }
+      // console.log("PHONE CODE", phone_code)
+      // console.log("dasdasvd")
       if (phone_code !== "") {
         let mno;
-        if (phone_code.length > 2) mno = d.mobile.substring(3)
+        if (phone_code.toString().length > 2) mno = d.mobile.substring(3)
         else mno = d.mobile.substring(2)
         d.mobile = phone_code + parseInt(mno, 10)
       }
@@ -177,7 +179,8 @@ const BankDetails = ({ handleStep, step }) => {
     formik.setFieldValue('mobile', e);
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
-    setPhoneCode(coun.dailCode)
+    setPhoneCode(coun.dialCode)
+    // console.log(coun.dialCode)
     setData({ ...data, country: coun.name, mobile: e })
   }
 

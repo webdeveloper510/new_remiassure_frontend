@@ -67,7 +67,7 @@ const Referral = () => {
 
     useEffect(() => {
         getReferral().then(res => {
-            console.log(res)
+            // console.log(res)
             setDataRefferal(res.data)
         })
         getReferralAmount().then(res => {

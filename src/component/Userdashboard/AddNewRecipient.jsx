@@ -140,10 +140,9 @@ const Addnewrecipient = () => {
       if (d.middle_name === "" || d.middle_name === undefined || d.middle_name === " ") {
         delete d['middle_name'];
       }
-
       if (phone_code !== "") {
         let mno;
-        if (phone_code.length > 2) mno = d.mobile.substring(3);
+        if (phone_code.toString().length > 2) mno = d.mobile.substring(3);
         else mno = d.mobile.substring(2);
         const mobileNumber = parseInt(mno, 10);
         d.mobile = phone_code + mobileNumber

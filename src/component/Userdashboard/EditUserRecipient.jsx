@@ -175,7 +175,7 @@ const Editrecipientuser = () => {
 
       if (phone_code !== "") {
         let mno;
-        if (phone_code.length > 2) mno = d.mobile.substring(3)
+        if (phone_code.toString().length > 2) mno = d.mobile.substring(3)
         else mno = d.mobile.substring(2)
         d.mobile = phone_code + parseInt(mno, 10)
       }
