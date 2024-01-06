@@ -121,11 +121,12 @@ const BankDetails = ({ handleStep, step }) => {
       if (d.postcode === "" || d.postcode === undefined || d.postcode === " ") {
         delete d['postcode'];
       }
-
-      let mno;
-      if (phone_code.length > 2) mno = d.mobile.substring(3)
-      else mno = d.mobile.substring(2)
-      d.mobile = phone_code + parseInt(mno, 10)
+      if (phone_code !== "") {
+        let mno;
+        if (phone_code.length > 2) mno = d.mobile.substring(3)
+        else mno = d.mobile.substring(2)
+        d.mobile = phone_code + parseInt(mno, 10)
+      }
 
       axios.post(`${serverUrl}/payment/recipient-create/`, d, {
         headers: {

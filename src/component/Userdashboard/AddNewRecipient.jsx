@@ -140,12 +140,16 @@ const Addnewrecipient = () => {
       if (d.middle_name === "" || d.middle_name === undefined || d.middle_name === " ") {
         delete d['middle_name'];
       }
-      let mno;
-      if (phone_code.length > 2) mno = d.mobile.substring(3);
-      else mno = d.mobile.substring(2);
-      const mobileNumber = parseInt(mno, 10);
 
-      createRecipient({ ...d, mobile: phone_code + mobileNumber, country_code: data.country_code }).then((res) => {
+      if (phone_code !== "") {
+        let mno;
+        if (phone_code.length > 2) mno = d.mobile.substring(3);
+        else mno = d.mobile.substring(2);
+        const mobileNumber = parseInt(mno, 10);
+        d.mobile = phone_code + mobileNumber
+      }
+
+      createRecipient({ ...d, country_code: data.country_code }).then((res) => {
         if (res.code === "200") {
           toast.success("Successfuly added new recipient", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
           setTimeout(() => {

@@ -29,7 +29,7 @@ const Editrecipientuser = () => {
     last_name: '', email: '', mobile: '', country: '', flat: "", street: "", postcode: "", building: "",
     city: "", state: "", country_code: "AU"
   });
-  const [phone_code, setPhoneCode] = useState()
+  const [phone_code, setPhoneCode] = useState("")
 
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
@@ -173,10 +173,12 @@ const Editrecipientuser = () => {
       }
       d.country_code = data.country_code
 
-      let mno;
-      if (phone_code.length > 2) mno = d.mobile.substring(3)
-      else mno = d.mobile.substring(2)
-      d.mobile = phone_code + parseInt(mno, 10)
+      if (phone_code !== "") {
+        let mno;
+        if (phone_code.length > 2) mno = d.mobile.substring(3)
+        else mno = d.mobile.substring(2)
+        d.mobile = phone_code + parseInt(mno, 10)
+      }
       setLoading(true)
       updateUserRecipient(id, d).then((response) => {
         if (response.code == "200") {
