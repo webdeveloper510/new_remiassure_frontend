@@ -3,11 +3,7 @@ import { links, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { generateRandomKey } from "../../utils/hook";
 import { debounce } from 'lodash';
 
-
 const Footer = () => {
-    const path = useLocation()?.pathname
-    const homeURL = '/';
-
     const [accordionOpen, setAccordionOpen] = useState(null);
 
     const toggleAccordion = (index) => {
@@ -211,18 +207,7 @@ const Footer = () => {
                                 <ul>
                                     <li><NavLink to="/login">Login</NavLink></li>
                                     <li> <NavLink to="/sign-up">Signup</NavLink></li>
-                                    <li className="exchange-rate-link" style={{ cursor: "pointer" }} >
-                                    { path == "/" ? (
-                                        <NavLink to="#pay-box">Check Exchange Rates</NavLink>
-             
-            ) : (
-                <NavLink to={homeURL+"#pay-box"}>Check Exchange Rates</NavLink>
-              
-             
-            )
-          }
-                                       
-                                        </li>
+                                    <li className="exchange-rate-link" style={{ cursor: "pointer" }} onClick={() => checkExchangeRate()}>Check Exchange Rates</li>
                                     <li><NavLink className="exchange-rate-link" to={links()}>Send Money Overseas</NavLink></li>
                                     {/* <NavigationFooterArrayObjects  /> */}
                                 </ul>

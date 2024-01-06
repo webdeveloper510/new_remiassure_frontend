@@ -9311,3 +9311,6 @@ button.btn.btn.reset-button:active {
 button.btn.btn.reset-button {
   border: none !important;
 }
+nav#navbar a.logactin {
+  color: #fff !important;
+}
