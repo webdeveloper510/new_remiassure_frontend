@@ -77,7 +77,7 @@ const BankDetails = ({ handleStep, step }) => {
     acc_no: Yup.string().min(5).max(18).required(),
     f_name: Yup.string().min(2).max(25).required().trim(),
     l_name: Yup.string().min(2).max(25).required().trim(),
-    email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
+    email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50),
     mobile: Yup.string().min(11).max(18).required(),
     flat: Yup.string().min(1).max(30).notRequired(),
     build_no: Yup.string().min(1).max(30).required().trim(),
@@ -120,6 +120,9 @@ const BankDetails = ({ handleStep, step }) => {
       }
       if (d.postcode === "" || d.postcode === undefined || d.postcode === " ") {
         delete d['postcode'];
+      }
+      if (d.email === "" || d.email === undefined) {
+        delete d['email'];
       }
       // console.log("PHONE CODE", phone_code)
       // console.log("dasdasvd")
@@ -601,7 +604,7 @@ const BankDetails = ({ handleStep, step }) => {
                     <div className="row each-row remove_mb">
                       <div className="col-md-6">
                         <div className="input_field">
-                          <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
+                          <p className="get-text">Email</p>
                           <input
                             type="email"
                             name="email"
