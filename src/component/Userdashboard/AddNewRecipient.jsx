@@ -592,25 +592,6 @@ const Addnewrecipient = () => {
               </div>
             </div>
             <div className="row each-row">
-              <div className="col-md-4 mb-3" id="street">
-                <Form.Group className="form_label" controlId="street">
-                  <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
-                  <input
-                    type="text"
-                    name="street"
-                    value={data.street}
-                    onKeyDown={(e) => { handleEmail(e, 50) }}
-                    {...formik.getFieldProps("street")}
-                    className={clsx(
-                      'form-control bg-transparent',
-                      { 'is-invalid': formik.touched.street && formik.errors.street },
-                      {
-                        'is-valid': formik.touched.street && !formik.errors.street,
-                      }
-                    )}
-                  />
-                </Form.Group>
-              </div>
               <div className="col-md-4 mb-3" id="zip">
                 <Form.Group className="form_label" >
                   <p className="get-text">
@@ -634,6 +615,25 @@ const Addnewrecipient = () => {
                     )}
                   />
 
+                </Form.Group>
+              </div>
+              <div className="col-md-4 mb-3" id="street">
+                <Form.Group className="form_label" controlId="street">
+                  <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
+                  <input
+                    type="text"
+                    name="street"
+                    value={data.street}
+                    onKeyDown={(e) => { handleEmail(e, 50) }}
+                    {...formik.getFieldProps("street")}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.street && formik.errors.street },
+                      {
+                        'is-valid': formik.touched.street && !formik.errors.street,
+                      }
+                    )}
+                  />
                 </Form.Group>
               </div>
               <div className="col-md-4 mb-3" id="build">

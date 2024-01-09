@@ -743,26 +743,6 @@ const BankDetails = ({ handleStep, step }) => {
                       </div>
                     </div>
                     <div className="row each-row remove_mb">
-                      <div className="col-md-4" id="street">
-                        <div className="input_field">
-                          <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
-                          <input
-                            type="text"
-                            name="street"
-                            value={data.street}
-                            onKeyDown={(e) => { handleEmail(e, 50) }}
-                            {...formik.getFieldProps("street")}
-
-                            className={clsx(
-                              'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.street && formik.errors.street },
-                              {
-                                'is-valid': formik.touched.street && !formik.errors.street,
-                              }
-                            )}
-                          />
-                        </div>
-                      </div>
                       <div className="col-md-4" id="post">
                         <div className="input_field">
                           <p className="get-text">
@@ -783,6 +763,26 @@ const BankDetails = ({ handleStep, step }) => {
                             {...formik.getFieldProps("post_code")}
                             className={clsx(
                               'form-control'
+                            )}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-4" id="street">
+                        <div className="input_field">
+                          <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
+                          <input
+                            type="text"
+                            name="street"
+                            value={data.street}
+                            onKeyDown={(e) => { handleEmail(e, 50) }}
+                            {...formik.getFieldProps("street")}
+
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.street && formik.errors.street },
+                              {
+                                'is-valid': formik.touched.street && !formik.errors.street,
+                              }
                             )}
                           />
                         </div>
