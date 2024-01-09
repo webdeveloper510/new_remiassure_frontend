@@ -122,22 +122,39 @@ const Dashboard = () => {
                         <h2 class="text-black font-w600 mb-0"><b>Welcome, <span style={{ "color": "#6414e9" }}>{firstName}</span></b></h2>
                     </div>
                     {
-                        firstName == "" && !loading ? (
+                        firstName == "" && isVerified === "false" && !loading ? (
                             < div >
                                 <Alert className="verify-alert" >
-                                    <img src={important} height={40} width={40} />  Please Complete <span className="fw-bold" onClick={() => navigate("/user-profile")}>Your Profile</span> to start making Transactions.
+                                    <b><img src={important} height={40} width={40} />To start making your transaction's:</b>
+                                    <ul>
+                                        <li><span className="fw-bold" onClick={() => navigate("/user-profile")}>Complete Your Profile</span>.</li>
+                                        <li><span className="fw-bold" onClick={() => start()}>Verify your Account</span>.</li>
+                                    </ul>
                                 </Alert>
                             </div>
-                        )
-                            : isVerified === "false" && !loading ? (
-                                <div>
+                        ) :
+                            firstName == "" && !loading ? (
+                                < div >
                                     <Alert className="verify-alert" >
-                                        <img src={important} height={40} width={40} />  Your Account is not Digitally Verified. <span className="fw-bold" onClick={() => start()}>Click here</span> to Verify
+                                        <b><img src={important} height={40} width={40} />To start making your transaction's:</b>
+                                        <ul>
+                                            <li><span className="fw-bold" onClick={() => navigate("/user-profile")}>Complete Your Profile</span>.</li>
+                                        </ul>
                                     </Alert>
                                 </div>
-                            ) : (
-                                <></>
                             )
+                                : isVerified === "false" && !loading ? (
+                                    <div>
+                                        <Alert className="verify-alert" >
+                                            <b><img src={important} height={40} width={40} />To start making your transaction's:</b>
+                                            <ul>
+                                                <li><span className="fw-bold" onClick={() => start()}>Verify your Account</span>.</li>
+                                            </ul>
+                                        </Alert>
+                                    </div>
+                                ) : (
+                                    <></>
+                                )
                     }
                     <div className="row g-3">
                         <div className="col-xl-4 col-lg-4 col-md-6 fullwidth">
