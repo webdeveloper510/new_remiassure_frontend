@@ -615,9 +615,9 @@ const BankDetails = ({ handleStep, step }) => {
 
                             className={clsx(
                               'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.email && formik.errors.email },
+                              { 'is-invalid': data.email !== "" && formik.touched.email && formik.errors.email },
                               {
-                                'is-valid': formik.touched.email && !formik.errors.email,
+                                'is-valid': data.email !== "" && formik.touched.email && !formik.errors.email,
                               }
                             )}
                           />

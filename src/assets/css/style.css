@@ -5837,7 +5837,7 @@ h2.accordion-header {
   margin-top: 30px;
 } */
 .form-control:disabled {
-  background-color: rgb(128 128 128 / 57%) !important;
+  background-color: transparent !important;
   opacity: 1;
 }
 

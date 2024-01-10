@@ -492,13 +492,13 @@ const Editrecipientuser = () => {
                       {...formik.getFieldProps("email")}
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.email && formik.errors.email },
+                        { 'is-invalid': data.email !== "" && formik.touched.email && formik.errors.email },
                         {
-                          'is-valid': formik.touched.email && !formik.errors.email,
+                          'is-valid': data.email !== "" && formik.touched.email && !formik.errors.email,
                         }
                       )}
                     />
-                    {formik.touched.email && formik.errors.email && (
+                    {data.email !== "" && formik.touched.email && formik.errors.email && (
                       <div className='fv-plugins-message-container mt-1'>
                         <div className='fv-help-block'>
                           <span role='alert' className="text-danger">{formik.errors.email}</span>

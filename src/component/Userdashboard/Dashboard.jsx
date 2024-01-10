@@ -125,31 +125,31 @@ const Dashboard = () => {
                         firstName == "" && isVerified === "false" && !loading ? (
                             < div >
                                 <Alert className="verify-alert" >
-                                    <b><img src={important} height={40} width={40} />To start making your transaction's:</b>
-                                    <ul>
+                                    <b><img src={important} height={40} width={40} />To transfer Money, Please complete the below steps:</b>
+                                    <ol>
                                         <li><span className="fw-bold" onClick={() => navigate("/user-profile")}>Complete Your Profile</span>.</li>
                                         <li><span className="fw-bold" onClick={() => start()}>Verify your Account</span>.</li>
-                                    </ul>
+                                    </ol>
                                 </Alert>
                             </div>
                         ) :
                             firstName == "" && !loading ? (
                                 < div >
                                     <Alert className="verify-alert" >
-                                        <b><img src={important} height={40} width={40} />To start making your transaction's:</b>
-                                        <ul>
+                                        <b><img src={important} height={40} width={40} />To transfer Money, Please complete the below steps:</b>
+                                        <ol>
                                             <li><span className="fw-bold" onClick={() => navigate("/user-profile")}>Complete Your Profile</span>.</li>
-                                        </ul>
+                                        </ol>
                                     </Alert>
                                 </div>
                             )
                                 : isVerified === "false" && !loading ? (
                                     <div>
                                         <Alert className="verify-alert" >
-                                            <b><img src={important} height={40} width={40} />To start making your transaction's:</b>
-                                            <ul>
+                                            <b><img src={important} height={40} width={40} />To transfer Money, Please complete the below steps:</b>
+                                            <ol>
                                                 <li><span className="fw-bold" onClick={() => start()}>Verify your Account</span>.</li>
-                                            </ul>
+                                            </ol>
                                         </Alert>
                                     </div>
                                 ) : (

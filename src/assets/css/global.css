@@ -1556,6 +1556,10 @@ button.signup_button,button.login_button {
     padding-left: 0px !important;
     
 }
+
+.form-control:disabled {
+    background-color: transparent !important;
+}
 button.signup_button:before,button.login_button:before {
     position: absolute;
     content: '';
@@ -2154,4 +2158,29 @@ background: transparent !important;
 
     .form-head.mb-4 h2.text-black.font-w600.mb-0 {
         color: #060819 !important;
+    }
+
+    .kustom_mobile select{
+        border-bottom-right-radius:0px !important;
+        border-top-right-radius:0px !important;
+        border-right: none !important;
+    }
+    .kustom_mobile input{
+        border-bottom-left-radius:0px !important;
+        border-top-left-radius:0px !important;
+        padding-right: 0px !important;
+    }
+
+    .kustom_mobile_signup input{
+        border-radius:0px !important;
+        padding-right: 0px !important;
+        height:50px
+    }
+ .kustom_mobile_signup select{
+        border-bottom-right-radius:0px !important;
+        border-top-right-radius:0px !important;
+        border: 1px solid #EAEAEA !important;
+    }
+    .kustom_mobile{
+        margin: auto !important
     }

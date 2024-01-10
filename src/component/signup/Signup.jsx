@@ -15,6 +15,7 @@ import clsx from "clsx";
 import countryList from "../../utils/senderCountries.json"
 import { Alert, Modal, Button, ModalBody } from "react-bootstrap";
 import OtpInput from "react18-input-otp";
+import { senderAreaList as areaList } from "../../utils/ArealList";
 const Signup = () => {
     const [isOn, setOn] = useState(false);
 
@@ -38,6 +39,7 @@ const Signup = () => {
     const navigate = useNavigate();
     const toggleShowPassword = () => setShowPassword(prevState => !prevState);
     const toggleShowConfirmPassword = () => setShowConfirmPassword(prevState => !prevState)
+    const [selected_area_code, setSelectedAreaCode] = useState("61")
 
     const initialValues = {
         location: "",
@@ -54,7 +56,7 @@ const Signup = () => {
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
         referral_code: isOn ? Yup.string().min(8, "Referral code must contain 8 characters").max(8, "Referral code must contain 8 characters").required("Referral Code is required") : Yup.string().notRequired(),
-        mobile: Yup.string().min(11, "Minimum 9 digits").required("Mobile is required")
+        mobile: Yup.string().min(9, "Minimum 9 digits").required("Mobile is required")
     })
 
     useEffect(() => {
@@ -84,8 +86,7 @@ const Signup = () => {
                 left: 0,
                 behavior: "smooth"
             })
-            console.log(values)
-            let data = { ...values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + values.mobile }
+            let data = { ...values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + values.mobile }
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
             }
@@ -141,16 +142,13 @@ const Signup = () => {
         countryList.map((item) => {
             if (item.name === e.target.value) {
                 setCountryCode(item.iso2)
+                setSelectedAreaCode(item.phone_code)
             }
         })
+
     }
 
-    const handlePhone = (e, coun) => {
-        let mno = e.substring(2);
-        const mobileNumber = parseInt(mno, 10)
-        formik.setFieldValue('mobile', coun.dialCode + mobileNumber);
-        formik.setFieldValue('location', coun.name)
-    }
+
 
     const handleRef = (event) => {
         const result = event.target.value.replace(/[^A-z0-9_-]/gi, "")
@@ -187,7 +185,7 @@ const Signup = () => {
         let length = otp.toString()
         if (length.length == 6) {
             setLoading(true)
-            let data = { ...formik.values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + formik.values.mobile, otp: otp }
+            let data = { ...formik.values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + formik.values.mobile, otp: otp }
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
             }
@@ -227,7 +225,7 @@ const Signup = () => {
         e.preventDefault()
         setLoading(true)
         setOtp(null)
-        registerOtpResend({ mobile: "+" + formik.values.mobile }).then(res => {
+        registerOtpResend({ mobile: "+" + selected_area_code + formik.values.mobile }).then(res => {
             if (res.code === "200") {
                 setShowAlert(2)
             } else {
@@ -248,6 +246,22 @@ const Signup = () => {
     const handleOtpChange = (enteredOtp) => {
         setOtp(enteredOtp);
     }
+
+    const handleNumericOnly = (event) => {
+        const result = event.target.value.replace(/[^0-9]/, "");
+        formik.setFieldValue(event.target.name, result)
+    }
+
+    useEffect(() => {
+
+        countryList.map((item) => {
+            if (item.phone_code === selected_area_code) {
+                setCountryCode(item.iso2)
+                formik.setFieldValue("location", item.name)
+                formik.setFieldTouched("location", true)
+            }
+        })
+    }, [selected_area_code])
 
     return (
         <>
@@ -365,7 +379,41 @@ const Signup = () => {
                                                                 <div className="col-md-6 phone-row">
                                                                     <Form.Group className="mb-2 form_label" >
                                                                         <Form.Label>Your Phone<span style={{ color: 'red' }} >*</span> </Form.Label>
-                                                                        <PhoneInput
+                                                                        <div className="row kustom_mobile_signup">
+                                                                            <div className="col-md-5 px-0">
+                                                                                <select
+                                                                                    className="form-control form-select bg-transparent"
+                                                                                    value={selected_area_code}
+                                                                                    onChange={(e) => setSelectedAreaCode(e.target.value)}>
+                                                                                    {
+                                                                                        areaList?.map((area, index) => {
+                                                                                            return (
+                                                                                                <option key={index} value={area?.code}>+{area?.code}&nbsp;{area?.name}</option>
+                                                                                            )
+                                                                                        })
+                                                                                    }
+                                                                                </select>
+                                                                            </div>
+                                                                            <div className={`col-md-7 px-0`}>
+                                                                                <input
+                                                                                    type="text"
+                                                                                    name="mobile"
+                                                                                    value={formik.values.mobile}
+                                                                                    id="mobile"
+                                                                                    maxLength="10"
+                                                                                    onChange={(e) => handleNumericOnly(e)}
+                                                                                    className={clsx(
+                                                                                        'form-control bg-transparent',
+                                                                                        { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                                                                                        {
+                                                                                            'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                                                                                        }
+                                                                                    )}
+                                                                                    placeholder="Enter your mobile"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                        {/* <PhoneInput
                                                                             onlyCountries={["au", "nz"]}
                                                                             country={country_code ? country_code.toLowerCase() : "au"}
                                                                             name="mobile"
@@ -384,7 +432,7 @@ const Signup = () => {
                                                                                 }
                                                                             )}
                                                                             onBlur={handleBlur}
-                                                                        />
+                                                                        /> */}
                                                                         {formik.touched.mobile && formik.errors.mobile && (
                                                                             <div className='fv-plugins-message-container mt-1'>
                                                                                 <div className='fv-help-block'>
