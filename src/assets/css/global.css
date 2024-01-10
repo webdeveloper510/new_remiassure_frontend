@@ -407,14 +407,14 @@ text-align: center;
 .partners-section p {
     font-family: var(--font-Text) !important;
     font-size: 17px;
-    color: #040A2E;
+    color: #060819;
     font-weight: 400;
     margin-bottom: 50px;
 }
 section.why-us_section.homepage-why-us .vl-paragraph p {
     font-family: var(--font-Text) !important;
     font-size: 17px;
-    color: #040A2E;
+    color: #060819;
     font-weight: 400;
     margin-bottom: 50px;
     text-align: center;
@@ -488,7 +488,7 @@ section.why-us_section.homepage-why-us .vl-paragraph p {
 .why-us_section p.vl-paragraph {
     font-family: var(--font-Text) !important;
     font-size: 17px;
-    color: #040A2E;
+    color: #060819;
     font-weight: 400;
     margin-bottom: 50px;
     text-align: center;
@@ -586,7 +586,7 @@ h1.head-new {
 .hows-work-section .vl-paragraph {
     font-family: var(--font-Text) !important;
     font-size: 17px;
-    color: #040A2E;
+    color: #060819;
     font-weight: 400;
     margin-bottom: 50px;
     text-align: center;
@@ -829,7 +829,7 @@ button.btn.btn.reset-button {
 .timeline-contents p.h6.mb-0.mb-lg-0 {
     font-family: var(--font-Text) !important;
     font-size: 17px;
-    color:#040A2E;
+    color:#060819;
     font-weight: 400;
     margin-bottom: 50px;
     text-align: center;
@@ -880,7 +880,7 @@ h1.vl-heading.left-align {
     border: none !important;
 }
 .Enjoy-Free .vl-content p {
-    color: #040A2E !important;
+    color: #060819 !important;
     float: left;
     font-weight: 400;
     font-size: 17px;
@@ -974,7 +974,7 @@ b.color-sp {
     justify-content: center;
 }
 .contant-img p {
-    color: #040A2E !important;
+    color: #060819 !important;
     text-align: left;
     font-size: 14px;
     line-height: 17.5px;
@@ -1036,7 +1036,7 @@ p.number {
 }
 
 p.text-bottom {
-    color: #040A2E !important;
+    color: #060819 !important;
     float: left;
     font-weight: 400;
     font-size: 17px;
@@ -2065,7 +2065,7 @@ ul.About_why-content li img:hover
     }
 
     section.contct-info a.skybtn:hover {
-        color: #000 !important;
+        color: #060819 !important;
         box-shadow: 0px 1px 2px 3px #55378559 !important;
         
     }
@@ -2150,4 +2150,8 @@ background: transparent !important;
     }
     li.dropdown ul:hover {
         box-shadow: 0px 1px 2px 3px #55378559 !important;
+    }
+
+    .form-head.mb-4 h2.text-black.font-w600.mb-0 {
+        color: #060819 !important;
     }
