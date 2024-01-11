@@ -182,7 +182,7 @@ const Profile = () => {
       countryList.map((item) => {
         if (item.name === e.target.value) {
           setData({ ...data, country_code: item.iso2 })
-          setSelectedAreaCode("+" + item.phone_code)
+          setSelectedAreaCode(item.phone_code)
         }
       })
     }
@@ -846,7 +846,7 @@ const Profile = () => {
       </section>
 
       <Modal show={open_modal} onHide={() => setOpenModal(false)} backdrop="static" centered>
-        <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} phone={is_update.mobile} new_mobile={is_update.mobile != "+" + selected_area_code + data.mobile ? "+" + selected_area_code + data.mobile : null} />
+        <PopVerify handler={handleOtpVerification} close={() => { setOpenModal(false) }} phone={is_update.mobile} new_mobile={is_update.mobile !== "+" + selected_area_code + data.mobile ? "+" + selected_area_code + data.mobile : null} />
       </Modal>
     </>
   )
