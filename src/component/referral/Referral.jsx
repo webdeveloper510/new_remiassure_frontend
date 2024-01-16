@@ -42,7 +42,7 @@ const Card = (props) => {
 
 const Referral = () => {
 
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     // console.log("TOKEN", token);
 
     const signup_token = localStorage.getItem("signup_token")

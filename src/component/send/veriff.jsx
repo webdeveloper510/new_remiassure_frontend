@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 
 const SenderDetails = ({ handleStep, step }) => {
 
-    const userd = JSON.parse(localStorage.getItem("remi-user-dt"))
+    const userd = JSON.parse(sessionStorage.getItem("remi-user-dt"))
     const [display, setDisplay] = useState("none")
     const [city_list, setCityList] = useState([])
     const [state_list, setStateList] = useState([])
@@ -62,7 +62,7 @@ const SenderDetails = ({ handleStep, step }) => {
         validationSchema: senderSchema,
         onSubmit: async (values) => {
             const local = JSON.parse(localStorage.getItem("transfer_data"))
-            const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+            const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
             local.sender = { ...values, email: user.email, customer_id: user.customer_id, mobile: user.mobile, country_code: data.country_code }
             localStorage.removeItem("transfer_data")
             localStorage.setItem("transfer_data", JSON.stringify(local))
@@ -77,7 +77,7 @@ const SenderDetails = ({ handleStep, step }) => {
 
     const [isVerified, setIsVerified] = useState(false)
     const [start_verify, setStartVerify] = useState(false)
-    const { digital_id_verified } = JSON.parse(localStorage.getItem("remi-user-dt"))
+    const { digital_id_verified } = JSON.parse(sessionStorage.getItem("remi-user-dt"))
     const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
     useEffect(() => {
@@ -160,7 +160,7 @@ const SenderDetails = ({ handleStep, step }) => {
         //         axios.post(`${global.serverUrl}/digital-verification/`, { code: res.code }, {
         //           headers: {
         //             'Content-Type': 'application/json',
-        //             "Authorization": `Bearer ${localStorage.getItem("token")}`
+        //             "Authorization": `Bearer ${sessionStorage.getItem("token")}`
         //           }
         //         }).then(res => {
         //           if (res?.data?.code == "200") {
@@ -753,7 +753,7 @@ const SenderDetails = ({ handleStep, step }) => {
 
 const Verification = ({ handler, handleSubmit, toggleLoader }) => {
 
-    let { customer_id } = JSON.parse(localStorage.getItem("remi-user-dt"))
+    let { customer_id } = JSON.parse(sessionStorage.getItem("remi-user-dt"))
 
     useEffect(() => {
         const veriff = Veriff({

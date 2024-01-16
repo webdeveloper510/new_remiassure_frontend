@@ -41,8 +41,8 @@ const DashHeader = () => {
     const handleClose = () => setShow(false);
     const mobilemenuShow = () => setShow(true);
 
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("remi-user-dt"));
+    const token = sessionStorage.getItem("token");
+    const user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
     const LoginDigitalidVerified = user?.digital_id_verified;
     const [isVerified, setIsVerified] = useState(user?.digital_id_verified?.toString().toLowerCase() || false)
     const [verification, setVerification] = useState(false)
@@ -53,6 +53,7 @@ const DashHeader = () => {
     const handleLogout = (event) => {
         event.preventDefault();
         localStorage.clear();
+        sessionStorage.clear()
         toast.success('Logout Successfully', { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
         navigate("/login")
     }
@@ -221,7 +222,7 @@ const DashHeader = () => {
 const VerificationModal = ({ handler, toggleLoader }) => {
 
 
-    const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+    const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
     useEffect(() => {
         const veriff = Veriff({
             apiKey: '55bdee3e-850a-4930-a7e6-e713a86a3cc9',
@@ -244,9 +245,9 @@ const VerificationModal = ({ handler, toggleLoader }) => {
                                             clearInterval(interval)
                                             if (res?.data?.verification?.status === "approved") {
                                                 toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
-                                                let user = JSON.parse(localStorage.getItem("remi-user-dt"));
+                                                let user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
                                                 user.digital_id_verified = "true"
-                                                localStorage.setItem("remi-user-dt", JSON.stringify(user))
+                                                sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                                             } else if (res?.data?.verification?.status === "declined") {
                                                 toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
                                             }

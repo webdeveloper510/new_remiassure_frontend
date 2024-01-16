@@ -88,9 +88,9 @@ const Home = () => {
 
 
     const currency_ref = useRef()
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const [defaultExchange, setDefaultExchange] = useState("")
-    const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
+    const userdt = JSON.parse(sessionStorage.getItem("remi-user-dt"))
     const items = [
         {
             heading: "Best on the market 1.",
@@ -270,7 +270,7 @@ const Home = () => {
             let obj = { send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, exchange_amt: tdata?.amount?.exchange_amt, exch_rate: tdata?.amount?.exchange_rate, defaultExchange: tdata?.amount?.defaultExchange }
             localStorage.setItem("exchange_curr", JSON.stringify(obj))
         } else {
-            let login = localStorage.getItem("token")
+            let login = sessionStorage.getItem("token")
             setReset(false)
             if (login) {
                 getPreferredCurrency().then(res => {

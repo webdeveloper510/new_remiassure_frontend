@@ -42,7 +42,7 @@ const ForgotPassword = () => {
     );
 
     useEffect(() => {
-        if (localStorage.getItem("token") && localStorage.getItem("remi-user-dt")) {
+        if (sessionStorage.getItem("token") && sessionStorage.getItem("remi-user-dt")) {
             navigate("/dashboard")
         }
     }, [])

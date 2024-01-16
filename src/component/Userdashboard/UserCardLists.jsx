@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import global from "../../utils/global"
 import axios from "axios";
 import Sidebar from './Sidebar';
@@ -13,7 +13,7 @@ import { cardList } from "../../utils/Api";
 
 const UserCardLists = () => {
 
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     const [carddata, setCarddata] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -40,13 +40,13 @@ const UserCardLists = () => {
 
     const getList = () => {
         setLoading(true);
-        cardList().then((res)=>{
+        cardList().then((res) => {
             setCarddata(res)
             setLoading(false)
-        }).catch((error)=>{
+        }).catch((error) => {
             setLoading(false)
         })
-        
+
     }
 
     const handleRemovecardDetails = (value) => {
@@ -163,7 +163,7 @@ const UserCardLists = () => {
                 </div>
             </div>
 
-           
+
         </>
     )
 }

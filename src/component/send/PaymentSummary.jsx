@@ -63,9 +63,9 @@ const PaymentSummary = ({ handleStep, step }) => {
           if (res.code === "200") {
             setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: null })
             localStorage.setItem("transaction_id", res?.data?.payment_id)
-            const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+            const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
             user.digital_id_verified = "true"
-            localStorage.setItem("remi-user-dt", JSON.stringify(user))
+            sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
             if (localStorage.getItem("send-step")) {
               localStorage.removeItem("send-step")
             }
@@ -79,9 +79,9 @@ const PaymentSummary = ({ handleStep, step }) => {
             // toast.error(res.message, { position: "bottom-right", hideProgressBar: true, autoClose: 3000 })
 
             localStorage.setItem("transaction_id", res?.data?.payment_id)
-            const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+            const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
             user.digital_id_verified = "true"
-            localStorage.setItem("remi-user-dt", JSON.stringify(user))
+            sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
             if (localStorage.getItem("send-step")) {
               localStorage.removeItem("send-step")
             }
@@ -108,10 +108,10 @@ const PaymentSummary = ({ handleStep, step }) => {
 
             setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: local?.payment?.pay_id })
             localStorage.setItem("transaction_id", res?.data?.payment_id)
-            const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+            const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
             // localStorage.removeItem("remi-user-dt")
             user.digital_id_verified = "true"
-            localStorage.setItem("remi-user-dt", JSON.stringify(user))
+            sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
             if (localStorage.getItem("send-step")) {
               localStorage.removeItem("send-step")
             }
@@ -136,9 +136,9 @@ const PaymentSummary = ({ handleStep, step }) => {
         setLoader(false)
         if (res.code == "200") {
           setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: null })
-          const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+          const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
           user.digital_id_verified = "true"
-          localStorage.setItem("remi-user-dt", JSON.stringify(user))
+          sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
           if (localStorage.getItem("send-step")) {
             localStorage.removeItem("send-step")
           }

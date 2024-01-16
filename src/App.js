@@ -19,10 +19,11 @@ const App = () => {
   const onLogOut = () => {
     setLoader(true)
     localStorage.clear()
+    sessionStorage.clear()
     navigate("/login")
   }
 
-  let login = localStorage.getItem('token')
+  let login = sessionStorage.getItem("token")
 
 
   useEffect(() => {
@@ -61,19 +62,20 @@ const App = () => {
       })
     }
 
-    let expTime = localStorage.getItem("tkn-exp");
+    // let expTime = localStorage.getItem("tkn-exp");
 
-    if (expTime) {
-      var d = new Date();
-      if (d == expTime) {
-        localStorage.clear()
-        navigate("/login")
-        window.location.reload()
-      }
-    }
+    // if (expTime) {
+    //   var d = new Date();
+    //   if (d == expTime) {
+    //     localStorage.clear()
+    //     sessionStorage.clear()
+    //     navigate("/login")
+    //     window.location.reload()
+    //   }
+    // }
 
     if (p[1] == "login" || p[1] == "sign-up" || p[1] == "verification" || p[1] == "forgot-password") {
-      if (localStorage.getItem("token")) {
+      if (sessionStorage.getItem("token")) {
         navigate("/dashboard")
       }
     }
@@ -100,7 +102,7 @@ const App = () => {
           onActive={() => { setIsActive(true) }}
           onIdle={() => { setIsActive(false) }}
           onLogout={() => { onLogOut() }}
-          timeOutInterval={(30 * 60 * 1000)}
+          timeOutInterval={(15 * 60 * 1000)}
         /> : <></>}
       {
         path == "remi-user-email-verification" ? (

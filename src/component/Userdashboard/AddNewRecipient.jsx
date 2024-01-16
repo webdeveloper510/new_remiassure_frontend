@@ -26,7 +26,9 @@ const Addnewrecipient = () => {
 
 
   const [data, setData] = useState({
-    bank_name: null, other_name: "", account_name: "", account_number: "",
+    bank_name: null, other_name: "",
+    //  account_name: "",
+    account_number: "",
     first_name: "", last_name: "", middle_name: "",
     email: "", mobile: "", flat: "",
     building: "", street: "", city: "",
@@ -35,7 +37,9 @@ const Addnewrecipient = () => {
   })
 
   const initialValues = {
-    bank_name: null, other_name: "", account_name: "", account_number: "",
+    bank_name: null, other_name: "",
+    //  account_name: "", 
+    account_number: "",
     first_name: "", last_name: "", middle_name: "",
     email: "", mobile: "", flat: "",
     building: "", street: "", city: "",
@@ -100,7 +104,7 @@ const Addnewrecipient = () => {
         return true
       }
     }).trim(),
-    account_name: Yup.string().min(3).max(50).required().trim(),
+    // account_name: Yup.string().min(3).max(50).required().trim(),
     account_number: Yup.string().min(5).max(18).required(),
     first_name: Yup.string().min(1).max(25).required().trim(),
     last_name: Yup.string().min(1).max(25).required().trim(),
@@ -355,7 +359,7 @@ const Addnewrecipient = () => {
                   </div>
                 ) : <></>
               }
-              <div className="col-md-4">
+              {/* <div className="col-md-4">
                 <div className="input_field">
                   <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
                   <input
@@ -373,7 +377,7 @@ const Addnewrecipient = () => {
                     )}
                   />
                 </div>
-              </div>
+              </div> */}
               <div className="col-md-4">
                 <div className="input_field">
                   <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>

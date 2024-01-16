@@ -155,8 +155,8 @@ const Footer = () => {
     }
     //Legal Footer content End
     const links = () => {
-        let user = JSON.parse(localStorage.getItem('remi-user-dt'))
-        let token = localStorage.getItem('token')
+        let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+        let token = sessionStorage.getItem("token")
         if (token && (user?.digital_id_verified === "True" || user?.digital_id_verified === "true")) {
             return `/user-send-money`
         } else {
@@ -329,7 +329,7 @@ const Footer = () => {
                             <div className="col-md-4">
                                 <div className="footer-info1 footer-logo">
                                     <div className="icon-ffoter ">
-                                        <img src="assets/img/home/mail.png" alt="qqt"/>
+                                        <img src="assets/img/home/mail.png" alt="qqt" />
 
                                     </div>
                                     <div className="infor-content">

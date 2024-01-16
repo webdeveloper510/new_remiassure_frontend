@@ -1,7 +1,7 @@
 const authChecker = (checkType) => {
 
-  const token = localStorage.getItem('token')
-  let user = JSON.parse(localStorage.getItem("remi-user-dt"))
+  const token = sessionStorage.getItem("token")
+  let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
 
   if (checkType === 'authCheck') {
     if (!token && !user) {

@@ -2184,3 +2184,8 @@ background: transparent !important;
     .kustom_mobile{
         margin: auto !important
     }
+
+    h5 {
+       color: #190278;
+       margin-top:15px
+    }

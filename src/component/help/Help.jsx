@@ -13,8 +13,8 @@ const Help = () => {
   const navigate = useNavigate()
 
   const transferLinks = () => {
-    let user = JSON.parse(localStorage.getItem('remi-user-dt'))
-    let token = localStorage.getItem('token')
+    let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+    let token = sessionStorage.getItem("token")
     if (token && (user?.digital_id_verified === "True" || user?.digital_id_verified === "true")) {
       return `/user-send-money`
     } else {
@@ -188,8 +188,8 @@ const Help = () => {
   }
   // End Accordion functionality section 
   const linking = () => {
-    let user = JSON.parse(localStorage.getItem('remi-user-dt'))
-    let token = localStorage.getItem('token')
+    let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+    let token = sessionStorage.getItem("token")
     if (token && user) {
       return "/user-profile"
     } else {
@@ -254,9 +254,9 @@ const Help = () => {
             </div>
           </section>
         </section>
-<div className="help-sc" id="support">
+        <div className="help-sc" id="support">
 
-</div>
+        </div>
         <section className="contct-info" id="support">
           <div className="container">
             <div className="darkpink" >

@@ -21,7 +21,7 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     /**************************token ************************ */
-    const user = JSON.parse(localStorage.getItem("remi-user-dt"));
+    const user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
 
     const [transactionData, setTransactionData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -419,7 +419,7 @@ const Dashboard = () => {
 const VerificationModal = ({ handler, toggleLoader }) => {
 
 
-    const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+    const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
     useEffect(() => {
         const veriff = Veriff({
             apiKey: `${process.env.REACT_APP_VERIFF_KEY}`,
@@ -441,9 +441,9 @@ const VerificationModal = ({ handler, toggleLoader }) => {
                                         if (res.code === "200") {
                                             if (res?.data?.verification?.status === "approved") {
                                                 toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
-                                                let user = JSON.parse(localStorage.getItem("remi-user-dt"));
+                                                let user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
                                                 user.digital_id_verified = "true"
-                                                localStorage.setItem("remi-user-dt", JSON.stringify(user))
+                                                sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                                             } else if (res?.data?.verification?.status === "declined") {
                                                 toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
                                             }

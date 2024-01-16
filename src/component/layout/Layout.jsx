@@ -9,8 +9,8 @@ const Layout = ({ children }) => {
     const path = useLocation().pathname
 
     useEffect(() => {
-        let token = localStorage.getItem("token")
-        let user = JSON.parse(localStorage.getItem("remi-user-dt"))
+        let token = sessionStorage.getItem("token")
+        let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
         if ((!token && !user) || (token && !user)) {
             navigate("/login")
         }

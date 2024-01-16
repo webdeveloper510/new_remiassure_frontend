@@ -17,7 +17,7 @@ const myStyle = {
 const SingleCardProfile = () => {
 
   /*********************Start page show hide condtion page ****************************/
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
 

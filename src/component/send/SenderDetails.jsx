@@ -17,7 +17,7 @@ import { Veriff } from '@veriff/js-sdk';
 
 const SenderDetails = ({ handleStep, step }) => {
 
-  const userd = JSON.parse(localStorage.getItem("remi-user-dt"))
+  const userd = JSON.parse(sessionStorage.getItem("remi-user-dt"))
   const [display, setDisplay] = useState("none")
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
@@ -25,7 +25,7 @@ const SenderDetails = ({ handleStep, step }) => {
   const [postal_list, setPostalList] = useState([])
   const [isVerified, setIsVerified] = useState(userd?.digital_id_verified || "false")
   const [start_verify, setStartVerify] = useState(false)
-  const { digital_id_verified } = JSON.parse(localStorage.getItem("remi-user-dt"))
+  const { digital_id_verified } = JSON.parse(sessionStorage.getItem("remi-user-dt"))
   const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
   const serverUrl = process.env.REACT_APP_API_URL
@@ -111,7 +111,7 @@ const SenderDetails = ({ handleStep, step }) => {
     validationSchema: senderSchema,
     onSubmit: async (values) => {
       const local = JSON.parse(localStorage.getItem("transfer_data"))
-      const user = JSON.parse(localStorage.getItem("remi-user-dt"))
+      const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
       local.sender = { ...values, email: user.email, customer_id: user.customer_id, mobile: user.mobile, country_code: data.country_code }
       localStorage.removeItem("transfer_data")
       localStorage.setItem("transfer_data", JSON.stringify(local))
@@ -214,16 +214,16 @@ const SenderDetails = ({ handleStep, step }) => {
     //         axios.post(`${serverUrl}/digital-verification/`, { code: res.code }, {
     //           headers: {
     //             'Content-Type': 'application/json',
-    //             "Authorization": `Bearer ${localStorage.getItem("token")}`
+    //             "Authorization": `Bearer ${sessionStorage.getItem("token")}`
     //           }
     //         }).then(res => {
     //           if (res?.data?.code == "200") {
     //             window.setTimeout(() => {
     //               setLoader(false)
     //             }, 2000)
-    //             const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
+    //             const userdt = JSON.parse(sessionStorage.getItem("remi-user-dt"))
     //             userdt.digital_id_verified = "true"
-    //             localStorage.setItem("remi-user-dt", JSON.stringify(userdt))
+    //             sessionStorage.setItem("remi-user-dt", JSON.stringify(userdt))
     //             toast.success("Digital Id successfully verified", { position: "bottom-right", hideProgressBar: true })
     //           } else {
     //             setLoader(false)
@@ -772,7 +772,7 @@ const SenderDetails = ({ handleStep, step }) => {
 
 const Verification = ({ handler, submit, formdata, toggleLoader }) => {
 
-  let user = JSON.parse(localStorage.getItem("remi-user-dt"))
+  let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
 
 
   useEffect(() => {
@@ -799,7 +799,7 @@ const Verification = ({ handler, submit, formdata, toggleLoader }) => {
                         clearInterval(interval)
                         toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
                         user.digital_id_verified = "true";
-                        localStorage.setItem("remi-user-dt", JSON.stringify(user))
+                        sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                         submit()
                       } else if (res?.data?.verification?.status === "declined") {
                         toggleLoader(false)

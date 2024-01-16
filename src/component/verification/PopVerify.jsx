@@ -28,7 +28,7 @@ const PopVerify = ({ handler, close, phone, new_mobile }) => {
     const [loading, setLoading] = useState(false);
     const [otp, setOtp] = useState("");
 
-    const { mobile } = JSON.parse(localStorage.getItem("remi-user-dt"))
+    const { mobile } = JSON.parse(sessionStorage.getItem("remi-user-dt"))
 
     // start Error mesasge states
     const [EnterOtpText, setEnterOtpText] = useState('');
@@ -66,7 +66,7 @@ const PopVerify = ({ handler, close, phone, new_mobile }) => {
                     let d = new Date()
                     d.setDate(d.getDate() + 1);
                     localStorage.setItem('tkn-exp', d)
-                    localStorage.setItem('token', res.access_token)
+                    sessionStorage.setItem('token', res.access_token)
                     setLoading(false)
                     close()
                     handler(true)

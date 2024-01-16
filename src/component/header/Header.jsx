@@ -63,8 +63,8 @@ const Header = () => {
   const handleClose = () => setShow(false);
   const mobilemenuShow = () => setShow(true);
 
-  const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("remi-user-dt"));
+  const token = sessionStorage.getItem("token");
+  const user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
   const LoginDigitalidVerified = user?.digital_id_verified
 
   const navigate = useNavigate();
@@ -72,6 +72,7 @@ const Header = () => {
   const handleLogout = (event) => {
     event.preventDefault();
     localStorage.clear();
+    sessionStorage.clear();
     toast.success('Logout Successfully', { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
     navigate("/login")
   }
@@ -218,12 +219,12 @@ const Header = () => {
                 <div className="mobile-app-section">
                   <p>Download the RemitAssure App</p>
                   <div className="col-md-12">
-                                                <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank"> <img src="assets/img/home/playstore.svg" alt="home_icons" className="" /></a>
-                                            </div>
-                                            <div className="col-md-12">
-                                                <a href="https://apps.apple.com/us/app/remitassure/id6451420844" target="_blank">  <img src="assets/img/home/appstore.svg" alt="home_icons" className="" /></a>
-                                            </div>
-                 
+                    <a href="https://play.google.com/store/apps/details?id=com.remitAssure&pli=1" target="_blank"> <img src="assets/img/home/playstore.svg" alt="home_icons" className="" /></a>
+                  </div>
+                  <div className="col-md-12">
+                    <a href="https://apps.apple.com/us/app/remitassure/id6451420844" target="_blank">  <img src="assets/img/home/appstore.svg" alt="home_icons" className="" /></a>
+                  </div>
+
                 </div>
               </div>
             </Offcanvas.Body>

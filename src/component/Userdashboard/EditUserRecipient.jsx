@@ -25,7 +25,9 @@ const Editrecipientuser = () => {
 
   const [data, setData] = useState({
     id: "", other_name: "",
-    bank_name: '', account_name: '', account_number: '', first_name: '', middle_name: '',
+    bank_name: '',
+    // account_name: '', 
+    account_number: '', first_name: '', middle_name: '',
     last_name: '', email: '', mobile: '', country: '', flat: "", street: "", postcode: "", building: "",
     city: "", state: "", country_code: "AU"
   });
@@ -52,7 +54,7 @@ const Editrecipientuser = () => {
         return true
       }
     }).trim(),
-    account_name: Yup.string().min(3).max(50).required().trim(),
+    // account_name: Yup.string().min(3).max(50).required().trim(),
     account_number: Yup.string().min(5).max(18).required(),
     first_name: Yup.string().min(1).max(25).required().trim(),
     last_name: Yup.string().min(1).max(25).required().trim(),
@@ -70,7 +72,7 @@ const Editrecipientuser = () => {
   const initialValues = {
     bank_name: "",
     other_name: "",
-    account_name: "",
+    // account_name: "",
     account_number: "",
     first_name: '',
     middle_name: '',
@@ -387,7 +389,7 @@ const Editrecipientuser = () => {
                     </div>
                   ) : <></>
                 }
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <div className="input_field">
                     <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
                     <input
@@ -405,7 +407,7 @@ const Editrecipientuser = () => {
                       )}
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className="col-md-4">
                   <div className="input_field">
                     <p className="get-text">Account number<span style={{ color: 'red' }} >*</span></p>

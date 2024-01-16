@@ -70,7 +70,7 @@ const Profile = () => {
   }
 
   // Start page show hide condtion page 
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   //  console.log("TOKEN", token);
 
   const verification_otp = localStorage.getItem("verification_otp");

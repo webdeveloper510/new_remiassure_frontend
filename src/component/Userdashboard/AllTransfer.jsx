@@ -12,7 +12,7 @@ import { commaSeperator, generateRandomKey } from "../../utils/hook";
 const serverUrl = process.env.REACT_APP_API_URL
 const AllTranfer = ({ status, data }) => {
 
-  // const token = localStorage.getItem("token");
+  // const token = sessionStorage.getItem("token");
 
   // const Total_amount = localStorage.getItem("Total_amount");
 

@@ -27,8 +27,8 @@ const myStyle = {
 const Addnewcard = () => {
 
   /************ Start-show hide condtion page ***************/
-  const token = localStorage.getItem("token");
-  const userdt = JSON.parse(localStorage.getItem("remi-user-dt"))
+  const token = sessionStorage.getItem("token");
+  const userdt = JSON.parse(sessionStorage.getItem("remi-user-dt"))
 
   /************ Start -Recipient Bank Details state***************/
   const [error, setError] = useState(false);

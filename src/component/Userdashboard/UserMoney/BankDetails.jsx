@@ -32,7 +32,9 @@ const BankDetails = ({ handleStep, step }) => {
   const serverUrl = process.env.REACT_APP_API_URL
 
   const [data, setData] = useState({
-    bank: null, other_name: "", acc_name: "", acc_no: "",
+    bank: null, other_name: "",
+    // acc_name: "", 
+    acc_no: "",
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
@@ -40,7 +42,9 @@ const BankDetails = ({ handleStep, step }) => {
   })
 
   const initialValues = {
-    bank: null, other_name: "", acc_name: "", acc_no: "",
+    bank: null, other_name: "",
+    //  acc_name: "", 
+    acc_no: "",
     f_name: "", l_name: "", m_name: "",
     email: "", mobile: "", flat: "",
     build_no: "", street: "", city: "",
@@ -73,7 +77,7 @@ const BankDetails = ({ handleStep, step }) => {
         return true
       }
     }).trim(),
-    acc_name: Yup.string().min(3).max(50).required().trim(),
+    // acc_name: Yup.string().min(3).max(50).required().trim(),
     acc_no: Yup.string().min(5).max(18).required(),
     f_name: Yup.string().min(2).max(25).required().trim(),
     l_name: Yup.string().min(2).max(25).required().trim(),
@@ -99,7 +103,7 @@ const BankDetails = ({ handleStep, step }) => {
       setLoading(true)
       const d = {
         bank_name: values.bank === "other" ? values?.other_name : values.bank,
-        account_name: values.acc_name,
+        // account_name: values.acc_name,
         account_number: values.acc_no,
         first_name: values.f_name,
         middle_name: values.m_name,
@@ -135,7 +139,7 @@ const BankDetails = ({ handleStep, step }) => {
 
       axios.post(`${serverUrl}/payment/recipient-create/`, d, {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
         },
 
       })
@@ -267,7 +271,9 @@ const BankDetails = ({ handleStep, step }) => {
 
   const handleCancel = () => {
     setData({
-      ...data, acc_name: "", acc_no: "",
+      ...data,
+      // acc_name: "",
+      acc_no: "",
       f_name: "", l_name: "", m_name: "",
       email: "", mobile: "", flat: "",
       build_no: "", street: "", city: "",
@@ -332,7 +338,7 @@ const BankDetails = ({ handleStep, step }) => {
     setLoading(true); // Set loading before sending API request	
     axios.post(`${serverUrl}/payment/recipient-list/`, {}, {
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
       }
     })
       .then((res) => {
@@ -504,7 +510,7 @@ const BankDetails = ({ handleStep, step }) => {
                           </div>
                         ) : <></>
                       }
-                      <div className="col-md-4">
+                      {/* <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Account Name<span style={{ color: 'red' }} >*</span></p>
                           <input
@@ -523,7 +529,7 @@ const BankDetails = ({ handleStep, step }) => {
                             )}
                           />
                         </div>
-                      </div>
+                      </div> */}
                       <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Account Number<span style={{ color: 'red' }} >*</span></p>

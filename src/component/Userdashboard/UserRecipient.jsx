@@ -14,7 +14,7 @@ import { recipientList } from "../../utils/Api";
 
 const UserRecipients = () => {
 
-    const token = localStorage.getItem("token")
+    const token = sessionStorage.getItem("token")
     const navigate = useNavigate();
 
     const [show, setShow] = useState(false);

@@ -1,5 +1,5 @@
 
-import React, { useState, useContext, useEffect,  useMemo } from "react";
+import React, { useState, useContext, useEffect, useMemo } from "react";
 import { Links, NavLink, useNavigate, useParams } from 'react-router-dom';
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -27,7 +27,7 @@ const myStyle = {
 const EditCardUser = () => {
 
   /**************************token ************************ */
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   // console.log("TOKEN", token);
 
   const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
@@ -240,7 +240,7 @@ const EditCardUser = () => {
     getCardData(id).then((response) => {
       if (response.code == "200") {
         let value = response.data
-        
+
         setData({
           ...data,
           id: value.id,
@@ -263,7 +263,7 @@ const EditCardUser = () => {
   const inputvalidation = (event) => {
     const pattern = /^[0-9]+$/;
     let value = event.target.value
-    if (event.key === 'Backspace'||event.key === 'Enter'||event.key === 'Tab'|| event.key ==='Shift'||event.key==='ArrowLeft'||event.key==="ArrowRight"||event.key==="Escape"||event.key==="Delete") {
+    if (event.key === 'Backspace' || event.key === 'Enter' || event.key === 'Tab' || event.key === 'Shift' || event.key === 'ArrowLeft' || event.key === "ArrowRight" || event.key === "Escape" || event.key === "Delete") {
     } else {
       if (value.length < 16) {
         if (!pattern.test(event.key)) {
@@ -319,11 +319,11 @@ const EditCardUser = () => {
         expiry_year: values.expiry_year
       })
         .then((response) => {
-          if(response.code == "200"){
+          if (response.code == "200") {
             navigate('/user-card-list')
-            toast.success(response.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
-          }else if(response.code == "400"){
-            toast.error(response.message, { position:"bottom-right", autoClose: 2000, hideProgressBar: true })
+            toast.success(response.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+          } else if (response.code == "400") {
+            toast.error(response.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
           }
           setLoading(false)
         })

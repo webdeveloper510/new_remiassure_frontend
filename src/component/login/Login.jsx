@@ -125,12 +125,12 @@ const Login = () => {
                     let d = new Date()
                     d.setDate(d.getDate() + 1);
                     localStorage.setItem('tkn-exp', d)
-                    localStorage.setItem('token', res.access_token)
+                    sessionStorage.setItem('token', res.access_token)
                     setLoading(false)
                     if (obj.page !== "register") {
                         const user = res?.data
                         user.digital_id_verified = `${res?.data?.digital_id_verified}`
-                        localStorage.setItem("remi-user-dt", JSON.stringify(user))
+                        sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                         if (localStorage.getItem("transfer_data")) {
                             navigate(`/user-send-money`)
                         } else {
@@ -139,7 +139,7 @@ const Login = () => {
                     } else {
                         const user = res?.data
                         user.digital_id_verified = "false"
-                        localStorage.setItem("remi-user-dt", JSON.stringify(user))
+                        sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                         navigate('/dashboard')
                     }
                 } else if (res.code == "400") {
@@ -202,7 +202,7 @@ const Login = () => {
         setTimeout(() => {
             setShowAlert(0)
         }, 5000)
-        if (localStorage.getItem("token") && localStorage.getItem("remi-user-dt")) {
+        if (sessionStorage.getItem("token") && sessionStorage.getItem("remi-user-dt")) {
             navigate("/dashboard")
         }
 

@@ -17,7 +17,7 @@ import { senderAreaList as areaList } from "../../utils/ArealList";
 
 
 const Profile = () => {
-  const user_data = JSON.parse(localStorage.getItem("remi-user-dt"))
+  const user_data = JSON.parse(sessionStorage.getItem("remi-user-dt"))
   const [open_modal, setOpenModal] = useState(false)
   const [is_otp_verified, setIsOtpVerfied] = useState(false)
   const [loading, setLoading] = React.useState(false);
@@ -273,10 +273,10 @@ const Profile = () => {
     updateProfile(d).then(res => {
       setLoading(false)
       if (res.code === "200") {
-        let user = JSON.parse(localStorage.getItem("remi-user-dt"))
+        let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
         let local = { ...res.data, digital_id_verified: user?.digital_id_verified }
         localStorage.removeItem("remi-user-dt")
-        localStorage.setItem("remi-user-dt", JSON.stringify(local))
+        sessionStorage.setItem("remi-user-dt", JSON.stringify(local))
         setLoading(false)
         toast.success("Profile Update Successful", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         formik.resetForm()
