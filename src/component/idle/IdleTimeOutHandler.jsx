@@ -147,7 +147,7 @@ const IdleTimeOutModal = ({ showModal, handleContinue, handleLogout, remainingTi
                 <Modal.Title>You Have Been Idle!</Modal.Title>
             </Modal.Header>
             <Modal.Body className="session_modal">
-                <p>You will get automatically <b style={{ color: "#6414E9" }}>loged out</b> in:</p>
+                <p>You will get automatically <b style={{ color: "#6414E9" }}>logged out</b> in:</p>
                 <p className='image_idle_time  py-5' style={{ backgroundImage: `url(${timeOut})` }}>
                     <span className="display-3 fw-semibold text-danger">{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</span>
                 </p>
