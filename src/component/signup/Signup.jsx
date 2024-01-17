@@ -55,7 +55,7 @@ const Signup = () => {
         email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/, "Invalid email format").min(6).max(50).required("Email is required"),
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
-        referral_code: isOn ? Yup.string().min(8, "Referral code must contain 8 characters").max(8, "Referral code must contain 8 characters").required("Referral Code is required") : Yup.string().notRequired(),
+        referral_code: isOn ? Yup.string().min(1, "Referral code must contain 8 characters").required("Referral Code is required") : Yup.string().notRequired(),
         mobile: Yup.string().min(9, "Minimum 9 digits").required("Mobile is required")
     })
 
@@ -547,7 +547,6 @@ const Signup = () => {
                                                                     <Form.Label>Your Referral Code</Form.Label>
                                                                     <input
                                                                         type="text"
-                                                                        maxLength="8"
                                                                         name="referral_code"
                                                                         value={formik.values.referral_code}
                                                                         onChange={handleRef}
