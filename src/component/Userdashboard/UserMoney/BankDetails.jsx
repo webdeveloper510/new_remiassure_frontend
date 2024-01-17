@@ -36,7 +36,8 @@ const BankDetails = ({ handleStep, step }) => {
     // acc_name: "", 
     acc_no: "",
     f_name: "", l_name: "", m_name: "",
-    email: "", mobile: "", flat: "",
+    // email: "",
+    mobile: "", flat: "",
     build_no: "", street: "", city: "",
     post_code: "", state: "", country: "", country_code: "AU"
   })
@@ -46,7 +47,8 @@ const BankDetails = ({ handleStep, step }) => {
     //  acc_name: "", 
     acc_no: "",
     f_name: "", l_name: "", m_name: "",
-    email: "", mobile: "", flat: "",
+    // email: "", 
+    mobile: "", flat: "",
     build_no: "", street: "", city: "",
     post_code: "", state: "", country: "", country_code: "AU"
   }
@@ -63,7 +65,7 @@ const BankDetails = ({ handleStep, step }) => {
     bank: Yup.string()
       .min(3, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
-      .required('Email is required').trim().notOneOf([null]),
+      .required('Bank name is required').trim().notOneOf([null]),
     other_name: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
       const {
         createError,
@@ -81,7 +83,7 @@ const BankDetails = ({ handleStep, step }) => {
     acc_no: Yup.string().min(5).max(18).required(),
     f_name: Yup.string().min(2).max(25).required().trim(),
     l_name: Yup.string().min(2).max(25).required().trim(),
-    email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50),
+    // email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50),
     mobile: Yup.string().min(11).max(18).required(),
     flat: Yup.string().min(1).max(30).notRequired(),
     build_no: Yup.string().min(1).max(30).required().trim(),
@@ -108,7 +110,7 @@ const BankDetails = ({ handleStep, step }) => {
         first_name: values.f_name,
         middle_name: values.m_name,
         last_name: values.l_name,
-        email: values.email,
+        // email: values.email,
         mobile: values.mobile,
         flat: values.flat,
         building: values.build_no,
@@ -125,9 +127,9 @@ const BankDetails = ({ handleStep, step }) => {
       if (d.postcode === "" || d.postcode === undefined || d.postcode === " ") {
         delete d['postcode'];
       }
-      if (d.email === "" || d.email === undefined) {
-        delete d['email'];
-      }
+      // if (d.email === "" || d.email === undefined) {
+      //   delete d['email'];
+      // }
       // console.log("PHONE CODE", phone_code)
       // console.log("dasdasvd")
       if (phone_code !== "") {
@@ -275,7 +277,8 @@ const BankDetails = ({ handleStep, step }) => {
       // acc_name: "",
       acc_no: "",
       f_name: "", l_name: "", m_name: "",
-      email: "", mobile: "", flat: "",
+      // email: "", 
+      mobile: "", flat: "",
       build_no: "", street: "", city: "",
       post_code: "", state: "", country: ""
     })
@@ -608,7 +611,7 @@ const BankDetails = ({ handleStep, step }) => {
                       </div>
                     </div>
                     <div className="row each-row remove_mb">
-                      <div className="col-md-6">
+                      {/* <div className="col-md-6">
                         <div className="input_field">
                           <p className="get-text">Email</p>
                           <input
@@ -628,7 +631,7 @@ const BankDetails = ({ handleStep, step }) => {
                             )}
                           />
                         </div>
-                      </div>
+                      </div> */}
                       <div className="col-md-6">
                         <div className="input_field">
                           <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>

@@ -1208,14 +1208,14 @@ const Home = () => {
             </section>
 
             {/*testtimonial section */}
-            <section className="why-us_section homepage-why-us hows-section1 blogs-P">
+            {/* <section className="why-us_section homepage-why-us hows-section1 blogs-P">
                 <div className="container">
                     <h1 class="head-new">Blogs</h1>
                     <div class="vl-content"><p class="vl-paragraph padding-top-0">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p></div>
                     <Blogs />
                 </div>
 
-            </section>
+            </section> */}
 
 
 

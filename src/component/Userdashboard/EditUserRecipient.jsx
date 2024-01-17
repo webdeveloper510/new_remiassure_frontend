@@ -28,7 +28,9 @@ const Editrecipientuser = () => {
     bank_name: '',
     // account_name: '', 
     account_number: '', first_name: '', middle_name: '',
-    last_name: '', email: '', mobile: '', country: '', flat: "", street: "", postcode: "", building: "",
+    last_name: '',
+    //  email: '',
+    mobile: '', country: '', flat: "", street: "", postcode: "", building: "",
     city: "", state: "", country_code: "AU"
   });
   const [phone_code, setPhoneCode] = useState("")
@@ -40,7 +42,7 @@ const Editrecipientuser = () => {
     bank_name: Yup.string()
       .min(3, 'Minimum 3 symbols')
       .max(50, 'Maximum 50 symbols')
-      .required('Email is required').trim(),
+      .required('Bank name is required').trim(),
     other_name: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
       const {
         createError,
@@ -58,7 +60,7 @@ const Editrecipientuser = () => {
     account_number: Yup.string().min(5).max(18).required(),
     first_name: Yup.string().min(1).max(25).required().trim(),
     last_name: Yup.string().min(1).max(25).required().trim(),
-    email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50),
+    // email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50),
     mobile: Yup.string().min(10).max(18).required(),
     flat: Yup.string().min(1).max(30).notRequired(),
     building: Yup.string().min(1).max(30).required().trim(),
@@ -77,7 +79,7 @@ const Editrecipientuser = () => {
     first_name: '',
     middle_name: '',
     last_name: "",
-    email: "",
+    // email: "",
     mobile: "",
     flat: "",
     building: "",
@@ -173,9 +175,9 @@ const Editrecipientuser = () => {
       if (d.postcode === "" || d.postcode === undefined) {
         delete d['postcode'];
       }
-      if (d.email === "" || d.email === undefined) {
-        delete d['email'];
-      }
+      // if (d.email === "" || d.email === undefined) {
+      //   delete d['email'];
+      // }
       d.country_code = data.country_code
 
       if (phone_code !== "") {
@@ -483,7 +485,7 @@ const Editrecipientuser = () => {
                 </div>
               </div>
               <div className="row each-row remove_mb">
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <div className="input_field">
                     <p className="get-text">Email</p>
                     <input
@@ -508,7 +510,7 @@ const Editrecipientuser = () => {
                       </div>
                     )}
                   </div>
-                </div>
+                </div> */}
                 <div className="col-md-4">
                   <div className="input_field">
                     <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
