@@ -5837,7 +5837,7 @@ h2.accordion-header {
   margin-top: 30px;
 } */
 .form-control:disabled {
-  background-color: transparent !important;
+  background-color: rgb(128 128 128 / 57%) !important;
   opacity: 1;
 }
 
@@ -6571,7 +6571,7 @@ a.btn.btn-outline-dark.btn-rounded {
   background: #060819;
   color: #fff;
 }
-
+-*
 .table,.text-black,.previous-transactions td h6,form.single-recipient h5,.css-qbdosj-Input,.form-control,.tabs-page h5,span.radio-tick, .modal-content p,.css-1dimb5e-singleValue,.inner-circle1 label
 {
   color: #060819 !important;
@@ -9334,4 +9334,12 @@ nav#navbar a.logactin {
 
 div#home-section select {
   color: #fff !important;
+}
+
+.buttonsdownload img {
+    margin-bottom: 10px;
+}
+
+.buttonsdownload img {
+  margin-bottom: 10px;
 }
