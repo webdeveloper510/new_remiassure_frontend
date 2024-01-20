@@ -35,6 +35,7 @@ import PayToDetail from './component/Userdashboard/paymentDetails/PayToDetail';
 import Layout from './component/layout/Layout';
 import NonDashLayout from './component/layout/NonDashLayout';
 import Commingsoon from './component/commingsoon/Commingsoon';
+import MultiStepForm from './component/kyc/Mainsteps';
 const RouteWithBodyClass = ({ element, bodyClass }) => {
   useEffect(() => {
     document.body.className = bodyClass;
@@ -53,6 +54,7 @@ const routes = [
     path: '/',
     children: [
       { path: '/', element: <NonDashLayout><Home /></NonDashLayout> },
+      { path: 'kyc', element: <NonDashLayout><RouteWithBodyClass element={<MultiStepForm />} bodyClass="kyc-page" /></NonDashLayout> },
       { path: 'about-us', element: <NonDashLayout><RouteWithBodyClass element={<Aboutus />} bodyClass="aboutus-page" /></NonDashLayout> },
       { path: 'working', element: <NonDashLayout><RouteWithBodyClass element={<Working />} bodyClass=" Working bg-image" /> </NonDashLayout> },
       { path: 'news', element: <NonDashLayout><News /> </NonDashLayout> },
