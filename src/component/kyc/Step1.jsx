@@ -31,7 +31,19 @@ const Step1 = ({ nextStep, values }) => {
     postcode: "", state: "none", email: "", mobile: "", occupation: "",
     customer_id: "", country_code: "AU", payment_per_annum: "Tier 1 - Less than 5 times", value_per_annum: "Tier 1 - Less than $30,000"
   })
+  const handleNextStep = () => {
+    // Validate required fields before proceeding
+    const requiredFields = ["First_name", "Last_name", "email", "mobile", "Date_of_birth", "Country_of_birth", "occupation"];
+    const missingFields = requiredFields.filter(field => !formik.values[field]);
 
+    if (missingFields.length > 0) {
+      toast.error(`Please fill in the required fields: ${missingFields.join(", ")}`, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
+      return;
+    }
+
+    // Proceed to the next step if all required fields are filled
+    nextStep();
+  };
   const [selected_area_code, setSelectedAreaCode] = useState("61");
 
 
@@ -357,7 +369,7 @@ const Step1 = ({ nextStep, values }) => {
                           maxLength="25"
                           className={clsx(
                             'form-control bg-transparent',
-                            { 'is-invalid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.First_name && formik.errors.First_name },
+                            { 'is-invalid':formik.touched.First_name && formik.errors.First_name },
                             {
                               'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.First_name && !formik.errors.First_name
                             }
@@ -393,7 +405,7 @@ const Step1 = ({ nextStep, values }) => {
                           disabled={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
                           className={clsx(
                             'form-control bg-transparent',
-                            { 'is-invalid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Last_name && formik.errors.Last_name },
+                            { 'is-invalid':  formik.touched.Last_name && formik.errors.Last_name },
                             {
                               'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Last_name && !formik.errors.Last_name,
                             }
@@ -438,7 +450,7 @@ const Step1 = ({ nextStep, values }) => {
                       <div className="input_field">
                         <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                         <div className="row kustom_mobile">
-                          <div className="col-md-5 px-0">
+                          <div className="col-md-6 px-0">
                             <select className="form-control form-select bg-transparent" value={selected_area_code} onChange={(e) =>
                               setSelectedAreaCode(e.target.value)}>
                               {
@@ -450,7 +462,7 @@ const Step1 = ({ nextStep, values }) => {
                               }
                             </select>
                           </div>
-                          <div className={`col-md-7 px-0`}>
+                          <div className={`col-md-6 px-0`}>
                             <input
                               type="text"
                               name="mobile"
@@ -505,7 +517,7 @@ const Step1 = ({ nextStep, values }) => {
                           // onkeydown={(e) => { e.stopPropagation() }}
                           className={clsx(
                             'form-control bg-transparent',
-                            { 'is-invalid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && formik.errors.Date_of_birth },
+                            { 'is-invalid': formik.touched.Date_of_birth && formik.errors.Date_of_birth },
                             {
                               'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
                             }
@@ -524,7 +536,7 @@ const Step1 = ({ nextStep, values }) => {
                           disabled={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
                           className={clsx(
                             'form-control form-select bg-transparent',
-                            { 'is-invalid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && formik.errors.Country_of_birth },
+                            { 'is-invalid':  formik.touched.Country_of_birth && formik.errors.Country_of_birth },
                             {
                               'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
                             }
@@ -570,7 +582,7 @@ const Step1 = ({ nextStep, values }) => {
                 </div>
               </div>
               <div className="next-step">
-              <button onClick={nextStep} className="login_button">Next <b>Step</b>  <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
+              <button onClick={handleNextStep}  className="login_button">Next <b>Step</b>  <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
               <button onClick={nextStep} className="SKip">Skip</button>
               </div>
             </form>

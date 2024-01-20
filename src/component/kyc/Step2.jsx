@@ -15,6 +15,17 @@ import PopVerify from "../verification/PopVerify";
 import { senderAreaList as areaList } from "../../utils/ArealList";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 const Step2 = ({ nextStep, values }) => {
+
+  const handleNextStep = () => {
+    // Validate required fields before proceeding
+    const requiredFields = ["First_name", "Last_name", "email", "mobile", "Date_of_birth", "Country_of_birth", "occupation"];
+    const missingFields = requiredFields.filter(field => !formik.values[field]);
+
+   
+
+    // Proceed to the next step if all required fields are filled
+    nextStep();
+  };
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlwAfBiJCzvgRMzGipDYl7Eti0dnk4xIs&libraries=places&callback=initMap"async></script>
     const user_data = JSON.parse(sessionStorage.getItem("remi-user-dt"))
   const [open_modal, setOpenModal] = useState(false)
@@ -622,7 +633,7 @@ const Step2 = ({ nextStep, values }) => {
                           // onkeydown={(e) => { e.stopPropagation() }}
                           className={clsx(
                             'form-control bg-transparent',
-                            { 'is-invalid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && formik.errors.Date_of_birth },
+                            { 'is-invalid':  formik.touched.Date_of_birth && formik.errors.Date_of_birth },
                             {
                               'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
                             }
@@ -642,7 +653,7 @@ const Step2 = ({ nextStep, values }) => {
                 </div>
               </div>
               <div className="next-step">
-              <button onClick={nextStep} className="login_button">Continue  <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
+              <button onClick={handleNextStep} className="login_button">Continue  <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
               <button onClick={nextStep} className="SKip">Skip</button>
               </div>
             </form>
