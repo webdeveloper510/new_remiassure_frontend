@@ -658,7 +658,7 @@ const Step2 = ({ nextStep, values }) => {
               </div>
               <div className="next-step">
               <button onClick={handleNextStep} className="login_button">Continue  <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
-              <button onClick={nextStep} className="SKip">Skip</button>
+              <button  className="SKip">Skip</button>
               </div>
             </form>
           </section>
