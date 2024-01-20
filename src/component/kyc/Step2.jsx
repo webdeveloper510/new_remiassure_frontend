@@ -13,8 +13,9 @@ import { userProfile, updateProfile } from "../../utils/Api";
 import { Modal } from "react-bootstrap";
 import PopVerify from "../verification/PopVerify";
 import { senderAreaList as areaList } from "../../utils/ArealList";
-
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 const Step2 = ({ nextStep, values }) => {
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlwAfBiJCzvgRMzGipDYl7Eti0dnk4xIs&libraries=places&callback=initMap"async></script>
     const user_data = JSON.parse(sessionStorage.getItem("remi-user-dt"))
   const [open_modal, setOpenModal] = useState(false)
   const [is_otp_verified, setIsOtpVerfied] = useState(false)
@@ -36,6 +37,7 @@ const Step2 = ({ nextStep, values }) => {
 
 
   const initialValues = {
+    address: "",
     First_name: "", Middle_name: "", Last_name: "",
     Gender: "Male", Country_of_birth: "",
     Date_of_birth: "", flat: "", building: "",
@@ -112,7 +114,18 @@ const Step2 = ({ nextStep, values }) => {
 
   const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
-
+  const handleSelect = async (address) => {
+    try {
+      const results = await geocodeByAddress(address);
+      const latLng = await getLatLng(results[0]);
+      console.log("Selected Address: ", results[0], "LatLng: ", latLng);
+      // Update form values or state with the selected address and its details.
+      formik.setFieldValue("address", address);
+      // ... handle other form updates
+    } catch (error) {
+      console.error("Error selecting address: ", error);
+    }
+  };
 
   useEffect(() => {
     if (data.country !== "none") {
@@ -390,8 +403,13 @@ const Step2 = ({ nextStep, values }) => {
                     </div>
                   </div>
                   <div className="row each-row">
+
+                    dckdckdnc
                     <h5>Address</h5>
+
+                    
                     <div className="col-md-4 mb-3">
+                      
                       <Form.Group className="form_label" controlId="country">
                         <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                         <select

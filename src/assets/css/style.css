@@ -775,6 +775,10 @@ h5.Sign-heading {
     display: flex;
     align-items: center;
 }
+h3.sub-head
+{
+  text-align: center;
+}
 .width_80_per
 {
   width: 100%;
@@ -9362,9 +9366,6 @@ div#home-section select {
 
 
 
-body.kyc-page #header,body.kyc-page #footer {
-  display: none !important;
-}
 
 
 #progressbar li {
