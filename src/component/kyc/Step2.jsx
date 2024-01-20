@@ -21,7 +21,11 @@ const Step2 = ({ nextStep, values }) => {
     const requiredFields = ["First_name", "Last_name", "email", "mobile", "Date_of_birth", "Country_of_birth", "occupation"];
     const missingFields = requiredFields.filter(field => !formik.values[field]);
 
-   
+    if (missingFields.length > 0) {
+      // Optionally, you can log a message or take another action here
+      console.log(`Required fields are missing: ${missingFields.join(", ")}`);
+      return;
+    }
 
     // Proceed to the next step if all required fields are filled
     nextStep();
@@ -633,7 +637,7 @@ const Step2 = ({ nextStep, values }) => {
                           // onkeydown={(e) => { e.stopPropagation() }}
                           className={clsx(
                             'form-control bg-transparent',
-                            { 'is-invalid':  formik.touched.Date_of_birth && formik.errors.Date_of_birth },
+                            { 'is-invalid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && formik.errors.Date_of_birth },
                             {
                               'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
                             }

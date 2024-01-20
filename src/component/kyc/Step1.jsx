@@ -37,7 +37,8 @@ const Step1 = ({ nextStep, values }) => {
     const missingFields = requiredFields.filter(field => !formik.values[field]);
 
     if (missingFields.length > 0) {
-      toast.error(`Please fill in the required fields: ${missingFields.join(", ")}`, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
+      // Optionally, you can log a message or take another action here
+      console.log(`Required fields are missing: ${missingFields.join(", ")}`);
       return;
     }
 
