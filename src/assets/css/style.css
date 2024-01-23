@@ -5861,10 +5861,6 @@ h2.accordion-header {
 /* .transaction-progress .accordion {
   margin-top: 30px;
 } */
-.form-control:disabled {
-  background-color: rgb(128 128 128 / 57%) !important;
-  opacity: 1;
-}
 
 .tabs-page .nav-pills .nav-item a svg {
   margin-right: 10px;

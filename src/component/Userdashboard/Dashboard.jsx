@@ -7,13 +7,11 @@ import authDashHelper from "../../utils/AuthDashHelper";
 import Sidebar from './Sidebar';
 import nodata from '../../assets/img/userdashboard/nodata.avif';
 import norecipients from '../../assets/img/userdashboard/hidden.avif';
-import { getVeriffStatus, recipientList, transactionHistory, userProfile } from "../../utils/Api";
-import { commaSeperator, generateRandomKey } from "../../utils/hook";
+import { recipientList, transactionHistory, userProfile } from "../../utils/Api";
+import { commaSeperator } from "../../utils/hook";
 import { Alert, Modal } from "react-bootstrap";
-import { createVeriffFrame, MESSAGES } from '@veriff/incontext-sdk';
-import { Veriff } from '@veriff/js-sdk';
-import { toast } from "react-toastify";
 import important from "../../assets/img/userdashboard/important.png";
+import MultiStepForm from "../kyc/Mainsteps";
 
 
 const Dashboard = () => {
@@ -112,6 +110,16 @@ const Dashboard = () => {
         setLoader(false)
         setVerification(false)
         setIsVerified(true)
+        let userDt = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+        setFirstName(userDt?.First_name);
+        setIsVerified(userDt?.digital_id_verified.toLowerCase().toString())
+    }
+
+    const cancelProcess = () => {
+        setVerification(false)
+        let userDt = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+        setFirstName(userDt?.First_name);
+        setIsVerified(userDt?.digital_id_verified.toLowerCase().toString())
     }
 
     return (
@@ -127,7 +135,7 @@ const Dashboard = () => {
                                 <Alert className="verify-alert" >
                                     <b><img src={important} height={40} width={40} />To transfer Money, Please complete the below steps:</b>
                                     <ol>
-                                        <li><span className="fw-bold" onClick={() => navigate("/user-profile")}>Complete Your Profile</span>.</li>
+                                        <li><span className="fw-bold" onClick={() => start()}>Complete Your Profile</span>.</li>
                                         <li><span className="fw-bold" onClick={() => start()}>Verify your Account</span>.</li>
                                     </ol>
                                 </Alert>
@@ -138,7 +146,7 @@ const Dashboard = () => {
                                     <Alert className="verify-alert" >
                                         <b><img src={important} height={40} width={40} />To transfer Money, Please complete the below steps:</b>
                                         <ol>
-                                            <li><span className="fw-bold" onClick={() => navigate("/user-profile")}>Complete Your Profile</span>.</li>
+                                            <li><span className="fw-bold" onClick={() => start()}>Complete Your Profile</span>.</li>
                                         </ol>
                                     </Alert>
                                 </div>
@@ -172,9 +180,7 @@ const Dashboard = () => {
 
                                         <div className="icon">
                                             <BsFillPersonPlusFill />
-
                                         </div>
-
                                     </div>
                                     <div className="mt-3">
                                         <NavLink to="/user-recipients" className="btn btn-outline-dark btn-rounded">
@@ -280,7 +286,6 @@ const Dashboard = () => {
                                                         <th >Status</th>
                                                     </tr>
                                                 </thead>
-
                                                 <tbody>
                                                     {
                                                         transactionData?.map((res, index) => {
@@ -298,12 +303,10 @@ const Dashboard = () => {
                                                                         {
                                                                             res?.payment_status === "cancelled" || res?.payment_status === "Cancelled" ? (
                                                                                 <span className="text-danger fs-16 font-w500 d-block"> <span className="btn btn-outline-danger btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)}>{res?.payment_status}</span></span>
-
                                                                             ) : (
                                                                                 <span className="text-success fs-16 font-w500 d-block"> <span className="btn btn-outline-success btn-rounded custom_status" onClick={() => navigate(`/transaction-detail/${res?.transaction_id}`)}>{res?.payment_status}</span></span>
                                                                             )
                                                                         }
-
                                                                     </td>
                                                                 </tr>
                                                             )
@@ -333,7 +336,6 @@ const Dashboard = () => {
                                             <h4 className="fs-20 text-black">Recent Recipients</h4>
                                         </div>
                                     </div>
-
                                     {recipientData?.length > 0 ? (
                                         <div className="table-responsive">
                                             <table className="table table-responsive-md card-table previous-transactions">
@@ -343,12 +345,10 @@ const Dashboard = () => {
                                                         <th>Destination</th>
                                                     </tr>
                                                 </thead>
-
                                                 <tbody>
                                                     {
                                                         recipientData?.map((res, index) => {
                                                             return (
-
                                                                 <tr key={res.id}>
                                                                     <td>
                                                                         <div class="me-auto">
@@ -356,18 +356,12 @@ const Dashboard = () => {
                                                                             <span class="fs-12">{res?.date}</span>
                                                                         </div>
                                                                     </td>
-
                                                                     <td>
-
                                                                         {res?.country}
-
                                                                     </td>
                                                                 </tr>
-
                                                             )
                                                         })}
-
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -396,12 +390,12 @@ const Dashboard = () => {
                     </>
                 )
             }
-            < Modal show={verification} backdrop="static" onHide={() => setVerification(false)} centered >
+            < Modal show={verification} size="xl" backdrop="static" onHide={() => cancelProcess()} centered >
                 <Modal.Header closeButton >
                     <img src="https://veriff.cdn.prismic.io/veriff/1565ec7d-5815-4d28-ac00-5094d1714d4c_Logo.svg" alt="Veriff logo" width="90" height="25" />
                 </Modal.Header>
                 < Modal.Body className='w-100 m-auto' >
-                    <VerificationModal toggleLoader={(value) => setLoader(value)} handler={() => end()} />
+                    <MultiStepForm handleModel={() => end()} is_model={verification} />
                 </Modal.Body>
             </Modal>
             {
@@ -413,75 +407,6 @@ const Dashboard = () => {
                 </> : ""
             }
         </section >
-    )
-}
-
-const VerificationModal = ({ handler, toggleLoader }) => {
-
-
-    const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-    useEffect(() => {
-        const veriff = Veriff({
-            apiKey: `${process.env.REACT_APP_VERIFF_KEY}`,
-            parentId: 'veriff-root',
-            onSession: function (err, response) {
-                createVeriffFrame({
-                    url: response.verification.url,
-                    onEvent: function (msg) {
-                        switch (msg) {
-                            case MESSAGES.CANCELED:
-                                break;
-                            case MESSAGES.STARTED:
-                                break;
-                            case MESSAGES.FINISHED:
-                                toggleLoader(true)
-                                const interval = setInterval(() => {
-                                    getVeriffStatus({ session_id: response.verification.id }).then(res => {
-                                        handler()
-                                        if (res.code === "200") {
-                                            if (res?.data?.verification?.status === "approved") {
-                                                toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
-                                                let user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
-                                                user.digital_id_verified = "true"
-                                                sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
-                                            } else if (res?.data?.verification?.status === "declined") {
-                                                toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
-                                            }
-                                            clearInterval(interval)
-
-                                        }
-                                    })
-                                }, 10000)
-                                break;
-                        }
-                    }
-                });
-            }
-        });
-        veriff.setParams({
-            vendorData: `${user?.customer_id}`,
-            person: {
-                givenName: `${user?.First_name}`,
-                lastName: `${user?.Last_name}`
-            }
-        });
-        veriff.mount({
-            formLabel: {
-                givenName: 'First name',
-                lastName: 'Last name',
-                vendorData: 'Unique id/Document id'
-            },
-
-            submitBtnText: 'Start Verification',
-            loadingText: 'Please wait...'
-        })
-    }, [])
-
-    return (
-        <>
-            <div id='veriff-root' style={{ margin: "auto", padding: "25px 0px" }}>
-            </div>
-        </>
     )
 }
 

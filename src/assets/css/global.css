@@ -2189,3 +2189,8 @@ background: transparent !important;
        color: #190278;
        margin-top:15px
     }
+
+
+    input:disabled, select:disabled, form-control:disabled{
+        background: transparent !important;
+    }

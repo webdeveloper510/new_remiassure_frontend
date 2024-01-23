@@ -90,7 +90,6 @@ const Signup = () => {
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
             }
-            console.log(data)
             userRegisterCheck(data).then((res) => {
                 if (res.code === "200") {
                     toast.success(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
@@ -195,13 +194,12 @@ const Signup = () => {
                         { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                     let d = new Date()
                     d.setDate(d.getDate() + 1);
-                    localStorage.setItem('tkn-exp', d)
                     sessionStorage.setItem('token', res.access_token)
                     setLoading(false)
                     const user = res?.data
                     user.digital_id_verified = "false"
                     sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
-                    navigate('/dashboard')
+                    navigate('/complete-kyc')
                     sendEmail()
                 } else if (res.code == "400") {
                     toast.error(res.message,
