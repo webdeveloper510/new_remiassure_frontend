@@ -824,6 +824,12 @@ const Step1 = ({ nextStep, formik, selected_area_code, setSelectedAreaCode }) =>
         </form>
       </section>
 
+
+
+
+
+      
+
     </>
 
   )
