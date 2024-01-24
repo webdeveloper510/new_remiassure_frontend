@@ -222,7 +222,7 @@
 //       setLoading(false)
 //       if (res.code === "200") {
 //         let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-//         let local = { ...res.data, digital_id_verified: user?.digital_id_verified }
+//         let local = { ...res.data, is_digital_Id_verified: user?.is_digital_Id_verified }
 //         localStorage.removeItem("remi-user-dt")
 //         sessionStorage.setItem("remi-user-dt", JSON.stringify(local))
 //         setLoading(false)
@@ -438,14 +438,14 @@
 //                       id="dob"
 //                       onChange={(e) => handleChange(e)}
 //                       onKeyDown={(event) => { onKeyBirth(event) }}
-//                       readOnly={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
-//                       disabled={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
+//                       readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
+//                       disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
 //                       // onkeydown={(e) => { e.stopPropagation() }}
 //                       className={clsx(
 //                         'form-control bg-transparent',
 //                         { 'is-invalid': formik.touched.Date_of_birth && formik.errors.Date_of_birth },
 //                         {
-//                           'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
+//                           'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
 //                         }
 //                       )}
 //                     />
@@ -458,13 +458,13 @@
 //                       value={data.Country_of_birth}
 //                       name="Country_of_birth"
 //                       onChange={(e) => handleChange(e)}
-//                       readOnly={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
-//                       disabled={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
+//                       readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
+//                       disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
 //                       className={clsx(
 //                         'form-control form-select bg-transparent',
 //                         { 'is-invalid': formik.touched.Country_of_birth && formik.errors.Country_of_birth },
 //                         {
-//                           'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
+//                           'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
 //                         }
 //                       )}
 //                     >
@@ -528,7 +528,7 @@ import birthCountryList from 'react-select-country-list';
 import clsx from "clsx";
 import { senderAreaList as areaList } from "../../utils/ArealList";
 
-const Step1 = ({ nextStep, formik, selected_area_code, setSelectedAreaCode }) => {
+const Step1 = ({ skipHandler, formik, selected_area_code, setSelectedAreaCode }) => {
 
   /* ------------------------------------------- State declaration --------------------------------------------- */
 
@@ -654,19 +654,6 @@ const Step1 = ({ nextStep, formik, selected_area_code, setSelectedAreaCode }) =>
               <div className="row each-row">
                 <div className="col-md-4">
                   <div className="input_field">
-                    <p className="get-text">Customer Id</p>
-                    <input
-                      type="text"
-                      value={formik?.values.customer_id}
-                      style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
-                      className='form-control'
-                      readOnly
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="input_field">
                     <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
                     <input
                       type="email"
@@ -710,34 +697,12 @@ const Step1 = ({ nextStep, formik, selected_area_code, setSelectedAreaCode }) =>
                           onChange={(e) => handleNumericOnly(e)}
                           className={clsx(
                             'form-control bg-transparent',
-                            // { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
-                            // {
-                            //   'is-valid': formik.touched.mobile && !formik.errors.mobile,
-                            // }
                           )}
                           disabled
                           readOnly
                         />
                       </div>
                     </div>
-                    {/* <PhoneInput
-                          onlyCountries={["au", "nz"]}
-                          name="mobile"
-                          value={data.mobile}
-                          inputStyle={{ border: "none", margin: "none" }}
-                          inputClass="userPhone w-100"
-                          defaultCountry={"au"}
-                          placeholder=""
-                          countryCodeEditable={false}
-                          onChange={(val, coun) => { handlePhone(val, coun) }}
-                          className={clsx(
-                            'form-control form-control-sm bg-transparent py-0',
-                            { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
-                            {
-                              'is-valid': formik.touched.mobile && !formik.errors.mobile,
-                            }
-                          )}
-                        /> */}
                   </div>
                 </div>
               </div>
@@ -752,14 +717,11 @@ const Step1 = ({ nextStep, formik, selected_area_code, setSelectedAreaCode }) =>
                       id="dob"
                       onChange={(e) => handleChange(e)}
                       onKeyDown={(event) => { onKeyBirth(event) }}
-                      readOnly={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
-                      // onkeydown={(e) => { e.stopPropagation() }}
                       className={clsx(
                         'form-control bg-transparent',
                         { 'is-invalid': formik.touched.Date_of_birth && formik.errors.Date_of_birth },
                         {
-                          'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
+                          'is-valid': formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
                         }
                       )}
                     />
@@ -772,13 +734,13 @@ const Step1 = ({ nextStep, formik, selected_area_code, setSelectedAreaCode }) =>
                       value={formik?.values.Country_of_birth}
                       name="Country_of_birth"
                       onChange={(e) => handleChange(e)}
-                      readOnly={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
+                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
+                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
                       className={clsx(
                         'form-control form-select bg-transparent',
                         { 'is-invalid': formik.touched.Country_of_birth && formik.errors.Country_of_birth },
                         {
-                          'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
+                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
                         }
                       )}
                     >
@@ -819,7 +781,7 @@ const Step1 = ({ nextStep, formik, selected_area_code, setSelectedAreaCode }) =>
           </div>
           <div className="next-step">
             <button type="submit" className="login_button">Next <b>Step</b>  <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
-            <button type="button" onClick={nextStep} className="SKip">Skip</button>
+            <button type="button" onClick={skipHandler} className="SKip">Skip</button>
           </div>
         </form>
       </section>

@@ -20,7 +20,7 @@
 //     const [loader, setLoader] = useState(false)
 //     const [postal_list, setPostalList] = useState([])
 //     const verificationValue = localStorage.getItem("DigitalCode")
-//     const { digital_id_verified } = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+//     const { is_digital_Id_verified } = JSON.parse(sessionStorage.getItem("remi-user-dt"))
 //     const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
 //     const serverUrl = process.env.REACT_APP_API_URL
@@ -212,7 +212,7 @@
 //                                     setLoader(false)
 //                                 }, 2000)
 //                                 const userdt = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-//                                 userdt.digital_id_verified = "true"
+//                                 userdt.is_digital_Id_verified = "true"
 //                                 sessionStorage.setItem("remi-user-dt", JSON.stringify(userdt))
 //                                 toast.success("Digital Id successfully verified", { position: "bottom-right", hideProgressBar: true })
 //                             } else {
@@ -731,7 +731,7 @@
 //                     </div>
 //                     <div className="col-md-8 new_buttons">
 //                         <button type="button" className="form-button full-col w-25" onClick={() => { handlePrevious() }}>Previous</button>
-//                         {!verificationValue && (!digital_id_verified || digital_id_verified === "false") ? (
+//                         {!verificationValue && (!is_digital_Id_verified || is_digital_Id_verified === "false") ? (
 //                             <>
 //                                 <div className='digital_verification w-75 text-end' style={{ display: `${display == "none" ? "none" : "block"}` }}>
 //                                     <div id="digitalid-verify"></div>

@@ -19,7 +19,6 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     /**************************token ************************ */
-    const user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
 
     const [transactionData, setTransactionData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -31,7 +30,7 @@ const Dashboard = () => {
     const [total_recipients, setTotalRecipients] = useState(0)
     const [verification, setVerification] = useState(false)
     const [loader, setLoader] = useState(false)
-    const [isVerified, setIsVerified] = useState(user?.digital_id_verified?.toString()?.toLowerCase() || "false")
+    const [isVerified, setIsVerified] = useState("false")
 
 
     const transHistory = () => {
@@ -86,7 +85,10 @@ const Dashboard = () => {
         userProfile().then((response) => {
             if (response.code == 200) {
                 setFirstName(response.data.First_name);
-                setLastName(response.data.Last_name)
+                setLastName(response.data.Last_name);
+                setIsVerified(response.data?.is_digital_Id_verified?.toString()?.toLowerCase())
+                sessionStorage.removeItem("remi-user-dt")
+                sessionStorage.setItem("remi-user-dt", JSON.stringify(response.data))
             }
         }).catch((error) => {
         })
@@ -109,17 +111,16 @@ const Dashboard = () => {
     const end = () => {
         setLoader(false)
         setVerification(false)
-        setIsVerified(true)
         let userDt = JSON.parse(sessionStorage.getItem("remi-user-dt"))
         setFirstName(userDt?.First_name);
-        setIsVerified(userDt?.digital_id_verified.toLowerCase().toString())
+        setIsVerified(userDt?.is_digital_Id_verified.toString().toLowerCase())
     }
 
     const cancelProcess = () => {
         setVerification(false)
         let userDt = JSON.parse(sessionStorage.getItem("remi-user-dt"))
         setFirstName(userDt?.First_name);
-        setIsVerified(userDt?.digital_id_verified.toLowerCase().toString())
+        setIsVerified(userDt?.is_digital_Id_verified.toLowerCase().toString())
     }
 
     return (
@@ -392,7 +393,7 @@ const Dashboard = () => {
             }
             < Modal show={verification} size="xl" backdrop="static" onHide={() => cancelProcess()} centered >
                 <Modal.Header closeButton >
-                    <img src="https://veriff.cdn.prismic.io/veriff/1565ec7d-5815-4d28-ac00-5094d1714d4c_Logo.svg" alt="Veriff logo" width="90" height="25" />
+                    <b style={{ color: "#190079" }}>Complete Your KYC</b>
                 </Modal.Header>
                 < Modal.Body className='w-100 m-auto' >
                     <MultiStepForm handleModel={() => end()} is_model={verification} />

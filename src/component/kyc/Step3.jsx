@@ -28,7 +28,7 @@ const Step3 = ({ nextStep, values }) => {
                     if (res.code === "200") {
                       if (res?.data?.verification?.status === "approved") {
                         let user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
-                        user.digital_id_verified = "true"
+                        user.is_digital_Id_verified = "true"
                         sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                       } else if (res?.data?.verification?.status === "declined") {
                         toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })

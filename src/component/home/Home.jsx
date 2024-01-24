@@ -200,7 +200,7 @@ const Home = () => {
                         }
                     }))
                     if (token) {
-                        if (userdt?.digital_id_verified) {
+                        if (userdt?.is_digital_Id_verified) {
 
                             navigate(`/user-send-money`)
                         }
@@ -246,7 +246,7 @@ const Home = () => {
                     }
                 }))
                 if (token) {
-                    if (userdt?.digital_id_verified) {
+                    if (userdt?.is_digital_Id_verified) {
 
                         navigate(`/user-send-money`)
                     }

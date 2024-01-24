@@ -65,7 +65,7 @@ const Header = () => {
 
   const token = sessionStorage.getItem("token");
   const user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
-  const LoginDigitalidVerified = user?.digital_id_verified
+  const LoginDigitalidVerified = user?.is_digital_Id_verified
 
   const navigate = useNavigate();
 

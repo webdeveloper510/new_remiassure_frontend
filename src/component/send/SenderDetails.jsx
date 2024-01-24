@@ -23,9 +23,9 @@ const SenderDetails = ({ handleStep, step }) => {
   const [state_list, setStateList] = useState([])
   const [loader, setLoader] = useState(false)
   const [postal_list, setPostalList] = useState([])
-  const [isVerified, setIsVerified] = useState(userd?.digital_id_verified || "false")
+  const [isVerified, setIsVerified] = useState(userd?.is_digital_Id_verified || "false")
   const [start_verify, setStartVerify] = useState(false)
-  const { digital_id_verified } = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+  const { is_digital_Id_verified } = JSON.parse(sessionStorage.getItem("remi-user-dt"))
   const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
   const serverUrl = process.env.REACT_APP_API_URL
@@ -222,7 +222,7 @@ const SenderDetails = ({ handleStep, step }) => {
     //               setLoader(false)
     //             }, 2000)
     //             const userdt = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-    //             userdt.digital_id_verified = "true"
+    //             userdt.is_digital_Id_verified = "true"
     //             sessionStorage.setItem("remi-user-dt", JSON.stringify(userdt))
     //             toast.success("Digital Id successfully verified", { position: "bottom-right", hideProgressBar: true })
     //           } else {
@@ -798,7 +798,7 @@ const Verification = ({ handler, submit, formdata, toggleLoader }) => {
                         toggleLoader(false)
                         clearInterval(interval)
                         toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
-                        user.digital_id_verified = "true";
+                        user.is_digital_Id_verified = "true";
                         sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                         submit()
                       } else if (res?.data?.verification?.status === "declined") {

@@ -64,7 +64,7 @@ const PaymentSummary = ({ handleStep, step }) => {
             setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: null })
             localStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-            user.digital_id_verified = "true"
+            user.is_digital_Id_verified = "true"
             sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
             if (localStorage.getItem("send-step")) {
               localStorage.removeItem("send-step")
@@ -80,7 +80,7 @@ const PaymentSummary = ({ handleStep, step }) => {
 
             localStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-            user.digital_id_verified = "true"
+            user.is_digital_Id_verified = "true"
             sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
             if (localStorage.getItem("send-step")) {
               localStorage.removeItem("send-step")
@@ -110,7 +110,7 @@ const PaymentSummary = ({ handleStep, step }) => {
             localStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
             // localStorage.removeItem("remi-user-dt")
-            user.digital_id_verified = "true"
+            user.is_digital_Id_verified = "true"
             sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
             if (localStorage.getItem("send-step")) {
               localStorage.removeItem("send-step")
@@ -137,7 +137,7 @@ const PaymentSummary = ({ handleStep, step }) => {
         if (res.code == "200") {
           setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: null })
           const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-          user.digital_id_verified = "true"
+          user.is_digital_Id_verified = "true"
           sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
           if (localStorage.getItem("send-step")) {
             localStorage.removeItem("send-step")

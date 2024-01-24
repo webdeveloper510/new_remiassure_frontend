@@ -6,7 +6,7 @@ import countryList from '../../utils/AuNz.json';
 import clsx from "clsx";
 import Autocomplete from "react-google-autocomplete";
 
-const Step2 = ({ nextStep, formik, selected_area_code, setSelectedAreaCode }) => {
+const Step2 = ({ skipHandler, formik, selected_area_code, setSelectedAreaCode }) => {
 
 
   const [city_list, setCityList] = useState([])
@@ -401,7 +401,7 @@ const Step2 = ({ nextStep, formik, selected_area_code, setSelectedAreaCode }) =>
           </div>
           <div className="next-step">
             <button type="submit" className="login_button">Continue<img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
-            <button type="button" className="SKip" onClick={() => nextStep()}>Skip</button>
+            <button type="button" className="SKip" onClick={skipHandler}>Skip</button>
           </div>
         </form>
       </section>

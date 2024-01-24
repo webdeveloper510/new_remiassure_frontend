@@ -10,7 +10,7 @@ const authChecker = (checkType) => {
       return true;
     }
   } else if (checkType === 'dashCheck') {
-    if (token && user.digital_id_verified) {
+    if (token && user.is_digital_Id_verified) {
       return true;
     } else {
       return false;

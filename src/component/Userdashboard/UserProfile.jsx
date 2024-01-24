@@ -17,7 +17,6 @@ import { senderAreaList as areaList } from "../../utils/ArealList";
 
 
 const Profile = () => {
-  const user_data = JSON.parse(sessionStorage.getItem("remi-user-dt"))
   const [open_modal, setOpenModal] = useState(false)
   const [is_otp_verified, setIsOtpVerfied] = useState(false)
   const [loading, setLoading] = React.useState(false);
@@ -35,6 +34,7 @@ const Profile = () => {
   })
 
   const [selected_area_code, setSelectedAreaCode] = useState("61");
+  const [user_data, setUserData] = useState()
 
 
   const initialValues = {
@@ -76,12 +76,12 @@ const Profile = () => {
     userProfile().then((res) => {
       if (res.code == "200") {
         setLoading(false)
-        console.log(res.data)
         let p = res.data.mobile
         let phone = p.substring(3);
         setSelectedAreaCode(p.substring(1, 3))
         setData({ ...data, ...res.data, mobile: phone, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "" })
         formik.setValues({ ...formik.values, ...res.data, mobile: phone, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "" })
+        setUserData(res.data)
         setIsUpdate({ email: res.data.email, mobile: p })
       }
     }).catch((error) => {
@@ -274,7 +274,7 @@ const Profile = () => {
       setLoading(false)
       if (res.code === "200") {
         let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-        let local = { ...res.data, digital_id_verified: user?.digital_id_verified }
+        let local = { ...res.data, is_digital_Id_verified: user?.is_digital_Id_verified }
         localStorage.removeItem("remi-user-dt")
         sessionStorage.setItem("remi-user-dt", JSON.stringify(local))
         setLoading(false)
@@ -339,24 +339,27 @@ const Profile = () => {
   return (
     <>
       <section className="edit_recipient_section">
-        <div className="form-head mb-4">
-          <span className="text-black font-w600 mb-0 h2"><b>Profile Information</b>
-          </span>
-          {
-            user_data?.digital_id_verified?.toString().toLowerCase() === "true" ? (
-              <span className="verified_text px-2 py-1 fs-5 mx-3">
-                <i className="bi bi-check-circle-fill text-success">&nbsp;</i>
-                Verified
+        {
+          user_data?.is_digital_Id_verified && (
+            <div className="form-head mb-4">
+              <span className="text-black font-w600 mb-0 h2"><b>Profile Information</b>
               </span>
-            ) : (
-              <span className="unverified_text px-2 py-1 fs-5 mx-3">
-                <i className="bi bi-x-circle-fill text-danger">&nbsp;</i>
-                Not Verified
-              </span>
-            )
-          }
-
-        </div>
+              {
+                user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true" ? (
+                  <span className="verified_text px-2 py-1 fs-5 mx-3">
+                    <i className="bi bi-check-circle-fill text-success">&nbsp;</i>
+                    Verified
+                  </span>
+                ) : (
+                  <span className="unverified_text px-2 py-1 fs-5 mx-3">
+                    <i className="bi bi-x-circle-fill text-danger">&nbsp;</i>
+                    Not Verified
+                  </span>
+                )
+              }
+            </div>
+          )
+        }
         <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
           <div className="card">
             <div className="card-body">
@@ -370,14 +373,14 @@ const Profile = () => {
                       name="First_name"
                       value={formik.values.First_name}
                       onChange={handleOnlyAplha}
-                      readOnly={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
+                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
+                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
                       maxLength="25"
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.First_name && formik.errors.First_name },
+                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.First_name && formik.errors.First_name },
                         {
-                          'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.First_name && !formik.errors.First_name
+                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.First_name && !formik.errors.First_name
                         }
                       )}
                     />
@@ -392,8 +395,8 @@ const Profile = () => {
                       className='form-control'
                       maxLength="25"
                       onChange={handleOnlyAplha}
-                      readOnly={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
+                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
+                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
                       {...formik.getFieldProps("Middle_name")}
                     />
                   </div>
@@ -407,13 +410,13 @@ const Profile = () => {
                       value={data.Last_name}
                       maxLength="25"
                       onChange={handleOnlyAplha}
-                      readOnly={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
+                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
+                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Last_name && formik.errors.Last_name },
+                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Last_name && formik.errors.Last_name },
                         {
-                          'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Last_name && !formik.errors.Last_name,
+                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Last_name && !formik.errors.Last_name,
                         }
                       )}
                     />
@@ -518,14 +521,14 @@ const Profile = () => {
                       id="dob"
                       onChange={(e) => handleChange(e)}
                       onKeyDown={(event) => { onKeyBirth(event) }}
-                      readOnly={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
+                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
+                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
                       // onkeydown={(e) => { e.stopPropagation() }}
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && formik.errors.Date_of_birth },
+                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && formik.errors.Date_of_birth },
                         {
-                          'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
+                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
                         }
                       )}
                     />
@@ -538,13 +541,13 @@ const Profile = () => {
                       value={data.Country_of_birth}
                       name="Country_of_birth"
                       onChange={(e) => handleChange(e)}
-                      readOnly={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.digital_id_verified?.toString().toLowerCase() === "true"}
+                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
+                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
                       className={clsx(
                         'form-control form-select bg-transparent',
-                        { 'is-invalid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && formik.errors.Country_of_birth },
+                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && formik.errors.Country_of_birth },
                         {
-                          'is-valid': user_data?.digital_id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
+                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
                         }
                       )}
                     >
