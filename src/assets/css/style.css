@@ -775,6 +775,18 @@ h5.Sign-heading {
     display: flex;
     align-items: center;
 }
+section.sigupsec .col-lg-7.d-flex.align-items-center {
+  width: 100%;
+  display: block !important;
+}
+
+section.kyc {
+  padding: 0px !important;
+}
+
+section.kyc form {
+  margin: 0px !important;
+}
 h3.sub-head
 {
   text-align: center;
@@ -9029,6 +9041,17 @@ section.top_sections.mobile-top.mobile-only
 {
   background-size: contain !important
 }
+button.SKip.back-btn {
+  margin-right: 0px !important;
+}
+.next-step {
+  display: block;
+}
+
+.next-step button {
+  margin-bottom: 15px !important;
+  width: 100% !important;
+}
 }
 @media screen and (max-width: 480px) {
   .col-lg-5.padding-right-box {
@@ -9369,7 +9392,7 @@ div#home-section select {
   color: #686C82;
   text-transform: uppercase;
   font-size: 12px;
-  width: 33.33%;
+  width: 25%;
   float: left;
   text-align: center;
   position: relative;
@@ -9388,9 +9411,11 @@ height:20px;
   font-size: 12px;
   color: #fff;
   background: #fff;
+  position: relative;
   border-radius: 100px;
   margin: 0 auto 5px auto;
   border:2px solid #F0E8FD;
+  z-index: 99;
 }
 li.step.done:before
 {
@@ -9437,7 +9462,7 @@ span.kyc-text {
 p.kyc-sucful {
   color: rgba(100, 20, 233, 1);
 }
-.width_80_per {}
+
 
 .width_80_per img {
   width: 100%;
@@ -9450,7 +9475,7 @@ p.kyc-sucful {
   position: absolute;
   left: -50%;
   top: 9px;
-  z-index: -1;
+  
 }
 
 .steps-form {
@@ -9525,3 +9550,15 @@ display: flex;
     {
       color:#040A2E;
     }
+	
+
+section.kyc select.form-control.form-select.bg-transparent {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+button.SKip.back-btn {
+  margin-right: 40px !important;
+}
+.pac-container.pac-logo
+{z-index: 9999999;}

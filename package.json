@@ -49,6 +49,7 @@
     "react-expiration": "^0.1.0",
     "react-flag-currency": "^1.0.5",
     "react-flags-select": "^2.2.3",
+    "react-google-autocomplete": "^2.7.3",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.7.1",
     "react-image": "^4.0.3",
