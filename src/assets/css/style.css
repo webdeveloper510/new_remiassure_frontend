@@ -9041,6 +9041,17 @@ section.top_sections.mobile-top.mobile-only
 {
   background-size: contain !important
 }
+button.SKip.back-btn {
+  margin-right: 0px !important;
+}
+.next-step {
+  display: block;
+}
+
+.next-step button {
+  margin-bottom: 15px !important;
+  width: 100% !important;
+}
 }
 @media screen and (max-width: 480px) {
   .col-lg-5.padding-right-box {
