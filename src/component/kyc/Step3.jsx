@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { getVeriffStatus } from '../../utils/Api';
 import { toast } from 'react-toastify';
 
-const Step3 = ({ nextStep, values }) => {
+const Step3 = ({ prevStep,nextStep, values }) => {
 
   useEffect(() => {
 
@@ -75,6 +75,7 @@ const Step3 = ({ nextStep, values }) => {
               </div>
             </div>
             <div className="next-step dashbord">
+            <button type="button" className="SKip back-btn" onClick={() => prevStep()}>Back</button>
               {/* <button className="login_button dashbord-go">Go To Dashboard  <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
             <p>You will be redirected in <span><b>10</b> Seconds </span></p> */}
             </div>

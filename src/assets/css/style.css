@@ -775,6 +775,18 @@ h5.Sign-heading {
     display: flex;
     align-items: center;
 }
+section.sigupsec .col-lg-7.d-flex.align-items-center {
+  width: 100%;
+  display: block !important;
+}
+
+section.kyc {
+  padding: 0px !important;
+}
+
+section.kyc form {
+  margin: 0px !important;
+}
 h3.sub-head
 {
   text-align: center;
@@ -9392,6 +9404,7 @@ height:20px;
   border-radius: 100px;
   margin: 0 auto 5px auto;
   border:2px solid #F0E8FD;
+  z-index: 99;
 }
 li.step.done:before
 {
@@ -9526,3 +9539,15 @@ display: flex;
     {
       color:#040A2E;
     }
+	
+
+section.kyc select.form-control.form-select.bg-transparent {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+button.SKip.back-btn {
+  margin-right: 40px !important;
+}
+.pac-container.pac-logo
+{z-index: 9999999;}
