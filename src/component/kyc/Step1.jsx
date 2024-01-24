@@ -527,13 +527,48 @@ import "react-phone-input-2/lib/bootstrap.css";
 import birthCountryList from 'react-select-country-list';
 import clsx from "clsx";
 import { senderAreaList as areaList } from "../../utils/ArealList";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { userProfile } from "../../utils/Api";
+import { toast } from "react-toastify";
 
-const Step1 = ({ skipHandler, formik, selected_area_code, setSelectedAreaCode }) => {
+const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelectedAreaCode }) => {
 
   /* ------------------------------------------- State declaration --------------------------------------------- */
 
   const countryOptions = useMemo(() => birthCountryList().getData(), [])
   const user_data = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+
+  const firstSchema = Yup.object().shape({
+    First_name: Yup.string().min(2).max(25).required().trim(),
+    Middle_name: Yup.string().min(2).max(25).trim(),
+    Last_name: Yup.string().min(2).max(25).required().trim(),
+    email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
+    mobile: Yup.string().min(9).max(10).required(),
+    Date_of_birth: Yup.date().min(new Date(Date.now() - 3721248000000)).max(new Date(Date.now() - 567648000000), "You must be at least 18 years").required(),
+    occupation: Yup.string().min(1).max(50).required().trim(),
+    Country_of_birth: Yup.string().required().notOneOf(["none"]),
+  })
+
+  const formik = useFormik({
+    initialValues: {
+      customer_id: "",
+      mobile_verified: "",
+      email: "",
+      First_name: "",
+      Middle_name: "",
+      Last_name: "",
+      Date_of_birth: "",
+      Country_of_birth: "none",
+      mobile: "",
+    },
+    validationSchema: firstSchema,
+    onSubmit: async (values) => {
+      nextStep()
+      updateData(values)
+    }
+  })
+
 
 
   useEffect(() => {
@@ -593,6 +628,21 @@ const Step1 = ({ skipHandler, formik, selected_area_code, setSelectedAreaCode })
       }
     }
   }
+
+
+  useEffect(() => {
+    userProfile().then((res) => {
+      if (res.code == "200") {
+        let p = res.data.mobile
+        let phone = p.substring(3);
+        formik.setValues({ ...formik.values, ...res.data, mobile: phone })
+      }
+    }).catch((error) => {
+      if (error.response.data.code == "400") {
+        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+      }
+    })
+  }, [])
 
   return (
     <>
@@ -781,7 +831,7 @@ const Step1 = ({ skipHandler, formik, selected_area_code, setSelectedAreaCode })
           </div>
           <div className="next-step">
             <button type="submit" className="login_button">Next <b>Step</b>  <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
-            <button type="button" onClick={skipHandler} className="SKip">Skip</button>
+            <button type="button" onClick={() => skipHandler(formik.values)} className="SKip">Skip</button>
           </div>
         </form>
       </section>

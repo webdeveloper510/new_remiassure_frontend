@@ -71,6 +71,7 @@ const MultiStepForm = ({ is_model, handleModel }) => {
     onSubmit: async (values) => {
       if (activeStep === 1) {
         nextStep()
+        updateData(values)
       } else {
         updateData(values)
         nextStep()
@@ -97,6 +98,7 @@ const MultiStepForm = ({ is_model, handleModel }) => {
   }
 
   const updateData = (values) => {
+    console.log(values)
     let d = values
     d.location = values.country
     d.Gender = "NA"
@@ -124,11 +126,31 @@ const MultiStepForm = ({ is_model, handleModel }) => {
       delete d['postcode'];
     } if (values.state === "" || values.state === undefined || values.state === " ") {
       delete d['state'];
+    } if (values.country === "" || values.country === undefined || values.country === " ") {
+      delete d['country'];
+    } if (values.location === "" || values.location === undefined || values.location === " ") {
+      delete d['location'];
+    } if (values.country_code === "" || values.country_code === undefined || values.country_code === " ") {
+      delete d['country_code'];
+    } if (values.payment_per_annum === "" || values.payment_per_annum === undefined || values.payment_per_annum === null) {
+      delete d['payment_per_annum'];
+    } if (values.value_per_annum === "" || values.value_per_annum === undefined || values.value_per_annum === null) {
+      delete d['value_per_annum'];
     }
 
     delete d["email"];
     delete d["mobile"];
     delete d["customer_id"];
+    delete d["stripe_customer_id"];
+    delete d["referred_by"];
+    delete d["referral_code"];
+    delete d["mobile_verified"];
+    delete d["is_verified"];
+    delete d["is_digital_Id_verified"];
+    delete d["id"];
+    delete d["destination_currency"];
+    delete d["created_at"];
+    delete d["profile_completed"];
     updateProfile(d).then(res => {
       if (res.code === "200") {
         let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
@@ -231,10 +253,10 @@ const MultiStepForm = ({ is_model, handleModel }) => {
                     <div>
                       <div className='steps-form'>
                         {activeStep === 1 && (
-                          <Step1 prevStep={prevStep} nextStep={nextStep} formik={formik} selected_area_code={selected_area_code} setSelectedAreaCode={setSelectedAreaCode} skipHandler={() => skip(formik.values)} />
+                          <Step1 prevStep={prevStep} nextStep={nextStep} updateData={(values) => updateData(values)} selected_area_code={selected_area_code} setSelectedAreaCode={setSelectedAreaCode} skipHandler={(values) => skip(values)} end_handler={endHandler} />
                         )}
                         {activeStep === 2 && (
-                          <Step2 nextStep={nextStep} prevStep={prevStep} formik={formik} selected_area_code={selected_area_code} setSelectedAreaCode={setSelectedAreaCode} skipHandler={() => skip(formik.values)} />
+                          <Step2 nextStep={nextStep} prevStep={prevStep} formik={formik} updateData={(values) => updateData(values)} selected_area_code={selected_area_code} setSelectedAreaCode={setSelectedAreaCode} skipHandler={(values) => skip(values)} end_handler={endHandler} />
                         )}
                         {activeStep === 3 && (
                           <Step3 values={formik.values} nextStep={nextStep} />

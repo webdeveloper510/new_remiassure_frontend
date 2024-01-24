@@ -10,7 +10,7 @@ const Step4 = ({ end_handler }) => {
         } else {
             setTimeout(() => {
                 setRedirectTime(redirect_time - 1)
-            }, 10 * 1000)
+            }, 1 * 1000)
         }
     }, [redirect_time])
 
