@@ -836,6 +836,12 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
         </form>
       </section>
 
+
+
+
+
+      
+
     </>
 
   )

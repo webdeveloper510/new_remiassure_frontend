@@ -86,6 +86,7 @@ const MultiStepForm = ({ is_model, handleModel }) => {
   };
 
   const prevStep = () => {
+    setCompletedSteps([...completedSteps, activeStep]);
     setActiveStep(activeStep - 1);
   };
 
