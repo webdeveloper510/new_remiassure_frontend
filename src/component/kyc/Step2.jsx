@@ -209,7 +209,7 @@ const Step2 = ({ prevStep,nextStep, formik, selected_area_code, setSelectedAreaC
                   </Form.Group>
                 </div>
                 <div className="col-md-4 mb-3">
-                  <Form.Group className="form_label" controlId="state">
+                  <Form.Group className="form_label statess" controlId="state">
                     <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
                     {
                       state_list && state_list.length > 0 ?
