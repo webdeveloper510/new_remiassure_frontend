@@ -10,6 +10,7 @@ const Step3 = ({ prevStep, nextStep, values }) => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    let local = JSON.parse(sessionStorage.getItem("remi-user-dt"))
     const veriff = Veriff({
       apiKey: `${process.env.REACT_APP_VERIFF_KEY}`,
       parentId: 'veriff-root',
@@ -27,21 +28,23 @@ const Step3 = ({ prevStep, nextStep, values }) => {
               case MESSAGES.FINISHED:
                 const interval = setInterval(() => {
                   getVeriffStatus({ session_id: response.verification.id }).then(res => {
-                    setLoading(false)
                     if (res.code === "200") {
                       if (res?.data?.verification?.status === "approved") {
+                        setLoading(false)
+                        clearInterval(interval)
                         let user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
                         user.is_digital_Id_verified = "true"
                         nextStep()
                         sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                       } else if (res?.data?.verification?.status === "declined") {
+                        setLoading(false)
+                        clearInterval(interval)
                         toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
                       }
-                      clearInterval(interval)
 
                     }
                   })
-                }, 10000)
+                }, 5000)
                 break;
             }
           }
@@ -49,10 +52,10 @@ const Step3 = ({ prevStep, nextStep, values }) => {
       }
     });
     veriff.setParams({
-      vendorData: `${values?.customer_id}`,
+      vendorData: `${local?.customer_id}`,
       person: {
-        givenName: `${values?.First_name}`,
-        lastName: `${values?.Last_name}`
+        givenName: `${local?.First_name}`,
+        lastName: `${local?.Last_name}`
       }
     });
     veriff.mount({
