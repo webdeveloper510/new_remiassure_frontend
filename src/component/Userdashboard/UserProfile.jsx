@@ -79,8 +79,19 @@ const Profile = () => {
         let p = res.data.mobile
         let phone = p.substring(3);
         setSelectedAreaCode(p.substring(1, 3))
-        setData({ ...data, ...res.data, mobile: phone, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "" })
-        formik.setValues({ ...formik.values, ...res.data, mobile: phone, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "" })
+        let p_a, v_a;
+        if (res.data.payment_per_annum === "" || res.data.payment_per_annum === null) {
+          p_a = "Tier 1 - Less than 5 times";
+        } else {
+          p_a = res.data.payment_per_annum
+        }
+        if (res.data.value_per_annum === "" || res.data.value_per_annum === null) {
+          v_a = "Tier 1 - Less than $30,000"
+        } else {
+          v_a = res.data.value_per_annum
+        }
+        setData({ ...data, ...res.data, mobile: phone, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
+        formik.setValues({ ...formik.values, ...res.data, mobile: phone, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
         setUserData(res.data)
         setIsUpdate({ email: res.data.email, mobile: p })
       }
