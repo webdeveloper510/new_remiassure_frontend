@@ -575,3 +575,30 @@ export const checkExistence = async () => {
   })
   return response
 }
+
+
+export const getCouponList = () => {
+  const response = Axios.get("/payment/referrals-list/", {
+    headers: {
+      "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  }).catch(err => {
+    return err.response.data
+  })
+  return response
+}
+
+export const applyReferralCode = (data) => {
+  const response = Axios.post("/payment/apply-referral-code/", data, {
+    headers: {
+      "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  }).catch(err => {
+    return err.response.data
+  })
+  return response
+}

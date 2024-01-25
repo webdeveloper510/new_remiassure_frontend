@@ -327,10 +327,11 @@ const BankDetails = ({ handleStep, step }) => {
   const selectRecipient = (value) => {
     let storage = JSON.parse(localStorage.getItem("transfer_data"))
     let transaction_id = localStorage.getItem("transaction_id")
-    getDiscountedPrice(transaction_id).then(res => {
-      setDiscounts(res.data)
-      setDisplayConfirm({ toggle: true, data: { amount: storage?.amount, recipient: value } })
-    })
+    setDisplayConfirm({ toggle: true, data: { amount: storage?.amount, recipient: value } })
+    // getDiscountedPrice(transaction_id).then(res => {
+    //   setDiscounts(res.data)
+    //   
+    // })
     window.scrollTo({
       top: 0,
       left: 0,
@@ -854,7 +855,7 @@ const BankDetails = ({ handleStep, step }) => {
             </div>
           </>
         ) : (
-          <ReviewYourTransfer data={display_confirm} discount={discounts} handleCancel={() => { setDisplayConfirm({ toggle: false, data: null }) }} handleContinue={() => nextStep()} />
+          <ReviewYourTransfer data={display_confirm} isConfirmation={false} handleCancel={() => { setDisplayConfirm({ toggle: false, data: null }) }} handleContinue={() => nextStep()} />
         )
       }
 

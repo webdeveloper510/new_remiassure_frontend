@@ -333,10 +333,6 @@ const Profile = () => {
     }
   }
 
-  useEffect(() => {
-    console.log(data)
-    console.log("formik", formik.values)
-  }, [data])
 
   useEffect(() => {
     countryList.map((item) => {

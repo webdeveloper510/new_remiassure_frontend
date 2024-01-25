@@ -20,6 +20,7 @@ import TransactionConfirm from '../../modals/TransactionConfirm'
 import { Link } from 'react-router-dom'
 import { PayIdInstructions, PayToInstructions } from '../../modals/Instructions'
 import { PayIDInst, PayToInst } from '../../modals/guideLines'
+import ReviewYourTransfer from '../../modals/ReviewYourTransfer'
 
 
 const stripe_key = process.env.REACT_APP_STRIPE_KEY
@@ -233,9 +234,9 @@ const PaymentDetails = ({ handleStep, step }) => {
       }
     })
     let transaction_id = localStorage.getItem("transaction_id")
-    getDiscountedPrice(transaction_id).then(res => {
-      setDiscounts(res.data)
-    })
+    // getDiscountedPrice(transaction_id).then(res => {
+    //   setDiscounts(res.data)
+    // })
   }, [])
 
   useEffect(() => {
@@ -246,10 +247,13 @@ const PaymentDetails = ({ handleStep, step }) => {
         setLoader(true)
 
         if (data.payment_type === "PayByID") {
-          ZaiPayId({ transaction_id: pay_id_data.payment_id, referral_meta_id: discounts?.referral_meta_id }).then(res => {
+          let discount_value = JSON.parse(sessionStorage.getItem("discApp"))
+          ZaiPayId({ transaction_id: pay_id_data.payment_id, referral_meta_id: discount_value?.value?.referral_meta_id }).then(res => {
             if (res.code === "200") {
               setTransaction({ id: res.data.transaction_id, pay_id: pay_id_data.id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type, type: "pay_id" })
+              setDiscounts({ final_amount: res.data.final_amount })
               localStorage.removeItem("transfer_data")
+              sessionStorage.removeItem("discApp")
               localStorage.removeItem("conversion_data")
               if (localStorage.getItem("send-step")) {
                 localStorage.removeItem("send-step")
@@ -291,13 +295,16 @@ const PaymentDetails = ({ handleStep, step }) => {
             }, 3 * 1000)
           })
         } else {
-          ZaiPayTo({ agreement_uuid: pay_to_data.agreement_uuid, transaction_id: localStorage.getItem("transaction_id"), referral_meta_id: discounts?.referral_meta_id }).then(res => {
+          let discount_value = JSON.parse(sessionStorage.getItem("discApp"))
+
+          ZaiPayTo({ agreement_uuid: pay_to_data.agreement_uuid, transaction_id: localStorage.getItem("transaction_id"), referral_meta_id: discount_value?.value?.referral_meta_id }).then(res => {
             setLoader(false)
             if (res.code == "200") {
               setTransaction({ id: res.data.transaction_id, pay_id: null, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type, type: "pay_to" })
+              setDiscounts({ final_amount: res.data.final_amount })
               localStorage.removeItem("transfer_data")
               localStorage.removeItem("conversion_data")
-
+              sessionStorage.removeItem("discApp")
               if (localStorage.getItem("send-step")) {
                 localStorage.removeItem("send-step")
               }
@@ -510,7 +517,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                   </section>
                 ) : display_confirm.toggle === true && modalView === false ? (
                   <section>
-                    <TransactionConfirm data={display_confirm} discount={discounts} handleCancel={() => setDisplayConfirm({ toggle: false, data: null })} handleContinue={() => { handleConfirmation() }} />
+                    <ReviewYourTransfer data={display_confirm} isConfirmation={true} handleCancel={() => setDisplayConfirm({ toggle: false, data: null })} handleContinue={() => { handleConfirmation() }} />
                   </section>
                 ) : (
                   <section>
