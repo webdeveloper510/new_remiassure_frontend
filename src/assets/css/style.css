@@ -9577,3 +9577,8 @@ button.SKip.back-btn {
 .next-step.dashbord button.login_button.dashbord-go {
   margin-right: 20px;
 }
+
+.kyc_alert {
+  border-color: red !important;
+  color: red !important;
+}

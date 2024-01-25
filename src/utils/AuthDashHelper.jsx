@@ -12,7 +12,7 @@ const authDashHelper = (checkType) => {
   } else if (checkType === 'dashCheck') {
     let login = sessionStorage.getItem("token")
     let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-    if (login && user?.digital_id_verified === "true") {
+    if (login && user?.is_digital_Id_verified?.toString()?.toLowerCase() === "true") {
       return true
     } else {
       return false

@@ -197,7 +197,7 @@ const Signup = () => {
                     sessionStorage.setItem('token', res.access_token)
                     setLoading(false)
                     const user = res?.data
-                    user.digital_id_verified = "false"
+                    user.is_digital_Id_verified = "false"
                     sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                     navigate('/complete-kyc')
                     sendEmail()

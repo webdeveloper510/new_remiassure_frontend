@@ -92,7 +92,7 @@ const Verification = () => {
                     setLoading(false)
                     if (obj.page !== "register") {
                         const user = res?.data
-                        user.digital_id_verified = `${res?.data?.digital_id_verified}`
+                        user.is_digital_Id_verified = `${res?.data?.is_digital_Id_verified}`
                         sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                         if (localStorage.getItem("transfer_data")) {
                             navigate(`/user-send-money`)
@@ -101,7 +101,7 @@ const Verification = () => {
                         }
                     } else {
                         const user = res?.data
-                        user.digital_id_verified = "false"
+                        user.is_digital_Id_verified = "false"
                         sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                         navigate('/dashboard')
                     }

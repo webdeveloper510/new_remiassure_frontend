@@ -77,7 +77,7 @@ const SenderDetails = ({ handleStep, step }) => {
 
     const [isVerified, setIsVerified] = useState(false)
     const [start_verify, setStartVerify] = useState(false)
-    const { digital_id_verified } = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+    const { is_digital_Id_verified } = JSON.parse(sessionStorage.getItem("remi-user-dt"))
     const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
     useEffect(() => {

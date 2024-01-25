@@ -15,7 +15,7 @@ const Help = () => {
   const transferLinks = () => {
     let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
     let token = sessionStorage.getItem("token")
-    if (token && (user?.digital_id_verified === "True" || user?.digital_id_verified === "true")) {
+    if (token && (user?.is_digital_Id_verified === "True" || user?.is_digital_Id_verified === "true")) {
       return `/user-send-money`
     } else {
       return "/login"

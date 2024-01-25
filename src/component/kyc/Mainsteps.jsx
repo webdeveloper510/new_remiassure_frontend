@@ -52,7 +52,7 @@ const MultiStepForm = ({ is_model, handleModel }) => {
       Middle_name: "",
       Last_name: "",
       Date_of_birth: "",
-      Country_of_birth: "",
+      Country_of_birth: "none",
       mobile: "",
       location: "",
       occupation: "",
@@ -71,41 +71,10 @@ const MultiStepForm = ({ is_model, handleModel }) => {
     onSubmit: async (values) => {
       if (activeStep === 1) {
         nextStep()
+        updateData(values)
       } else {
-        console.log("values------------------", values)
-        //   let d = values
-        //   d.mobile = "+" + selected_area_code + values.mobile
-        //   d.country_code = values.country_code
-        //   d.location = values.country
-        //   d.Gender = "NA"
-        //   delete d['country']
-        //   if (values.Middle_name === "" || values.Middle_name === undefined || values.Middle_name === " ") {
-        //     delete d['Middle_name'];
-        //   }
-        //   if (values.flat === "" || values.flat === undefined || values.flat === " ") {
-        //     delete d['flat'];
-        //   }
+        updateData(values)
         nextStep()
-        //   delete d["email"];
-        //   delete d["mobile"]
-        //   updateProfile(d).then(res => {
-        //     if (res.code === "200") {
-        //       let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-        //       let local = { ...res.data, digital_id_verified: user?.digital_id_verified }
-        //       localStorage.removeItem("remi-user-dt")
-        //       sessionStorage.setItem("remi-user-dt", JSON.stringify(local))
-        //       userProfile().then((res) => {
-        //       }).catch((error) => {
-        //         if (error.response.data.code == "400") {
-        //           toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-        //         }
-        //       })
-        //     } else if (res.code === "400") {
-        //       toast.error(res.message, { position: "bottom-right", hideProgressBar: true, autoClose: 2000 })
-        //     }
-        //   }).catch((err) => {
-        //     toast.error(err.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-        //   })
       }
     }
   })
@@ -129,13 +98,89 @@ const MultiStepForm = ({ is_model, handleModel }) => {
     }
   }
 
+  const updateData = (values) => {
+    let d = {}
+    d = values
+    d.location = values.country
+    d.Gender = "NA"
+    if (values.First_name === "" || values.First_name === undefined || values.First_name === " " || values.First_name === null) {
+      delete d['First_name'];
+    } if (values.Middle_name === "" || values.Middle_name === undefined || values.Middle_name === " " || values.Middle_name === null) {
+      delete d['Middle_name'];
+    } if (values.Last_name === "" || values.Last_name === undefined || values.Last_name === " " || values.Last_name === null) {
+      delete d['Last_name'];
+    } if (values.Date_of_birth === "" || values.Date_of_birth === undefined || values.Date_of_birth === " " || values.Date_of_birth === null) {
+      delete d['Date_of_birth'];
+    } if (values.occupation === "" || values.occupation === undefined || values.occupation === " " || values.occupation === null) {
+      delete d['occupation'];
+    } if (values.Country_of_birth === "" || values.Country_of_birth === undefined || values.Country_of_birth === "none" || values.Country_of_birth === null) {
+      delete d['Country_of_birth'];
+    } if (values.city === "" || values.city === undefined || values.city === " " || values.city === null) {
+      delete d['city'];
+    } if (values.flat === "" || values.flat === undefined || values.flat === " " || values.flat === null) {
+      delete d['flat'];
+    } if (values.building === "" || values.building === undefined || values.building === " " || values.building === null) {
+      delete d['building'];
+    } if (values.street === "" || values.street === undefined || values.street === " " || values.street === null) {
+      delete d['street'];
+    } if (values.postcode === "" || values.postcode === undefined || values.postcode === " " || values.postcode === null) {
+      delete d['postcode'];
+    } if (values.state === "" || values.state === undefined || values.state === " " || values.state === null) {
+      delete d['state'];
+    } if (values.country === "" || values.country === undefined || values.country === " " || values.country === null) {
+      delete d['country'];
+    } if (values.location === "" || values.location === undefined || values.location === " " || values.location === null) {
+      delete d['location'];
+    } if (values.country_code === "" || values.country_code === undefined || values.country_code === " " || values.country_code === null) {
+      delete d['country_code'];
+    } if (values.payment_per_annum === "" || values.payment_per_annum === undefined || values.payment_per_annum === null) {
+      delete d['payment_per_annum'];
+    } if (values.value_per_annum === "" || values.value_per_annum === undefined || values.value_per_annum === null) {
+      delete d['value_per_annum'];
+    }
+
+    delete d["email"];
+    delete d["mobile"];
+    delete d["customer_id"];
+    delete d["stripe_customer_id"];
+    delete d["referred_by"];
+    delete d["referral_code"];
+    delete d["mobile_verified"];
+    delete d["is_verified"];
+    delete d["is_digital_Id_verified"];
+    delete d["id"];
+    delete d["destination_currency"];
+    delete d["created_at"];
+    delete d["profile_completed"];
+
+    if (Object?.keys(d)?.length > 0) {
+      updateProfile(d).then(res => {
+        if (res.code === "200") {
+          let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+          let local = { ...res.data, is_digital_Id_verified: user?.is_digital_Id_verified }
+          sessionStorage.removeItem("remi-user-dt")
+          sessionStorage.setItem("remi-user-dt", JSON.stringify(local))
+          userProfile().then((res) => {
+          }).catch((error) => {
+            if (error.response.data.code == "400") {
+              toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+            }
+          })
+        } else if (res.code === "400") {
+          toast.error(res.message, { position: "bottom-right", hideProgressBar: true, autoClose: 2000 })
+        }
+      }).catch((err) => {
+        toast.error(err.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+      })
+    }
+  }
 
   useEffect(() => {
     if (!sessionStorage.getItem("token") && !sessionStorage.getItem("remi-user-dt")) {
       navigate("/login")
     } else {
       let dt = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-      if (dt.digital_id_verified.toLowerCase().toString === "true") {
+      if (dt.is_digital_Id_verified?.toString()?.toLowerCase() === "true") {
         navigate("/dashboard")
       }
     }
@@ -146,8 +191,6 @@ const MultiStepForm = ({ is_model, handleModel }) => {
         let p = res.data.mobile
         let phone = p.substring(3);
         let countryValue = res?.data?.country || res?.data?.location;
-        // setSelectedAreaCode(p.substring(1, 3))
-        // setData({ ...data, ...res.data, mobile: phone, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "" })
         formik.setValues({ ...formik.values, ...res.data, mobile: phone, country: countryValue, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", country_code: res?.data?.country_code || countryValue == "Australia" ? "AU" : "NZ" })
       }
     }).catch((error) => {
@@ -157,6 +200,11 @@ const MultiStepForm = ({ is_model, handleModel }) => {
       setLoading(false)
     })
   }, [])
+
+  const skip = (values) => {
+    updateData(values)
+    endHandler()
+  }
 
   /* ------------------------------------------------------- Return ------------------------------------------------ */
 
@@ -203,16 +251,16 @@ const MultiStepForm = ({ is_model, handleModel }) => {
                 <div className="col-lg-7 d-flex align-items-center">
                   <div>
                     <h2 className="Sign-heading my-3">KYC</h2>
-                    <h3 className='sub-head'>Complete your KYC in 3 steps</h3>
+                    <h3 className='sub-head'>Complete your KYC in 4 steps</h3>
                     <div>
                     </div>
                     <div>
                       <div className='steps-form'>
                         {activeStep === 1 && (
-                          <Step1 nextStep={nextStep} formik={formik} selected_area_code={selected_area_code} setSelectedAreaCode={setSelectedAreaCode} />
+                          <Step1 prevStep={prevStep} nextStep={nextStep} updateData={(values) => updateData(values)} selected_area_code={selected_area_code} setSelectedAreaCode={setSelectedAreaCode} skipHandler={(values) => skip(values)} end_handler={endHandler} />
                         )}
                         {activeStep === 2 && (
-                          <Step2 nextStep={nextStep} prevStep={prevStep} formik={formik} selected_area_code={selected_area_code} setSelectedAreaCode={setSelectedAreaCode} />
+                          <Step2 nextStep={nextStep} prevStep={prevStep} formik={formik} updateData={(values) => updateData(values)} selected_area_code={selected_area_code} setSelectedAreaCode={setSelectedAreaCode} skipHandler={(values) => skip(values)} end_handler={endHandler} />
                         )}
                         {activeStep === 3 && (
                           <Step3 values={formik.values} nextStep={nextStep} />

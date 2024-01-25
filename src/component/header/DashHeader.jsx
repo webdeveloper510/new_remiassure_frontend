@@ -43,8 +43,8 @@ const DashHeader = () => {
 
     const token = sessionStorage.getItem("token");
     const user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
-    const LoginDigitalidVerified = user?.digital_id_verified;
-    const [isVerified, setIsVerified] = useState(user?.digital_id_verified?.toString().toLowerCase() || false)
+    const LoginDigitalidVerified = user?.is_digital_Id_verified;
+    const [isVerified, setIsVerified] = useState(user?.is_digital_Id_verified?.toString().toLowerCase() || false)
     const [verification, setVerification] = useState(false)
     const [loader, setLoader] = useState(false)
     console.log(isVerified)
@@ -246,7 +246,7 @@ const VerificationModal = ({ handler, toggleLoader }) => {
                                             if (res?.data?.verification?.status === "approved") {
                                                 toast.success("Successfully Verified", { position: "bottom-right", hideProgressBar: true })
                                                 let user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
-                                                user.digital_id_verified = "true"
+                                                user.is_digital_Id_verified = "true"
                                                 sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                                             } else if (res?.data?.verification?.status === "declined") {
                                                 toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })

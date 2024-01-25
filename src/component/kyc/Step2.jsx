@@ -5,13 +5,79 @@ import "react-phone-input-2/lib/bootstrap.css";
 import countryList from '../../utils/AuNz.json';
 import clsx from "clsx";
 import Autocomplete from "react-google-autocomplete";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { userProfile } from "../../utils/Api";
+import { toast } from "react-toastify";
 
-const Step2 = ({ prevStep,nextStep, formik, selected_area_code, setSelectedAreaCode }) => {
-
-
+const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode, nextStep, updateData }) => {
   const [city_list, setCityList] = useState([])
   const [state_list, setStateList] = useState([])
   const [postal_list, setPostalList] = useState([])
+
+
+
+  const secondSchema = Yup.object().shape({
+    payment_per_annum: Yup.string().required(),
+    value_per_annum: Yup.string().required(),
+    country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
+    state: Yup.string().min(2).max(35).required().notOneOf(["none"]),
+    city: Yup.string().min(1).max(35).required().trim().notOneOf(["none"]),
+    postcode: Yup.string().length(4).required(),
+    street: Yup.string().min(1).max(150).required(),
+    flat: Yup.string().min(1).max(30).notRequired(),
+    building: Yup.string().min(1).max(30).required().trim(),
+  })
+
+  const formik = useFormik({
+    initialValues: {
+      location: "",
+      occupation: "",
+      payment_per_annum: "Tier 1 - Less than 5 times",
+      value_per_annum: "Tier 1 - Less than $30,000",
+      city: "",
+      state: "",
+      postcode: "",
+      street: "",
+      flat: "",
+      building: "",
+      country_code: "AU",
+      country: "Australia"
+    },
+    validationSchema: secondSchema,
+    onSubmit: async (values) => {
+      console.log("forkimmnbba", values)
+      nextStep()
+      updateData(values)
+    }
+  })
+
+  useEffect(() => {
+    userProfile().then((res) => {
+      if (res.code == "200") {
+        let p = res.data.mobile
+        let phone = p.substring(3);
+        console.log("profile-----------------------------", res.data, formik.values)
+        let countryValue = res?.data?.country || res?.data?.location;
+        let p_a, v_a;
+        if (res.data.payment_per_annum === "" || res.data.payment_per_annum === null) {
+          p_a = "Tier 1 - Less than 5 times";
+        } else {
+          p_a = res.data.payment_per_annum
+        }
+        if (res.data.value_per_annum === "" || res.data.value_per_annum === null) {
+          v_a = "Tier 1 - Less than $30,000"
+        } else {
+          v_a = res.data.value_per_annum
+        }
+        formik.setValues({ ...res.data, country: countryValue, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", country_code: res?.data?.country_code || countryValue == "Australia" ? "AU" : "NZ", payment_per_annum: p_a, value_per_annum: v_a })
+      }
+    }).catch((error) => {
+      if (error.response.data.code == "400") {
+        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+      }
+    })
+  }, [])
 
   useEffect(() => {
     if (formik.values.country !== "none") {
@@ -133,6 +199,8 @@ const Step2 = ({ prevStep,nextStep, formik, selected_area_code, setSelectedAreaC
       }
     }
   }
+
+
 
   return (
     <>
@@ -400,9 +468,9 @@ const Step2 = ({ prevStep,nextStep, formik, selected_area_code, setSelectedAreaC
             </div>
           </div>
           <div className="next-step">
-          <button type="button" className="SKip back-btn" onClick={() => prevStep()}>Back</button>
+            <button type="button" className="SKip back-btn" onClick={() => prevStep()}>Back</button>
             <button type="submit" className="login_button">Continue<img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
-            <button type="button" className="SKip" onClick={() => nextStep()}>Skip</button>
+            <button type="button" className="SKip" onClick={() => skipHandler(formik.values)}>Skip</button>
           </div>
         </form>
       </section>

@@ -163,7 +163,7 @@ const Addnewcard = () => {
   return (
     <>
       {
-        userdt?.digital_id_verified && token ? (
+        userdt?.is_digital_Id_verified && token ? (
           <div className="margin-set">
             <div className="tabs-page">
               <Sidebar />
