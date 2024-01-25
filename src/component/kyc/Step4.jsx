@@ -25,7 +25,7 @@ const Step4 = ({ end_handler }) => {
                                     <img src="assets/img/home/kyc-suc.webp">
                                     </img>
                                 </div>
-                                <p className='kyc-sucful'><span className='kyc-text'>KYC</span> <br></br>Successfull</p>
+                                <p className='kyc-sucful'><span className='kyc-text'>KYC</span> <br></br>Successful</p>
                             </div>
                         </div>
                         <div className="next-step dashbord">

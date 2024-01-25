@@ -4,10 +4,12 @@ import { Veriff } from '@veriff/js-sdk';
 import React, { useEffect, useState } from 'react';
 import { getVeriffStatus } from '../../utils/Api';
 import { toast } from 'react-toastify';
+import { Alert } from 'react-bootstrap';
 
 const Step3 = ({ prevStep, nextStep, values }) => {
 
   const [loading, setLoading] = useState(false)
+  const [re_verify, setReverify] = useState(false)
 
   useEffect(() => {
     let local = JSON.parse(sessionStorage.getItem("remi-user-dt"))
@@ -19,13 +21,16 @@ const Step3 = ({ prevStep, nextStep, values }) => {
           url: response.verification.url,
           onEvent: function (msg) {
             setLoading(true)
+            setReverify(false)
             switch (msg) {
               case MESSAGES.CANCELED:
                 setLoading(false)
                 break;
               case MESSAGES.STARTED:
+                setReverify(false)
                 break;
               case MESSAGES.FINISHED:
+                setReverify(false)
                 const interval = setInterval(() => {
                   getVeriffStatus({ session_id: response.verification.id }).then(res => {
                     if (res.code === "200") {
@@ -39,7 +44,8 @@ const Step3 = ({ prevStep, nextStep, values }) => {
                       } else if (res?.data?.verification?.status === "declined") {
                         setLoading(false)
                         clearInterval(interval)
-                        toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
+                        setReverify("Verification failed, please restart verification to complete KYC")
+                        // toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
                       }
 
                     }
@@ -93,9 +99,13 @@ const Step3 = ({ prevStep, nextStep, values }) => {
                 </div>
               </div>
               <div className="next-step dashbord">
-                {/* <button type="button" className="SKip back-btn" onClick={() => prevStep()}>Back</button> */}
-                {/* <button className="login_button dashbord-go">Go To Dashboard  <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
-            <p>You will be redirected in <span><b>10</b> Seconds </span></p> */}
+                {
+                  re_verify && (
+                    <Alert className='kyc_alert' >
+                      <span>{re_verify}</span>
+                    </Alert>
+                  )
+                }
               </div>
             </div>
           </div>

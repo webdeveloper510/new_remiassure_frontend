@@ -99,39 +99,39 @@ const MultiStepForm = ({ is_model, handleModel }) => {
   }
 
   const updateData = (values) => {
-    console.log(values)
-    let d = values
+    let d = {}
+    d = values
     d.location = values.country
     d.Gender = "NA"
-    if (values.First_name === "" || values.First_name === undefined || values.First_name === " ") {
+    if (values.First_name === "" || values.First_name === undefined || values.First_name === " " || values.First_name === null) {
       delete d['First_name'];
-    } if (values.Middle_name === "" || values.Middle_name === undefined || values.Middle_name === " ") {
+    } if (values.Middle_name === "" || values.Middle_name === undefined || values.Middle_name === " " || values.Middle_name === null) {
       delete d['Middle_name'];
-    } if (values.Last_name === "" || values.Last_name === undefined || values.Last_name === " ") {
+    } if (values.Last_name === "" || values.Last_name === undefined || values.Last_name === " " || values.Last_name === null) {
       delete d['Last_name'];
-    } if (values.Date_of_birth === "" || values.Date_of_birth === undefined || values.Date_of_birth === " ") {
+    } if (values.Date_of_birth === "" || values.Date_of_birth === undefined || values.Date_of_birth === " " || values.Date_of_birth === null) {
       delete d['Date_of_birth'];
-    } if (values.occupation === "" || values.occupation === undefined || values.occupation === " ") {
+    } if (values.occupation === "" || values.occupation === undefined || values.occupation === " " || values.occupation === null) {
       delete d['occupation'];
-    } if (values.Country_of_birth === "" || values.Country_of_birth === undefined || values.Country_of_birth === "none") {
+    } if (values.Country_of_birth === "" || values.Country_of_birth === undefined || values.Country_of_birth === "none" || values.Country_of_birth === null) {
       delete d['Country_of_birth'];
-    } if (values.city === "" || values.city === undefined || values.city === " ") {
+    } if (values.city === "" || values.city === undefined || values.city === " " || values.city === null) {
       delete d['city'];
-    } if (values.flat === "" || values.flat === undefined || values.flat === " ") {
+    } if (values.flat === "" || values.flat === undefined || values.flat === " " || values.flat === null) {
       delete d['flat'];
-    } if (values.building === "" || values.building === undefined || values.building === " ") {
+    } if (values.building === "" || values.building === undefined || values.building === " " || values.building === null) {
       delete d['building'];
-    } if (values.street === "" || values.street === undefined || values.street === " ") {
+    } if (values.street === "" || values.street === undefined || values.street === " " || values.street === null) {
       delete d['street'];
-    } if (values.postcode === "" || values.postcode === undefined || values.postcode === " ") {
+    } if (values.postcode === "" || values.postcode === undefined || values.postcode === " " || values.postcode === null) {
       delete d['postcode'];
-    } if (values.state === "" || values.state === undefined || values.state === " ") {
+    } if (values.state === "" || values.state === undefined || values.state === " " || values.state === null) {
       delete d['state'];
-    } if (values.country === "" || values.country === undefined || values.country === " ") {
+    } if (values.country === "" || values.country === undefined || values.country === " " || values.country === null) {
       delete d['country'];
-    } if (values.location === "" || values.location === undefined || values.location === " ") {
+    } if (values.location === "" || values.location === undefined || values.location === " " || values.location === null) {
       delete d['location'];
-    } if (values.country_code === "" || values.country_code === undefined || values.country_code === " ") {
+    } if (values.country_code === "" || values.country_code === undefined || values.country_code === " " || values.country_code === null) {
       delete d['country_code'];
     } if (values.payment_per_annum === "" || values.payment_per_annum === undefined || values.payment_per_annum === null) {
       delete d['payment_per_annum'];
@@ -152,24 +152,27 @@ const MultiStepForm = ({ is_model, handleModel }) => {
     delete d["destination_currency"];
     delete d["created_at"];
     delete d["profile_completed"];
-    updateProfile(d).then(res => {
-      if (res.code === "200") {
-        let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-        let local = { ...res.data, is_digital_Id_verified: user?.is_digital_Id_verified }
-        sessionStorage.removeItem("remi-user-dt")
-        sessionStorage.setItem("remi-user-dt", JSON.stringify(local))
-        userProfile().then((res) => {
-        }).catch((error) => {
-          if (error.response.data.code == "400") {
-            toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-          }
-        })
-      } else if (res.code === "400") {
-        toast.error(res.message, { position: "bottom-right", hideProgressBar: true, autoClose: 2000 })
-      }
-    }).catch((err) => {
-      toast.error(err.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-    })
+
+    if (Object?.keys(d)?.length > 0) {
+      updateProfile(d).then(res => {
+        if (res.code === "200") {
+          let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+          let local = { ...res.data, is_digital_Id_verified: user?.is_digital_Id_verified }
+          sessionStorage.removeItem("remi-user-dt")
+          sessionStorage.setItem("remi-user-dt", JSON.stringify(local))
+          userProfile().then((res) => {
+          }).catch((error) => {
+            if (error.response.data.code == "400") {
+              toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+            }
+          })
+        } else if (res.code === "400") {
+          toast.error(res.message, { position: "bottom-right", hideProgressBar: true, autoClose: 2000 })
+        }
+      }).catch((err) => {
+        toast.error(err.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+      })
+    }
   }
 
   useEffect(() => {
