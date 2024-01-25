@@ -61,5 +61,7 @@ export const DiscountList = () =>  {
       </div>
         )
     }
+
+    
 export default DiscountList
 
