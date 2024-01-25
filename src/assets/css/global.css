@@ -2194,3 +2194,20 @@ background: transparent !important;
     input:disabled, select:disabled, form-control:disabled{
         background: transparent !important;
     }
+
+    .review_transfer_head{
+        font-weight: bolder;
+        background: rgba(114, 62, 235, 0.07);
+        padding:15px;
+        color:#170079;
+        border-radius:15px;
+    }
+
+    .review_transfer_field {
+        border:1px solid rgba(0,0,0,0.15);
+        padding:15px;
+        border-radius:50px;
+    }
+    .review_transfer_field .float-end {
+         color : #170079
+     }

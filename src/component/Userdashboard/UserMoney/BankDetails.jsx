@@ -17,6 +17,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import TransactionConfirm from '../../modals/TransactionConfirm';
 import Bank_list from '../../../utils/Bank_list';
 import Select, { components } from "react-select"
+import ReviewYourTransfer from '../../modals/ReviewYourTransfer';
 
 
 const BankDetails = ({ handleStep, step }) => {
@@ -853,7 +854,7 @@ const BankDetails = ({ handleStep, step }) => {
             </div>
           </>
         ) : (
-          <TransactionConfirm data={display_confirm} discount={discounts} handleCancel={() => { setDisplayConfirm({ toggle: false, data: null }) }} handleContinue={() => nextStep()} />
+          <ReviewYourTransfer data={display_confirm} discount={discounts} handleCancel={() => { setDisplayConfirm({ toggle: false, data: null }) }} handleContinue={() => nextStep()} />
         )
       }
 
