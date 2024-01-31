@@ -43,12 +43,12 @@ const ReviewYourTransfer = ({ data, isConfirmation, handleCancel, handleContinue
 
     const removeDiscount = () => {
         setApplied(null)
-        console.log(data?.data?.amount)
         setDiscountValues({
             final_amount: data?.data?.amount?.send_amt || 0,
             discount_amount: data?.data?.amount?.discount_amount || 0,
             total_amount: data?.data?.amount?.send_amt || 0
         })
+        sessionStorage.removeItem("discApp")
     }
 
     useEffect(() => {
@@ -79,7 +79,9 @@ const ReviewYourTransfer = ({ data, isConfirmation, handleCancel, handleContinue
                                     <span>Amount Exchanged</span>
                                     <th className='float-end'>{data?.data?.amount?.to_type}&nbsp;{data?.data?.amount?.exchange_amt !== "" && data?.data?.amount?.exchange_amt !== undefined && data?.data?.amount?.exchange_amt !== null ? commaSeperator(data?.data?.amount?.exchange_amt) : data?.data?.amount?.exchange_amt}</th>
                                 </div>
-                                <div className="review_transfer_field my-3 text-success">
+                               {
+                                isConfirmation && (
+                                    <div className="review_transfer_field my-3 text-success">
                                     <span>Discount Applied</span>
                                     <th className='float-end'> <span className='text-success'>{data?.data?.amount?.from_type}&nbsp;{discount_values?.discount_amount}&nbsp;</span>
                                         {
@@ -90,6 +92,8 @@ const ReviewYourTransfer = ({ data, isConfirmation, handleCancel, handleContinue
 
                                     </th>
                                 </div>
+                                )
+                               }
                                 {
                                     isConfirmation && (
                                         <div className='row'>

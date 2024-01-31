@@ -41,7 +41,7 @@ const Profile = () => {
     First_name: "", Middle_name: "", Last_name: "",
     Gender: "Male", Country_of_birth: "",
     Date_of_birth: "", flat: "", building: "",
-    street: "", city: "none", country: "none",
+    street: "", city: "none", country: "none", country_code: "AU",
     postcode: "", state: "none", email: "", mobile: "", occupation: "",
     customer_id: "", payment_per_annum: "Tier 1 - Less than 5 times", value_per_annum: "Tier 1 - Less than $30,000"
   }
@@ -90,8 +90,9 @@ const Profile = () => {
         } else {
           v_a = res.data.value_per_annum
         }
-        setData({ ...data, ...res.data, mobile: phone, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
-        formik.setValues({ ...formik.values, ...res.data, mobile: phone, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
+        let countryValue = res.data.location || res.data.country
+        setData({ ...data, ...res.data, mobile: phone, country: countryValue, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
+        formik.setValues({ ...formik.values, ...res.data, mobile: phone, country: countryValue, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
         setUserData(res.data)
         setIsUpdate({ email: res.data.email, mobile: p })
       }
@@ -130,18 +131,20 @@ const Profile = () => {
   useEffect(() => {
     if (data.country !== "none") {
       let array_1 = countryList?.filter((item) => {
-        return item?.name === data.country
+        if (item.name === data.country) {
+          setData({ ...data, state: "none", city: "none", postcode: "", country_code: item?.iso2 })
+          formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country_code: item?.iso2 })
+          return item?.name === data.country
+        }
       })
       let array = array_1[0]?.states;
-      setData({ ...data, state: "none", city: "none", postcode: "" })
-      formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none" })
       if (array) {
         array.sort((a, b) => (a.state > b.state) ? 1 : -1);
       }
       setStateList(array);
     } else if (data.country === "none") {
-      setData({ ...data, city: "none", postcode: "", state: "none" })
-      formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none" })
+      setData({ ...data, city: "none", postcode: "", state: "none", country : countryList?.[0].name , country_code: countryList?.[0].iso2})
+      formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country : countryList?.[0].name , country_code: countryList?.[0].iso2 })
       setCityList([])
       setStateList([])
       setPostalList([])
@@ -192,7 +195,9 @@ const Profile = () => {
     if (e.target.name === 'country') {
       countryList.map((item) => {
         if (item.name === e.target.value) {
-          setData({ ...data, country_code: item.iso2 })
+          setData({ ...data, [e.target.name]: e.target.value, country_code: item.iso2 })
+          formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+          formik.setFieldTouched(`${[e.target.name]}`, true)
           setSelectedAreaCode(item.phone_code)
         }
       })
@@ -267,7 +272,6 @@ const Profile = () => {
     d.country_code = data.country_code
     d.location = formik.values.country
     d.Gender = "NA"
-    delete d['country']
     if (formik.values.Middle_name === "" || formik.values.Middle_name === undefined || formik.values.Middle_name === " ") {
       delete d['Middle_name'];
     }
@@ -280,6 +284,16 @@ const Profile = () => {
     if (is_update.mobile === d.mobile) {
       delete d['mobile']
     }
+    delete d["customer_id"];
+    delete d["stripe_customer_id"];
+    delete d["referred_by"];
+    delete d["referral_code"];
+    delete d["mobile_verified"];
+    delete d["is_verified"];
+    delete d["is_digital_Id_verified"];
+    delete d["destination_currency"];
+    delete d["created_at"];
+    delete d["profile_completed"];
     setLoading(true)
     updateProfile(d).then(res => {
       setLoading(false)

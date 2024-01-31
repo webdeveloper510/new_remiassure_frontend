@@ -95,20 +95,22 @@ const AmountDetail = ({ handleStep, step }) => {
             if (transaction_id === null || transaction_id === "undefined" || transaction_id === "") {
                 delete payload["transaction_id"]
             }
+            let amt = values.send_amt.includes(".") ? values.send_amt : values.send_amt + ".00"
             createTransaction(payload).then(res => {
                 if (res.code === "200") {
                     localStorage.setItem("transaction_id", res.data.transaction_id)
                     if (localStorage.getItem("transfer_data")) {
                         local = JSON.parse(localStorage.getItem("transfer_data"))
                     }
-                    local.amount = { ...values, send_amt: commaRemover(values.send_amt), exchange_amt: commaRemover(values.exchange_amt), exchange_rate: exch_rate, defaultExchange: defaultExchange }
+                    local.amount = { ...values, send_amt: commaRemover(amt), exchange_amt: commaRemover(values.exchange_amt), exchange_rate: exch_rate, defaultExchange: defaultExchange }
                     localStorage.setItem("transfer_data", JSON.stringify(local))
                 }
             })
             if (localStorage.getItem("transfer_data")) {
                 local = JSON.parse(localStorage.getItem("transfer_data"))
+
             }
-            local.amount = { ...values, exchange_rate: exch_rate, defaultExchange: defaultExchange }
+            local.amount = { ...values, send_amt:amt, exchange_rate: exch_rate, defaultExchange: defaultExchange }
 
             localStorage.setItem("transfer_data", JSON.stringify(local))
             if (localStorage.getItem("send-step")) {
@@ -130,11 +132,12 @@ const AmountDetail = ({ handleStep, step }) => {
                     let data = commaSeperator(response.amount)
                     if (direction === "From") {
                         formik.setFieldValue("exchange_amt", data)
-                        setAmtDetail({ ...amt_detail, exchange_amt: data })
+                        formik.setFieldValue("send_amt", event.target.value.includes(".") ? event.target.value : event.target.value+".00")
+                        setAmtDetail({ ...amt_detail, exchange_amt: data , send_amt: event.target.value.includes(".") ? event.target.value : event.target.value+".00"})
                         setDefaultExchange(response?.default_exchange)
                     } else {
-                        formik.setFieldValue("send_amt", data)
-                        setAmtDetail({ ...amt_detail, send_amt: data })
+                        formik.setFieldValue("send_amt", data.includes(".") ? data : data+".00")
+                        setAmtDetail({ ...amt_detail, send_amt: data.includes(".") ? data : data+".00"})
                     }
                     setLoader(false)
                     setExchRate(response.rate)
@@ -187,6 +190,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const amountBlur = (e, direction) => {
         if (e.target.value !== "." && blur_off === false) {
             myTotalAmount(e, direction)
+            
         }
     }
 

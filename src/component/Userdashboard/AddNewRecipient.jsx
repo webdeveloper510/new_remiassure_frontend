@@ -188,13 +188,16 @@ const Addnewrecipient = () => {
     if (e.target.name === 'country') {
       countryList.map((item) => {
         if (item.name === e.target.value) {
-          setData({ ...data, country_code: item.iso2 })
+          setData({ ...data, country_code: item.iso2, [e.target.name]: e.target.value })
+          formik.setFieldValue(`${e.target.name}`, e.target.value)
+          formik.setFieldTouched(`${e.target.name}`, true)
         }
       })
+    } else {
+      setData({ ...data, [e.target.name]: e.target.value })
+      formik.setFieldValue(`${e.target.name}`, e.target.value)
+      formik.setFieldTouched(`${e.target.name}`, true)
     }
-    setData({ ...data, [e.target.name]: e.target.value })
-    formik.setFieldValue(`${e.target.name}`, e.target.value)
-    formik.setFieldTouched(`${e.target.name}`, true)
   }
 
   const handleKeyDown = (e, max) => {

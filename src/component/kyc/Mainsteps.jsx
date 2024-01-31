@@ -101,6 +101,7 @@ const MultiStepForm = ({ is_model, handleModel }) => {
   const updateData = (values) => {
     let d = {}
     d = values
+    console.log(values)
     d.location = values.country
     d.Gender = "NA"
     if (values.First_name === "" || values.First_name === undefined || values.First_name === " " || values.First_name === null) {
@@ -190,8 +191,8 @@ const MultiStepForm = ({ is_model, handleModel }) => {
         setLoading(false)
         let p = res.data.mobile
         let phone = p.substring(3);
-        let countryValue = res?.data?.country || res?.data?.location;
-        formik.setValues({ ...formik.values, ...res.data, mobile: phone, country: countryValue, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", country_code: res?.data?.country_code || countryValue == "Australia" ? "AU" : "NZ" })
+        let countryValue = res?.data?.location || res?.data?.country;
+        formik.setValues({ ...formik.values, ...res.data, mobile: phone, country: countryValue, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", country_code: countryValue == "Australia" ? "AU" : "NZ" })
       }
     }).catch((error) => {
       if (error.response.data.code == "400") {

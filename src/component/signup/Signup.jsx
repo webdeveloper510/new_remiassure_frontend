@@ -140,6 +140,7 @@ const Signup = () => {
         formik.setFieldTouched("location", true)
         countryList.map((item) => {
             if (item.name === e.target.value) {
+                console.log(item.iso2)
                 setCountryCode(item.iso2)
                 setSelectedAreaCode(item.phone_code)
             }

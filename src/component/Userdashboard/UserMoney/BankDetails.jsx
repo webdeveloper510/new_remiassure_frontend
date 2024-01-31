@@ -176,13 +176,16 @@ const BankDetails = ({ handleStep, step }) => {
     if (e.target.name === 'country') {
       countryList.map((item) => {
         if (item.name === e.target.value) {
-          setData({ ...data, country_code: item.iso2 })
+          setData({ ...data, [e.target.name]: e.target.value, country_code: item.iso2 })
+          formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+          formik.setFieldTouched(`${[e.target.name]}`, true)
         }
       })
+    } else {
+      setData({ ...data, [e.target.name]: e.target.value })
+      formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+      formik.setFieldTouched(`${[e.target.name]}`, true)
     }
-    setData({ ...data, [e.target.name]: e.target.value })
-    formik.setFieldValue(`${[e.target.name]}`, e.target.value)
-    formik.setFieldTouched(`${[e.target.name]}`, true)
   }
 
   const handlePhone = (e, coun) => {
@@ -425,9 +428,11 @@ const BankDetails = ({ handleStep, step }) => {
                   </div>
                 </div></> :
                 <>
-                  <div class="form-head mb-4">
-                    <h2 class="text-black font-w600 mb-0"><b>Select a recipient to send money</b>
+                  <div class="form-head d-flex mb-4">
+                    <h2 class="text-black font-w600 mb-0 align-self-center"><b>Select a recipient to send money</b>
                     </h2>
+                  <button type="button" className="form-button ms-auto m-0" onClick={() => handleToggle()} style={{float:"right"}}><BsFillPersonPlusFill /> Add Recipient
+                  </button>
                   </div>
                   <div className="card">
                     <div className="card-body">
@@ -455,8 +460,6 @@ const BankDetails = ({ handleStep, step }) => {
                           <button type="button" className="start-form-button full-col" onClick={() => { handleClear() }} style={{ "float": "left" }}>Cancel</button>
                         </div>
                         <div className='col-md-8'>
-                          <button type="button" className="form-button col-md-12 full-col" onClick={() => handleToggle()} style={{ "float": "right" }}><BsFillPersonPlusFill /> Add Recipient
-                          </button>
                           <button type="button" className="form-button col-md-12 full-col" onClick={() => { handlePrevious() }} style={{ "float": "right" }}>Previous</button>
                         </div>
                       </div>

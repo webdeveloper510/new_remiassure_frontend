@@ -42,7 +42,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
       flat: "",
       building: "",
       country_code: "AU",
-      country: "Australia"
+      country: "none"
     },
     validationSchema: secondSchema,
     onSubmit: async (values) => {
@@ -57,7 +57,6 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
       if (res.code == "200") {
         let p = res.data.mobile
         let phone = p.substring(3);
-        console.log("profile-----------------------------", res.data, formik.values)
         let countryValue = res?.data?.country || res?.data?.location;
         let p_a, v_a;
         if (res.data.payment_per_annum === "" || res.data.payment_per_annum === null) {
@@ -80,7 +79,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
   }, [])
 
   useEffect(() => {
-    if (formik.values.country !== "none") {
+    if (formik.values.country !== "none"&&formik.values.country!=="") {
       let array_1 = countryList?.filter((item) => {
         return item?.name === formik.values.country
       })
@@ -91,8 +90,8 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
         array.sort((a, b) => (a.state > b.state) ? 1 : -1);
       }
       setStateList(array);
-    } else if (formik.values.country === "none") {
-      formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none" })
+    } else {
+      formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none" ,country: countryList[0].name, country_code:countryList[0].iso2})
       setCityList([])
       setStateList([])
       setPostalList([])
