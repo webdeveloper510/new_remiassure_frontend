@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useEffect ,useState} from 'react'
 import * as Yup from "yup"
 import { useFormik } from 'formik';
 import clsx from 'clsx';
-import { useState } from 'react';
-import { createTransaction, exchangeRate, getPreferredCurrency, setPreferredCurrency } from '../../../utils/Api';
+import { createTransaction, exchangeRate } from '../../../utils/Api';
 import { toast } from 'react-toastify';
 import Bank_list from '../../../utils/Bank_list';
 import { commaRemover, commaSeperator } from '../../../utils/hook';
 import Select, { components } from "react-select"
+import { useNavigate } from 'react-router';
 
 
 const AmountDetail = ({ handleStep, step }) => {
 
     const [loader, setLoader] = useState(false)
+    const navigate = useNavigate()
 
     const [exch_rate, setExchRate] = React.useState('1.0998');
     const [amt_detail, setAmtDetail] = useState({
@@ -247,7 +248,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const handleCancel = () => {
         localStorage.removeItem("transfer_data")
         localStorage.removeItem("send-step")
-        window.location.reload(true)
+        navigate("/dashboard")
     }
 
     const handleRecieveMethod = (e) => {
@@ -424,20 +425,7 @@ const AmountDetail = ({ handleStep, step }) => {
                         <div className="row each-row">
                             <div className="col-md-6">
                                 <h5>Receive Method</h5>
-                                <div className="col-md-12">
-                                    <label className="container-new">
-                                        <span className="radio-tick">Bank Transfer</span>
-                                        <input
-                                            className="form-check-input"
-                                            type="radio"
-                                            name="recivedMethod"
-                                            value="Bank Transfer"
-                                            checked={amt_detail.recieve_meth == "Bank Transfer"}
-                                            onChange={(e) => { handleRecieveMethod(e) }}
-                                        />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                </div>
+                             
                                 <div className="col-md-12">
                                     <label className="container-new">
                                         <span className="radio-tick">Mobile Wallet</span>
@@ -452,7 +440,20 @@ const AmountDetail = ({ handleStep, step }) => {
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
-
+                                <div className="col-md-12">
+                                    <label className="container-new">
+                                        <span className="radio-tick">Bank Transfer</span>
+                                        <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="recivedMethod"
+                                            value="Bank Transfer"
+                                            checked={amt_detail.recieve_meth == "Bank Transfer"}
+                                            onChange={(e) => { handleRecieveMethod(e) }}
+                                        />
+                                        <span className="checkmark"></span>
+                                    </label>
+                                </div>
                             </div>
                             <div className="col-md-6">
                                 <h5>Payout Partners</h5>

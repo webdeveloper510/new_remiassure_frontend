@@ -424,7 +424,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                         <h5>Payment type</h5>
                         <div className="col-md-12">
                           <label className="container-new">
-                            <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={25} /> &nbsp;&nbsp;<a onClick={() => setShowToinst(true)}>(click here to learn more...)</a></span>
+                            <span className="radio-tick"><img src="/assets/img/zai/payto.svg" height={25} /> &nbsp;&nbsp;<a onClick={() => setShowToinst(true)}>(click here to learn more about PayTO)</a></span>
                             <input
                               className="form-check-input"
                               type="radio"
@@ -438,7 +438,7 @@ const PaymentDetails = ({ handleStep, step }) => {
                         </div>
                         <div className="col-md-12">
                           <label className="container-new">
-                            <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} />&nbsp;&nbsp;<a onClick={() => setShowIDinst(true)}>(click here to learn more...)</a></span>
+                            <span className="radio-tick"><img src="/assets/img/zai/payid.svg" height={25} />&nbsp;&nbsp;<a onClick={() => setShowIDinst(true)}>(click here to learn more about PayID)</a></span>
                             <input
                               className="form-check-input"
                               type="radio"
