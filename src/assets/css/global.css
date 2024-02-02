@@ -633,6 +633,24 @@ h1.head-new {
 .custom-button-group.for-mobileee {
 display: none;
 }
+@media (max-width:1100px) {
+.free-transaction .col-lg-7.col-sm-7.text-end,.free-transaction  .col-lg-5.padding-right-box {
+    width: 100%;
+}
+.free-transaction {
+    display: block !important;
+}
+
+
+
+.images-1.images-1.col-md-7.marauto-left {
+    width: 58%;
+}
+.free-transaction .vl.about_v1
+{
+    text-align: center !important;
+    margin-top: 30px !important;}
+}
 
 @media (max-width:768px) {
     .bottom-footer .col-md-4 {
@@ -734,6 +752,29 @@ button.btn.btn.reset-button {
 }
 .col-md-6.desktop_only-767 {
     display: none !important
+}
+}
+@media (max-width:600px) {
+.padding-v.pos-rel .img-ab
+{
+position:  inherit !important;
+}
+section.why-us_section.homepage-why-us.hows-section.Enjoy-Free .free-transaction .images-1.images-1.col-md-7.marauto-left {
+    width: 100% !important;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.free-transaction .images-1.images-1.col-md-7.marauto-left {
+    width: 100% !important;
+}
+}
+@media (max-width:767px) {
+.free-transaction .images-1.images-1.col-md-7.marauto-left {
+    width: 58% !important;
+}
+.contant-img {
+    top: 10px !important;
 }
 }
 @media (min-width:768px) {
@@ -944,14 +985,18 @@ b.color-sp {
 .image1 {
     position: relative;
 }
-
+.bottom-aligend .iconandcon {
+    display: flex;
+    align-items: center;
+ 
+}
 .contant-img {
     width: 180px;
     background: #FFFFFF;
     border-radius: 39px;
     position: absolute;
     z-index: 999;
-    top: 25px;
+    top: 29px;
     left: 48px;
     padding: 20px;
 }
@@ -965,6 +1010,7 @@ b.color-sp {
     width: auto !important;
 }
 .icon-img {
+    
     width: 70px;
     height: 70px;
     border-radius: 39px !important;
@@ -978,7 +1024,7 @@ b.color-sp {
     text-align: left;
     font-size: 14px;
     line-height: 17.5px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 p.number {
     color: #04C9A8 !important;
@@ -1003,6 +1049,7 @@ p.number {
 
 .icon-img.skyicon {
     background: #0AEDC7;
+    margin-right: 10px;
 }
 
 .bottom-aligend {
@@ -1019,13 +1066,15 @@ p.number {
 }
 
 
-
+.flex-conete {
+    width: 70%;
+}
 .bottom-aligend p {
   
     text-align: left;
     font-size: 14px;
     line-height: 17.5px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .download a {
     border: 1.41px solid #9C92C5;
@@ -1974,7 +2023,7 @@ h4.content-heading {
     font-size: 20px;
     font-weight: bold;
     color: #190079;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 
@@ -2300,7 +2349,9 @@ background: transparent !important;
 .veriff-submit {
     background-color: #191970 !important;
 }
-
+.images-1.images-1.col-md-7.marauto-left {
+    margin-left: 60px;
+}
 .loader-text {
     position: absolute;
     width: 80px;
@@ -2317,3 +2368,11 @@ background: transparent !important;
     font-size: 15px !important;
     font-weight: 400 !important;
 }
+
+.padding-v.pos-rel {
+    position: relative;
+}
+.padding-v.pos-rel .img-ab{
+position: absolute;
+    right: 0;
+    top: -160px;}

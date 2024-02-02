@@ -958,9 +958,9 @@ const Home = () => {
 
                     <div className="  free-transaction">
                         <div className="col-lg-7  col-sm-7 text-end">
-                            <div className="images-1 images-1 col-md-8 marauto">
+                            <div className="images-1 images-1 col-md-7 marauto-left">
                                 <div className="image1">
-                                    <img src="assets/img/home/free1.webp" alt="background-images" width="100%" height="100%" />
+                                    <img src="assets/img/home/new (3).png" alt="background-images" width="100%" height="100%" />
                                 </div>
                                 <div className="contant-img">
                                     <div className="icon-img">
@@ -968,22 +968,19 @@ const Home = () => {
                                     </div>
 
                                     <h4 className="content-heading">
-                                        Weekend
-                                        Gateway
+                                    What? Local Business
                                     </h4>
-                                    <p>For our weekend trip</p>
-                                    <p className="number">
-                                        + $11.95
-                                    </p>
+                                    <p>RemitAssure used to send money to support local business in Africa</p>
+                                   
                                 </div>
 
                             </div>
-                            <div className="padding-v">
+                            <div className="padding-v pos-rel">
                                 <div class="row">
-                                    <div class="col-lg-8 col-sm-8 margintop">
+                                    <div class="col-lg-6 col-sm-6 margintop">
                                         <div className="images-1 ">
                                             <div className="image1">
-                                                <img src="assets/img/home/img2.webp" alt="background-images" class="dd" width="100%" height="100%" />
+                                                <img src="assets/img/home/new (2).png" alt="background-images" class="dd" width="100%" height="100%" />
                                             </div>
                                             <div className="contant-img right-aligned">
                                                 <div className="icon-img pink">
@@ -991,12 +988,12 @@ const Home = () => {
                                                 </div>
 
                                                 <h4 className="content-heading">
-                                                    Trainers Cashback
+                                                What? Native African
+wedding
                                                 </h4>
-                                                <p>For our weekend trip</p>
-                                                <p className="number">
-                                                    + $11.95
-                                                </p>
+                                                <p>RemitAssure used
+to send money home to
+support wedding</p>
                                             </div>
 
 
@@ -1006,26 +1003,26 @@ const Home = () => {
 
                                     </div>
 
-                                    <div class="col-lg-4 col-sm-4 margintop">
+                                    <div class="col-lg-6 col-sm-6 margintop img-ab">
                                         <div className="images-1 ">
                                             <div className="image1">
-                                                <img src="assets/img/home/women.webp" alt="background-images" class="dd" width="100%" height="100%" />
+                                                <img src="assets/img/home/new (1).png" alt="background-images" class="dd" width="100%" height="100%" />
                                             </div>
                                             <div className="bottom-aligend">
                                                 <div className="iconandcon">
                                                     <div className="icon-img skyicon">
-                                                        <img src="assets/img/home/skyicon.png" alt="logo" />
+                                                        <img src="assets/img/home/skyicon (2).png" alt="logo" />
 
                                                     </div>
+                                                    <div className="flex-conete">
                                                     <h4 className="content-heading">
-                                                        Trainers Cashback
+                                                    Delighted Young Asian Girl
                                                     </h4>
+                                                    </div>
                                                 </div>
 
-                                                <p>Well Deserved</p>
-                                                <p className="number">
-                                                    + $11.95
-                                                </p>
+                                                <p>RemitAssure used to send school fees & allowance to a girl in Uni in Australia</p>
+                                               
                                             </div>
 
 
