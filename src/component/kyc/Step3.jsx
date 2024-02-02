@@ -44,7 +44,7 @@ const Step3 = ({ prevStep, nextStep, values }) => {
                       } else if (res?.data?.verification?.status === "declined") {
                         setLoading(false)
                         clearInterval(interval)
-                        setReverify("Verification failed, please restart verification to complete KYC")
+                        setReverify("Verification failed. Please try verifying your ID once more")
                         // toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
                       }
 
@@ -71,8 +71,8 @@ const Step3 = ({ prevStep, nextStep, values }) => {
         vendorData: 'Unique id/Document id'
       },
 
-      submitBtnText: 'Start Verification',
-      loadingText: 'Please wait...'
+      submitBtnText: 'Verify Your ID',
+      loadingText: 'Processing...'
     })
   }, [])
 
@@ -81,8 +81,11 @@ const Step3 = ({ prevStep, nextStep, values }) => {
       {
         loading && (
           <>
-            <div className="loader-overly">
-              <div className="loader" >
+            <div className="loader-overly" style={{background:"rgb(0 0 0 / 85%)"}}>
+              <div className="loader">
+              </div>
+              <div className="loader-text">
+                <p className='get-text' >Please wait while we are verifying your identity..</p>
               </div>
             </div>
           </>

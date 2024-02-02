@@ -126,7 +126,7 @@ const ReviewYourTransfer = ({ data, isConfirmation, handleCancel, handleContinue
                                     <th className='float-end'>{data?.data?.amount?.to_type}&nbsp;{data?.data?.amount?.exchange_amt !== "" && data?.data?.amount?.exchange_amt !== undefined && data?.data?.amount?.exchange_amt !== null ? commaSeperator(data?.data?.amount?.exchange_amt) : data?.data?.amount?.exchange_amt}</th>
                                 </div>
                                 <div className="review_transfer_field my-3">
-                                    <span>Exchnage Rate</span>
+                                    <span>Exchange Rate</span>
                                     <th className='float-end'>1 {data?.data?.amount?.from_type} = {data?.data?.amount?.exchange_rate !== "" && data?.data?.amount?.exchange_rate !== undefined && data?.data?.amount?.exchange_rate !== null ? commaSeperator(data?.data?.amount?.exchange_rate) : data?.data?.amount?.exchange_rate}&nbsp;{data?.data?.amount?.to_type}</th>
                                 </div>
                             </div>

@@ -1196,7 +1196,7 @@ const Home = () => {
             </section> */}
 
             {/*testtimonial section */}
-            <section className="why-us_section homepage-why-us hows-section1 test-P">
+            {/* <section className="why-us_section homepage-why-us hows-section1 test-P">
                 <div className="container">
                     <h1 class="head-new">Testimonials</h1>
                     <div class="vl-content"><p class="vl-paragraph">
@@ -1205,7 +1205,7 @@ const Home = () => {
                     <Scrollbar1 />
                 </div>
 
-            </section>
+            </section> */}
 
             {/*testtimonial section */}
             {/* <section className="why-us_section homepage-why-us hows-section1 blogs-P">

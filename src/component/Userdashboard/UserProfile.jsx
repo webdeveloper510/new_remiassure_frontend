@@ -13,6 +13,7 @@ import { userProfile, updateProfile } from "../../utils/Api";
 import { Modal } from "react-bootstrap";
 import PopVerify from "../verification/PopVerify";
 import { senderAreaList as areaList } from "../../utils/ArealList";
+import Autocomplete from "react-google-autocomplete";
 
 
 
@@ -66,10 +67,22 @@ const Profile = () => {
     value_per_annum: Yup.string().required().notOneOf(["none"]),
   })
 
-
   const handleOtpVerification = (value) => {
     setIsOtpVerfied(value)
   }
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: profileSchema,
+    onSubmit: async (values) => {
+      // console.log(values)
+      setOpenModal(true)
+    }
+  })
+
+
+
+  const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
   useEffect(() => {
     setLoading(true)
@@ -90,9 +103,8 @@ const Profile = () => {
         } else {
           v_a = res.data.value_per_annum
         }
-        let countryValue = res.data.location || res.data.country
-        setData({ ...data, ...res.data, mobile: phone, country: countryValue, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
-        formik.setValues({ ...formik.values, ...res.data, mobile: phone, country: countryValue, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
+        // setData({ ...data, ...res.data, mobile: phone, country: countryValue, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
+        formik.setValues({ ...res.data, mobile: phone, postcode: res.data.postcode, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
         setUserData(res.data)
         setIsUpdate({ email: res.data.email, mobile: p })
       }
@@ -114,27 +126,16 @@ const Profile = () => {
     var minDate = year - 100 + '-' + month + "-" + day
     document.getElementById("dob").setAttribute('max', maxDate);
     document.getElementById("dob").setAttribute('min', minDate);
+    // console.log(1, formik.values.country)
   }, [])
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema: profileSchema,
-    onSubmit: async (values) => {
-      setOpenModal(true)
-    }
-  })
-
-  const countryOptions = useMemo(() => birthCountryList().getData(), [])
-
-
-
   useEffect(() => {
-    if (data.country !== "none") {
+    if (formik.values.country !== "none") {
       let array_1 = countryList?.filter((item) => {
-        if (item.name === data.country) {
-          setData({ ...data, state: "none", city: "none", postcode: "", country_code: item?.iso2 })
+        if (item.name === formik.values.country) {
+          // setData({ ...data, state: "none", city: "none", postcode: "", country_code: item?.iso2 })
           formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country_code: item?.iso2 })
-          return item?.name === data.country
+          return item?.name === formik.values.country
         }
       })
       let array = array_1[0]?.states;
@@ -142,52 +143,54 @@ const Profile = () => {
         array.sort((a, b) => (a.state > b.state) ? 1 : -1);
       }
       setStateList(array);
-    } else if (data.country === "none") {
-      setData({ ...data, city: "none", postcode: "", state: "none", country : countryList?.[0].name , country_code: countryList?.[0].iso2})
-      formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country : countryList?.[0].name , country_code: countryList?.[0].iso2 })
+    } else if (formik.values.country === "none") {
+      // setData({ ...data, city: "none", postcode: "", state: "none", country : countryList?.[0].name , country_code: countryList?.[0].iso2})
+      formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country: countryList?.[0].name, country_code: countryList?.[0].iso2 })
       setCityList([])
       setStateList([])
       setPostalList([])
     }
-  }, [data.country])
+    // console.log(2, formik.values.country)
+  }, [formik.values.country])
 
   useEffect(() => {
-    if (data.state !== "none" && state_list && state_list.length > 0) {
+    if (formik.values.state !== "none" && state_list && state_list.length > 0) {
       let array = state_list.filter((item) => {
-        return item?.state === data?.state
+        return item?.state === formik.values?.state
       })
       array.sort((a, b) => (a.city > b.city) ? 1 : -1);
 
       setCityList(array);
-    } else if (data.state === "none") {
-      setData({ ...data, city: "none", postcode: "" })
+    } else if (formik.values.state === "none") {
+      // setData({ ...data, city: "none", postcode: "" })
       formik.setValues({ ...formik.values, city: "none", postcode: "" })
       setCityList([])
     }
-
-  }, [data.state, state_list])
+    // console.log(3, formik.values.country)
+  }, [formik.values.state, state_list])
 
   useEffect(() => {
-    if (data.city !== "none") {
+    if (formik.values.city !== "none") {
       let postals = city_list.filter((item) => {
-        return item?.city === data?.city && item?.state === data?.state
+        return item?.city === formik.values?.city && item?.state === formik.values?.state
       })
       setPostalList(postals)
-      setData({ ...data, postcode: postals[0]?.post_code })
+      // setData({ ...data, postcode: postals[0]?.post_code })
+      // console.log(postals)
       formik.setValues({ ...formik.values, postcode: postals[0]?.post_code })
-    } else if (data.city === "none") {
-      setData({ ...data, postcode: "" })
+    } else if (formik.values.city === "none") {
+      // setData({ ...data, postcode: "" })
       formik.setValues({ ...formik.values, postcode: "" })
       setPostalList([])
     }
-
-  }, [data.city, city_list])
+    // console.log(4, formik.values.country)
+  }, [formik.values.city, city_list])
 
 
 
   const handleNumericOnly = (event) => {
     const result = event.target.value.replace(/[^0-9]/, "");
-    setData({ ...data, [event.target.name]: result })
+    // setData({ ...data, [event.target.name]: result })
     formik.setFieldValue(event.target.name, result)
   }
 
@@ -195,54 +198,22 @@ const Profile = () => {
     if (e.target.name === 'country') {
       countryList.map((item) => {
         if (item.name === e.target.value) {
-          setData({ ...data, [e.target.name]: e.target.value, country_code: item.iso2 })
+          // setData({ ...data, [e.target.name]: e.target.value, country_code: item.iso2 })
           formik.setFieldValue(`${[e.target.name]}`, e.target.value)
           formik.setFieldTouched(`${[e.target.name]}`, true)
           setSelectedAreaCode(item.phone_code)
         }
       })
     }
-    setData({ ...data, [e.target.name]: e.target.value })
+    // setData({ ...data, [e.target.name]: e.target.value })
     formik.setFieldValue(`${[e.target.name]}`, e.target.value)
     formik.setFieldTouched(`${[e.target.name]}`, true)
+    formik.handleChange(e);
   }
 
-  const handlePhone = (e, coun) => {
-    formik.setFieldValue('mobile', e);
-    formik.setFieldTouched('mobile', true);
-    formik.setFieldValue('country', coun.name)
-    setData({ ...data, country: coun.name, mobile: e })
-  }
-
-  const handleKeyDown = (e, max) => {
-    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete" || e.key === " ") {
-      setData({ ...data, [e.target.name]: e.target.value })
-      formik.setFieldValue(`${[e.target.name]}`, e.target.value)
-      formik.setFieldTouched(`${[e.target.name]}`, true)
-    } else {
-      const value = e.target.value.toString()
-
-      if (value.length >= max) {
-
-        e.stopPropagation()
-        e.preventDefault()
-
-      } else {
-        const pattern = /^[A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/;
-        if (!pattern.test(e.key)) {
-          e.preventDefault();
-          e.stopPropagation()
-        } else {
-          setData({ ...data, [e.target.name]: e.target.value })
-          formik.setFieldValue(`${[e.target.name]}`, e.target.value)
-          formik.setFieldTouched(`${[e.target.name]}`, true)
-        }
-      }
-    }
-  }
   const handleEmail = (e, max) => {
     if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete") {
-      setData({ ...data, [e.target.name]: e.target.value })
+      // setData({ ...data, [e.target.name]: e.target.value })
       formik.setFieldValue(`${[e.target.name]}`, e.target.value)
       formik.setFieldTouched(`${[e.target.name]}`, true)
     } else {
@@ -252,7 +223,7 @@ const Profile = () => {
         e.preventDefault()
 
       } else {
-        setData({ ...data, [e.target.name]: e.target.value })
+        // setData({ ...data, [e.target.name]: e.target.value })
         formik.setFieldValue(`${[e.target.name]}`, e.target.value)
         formik.setFieldTouched(`${[e.target.name]}`, true)
       }
@@ -261,15 +232,15 @@ const Profile = () => {
 
   const handleOnlyAplha = (event) => {
     const result = event.target.value.replace(/[^A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/? ]/gi, "");
-    setData({ ...data, [event.target.name]: result })
+    // setData({ ...data, [event.target.name]: result })
     formik.setFieldValue(event.target.name, result)
     formik.setFieldTouched(event.target.name, true)
   }
 
   const handleSubmit = () => {
     let d = formik.values
-    d.mobile = "+" + selected_area_code + data.mobile
-    d.country_code = data.country_code
+    d.mobile = "+" + selected_area_code + formik.values.mobile
+    d.country_code = formik.values.country_code
     d.location = formik.values.country
     d.Gender = "NA"
     if (formik.values.Middle_name === "" || formik.values.Middle_name === undefined || formik.values.Middle_name === " ") {
@@ -339,7 +310,7 @@ const Profile = () => {
   }, [is_otp_verified])
 
   const onKeyBirth = (event) => {
-    if (data.Date_of_birth !== "" || null || undefined) {
+    if (formik.values.Date_of_birth !== "" || null || undefined) {
       if (event.key === " ") {
         event.preventDefault();
         event.stopPropagation();
@@ -347,15 +318,37 @@ const Profile = () => {
     }
   }
 
-
-  useEffect(() => {
-    countryList.map((item) => {
-      if (item.phone_code === selected_area_code) {
-        setData({ ...data, country_code: item.iso2, country: item.name })
-        formik.setFieldValue("country", item.name)
+  const getSelectedStreet = (place) => {
+    let street = place?.address_components?.filter(
+      (component) => {
+        return component.types.includes('route') || component.types.includes('street_name')
       }
-    })
-  }, [selected_area_code])
+    );
+    if(street && street.length>0){
+    formik.setFieldValue("street", street.long_name)
+    } else {
+      formik.setFieldValue("street", place?.address_components[0]?.long_name)
+    }
+  }
+
+  const getStreetName = (e, max) => {
+    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete") {
+      formik.setFieldValue("street", e.target.value)
+      formik.setFieldTouched("street", true)
+    } else {
+      const value = e.target.value.toString()
+      if (value.length >= max) {
+        e.stopPropagation()
+        e.preventDefault()
+      } 
+    }
+  }
+
+
+
+  // useEffect(() => {
+  //   console.log("values", formik.errors)
+  // }, [formik.errors])
 
   return (
     <>
@@ -404,6 +397,7 @@ const Profile = () => {
                           'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.First_name && !formik.errors.First_name
                         }
                       )}
+                      onBlurCapture={formik.handleBlur}
                     />
                   </div>
                 </div>
@@ -428,7 +422,7 @@ const Profile = () => {
                     <input
                       type="text"
                       name="Last_name"
-                      value={data.Last_name}
+                      value={formik.values.Last_name}
                       maxLength="25"
                       onChange={handleOnlyAplha}
                       readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
@@ -440,6 +434,7 @@ const Profile = () => {
                           'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Last_name && !formik.errors.Last_name,
                         }
                       )}
+                      onBlurCapture={formik.handleBlur}
                     />
                   </div>
                 </div>
@@ -450,7 +445,7 @@ const Profile = () => {
                     <p className="get-text">Customer Id</p>
                     <input
                       type="text"
-                      value={data.customer_id}
+                      value={formik.values.customer_id}
                       style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
                       className='form-control'
                       readOnly
@@ -462,7 +457,7 @@ const Profile = () => {
                     <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
                     <input
                       type="email"
-                      value={data.email}
+                      value={formik.values.email}
                       style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
                       onKeyDown={(e) => { handleEmail(e, 50) }}
                       {...formik.getFieldProps("email")}
@@ -496,7 +491,7 @@ const Profile = () => {
                         <input
                           type="text"
                           name="mobile"
-                          value={data.mobile}
+                          value={formik.values.mobile}
                           id="mobile"
                           maxLength="10"
                           onChange={(e) => handleNumericOnly(e)}
@@ -538,7 +533,7 @@ const Profile = () => {
                     <input
                       type="date"
                       name="Date_of_birth"
-                      value={data.Date_of_birth}
+                      value={formik.values.Date_of_birth}
                       id="dob"
                       onChange={(e) => handleChange(e)}
                       onKeyDown={(event) => { onKeyBirth(event) }}
@@ -552,6 +547,7 @@ const Profile = () => {
                           'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
                         }
                       )}
+                      onBlurCapture={formik.handleBlur}
                     />
                   </div>
                 </div>
@@ -559,7 +555,7 @@ const Profile = () => {
                   <div className="input_field">
                     <p className="get-text">Country Of Birth<span style={{ color: 'red' }} >*</span></p>
                     <select
-                      value={data.Country_of_birth}
+                      value={formik.values.Country_of_birth}
                       name="Country_of_birth"
                       onChange={(e) => handleChange(e)}
                       readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
@@ -571,6 +567,7 @@ const Profile = () => {
                           'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
                         }
                       )}
+                      onBlurCapture={formik.handleBlur}
                     >
                       <option>Select a country</option>
                       {
@@ -590,7 +587,7 @@ const Profile = () => {
                     <input
                       type="text"
                       name="occupation"
-                      value={data.occupation}
+                      value={formik.values.occupation}
                       id="occupation"
                       maxLength="50"
                       onChange={(e) => handleOnlyAplha(e)}
@@ -601,6 +598,7 @@ const Profile = () => {
                           'is-valid': formik.touched.occupation && !formik.errors.occupation,
                         }
                       )}
+                      onBlurCapture={formik.handleBlur}
                     />
                   </div>
                 </div>
@@ -611,7 +609,7 @@ const Profile = () => {
                   <div className="input_field">
                     <p className="get-text">Projected frequency of payments per annum<span style={{ color: 'red' }} >*</span></p>
                     <select
-                      value={data.payment_per_annum}
+                      value={formik.values.payment_per_annum}
                       name="payment_per_annum"
                       onChange={(e) => handleChange(e)}
                       className={clsx(
@@ -621,6 +619,7 @@ const Profile = () => {
                           'is-valid': formik.touched.payment_per_annum && !formik.errors.payment_per_annum,
                         }
                       )}
+                      onBlurCapture={formik.handleBlur}
                     >
                       <option value="Tier 1 - Less than 5 times" key="Less than 5 times">Tier 1 - Less than 5 times</option>
                       <option value="Tier 2 - 5 to 10 times" key="5-10 times">Tier 2 - 5 to 10 times</option>
@@ -642,6 +641,7 @@ const Profile = () => {
                           'is-valid': formik.touched.value_per_annum && !formik.errors.value_per_annum,
                         }
                       )}
+                      onBlurCapture={formik.handleBlur}
                     >
                       <option value="Tier 1 - Less than $30,000" key="Less than $30,000">Tier 1 - Less than $30,000</option>
                       <option value="Tier 2 - $30,000 to $100,000" key="$30,000-$100,000">Tier 2 - $30,000 to $100,000</option>
@@ -656,7 +656,7 @@ const Profile = () => {
                   <Form.Group className="form_label" controlId="country">
                     <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                     <select
-                      value={data.country}
+                      value={formik.values.country}
                       name="country"
                       onChange={(e) => handleChange(e)}
                       className={clsx(
@@ -679,7 +679,7 @@ const Profile = () => {
                     {
                       state_list && state_list.length > 0 ?
                         (<select
-                          value={data.state}
+                          value={formik.values.state}
                           name="state"
                           onChange={(e) => handleChange(e)}
                           className={clsx(
@@ -721,7 +721,7 @@ const Profile = () => {
                     {
                       city_list && city_list.length > 0 ? (
                         <select
-                          value={data.city}
+                          value={formik.values.city}
                           name="city"
                           onChange={(e) => handleChange(e)}
                           className={clsx(
@@ -768,7 +768,7 @@ const Profile = () => {
                     <input
                       type="text"
                       name="postcode"
-                      value={data.postcode}
+                      value={formik.values.postcode}
                       maxLength="4"
                       list='postal_list'
                       onChange={handleNumericOnly}
@@ -793,7 +793,7 @@ const Profile = () => {
                 <div className="col-md-4 mb-3">
                   <Form.Group className="form_label" controlId="street">
                     <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
-                    <input
+                    {/* <input
                       type="text"
                       name="street"
                       value={data.street}
@@ -806,6 +806,25 @@ const Profile = () => {
                           'is-valid': formik.touched.street && !formik.errors.street,
                         }
                       )}
+                    /> */}
+                    <Autocomplete
+                      apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+                      onPlaceSelected={getSelectedStreet}
+                      placeholder=""
+                      options={{
+                        types: [],
+                        componentRestrictions: { country: formik.values.country === "New Zealand" ? "nz" : "au" },
+                      }}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.street && formik.errors.street },
+                        {
+                          'is-valid': formik.touched.street && !formik.errors.street,
+                        }
+                      )}
+                      inputAutocompleteValue={formik.values.street}
+                      onInput={(e)=>getStreetName(e,150)}
+                      defaultValue={formik.values.street}
                     />
                   </Form.Group>
                 </div>
@@ -815,7 +834,7 @@ const Profile = () => {
                     <input
                       type="text"
                       name="flat"
-                      value={data.flat}
+                      value={formik.values.flat}
                       onKeyDown={(e) => { handleEmail(e, 15) }}
                       {...formik.getFieldProps("flat")}
                       className='form-control bg-transparent'
@@ -831,7 +850,7 @@ const Profile = () => {
                     <input
                       type="text"
                       name="building"
-                      value={data.building}
+                      value={formik.values.building}
                       onKeyDown={(e) => { handleEmail(e, 30) }}
                       {...formik.getFieldProps("building")}
 

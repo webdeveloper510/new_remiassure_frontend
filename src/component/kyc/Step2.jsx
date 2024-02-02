@@ -24,7 +24,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
     state: Yup.string().min(2).max(35).required().notOneOf(["none"]),
     city: Yup.string().min(1).max(35).required().trim().notOneOf(["none"]),
     postcode: Yup.string().length(4).required(),
-    street: Yup.string().min(1).max(150).required(),
+    street: Yup.string().min(1).max(300).required(),
     flat: Yup.string().min(1).max(30).notRequired(),
     building: Yup.string().min(1).max(30).required().trim(),
   })
@@ -49,7 +49,9 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
       console.log("forkimmnbba", values)
       nextStep()
       updateData(values)
-    }
+    },
+    validateOnChange: true,
+    validateOnBlur:false,
   })
 
   useEffect(() => {
@@ -173,14 +175,16 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
   }, [selected_area_code])
 
   const getSelectedStreet = (place) => {
-    console.log('formik----', formik.values, place)
-    place?.address_components?.map(
+    let street = place?.address_components?.filter(
       (component) => {
-        if (component.types.includes('route') || component.types.includes('street_name')) {
-          formik.setFieldValue("street", component?.long_name)
-        }
+        return component.types.includes('route') || component.types.includes('street_name')
       }
     );
+    if(street && street.length>0){
+    formik.setFieldValue("street", street.long_name)
+    } else {
+      formik.setFieldValue("street", place?.address_components[0]?.long_name)
+    }
   }
 
   const getStreetName = (e, max) => {
@@ -192,10 +196,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
       if (value.length >= max) {
         e.stopPropagation()
         e.preventDefault()
-      } else {
-        formik.setFieldValue("street", e.target.value)
-        formik.setFieldTouched("street", true)
-      }
+      } 
     }
   }
 
@@ -223,6 +224,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                           'is-valid': formik.touched.payment_per_annum && !formik.errors.payment_per_annum,
                         }
                       )}
+                      onBlur={formik.handleBlur}
                     >
                       <option value="Tier 1 - Less than 5 times" key="Less than 5 times">Tier 1 - Less than 5 times</option>
                       <option value="Tier 2 - 5 to 10 times" key="5-10 times">Tier 2 - 5 to 10 times</option>
@@ -244,6 +246,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                           'is-valid': formik.touched.value_per_annum && !formik.errors.value_per_annum,
                         }
                       )}
+                      onBlur={formik.handleBlur}
                     >
                       <option value="Tier 1 - Less than $30,000" key="Less than $30,000">Tier 1 - Less than $30,000</option>
                       <option value="Tier 2 - $30,000 to $100,000" key="$30,000-$100,000">Tier 2 - $30,000 to $100,000</option>
@@ -268,6 +271,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                           'is-valid': formik.touched.country && !formik.errors.country,
                         }
                       )}
+                      onBlur={formik.handleBlur}
                     >
                       <option value={"none"} >Select a country</option>
                       <option value={"Australia"} >Australia</option>
@@ -291,6 +295,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                               'is-valid': formik.touched.state && !formik.errors.state,
                             }
                           )}
+                          onBlur={formik.handleBlur}
                         >
                           <option value={"none"} key={"none"}>Select a state</option>
                           {state_list?.map((opt, index) => {
@@ -333,6 +338,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                               'is-valid': formik.touched.city && !formik.errors.city,
                             }
                           )}
+                          onBlur={formik.handleBlur}
                         >
                           <option value="none" key="none">Select a city</option>
                           {city_list?.map((opt, index) => {
@@ -381,6 +387,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                           'is-valid': formik.touched.postcode && !formik.errors.postcode,
                         }
                       )}
+                      onBlur={formik.handleBlur}
                     />
                     <datalist id="postal_list">
                       {
@@ -423,7 +430,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                           'is-valid': formik.touched.street && !formik.errors.street,
                         }
                       )}
-                      onChange={(e) => getStreetName(e, 150)}
+                      onInput={(e) => getStreetName(e, 300)}
                       inputAutocompleteValue={formik.values.street}
                       defaultValue={formik.values.street}
                     />
@@ -439,6 +446,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                       onKeyDown={(e) => { handleEmail(e, 15) }}
                       {...formik.getFieldProps("flat")}
                       className='form-control bg-transparent'
+                      onBlur={formik.handleBlur}
                     />
                   </Form.Group>
                 </div>
@@ -460,6 +468,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                           'is-valid': formik.touched.building && !formik.errors.building,
                         }
                       )}
+                      onBlur={formik.handleBlur}
                     />
                   </Form.Group>
                 </div>

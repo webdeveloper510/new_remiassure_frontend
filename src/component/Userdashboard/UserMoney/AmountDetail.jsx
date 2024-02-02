@@ -1,4 +1,4 @@
-import React, { useEffect ,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Yup from "yup"
 import { useFormik } from 'formik';
 import clsx from 'clsx';
@@ -111,7 +111,7 @@ const AmountDetail = ({ handleStep, step }) => {
                 local = JSON.parse(localStorage.getItem("transfer_data"))
 
             }
-            local.amount = { ...values, send_amt:amt, exchange_rate: exch_rate, defaultExchange: defaultExchange }
+            local.amount = { ...values, send_amt: amt, exchange_rate: exch_rate, defaultExchange: defaultExchange }
 
             localStorage.setItem("transfer_data", JSON.stringify(local))
             if (localStorage.getItem("send-step")) {
@@ -133,12 +133,12 @@ const AmountDetail = ({ handleStep, step }) => {
                     let data = commaSeperator(response.amount)
                     if (direction === "From") {
                         formik.setFieldValue("exchange_amt", data)
-                        formik.setFieldValue("send_amt", event.target.value.includes(".") ? event.target.value : event.target.value+".00")
-                        setAmtDetail({ ...amt_detail, exchange_amt: data , send_amt: event.target.value.includes(".") ? event.target.value : event.target.value+".00"})
+                        formik.setFieldValue("send_amt", event.target.value.includes(".") ? event.target.value : event.target.value + ".00")
+                        setAmtDetail({ ...amt_detail, exchange_amt: data, send_amt: event.target.value.includes(".") ? event.target.value : event.target.value + ".00" })
                         setDefaultExchange(response?.default_exchange)
                     } else {
-                        formik.setFieldValue("send_amt", data.includes(".") ? data : data+".00")
-                        setAmtDetail({ ...amt_detail, send_amt: data.includes(".") ? data : data+".00"})
+                        formik.setFieldValue("send_amt", data.includes(".") ? data : data + ".00")
+                        setAmtDetail({ ...amt_detail, send_amt: data.includes(".") ? data : data + ".00" })
                     }
                     setLoader(false)
                     setExchRate(response.rate)
@@ -191,7 +191,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const amountBlur = (e, direction) => {
         if (e.target.value !== "." && blur_off === false) {
             myTotalAmount(e, direction)
-            
+
         }
     }
 
@@ -425,21 +425,6 @@ const AmountDetail = ({ handleStep, step }) => {
                         <div className="row each-row">
                             <div className="col-md-6">
                                 <h5>Receive Method</h5>
-                             
-                                <div className="col-md-12">
-                                    <label className="container-new">
-                                        <span className="radio-tick">Mobile Wallet</span>
-                                        <input
-                                            className="form-check-input"
-                                            type="radio"
-                                            name="recivedMethod"
-                                            value="Mobile Wallet"
-                                            checked={amt_detail.recieve_meth == "Mobile Wallet"}
-                                            onChange={(e) => { handleRecieveMethod(e) }}
-                                        />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                </div>
                                 <div className="col-md-12">
                                     <label className="container-new">
                                         <span className="radio-tick">Bank Transfer</span>
@@ -454,25 +439,24 @@ const AmountDetail = ({ handleStep, step }) => {
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
-                            </div>
-                            <div className="col-md-6">
-                                <h5>Payout Partners</h5>
-
                                 <div className="col-md-12">
-
                                     <label className="container-new">
-                                        <span className="radio-tick">Services</span>
+                                        <span className="radio-tick">Mobile Wallet</span>
                                         <input
                                             className="form-check-input"
                                             type="radio"
-                                            name="payOutPartner"
-                                            checked={amt_detail.part_type == "Services"}
-                                            value="Services"
-                                            onChange={(e) => { handlePayoutPart(e, "services") }}
+                                            name="recivedMethod"
+                                            value="Mobile Wallet"
+                                            checked={amt_detail.recieve_meth == "Mobile Wallet"}
+                                            onChange={(e) => { handleRecieveMethod(e) }}
                                         />
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
+
+                            </div>
+                            <div className="col-md-6">
+                                <h5>Payout Partners</h5>
                                 <div className="col-md-12">
                                     <Select
                                         options={Bank_list}
@@ -523,6 +507,20 @@ const AmountDetail = ({ handleStep, step }) => {
                                             />
                                         ) : <></>
                                     }
+                                </div>
+                                <div className="col-md-12">
+                                    <label className="container-new">
+                                        <span className="radio-tick">Services</span>
+                                        <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="payOutPartner"
+                                            checked={amt_detail.part_type == "Services"}
+                                            value="Services"
+                                            onChange={(e) => { handlePayoutPart(e, "services") }}
+                                        />
+                                        <span className="checkmark"></span>
+                                    </label>
                                 </div>
                             </div>
                         </div>

@@ -1905,7 +1905,7 @@ select.form-select option {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
-a.logactin:hover,.light_box_bg:hover,.remit_keypoints:hover,.timeline-step:hover,.testimonail:hover,.partners-section li .partners:hover,a.Get-start:hover,.btn-con button:hover{
+a.logactin:hover,.light_box_bg:hover,.remit_keypoints:hover,.timeline-step:hover,.testimonail:hover,a.Get-start:hover,.btn-con button:hover{
     box-shadow: 0px 1px 2px 3px #55378559 !important;
 }
 button:hover,.btn:hover,.btn-contact a:hover
@@ -2026,7 +2026,7 @@ ul.list-sty {
 {
     margin-top:0px !important;
 }
-ul.About_why-content li img:hover,ul.new-work li img:hover,ul.new-work1 li img:hover,a.btn-ab:hover,a.logactin:hover,.light_box_bg:hover,.remit_keypoints:hover,.timeline-step:hover,.testimonail:hover,.partners-section li .partners:hover,a.Get-start:hover,.li-vision:hover,.help-li:hover,button.accordion-button.collapsed:hover,button:hover,ul.playstoreicon li:hover,.buttonsdownload img:hover{
+ul.About_why-content li img:hover,ul.new-work li img:hover,ul.new-work1 li img:hover,a.btn-ab:hover,a.logactin:hover,.light_box_bg:hover,.remit_keypoints:hover,.timeline-step:hover,.testimonail:hover,a.Get-start:hover,.li-vision:hover,.help-li:hover,button.accordion-button.collapsed:hover,button:hover,ul.playstoreicon li:hover,.buttonsdownload img:hover{
     box-shadow: 0px 1px 2px 3px #55378559 !important;
 }
 
@@ -2299,4 +2299,21 @@ background: transparent !important;
 
 .veriff-submit {
     background-color: #191970 !important;
+}
+
+.loader-text {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    left: 0;
+    right: 17%;
+    justify-self: auto;
+    margin: auto;
+    top: calc(45% + 0px);
+}
+
+.loader-text .get-text {
+    color: #fff !important;
+    font-size: 15px !important;
+    font-weight: 400 !important;
 }

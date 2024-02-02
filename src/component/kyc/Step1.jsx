@@ -144,6 +144,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
                         { 'is-invalid': formik.touched.First_name && formik.errors.First_name },
                         { 'is-valid': formik.touched.First_name && !formik.errors.First_name }
                       )}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                 </div>
@@ -174,6 +175,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
                         { 'is-invalid': formik.touched.Last_name && formik.errors.Last_name },
                         { 'is-valid': formik.touched.Last_name && !formik.errors.Last_name, }
                       )}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                 </div>
@@ -251,6 +253,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
                           'is-valid': formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
                         }
                       )}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                 </div>
@@ -270,6 +273,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
                           'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
                         }
                       )}
+                      onBlur={formik.handleBlur}
                     >
                       <option>Select a country</option>
                       {
@@ -300,6 +304,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
                           'is-valid': formik.touched.occupation && !formik.errors.occupation,
                         }
                       )}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                 </div>
