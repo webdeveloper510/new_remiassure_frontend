@@ -196,7 +196,10 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
       if (value.length >= max) {
         e.stopPropagation()
         e.preventDefault()
-      } 
+      } else {
+        formik.setFieldValue("street", e.target.value)
+        formik.setFieldTouched("street", true)
+      }
     }
   }
 

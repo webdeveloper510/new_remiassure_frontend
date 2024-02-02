@@ -340,7 +340,10 @@ const Profile = () => {
       if (value.length >= max) {
         e.stopPropagation()
         e.preventDefault()
-      } 
+      }  else {
+        formik.setFieldValue("street", e.target.value)
+        formik.setFieldTouched("street", true)
+      }
     }
   }
 
