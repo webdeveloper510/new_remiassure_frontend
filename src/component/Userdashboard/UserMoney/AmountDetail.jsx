@@ -296,12 +296,16 @@ const AmountDetail = ({ handleStep, step }) => {
         if (value.length > 0) {
             if (/^[A-z '-.]+$/.test(value)) {
                 formik.setValues({ ...formik.values, payout_part: value })
+                formik.handleChange(e)
             } else {
                 e.preventDefault();
             }
         } else {
+
             formik.setValues({ ...formik.values, payout_part: value })
+        formik.handleChange(e)
         }
+
     }
 
     const customStyles = {
@@ -425,7 +429,7 @@ const AmountDetail = ({ handleStep, step }) => {
                         <div className="row each-row">
                             <div className="col-md-6">
                                 <h5>Receive Method</h5>
-                                <div className="col-md-12">
+                                <div className="col-md-12" >
                                     <label className="container-new">
                                         <span className="radio-tick">Bank Transfer</span>
                                         <input
@@ -457,7 +461,7 @@ const AmountDetail = ({ handleStep, step }) => {
                             </div>
                             <div className="col-md-6">
                                 <h5>Payout Partners</h5>
-                                <div className="col-md-12">
+                                <div className="col-md-12" style={{marginBottom:"12px"}}>
                                     <Select
                                         options={Bank_list}
                                         onChange={handlePayoutPart}
@@ -522,6 +526,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
+                              
                             </div>
                         </div>
                         <div className="row">
