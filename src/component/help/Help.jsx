@@ -126,12 +126,12 @@ const Help = () => {
       {
         id: 8,
         title: "What should I do if the money I sent through RemitAssure is not received by the recipient?",
-        content: <>RemitAssure fully guarantees safely transferring funds to your beneficiary.We are committed to providing a reliable money transfer process.If for some exigency, your recipient has not received their funds within our operational timeframe, please contact our <a href="#support">Support Centre</a> for help.We will diligently track and update you on the status of your transfer..</>,
+        content: <>RemitAssure fully guarantees safely transferring funds to your beneficiary.We are committed to providing a reliable money transfer process.If for some exigency, your recipient has not received their funds within our operational timeframe, please <a href="#support">contact us</a> for help.We will diligently track and update you on the status of your transfer..</>,
       },
       {
         id: 9,
         title: "How can I get in touch with RemitAssure's customer support if I have questions or issues?",
-        content: <>We are available support you 24/7 online through our digital Channels.Please contact us through our <a href="#support">Support Centre</a>.We can also be contacted during office hours on 1300 284 228.</>,
+        content: <>We are available support you 24/7 online through our digital Channels.Please <a href="#support">contact us</a>.We can also be contacted during office hours on 1300 284 228.</>,
       },
       {
         id: 10,
@@ -201,20 +201,20 @@ const Help = () => {
   const howItWorks = () => {
     if (location.pathname !== "/") {
       navigate("/");
-  }
+    }
 
-  setTimeout(() => {
+    setTimeout(() => {
       const targetSectionId = "how-it-works";
       const targetElement = document.getElementById(targetSectionId);
       if (targetElement) {
-          targetElement.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-          });
+        targetElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
       } else {
-          console.error(`Element with id "${targetSectionId}" not found.`);
+        console.error(`Element with id "${targetSectionId}" not found.`);
       }
-  }, 500)
+    }, 500)
   }
 
   return (
@@ -232,7 +232,7 @@ const Help = () => {
               <div className="help-content-bottom">
                 <div className="row">
                   <div className="col-md-4 col-sm-4">
-                    <div onClick={()=>howItWorks()} className="help-li">
+                    <div onClick={() => howItWorks()} className="help-li">
                       <img src="assets/img/help/icon1.svg" className="vission_image" alt="alt_image" />
                       <img src="assets/img/help/faq-c-svg.png" className="vission_hover" alt="alt_image" />
                       <h3 className="title-help"><NavLink >How it works</NavLink></h3>
@@ -282,18 +282,26 @@ const Help = () => {
             <div className="darkpink" >
               <div className="">
                 <div class="row align-center">
-
                   <div class="col-md-8">
-
                     <h2 className="sec-title">
                       Can't Find Your Answers?
                     </h2>
-
                     <p>We're here 24 hours a day, 7 days a week to support you.</p></div>
-                  <div class="col-md-4"><div class="btn-contact">
-                    <a href="tel:1300284228" target="_blank" class="skybtn">Contact</a></div>
-                    <div class="btn-contact "><a href="https://wa.me/1300284228" target="_blank" class="appbtn">WhatsApp</a>
+
+                  <div class="col-md-4">
+                    <div class="d-flex">
+                      <img className={"mx-1"} src="assets/img/home/mail.png" alt="logo" />
+                      <a style={{ color: "#fff" }} href="mailto:crm@remitassure.com">crm@remitassure.com</a>
                     </div>
+                    <div class="d-flex my-3">
+                      <img className={"mx-1"} src="assets/img/home/footer2.png" alt="logo" />
+                      <a style={{ color: "#fff" }} href="https://api.whatsapp.com/send?phone=+61421192684" target="_blank">+61421192684</a>
+                    </div>
+                    <div class="d-flex">
+                      <img className={"mx-1"} src="assets/img/home/footer3.png" alt="logo" />
+                      <a style={{ color: "#fff" }} href="tel:1300284228" target="_blank">1300 284 228 (toll free)</a>
+                    </div>
+
                   </div>
 
                 </div>
