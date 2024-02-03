@@ -1202,7 +1202,7 @@ a.skybtn {
     padding: 15px 30px !important;
     border-bottom-right-radius: 53px !important;
     border-top-right-radius: 53px !important;
-    font-size: 17px;
+    font-size: 15px;
     font-family: var(--font-SubHeding) !important;
     width: 50%;
     background: #0AEDC7;
@@ -2083,7 +2083,7 @@ a.skybtn:hover,a.appbtn:hover,.custom-button-group.country-slider-arrow.for-mobi
     color: #fff !important;
     box-shadow: 0px 1px 2px 3px #7e39ec !important;
 }
-div#pay-box {
+div.pay-box {
     height: 50px;
     float: left;
     width: 100%;

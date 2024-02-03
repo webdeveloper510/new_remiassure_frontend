@@ -452,7 +452,7 @@ const Home = () => {
     }
 
     const exchangeRateClick = () => {
-        const targetSectionId = "pay-box";
+        const targetSectionId = "payment-box";
         const targetElement = document.getElementById(targetSectionId);
         console.log("trannnnn", targetElement)
         if (targetElement) {
@@ -566,22 +566,22 @@ const Home = () => {
                 </ul>
             </div>
 
-            <div className="" id="pay-box">
 
+            <div className="pay-box" >
             </div>
             <section class="payment-box" id="payment-box">
 
-                <div class="container">
+                <div class="container" id="pay-box">
                     <div className="money-exchange-box" id="home-section">
                         <div className="row">
 
-                            <div className="col-md-4">
+                            <div className="col-md-4" >
                                 <h6 className="exchange-heading">Exchange <br></br>Rate<span className="calculation">1 {formik.values.from_type} = {commaSeperator(total_rates)} {formik.values.to_type}</span></h6>
 
                             </div>
                             <div className="col-md-8">
                                 <div className="new_card">
-                                    <div className="card-body">
+                                    <div className="card-body" >
 
                                         <form onSubmit={formik.handleSubmit} noValidate>
                                             <div className="row mb-2 " style={{ alignItems: 'normal' }}>
@@ -859,27 +859,18 @@ const Home = () => {
                     </div>
                     <Scrollbar handler={(value) => setCurrency(value)} />
                 </section >
-            </section >
+            </section  >
 
-            <section className="why-us section-bgba innre_about hows-work-section ">
+            <section className="why-us section-bgba innre_about hows-work-section"  id="how-it-works" >
                 <div id="about">
                     <div className="container">
                         <div className="row1">
-
-                            <h1 className="head-new">How it Works</h1>
+                            <h1 className="head-new" >How it Works</h1>
                             <div className="vl-content">
                                 <p className="vl-paragraph padding-top-0">
                                     We assist you in a simple way, how you can transfer your money internationally with Remit Assure.
-
                                 </p>
                             </div>
-
-                            {/* <div className="vl-content">
-                                    <ul className="list-">
-                                        < HowRenderingArrayOfObjects />
-                                    </ul>
-                                </div> */}
-
                             <div class="row">
 
                                 <div className="timeline-steps aos-init aos-animate" data-aos="fade-up">
@@ -934,28 +925,18 @@ const Home = () => {
                                 </div>
 
                             </div>
-
                             <div className="row">
                                 <div className="col-md-8">
-
                                 </div>
                                 <div className="col-md-4">
-
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </section>
-            {/* <!-- ======= AboutUs Our vission and mission-Section  End======= --> */}
-
-
-
             <section className="why-us_section homepage-why-us hows-section Enjoy-Free">
                 <div className="container1">
-
-
                     <div className="  free-transaction">
                         <div className="col-lg-7  col-sm-7 text-end">
                             <div className="images-1 images-1 col-md-7 marauto-left">
@@ -966,14 +947,11 @@ const Home = () => {
                                     <div className="icon-img">
                                         <img src="assets/img/home/blueicon.png" alt="logo" />
                                     </div>
-
                                     <h4 className="content-heading">
-                                    What? Local Business
+                                        Support for African Micro-businesses
                                     </h4>
-                                    <p>RemitAssure used to send money to support local business in Africa</p>
-                                   
+                                    <p>We facilitate transfer of funds to Africa to support local businesses.</p>
                                 </div>
-
                             </div>
                             <div className="padding-v pos-rel">
                                 <div class="row">
@@ -986,23 +964,15 @@ const Home = () => {
                                                 <div className="icon-img pink">
                                                     <img src="assets/img/home/pinkicon.png" alt="logo" />
                                                 </div>
-
                                                 <h4 className="content-heading">
-                                                What? Native African
-wedding
+                                                    We Celebrate with You
                                                 </h4>
                                                 <p>RemitAssure used
-to send money home to
-support wedding</p>
+                                                    to send money home to
+                                                    support wedding</p>
                                             </div>
-
-
-
                                         </div>
-
-
                                     </div>
-
                                     <div class="col-lg-6 col-sm-6 margintop img-ab">
                                         <div className="images-1 ">
                                             <div className="image1">
@@ -1012,33 +982,24 @@ support wedding</p>
                                                 <div className="iconandcon">
                                                     <div className="icon-img skyicon">
                                                         <img src="assets/img/home/skyicon (2).png" alt="logo" />
-
                                                     </div>
                                                     <div className="flex-conete">
-                                                    <h4 className="content-heading">
-                                                    Delighted Young Asian Girl
-                                                    </h4>
+                                                        <h4 className="content-heading">
+                                                            We Help Build the Future
+                                                        </h4>
                                                     </div>
                                                 </div>
-
-                                                <p>RemitAssure used to send school fees & allowance to a girl in Uni in Australia</p>
-                                               
+                                                <p>Our service used to transfer school fees to a student in an Australian Uni</p>
                                             </div>
-
-
-
                                         </div>
-
-
                                     </div>
-
                                 </div>
                             </div>
 
                         </div>
                         <div className="col-lg-5 padding-right-box">
                             <div className="vl about_v1">
-                                <h1 className="vl-heading left-align">Enjoy Free <br></br> Transactions with Us!</h1>
+                                <h1 className="vl-heading left-align">Enjoy The <br></br> RemitAssure Experience</h1>
                             </div>
                             <div className="vl-content">
                                 <p>Experience the freedom of seamless money transfers with RemitAssure, where every transaction comes with the added benefit of enjoying free transfers, making your financial transactions hassle-free and cost-effective!
@@ -1086,7 +1047,7 @@ support wedding</p>
             </section>
 
 
-            <section className="why-us_section homepage-why-us hows-section Download-P">
+            <section className="why-us_section homepage-why-us hows-section Download-P" id="mobile-apps">
                 <div className="container">
                     <div className="row align-center">
                         <div className="col-md-6 heading-div">
@@ -1156,8 +1117,8 @@ support wedding</p>
                                     <p>Do you need assistance? Our dedicated support centre is purpose-built to support you.</p>
                                 </div>
                                 <div className="col-md-4">
-                                    <div className="btn-contact"><a href="tel:1300284228" target="_blank" className="skybtn">Contact</a></div>
-                                    <div className="btn-contact "><a href="https://api.whatsapp.com/send?phone=1300284228&text=" target="_blank" className="appbtn">WhatsApp</a></div>
+                                    <div className="btn-contact"><Link to="/help" className="skybtn">Contact Us</Link></div>
+                                    <div className="btn-contact "><a href="https://api.whatsapp.com/send?phone=+61421192684&text=" target="_blank" className="appbtn">WhatsApp</a></div>
                                 </div>
                             </div>
                         </div>

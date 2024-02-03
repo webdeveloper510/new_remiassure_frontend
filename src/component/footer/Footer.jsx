@@ -170,14 +170,12 @@ const Footer = () => {
 
         // Get the target element using document.getElementById
         if (location.pathname !== "/") {
-            console.log("helloooo ", location)
             navigate("/");
         }
 
         setTimeout(() => {
             const targetSectionId = "pay-box";
             const targetElement = document.getElementById(targetSectionId);
-            console.log("trannnnn", targetElement)
             if (targetElement) {
                 targetElement.scrollIntoView({
                     behavior: "smooth",
@@ -189,6 +187,48 @@ const Footer = () => {
         }, 500)
     }, 200);
 
+    const howItWorks = () => {
+        if (location.pathname !== "/") {
+          navigate("/");
+      }
+    
+      setTimeout(() => {
+          const targetSectionId = "how-it-works";
+          const targetElement = document.getElementById(targetSectionId);
+          if (targetElement) {
+              targetElement.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+              });
+          } else {
+              console.error(`Element with id "${targetSectionId}" not found.`);
+          }
+      }, 500)
+      }
+
+      const mobileApps = () => {
+        if (location.pathname !== "/") {
+          navigate("/");
+      }
+    
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+            const targetSectionId = "mobile-apps";
+            const targetElement = document.getElementById(targetSectionId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+            } else {
+                console.error(`Element with id "${targetSectionId}" not found.`);
+            }
+        }, 600);
+    });
+    
+      }
+
     return (
         <>
             {/* <!-- ======= Footer ======= --> */}
@@ -198,9 +238,6 @@ const Footer = () => {
 
                         <div className="row">
 
-
-
-
                             <div className="col-lg-3 col-md-3">
                                 <h4>Quick Links</h4>
 
@@ -208,7 +245,7 @@ const Footer = () => {
                                     <li><NavLink to="/login">Login</NavLink></li>
                                     <li> <NavLink to="/sign-up">Signup</NavLink></li>
                                     <li className="exchange-rate-link" style={{ cursor: "pointer" }} onClick={() => checkExchangeRate()}>Check Exchange Rates</li>
-                                    <li><NavLink className="exchange-rate-link" to={links()}>Send Money Overseas</NavLink></li>
+                                    <li className="exchange-rate-link" style={{ cursor: "pointer" }} onClick={() => checkExchangeRate()}>Send Money Overseas</li>
                                     {/* <NavigationFooterArrayObjects  /> */}
                                 </ul>
                             </div>
@@ -217,8 +254,8 @@ const Footer = () => {
                                 <h4>Company</h4>
                                 <ul>
                                     <li><NavLink to="/about-us">About Us</NavLink></li>
-                                    <li> <NavLink to="/working">How It Works </NavLink></li>
-                                    <li> <NavLink to="/apps">Mobile Apps</NavLink></li>
+                                    <li className="exchange-rate-link" style={{ cursor: "pointer" }} onClick={() => howItWorks()}>How It Works </li>
+                                    <li className="exchange-rate-link" style={{ cursor: "pointer" }} onClick={() => mobileApps()}>Mobile Apps</li>
                                     {/* <li> <NavLink to="/news">News</NavLink></li> */}
                                 </ul>
                             </div>
@@ -271,7 +308,7 @@ const Footer = () => {
                                 <li><NavLink to="/login">Login</NavLink></li>
                                 <li> <NavLink to="/sign-up">Signup</NavLink></li>
                                 <li className="exchange-rate-link" style={{ cursor: "pointer" }} onClick={() => checkExchangeRate()}>Check Exchange Rates</li>
-                                <li><NavLink className="exchange-rate-link" to={links()}>Send Money Overseas</NavLink></li>
+                                <li className="exchange-rate-link" style={{ cursor: "pointer" }} onClick={() => checkExchangeRate()}>Send Money Overseas</li>
                                 {/* <NavigationFooterArrayObjects  /> */}
                             </ul>
                         )}
@@ -282,8 +319,8 @@ const Footer = () => {
                         {accordionOpen === 1 && (
                             <ul>
                                 <li><NavLink to="/about-us">About Us</NavLink></li>
-                                <li> <NavLink to="/working">How It Works </NavLink></li>
-                                <li> <NavLink to="/apps">Mobile Apps</NavLink></li>
+                                <li className="exchange-rate-link" style={{ cursor: "pointer" }} onClick={() => howItWorks()}>How It Works</li>
+                                <li className="exchange-rate-link" style={{ cursor: "pointer" }} onClick={() => mobileApps()}>Mobile Apps</li>
                                 {/* <li> <NavLink to="/news">News</NavLink></li> */}
                             </ul>
                         )}
@@ -346,7 +383,7 @@ const Footer = () => {
 
                                     </div>
                                     <div className="infor-content">
-                                        <a href="https://api.whatsapp.com/send?phone=1300284228" target="_blank">1300 284 228</a>
+                                        <a href="https://api.whatsapp.com/send?phone=+61421192684" target="_blank">+61421192684</a>
                                     </div>
 
 

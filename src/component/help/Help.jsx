@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Img from "react-image";
 import Accordion from 'react-bootstrap/Accordion';
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { RxLinkedinLogo } from "react-icons/rx";
 import { generateRandomKey } from "../../utils/hook";
 import { object } from "yup";
@@ -11,6 +11,7 @@ const Help = () => {
 
   const [input_content, setInput_content] = useState('Search')
   const navigate = useNavigate()
+  const location = useLocation()
 
   const transferLinks = () => {
     let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
@@ -29,7 +30,7 @@ const Help = () => {
         id: 1,
         name: "How it works",
         src: "assets/img/help/icon01.svg",
-        link: "/working",
+        link: "/",
         icon: ""
       },
 
@@ -197,6 +198,25 @@ const Help = () => {
     }
   }
 
+  const howItWorks = () => {
+    if (location.pathname !== "/") {
+      navigate("/");
+  }
+
+  setTimeout(() => {
+      const targetSectionId = "how-it-works";
+      const targetElement = document.getElementById(targetSectionId);
+      if (targetElement) {
+          targetElement.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+          });
+      } else {
+          console.error(`Element with id "${targetSectionId}" not found.`);
+      }
+  }, 500)
+  }
+
   return (
     <>
       <div className="site-content">
@@ -212,11 +232,11 @@ const Help = () => {
               <div className="help-content-bottom">
                 <div className="row">
                   <div className="col-md-4 col-sm-4">
-                    <NavLink to={`/working`} className="help-li">
+                    <div onClick={()=>howItWorks()} className="help-li">
                       <img src="assets/img/help/icon1.svg" className="vission_image" alt="alt_image" />
                       <img src="assets/img/help/faq-c-svg.png" className="vission_hover" alt="alt_image" />
-                      <h3 className="title-help"><NavLink to={`/working`} >How it works</NavLink></h3>
-                    </NavLink>
+                      <h3 className="title-help"><NavLink >How it works</NavLink></h3>
+                    </div>
                   </div>
                   <div className="col-md-4 col-sm-4">
                     <a className="help-li" href="#faq">
@@ -244,7 +264,7 @@ const Help = () => {
                 <h2 className="sec-title">
                   Frequently asked questions
                 </h2>
-                <p className="title-con">Please find detailed information on our services, fees, and <br></br>security measures, and ensure a smooth and informed money transfer experience.</p>
+                <p className="title-con">Find answers to frequently asked questions about our services, operations and fees</p>
                 <div className="accrodions_contents">
                   <div className="accrodion_contents">
                     <AccordionArrayOfObjects />
