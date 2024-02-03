@@ -210,8 +210,7 @@ const Footer = () => {
         if (location.pathname !== "/") {
           navigate("/");
       }
-    
-      document.addEventListener("DOMContentLoaded", () => {
+
         setTimeout(() => {
             const targetSectionId = "mobile-apps";
             const targetElement = document.getElementById(targetSectionId);
@@ -225,7 +224,6 @@ const Footer = () => {
                 console.error(`Element with id "${targetSectionId}" not found.`);
             }
         }, 600);
-    });
     
       }
 
@@ -457,7 +455,7 @@ const Footer = () => {
                                 <div class="row reserved_content">
                                     <div class="copyright">&copy; Copyright &nbsp;
                                         <strong>
-                                            <span>Remit-Assure</span>
+                                            <span>RemitAssure</span>
                                         </strong>. All Rights Reserved
                                     </div>
                                 </div>
