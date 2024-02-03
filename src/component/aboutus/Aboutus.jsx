@@ -231,14 +231,14 @@ const Aboutus = () => {
             {/* <!-- ======= why remitsure*/}
             <RemitAssure></RemitAssure>
 
-            <section className="why-us_section homepage-why-us hows-section1 test-P aos-animate" data-aos="fade-up" date-aos-delay="200" >
+            {/* <section className="why-us_section homepage-why-us hows-section1 test-P aos-animate" data-aos="fade-up" date-aos-delay="200" >
                <div className="container">
                   <h1 class="head-new">Testimonial</h1>
                   <div class="vl-content"><p class="vl-paragraph">We do our best to provide you the best experience ever</p></div>
                   <Scrollbar1 />
                </div>
 
-            </section>
+            </section> */}
 
 
 
