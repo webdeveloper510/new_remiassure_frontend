@@ -277,7 +277,7 @@ const Help = () => {
         <div className="help-sc" id="support">
 
         </div>
-        <section className="contct-info" id="support">
+        <section className="contct-info">
           <div className="container">
             <div className="darkpink" >
               <div className="">
