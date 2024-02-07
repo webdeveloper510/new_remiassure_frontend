@@ -8654,7 +8654,9 @@ p.content-news {
   border-bottom-left-radius: 120px;
   font-size: 15px;
 }
-
+form.news-ll .btn-con button {
+  width: 100%;
+}
 .btn-con button {
   background: #190278;
   border: 1px solid #fff;
@@ -8708,12 +8710,12 @@ p.content-news {
 
 .input-news {
 
-  width: 70%;
+  width: 60%;
   float: left;
 }
 
 .button-new {
-  width: 30%;
+  width: 40%;
   float: left;
 }
 
