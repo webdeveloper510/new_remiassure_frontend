@@ -2,6 +2,11 @@ import React, { Component, useState } from "react";
 import { links, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { generateRandomKey } from "../../utils/hook";
 import { debounce } from 'lodash';
+import { useFormik } from "formik";
+import { hitNewsletter } from "../../utils/Api";
+import clsx from "clsx";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 const Footer = () => {
     const [accordionOpen, setAccordionOpen] = useState(null);
@@ -189,32 +194,32 @@ const Footer = () => {
 
     const howItWorks = () => {
         if (location.pathname !== "/") {
-          navigate("/");
-      }
-    
-      setTimeout(() => {
-          const targetSectionId = "how-it-works";
-          const targetElement = document.getElementById(targetSectionId);
-          if (targetElement) {
-              targetElement.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-              });
-          } else {
-              console.error(`Element with id "${targetSectionId}" not found.`);
-          }
-      }, 500)
-      }
+            navigate("/");
+        }
 
-      const mobileApps = () => {
+        setTimeout(() => {
+            const targetSectionId = "how-it-works";
+            const targetElement = document.getElementById(targetSectionId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+            } else {
+                console.error(`Element with id "${targetSectionId}" not found.`);
+            }
+        }, 500)
+    }
+
+    const mobileApps = () => {
         if (location.pathname !== "/") {
-          navigate("/");
-      }
+            navigate("/");
+        }
 
         setTimeout(() => {
             const targetSectionId = "mobile-apps";
             const targetElement = document.getElementById(targetSectionId);
-            
+
             if (targetElement) {
                 targetElement.scrollIntoView({
                     behavior: "smooth",
@@ -224,8 +229,27 @@ const Footer = () => {
                 console.error(`Element with id "${targetSectionId}" not found.`);
             }
         }, 600);
-    
-      }
+
+    }
+
+    const formik = useFormik({
+        initialValues:{
+            email:""
+        },
+        validationSchema: Yup.object().shape({
+            email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/, "Invalid email format").min(6).max(50).required("Email is required"),
+        }),
+        onSubmit: (value) => {
+            hitNewsletter({email:value.email}).then((res)=>{
+                if(res.code === "200"){
+                    toast.success(res.message, {autoClose:2000,hideProgressBar:true, position:"bottom-right" })
+                } else {
+                    toast.error(res.message, {autoClose:2000,hideProgressBar:true, position:"bottom-right" })
+                }
+                formik.resetForm();
+            })
+        }
+    })
 
     return (
         <>
@@ -274,12 +298,30 @@ const Footer = () => {
 
                                 <div className="newsletterform">
                                     <div className="form-ffoter">
+                                        <form onSubmit={formik.handleSubmit}>
                                         <div class="input-news">
-                                            <input type="text" name="name" placeholder="Email address" />
+                                            <input
+                                                type="text"
+                                                {...formik.getFieldProps('email')}
+                                                className={clsx(
+                                                    'form-control',
+                                                    { 'is-invalid': formik.touched.email && formik.errors.email },
+                                                    {
+                                                        'is-valid': formik.touched.email && !formik.errors.email,
+                                                    }
+                                                )}
+                                                placeholder="Email address"
+                                            />
                                         </div>
                                         <div class="button-new">
-                                            <div class="btn-con "><button><img src="assets/img/home/nextsli.png" alt="logo" /></button></div>
+                                            <div class="btn-con "><button type="submit"><img src="assets/img/home/nextsli.png" alt="logo" /></button></div>
                                         </div>
+                                        {
+                                            formik.errors.email && (
+                                                <p>{formik.errors.email}</p>
+                                            )
+                                        }
+                                        </form>
                                     </div>
                                     {/* <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p> */}
                                 </div>

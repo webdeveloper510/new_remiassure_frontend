@@ -602,3 +602,12 @@ export const applyReferralCode = (data) => {
   })
   return response
 }
+
+export const hitNewsletter = (data) => {
+  const response = Axios.post("/payment/subscribe-newsletter/", data).then(res => {
+    return res.data
+  }).catch(err => {
+    return err.response.data
+  })
+  return response
+ }
