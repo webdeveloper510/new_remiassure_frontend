@@ -9590,3 +9590,9 @@ button.SKip.back-btn {
   border-color: red !important;
   color: red !important;
 }
+
+.error_subr {
+    float: left;
+    width: 100%;
+    margin-top: 10px;
+}

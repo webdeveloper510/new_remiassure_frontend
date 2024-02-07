@@ -281,7 +281,7 @@ const Footer = () => {
                                 </ul>
                             </div>
 
-                            <div className="col-lg-3 col-md-3">
+                            <div className="col-lg-2 col-md-2">
                                 <h4>Company</h4>
                                 <ul>
                                     <li><NavLink to="/about-us">About Us</NavLink></li>
@@ -291,7 +291,7 @@ const Footer = () => {
                                 </ul>
                             </div>
 
-                            <div className="col-lg-3 col-md-3">
+                            <div className="col-lg-2 col-md-2">
                                 <h4>Legal</h4>
                                 <ul>
                                     <li><NavLink to="/terms-and-condition">Terms And Conditions</NavLink></li>
@@ -301,13 +301,13 @@ const Footer = () => {
 
                             </div>
 
-                            <div className="col-lg-3 col-md-3">
+                            <div className="col-lg-5 col-md-5">
 
                                 <h4>Join our newsletter</h4>
 
                                 <div className="newsletterform">
                                     <div className="form-ffoter">
-                                        <form onSubmit={formik.handleSubmit}>
+                                        <form onSubmit={formik.handleSubmit}  className="news-ll">
                                         <div class="input-news">
                                             <input
                                                 type="text"
@@ -325,7 +325,7 @@ const Footer = () => {
                                         <div class="button-new">
                                             <div class="btn-con "><button type="submit">Subscribe</button></div>
                                         </div>
-                                        <div className="error_sub">
+                                        <div className="error_subr">
                                         {
                                             formik.errors.email && (
                                                 <p>{formik.errors.email}</p>
