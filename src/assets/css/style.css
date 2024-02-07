@@ -8658,16 +8658,24 @@ p.content-news {
 .btn-con button {
   background: #190278;
   border: 1px solid #fff;
-  padding: 15px 30px !important;
+  padding: 15px 32px !important;
   border-bottom-right-radius: 53px !important;
   border-top-right-radius: 53px !important;
-  margin-left: 15px;
-  width: 100%;
+  margin-left: 8px;
+  width: fit-content;
   display: flex;
   align-items: center;
   position: relative;
   justify-content: center;
+  color: white;
 }
+
+.error_sub{
+display: flex;
+    position: relative;
+    top: 58px;
+    white-space: pre;
+    right: 205px;}
 
 .newsletterform {
   margin-top: 20px;

@@ -232,6 +232,8 @@ const Footer = () => {
 
     }
 
+    const [message, setMessage] = useState(null)
+
     const formik = useFormik({
         initialValues:{
             email:""
@@ -242,11 +244,18 @@ const Footer = () => {
         onSubmit: (value) => {
             hitNewsletter({email:value.email}).then((res)=>{
                 if(res.code === "200"){
-                    toast.success(res.message, {autoClose:2000,hideProgressBar:true, position:"bottom-right" })
+                    setMessage(res.message)
+                    setTimeout(()=>{
+                        formik.resetForm();
+                        setMessage(null)
+                    }, 3000)
                 } else {
-                    toast.error(res.message, {autoClose:2000,hideProgressBar:true, position:"bottom-right" })
+                    setMessage(res.message)
+                    setTimeout(()=>{
+                        formik.resetForm();
+                        setMessage(null)
+                    }, 3000)
                 }
-                formik.resetForm();
             })
         }
     })
@@ -314,13 +323,20 @@ const Footer = () => {
                                             />
                                         </div>
                                         <div class="button-new">
-                                            <div class="btn-con "><button type="submit"><img src="assets/img/home/nextsli.png" alt="logo" /></button></div>
+                                            <div class="btn-con "><button type="submit">Subscribe</button></div>
                                         </div>
+                                        <div className="error_sub">
                                         {
                                             formik.errors.email && (
                                                 <p>{formik.errors.email}</p>
                                             )
                                         }
+                                        {
+                                            message && (
+                                                <p>{message}</p>
+                                            )
+                                        }
+                                        </div>
                                         </form>
                                     </div>
                                     {/* <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p> */}
@@ -405,8 +421,20 @@ const Footer = () => {
                                             />
                                     </div>
                                     <div class="button-new">
-                                        <div class="btn-con "><button type="submit"><img src="assets/img/home/nextsli.png" alt="logo" /></button></div>
+                                        <div class="btn-con "><button type="submit">Subscribe</button></div>
                                     </div>
+                                    <div >
+                                        {
+                                            formik.errors.email && (
+                                                <p>{formik.errors.email}</p>
+                                            )
+                                        }
+                                        {
+                                            message && (
+                                                <p>{message}</p>
+                                            )
+                                        }
+                                        </div>
                                     </form>
                                 </div>
                                 {/* <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p> */}
