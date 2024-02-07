@@ -21,20 +21,20 @@ const FreeTransctions = () => {
           {
             id: 2,
             title: <>Free Transfers</>,
-            content: "RemitAssure offers the convenience of free account transfers, allowing you to send money globally without incurring additional fees. Enjoy a cost-effective and efficient way to move funds securely across borders with our user-friendly platform.",
+            content: "RemitAssure offers the convenience of free account transfers, allowing you to send money globally without incurring additional fees. Enjoy a cost-effective and efficient way to move funds securely across borders with our user-friendly platform. The use of our platform is completely free. There are no transaction charges or hidden fees.",
           },
-          {
-            id: 3,
-            title: "No Hidden Fee",
-            content: "Yes, the use of our platform is completely free. There are no transaction charges or hidden fees.",
-          },
+          // {
+          //   id: 3,
+          //   title: "No Hidden Fee",
+          //   content: "Yes, the use of our platform is completely free. There are no transaction charges or hidden fees.",
+          // },
          {
-          id:4,
+          id:3,
           title:"Competitive FX",
           content:"Our lean business model and alliance with global industry leaders enable us to offer you competitive exchange rates."
          },
          {
-          id:5,
+          id:4,
           title:"Peace of Mind",
           content:"We’ve built a platform enabled by industry leading anti-money laundering and fraud protection technologies so that your funds safeguarded and securely transferred to your beneficiaries."
          }

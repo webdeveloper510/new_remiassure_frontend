@@ -389,12 +389,25 @@ const Footer = () => {
                         {accordionOpen === 3 && (
                             <div className="newsletterform">
                                 <div className="form-ffoter">
+                                    <form onSubmit={formik.handleSubmit}>
                                     <div class="input-news">
-                                        <input type="text" name="name" placeholder="Email address" />
+                                    <input
+                                                type="text"
+                                                {...formik.getFieldProps('email')}
+                                                className={clsx(
+                                                    'form-control',
+                                                    { 'is-invalid': formik.touched.email && formik.errors.email },
+                                                    {
+                                                        'is-valid': formik.touched.email && !formik.errors.email,
+                                                    }
+                                                )}
+                                                placeholder="Email address"
+                                            />
                                     </div>
                                     <div class="button-new">
-                                        <div class="btn-con "><button><img src="assets/img/home/nextsli.png" alt="logo" /></button></div>
+                                        <div class="btn-con "><button type="submit"><img src="assets/img/home/nextsli.png" alt="logo" /></button></div>
                                     </div>
+                                    </form>
                                 </div>
                                 {/* <p className="content-news">In publishing and graphic design, Lorem ipsum is a placeholder text commonly.</p> */}
                             </div>
@@ -423,7 +436,7 @@ const Footer = () => {
 
                                     </div>
                                     <div className="infor-content">
-                                        <a href="https://api.whatsapp.com/send?phone=+61421192684" target="_blank">+61421192684</a>
+                                        <a href="https://api.whatsapp.com/send/?phone=61421192684&text&type=phone_number&app_absent=0" target="_blank">+61421192684</a>
                                     </div>
 
 

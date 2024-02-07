@@ -999,7 +999,7 @@ const Home = () => {
                         </div>
                         <div className="col-lg-5 padding-right-box">
                             <div className="vl about_v1">
-                                <h1 className="vl-heading left-align">Enjoy The <br></br> RemitAssure Experience</h1>
+                                <h1 className="vl-heading left-align">Enjoy the <br></br> RemitAssure Experience</h1>
                             </div>
                             <div className="vl-content">
                                 <p>Experience the freedom of seamless money transfers with RemitAssure, where every transaction comes with the added benefit of enjoying free transfers, making your financial transactions hassle-free and cost-effective!
@@ -1118,7 +1118,7 @@ const Home = () => {
                                 </div>
                                 <div className="col-md-4">
                                     <div className="btn-contact"><Link to="/help" className="skybtn">Contact Us</Link></div>
-                                    <div className="btn-contact "><a href="https://api.whatsapp.com/send?phone=+61421192684&text=" target="_blank" className="appbtn">WhatsApp</a></div>
+                                    <div className="btn-contact "><a href="https://api.whatsapp.com/send/?phone=61421192684&text&type=phone_number&app_absent=0" target="_blank" className="appbtn">WhatsApp</a></div>
                                 </div>
                             </div>
                         </div>
