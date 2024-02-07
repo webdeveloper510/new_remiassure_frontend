@@ -962,7 +962,7 @@ const Home = () => {
                                             </div>
                                             <div className="contant-img right-aligned">
                                                 <div className="icon-img pink">
-                                                    <img src="assets/img/home/pinkicon.png" alt="logo" />
+                                                    <img src="assets/img/home/arcticons_cashew.svg" alt="logo" />
                                                 </div>
                                                 <h4 className="content-heading">
                                                     We Celebrate with You
