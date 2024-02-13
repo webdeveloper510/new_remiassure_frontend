@@ -17,11 +17,11 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
   const user_data = JSON.parse(sessionStorage.getItem("remi-user-dt"))
 
   const firstSchema = Yup.object().shape({
-    First_name: Yup.string().min(2).max(25).required().trim(),
-    Middle_name: Yup.string().min(2).max(25).trim(),
-    Last_name: Yup.string().min(2).max(25).required().trim(),
-    email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
-    mobile: Yup.string().min(9).max(10).required(),
+    First_name: Yup.string().min(1).max(25).required().trim(),
+    Middle_name: Yup.string().max(25).trim(),
+    Last_name: Yup.string().min(1).max(25).required().trim(),
+    email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50),
+    mobile: Yup.string().min(9).max(10),
     Date_of_birth: Yup.date().min(new Date(Date.now() - 3721248000000)).max(new Date(Date.now() - 567648000000), "You must be at least 18 years").required(),
     occupation: Yup.string().min(1).max(50).required().trim(),
     Country_of_birth: Yup.string().required().notOneOf(["none"]),
@@ -41,6 +41,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
     },
     validationSchema: firstSchema,
     onSubmit: async (values) => {
+      // console.log(values)
       nextStep()
       updateData(values)
     }
@@ -62,6 +63,31 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
     document.getElementById("dob").setAttribute('max', maxDate);
     document.getElementById("dob").setAttribute('min', minDate);
   }, [])
+
+
+  useEffect(() => {
+    userProfile().then((res) => {
+      if (res.code == "200") {
+        let p = res.data.mobile
+        let phone = p.substring(3);
+        formik.setValues({
+          First_name: res.data.First_name,
+          Last_name: res.data.Last_name,
+          Middle_name: res.data.Middle_name,
+          email: res.data.email,
+          Country_of_birth: res.data.Country_of_birth,
+          mobile: phone,
+          Date_of_birth: res.data.Date_of_birth,
+          occupation: res.data.occupation,
+        })
+      }
+    }).catch((error) => {
+      if (error.response.data.code == "400") {
+        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+      }
+    })
+  }, [])
+
 
 
   const handleNumericOnly = (event) => {
@@ -96,6 +122,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
     const result = event.target.value.replace(/[^A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/? ]/gi, "");
     formik.setFieldValue(event.target.name, result)
     formik.setFieldTouched(event.target.name, true)
+    formik.handleChange(event)
   }
 
   const onKeyBirth = (event) => {
@@ -108,20 +135,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
   }
 
 
-  useEffect(() => {
-    userProfile().then((res) => {
-      if (res.code == "200") {
-        let p = res.data.mobile
-        let phone = p.substring(3);
-        formik.setValues({ ...formik.values, ...res.data, mobile: phone })
-      }
-    }).catch((error) => {
-      if (error.response.data.code == "400") {
-        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-      }
-    })
-  }, [])
-
+  
   return (
     <>
 
@@ -323,7 +337,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
 
 
 
-      
+
 
     </>
 

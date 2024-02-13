@@ -101,7 +101,8 @@ const MultiStepForm = ({ is_model, handleModel }) => {
   const updateData = (values) => {
     let d = {}
     d = values
-    console.log(values)
+    // console.log(d)
+    // console.log(values)
     d.location = values.country
     d.Gender = "NA"
     if (values.First_name === "" || values.First_name === undefined || values.First_name === " " || values.First_name === null) {
