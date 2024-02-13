@@ -186,7 +186,7 @@ const Signup = () => {
         let length = otp.toString()
         if (length.length == 6) {
             setLoading(true)
-            let mno = parseInt(values.mobile , 10)
+            let mno = parseInt(formik.values.mobile , 10)
             let data = { ...formik.values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + mno, otp: otp }
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
@@ -226,7 +226,7 @@ const Signup = () => {
         e.preventDefault()
         setLoading(true)
         setOtp(null)
-        let mno = parseInt(values.mobile , 10)
+        let mno = parseInt(formik.values.mobile , 10)
         registerOtpResend({ mobile: "+" + selected_area_code + mno }).then(res => {
             if (res.code === "200") {
                 setShowAlert(2)
