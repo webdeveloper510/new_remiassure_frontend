@@ -54,7 +54,7 @@ const Profile = () => {
     mobile: Yup.string().min(9).max(10).required(),
     flat: Yup.string().min(1).max(30).notRequired(),
     building: Yup.string().min(1).max(30).required().trim(),
-    street: Yup.string().min(1).max(30).required().trim(),
+    street: Yup.string().min().max(500).required(),
     city: Yup.string().min(1).max(35).required().trim().notOneOf(["none"]),
     postcode: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required().notOneOf(["none"]),
@@ -826,7 +826,7 @@ const Profile = () => {
                         }
                       )}
                       inputAutocompleteValue={formik.values.street}
-                      onInput={(e)=>getStreetName(e,150)}
+                      onInput={(e)=>getStreetName(e,500)}
                       defaultValue={formik.values.street}
                     />
                   </Form.Group>

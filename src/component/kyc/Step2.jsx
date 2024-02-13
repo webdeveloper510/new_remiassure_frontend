@@ -24,7 +24,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
     state: Yup.string().min(2).max(35).required().notOneOf(["none"]),
     city: Yup.string().min(1).max(35).required().trim().notOneOf(["none"]),
     postcode: Yup.string().length(4).required(),
-    street: Yup.string().min(1).max(300).required(),
+    street: Yup.string().min().max(500).required(),
     flat: Yup.string().min(1).max(30).notRequired(),
     building: Yup.string().min(1).max(30).required().trim(),
   })
@@ -433,7 +433,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                           'is-valid': formik.touched.street && !formik.errors.street,
                         }
                       )}
-                      onInput={(e) => getStreetName(e, 300)}
+                      onInput={(e) => getStreetName(e, 500)}
                       inputAutocompleteValue={formik.values.street}
                       defaultValue={formik.values.street}
                     />
