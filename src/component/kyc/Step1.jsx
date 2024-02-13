@@ -72,6 +72,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
   const handleChange = (e) => {
     formik.setFieldValue(`${[e.target.name]}`, e.target.value)
     formik.setFieldTouched(`${[e.target.name]}`, true)
+    formik.handleChange(e)
   }
 
   const handleEmail = (e, max) => {
