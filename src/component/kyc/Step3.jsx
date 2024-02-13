@@ -56,7 +56,7 @@ const Step3 = ({ prevStep, nextStep, values }) => {
           }
         });
         if(err){
-          toast.error(err.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+          toast.error(err?.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         }
       }
     });
