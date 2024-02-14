@@ -80,7 +80,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
           flat: res.data.flat || "",
           building: res.data.building || "",
           country_code: res.data.country_code || "",
-          country: res?.data?.country?.toLowerCase() !== "none" ? res?.data?.country : "",
+          country: res?.data?.country?.toLowerCase() !== "none" && res?.data?.country?.toLowerCase() !== "" ? res?.data?.country  : res?.data?.location,
         })
       }
     }).catch((error) => {
