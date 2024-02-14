@@ -191,7 +191,7 @@ const AmountDetail = ({ handleStep, step }) => {
     const amountBlur = (e, direction) => {
         if (e.target.value !== "." && blur_off === false) {
             myTotalAmount(e, direction)
-
+            formik.handleBlur(e)
         }
     }
 
@@ -470,7 +470,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         styles={customStyles}
                                         components={{ Placeholder }}
                                         placeholder="Select a bank...."
-
+                                        onBlur={formik.handleBlur}
                                         className='payout_part'
                                     />
                                     {/* <select

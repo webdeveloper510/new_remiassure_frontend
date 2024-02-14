@@ -325,7 +325,7 @@ const Signup = () => {
                                                                         className="float-end"
                                                                         onClick={(e) => { handleResendOtp(e) }}
                                                                     >
-                                                                        Resend Otp
+                                                                        Resend OTP
                                                                     </Link>
                                                                 </p>
                                                                 <button variant={count_invalid === 3 ? "secondary" : "primary"}

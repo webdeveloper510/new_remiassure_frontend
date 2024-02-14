@@ -64,32 +64,6 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
     document.getElementById("dob").setAttribute('min', minDate);
   }, [])
 
-
-  useEffect(() => {
-    userProfile().then((res) => {
-      if (res.code == "200") {
-        let p = res.data.mobile
-        let phone = p.substring(3);
-        formik.setValues({
-          First_name: res.data.First_name,
-          Last_name: res.data.Last_name,
-          Middle_name: res.data.Middle_name,
-          email: res.data.email,
-          Country_of_birth: res.data.Country_of_birth,
-          mobile: phone,
-          Date_of_birth: res.data.Date_of_birth,
-          occupation: res.data.occupation,
-        })
-      }
-    }).catch((error) => {
-      if (error.response.data.code == "400") {
-        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-      }
-    })
-  }, [])
-
-
-
   const handleNumericOnly = (event) => {
     const result = event.target.value.replace(/[^0-9]/, "");
     formik.setFieldValue(event.target.name, result);
@@ -134,8 +108,30 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
     }
   }
 
+  useEffect(() => {
+    userProfile().then((res) => {
+      if (res.code == "200") {
+        let p = res.data.mobile
+        let phone = p.substring(3);
+        formik.setValues({
+          First_name: res.data.First_name || "",
+          Last_name: res.data.Last_name || "",
+          Middle_name: res.data.Middle_name || "",
+          email: res.data.email || "",
+          Country_of_birth: res.data.Country_of_birth || "",
+          mobile: phone || "",
+          Date_of_birth: res.data.Date_of_birth || "",
+          occupation: res.data.occupation || "",
+        })
+      }
+    }).catch((error) => {
+      if (error.response.data.code == "400") {
+        toast.error(error.response.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
+      }
+    })
+  }, [])
 
-  
+
   return (
     <>
 

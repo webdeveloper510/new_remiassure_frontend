@@ -46,19 +46,17 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
     },
     validationSchema: secondSchema,
     onSubmit: async (values) => {
-      console.log("forkimmnbba", values)
       nextStep()
       updateData(values)
     },
     validateOnChange: true,
-    validateOnBlur:false,
+    validateOnBlur: false,
   })
 
   useEffect(() => {
     userProfile().then((res) => {
       if (res.code == "200") {
         let p = res.data.mobile
-        let phone = p.substring(3);
         let countryValue = res?.data?.country || res?.data?.location;
         let p_a, v_a;
         if (res.data.payment_per_annum === "" || res.data.payment_per_annum === null) {
@@ -71,7 +69,19 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
         } else {
           v_a = res.data.value_per_annum
         }
-        formik.setValues({ ...res.data, country: countryValue, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", country_code: res?.data?.country_code || countryValue == "Australia" ? "AU" : "NZ", payment_per_annum: p_a, value_per_annum: v_a })
+        formik.setValues({
+          location: res.data.location || "",
+          payment_per_annum: p_a,
+          value_per_annum: v_a,
+          city: res.data.city || "",
+          state: res.data.state || "",
+          postcode: res.data.postcode || "",
+          street: res.data.street || "",
+          flat: res.data.flat || "",
+          building: res.data.building || "",
+          country_code: res.data.country_code || "",
+          country: res?.data?.country?.toLowerCase() !== "none" ? res?.data?.country : "",
+        })
       }
     }).catch((error) => {
       if (error.response.data.code == "400") {
@@ -81,7 +91,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
   }, [])
 
   useEffect(() => {
-    if (formik.values.country !== "none"&&formik.values.country!=="") {
+    if (formik.values.country !== "none" && formik.values.country !== "") {
       let array_1 = countryList?.filter((item) => {
         return item?.name === formik.values.country
       })
@@ -93,7 +103,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
       }
       setStateList(array);
     } else {
-      formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none" ,country: countryList[0].name, country_code:countryList[0].iso2})
+      formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country: countryList[0].name, country_code: countryList[0].iso2 })
       setCityList([])
       setStateList([])
       setPostalList([])
@@ -174,14 +184,14 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
     })
   }, [selected_area_code])
 
-  const getSelectedStreet = (place) => {
-    let street = place?.address_components?.filter(
+  const getSelectedStreet = async (place) => {
+    let street = await place?.address_components?.filter(
       (component) => {
         return component.types.includes('route') || component.types.includes('street_name')
       }
     );
-    if(street && street.length>0){
-    formik.setFieldValue("street", street.long_name)
+    if (street && street.length > 0) {
+      formik.setFieldValue("street", street[0].long_name)
     } else {
       formik.setFieldValue("street", place?.address_components[0]?.long_name)
     }
@@ -203,8 +213,6 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
       }
     }
   }
-
-
 
   return (
     <>
@@ -423,6 +431,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                       apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                       onPlaceSelected={getSelectedStreet}
                       placeholder=""
+                      id="street"
                       options={{
                         types: [],
                         componentRestrictions: { country: formik.values.country === "New Zealand" ? "nz" : "au" },

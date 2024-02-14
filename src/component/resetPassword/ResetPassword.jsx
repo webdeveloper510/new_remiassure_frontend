@@ -86,10 +86,10 @@ const RecentPassword = () => {
                                 <h2 className="Sign-heading mb-5">Reset Password</h2>
                                 <form onSubmit={formik.handleSubmit}>
                                     <Form.Group className="mb-3 form_label" >
-                                        <Form.Label>Reset Password Otp<span style={{ color: 'red' }} >*</span></Form.Label>
+                                        <Form.Label>Reset Password OTP<span style={{ color: 'red' }} >*</span></Form.Label>
                                         <input
                                             type="text"
-                                            placeholder="Enter Reset password otp"
+                                            placeholder="Enter Reset password OTP"
                                             name="reset_password_otp"
                                             value={formik.values.reset_password_otp}
                                             onChange={handleChange}
