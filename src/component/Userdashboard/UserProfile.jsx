@@ -325,7 +325,7 @@ const Profile = () => {
       }
     );
     if(street && street.length>0){
-    formik.setFieldValue("street", street.long_name)
+    formik.setFieldValue("street", street[0].long_name)
     } else {
       formik.setFieldValue("street", place?.address_components[0]?.long_name)
     }
