@@ -77,7 +77,7 @@ const Signup = () => {
 
     const formik = useFormik({
         initialValues,
-        // validationSchema: signSchema,
+        validationSchema: signSchema,
         validateOnChange: false,
         onSubmit: async (values) => {
             setLoading(true)
@@ -91,7 +91,7 @@ const Signup = () => {
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
             }
-            console.log(data)
+            // console.log(data)
             userRegisterCheck(data).then((res) => {
                 if (res.code === "200") {
                     toast.success(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
