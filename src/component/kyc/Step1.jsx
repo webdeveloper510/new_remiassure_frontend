@@ -42,8 +42,12 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
     validationSchema: firstSchema,
     onSubmit: async (values) => {
       // console.log(values)
+    let payload = values ;
+    if(/^\s*$/.test(payload.Middle_name)){
+      delete payload['Middle_name'] 
+    }
       nextStep()
-      updateData(values)
+      updateData(payload)
     }
   })
 
@@ -72,7 +76,6 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
   const handleChange = (e) => {
     formik.setFieldValue(`${[e.target.name]}`, e.target.value)
     formik.setFieldTouched(`${[e.target.name]}`, true)
-    formik.handleChange(e)
   }
 
   const handleEmail = (e, max) => {
@@ -96,7 +99,6 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
     const result = event.target.value.replace(/[^A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/? ]/gi, "");
     formik.setFieldValue(event.target.name, result)
     formik.setFieldTouched(event.target.name, true)
-    formik.handleChange(event)
   }
 
   const onKeyBirth = (event) => {
@@ -270,7 +272,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
                 </div>
                 <div className="col-md-4">
                   <div className="input_field">
-                    <p className="get-text">Country Of Birth<span style={{ color: 'red' }} >*</span></p>
+                    <p className="get-text">Country of Birth<span style={{ color: 'red' }} >*</span></p>
                     <select
                       value={formik?.values.Country_of_birth}
                       name="Country_of_birth"

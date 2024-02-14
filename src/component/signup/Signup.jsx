@@ -42,7 +42,7 @@ const Signup = () => {
     const [selected_area_code, setSelectedAreaCode] = useState("61")
 
     const initialValues = {
-        location: "",
+        location: "Australia",
         email: "",
         password: "",
         confirmPassword: "",
@@ -77,7 +77,7 @@ const Signup = () => {
 
     const formik = useFormik({
         initialValues,
-        validationSchema: signSchema,
+        // validationSchema: signSchema,
         validateOnChange: false,
         onSubmit: async (values) => {
             setLoading(true)
@@ -91,6 +91,7 @@ const Signup = () => {
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
             }
+            console.log(data)
             userRegisterCheck(data).then((res) => {
                 if (res.code === "200") {
                     toast.success(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
@@ -412,6 +413,7 @@ const Signup = () => {
                                                                                         }
                                                                                     )}
                                                                                     placeholder="Enter your mobile"
+                                                                                    autoComplete="off"
                                                                                 />
                                                                             </div>
                                                                         </div>
@@ -458,6 +460,7 @@ const Signup = () => {
                                                                                     'is-valid': formik.touched.email && !formik.errors.email,
                                                                                 }
                                                                             )}
+                                                                            autoComplete="off"
                                                                         />
                                                                         {formik.touched.email && formik.errors.email && (
                                                                             <div className='fv-plugins-message-container mt-1'>

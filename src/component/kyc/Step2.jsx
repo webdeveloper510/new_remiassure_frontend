@@ -46,8 +46,12 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
     },
     validationSchema: secondSchema,
     onSubmit: async (values) => {
+      let payload = values
+      if(/^\s*$/.test(payload.flat)){
+        delete payload['flat'] 
+      }
       nextStep()
-      updateData(values)
+      updateData(payload)
     },
     validateOnChange: true,
     validateOnBlur: false,
@@ -80,7 +84,8 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
           flat: res.data.flat || "",
           building: res.data.building || "",
           country_code: res.data.country_code || "",
-          country: res?.data?.country?.toLowerCase() !== "none" && res?.data?.country?.toLowerCase() !== "" ? res?.data?.country  : res?.data?.location,
+          country: res?.data?.country?.toLowerCase() !== "none" && res?.data?.country?.toLowerCase() !== "" && res?.data?.country?.toLowerCase() !== undefined || null ? res?.data?.country  : res?.data?.location,
+          country_code: res?.data?.country_code || "AU"
         })
       }
     }).catch((error) => {

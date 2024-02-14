@@ -45,7 +45,6 @@ const AmountDetail = ({ handleStep, step }) => {
         exchange_amt: Yup.string("Please enter a valid amount").notOneOf([".", ""]).required(),
         from_type: Yup.string().required(),
         to_type: Yup.string().required(),
-        exchange_amt: Yup.string(),
         part_type: Yup.string().required().notOneOf([null]),
         payout_part: Yup.string().min(3).max(50).test("value-test", (value, validationcontext) => {
             const {
@@ -75,8 +74,8 @@ const AmountDetail = ({ handleStep, step }) => {
     const formik = useFormik({
         initialValues,
         validationSchema: amtSchema,
-        validateOnChange: false,
-        validateOnBlur: false,
+        validateOnChange: true,
+        validateOnBlur: true,
         onSubmit: async (values) => {
             let local = {}
             var transaction_id = localStorage.getItem("transaction_id")
@@ -136,10 +135,13 @@ const AmountDetail = ({ handleStep, step }) => {
                         formik.setFieldValue("send_amt", event.target.value.includes(".") ? event.target.value : event.target.value + ".00")
                         setAmtDetail({ ...amt_detail, exchange_amt: data, send_amt: event.target.value.includes(".") ? event.target.value : event.target.value + ".00" })
                         setDefaultExchange(response?.default_exchange)
+                        
                     } else {
                         formik.setFieldValue("send_amt", data.includes(".") ? data : data + ".00")
                         setAmtDetail({ ...amt_detail, send_amt: data.includes(".") ? data : data + ".00" })
                     }
+                    formik.setFieldTouched("exchange_amt", true)
+                    formik.setFieldTouched("send_amt", true)
                     setLoader(false)
                     setExchRate(response.rate)
                     setBlurOff(true)
@@ -191,7 +193,6 @@ const AmountDetail = ({ handleStep, step }) => {
     const amountBlur = (e, direction) => {
         if (e.target.value !== "." && blur_off === false) {
             myTotalAmount(e, direction)
-            formik.handleBlur(e)
         }
     }
 
@@ -303,7 +304,7 @@ const AmountDetail = ({ handleStep, step }) => {
         } else {
 
             formik.setValues({ ...formik.values, payout_part: value })
-        formik.handleChange(e)
+            formik.handleChange(e)
         }
 
     }
@@ -461,7 +462,7 @@ const AmountDetail = ({ handleStep, step }) => {
                             </div>
                             <div className="col-md-6">
                                 <h5>Payout Partners</h5>
-                                <div className="col-md-12" style={{marginBottom:"12px"}}>
+                                <div className="col-md-12" style={{ marginBottom: "12px" }}>
                                     <Select
                                         options={Bank_list}
                                         onChange={handlePayoutPart}
@@ -526,7 +527,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
-                              
+
                             </div>
                         </div>
                         <div className="row">
