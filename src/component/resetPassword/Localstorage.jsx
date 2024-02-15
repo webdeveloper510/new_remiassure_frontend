@@ -11,7 +11,7 @@ const LocalStorage = () => {
 
 
     useEffect(() => {
-        localStorage.setItem('token_forgot',id)
+        sessionStorage.setItem('token_forgot',id)
        // history.push('/resetpasswordsss')
         navigate('/reset-passwords');     
     

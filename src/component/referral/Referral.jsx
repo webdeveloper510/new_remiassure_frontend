@@ -45,17 +45,17 @@ const Referral = () => {
     const token = sessionStorage.getItem("token");
     // console.log("TOKEN", token);
 
-    const signup_token = localStorage.getItem("signup_token")
+    const signup_token = sessionStorage.getItem("signup_token")
     // console.log("signup_token", signup_token);
 
-    const verification_otp = localStorage.getItem("verification_otp");
+    const verification_otp = sessionStorage.getItem("verification_otp");
     // console.log("Verification Message", verification_otp)
 
     /**************************Recipient of state ************************ */
     const [dataRefferal, setDataRefferal] = useState({});
     const [referral_cost, setReferralCost] = useState(() => {
-        if (localStorage.getItem("ref-x-2-rem")) {
-            let obj = JSON.parse(localStorage.getItem("ref-x-2-rem"))
+        if (sessionStorage.getItem("ref-x-2-rem")) {
+            let obj = JSON.parse(sessionStorage.getItem("ref-x-2-rem"))
             return { referred_by_amount: obj?.rb, referred_to_amount: obj?.rt }
         }
     })

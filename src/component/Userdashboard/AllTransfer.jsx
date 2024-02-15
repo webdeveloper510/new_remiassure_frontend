@@ -14,16 +14,16 @@ const AllTranfer = ({ status, data }) => {
 
   // const token = sessionStorage.getItem("token");
 
-  // const Total_amount = localStorage.getItem("Total_amount");
+  // const Total_amount = sessionStorage.getItem("Total_amount");
 
-  // const TransactionHistoryStatus = localStorage.getItem("TransactionHistoryStatus");
+  // const TransactionHistoryStatus = sessionStorage.getItem("TransactionHistoryStatus");
 
   const [transactionData, setTransactionData] = useState([]);
 
   // const [summeryData, setSummeryData] = useState([]);
 
   const navigate = useNavigate();
-  // const paymetTransactionId = localStorage.getItem("paymetTransactionId");
+  // const paymetTransactionId = sessionStorage.getItem("paymetTransactionId");
 
   useEffect(() => {
 

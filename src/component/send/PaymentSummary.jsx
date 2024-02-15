@@ -26,8 +26,8 @@ const PaymentSummary = ({ handleStep, step }) => {
   const [transaction, setTransaction] = useState({ id: "", status: "", pay_id: "" })
   const [is_otp_verified, setIsOtpVerfied] = useState(null)
   const [discounts, setDiscounts] = useState({ amount: "", discount_amount: "", final_amount: "", type: "", referral_meta_id: null })
-  const local = JSON.parse(localStorage.getItem("transfer_data"));
-  let transaction_id = localStorage.getItem("transaction_id")
+  const local = JSON.parse(sessionStorage.getItem("transfer_data"));
+  let transaction_id = sessionStorage.getItem("transaction_id")
 
   useEffect(() => {
     setData({
@@ -45,50 +45,50 @@ const PaymentSummary = ({ handleStep, step }) => {
       pay_id: local?.payment?.bsb ? local?.payment?.bsb : "",
       pay_id: local?.payment?.acc_no ? local?.payment?.acc_no : "",
     })
-    getDiscountedPrice(localStorage.getItem("transaction_id")).then(res => {
+    getDiscountedPrice(sessionStorage.getItem("transaction_id")).then(res => {
       setDiscounts(res.data)
     })
   }, [])
 
   const handleFinalStep = () => {
-    const local = JSON.parse(localStorage.getItem("transfer_data"))
+    const local = JSON.parse(sessionStorage.getItem("transfer_data"))
     setLoader(true)
     if (local?.payment.hasOwnProperty("pay_id") || local?.payment.hasOwnProperty("agreement_uuid")) {
 
       if (local?.payment?.payment_type === "PayTo") {
         let agreement_uuid = local?.payment?.agreement_uuid
 
-        ZaiPayTo({ agreement_uuid: agreement_uuid, transaction_id: localStorage.getItem("transaction_id"), referral_meta_id: discounts?.referral_meta_id }).then((res) => {
+        ZaiPayTo({ agreement_uuid: agreement_uuid, transaction_id: sessionStorage.getItem("transaction_id"), referral_meta_id: discounts?.referral_meta_id }).then((res) => {
           setLoader(false)
           if (res.code === "200") {
             setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: null })
-            localStorage.setItem("transaction_id", res?.data?.payment_id)
+            sessionStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
             user.is_digital_Id_verified = "true"
             sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
-            if (localStorage.getItem("send-step")) {
-              localStorage.removeItem("send-step")
+            if (sessionStorage.getItem("send-step")) {
+              sessionStorage.removeItem("send-step")
             }
-            localStorage.removeItem("transfer_data")
-            localStorage.removeItem("conversion_data")
-            localStorage.removeItem('rid')
-            localStorage.removeItem("transaction_id")
+            sessionStorage.removeItem("transfer_data")
+            sessionStorage.removeItem("conversion_data")
+            sessionStorage.removeItem('rid')
+            sessionStorage.removeItem("transaction_id")
             setModalView(true)
           } else if (res.code == "400") {
             setTransaction({ status: res?.message, id: res?.data?.id, pay_id: res?.data?.transaction_id })
             // toast.error(res.message, { position: "bottom-right", hideProgressBar: true, autoClose: 3000 })
 
-            localStorage.setItem("transaction_id", res?.data?.payment_id)
+            sessionStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
             user.is_digital_Id_verified = "true"
             sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
-            if (localStorage.getItem("send-step")) {
-              localStorage.removeItem("send-step")
+            if (sessionStorage.getItem("send-step")) {
+              sessionStorage.removeItem("send-step")
             }
-            localStorage.removeItem("transfer_data")
-            localStorage.removeItem("conversion_data")
-            localStorage.removeItem('rid')
-            localStorage.removeItem("transaction_id")
+            sessionStorage.removeItem("transfer_data")
+            sessionStorage.removeItem("conversion_data")
+            sessionStorage.removeItem('rid')
+            sessionStorage.removeItem("transaction_id")
             setModalView(true)
           } else {
             toast.error("We are looking into the issue , please try later", { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
@@ -107,18 +107,18 @@ const PaymentSummary = ({ handleStep, step }) => {
           if (res.code === "200") {
 
             setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: local?.payment?.pay_id })
-            localStorage.setItem("transaction_id", res?.data?.payment_id)
+            sessionStorage.setItem("transaction_id", res?.data?.payment_id)
             const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-            // localStorage.removeItem("remi-user-dt")
+            // sessionStorage.removeItem("remi-user-dt")
             user.is_digital_Id_verified = "true"
             sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
-            if (localStorage.getItem("send-step")) {
-              localStorage.removeItem("send-step")
+            if (sessionStorage.getItem("send-step")) {
+              sessionStorage.removeItem("send-step")
             }
-            localStorage.removeItem("transfer_data")
-            localStorage.removeItem("conversion_data")
-            localStorage.removeItem("rid")
-            localStorage.removeItem("transaction_id")
+            sessionStorage.removeItem("transfer_data")
+            sessionStorage.removeItem("conversion_data")
+            sessionStorage.removeItem("rid")
+            sessionStorage.removeItem("transaction_id")
             setModalView(true)
           } else if (res.code == "400") {
             toast.error(res.message, { autoClose: 3000, position: "bottom-right", hideProgressBar: true })
@@ -132,20 +132,20 @@ const PaymentSummary = ({ handleStep, step }) => {
         })
       }
     } else if (local?.payment.hasOwnProperty("token")) {
-      userCharge({ transaction_id: localStorage.getItem("transaction_id"), card_token: local?.payment?.token?.id }).then((res) => {
+      userCharge({ transaction_id: sessionStorage.getItem("transaction_id"), card_token: local?.payment?.token?.id }).then((res) => {
         setLoader(false)
         if (res.code == "200") {
           setTransaction({ status: res?.message, id: res?.data?.transaction_id, pay_id: null })
           const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
           user.is_digital_Id_verified = "true"
           sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
-          if (localStorage.getItem("send-step")) {
-            localStorage.removeItem("send-step")
+          if (sessionStorage.getItem("send-step")) {
+            sessionStorage.removeItem("send-step")
           }
-          localStorage.removeItem("transfer_data")
-          localStorage.removeItem("conversion_data")
-          localStorage.removeItem('rid')
-          localStorage.removeItem("transaction_id")
+          sessionStorage.removeItem("transfer_data")
+          sessionStorage.removeItem("conversion_data")
+          sessionStorage.removeItem('rid')
+          sessionStorage.removeItem("transaction_id")
           setModalView(true)
         } else if (res.code === "400") {
           toast.error(res.message, { position: "bottom-right", autoClose: 5000, hideProgressBar: true })
@@ -168,8 +168,8 @@ const PaymentSummary = ({ handleStep, step }) => {
   }, [is_otp_verified])
 
   const handleCancel = () => {
-    localStorage.removeItem("transfer_data")
-    localStorage.removeItem("send-step")
+    sessionStorage.removeItem("transfer_data")
+    sessionStorage.removeItem("send-step")
     window.location.reload(true)
   }
 

@@ -65,7 +65,7 @@ const PopVerify = ({ handler, close, phone, new_mobile }) => {
                 if (res.code == 200) {
                     let d = new Date()
                     d.setDate(d.getDate() + 1);
-                    localStorage.setItem('tkn-exp', d)
+                    sessionStorage.setItem('tkn-exp', d)
                     sessionStorage.setItem('token', res.access_token)
                     setLoading(false)
                     close()

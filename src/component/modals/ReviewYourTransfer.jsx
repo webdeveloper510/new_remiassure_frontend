@@ -31,7 +31,7 @@ const ReviewYourTransfer = ({ data, isConfirmation, handleCancel, handleContinue
     }
 
     const handleCouponSelection = (value) => {
-        applyReferralCode({ referral_meta_id: value?.referral_meta_id, transaction_id: localStorage.getItem("transaction_id") }).then(res => {
+        applyReferralCode({ referral_meta_id: value?.referral_meta_id, transaction_id: sessionStorage.getItem("transaction_id") }).then(res => {
             if (res.code === "200") {
                 setDiscountValues(res.data)
                 setApplied(value)
@@ -53,7 +53,7 @@ const ReviewYourTransfer = ({ data, isConfirmation, handleCancel, handleContinue
 
     useEffect(() => {
         if (applied) {
-            sessionStorage.setItem("discApp", JSON.stringify({ value: applied, tId: localStorage.getItem("transaction_id") }))
+            sessionStorage.setItem("discApp", JSON.stringify({ value: applied, tId: sessionStorage.getItem("transaction_id") }))
         }
     }, [applied])
 

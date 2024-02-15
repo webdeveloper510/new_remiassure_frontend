@@ -124,14 +124,14 @@ const Login = () => {
                         { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                     let d = new Date()
                     d.setDate(d.getDate() + 1);
-                    localStorage.setItem('tkn-exp', d)
+                    sessionStorage.setItem('tkn-exp', d)
                     sessionStorage.setItem('token', res.access_token)
                     setLoading(false)
                     if (obj.page !== "register") {
                         const user = res?.data
                         user.is_digital_Id_verified = `${res?.data?.is_digital_Id_verified}`
                         sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
-                        if (localStorage.getItem("transfer_data")) {
+                        if (sessionStorage.getItem("transfer_data")) {
                             navigate(`/user-send-money`)
                         } else {
                             navigate("/dashboard")

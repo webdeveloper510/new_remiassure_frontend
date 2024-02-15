@@ -15,7 +15,7 @@ const IdleTimeOutHandler = (props) => {
     const eventHandler = (eventType) => {
 
         if (!isLogout) {
-            localStorage.setItem('lastInteractionTime', moment())
+            sessionStorage.setItem('lastInteractionTime', moment())
             if (timer) {
                 props.onActive();
                 startTimer();
@@ -55,7 +55,7 @@ const IdleTimeOutHandler = (props) => {
         }
         timer = setTimeout(() => {
 
-            let lastInteractionTime = localStorage.getItem('lastInteractionTime')
+            let lastInteractionTime = sessionStorage.getItem('lastInteractionTime')
             const diff = moment.duration(moment().diff(moment(lastInteractionTime)));
             let timeOutInterval = props.timeOutInterval ? props.timeOutInterval : 6000;
             if (isLogout) {
@@ -69,7 +69,7 @@ const IdleTimeOutHandler = (props) => {
                     setShowModal(true)
                 }
                 // if(diff.days == (24 * 60 * 60 * 1000)){
-                //     localStorage.clear()
+                //     sessionStorage.clear()
                 //     navigate("/login")
                 // }
             }

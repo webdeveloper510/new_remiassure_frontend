@@ -9,7 +9,7 @@ import global from "../../utils/global";
 const Recipients = () => {
 
     const token = sessionStorage.getItem("token");
-    const verification_otp = localStorage.getItem("verification_otp");
+    const verification_otp = sessionStorage.getItem("verification_otp");
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);

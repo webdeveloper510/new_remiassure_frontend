@@ -62,8 +62,8 @@ const Signup = () => {
     useEffect(() => {
         exchangeRate({ amount: "1", from: "AUD", to: "NGN" }).then(res => {
             const data = { send_amt: "1", exchange_amt: res.amount, from_type: "AUD", to_type: "NGN", exch_rate: res.rate }
-            localStorage.removeItem("exchange_curr")
-            localStorage.setItem("exchange_curr", JSON.stringify(data))
+            sessionStorage.removeItem("exchange_curr")
+            sessionStorage.setItem("exchange_curr", JSON.stringify(data))
         })
         if (sessionStorage.getItem("token") && sessionStorage.getItem("remi-user-dt")) {
             navigate("/dashboard")

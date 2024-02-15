@@ -37,7 +37,7 @@ const ForgotPassword = () => {
     let sessionID;
     setTimeout(
         function () {
-            sessionID = localStorage.getItem("SessionID");
+            sessionID = sessionStorage.getItem("SessionID");
         }, 3000
     );
 
@@ -54,7 +54,7 @@ const ForgotPassword = () => {
             setLoading(true);
             resetEmail({ mobile: "+" + values.mobile }).then((res) => {
                 setLoading(false);
-                localStorage.setItem("token_forgot", res.data.token)
+                sessionStorage.setItem("token_forgot", res.data.token)
                 if (res.data.code == "200") {
                     toast.success(res.data.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
                     navigate('/reset-password', { state: { customer_id: res.data.data.customer_id } })

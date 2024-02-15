@@ -82,7 +82,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                 toast.warn("THIS SERVICE OPTION IS CURRENTLY UNAVAILABLE", { hideProgressBar: true, autoClose: 2000, position: "bottom-right" })
             } else {
                 let local = {}
-                var transaction_id = localStorage.getItem("transaction_id")
+                var transaction_id = sessionStorage.getItem("transaction_id")
                 let payload = {
                     transaction_id: transaction_id,
                     amount: {
@@ -101,17 +101,17 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                 }
                 createTransaction(payload).then(res => {
                     if (res.code === "200") {
-                        localStorage.setItem("transaction_id", res.data.transaction_id)
-                        if (localStorage.getItem("transfer_data")) {
-                            local = JSON.parse(localStorage.getItem("transfer_data"))
+                        sessionStorage.setItem("transaction_id", res.data.transaction_id)
+                        if (sessionStorage.getItem("transfer_data")) {
+                            local = JSON.parse(sessionStorage.getItem("transfer_data"))
                         }
                         local.amount = { ...values, send_amt: commaRemover(values.send_amt), exchange_amt: commaRemover(values.exchange_amt), exchange_rate: exch_rate, defaultExchange: defaultExchange }
                         handleAmtDetail({ ...values, send_amt: commaRemover(values.send_amt), exchange_amt: commaRemover(values.exchange_amt), payout_part: values.part_type !== "other" ? values.part_type : values.payout_part })
-                        localStorage.setItem("transfer_data", JSON.stringify(local))
-                        if (localStorage.getItem("send-step")) {
-                            localStorage.removeItem("send-step")
+                        sessionStorage.setItem("transfer_data", JSON.stringify(local))
+                        if (sessionStorage.getItem("send-step")) {
+                            sessionStorage.removeItem("send-step")
                         }
-                        localStorage.setItem("send-step", Number(step) + 1)
+                        sessionStorage.setItem("send-step", Number(step) + 1)
                         handleStep(Number(step) + 1)
                     }
                 })
@@ -243,8 +243,8 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
     }
 
     const handleClear = () => {
-        localStorage.removeItem("transfer_data")
-        localStorage.removeItem("send-step")
+        sessionStorage.removeItem("transfer_data")
+        sessionStorage.removeItem("send-step")
         window.location.reload(true)
     }
 
@@ -272,8 +272,8 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
     }
 
     useEffect(() => {
-        if (localStorage.getItem("transfer_data")) {
-            let tdata = JSON.parse(localStorage.getItem("transfer_data"))
+        if (sessionStorage.getItem("transfer_data")) {
+            let tdata = JSON.parse(sessionStorage.getItem("transfer_data"))
             if (tdata?.amount) {
                 setAmtDetail({ ...tdata?.amount, recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || null, send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
                 formik.setValues({ ...tdata?.amount, recieve_meth: tdata?.amount?.recieve_meth || "Bank Transfer", part_type: tdata?.amount?.part_type || null, send_amt: commaSeperator(tdata?.amount?.send_amt), exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
@@ -281,7 +281,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                 setDefaultExchange(tdata?.amount?.defaultExchange)
             }
         } else {
-            let data = JSON.parse(localStorage?.getItem("exchange_curr"))
+            let data = JSON.parse(sessionStorage?.getItem("exchange_curr"))
             setAmtDetail({ ...amt_detail, send_amt: "", exchange_amt: "", recieve_meth: "Bank Transfer", part_type: null, from_type: data?.from_type, to_type: data?.to_type })
             setExchRate(data?.exch_rate)
             setDefaultExchange(data?.defaultExchange)

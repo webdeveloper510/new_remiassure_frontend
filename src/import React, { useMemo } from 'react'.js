@@ -19,7 +19,7 @@
 //     const [state_list, setStateList] = useState([])
 //     const [loader, setLoader] = useState(false)
 //     const [postal_list, setPostalList] = useState([])
-//     const verificationValue = localStorage.getItem("DigitalCode")
+//     const verificationValue = sessionStorage.getItem("DigitalCode")
 //     const { is_digital_Id_verified } = JSON.parse(sessionStorage.getItem("remi-user-dt"))
 //     const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
@@ -27,7 +27,7 @@
 //     const div_url = process.env.REACT_APP_DIV_URL
 //     const div_id = process.env.REACT_APP_DIV_ID
 
-//     let localdata = JSON.parse(localStorage.getItem("transfer_data"))
+//     let localdata = JSON.parse(sessionStorage.getItem("transfer_data"))
 
 //     const [data, setData] = useState(localdata?.sender ? localdata?.sender : {
 //         f_name: "", m_name: "", l_name: "",
@@ -65,9 +65,9 @@
 //     })
 
 //     const updateTransaction = (data) => {
-//         let storage = JSON.parse(localStorage.getItem('transfer_data'))
+//         let storage = JSON.parse(sessionStorage.getItem('transfer_data'))
 //         let payload = {
-//             transaction_id: localStorage.getItem("transaction_id"),
+//             transaction_id: sessionStorage.getItem("transaction_id"),
 //             amount: {
 //                 send_amount: storage?.amount?.send_amt,
 //                 receive_amount: storage?.amount?.exchange_amt,
@@ -78,7 +78,7 @@
 //                 payout_partner: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type,
 //                 exchange_rate: storage?.amount?.exchange_rate
 //             },
-//             recipient_id: localStorage.getItem("rid"),
+//             recipient_id: sessionStorage.getItem("rid"),
 //             sender: {
 //                 First_name: data?.First_name,
 //                 Last_name: data?.Last_name,
@@ -105,11 +105,11 @@
 //         initialValues,
 //         validationSchema: senderSchema,
 //         onSubmit: async (values) => {
-//             const local = JSON.parse(localStorage.getItem("transfer_data"))
+//             const local = JSON.parse(sessionStorage.getItem("transfer_data"))
 //             const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
 //             local.sender = { ...values, email: user.email, customer_id: user.customer_id, mobile: user.mobile, country_code: data.country_code }
-//             localStorage.removeItem("transfer_data")
-//             localStorage.setItem("transfer_data", JSON.stringify(local))
+//             sessionStorage.removeItem("transfer_data")
+//             sessionStorage.setItem("transfer_data", JSON.stringify(local))
 //             let d = {
 //                 First_name: formik.values.f_name, Middle_name: formik.values.m_name, Last_name: formik.values.l_name,
 //                 Gender: "Male", Country_of_birth: values.country_of_birth,
@@ -195,10 +195,10 @@
 //                 },
 //                 onComplete: function (res) {
 //                     if (res.code != undefined || null) {
-//                         if (localStorage.getItem("send-step")) {
-//                             localStorage.removeItem("send-step")
+//                         if (sessionStorage.getItem("send-step")) {
+//                             sessionStorage.removeItem("send-step")
 //                         }
-//                         localStorage.setItem("send-step", Number(step) + 1)
+//                         sessionStorage.setItem("send-step", Number(step) + 1)
 //                         handleStep(Number(step) + 1)
 //                         formik.handleSubmit()
 //                         axios.post(`${serverUrl}/digital-verification/`, { code: res.code }, {
@@ -314,26 +314,26 @@
 //     }
 
 //     const handleClear = () => {
-//         localStorage.removeItem("transfer_data")
-//         localStorage.removeItem("send-step")
-//         localStorage.removeItem("DigitalCode")
+//         sessionStorage.removeItem("transfer_data")
+//         sessionStorage.removeItem("send-step")
+//         sessionStorage.removeItem("DigitalCode")
 //         window.location.reload(true)
 //     }
 
 
 //     const handlePrevious = () => {
-//         if (localStorage.getItem("send-step")) {
-//             localStorage.removeItem("send-step")
+//         if (sessionStorage.getItem("send-step")) {
+//             sessionStorage.removeItem("send-step")
 //         }
-//         localStorage.setItem("send-step", Number(step) - 1)
+//         sessionStorage.setItem("send-step", Number(step) - 1)
 //         handleStep(Number(step) - 1)
 //     }
 
 //     const handleContinue = () => {
-//         if (localStorage.getItem("send-step")) {
-//             localStorage.removeItem("send-step")
+//         if (sessionStorage.getItem("send-step")) {
+//             sessionStorage.removeItem("send-step")
 //         }
-//         localStorage.setItem("send-step", Number(step) + 1)
+//         sessionStorage.setItem("send-step", Number(step) + 1)
 //         handleStep(Number(step) + 1)
 //         formik.handleSubmit()
 //     }

@@ -38,8 +38,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
 
 
   useEffect(() => {
-    if (localStorage.getItem("transfer_data")) {
-      let tdata = JSON.parse(localStorage.getItem("transfer_data"))
+    if (sessionStorage.getItem("transfer_data")) {
+      let tdata = JSON.parse(sessionStorage.getItem("transfer_data"))
       if (tdata?.recipient) {
         setData(tdata?.recipient)
         formik.setValues({ ...tdata?.recipient })
@@ -144,9 +144,9 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   }
 
   const updateTransaction = (id) => {
-    let storage = JSON.parse(localStorage.getItem('transfer_data'))
+    let storage = JSON.parse(sessionStorage.getItem('transfer_data'))
     let payload = {
-      transaction_id: localStorage.getItem("transaction_id"),
+      transaction_id: sessionStorage.getItem("transaction_id"),
       amount: {
         send_amount: storage?.amount?.send_amt,
         receive_amount: storage?.amount?.exchange_amt,
@@ -161,16 +161,16 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     }
     createTransaction(payload).then(res => {
       if (res.code === "200") {
-        localStorage.setItem("transaction_id", res.data.transaction_id)
-        const local = JSON.parse(localStorage.getItem("transfer_data"))
+        sessionStorage.setItem("transaction_id", res.data.transaction_id)
+        const local = JSON.parse(sessionStorage.getItem("transfer_data"))
         local.recipient = { ...data }
         local.amount = { ...local.amount, part_type: data.bank, payout_part: data.other_name }
-        localStorage.removeItem("transfer_data")
-        localStorage.setItem("transfer_data", JSON.stringify(local))
-        if (localStorage.getItem("send-step")) {
-          localStorage.removeItem("send-step")
+        sessionStorage.removeItem("transfer_data")
+        sessionStorage.setItem("transfer_data", JSON.stringify(local))
+        if (sessionStorage.getItem("send-step")) {
+          sessionStorage.removeItem("send-step")
         }
-        localStorage.setItem("send-step", Number(step) + 1)
+        sessionStorage.setItem("send-step", Number(step) + 1)
         handleStep(Number(step) + 1)
       }
     })
@@ -178,7 +178,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   }
 
   const handleReciept = (e) => {
-    let storage = JSON.parse(localStorage.getItem('transfer_data'))
+    let storage = JSON.parse(sessionStorage.getItem('transfer_data'))
     let d = {
       bank_name: data.bank === "other" ? data.other_name : data.bank
       , account_name: data.acc_name, account_number: data.acc_no,
@@ -196,8 +196,8 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     if (d.postcode === "" || d.postcode === undefined) {
       delete d['postcode'];
     }
-    if (localStorage.getItem("rid")) {
-      var id = localStorage.getItem("rid")
+    if (sessionStorage.getItem("rid")) {
+      var id = sessionStorage.getItem("rid")
       updateUserRecipient(id, d).then(res => {
         if (res.code === "200") {
           updateTransaction(id)
@@ -208,7 +208,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
     } else {
       createRecipient(d).then(res => {
         if (res.code === "200") {
-          localStorage.setItem("rid", res.data.id)
+          sessionStorage.setItem("rid", res.data.id)
           updateTransaction(res.data.id)
         }
         else {
@@ -219,16 +219,16 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
   }
 
   const handlePrevious = () => {
-    if (localStorage.getItem("send-step")) {
-      localStorage.removeItem("send-step")
+    if (sessionStorage.getItem("send-step")) {
+      sessionStorage.removeItem("send-step")
     }
-    localStorage.setItem("send-step", Number(step) - 1)
+    sessionStorage.setItem("send-step", Number(step) - 1)
     handleStep(Number(step) - 1)
   }
 
   const handleCancel = () => {
-    localStorage.removeItem("transfer_data")
-    localStorage.removeItem("send-step")
+    sessionStorage.removeItem("transfer_data")
+    sessionStorage.removeItem("send-step")
     window.location.reload(true)
   }
 

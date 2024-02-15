@@ -61,15 +61,15 @@ const SenderDetails = ({ handleStep, step }) => {
         initialValues,
         validationSchema: senderSchema,
         onSubmit: async (values) => {
-            const local = JSON.parse(localStorage.getItem("transfer_data"))
+            const local = JSON.parse(sessionStorage.getItem("transfer_data"))
             const user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
             local.sender = { ...values, email: user.email, customer_id: user.customer_id, mobile: user.mobile, country_code: data.country_code }
-            localStorage.removeItem("transfer_data")
-            localStorage.setItem("transfer_data", JSON.stringify(local))
-            if (localStorage.getItem("send-step")) {
-                localStorage.removeItem("send-step")
+            sessionStorage.removeItem("transfer_data")
+            sessionStorage.setItem("transfer_data", JSON.stringify(local))
+            if (sessionStorage.getItem("send-step")) {
+                sessionStorage.removeItem("send-step")
             }
-            localStorage.setItem("send-step", Number(step) + 1)
+            sessionStorage.setItem("send-step", Number(step) + 1)
             handleStep(Number(step) + 1)
         }
     })
@@ -81,8 +81,8 @@ const SenderDetails = ({ handleStep, step }) => {
     const countryOptions = useMemo(() => birthCountryList().getData(), [])
 
     useEffect(() => {
-        if (localStorage.getItem("transfer_data")) {
-            let tdata = JSON.parse(localStorage.getItem("transfer_data"))
+        if (sessionStorage.getItem("transfer_data")) {
+            let tdata = JSON.parse(sessionStorage.getItem("transfer_data"))
             if (tdata?.sender) {
                 setData(tdata?.sender)
                 formik.setValues({ ...tdata?.sender })
@@ -265,9 +265,9 @@ const SenderDetails = ({ handleStep, step }) => {
     }
 
     const handleClear = () => {
-        localStorage.removeItem("transfer_data")
-        localStorage.removeItem("send-step")
-        localStorage.removeItem("DigitalCode")
+        sessionStorage.removeItem("transfer_data")
+        sessionStorage.removeItem("send-step")
+        sessionStorage.removeItem("DigitalCode")
         window.location.reload(true)
     }
 

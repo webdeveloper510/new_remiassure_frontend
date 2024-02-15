@@ -19,14 +19,14 @@ const SingleCardProfile = () => {
   /*********************Start page show hide condtion page ****************************/
   const token = sessionStorage.getItem("token");
 
-  const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
+  const LoginDigitalidVerified = sessionStorage.getItem("LoginDigitalidVerified");
 
-  const verification_otp = localStorage.getItem("verification_otp");
+  const verification_otp = sessionStorage.getItem("verification_otp");
 
-  const RecipientUserName = localStorage.getItem("RecipientUserName");
-  const signup_token = localStorage.getItem("signup_token")
+  const RecipientUserName = sessionStorage.getItem("RecipientUserName");
+  const signup_token = sessionStorage.getItem("signup_token")
 
-  const DigitalCode = localStorage.getItem("DigitalCode");
+  const DigitalCode = sessionStorage.getItem("DigitalCode");
 
 
 

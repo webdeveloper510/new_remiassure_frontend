@@ -73,7 +73,7 @@ const Profile = () => {
   const token = sessionStorage.getItem("token");
   //  console.log("TOKEN", token);
 
-  const verification_otp = localStorage.getItem("verification_otp");
+  const verification_otp = sessionStorage.getItem("verification_otp");
   //  console.log("Verification Message", verification_otp)
 
 

@@ -30,19 +30,19 @@ const EditCardUser = () => {
   const token = sessionStorage.getItem("token");
   // console.log("TOKEN", token);
 
-  const LoginDigitalidVerified = localStorage.getItem("LoginDigitalidVerified");
+  const LoginDigitalidVerified = sessionStorage.getItem("LoginDigitalidVerified");
   // console.log("LoginDigitalidVerified", LoginDigitalidVerified)
 
-  const signup_token = localStorage.getItem("signup_token")
+  const signup_token = sessionStorage.getItem("signup_token")
   // console.log("signup_token", signup_token);
 
-  const verification_otp = localStorage.getItem("verification_otp");
+  const verification_otp = sessionStorage.getItem("verification_otp");
   // console.log("Verification Message", verification_otp)
 
-  const RecipientUserName = localStorage.getItem("RecipientUserName");
+  const RecipientUserName = sessionStorage.getItem("RecipientUserName");
   // console.log("RecipientUserName", RecipientUserName);
 
-  const DigitalCode = localStorage.getItem("DigitalCode");
+  const DigitalCode = sessionStorage.getItem("DigitalCode");
   // console.log("DigitalCode", DigitalCode);
 
 

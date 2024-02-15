@@ -271,7 +271,7 @@ const Profile = () => {
       if (res.code === "200") {
         let user = JSON.parse(sessionStorage.getItem("remi-user-dt"))
         let local = { ...res.data, is_digital_Id_verified: user?.is_digital_Id_verified }
-        localStorage.removeItem("remi-user-dt")
+        sessionStorage.removeItem("remi-user-dt")
         sessionStorage.setItem("remi-user-dt", JSON.stringify(local))
         setLoading(false)
         toast.success("Profile Update Successful", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })

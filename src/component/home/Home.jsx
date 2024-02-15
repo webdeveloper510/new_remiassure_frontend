@@ -172,10 +172,10 @@ const Home = () => {
 
                 exchangeRate({ amount: object.send_amt, from: object.from_type, to: object.to_type, paymentMethod: object.recieve_meth, direction: "from" }).then((res) => {
                     setLoading(false)
-                    if (localStorage.getItem("transfer_data")) {
-                        localStorage.removeItem("transfer_data")
+                    if (sessionStorage.getItem("transfer_data")) {
+                        sessionStorage.removeItem("transfer_data")
                     }
-                    localStorage.setItem("transfer_data", JSON.stringify({
+                    sessionStorage.setItem("transfer_data", JSON.stringify({
                         amount: {
                             send_amt: commaRemover(object.send_amt),
                             exchange_amt: object.send_amt !== "" ? commaRemover(res?.amount) : "",
@@ -187,7 +187,7 @@ const Home = () => {
                             defaultExchange: object.send_amt !== "" ? res?.default_exchange : defaultExchange
                         }
                     }))
-                    localStorage.setItem("conversion_data", JSON.stringify({
+                    sessionStorage.setItem("conversion_data", JSON.stringify({
                         amount: {
                             send_amt: commaRemover(object.send_amt),
                             exchange_amt: object.send_amt !== "" ? commaRemover(res?.amount) : "",
@@ -218,10 +218,10 @@ const Home = () => {
                     setLoading(false)
                 })
             } else {
-                if (localStorage.getItem("transfer_data")) {
-                    localStorage.removeItem("transfer_data")
+                if (sessionStorage.getItem("transfer_data")) {
+                    sessionStorage.removeItem("transfer_data")
                 }
-                localStorage.setItem("transfer_data", JSON.stringify({
+                sessionStorage.setItem("transfer_data", JSON.stringify({
                     amount: {
                         send_amt: object.send_amt,
                         exchange_amt: object?.exchange_amt,
@@ -233,7 +233,7 @@ const Home = () => {
                         defaultExchange: defaultExchange
                     }
                 }))
-                localStorage.setItem("conversion_data", JSON.stringify({
+                sessionStorage.setItem("conversion_data", JSON.stringify({
                     amount: {
                         send_amt: object.send_amt,
                         exchange_amt: object?.exchange_amt,
@@ -262,13 +262,13 @@ const Home = () => {
     })
 
     useEffect(() => {
-        if (localStorage.getItem("conversion_data") && reset === false) {
-            const tdata = JSON.parse(localStorage.getItem("conversion_data"))
+        if (sessionStorage.getItem("conversion_data") && reset === false) {
+            const tdata = JSON.parse(sessionStorage.getItem("conversion_data"))
             formik.setValues({ send_amt: commaSeperator(tdata?.amount?.send_amt), from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, recieve_meth: tdata?.amount?.recieve_meth, exchange_amt: commaSeperator(tdata?.amount?.exchange_amt) })
             setTotal_rates(tdata?.amount?.exchange_rate)
             setDefaultExchange(tdata?.amount?.defaultExchange)
             let obj = { send_amt: tdata?.amount?.send_amt, from_type: tdata?.amount?.from_type, to_type: tdata?.amount?.to_type, exchange_amt: tdata?.amount?.exchange_amt, exch_rate: tdata?.amount?.exchange_rate, defaultExchange: tdata?.amount?.defaultExchange }
-            localStorage.setItem("exchange_curr", JSON.stringify(obj))
+            sessionStorage.setItem("exchange_curr", JSON.stringify(obj))
         } else {
             let login = sessionStorage.getItem("token")
             setReset(false)
@@ -280,19 +280,19 @@ const Home = () => {
                             exchangeRate({ amount: "100", from: types.source_currency, to: types.destination_currency, direction: "from" }).then(res => {
                                 setTotal_rates(res.rate)
                                 setDefaultExchange(res?.default_exchange)
-                                localStorage.removeItem("exchange_curr")
+                                sessionStorage.removeItem("exchange_curr")
                                 formik.setValues({ send_amt: "", exchange_amt: "", from_type: types.source_currency, to_type: types.destination_currency })
                                 let obj = { send_amt: "100", from_type: types.source_currency, to_type: types.destination_currency, exchange_amt: res.amount, exch_rate: res.rate, defaultExchange: res.default_exchange }
-                                localStorage.setItem("exchange_curr", JSON.stringify(obj))
+                                sessionStorage.setItem("exchange_curr", JSON.stringify(obj))
                             })
                         } else {
                             exchangeRate({ amount: "100", from: "AUD", to: "NGN", direction: "from" }).then(res => {
                                 setTotal_rates(res.rate)
                                 setDefaultExchange(res?.default_exchange)
-                                localStorage.removeItem("exchange_curr")
+                                sessionStorage.removeItem("exchange_curr")
                                 formik.setValues({ send_amt: "", exchange_amt: "", from_type: "AUD", to_type: "NGN" })
                                 let obj = { send_amt: "100", from_type: "AUD", to_type: "NGN", exchange_amt: res.amount, exch_rate: res.rate, defaultExchange: res.default_exchange }
-                                localStorage.setItem("exchange_curr", JSON.stringify(obj))
+                                sessionStorage.setItem("exchange_curr", JSON.stringify(obj))
                             })
                         }
                     }
@@ -301,10 +301,10 @@ const Home = () => {
                 exchangeRate({ amount: "100", from: "AUD", to: "NGN", direction: "from" }).then(res => {
                     setTotal_rates(res.rate)
                     setDefaultExchange(res.default_exchange)
-                    localStorage.removeItem("exchange_curr")
+                    sessionStorage.removeItem("exchange_curr")
                     formik.setValues({ send_amt: "", exchange_amt: "", from_type: "AUD", to_type: "NGN" })
                     let obj = { send_amt: "100", from_type: "AUD", to_type: "NGN", exchange_amt: res.amount, exch_rate: res.rate, defaultExchange: res?.default_exchange }
-                    localStorage.setItem("exchange_curr", JSON.stringify(obj))
+                    sessionStorage.setItem("exchange_curr", JSON.stringify(obj))
                 })
             }
         }
@@ -357,7 +357,7 @@ const Home = () => {
                 })
         } else {
             formik.setValues({ ...formik.values, exchange_amt: "" })
-            localStorage.removeItem("conversion_data")
+            sessionStorage.removeItem("conversion_data")
             setBlurOff(true)
         }
     }

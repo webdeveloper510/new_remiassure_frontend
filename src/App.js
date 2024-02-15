@@ -18,7 +18,6 @@ const App = () => {
 
   const onLogOut = () => {
     setLoader(true)
-    localStorage.clear()
     sessionStorage.clear()
     navigate("/login")
   }
@@ -48,8 +47,8 @@ const App = () => {
             let types = res.data
             exchangeRate({ amount: "100", from: types.source_currency, to: types.destination_currency, direction: "from" }).then(res => {
               const data = { send_amt: "100", exchange_amt: res.amount, from_type: types.source_currency, to_type: types.destination_currency, exch_rate: res.rate, defaultExchange: res.default_exchange }
-              localStorage.removeItem("exchange_curr")
-              localStorage.setItem("exchange_curr", JSON.stringify(data))
+              sessionStorage.removeItem("exchange_curr")
+              sessionStorage.setItem("exchange_curr", JSON.stringify(data))
             })
           }
         }
@@ -57,17 +56,17 @@ const App = () => {
     } else {
       exchangeRate({ amount: "100", from: "AUD", to: "NGN", direction: "from" }).then(res => {
         const data = { send_amt: "100", exchange_amt: res.amount, from_type: "AUD", to_type: "NGN", exch_rate: res.rate, defaultExchange: res.default_exchange }
-        localStorage.removeItem("exchange_curr")
-        localStorage.setItem("exchange_curr", JSON.stringify(data))
+        sessionStorage.removeItem("exchange_curr")
+        sessionStorage.setItem("exchange_curr", JSON.stringify(data))
       })
     }
 
-    // let expTime = localStorage.getItem("tkn-exp");
+    // let expTime = sessionStorage.getItem("tkn-exp");
 
     // if (expTime) {
     //   var d = new Date();
     //   if (d == expTime) {
-    //     localStorage.clear()
+    //     sessionStorage.clear()
     //     sessionStorage.clear()
     //     navigate("/login")
     //     window.location.reload()
@@ -89,7 +88,7 @@ const App = () => {
     // console.log(window.dataLayer)
     // fbq('track', 'PageView');
     getReferralAmount().then(res => {
-      localStorage.setItem("ref-x-2-rem", JSON.stringify({ rt: res?.data?.referred_to_amount || 25, rb: res?.data?.referred_by_amount || 50 }))
+      sessionStorage.setItem("ref-x-2-rem", JSON.stringify({ rt: res?.data?.referred_to_amount || 25, rb: res?.data?.referred_by_amount || 50 }))
     })
 
 

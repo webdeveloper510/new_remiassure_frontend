@@ -99,10 +99,10 @@ const BankDetails = ({ handleStep, step }) => {
     initialValues,
     validationSchema: bankSchema,
     onSubmit: async (values) => {
-      let storage = JSON.parse(localStorage.getItem("transfer_data"))
+      let storage = JSON.parse(sessionStorage.getItem("transfer_data"))
       storage.amount.part_type = values?.bank;
       storage.amount.payout_part = values?.other_name
-      localStorage.setItem("transfer_data", JSON.stringify(storage))
+      sessionStorage.setItem("transfer_data", JSON.stringify(storage))
       setLoading(true)
       const d = {
         bank_name: values.bank === "other" ? values?.other_name : values.bank,
@@ -163,7 +163,7 @@ const BankDetails = ({ handleStep, step }) => {
   })
 
   useEffect(() => {
-    let storage = JSON.parse(localStorage.getItem("transfer_data"))
+    let storage = JSON.parse(sessionStorage.getItem("transfer_data"))
     if (storage?.amount) {
       setData({ ...data, bank: storage?.amount?.part_type, other_name: storage?.amount?.payout_part })
       formik.setValues({ ...formik.values, bank: storage?.amount?.part_type, other_name: storage?.amount?.payout_part })
@@ -264,14 +264,14 @@ const BankDetails = ({ handleStep, step }) => {
   }
 
   const handlePrevious = () => {
-    localStorage.removeItem("send-step")
-    localStorage.setItem("send-step", Number(step) - 1)
+    sessionStorage.removeItem("send-step")
+    sessionStorage.setItem("send-step", Number(step) - 1)
     handleStep(Number(step) - 1);
   }
 
   const handleClear = () => {
-    localStorage.removeItem("transfer_data")
-    localStorage.removeItem("send-step")
+    sessionStorage.removeItem("transfer_data")
+    sessionStorage.removeItem("send-step")
     window.location.reload()
   }
 
@@ -294,9 +294,9 @@ const BankDetails = ({ handleStep, step }) => {
 
   const nextStep = () => {
     const value = display_confirm?.data?.recipient
-    let storage = JSON.parse(localStorage.getItem('transfer_data'))
+    let storage = JSON.parse(sessionStorage.getItem('transfer_data'))
     let payload = {
-      transaction_id: localStorage.getItem("transaction_id"),
+      transaction_id: sessionStorage.getItem("transaction_id"),
       amount: {
         send_amount: storage?.amount?.send_amt,
         receive_amount: storage?.amount?.exchange_amt,
@@ -311,25 +311,25 @@ const BankDetails = ({ handleStep, step }) => {
     }
     createTransaction(payload).then(res => {
       if (res.code === "200") {
-        localStorage.setItem("transaction_id", res.data.transaction_id)
-        localStorage.setItem("rid", value.id)
-        const local = JSON.parse(localStorage.getItem("transfer_data"))
-        localStorage.removeItem("transfer_data")
+        sessionStorage.setItem("transaction_id", res.data.transaction_id)
+        sessionStorage.setItem("rid", value.id)
+        const local = JSON.parse(sessionStorage.getItem("transfer_data"))
+        sessionStorage.removeItem("transfer_data")
         local.recipient = { ...value, bank_name: storage?.amount?.part_type === "other" ? storage?.amount?.payout_part : storage?.amount?.part_type }
-        localStorage.setItem("transfer_data", JSON.stringify(local))
+        sessionStorage.setItem("transfer_data", JSON.stringify(local))
 
-        if (localStorage.getItem("send-step")) {
-          localStorage.removeItem("send-step")
+        if (sessionStorage.getItem("send-step")) {
+          sessionStorage.removeItem("send-step")
         }
-        localStorage.setItem("send-step", Number(step) + 1)
+        sessionStorage.setItem("send-step", Number(step) + 1)
         handleStep(Number(step) + 1);
       }
     })
   }
 
   const selectRecipient = (value) => {
-    let storage = JSON.parse(localStorage.getItem("transfer_data"))
-    let transaction_id = localStorage.getItem("transaction_id")
+    let storage = JSON.parse(sessionStorage.getItem("transfer_data"))
+    let transaction_id = sessionStorage.getItem("transaction_id")
     setDisplayConfirm({ toggle: true, data: { amount: storage?.amount, recipient: value } })
     // getDiscountedPrice(transaction_id).then(res => {
     //   setDiscounts(res.data)

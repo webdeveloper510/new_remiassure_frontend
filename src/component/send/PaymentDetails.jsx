@@ -69,7 +69,7 @@ const PaymentDetails = ({ handleStep, step }) => {
           toast.warn("THIS PAYMENT OPTION IS CURRENTLY UNAVAILABLE", { hideProgressBar: true, autoClose: 500, position: "bottom-right" })
         } else if (data.payment_type === "PayByID") {
           setLoader(true)
-          let transaction_id = localStorage.getItem("transaction_id")
+          let transaction_id = sessionStorage.getItem("transaction_id")
           createPayId({ transaction_id: transaction_id }).then((res) => {
             setLoader(false)
             if (res.code === "200") {
@@ -81,9 +81,9 @@ const PaymentDetails = ({ handleStep, step }) => {
         } else {
           setPayToModal(true)
         }
-        let local = JSON.parse(localStorage.getItem('transfer_data'))
+        let local = JSON.parse(sessionStorage.getItem('transfer_data'))
         let payload = {
-          transaction_id: localStorage.getItem("transaction_id"),
+          transaction_id: sessionStorage.getItem("transaction_id"),
           amount: {
             send_amount: local?.amount?.send_amt,
             receive_amount: local?.amount?.exchange_amt,
@@ -94,7 +94,7 @@ const PaymentDetails = ({ handleStep, step }) => {
             reason: data.reason !== "Other" ? data.reason : other_reason,
             exchange_rate: local?.amount?.exchange_rate
           },
-          recipient_id: localStorage.getItem("rid")
+          recipient_id: sessionStorage.getItem("rid")
         }
         createTransaction(payload)
       }
@@ -108,16 +108,16 @@ const PaymentDetails = ({ handleStep, step }) => {
   const stripePromise = loadStripe(`${stripe_key}`);
 
   const handlePrevious = () => {
-    if (localStorage.getItem("send-step")) {
-      localStorage.removeItem("send-step")
+    if (sessionStorage.getItem("send-step")) {
+      sessionStorage.removeItem("send-step")
     }
-    localStorage.setItem("send-step", Number(step) - 1)
+    sessionStorage.setItem("send-step", Number(step) - 1)
     handleStep(Number(step) - 1)
   }
 
   const handleCancel = () => {
-    localStorage.removeItem("transfer_data")
-    localStorage.removeItem("send-step")
+    sessionStorage.removeItem("transfer_data")
+    sessionStorage.removeItem("send-step")
     window.location.reload(true)
   }
 
@@ -279,14 +279,14 @@ const CheckoutForm = ({ payRef, method, step, handleStep, handleModal }) => {
     const token = await stripe.createToken(elements.getElement(CardElement))
     if (token.token) {
       handleModal()
-      const local = JSON.parse(localStorage.getItem("transfer_data"))
+      const local = JSON.parse(sessionStorage.getItem("transfer_data"))
       local.payment = { ...token, payment_type: method }
-      localStorage.removeItem("transfer_data")
-      localStorage.setItem("transfer_data", JSON.stringify(local))
-      if (localStorage.getItem("send-step")) {
-        localStorage.removeItem("send-step")
+      sessionStorage.removeItem("transfer_data")
+      sessionStorage.setItem("transfer_data", JSON.stringify(local))
+      if (sessionStorage.getItem("send-step")) {
+        sessionStorage.removeItem("send-step")
       }
-      localStorage.setItem("send-step", Number(step) + 1)
+      sessionStorage.setItem("send-step", Number(step) + 1)
       handleStep(Number(step) + 1)
     } else if (token.error.code === "card_declined") {
       toast.error("Card Declined", { position: "bottom-right", hideProgressBar: true, autoClose: 2000 })
@@ -313,14 +313,14 @@ const PayIDModal = ({ modal, handler, data, method, step, handleStep }) => {
 
   const submit = () => {
     handler({ toggle: false, id: null, payment_id: null })
-    const local = JSON.parse(localStorage.getItem("transfer_data"))
+    const local = JSON.parse(sessionStorage.getItem("transfer_data"))
     local.payment = { pay_id: data?.id, payment_id: data?.payment_id, payment_type: method }
-    localStorage.removeItem("transfer_data")
-    localStorage.setItem("transfer_data", JSON.stringify(local))
-    if (localStorage.getItem("send-step")) {
-      localStorage.removeItem("send-step")
+    sessionStorage.removeItem("transfer_data")
+    sessionStorage.setItem("transfer_data", JSON.stringify(local))
+    if (sessionStorage.getItem("send-step")) {
+      sessionStorage.removeItem("send-step")
     }
-    localStorage.setItem("send-step", Number(step) + 1)
+    sessionStorage.setItem("send-step", Number(step) + 1)
     handleStep(Number(step) + 1)
   }
 
@@ -472,18 +472,18 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
               setLoader(false)
               if (res.code === "200") {
                 setLoader(false)
-                const local = JSON.parse(localStorage.getItem("transfer_data"))
+                const local = JSON.parse(sessionStorage.getItem("transfer_data"))
                 local.payment = { agreement_uuid: res.data.agreement_uuid, payment_type: method }
-                localStorage.removeItem("transfer_data")
-                localStorage.setItem("transfer_data", JSON.stringify(local))
+                sessionStorage.removeItem("transfer_data")
+                sessionStorage.setItem("transfer_data", JSON.stringify(local))
                 toast.success(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
                 getAgreementList().then(res => {
                   if (res.code === "200") {
 
-                    if (localStorage.getItem("send-step")) {
-                      localStorage.removeItem("send-step")
+                    if (sessionStorage.getItem("send-step")) {
+                      sessionStorage.removeItem("send-step")
                     }
-                    localStorage.setItem("send-step", Number(step) + 1)
+                    sessionStorage.setItem("send-step", Number(step) + 1)
                     handleStep(Number(step) + 1)
 
                   }
@@ -504,14 +504,14 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
           } else {
             setLoader(false)
             handler(false)
-            const local = JSON.parse(localStorage.getItem("transfer_data"))
+            const local = JSON.parse(sessionStorage.getItem("transfer_data"))
             local.payment = { agreement_uuid: agreement_list?.agreement_uuid, payment_type: method }
-            localStorage.removeItem("transfer_data")
-            localStorage.setItem("transfer_data", JSON.stringify(local))
-            if (localStorage.getItem("send-step")) {
-              localStorage.removeItem("send-step")
+            sessionStorage.removeItem("transfer_data")
+            sessionStorage.setItem("transfer_data", JSON.stringify(local))
+            if (sessionStorage.getItem("send-step")) {
+              sessionStorage.removeItem("send-step")
             }
-            localStorage.setItem("send-step", Number(step) + 1)
+            sessionStorage.setItem("send-step", Number(step) + 1)
             handleStep(Number(step) + 1)
           }
         } else {
@@ -547,22 +547,22 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
               d.pay_id = pay_id
             }
           }
-          let local = JSON.parse(localStorage.getItem("transfer_data"));
+          let local = JSON.parse(sessionStorage.getItem("transfer_data"));
           setLoader(true)
           createAgreement(d).then(res => {
             if (res.code === "200") {
               setLoader(false)
               handler(false)
-              const local = JSON.parse(localStorage.getItem("transfer_data"))
+              const local = JSON.parse(sessionStorage.getItem("transfer_data"))
               local.payment = { agreement_uuid: res.data.agreement_uuid, payment_type: method }
-              localStorage.removeItem("transfer_data")
-              localStorage.setItem("transfer_data", JSON.stringify(local))
+              sessionStorage.removeItem("transfer_data")
+              sessionStorage.setItem("transfer_data", JSON.stringify(local))
               toast.success(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
               getAgreementList().then(res => {
-                if (localStorage.getItem("send-step")) {
-                  localStorage.removeItem("send-step")
+                if (sessionStorage.getItem("send-step")) {
+                  sessionStorage.removeItem("send-step")
                 }
-                localStorage.setItem("send-step", Number(step) + 1)
+                sessionStorage.setItem("send-step", Number(step) + 1)
                 handleStep(Number(step) + 1)
               })
             } else if (res.code === "400") {
@@ -583,7 +583,7 @@ const PayToModal = ({ modal, method, handler, handleStep, step }) => {
   })
 
   const payIdRef = useRef()
-  let local = JSON.parse(localStorage.getItem("transfer_data"))
+  let local = JSON.parse(sessionStorage.getItem("transfer_data"))
 
   useEffect(() => {
     if (values.pay_id === "" && values.account_number === "" && values.bsb === "") {
@@ -1104,10 +1104,10 @@ const ErrorModal = ({ show, handler, handleStep, step }) => {
   const handleContinue = () => {
     clearInterval(timer)
     handler(false)
-    if (localStorage.getItem("send-step")) {
-      localStorage.removeItem("send-step")
+    if (sessionStorage.getItem("send-step")) {
+      sessionStorage.removeItem("send-step")
     }
-    localStorage.setItem("send-step", Number(step) + 1)
+    sessionStorage.setItem("send-step", Number(step) + 1)
     handleStep(Number(step) + 1)
   }
 

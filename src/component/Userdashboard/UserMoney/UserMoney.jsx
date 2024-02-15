@@ -19,9 +19,9 @@ const SendMoney = () => {
     useEffect(() => {
         pendingTransactions().then(res => {
             if (res.code === "200") {
-                localStorage.setItem("transaction_id", res.data[0].transaction_id)
+                sessionStorage.setItem("transaction_id", res.data[0].transaction_id)
                 if (res?.data[0]?.recipient) {
-                    localStorage.setItem("rid", res?.data[0]?.recipient)
+                    sessionStorage.setItem("rid", res?.data[0]?.recipient)
                 }
             }
         })
@@ -33,7 +33,7 @@ const SendMoney = () => {
             left: 0,
             behavior: "instant"
         })
-        localStorage.setItem("send-step", step)
+        sessionStorage.setItem("send-step", step)
     }, [step])
 
     useEffect(() => {

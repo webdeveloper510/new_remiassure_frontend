@@ -52,9 +52,9 @@ const SendMoney = () => {
     } else {
       pendingTransactions().then(res => {
         if (res.code === "200") {
-          localStorage.setItem("transaction_id", res.data[0].transaction_id)
+          sessionStorage.setItem("transaction_id", res.data[0].transaction_id)
           if (res?.data[0]?.recipient) {
-            localStorage.setItem("rid", res?.data[0]?.recipient)
+            sessionStorage.setItem("rid", res?.data[0]?.recipient)
           }
         }
       })
@@ -67,8 +67,8 @@ const SendMoney = () => {
       left: 0,
       behavior: "instant"
     })
-    if (localStorage.getItem("transfer_data")) {
-      const local = JSON.parse(localStorage.getItem("transfer_data"))
+    if (sessionStorage.getItem("transfer_data")) {
+      const local = JSON.parse(sessionStorage.getItem("transfer_data"))
       if (local?.amount) {
         setAmtDetail({
           ...local.amount,
@@ -102,8 +102,8 @@ const SendMoney = () => {
   //     e.preventDefault();
   //     e.returnValue = ''
   //     let data = {
-  //       transfer_data: localStorage.getItem("transfer_data"),
-  //       step: localStorage.getItem("send-step")
+  //       transfer_data: sessionStorage.getItem("transfer_data"),
+  //       step: sessionStorage.getItem("send-step")
   //     }
   //   }
   // })

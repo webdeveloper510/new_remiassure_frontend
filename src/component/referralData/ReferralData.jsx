@@ -86,7 +86,7 @@ const ReferralData = () => {
         })
             .then(function (response) {
                 // console.log(response);
-                // localStorage.setItem("signup_message", response.data.msg);
+                // sessionStorage.setItem("signup_message", response.data.msg);
                 // setShow(!show)
                 setLoading(false); // Stop loading
                 notify();

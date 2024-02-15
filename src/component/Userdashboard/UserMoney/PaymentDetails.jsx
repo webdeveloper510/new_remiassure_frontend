@@ -48,7 +48,7 @@ const PaymentDetails = ({ handleStep, step }) => {
   const [other_reason, setOtherReason] = useState("")
   const [error_other, setErrorOther] = useState(false)
   const [display_confirm, setDisplayConfirm] = useState({ toggle: false, data: null })
-  let local = JSON.parse(localStorage.getItem("transfer_data"))
+  let local = JSON.parse(sessionStorage.getItem("transfer_data"))
   const [display_value, setDisplayValue] = useState({ amount: local?.amount?.send_amt || "", currency: local?.amount?.from_type || "", first_name: local?.recipient?.first_name || "", last_name: local?.recipient?.last_name || "" })
   const [show_payid_inst, setShowIDinst] = useState(false)
   const [show_payto_inst, setShowToinst] = useState(false)
@@ -104,8 +104,8 @@ const PaymentDetails = ({ handleStep, step }) => {
           toast.warn("THIS PAYMENT OPTION IS CURRENTLY UNAVAILABLE", { hideProgressBar: true, autoClose: 500, position: "bottom-right" })
         } else if (data.payment_type === "PayByID") {
           setLoader(true)
-          let local = JSON.parse(localStorage.getItem("transfer_data"))
-          let transaction_id = localStorage.getItem("transaction_id")
+          let local = JSON.parse(sessionStorage.getItem("transfer_data"))
+          let transaction_id = sessionStorage.getItem("transaction_id")
           let d = {}
           if (transaction_id) {
             d = {
@@ -166,7 +166,7 @@ const PaymentDetails = ({ handleStep, step }) => {
           if (d?.sender_address?.flat === "" || d?.sender_address?.flat === null || d?.sender_address?.flat === undefined) {
             delete d?.sender_address?.flat
           }
-          createPayId({ transaction_id: localStorage.getItem("transaction_id") }).then((res) => {
+          createPayId({ transaction_id: sessionStorage.getItem("transaction_id") }).then((res) => {
             setLoader(false)
             if (res.code === "200") {
               setPayIdModal({ toggle: true, id: res.data.payid, payment_id: res.data.transaction_id })
@@ -177,9 +177,9 @@ const PaymentDetails = ({ handleStep, step }) => {
         } else {
           setPayToModal(true)
         }
-        let storage = JSON.parse(localStorage.getItem('transfer_data'))
+        let storage = JSON.parse(sessionStorage.getItem('transfer_data'))
         let payload = {
-          transaction_id: localStorage.getItem("transaction_id"),
+          transaction_id: sessionStorage.getItem("transaction_id"),
           amount: {
             send_amount: storage?.amount?.send_amt,
             receive_amount: storage?.amount?.exchange_amt,
@@ -204,15 +204,15 @@ const PaymentDetails = ({ handleStep, step }) => {
     setIsOtpVerfied(value)
   }
   const handleCancel = () => {
-    localStorage.removeItem("send-step")
-    localStorage.removeItem("transfer_data")
-    localStorage.removeItem("reason")
+    sessionStorage.removeItem("send-step")
+    sessionStorage.removeItem("transfer_data")
+    sessionStorage.removeItem("reason")
     window.location.reload()
   }
 
   const handlePrevious = () => {
-    localStorage.removeItem("send-step")
-    localStorage.setItem("send-step", Number(step) - 1)
+    sessionStorage.removeItem("send-step")
+    sessionStorage.setItem("send-step", Number(step) - 1)
     handleStep(Number(step) - 1);
   }
 
@@ -222,7 +222,7 @@ const PaymentDetails = ({ handleStep, step }) => {
   }
 
   const OpenConfirmation = (value) => {
-    let storage = JSON.parse(localStorage.getItem("transfer_data"))
+    let storage = JSON.parse(sessionStorage.getItem("transfer_data"))
     // console.log(data)
     setDisplayConfirm({ toggle: true, data: { amount: storage?.amount, recipient: storage?.recipient, receive_method: data?.payment_type, reason: data?.reason === "Other" ? other_reason : data.reason, pay_id: value } })
   }
@@ -233,7 +233,7 @@ const PaymentDetails = ({ handleStep, step }) => {
         setUserData(res.data)
       }
     })
-    let transaction_id = localStorage.getItem("transaction_id")
+    let transaction_id = sessionStorage.getItem("transaction_id")
     // getDiscountedPrice(transaction_id).then(res => {
     //   setDiscounts(res.data)
     // })
@@ -241,7 +241,7 @@ const PaymentDetails = ({ handleStep, step }) => {
 
   useEffect(() => {
     if (is_otp_verified) {
-      const local = JSON.parse(localStorage.getItem("transfer_data"))
+      const local = JSON.parse(sessionStorage.getItem("transfer_data"))
 
       if (data.payment_type === "PayByID" || data.payment_type === "PayTo") {
         setLoader(true)
@@ -252,14 +252,14 @@ const PaymentDetails = ({ handleStep, step }) => {
             if (res.code === "200") {
               setTransaction({ id: res.data.transaction_id, pay_id: pay_id_data.id, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type, type: "pay_id" })
               setDiscounts({ final_amount: res.data.final_amount })
-              localStorage.removeItem("transfer_data")
+              sessionStorage.removeItem("transfer_data")
               sessionStorage.removeItem("discApp")
-              localStorage.removeItem("conversion_data")
-              if (localStorage.getItem("send-step")) {
-                localStorage.removeItem("send-step")
+              sessionStorage.removeItem("conversion_data")
+              if (sessionStorage.getItem("send-step")) {
+                sessionStorage.removeItem("send-step")
               }
-              localStorage.removeItem("transaction_id")
-              localStorage.removeItem("rid")
+              sessionStorage.removeItem("transaction_id")
+              sessionStorage.removeItem("rid")
               setIsOtpVerfied(false)
               setLoader(false)
             } else if (res.code === "400") {
@@ -269,13 +269,13 @@ const PaymentDetails = ({ handleStep, step }) => {
               setLoader(false)
               setIsOtpVerfied(false)
               toast.error(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
-              localStorage.removeItem("transfer_data")
-              localStorage.removeItem("conversion_data")
-              if (localStorage.getItem("send-step")) {
-                localStorage.removeItem("send-step")
+              sessionStorage.removeItem("transfer_data")
+              sessionStorage.removeItem("conversion_data")
+              if (sessionStorage.getItem("send-step")) {
+                sessionStorage.removeItem("send-step")
               }
-              localStorage.removeItem("transaction_id")
-              localStorage.removeItem("rid")
+              sessionStorage.removeItem("transaction_id")
+              sessionStorage.removeItem("rid")
               setTimeout(() => {
                 window.location.reload()
               }, 3 * 1000)
@@ -284,11 +284,11 @@ const PaymentDetails = ({ handleStep, step }) => {
             setLoader(false)
             setIsOtpVerfied(false)
             toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
-            localStorage.removeItem("transfer_data")
-            localStorage.removeItem("transaction_id")
-            localStorage.removeItem("rid")
-            if (localStorage.getItem("send-step")) {
-              localStorage.removeItem("send-step")
+            sessionStorage.removeItem("transfer_data")
+            sessionStorage.removeItem("transaction_id")
+            sessionStorage.removeItem("rid")
+            if (sessionStorage.getItem("send-step")) {
+              sessionStorage.removeItem("send-step")
             }
             setTimeout(() => {
               window.location.reload()
@@ -297,31 +297,31 @@ const PaymentDetails = ({ handleStep, step }) => {
         } else {
           let discount_value = JSON.parse(sessionStorage.getItem("discApp"))
 
-          ZaiPayTo({ agreement_uuid: pay_to_data.agreement_uuid, transaction_id: localStorage.getItem("transaction_id"), referral_meta_id: discount_value?.value?.referral_meta_id }).then(res => {
+          ZaiPayTo({ agreement_uuid: pay_to_data.agreement_uuid, transaction_id: sessionStorage.getItem("transaction_id"), referral_meta_id: discount_value?.value?.referral_meta_id }).then(res => {
             setLoader(false)
             if (res.code == "200") {
               setTransaction({ id: res.data.transaction_id, pay_id: null, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type, type: "pay_to" })
               setDiscounts({ final_amount: res.data.final_amount })
-              localStorage.removeItem("transfer_data")
-              localStorage.removeItem("conversion_data")
+              sessionStorage.removeItem("transfer_data")
+              sessionStorage.removeItem("conversion_data")
               sessionStorage.removeItem("discApp")
-              if (localStorage.getItem("send-step")) {
-                localStorage.removeItem("send-step")
+              if (sessionStorage.getItem("send-step")) {
+                sessionStorage.removeItem("send-step")
               }
               setIsOtpVerfied(false)
-              localStorage.removeItem("transaction_id")
-              localStorage.removeItem("rid")
+              sessionStorage.removeItem("transaction_id")
+              sessionStorage.removeItem("rid")
               setLoader(false)
             } else if (res.code === "400") {
               setTransaction({ id: res.data.transaction_id, pay_id: null, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type, type: "pay_to" })
               // toast.error(res.message, { position: "bottom-right", hideProgressBar: true, autoClose: 3000 })
-              localStorage.removeItem("transfer_data")
-              localStorage.removeItem("conversion_data")
-              if (localStorage.getItem("send-step")) {
-                localStorage.removeItem("send-step")
+              sessionStorage.removeItem("transfer_data")
+              sessionStorage.removeItem("conversion_data")
+              if (sessionStorage.getItem("send-step")) {
+                sessionStorage.removeItem("send-step")
               }
-              localStorage.removeItem("transaction_id")
-              localStorage.removeItem("rid")
+              sessionStorage.removeItem("transaction_id")
+              sessionStorage.removeItem("rid")
               setIsOtpVerfied(false)
               setLoader(false)
             }
@@ -329,13 +329,13 @@ const PaymentDetails = ({ handleStep, step }) => {
               setLoader(false)
               setIsOtpVerfied(false)
               toast.error(res.message, { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
-              localStorage.removeItem("transfer_data")
-              localStorage.removeItem("conversion_data")
-              if (localStorage.getItem("send-step")) {
-                localStorage.removeItem("send-step")
+              sessionStorage.removeItem("transfer_data")
+              sessionStorage.removeItem("conversion_data")
+              if (sessionStorage.getItem("send-step")) {
+                sessionStorage.removeItem("send-step")
               }
-              localStorage.removeItem("transaction_id")
-              localStorage.removeItem("rid")
+              sessionStorage.removeItem("transaction_id")
+              sessionStorage.removeItem("rid")
               setTimeout(() => {
                 window.location.reload()
               }, 3 * 1000)
@@ -345,10 +345,10 @@ const PaymentDetails = ({ handleStep, step }) => {
             setLoader(false)
             setIsOtpVerfied(false)
             toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-            localStorage.removeItem("transfer_data")
-            localStorage.removeItem("conversion_data")
-            if (localStorage.getItem("send-step")) {
-              localStorage.removeItem("send-step")
+            sessionStorage.removeItem("transfer_data")
+            sessionStorage.removeItem("conversion_data")
+            if (sessionStorage.getItem("send-step")) {
+              sessionStorage.removeItem("send-step")
             }
             setTimeout(() => {
               window.location.reload()
@@ -357,42 +357,42 @@ const PaymentDetails = ({ handleStep, step }) => {
         }
       } else {
         setLoader(true)
-        userCharge({ card_token: token.id, transaction_id: localStorage.getItem("transaction_id") }).then(res => {
+        userCharge({ card_token: token.id, transaction_id: sessionStorage.getItem("transaction_id") }).then(res => {
           setLoader(false)
           if (res.code == "200") {
             setTransaction({ id: res?.data?.transaction_id, pay_id: null, status: res?.message, amount: local?.amount?.send_amt, curr: local?.amount?.from_type, type: "stripe" })
 
-            localStorage.removeItem("transfer_data")
-            localStorage.removeItem("conversion_data")
-            if (localStorage.getItem("send-step")) {
-              localStorage.removeItem("send-step")
+            sessionStorage.removeItem("transfer_data")
+            sessionStorage.removeItem("conversion_data")
+            if (sessionStorage.getItem("send-step")) {
+              sessionStorage.removeItem("send-step")
             }
             setIsOtpVerfied(false)
-            localStorage.removeItem("transaction_id")
-            localStorage.removeItem("rid")
+            sessionStorage.removeItem("transaction_id")
+            sessionStorage.removeItem("rid")
           } else if (res.code === "400") {
             toast.error(res.message, { position: "bottom-right", autoClose: 5000, hideProgressBar: true })
-            localStorage.removeItem("transaction_id")
-            localStorage.removeItem("rid")
+            sessionStorage.removeItem("transaction_id")
+            sessionStorage.removeItem("rid")
           } else {
             toast.error("We are looking into the issue , please try later", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
-            localStorage.removeItem("transaction_id")
-            localStorage.removeItem("rid")
+            sessionStorage.removeItem("transaction_id")
+            sessionStorage.removeItem("rid")
           }
         }).catch((err) => {
           setLoader(false)
           setIsOtpVerfied(false)
-          localStorage.removeItem("transfer_data")
-          localStorage.removeItem("conversion_data")
-          if (localStorage.getItem("send-step")) {
-            localStorage.removeItem("send-step")
+          sessionStorage.removeItem("transfer_data")
+          sessionStorage.removeItem("conversion_data")
+          if (sessionStorage.getItem("send-step")) {
+            sessionStorage.removeItem("send-step")
           }
           toast.error("Transaction failed, please try again", { position: "bottom-right", autoClose: 3000, hideProgressBar: true })
           setTimeout(() => {
             window.location.reload()
           }, 3 * 1000)
-          localStorage.removeItem("transaction_id")
-          localStorage.removeItem("rid")
+          sessionStorage.removeItem("transaction_id")
+          sessionStorage.removeItem("rid")
         })
       }
     }
@@ -825,7 +825,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, authModal }) =
               d.pay_id = pay_id
             }
           }
-          let local = JSON.parse(localStorage.getItem("transfer_data"));
+          let local = JSON.parse(sessionStorage.getItem("transfer_data"));
           handleLoader(true)
           createAgreement(d).then(res => {
             if (res.code === "200") {
@@ -858,7 +858,7 @@ const PayToModal = ({ modal, handler, setData, otp, handleLoader, authModal }) =
 
   const payIdRef = useRef()
 
-  const local = JSON.parse(localStorage.getItem('transfer_data'));
+  const local = JSON.parse(sessionStorage.getItem('transfer_data'));
 
   const displayStart = () => {
     if (agreement_list?.agreement_start_date) {
