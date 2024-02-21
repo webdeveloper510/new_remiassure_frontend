@@ -356,8 +356,6 @@ const Profile = () => {
   return (
     <>
       <section className="edit_recipient_section">
-        {
-          user_data?.is_digital_Id_verified && (
             <div className="form-head mb-4">
               <span className="text-black font-w600 mb-0 h2"><b>Profile Information</b>
               </span>
@@ -375,8 +373,6 @@ const Profile = () => {
                 )
               }
             </div>
-          )
-        }
         <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
           <div className="card">
             <div className="card-body">

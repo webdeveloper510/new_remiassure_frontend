@@ -1,5 +1,5 @@
 // Step1.js
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "react-phone-input-2/lib/bootstrap.css";
 import birthCountryList from 'react-select-country-list';
 import clsx from "clsx";
@@ -9,12 +9,14 @@ import * as Yup from "yup";
 import { userProfile } from "../../utils/Api";
 import { toast } from "react-toastify";
 
-const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelectedAreaCode }) => {
+const Step1 = ({ skipHandler, nextStep, updateData }) => {
 
   /* ------------------------------------------- State declaration --------------------------------------------- */
 
   const countryOptions = useMemo(() => birthCountryList().getData(), [])
   const user_data = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+
+  const [selected_area_code, setSelectedAreaCode] = useState("61")
 
   const firstSchema = Yup.object().shape({
     First_name: Yup.string().min(1).max(25).required().trim(),
@@ -115,6 +117,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
       if (res.code == "200") {
         let p = res.data.mobile
         let phone = p.substring(3);
+       setSelectedAreaCode(p.substring(1,3))
         formik.setValues({
           First_name: res.data.First_name || "",
           Last_name: res.data.Last_name || "",
