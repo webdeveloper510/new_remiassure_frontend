@@ -1,6 +1,6 @@
 // Step4.js
 import React, { useEffect, useState } from 'react';
-const Step4 = ({ end_handler }) => {
+const Step4 = ({ end_handler, veriff_status }) => {
 
     const [redirect_time, setRedirectTime] = useState(10)
 
@@ -25,7 +25,7 @@ const Step4 = ({ end_handler }) => {
                                     <img src="assets/img/home/kyc-suc.webp">
                                     </img>
                                 </div>
-                                <p className='kyc-sucful'><span className='kyc-text'>KYC</span> <br></br>Successful</p>
+                                <p className='kyc-sucful'><span className='kyc-text'>KYC</span> <br></br>{veriff_status ? "Request has been submitted. It may take some time.":"Successful"}</p>
                             </div>
                         </div>
                         <div className="next-step dashbord">

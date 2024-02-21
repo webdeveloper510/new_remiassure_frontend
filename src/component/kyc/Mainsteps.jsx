@@ -17,6 +17,7 @@ const MultiStepForm = ({ is_model, handleModel }) => {
   const [completedSteps, setCompletedSteps] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selected_area_code, setSelectedAreaCode] = useState("61")
+  const [veriff_status, setVeriffStatus] = useState(null)
 
   /* ---------------------------------------------- Formik declaration's --------------------------------------- */
 
@@ -182,7 +183,7 @@ const MultiStepForm = ({ is_model, handleModel }) => {
       navigate("/login")
     } else {
       let dt = JSON.parse(sessionStorage.getItem("remi-user-dt"))
-      if (dt.is_digital_Id_verified?.toString()?.toLowerCase() === "true") {
+      if (dt.is_digital_Id_verified?.toString()?.toLowerCase() !== "declined" && dt.is_digital_Id_verified?.toString()?.toLowerCase() !== "pending") {
         navigate("/dashboard")
       }
     }
@@ -265,10 +266,10 @@ const MultiStepForm = ({ is_model, handleModel }) => {
                           <Step2 nextStep={nextStep} prevStep={prevStep} formik={formik} updateData={(values) => updateData(values)} selected_area_code={selected_area_code} setSelectedAreaCode={setSelectedAreaCode} skipHandler={(values) => skip(values)} end_handler={endHandler} />
                         )}
                         {activeStep === 3 && (
-                          <Step3 values={formik.values} nextStep={nextStep} />
+                          <Step3 values={formik.values} nextStep={nextStep} setVeriffStatus={setVeriffStatus} />
                         )}
                         {activeStep === 4 && (
-                          <Step4 end_handler={endHandler} />
+                          <Step4 end_handler={endHandler} veriff_status={veriff_status} />
                         )}
                       </div>
                     </div>

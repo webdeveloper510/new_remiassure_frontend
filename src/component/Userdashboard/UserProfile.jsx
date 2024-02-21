@@ -59,8 +59,7 @@ const Profile = () => {
     postcode: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required().notOneOf(["none"]),
     country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
-    Date_of_birth: Yup.date().min(new Date(Date.now() - 3721248000000))
-      .max(new Date(Date.now() - 567648000000), "You must be at least 18 years").required(),
+    Date_of_birth: Yup.date().min(new Date(Date.now() - 3721248000000), "Must be atleast 18 year old").max(new Date(Date.now() - 567648000000), "Must be atleast 18 year old").required("DOB is required"),
     occupation: Yup.string().min(1).max(50).required().trim(),
     Country_of_birth: Yup.string().required().notOneOf(["none"]),
     payment_per_annum: Yup.string().required().notOneOf(["none"]),
@@ -232,7 +231,6 @@ const Profile = () => {
 
   const handleOnlyAplha = (event) => {
     const result = event.target.value.replace(/[^A-Za-z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/? ]/gi, "");
-    // setData({ ...data, [event.target.name]: result })
     formik.setFieldValue(event.target.name, result)
     formik.setFieldTouched(event.target.name, true)
   }
@@ -324,8 +322,8 @@ const Profile = () => {
         return component.types.includes('route') || component.types.includes('street_name')
       }
     );
-    if(street && street.length>0){
-    formik.setFieldValue("street", street[0].long_name)
+    if (street && street.length > 0) {
+      formik.setFieldValue("street", street[0].long_name)
     } else {
       formik.setFieldValue("street", place?.address_components[0]?.long_name)
     }
@@ -340,7 +338,7 @@ const Profile = () => {
       if (value.length >= max) {
         e.stopPropagation()
         e.preventDefault()
-      }  else {
+      } else {
         formik.setFieldValue("street", e.target.value)
         formik.setFieldTouched("street", true)
       }
@@ -356,23 +354,29 @@ const Profile = () => {
   return (
     <>
       <section className="edit_recipient_section">
-            <div className="form-head mb-4">
-              <span className="text-black font-w600 mb-0 h2"><b>Profile Information</b>
+        <div className="form-head mb-4">
+          <span className="text-black font-w600 mb-0 h2"><b>Profile Information</b>
+          </span>
+          {
+            user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved" ? (
+              <span className="verified_text px-2 py-1 fs-5 mx-3">
+                KYC {user_data?.is_digital_Id_verified}
               </span>
-              {
-                user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true" ? (
-                  <span className="verified_text px-2 py-1 fs-5 mx-3">
-                    <i className="bi bi-check-circle-fill text-success">&nbsp;</i>
-                    Verified
-                  </span>
-                ) : (
-                  <span className="unverified_text px-2 py-1 fs-5 mx-3">
-                    <i className="bi bi-x-circle-fill text-danger">&nbsp;</i>
-                    Not Verified
-                  </span>
-                )
-              }
-            </div>
+            ) : user_data?.is_digital_Id_verified?.toString().toLowerCase() === "declined" ? (
+              <span className="unverified_text px-2 py-1 fs-5 mx-3">
+                KYC {user_data?.is_digital_Id_verified}
+              </span>
+            ) : user_data?.is_digital_Id_verified?.toString().toLowerCase() === "pending" ? (
+              <span className="pending_verified_text px-2 py-1 fs-5 mx-3">
+                KYC {user_data?.is_digital_Id_verified}
+              </span>
+            ) : (
+              <span className="pending_verified_text px-2 py-1 fs-5 mx-3">
+                KYC Submitted
+              </span>
+            )
+          }
+        </div>
         <form onSubmit={formik.handleSubmit} noValidate className="single-recipient">
           <div className="card">
             <div className="card-body">
@@ -386,14 +390,14 @@ const Profile = () => {
                       name="First_name"
                       value={formik.values.First_name}
                       onChange={handleOnlyAplha}
-                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
+                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
+                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
                       maxLength="25"
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.First_name && formik.errors.First_name },
+                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.First_name && formik.errors.First_name },
                         {
-                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.First_name && !formik.errors.First_name
+                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.First_name && !formik.errors.First_name
                         }
                       )}
                       onBlurCapture={formik.handleBlur}
@@ -409,9 +413,9 @@ const Profile = () => {
                       className='form-control'
                       maxLength="25"
                       onChange={handleOnlyAplha}
-                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
-                      {...formik.getFieldProps("Middle_name")}
+                      value={formik.values.Middle_name}
+                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
+                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
                     />
                   </div>
                 </div>
@@ -424,13 +428,13 @@ const Profile = () => {
                       value={formik.values.Last_name}
                       maxLength="25"
                       onChange={handleOnlyAplha}
-                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
+                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
+                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Last_name && formik.errors.Last_name },
+                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Last_name && formik.errors.Last_name },
                         {
-                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Last_name && !formik.errors.Last_name,
+                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Last_name && !formik.errors.Last_name,
                         }
                       )}
                       onBlurCapture={formik.handleBlur}
@@ -536,18 +540,25 @@ const Profile = () => {
                       id="dob"
                       onChange={(e) => handleChange(e)}
                       onKeyDown={(event) => { onKeyBirth(event) }}
-                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
+                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
+                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
                       // onkeydown={(e) => { e.stopPropagation() }}
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && formik.errors.Date_of_birth },
+                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Date_of_birth && formik.errors.Date_of_birth },
                         {
-                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
+                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Date_of_birth && !formik.errors.Date_of_birth,
                         }
                       )}
                       onBlurCapture={formik.handleBlur}
                     />
+                    {formik.touched.Date_of_birth && formik.errors.Date_of_birth && (
+                      <div className='fv-plugins-message-container mt-1'>
+                        <div className='fv-help-block'>
+                          <span role='alert' className="text-danger">{formik.errors.Date_of_birth}</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="col-md-4">
@@ -557,13 +568,13 @@ const Profile = () => {
                       value={formik.values.Country_of_birth}
                       name="Country_of_birth"
                       onChange={(e) => handleChange(e)}
-                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
+                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
+                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
                       className={clsx(
                         'form-control form-select bg-transparent',
-                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && formik.errors.Country_of_birth },
+                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Country_of_birth && formik.errors.Country_of_birth },
                         {
-                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
+                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
                         }
                       )}
                       onBlurCapture={formik.handleBlur}
@@ -822,7 +833,7 @@ const Profile = () => {
                         }
                       )}
                       inputAutocompleteValue={formik.values.street}
-                      onInput={(e)=>getStreetName(e,500)}
+                      onInput={(e) => getStreetName(e, 500)}
                       defaultValue={formik.values.street}
                     />
                   </Form.Group>

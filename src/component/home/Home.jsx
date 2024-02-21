@@ -200,7 +200,7 @@ const Home = () => {
                         }
                     }))
                     if (token) {
-                        if (userdt?.is_digital_Id_verified) {
+                        if (userdt?.is_digital_Id_verified?.toLowerCase === "approved") {
 
                             navigate(`/user-send-money`)
                         }

@@ -53,9 +53,9 @@ const Signup = () => {
     const signSchema = Yup.object().shape({
         location: Yup.string().required(),
         email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/, "Invalid email format").min(6).max(50).required("Email is required"),
-        password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
+        password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
-        referral_code: isOn ? Yup.string().min(1, "Referral code must contain 8 characters").required("Referral Code is required") : Yup.string().notRequired(),
+        referral_code: isOn ? Yup.string().min(1, "Referral code should contain atleast 8 characters").max(15,"Referral code can't be more than 15 characters").required("Referral Code is required") : Yup.string().notRequired(),
         mobile: Yup.string().min(9, "Minimum 9 digits").required("Mobile is required")
     })
 
@@ -201,7 +201,7 @@ const Signup = () => {
                     sessionStorage.setItem('token', res.access_token)
                     setLoading(false)
                     const user = res?.data
-                    user.is_digital_Id_verified = "false"
+                    user.is_digital_Id_verified = "Pending"
                     sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                     navigate('/complete-kyc')
                     sendEmail()
@@ -555,6 +555,7 @@ const Signup = () => {
                                                                         name="referral_code"
                                                                         value={formik.values.referral_code}
                                                                         onChange={handleRef}
+                                                                        maxLength={15}
                                                                         className={isOn ? clsx(
                                                                             'form-control bg-transparent',
                                                                             { 'is-invalid': formik.touched.referral_code && formik.errors.referral_code },

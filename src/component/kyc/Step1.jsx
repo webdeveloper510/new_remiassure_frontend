@@ -24,7 +24,7 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
     Last_name: Yup.string().min(1).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50),
     mobile: Yup.string().min(9).max(10),
-    Date_of_birth: Yup.date().min(new Date(Date.now() - 3721248000000)).max(new Date(Date.now() - 567648000000), "You must be at least 18 years").required(),
+    Date_of_birth: Yup.date().min(new Date(Date.now() - 3721248000000), "Must be atleast 18 year old").max(new Date(Date.now() - 567648000000), "Must be atleast 18 year old").required("DOB is required"),
     occupation: Yup.string().min(1).max(50).required().trim(),
     Country_of_birth: Yup.string().required().notOneOf(["none"]),
   })
@@ -44,10 +44,10 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
     validationSchema: firstSchema,
     onSubmit: async (values) => {
       // console.log(values)
-    let payload = values ;
-    if(/^\s*$/.test(payload.Middle_name)){
-      delete payload['Middle_name'] 
-    }
+      let payload = values;
+      if (/^\s*$/.test(payload.Middle_name)) {
+        delete payload['Middle_name']
+      }
       nextStep()
       updateData(payload)
     }
@@ -78,6 +78,7 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
   const handleChange = (e) => {
     formik.setFieldValue(`${[e.target.name]}`, e.target.value)
     formik.setFieldTouched(`${[e.target.name]}`, true)
+    formik.handleChange(e)
   }
 
   const handleEmail = (e, max) => {
@@ -117,7 +118,7 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
       if (res.code == "200") {
         let p = res.data.mobile
         let phone = p.substring(3);
-       setSelectedAreaCode(p.substring(1,3))
+        setSelectedAreaCode(p.substring(1, 3))
         formik.setValues({
           First_name: res.data.First_name || "",
           Last_name: res.data.Last_name || "",
@@ -173,7 +174,7 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
                       className='form-control'
                       maxLength="25"
                       onChange={handleOnlyAplha}
-                      {...formik.getFieldProps("Middle_name")}
+                      value={formik.values.Middle_name}
                     />
                   </div>
                 </div>
@@ -271,6 +272,13 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
                       )}
                       onBlur={formik.handleBlur}
                     />
+                    {formik.touched.Date_of_birth && formik.errors.Date_of_birth && (
+                      <div className='fv-plugins-message-container mt-1'>
+                        <div className='fv-help-block'>
+                          <span role='alert' className="text-danger">{formik.errors.Date_of_birth}</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="col-md-4">
@@ -280,13 +288,11 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
                       value={formik?.values.Country_of_birth}
                       name="Country_of_birth"
                       onChange={(e) => handleChange(e)}
-                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
                       className={clsx(
                         'form-control form-select bg-transparent',
                         { 'is-invalid': formik.touched.Country_of_birth && formik.errors.Country_of_birth },
                         {
-                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() === "false" && formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
+                          'is-valid':  formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
                         }
                       )}
                       onBlur={formik.handleBlur}

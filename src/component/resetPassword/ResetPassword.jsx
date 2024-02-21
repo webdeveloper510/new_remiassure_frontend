@@ -23,7 +23,7 @@ const RecentPassword = () => {
     const loginSchema = Yup.object().shape({
         reset_password_otp: Yup.string().length(6, "O.T.P must be of 6 digits")
             .required('O.T.P is required'),
-        password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
+        password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirm_password: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
     })
 

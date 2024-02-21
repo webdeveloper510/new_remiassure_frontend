@@ -6,7 +6,7 @@ import { getVeriffStatus } from '../../utils/Api';
 import { toast } from 'react-toastify';
 import { Alert } from 'react-bootstrap';
 
-const Step3 = ({ prevStep, nextStep, values }) => {
+const Step3 = ({ nextStep, setVeriffStatus }) => {
 
   const [loading, setLoading] = useState(false)
   const [re_verify, setReverify] = useState(false)
@@ -34,28 +34,36 @@ const Step3 = ({ prevStep, nextStep, values }) => {
                 const interval = setInterval(() => {
                   getVeriffStatus({ session_id: response.verification.id }).then(res => {
                     if (res.code === "200") {
-                      if (res?.data?.verification?.status === "approved") {
+                      if (res?.data?.verification?.status?.toLowerCase() === "approved") {
                         setLoading(false)
                         clearInterval(interval)
                         let user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
-                        user.is_digital_Id_verified = "true"
+                        user.is_digital_Id_verified = "Approved"
                         nextStep()
                         sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
-                      } else if (res?.data?.verification?.status === "declined") {
+                      } else if (res?.data?.verification?.status?.toLowerCase() === "declined") {
                         setLoading(false)
                         clearInterval(interval)
                         setReverify("Verification failed. Please try verifying your ID once more")
                         // toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
+                      } else if(res?.data?.verification?.status?.toLowerCase() === "resubmitted") {
+                        setLoading(false)
+                        clearInterval(interval)
                       }
-
                     }
                   })
                 }, 5000)
+                setTimeout(() => {
+                  setLoading(false);
+                  clearInterval(interval);
+                  setVeriffStatus("submitted")
+                  nextStep()
+                }, 15 * 1000)
                 break;
             }
           }
         });
-        if(err){
+        if (err) {
           toast.error(err?.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         }
       }
@@ -84,7 +92,7 @@ const Step3 = ({ prevStep, nextStep, values }) => {
       {
         loading && (
           <>
-            <div className="loader-overly" style={{background:"rgb(0 0 0 / 85%)"}}>
+            <div className="loader-overly" style={{ background: "rgb(0 0 0 / 85%)" }}>
               <div className="loader">
               </div>
               <div className="loader-text">
