@@ -44,20 +44,23 @@ const Step3 = ({ nextStep, setVeriffStatus }) => {
                       } else if (res?.data?.verification?.status?.toLowerCase() === "declined") {
                         setLoading(false)
                         clearInterval(interval)
-                        setReverify("Verification failed. Please try verifying your ID once more")
+                        setReverify("Verification failed. Please try verifying your ID once more.")
                         // toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
-                      } else if(res?.data?.verification?.status?.toLowerCase() === "resubmitted") {
+                      } else if (res?.data?.verification?.status?.toLowerCase() === "resubmitted") {
                         setLoading(false)
                         clearInterval(interval)
+                        setReverify("Something went wrong. Please re-submit the verification.")
                       }
                     }
                   })
                 }, 5000)
                 setTimeout(() => {
-                  setLoading(false);
-                  clearInterval(interval);
-                  setVeriffStatus("submitted")
-                  nextStep()
+                  if (interval) {
+                    setLoading(false);
+                    clearInterval(interval);
+                    setVeriffStatus("submitted")
+                    nextStep()
+                  }
                 }, 15 * 1000)
                 break;
             }
