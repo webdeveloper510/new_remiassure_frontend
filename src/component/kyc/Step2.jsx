@@ -47,8 +47,8 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
     validationSchema: secondSchema,
     onSubmit: async (values) => {
       let payload = values
-      if(/^\s*$/.test(payload.flat)){
-        delete payload['flat'] 
+      if (/^\s*$/.test(payload.flat)) {
+        delete payload['flat']
       }
       nextStep()
       updateData(payload)
@@ -84,7 +84,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
           flat: res.data.flat || "",
           building: res.data.building || "",
           country_code: res.data.country_code || "",
-          country: res?.data?.country?.toLowerCase() !== "none" && res?.data?.country?.toLowerCase() !== "" && res?.data?.country?.toLowerCase() !== undefined || null ? res?.data?.country  : res?.data?.location,
+          country: res?.data?.country?.toLowerCase() !== "none" && res?.data?.country?.toLowerCase() !== "" && res?.data?.country?.toLowerCase() !== undefined || null ? res?.data?.country : res?.data?.location,
           country_code: res?.data?.country_code || "AU"
         })
       }
@@ -153,12 +153,16 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
 
   const handleChange = (e) => {
     if (e.target.name === 'country') {
-      countryList.map((item) => {
-        if (item.name === e.target.value) {
-          setSelectedAreaCode(item.phone_code)
-          formik.setFieldValue("country_code", item.iso2)
-        }
-      })
+      if (e.target.value !== "none") {
+        countryList.map((item) => {
+          if (item.name === e.target.value) {
+            setSelectedAreaCode(item.phone_code)
+          }
+        })
+      }
+      formik.setValues({ ...formik.values, country: e.target.value, state: "none", city: "none", postcode: "" })
+    } else if (e.target.name === "state") {
+      formik.setValues({ ...formik.values, state: e.target.value, city: "none", postcode: "" })
     }
     formik.setFieldValue(`${[e.target.name]}`, e.target.value)
     formik.setFieldTouched(`${[e.target.name]}`, true)

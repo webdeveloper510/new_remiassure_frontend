@@ -370,6 +370,10 @@ const Profile = () => {
               <span className="pending_verified_text px-2 py-1 fs-5 mx-3">
                 KYC {user_data?.is_digital_Id_verified}
               </span>
+            ): user_data?.is_digital_Id_verified?.toString().toLowerCase() === "resubmission_requested" ? (
+              <span className="pending_verified_text px-2 py-1 fs-5 mx-3">
+                KYC Resubmission Required
+              </span>
             ) : (
               <span className="pending_verified_text px-2 py-1 fs-5 mx-3">
                 KYC Submitted
