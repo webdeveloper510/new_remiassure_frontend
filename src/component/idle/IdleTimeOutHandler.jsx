@@ -9,6 +9,7 @@ import timeOut from "../../assets/img/home/session_timeout.png"
 const IdleTimeOutHandler = (props) => {
     const [showModal, setShowModal] = useState(false)
     const [isLogout, setLogout] = useState(false)
+    const [modal_closed, setModalClosed] = useState(false)
 
     let timer = undefined;
     const events = ['click', 'load', 'keydown']
@@ -39,13 +40,18 @@ const IdleTimeOutHandler = (props) => {
     }, [location.pathname])
 
     useEffect(() => {
+        let timer = null;
         if (showModal) {
-            setTimeout(() => {
+            timer = setTimeout(() => {
                 setShowModal(false)
                 props.onLogout()
             }, 2 * 60 * 1000)
+        } else if(modal_closed) {
+            if(timer){
+                clearTimeout(timer)
+            }
         }
-    }, [showModal])
+    }, [showModal, modal_closed])
 
 
 
@@ -99,6 +105,7 @@ const IdleTimeOutHandler = (props) => {
     const handleContinueSession = () => {
         setShowModal(false)
         setLogout(false)
+        setModalClosed(true)
     }
     const handleLogout = () => {
         removeEvents();
