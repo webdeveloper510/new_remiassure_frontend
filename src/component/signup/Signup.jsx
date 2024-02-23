@@ -55,7 +55,7 @@ const Signup = () => {
         email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,10}$/, "Invalid email format").min(6).max(50).required("Email is required"),
         password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
         confirmPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords did not match").required("Password confirmation is required"),
-        referral_code: isOn ? Yup.string().min(1, "Referral code should contain atleast 8 characters").max(15,"Referral code can't be more than 15 characters").required("Referral Code is required") : Yup.string().notRequired(),
+        referral_code: isOn ? Yup.string().min(1, "Referral code should contain atleast 8 characters").max(15, "Referral code can't be more than 15 characters").required("Referral Code is required") : Yup.string().notRequired(),
         mobile: Yup.string().min(9, "Minimum 9 digits").required("Mobile is required")
     })
 
@@ -86,12 +86,11 @@ const Signup = () => {
                 left: 0,
                 behavior: "smooth"
             })
-            let mno = parseInt(values.mobile , 10)
+            let mno = parseInt(values.mobile, 10)
             let data = { ...values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + mno }
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
             }
-            // console.log(data)
             userRegisterCheck(data).then((res) => {
                 if (res.code === "200") {
                     toast.success(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true });
@@ -130,10 +129,8 @@ const Signup = () => {
         const { checked } = e.target;
         if (checked) {
             setPromo_marketing("1")
-
         } else {
             setPromo_marketing("0")
-
         }
     };
 
@@ -147,21 +144,12 @@ const Signup = () => {
                 setSelectedAreaCode(item.phone_code)
             }
         })
-
     }
-
-
 
     const handleRef = (event) => {
         const result = event.target.value.replace(/[^A-z0-9_-]/gi, "")
         formik.setFieldValue(event.target.name, result)
         formik.handleChange(event)
-        // if(result.length == 6){
-        //     formik.setErrors({...formik.errors, referral_code:""})
-        // }
-    }
-    const handleBlur = () => {
-        formik.setFieldTouched('mobile', true)
     }
 
     useEffect(() => {
@@ -187,7 +175,7 @@ const Signup = () => {
         let length = otp.toString()
         if (length.length == 6) {
             setLoading(true)
-            let mno = parseInt(formik.values.mobile , 10)
+            let mno = parseInt(formik.values.mobile, 10)
             let data = { ...formik.values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + mno, otp: otp }
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
@@ -227,7 +215,7 @@ const Signup = () => {
         e.preventDefault()
         setLoading(true)
         setOtp(null)
-        let mno = parseInt(formik.values.mobile , 10)
+        let mno = parseInt(formik.values.mobile, 10)
         registerOtpResend({ mobile: "+" + selected_area_code + mno }).then(res => {
             if (res.code === "200") {
                 setShowAlert(2)
@@ -417,26 +405,6 @@ const Signup = () => {
                                                                                 />
                                                                             </div>
                                                                         </div>
-                                                                        {/* <PhoneInput
-                                                                            onlyCountries={["au", "nz"]}
-                                                                            country={country_code ? country_code.toLowerCase() : "au"}
-                                                                            name="mobile"
-                                                                            inputStyle={{ border: "none", margin: "none" }}
-                                                                            inputClass="phoneInp"
-                                                                            placeholder="Enter Phone..."
-                                                                            defaultCountry={"au"}
-                                                                            inputProps={{ required: true }}
-                                                                            countryCodeEditable={false}
-                                                                            onChange={(val, coun) => { handlePhone(val, coun) }}
-                                                                            className={clsx(
-                                                                                'form-control form-control-sm bg-transparent',
-                                                                                { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
-                                                                                {
-                                                                                    'is-valid': formik.touched.mobile && !formik.errors.mobile,
-                                                                                }
-                                                                            )}
-                                                                            onBlur={handleBlur}
-                                                                        /> */}
                                                                         {formik.touched.mobile && formik.errors.mobile && (
                                                                             <div className='fv-plugins-message-container mt-1'>
                                                                                 <div className='fv-help-block'>
@@ -577,10 +545,8 @@ const Signup = () => {
                                                             <Form.Group className="mb-3 form_checkbox">
                                                                 <Form.Check className="form_label"
                                                                     type="checkbox"
-                                                                    value="1"
                                                                     onChange={(e) => handlePromo_marketing(e)}
-                                                                    defaultChecked={promo_marketing.Active}
-                                                                    label="If you DO NOT wish to receive marketing information 
+                                                                    label="If you wish to receive marketing information 
                                                                     about out products and special offers, please check this box"
                                                                 />
                                                             </Form.Group>

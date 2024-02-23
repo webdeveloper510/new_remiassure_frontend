@@ -360,15 +360,15 @@ const Profile = () => {
           {
             user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved" ? (
               <span className="verified_text px-2 py-1 fs-5 mx-3">
-                KYC {user_data?.is_digital_Id_verified}
+                KYC Approved
               </span>
             ) : user_data?.is_digital_Id_verified?.toString().toLowerCase() === "declined" ? (
               <span className="unverified_text px-2 py-1 fs-5 mx-3">
-                KYC {user_data?.is_digital_Id_verified}
+                KYC Declined
               </span>
             ) : user_data?.is_digital_Id_verified?.toString().toLowerCase() === "pending" ? (
               <span className="pending_verified_text px-2 py-1 fs-5 mx-3">
-                KYC {user_data?.is_digital_Id_verified}
+                KYC Pending
               </span>
             ): user_data?.is_digital_Id_verified?.toString().toLowerCase() === "resubmission_requested" ? (
               <span className="pending_verified_text px-2 py-1 fs-5 mx-3">

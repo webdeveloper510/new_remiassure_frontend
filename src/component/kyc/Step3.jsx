@@ -36,12 +36,12 @@ const Step3 = ({ nextStep, setVeriffStatus }) => {
                   getVeriffStatus({ session_id: response.verification.id }).then(res => {
                     if (res.code === "200") {
                       if (res?.data?.verification?.status?.toLowerCase() === "approved") {
-                        clearIntervalAndExecute();
-                    } else if (res?.data?.verification?.status?.toLowerCase() === "declined") {
-                        clearIntervalAndExecute( "Verification failed. Please try verifying your ID once more.");
-                    } else if (res?.data?.verification?.status?.toLowerCase() === "resubmission_requested") {
-                        clearIntervalAndExecute( "Something went wrong. Please re-submit the verification.");
-                    }
+                        clearIntervalAndExecute("approved");
+                      } else if (res?.data?.verification?.status?.toLowerCase() === "declined") {
+                        clearIntervalAndExecute("declined", "Verification failed. Please try verifying your ID once more.");
+                      } else if (res?.data?.verification?.status?.toLowerCase() === "resubmission_requested") {
+                        clearIntervalAndExecute("resubmission_requested", "Something went wrong. Please re-submit the verification.");
+                      }
                     }
                   })
                 }, 5000)
@@ -53,12 +53,14 @@ const Step3 = ({ nextStep, setVeriffStatus }) => {
                     nextStep()
                   }
                 }, 15 * 1000)
-                function clearIntervalAndExecute(message = "") {
+                function clearIntervalAndExecute(status, message = "") {
                   intervalCleared = true;
                   setLoading(false);
                   clearInterval(interval);
                   if (message) {
                     setReverify(message);
+                  } else if (status === "approved") {
+                    nextStep()
                   }
                 }
                 break;
