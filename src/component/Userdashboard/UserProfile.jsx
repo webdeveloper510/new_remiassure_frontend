@@ -178,22 +178,22 @@ const Profile = () => {
   //   // console.log(3, formik.values.country)
   // }, [formik.values.state, state_list])
 
-  useEffect(() => {
-    if (formik.values.city !== "none") {
-      let postals = city_list.filter((item) => {
-        return item?.city === formik.values?.city && item?.state === formik.values?.state
-      })
-      setPostalList(postals)
-      // setData({ ...data, postcode: postals[0]?.post_code })
-      // console.log(postals)
-      formik.setValues({ ...formik.values, postcode: postals[0]?.post_code })
-    } else if (formik.values.city === "none") {
-      // setData({ ...data, postcode: "" })
-      formik.setValues({ ...formik.values, postcode: "" })
-      setPostalList([])
-    }
-    // console.log(4, formik.values.country)
-  }, [formik.values.city, city_list])
+  // useEffect(() => {
+  //   if (formik.values.city !== "none") {
+  //     let postals = city_list.filter((item) => {
+  //       return item?.city === formik.values?.city && item?.state === formik.values?.state
+  //     })
+  //     setPostalList(postals)
+  //     // setData({ ...data, postcode: postals[0]?.post_code })
+  //     // console.log(postals)
+  //     formik.setValues({ ...formik.values, postcode: postals[0]?.post_code })
+  //   } else if (formik.values.city === "none") {
+  //     // setData({ ...data, postcode: "" })
+  //     formik.setValues({ ...formik.values, postcode: "" })
+  //     setPostalList([])
+  //   }
+  //   // console.log(4, formik.values.country)
+  // }, [formik.values.city, city_list])
 
 
 
