@@ -52,11 +52,12 @@ const Profile = () => {
   const profileSchema = Yup.object().shape({
     First_name: Yup.string().min(2).max(25).required().trim(),
     Last_name: Yup.string().min(2).max(25).required().trim(),
+    Middle_name:Yup.string().trim().notOneOf([" "]),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(9).max(10).required(),
-    flat: Yup.string().min(1).max(30).notRequired(),
+    flat: Yup.string().min(1).max(30).trim().notOneOf([" "]),
     building: Yup.string().min(1).max(30).required().trim(),
-    street: Yup.string().max(500).required().trim(),
+    street: Yup.string().max(900).required().trim(),
     city: Yup.string().min(1).max(35).required().trim().notOneOf(["none"]),
     postcode: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required().notOneOf(["none"]),
@@ -416,12 +417,18 @@ const Profile = () => {
                     <input
                       type="text"
                       name="Middle_name"
-                      className='form-control'
                       maxLength="25"
                       onChange={handleOnlyAplha}
                       value={formik.values.Middle_name}
                       readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
                       disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Middle_name && formik.errors.Middle_name },
+                        {
+                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Middle_name && !formik.errors.Middle_name
+                        }
+                      )}
                     />
                   </div>
                 </div>
