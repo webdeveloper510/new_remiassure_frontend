@@ -55,7 +55,7 @@ const Profile = () => {
     Middle_name:Yup.string().trim().notOneOf([" "]),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(9).max(10).required(),
-    flat: Yup.string().min(1).max(30).trim().notOneOf([" "]),
+    flat: Yup.string().min(1).max(30).trim().notOneOf([" "]).notRequired(),
     building: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().max(900).required().trim(),
     city: Yup.string().min(1).max(35).required().trim().notOneOf(["none"]),
@@ -138,45 +138,45 @@ const Profile = () => {
     // console.log(1, formik.values.country)
   }, [])
 
-  useEffect(() => {
-    if (formik.values.country !== "none") {
-      let array_1 = countryList?.filter((item) => {
-        if (item.name === formik.values.country) {
-          // setData({ ...data, state: "none", city: "none", postcode: "", country_code: item?.iso2 })
-          formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country_code: item?.iso2 })
-          return item?.name === formik.values.country
-        }
-      })
-      let array = array_1[0]?.states;
-      if (array) {
-        array.sort((a, b) => (a.state > b.state) ? 1 : -1);
-      }
-      setStateList(array);
-    } else if (formik.values.country === "none") {
-      // setData({ ...data, city: "none", postcode: "", state: "none", country : countryList?.[0].name , country_code: countryList?.[0].iso2})
-      formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country: countryList?.[0].name, country_code: countryList?.[0].iso2 })
-      setCityList([])
-      setStateList([])
-      setPostalList([])
-    }
-    // console.log(2, formik.values.country)
-  }, [formik.values.country])
+  // useEffect(() => {
+  //   if (formik.values.country !== "none") {
+  //     let array_1 = countryList?.filter((item) => {
+  //       if (item.name === formik.values.country) {
+  //         // setData({ ...data, state: "none", city: "none", postcode: "", country_code: item?.iso2 })
+  //         formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country_code: item?.iso2 })
+  //         return item?.name === formik.values.country
+  //       }
+  //     })
+  //     let array = array_1[0]?.states;
+  //     if (array) {
+  //       array.sort((a, b) => (a.state > b.state) ? 1 : -1);
+  //     }
+  //     setStateList(array);
+  //   } else if (formik.values.country === "none") {
+  //     // setData({ ...data, city: "none", postcode: "", state: "none", country : countryList?.[0].name , country_code: countryList?.[0].iso2})
+  //     formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country: countryList?.[0].name, country_code: countryList?.[0].iso2 })
+  //     setCityList([])
+  //     setStateList([])
+  //     setPostalList([])
+  //   }
+  //   // console.log(2, formik.values.country)
+  // }, [formik.values.country])
 
-  useEffect(() => {
-    if (formik.values.state !== "none" && state_list && state_list.length > 0) {
-      let array = state_list.filter((item) => {
-        return item?.state === formik.values?.state
-      })
-      array.sort((a, b) => (a.city > b.city) ? 1 : -1);
+  // useEffect(() => {
+  //   if (formik.values.state !== "none" && state_list && state_list.length > 0) {
+  //     let array = state_list.filter((item) => {
+  //       return item?.state === formik.values?.state
+  //     })
+  //     array.sort((a, b) => (a.city > b.city) ? 1 : -1);
 
-      setCityList(array);
-    } else if (formik.values.state === "none") {
-      // setData({ ...data, city: "none", postcode: "" })
-      formik.setValues({ ...formik.values, city: "none", postcode: "" })
-      setCityList([])
-    }
-    // console.log(3, formik.values.country)
-  }, [formik.values.state, state_list])
+  //     setCityList(array);
+  //   } else if (formik.values.state === "none") {
+  //     // setData({ ...data, city: "none", postcode: "" })
+  //     formik.setValues({ ...formik.values, city: "none", postcode: "" })
+  //     setCityList([])
+  //   }
+  //   // console.log(3, formik.values.country)
+  // }, [formik.values.state, state_list])
 
   useEffect(() => {
     if (formik.values.city !== "none") {
@@ -424,9 +424,9 @@ const Profile = () => {
                       disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Middle_name && formik.errors.Middle_name },
+                        { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Middle_name && formik.errors.Middle_name !== "" },
                         {
-                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Middle_name && !formik.errors.Middle_name
+                          'is-valid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Middle_name && formik.errors.Middle_name !==""
                         }
                       )}
                     />
@@ -798,9 +798,9 @@ const Profile = () => {
                       {...formik.getFieldProps("flat")}
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.flat && formik.errors.flat },
+                        { 'is-invalid': formik.touched.flat && formik.errors.flat && formik.values.flat !==""},
                         {
-                          'is-valid': formik.touched.flat && !formik.errors.flat,
+                          'is-valid': formik.touched.flat && !formik.errors.flat && formik.values.flat !=="",
                         }
                       )}
                       onBlur={formik.handleBlur}

@@ -75,16 +75,16 @@ const BankDetails = ({ handleStep, step }) => {
       }
     }).trim(),
     acc_no: Yup.string().min(5).max(18).required(),
-    f_name: Yup.string().min(2).max(25).required().trim(),
-    l_name: Yup.string().min(2).max(25).required().trim(),
+    f_name: Yup.string().min(2).max(25).required().trim().notOneOf([" "]),
+    l_name: Yup.string().min(2).max(25).required().trim().notOneOf([" "]),
     mobile: Yup.string().min(11).max(18).required(),
-    flat: Yup.string().min(1).max(30).notRequired(),
-    build_no: Yup.string().min(1).max(30).required().trim(),
-    street: Yup.string().min(1).max(900).required().trim(),
-    city: Yup.string().min(1).max(35).required().trim(),
-    post_code: Yup.string().max(5).notRequired(),
-    state: Yup.string().min(2).max(35).required(),
-    country: Yup.string().min(2).max(30).required()
+    flat: Yup.string().min(1).max(30).notRequired().trim().notOneOf([" "]),
+    build_no: Yup.string().min(1).max(30).required().trim().notOneOf([" "]),
+    street: Yup.string().min(1).max(900).required().trim().notOneOf([" "]),
+    city: Yup.string().min(1).max(35).required().trim().notOneOf([" "]),
+    post_code: Yup.string().max(7).notRequired().trim().notOneOf([" "]),
+    state: Yup.string().min(2).max(35).required().trim().notOneOf([" "]),
+    country: Yup.string().min(2).max(30).required().trim().notOneOf([" "])
   })
 
   const formik = useFormik({
@@ -174,9 +174,14 @@ const BankDetails = ({ handleStep, step }) => {
     formik.setFieldValue('mobile', e);
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
+    formik.setFieldValue("country_code",coun.countryCode.toUpperCase());
+    if(phone_code!==coun.dialCode){
+      formik.setFieldValue("state","");
+      formik.setFieldValue("city","");
+      formik.setFieldValue("street","");
+      formik.setFieldValue("post_code","");
+    }
     setPhoneCode(coun.dialCode)
-    // console.log(coun.dialCode)
-    // setData({ ...data, country: coun.name, mobile: e })
   }
 
   const handleKeyDown = (e, max) => {
@@ -584,7 +589,13 @@ const BankDetails = ({ handleStep, step }) => {
                           <input
                             type="text"
                             name="m_name"
-                            className='form-control'
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.m_name && formik.errors.m_name && formik.values.m_name !=="" },
+                              {
+                                'is-valid': formik.touched.m_name && !formik.errors.m_name && formik.values.m_name !=="",
+                              }
+                            )}
                             value={formik.values.m_name}
                             onKeyDown={(e) => { handleKeyDown(e, 25) }}
                             {...formik.getFieldProps("m_name")}
@@ -801,7 +812,13 @@ const BankDetails = ({ handleStep, step }) => {
                     value={formik.values.flat}
                     onKeyDown={(e) => { handleEmail(e, 15) }}
                     {...formik.getFieldProps("flat")}
-                    className='form-control bg-transparent'
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.flat && formik.errors.flat && formik.values.flat !=="" },
+                      {
+                        'is-valid': formik.touched.flat && !formik.errors.flat && formik.values.flat !=="",
+                      }
+                    )}
                   />
                 </Form.Group>
               </div>

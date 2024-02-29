@@ -69,16 +69,17 @@ const Addnewrecipient = () => {
       }
     }).trim(),
     account_number: Yup.string().min(5).max(18).required(),
-    first_name: Yup.string().min(1).max(25).required().trim(),
-    last_name: Yup.string().min(1).max(25).required().trim(),
+    first_name: Yup.string().min(1).max(25).required().trim().notOneOf([" "]),
+    middle_name: Yup.string().min(1).max(25).trim().notOneOf([" "]),
+    last_name: Yup.string().min(1).max(25).required().trim().notOneOf([" "]),
     mobile: Yup.string().min(11).max(18).required(),
-    flat: Yup.string().min(1).max(30).notRequired(),
-    building: Yup.string().min(1).max(30).required().trim(),
-    street: Yup.string().min(1).max(800).required().trim(),
-    city: Yup.string().min(1).max(35).required().trim(),
-    post_code: Yup.string().length(5).notRequired(),
-    state: Yup.string().min(1).max(35).required(),
-    country: Yup.string().min(2).max(30).required()
+    flat: Yup.string().min(1).max(30).notRequired().trim().notOneOf([" "]),
+    building: Yup.string().min(1).max(30).required().trim().notOneOf([" "]),
+    street: Yup.string().min(1).required().trim().notOneOf([" "]),
+    city: Yup.string().min(1).max(35).required().trim().notOneOf([" "]),
+    postcode: Yup.string().max(7).notRequired().notOneOf([" "]),
+    state: Yup.string().min(1).max(35).required().notOneOf([" "]),
+    country: Yup.string().min(2).max(30).required().notOneOf([" "])
   })
 
   const [loading, setLoading] = React.useState(false);
@@ -183,6 +184,13 @@ const Addnewrecipient = () => {
     formik.setFieldValue('mobile', e);
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
+    formik.setFieldValue('country_code', coun.countryCode?.toUpperCase())
+    if(coun.dialCode!==phone_code){
+      formik.setFieldValue("state", "")
+      formik.setFieldValue("city", "")
+      formik.setFieldValue("street", "")
+      formik.setFieldValue("postcode", "")
+    }
     setPhone_code(coun.dialCode)
   }
 
@@ -307,7 +315,6 @@ const Addnewrecipient = () => {
     formik.setFieldValue("building", building)
   }
 
-
   return (
     <section className="showrecepient">
       <div class="form-head mb-4">
@@ -411,10 +418,16 @@ const Addnewrecipient = () => {
                   <input
                     type="text"
                     name="middle_name"
-                    className='form-control'
                     value={formik.values.middle_name}
                     onKeyDown={(e) => { handleKeyDown(e, 25) }}
                     {...formik.getFieldProps("middle_name")}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.middle_name && formik.errors.middle_name && formik.values.middle_name !=="" },
+                      {
+                        'is-valid': formik.touched.middle_name && !formik.errors.middle_name && formik.values.middle_name !=="",
+                      }
+                    )}
                   />
                 </div>
               </div>
@@ -444,7 +457,7 @@ const Addnewrecipient = () => {
                   <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                   <PhoneInput
                     onlyCountries={["au", "gh", "ke", "ng", "nz", "ph", "th", "vn"]}
-                    country={formik.values.country_code?.toLowerCase()}
+                    country={"au"}
                     name="mobile"
                     value={formik.values.mobile}
                     inputStyle={{ border: "none", margin: "none" }}
@@ -565,10 +578,14 @@ const Addnewrecipient = () => {
                     type="text"
                     name="postcode"
                     value={formik.values.postcode}
-                    onKeyDown={(e) => handlePostCode(e, 4)}
+                    onKeyDown={(e) => handlePostCode(e, 6)}
                     {...formik.getFieldProps("postcode")}
                     className={clsx(
-                      'form-control bg-transparent'
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.postcode && formik.errors.postcode },
+                      {
+                        'is-valid': formik.touched.postcode && !formik.errors.postcode,
+                      }
                     )}
                   />
 
@@ -604,7 +621,13 @@ const Addnewrecipient = () => {
                     value={formik.values.flat}
                     onKeyDown={(e) => { handleEmail(e, 15) }}
                     {...formik.getFieldProps("flat")}
-                    className='form-control bg-transparent'
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.flat && formik.errors.flat && formik.values.flat !=="" },
+                      {
+                        'is-valid': formik.touched.flat && !formik.errors.flat && formik.values.flat !=="",
+                      }
+                    )}
                   />
                 </Form.Group>
               </div>
@@ -625,7 +648,7 @@ const Addnewrecipient = () => {
                   className="form-button"
                   onClick={() => { formik.handleSubmit() }}
                 >
-                  Create Recipient
+                  {id?"Update":"Create"} Recipient
                   {loading ? <>
                     <div className="loader-overly">
                       <div className="loader" >
