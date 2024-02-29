@@ -58,7 +58,12 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
   useEffect(() => {
     var dtToday = new Date();
     var month = dtToday.getMonth() + 1;
-    var day = dtToday.getDate();
+    var day;
+    if (month === 2 && dtToday.getDate() === 29) {
+      day = dtToday.getDate() - 1
+    } else {
+      day = dtToday.getDate();
+    }
     var year = dtToday.getFullYear() - 18;
     if (month < 10)
       month = '0' + month.toString();

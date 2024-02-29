@@ -17,12 +17,12 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
     payment_per_annum: Yup.string().required(),
     value_per_annum: Yup.string().required(),
     country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
-    state: Yup.string().min(2).max(35).required().trim().notOneOf([""]),
-    city: Yup.string().min(1).max(35).required().trim().notOneOf([""]),
+    state: Yup.string().min(2).max(35).required().trim().notOneOf([""," "]),
+    city: Yup.string().min(1).max(35).required().trim().notOneOf([""," "]),
     postcode: Yup.string().length(4).required(),
-    street: Yup.string().required().trim(),
-    flat: Yup.string().max(30).notRequired(),
-    building: Yup.string().min(1).max(30).required().trim(),
+    street: Yup.string().required().trim().notOneOf([""," "]),
+    flat: Yup.string().max(30).notRequired().notOneOf([""," "]),
+    building: Yup.string().min(1).max(30).required().trim().notOneOf([""," "]),
   })
 
   const formik = useFormik({
@@ -88,8 +88,12 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
   }
 
   const handleChange = (e) => {
-    formik.setFieldValue(`${[e.target.name]}`, e.target.value)
-    formik.setFieldTouched(`${[e.target.name]}`, true)
+    if (e.target.name === "country") {
+      formik.setValues({ ...formik.values, country: e.target.value, state: "", city: "", postcode: "", street: "" })
+    } else {
+      formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+      formik.setFieldTouched(`${[e.target.name]}`, true)
+    }
   }
 
 
@@ -171,16 +175,16 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                   <div className="input_field">
                     <p className="get-text">Projected value of payments per annum<span style={{ color: 'red' }} >*</span></p>
                     <select
-                    name="value_per_annum"
-                    id="value_per_annum"
-                    {...formik.getFieldProps("value_per_annum")}
-                    className={clsx(
-                      'form-control form-select bg-transparent',
-                      { 'is-invalid': formik.touched.value_per_annum && formik.errors.value_per_annum },
-                      {
-                        'is-valid': formik.touched.value_per_annum && !formik.errors.value_per_annum,
-                      }
-                    )}
+                      name="value_per_annum"
+                      id="value_per_annum"
+                      {...formik.getFieldProps("value_per_annum")}
+                      className={clsx(
+                        'form-control form-select bg-transparent',
+                        { 'is-invalid': formik.touched.value_per_annum && formik.errors.value_per_annum },
+                        {
+                          'is-valid': formik.touched.value_per_annum && !formik.errors.value_per_annum,
+                        }
+                      )}
                     >
                       <option value="Tier 1 - Less than $30,000" key="Less than $30,000">Tier 1 - Less than $30,000</option>
                       <option value="Tier 2 - $30,000 to $100,000" key="$30,000-$100,000">Tier 2 - $30,000 to $100,000</option>
@@ -196,9 +200,9 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                     <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                     <FormSelect
                       value={formik.values.country}
-                      name="counrty"
+                      name="country"
                       id="country"
-                      {...formik.getFieldProps("country")}
+                      onChange={handleChange}
                       className={clsx(
                         'bg-transparent',
                         { 'is-invalid': formik.touched.country && formik.errors.country },
@@ -310,7 +314,13 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                       value={formik.values.flat}
                       onKeyDown={(e) => { handleEmail(e, 15) }}
                       {...formik.getFieldProps("flat")}
-                      className='form-control bg-transparent'
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.flat && formik.errors.flat },
+                        {
+                          'is-valid': formik.touched.flat && !formik.errors.flat,
+                        }
+                      )}
                       onBlur={formik.handleBlur}
                     />
                   </Form.Group>

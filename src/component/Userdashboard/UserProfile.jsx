@@ -10,7 +10,7 @@ import * as Yup from "yup"
 import clsx from "clsx";
 import PhoneInput from "react-phone-input-2";
 import { userProfile, updateProfile } from "../../utils/Api";
-import { Modal } from "react-bootstrap";
+import { FormSelect, Modal } from "react-bootstrap";
 import PopVerify from "../verification/PopVerify";
 import { senderAreaList as areaList } from "../../utils/ArealList";
 import Autocomplete from "react-google-autocomplete";
@@ -36,6 +36,8 @@ const Profile = () => {
 
   const [selected_area_code, setSelectedAreaCode] = useState("61");
   const [user_data, setUserData] = useState()
+  const [max_date, setMaxDate] = useState("")
+  const [min_date, setMinDate] = useState("")
 
 
   const initialValues = {
@@ -115,7 +117,12 @@ const Profile = () => {
     })
     var dtToday = new Date();
     var month = dtToday.getMonth() + 1;
-    var day = dtToday.getDate();
+    var day;
+    if (month === 2 && dtToday.getDate() === 29) {
+      day = dtToday.getDate() - 1
+    } else {
+      day = dtToday.getDate();
+    }
     var year = dtToday.getFullYear() - 18;
     if (month < 10)
       month = '0' + month.toString();
@@ -123,8 +130,10 @@ const Profile = () => {
       day = '0' + day.toString();
     var maxDate = year + '-' + month + '-' + day;
     var minDate = year - 100 + '-' + month + "-" + day
-    document.getElementById("dob").setAttribute('max', maxDate);
-    document.getElementById("dob").setAttribute('min', minDate);
+    setMinDate(minDate)
+    setMaxDate(maxDate)
+    // document.getElementById("dob").setAttribute('max', maxDate);
+    // document.getElementById("dob").setAttribute('min', minDate);
     // console.log(1, formik.values.country)
   }, [])
 
@@ -194,20 +203,13 @@ const Profile = () => {
   }
 
   const handleChange = (e) => {
-    if (e.target.name === 'country') {
-      countryList.map((item) => {
-        if (item.name === e.target.value) {
-          // setData({ ...data, [e.target.name]: e.target.value, country_code: item.iso2 })
-          formik.setFieldValue(`${[e.target.name]}`, e.target.value)
-          formik.setFieldTouched(`${[e.target.name]}`, true)
-          setSelectedAreaCode(item.phone_code)
-        }
-      })
+    if (e.target.name === "country") {
+      formik.setValues({ ...formik.values, country: e.target.value, state: "", city: "", postcode: "", street: "" })
+    } else {
+      formik.setFieldValue(`${[e.target.name]}`, e.target.value)
+      formik.setFieldTouched(`${[e.target.name]}`, true)
     }
-    // setData({ ...data, [e.target.name]: e.target.value })
-    formik.setFieldValue(`${[e.target.name]}`, e.target.value)
-    formik.setFieldTouched(`${[e.target.name]}`, true)
-    formik.handleChange(e);
+    formik.handleChange(e)
   }
 
   const handleEmail = (e, max) => {
@@ -280,7 +282,7 @@ const Profile = () => {
             setLoading(false)
             let p = res.data.mobile
             let phone = p.substring(3)
-            setData({ ...res.data, mobile: phone })
+            // setData({ ...res.data, mobile: phone })
             formik.setValues({ ...res.data, mobile: phone })
             setIsUpdate({ email: res.data.email, mobile: p })
           }
@@ -316,33 +318,33 @@ const Profile = () => {
     }
   }
 
-  const getSelectedStreet = (place) => {
-    let street = place?.address_components?.filter(
-      (component) => {
-        return component.types.includes('route') || component.types.includes('street_name')
+  const getSelectedStreet = async (place) => {
+    let country = "", state = "", city = "", postcode = "", street = "", building = "";
+    await place?.address_components?.forEach((component) => {
+      if (component?.types?.includes("street_number")) {
+        street = component?.long_name + " " + street;
+      } else if (component?.types?.includes('postal_code')) {
+        postcode = component?.long_name;
+      } else if (component?.types?.includes('route') || component.types.includes('street_name')) {
+        street = street + component?.long_name;
+      } else if (component?.types?.includes('locality')) {
+        city = component?.long_name;
+      } else if (component?.types?.includes('administrative_area_level_1')) {
+        state = component?.long_name;
+      } else if (component?.types?.includes('country')) {
+        country = component?.long_name;
+      } else if (component?.types?.includes('building_name') || component?.types?.includes('building') || component?.types?.includes('building_number')) {
+        building = component?.long_name;
       }
-    );
-    if (street && street.length > 0) {
-      formik.setFieldValue("street", street[0].long_name)
-    } else {
-      formik.setFieldValue("street", place?.address_components[0]?.long_name)
-    }
-  }
+    })
+    formik.setFieldValue("country", country)
+    formik.setFieldValue("state", state)
+    formik.setFieldValue("postcode", postcode)
+    formik.setFieldValue("city", city)
+    formik.setFieldValue("street", street)
+    formik.setFieldValue("building", building)
 
-  const getStreetName = (e, max) => {
-    if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete") {
-      formik.setFieldValue("street", e.target.value)
-      formik.setFieldTouched("street", true)
-    } else {
-      const value = e.target.value.toString()
-      if (value.length >= max) {
-        e.stopPropagation()
-        e.preventDefault()
-      } else {
-        formik.setFieldValue("street", e.target.value)
-        formik.setFieldTouched("street", true)
-      }
-    }
+    // formik.setValues({ ...formik.values, postcode: postcode, country: country, city: city, state: state, street: street, building: building })
   }
 
 
@@ -370,7 +372,7 @@ const Profile = () => {
               <span className="pending_verified_text px-2 py-1 fs-5 mx-3">
                 KYC Pending
               </span>
-            ): user_data?.is_digital_Id_verified?.toString().toLowerCase() === "resubmission_requested" ? (
+            ) : user_data?.is_digital_Id_verified?.toString().toLowerCase() === "resubmission_requested" ? (
               <span className="pending_verified_text px-2 py-1 fs-5 mx-3">
                 KYC Resubmission Required
               </span>
@@ -547,6 +549,8 @@ const Profile = () => {
                       readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
                       disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "approved"}
                       // onkeydown={(e) => { e.stopPropagation() }}
+                      min={min_date}
+                      max={max_date}
                       className={clsx(
                         'form-control bg-transparent',
                         { 'is-invalid': user_data?.is_digital_Id_verified?.toString().toLowerCase() !== "approved" && formik.touched.Date_of_birth && formik.errors.Date_of_birth },
@@ -645,7 +649,7 @@ const Profile = () => {
                   <div className="input_field">
                     <p className="get-text">Projected value of payments per annum<span style={{ color: 'red' }} >*</span></p>
                     <select
-                      value={data.value_per_annum}
+                      value={formik.values.value_per_annum}
                       name="value_per_annum"
                       onChange={(e) => handleChange(e)}
                       className={clsx(
@@ -665,166 +669,37 @@ const Profile = () => {
                 </div>
               </div>
               <div className="row each-row">
-                <h5>Address</h5>
-                <div className="col-md-4 mb-3">
+                <h5>Your Address</h5>
+                <div className="col-md-12 mb-3">
                   <Form.Group className="form_label" controlId="country">
                     <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
-                    <select
+                    <FormSelect
                       value={formik.values.country}
                       name="country"
-                      onChange={(e) => handleChange(e)}
+                      id="country"
+                      onChange={handleChange}
                       className={clsx(
-                        'form-control form-select bg-transparent',
+                        'bg-transparent',
                         { 'is-invalid': formik.touched.country && formik.errors.country },
                         {
                           'is-valid': formik.touched.country && !formik.errors.country,
                         }
                       )}
                     >
-                      <option value={"none"} >Select a country</option>
-                      <option value={"Australia"} >Australia</option>
-                      <option value={"New Zealand"} >New Zealand</option>
-                    </select>
+                      <option value="Australia">Australia</option>
+                      <option valu="New Zealand">New Zealand</option>
+                    </FormSelect>
                   </Form.Group>
                 </div>
-                <div className="col-md-4 mb-3">
-                  <Form.Group className="form_label" controlId="state">
-                    <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
-                    {
-                      state_list && state_list.length > 0 ?
-                        (<select
-                          value={formik.values.state}
-                          name="state"
-                          onChange={(e) => handleChange(e)}
-                          className={clsx(
-                            'form-control form-select bg-transparent',
-                            { 'is-invalid': formik.touched.state && formik.errors.state },
-                            {
-                              'is-valid': formik.touched.state && !formik.errors.state,
-                            }
-                          )}
-                        >
-                          <option value={"none"} key={"none"}>Select a state</option>
-                          {state_list?.map((opt, index) => {
-                            if (opt?.state !== state_list[index - 1]?.state) {
-                              return (
-                                <option value={opt?.state} key={index}>{opt?.state}</option>
-                              )
-                            }
-                          })
-                          }
-                        </select>) :
-                        (<input
-                          type="text"
-                          placeholder='No country selected'
-                          className={clsx(
-                            'form-control form-select bg-transparent',
-                            { 'is-invalid': formik.touched.state && formik.errors.state },
-                            {
-                              'is-valid': formik.touched.state && !formik.errors.state,
-                            }
-                          )}
-                          readOnly
-                        />)
-                    }
-                  </Form.Group>
-                </div>
-                <div className="col-md-4 mb-3">
-                  <Form.Group className="form_label" controlId="city">
-                    <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
-                    {
-                      city_list && city_list.length > 0 ? (
-                        <select
-                          value={formik.values.city}
-                          name="city"
-                          onChange={(e) => handleChange(e)}
-                          className={clsx(
-                            'form-control form-select bg-transparent',
-                            { 'is-invalid': formik.touched.city && formik.errors.city },
-                            {
-                              'is-valid': formik.touched.city && !formik.errors.city,
-                            }
-                          )}
-                        >
-                          <option value="none" key="none">Select a city</option>
-                          {city_list?.map((opt, index) => {
-                            if (city_list[index]?.city !== city_list[index - 1]?.city && opt?.city !== "") {
-                              return (
-                                <option value={opt?.city} key={index}>{opt?.city}</option>
-                              )
-                            }
-                          })
-                          }
-                        </select>
-                      ) : (
-                        <input
-                          type="text"
-                          name="city"
-                          placeholder='No state selected'
-                          className={clsx(
-                            'form-control form-select bg-transparent',
-                            { 'is-invalid': formik.touched.city && formik.errors.city },
-                            {
-                              'is-valid': formik.touched.city && !formik.errors.city,
-                            }
-                          )}
-                          readOnly
-                        />
-                      )
-                    }
-                  </Form.Group>
-                </div>
-              </div>
-              <div className="row each-row">
-                <div className="col-md-4 mb-3">
-                  <Form.Group className="form_label" controlId="postal">
-                    <p className="get-text">Zip/Postal Code<span style={{ color: 'red' }} >*</span></p>
-                    <input
-                      type="text"
-                      name="postcode"
-                      value={formik.values.postcode}
-                      maxLength="4"
-                      list='postal_list'
-                      onChange={handleNumericOnly}
-                      className={clsx(
-                        'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.postcode && formik.errors.postcode },
-                        {
-                          'is-valid': formik.touched.postcode && !formik.errors.postcode,
-                        }
-                      )}
-                    />
-                    <datalist id="postal_list">
-                      {
-                        postal_list.length > 0 && postal_list?.map((opt, index) => {
-                          return <option value={opt.post_code} key={index} />
-                        })
-                      }
-                    </datalist>
-                  </Form.Group>
-                  {/* <p>{formik.errors.postcode}</p> */}
-                </div>
-                <div className="col-md-4 mb-3">
+                <div className="col-md-12 mb-3">
                   <Form.Group className="form_label" controlId="street">
                     <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
-                    {/* <input
-                      type="text"
-                      name="street"
-                      value={data.street}
-                      onKeyDown={(e) => { handleEmail(e, 30) }}
-                      {...formik.getFieldProps("street")}
-                      className={clsx(
-                        'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.street && formik.errors.street },
-                        {
-                          'is-valid': formik.touched.street && !formik.errors.street,
-                        }
-                      )}
-                    /> */}
                     <Autocomplete
                       apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                       onPlaceSelected={getSelectedStreet}
-                      placeholder=""
+                      placeholder="Street Address, Company or P.O. box.. "
+                      id="street"
+                      name="street"
                       options={{
                         types: [],
                         componentRestrictions: { country: formik.values.country === "New Zealand" ? "nz" : "au" },
@@ -836,12 +711,75 @@ const Profile = () => {
                           'is-valid': formik.touched.street && !formik.errors.street,
                         }
                       )}
-                      inputAutocompleteValue={formik.values.street}
-                      onInput={(e) => getStreetName(e, 500)}
-                      defaultValue={formik.values.street}
+                      value={formik.values.street}
+                      onChange={formik.handleChange}
                     />
                   </Form.Group>
                 </div>
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label statess" controlId="state">
+                    <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="state"
+                      value={formik.values.state}
+                      maxLength="30"
+                      onChange={handleOnlyAplha}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.state && formik.errors.state },
+                        {
+                          'is-valid': formik.touched.state && !formik.errors.state,
+                        }
+                      )}
+                      placeholder="state or province .."
+                      onBlur={formik.handleBlur}
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label" controlId="city">
+                    <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="city"
+                      value={formik.values.city}
+                      maxLength="35"
+                      onChange={handleOnlyAplha}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.city && formik.errors.city },
+                        {
+                          'is-valid': formik.touched.city && !formik.errors.city,
+                        }
+                      )}
+                      placeholder="city or suburb .."
+                      onBlur={formik.handleBlur}
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label" controlId="postal">
+                    <p className="get-text">Zip/Postal Code<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="postcode"
+                      value={formik.values.postcode}
+                      maxLength="4"
+                      onChange={handleNumericOnly}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.postcode && formik.errors.postcode },
+                        {
+                          'is-valid': formik.touched.postcode && !formik.errors.postcode,
+                        }
+                      )}
+                      onBlur={formik.handleBlur}
+                    />
+                  </Form.Group>
+                </div>
+              </div>
+              <div className="row each-row">
                 <div className="col-md-4 mb-3">
                   <Form.Group className="form_label" controlId="flat">
                     <p className="get-text">Flat/Unit No.</p>
@@ -851,13 +789,17 @@ const Profile = () => {
                       value={formik.values.flat}
                       onKeyDown={(e) => { handleEmail(e, 15) }}
                       {...formik.getFieldProps("flat")}
-                      className='form-control bg-transparent'
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.flat && formik.errors.flat },
+                        {
+                          'is-valid': formik.touched.flat && !formik.errors.flat,
+                        }
+                      )}
+                      onBlur={formik.handleBlur}
                     />
                   </Form.Group>
                 </div>
-
-              </div>
-              <div className="row each-row">
                 <div className="col-md-4 mb-3">
                   <Form.Group className="form_label" controlId="building">
                     <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
@@ -867,7 +809,6 @@ const Profile = () => {
                       value={formik.values.building}
                       onKeyDown={(e) => { handleEmail(e, 30) }}
                       {...formik.getFieldProps("building")}
-
                       className={clsx(
                         'form-control bg-transparent',
                         { 'is-invalid': formik.touched.building && formik.errors.building },
@@ -875,6 +816,7 @@ const Profile = () => {
                           'is-valid': formik.touched.building && !formik.errors.building,
                         }
                       )}
+                      onBlur={formik.handleBlur}
                     />
                   </Form.Group>
                 </div>
