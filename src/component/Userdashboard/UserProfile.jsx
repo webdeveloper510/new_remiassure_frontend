@@ -92,7 +92,9 @@ const Profile = () => {
       if (res.code == "200") {
         setLoading(false)
         let p = res.data.mobile
+        
         let phone = p.substring(3);
+        
         setSelectedAreaCode(p.substring(1, 3))
         let p_a, v_a;
         if (res.data.payment_per_annum === "" || res.data.payment_per_annum === null) {
@@ -138,62 +140,62 @@ const Profile = () => {
     // console.log(1, formik.values.country)
   }, [])
 
-  useEffect(() => {
-    if (formik.values.country !== "none") {
-      let array_1 = countryList?.filter((item) => {
-        if (item.name === formik.values.country) {
-          // setData({ ...data, state: "none", city: "none", postcode: "", country_code: item?.iso2 })
-          formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country_code: item?.iso2 })
-          return item?.name === formik.values.country
-        }
-      })
-      let array = array_1[0]?.states;
-      if (array) {
-        array.sort((a, b) => (a.state > b.state) ? 1 : -1);
-      }
-      setStateList(array);
-    } else if (formik.values.country === "none") {
-      // setData({ ...data, city: "none", postcode: "", state: "none", country : countryList?.[0].name , country_code: countryList?.[0].iso2})
-      formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country: countryList?.[0].name, country_code: countryList?.[0].iso2 })
-      setCityList([])
-      setStateList([])
-      setPostalList([])
-    }
-    // console.log(2, formik.values.country)
-  }, [formik.values.country])
+  // useEffect(() => {
+  //   if (formik.values.country !== "none") {
+  //     let array_1 = countryList?.filter((item) => {
+  //       if (item.name === formik.values.country) {
+  //         // setData({ ...data, state: "none", city: "none", postcode: "", country_code: item?.iso2 })
+  //         formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country_code: item?.iso2 })
+  //         return item?.name === formik.values.country
+  //       }
+  //     })
+  //     let array = array_1[0]?.states;
+  //     if (array) {
+  //       array.sort((a, b) => (a.state > b.state) ? 1 : -1);
+  //     }
+  //     setStateList(array);
+  //   } else if (formik.values.country === "none") {
+  //     // setData({ ...data, city: "none", postcode: "", state: "none", country : countryList?.[0].name , country_code: countryList?.[0].iso2})
+  //     formik.setValues({ ...formik.values, city: "none", postcode: "", state: "none", country: countryList?.[0].name, country_code: countryList?.[0].iso2 })
+  //     setCityList([])
+  //     setStateList([])
+  //     setPostalList([])
+  //   }
+  //   // console.log(2, formik.values.country)
+  // }, [formik.values.country])
 
-  useEffect(() => {
-    if (formik.values.state !== "none" && state_list && state_list.length > 0) {
-      let array = state_list.filter((item) => {
-        return item?.state === formik.values?.state
-      })
-      array.sort((a, b) => (a.city > b.city) ? 1 : -1);
+  // useEffect(() => {
+  //   if (formik.values.state !== "none" && state_list && state_list.length > 0) {
+  //     let array = state_list.filter((item) => {
+  //       return item?.state === formik.values?.state
+  //     })
+  //     array.sort((a, b) => (a.city > b.city) ? 1 : -1);
 
-      setCityList(array);
-    } else if (formik.values.state === "none") {
-      // setData({ ...data, city: "none", postcode: "" })
-      formik.setValues({ ...formik.values, city: "none", postcode: "" })
-      setCityList([])
-    }
-    // console.log(3, formik.values.country)
-  }, [formik.values.state, state_list])
+  //     setCityList(array);
+  //   } else if (formik.values.state === "none") {
+  //     // setData({ ...data, city: "none", postcode: "" })
+  //     formik.setValues({ ...formik.values, city: "none", postcode: "" })
+  //     setCityList([])
+  //   }
+  //   // console.log(3, formik.values.country)
+  // }, [formik.values.state, state_list])
 
-  useEffect(() => {
-    if (formik.values.city !== "none") {
-      let postals = city_list.filter((item) => {
-        return item?.city === formik.values?.city && item?.state === formik.values?.state
-      })
-      setPostalList(postals)
-      // setData({ ...data, postcode: postals[0]?.post_code })
-      // console.log(postals)
-      formik.setValues({ ...formik.values, postcode: postals[0]?.post_code })
-    } else if (formik.values.city === "none") {
-      // setData({ ...data, postcode: "" })
-      formik.setValues({ ...formik.values, postcode: "" })
-      setPostalList([])
-    }
-    // console.log(4, formik.values.country)
-  }, [formik.values.city, city_list])
+  // useEffect(() => {
+  //   if (formik.values.city !== "none") {
+  //     let postals = city_list.filter((item) => {
+  //       return item?.city === formik.values?.city && item?.state === formik.values?.state
+  //     })
+  //     setPostalList(postals)
+  //     // setData({ ...data, postcode: postals[0]?.post_code })
+  //     // console.log(postals)
+  //     formik.setValues({ ...formik.values, postcode: postals[0]?.post_code })
+  //   } else if (formik.values.city === "none") {
+  //     // setData({ ...data, postcode: "" })
+  //     formik.setValues({ ...formik.values, postcode: "" })
+  //     setPostalList([])
+  //   }
+  //   // console.log(4, formik.values.country)
+  // }, [formik.values.city, city_list])
 
 
 
@@ -201,15 +203,18 @@ const Profile = () => {
     const result = event.target.value.replace(/[^0-9]/, "");
     // setData({ ...data, [event.target.name]: result })
     formik.setFieldValue(event.target.name, result)
+   // formik.handleChange(event)
   }
 
   const handleChange = (e) => {
     if (e.target.name === "country") {
-      formik.setValues({ ...formik.values, country: e.target.value, state: "", city: "", postcode: "", street: "" })
+      formik.setValues({ ...formik.values, country: e.target.value, state: "", city: "", street: "" })
     } else {
       formik.setFieldValue(`${[e.target.name]}`, e.target.value)
       formik.setFieldTouched(`${[e.target.name]}`, true)
+      
     }
+    
     formik.handleChange(e)
   }
 
@@ -244,6 +249,7 @@ const Profile = () => {
     d.country_code = formik.values.country_code
     d.location = formik.values.country
     d.Gender = "NA"
+   
     if (formik.values.Middle_name === "" || formik.values.Middle_name === undefined || formik.values.Middle_name === " ") {
       delete d['Middle_name'];
     }
@@ -266,6 +272,7 @@ const Profile = () => {
     delete d["destination_currency"];
     delete d["created_at"];
     delete d["profile_completed"];
+   
     setLoading(true)
     updateProfile(d).then(res => {
       setLoading(false)
@@ -321,6 +328,7 @@ const Profile = () => {
 
   const getSelectedStreet = async (place) => {
     let country = "", state = "", city = "", postcode = "", street = "", building = "";
+    
     await place?.address_components?.forEach((component) => {
       if (component?.types?.includes("street_number")) {
         street = component?.long_name + " " + street;
@@ -340,9 +348,11 @@ const Profile = () => {
     })
     formik.setFieldValue("country", country)
     formik.setFieldValue("state", state)
+    //console.log("postcode",postcode)
     formik.setFieldValue("postcode", postcode)
+
     formik.setFieldValue("city", city)
-    formik.setFieldValue("street", street)
+    formik.setFieldValue("street",  street.trim())
     formik.setFieldValue("building", building)
 
     // formik.setValues({ ...formik.values, postcode: postcode, country: country, city: city, state: state, street: street, building: building })
@@ -719,7 +729,7 @@ const Profile = () => {
                         }
                       )}
                       value={formik.values.street}
-                      onChange={formik.handleChange}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </div>

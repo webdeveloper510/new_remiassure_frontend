@@ -132,8 +132,8 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
         building = component?.long_name;
       }
     })
-
-    formik.setValues({ ...formik.values, postcode: postcode, country: country, city: city, state: state, street: street, building: building })
+   
+    formik.setValues({ ...formik.values, postcode: postcode, country: country, city: city, state: state, street: street.trim(), building: building })
   }
 
   const handleOnlyAplha = (event) => {

@@ -109,13 +109,18 @@ const Addnewrecipient = () => {
       if (d.email === "" || d.email === undefined || d.email === " ") {
         delete d['email'];
       }
+     
       if (phone_code !== "") {
         let mno;
         if (phone_code.toString().length > 2) mno = d.mobile.substring(3);
         else mno = d.mobile.substring(2);
         const mobileNumber = parseInt(mno, 10);
+     
+
         d.mobile = phone_code + mobileNumber
       }
+    console.log("alldata",d)
+   
       if (id) {
         updateUserRecipient(id, d).then((response) => {
           if (response.code == "200") {
@@ -170,7 +175,10 @@ const Addnewrecipient = () => {
             values.other_name = values.bank_name
             values.bank_name = "other"
           }
+          console.log("values",values)
+          
           formik.setValues({ ...values })
+         // formik.setFieldValue('mobile',values.mobile)
         }
         setLoading(false)
       }).catch((error) => {
@@ -183,14 +191,32 @@ const Addnewrecipient = () => {
     formik.setFieldValue('mobile', e);
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
-    setPhone_code(coun.dialCode)
+   
+   
+   formik.setFieldValue('country_code', coun.countryCode)
+   setPhone_code(coun.dialCode)
+
+   // Set Address fields to empty
+   if(formik.values.country_code!=coun.countryCode){
+    formik.setFieldValue("street","")
+    formik.setFieldValue("state","")
+    formik.setFieldValue("city","")
+    formik.setFieldValue("postcode","")
+    formik.setFieldValue("building","")
+    formik.setFieldValue("flat","")
+   }
+    
+
+    
   }
 
   const handleChange = (e) => {
     if (e.target.name === 'country') {
+     
       const selected = countryList.filter((country) => {
         return country.name === e.target.value
       })
+   
       formik.setValues({ ...formik.values, country: e.target.value, country_code: selected[0].code, street: "", state: "", city: "", postcode: "", building: "" })
       formik.setFieldTouched(e.target.name, true)
     } else {
@@ -303,7 +329,7 @@ const Addnewrecipient = () => {
     formik.setFieldValue("postcode", postcode)
     formik.setFieldValue("city", city)
     formik.setFieldValue("state", state)
-    formik.setFieldValue("street", street)
+    formik.setFieldValue("street", street.trim())
     formik.setFieldValue("building", building)
   }
 
