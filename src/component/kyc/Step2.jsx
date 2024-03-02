@@ -132,8 +132,17 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
         building = component?.long_name;
       }
     })
+
+    formik.setFieldValue("country", country)
+    formik.setFieldValue("state", state)
+    //console.log("postcode",postcode)
+    formik.setFieldValue("postcode", postcode)
+
+    formik.setFieldValue("city", city)
+    formik.setFieldValue("street",  street.trim())
+    formik.setFieldValue("building", building)
    
-    formik.setValues({ ...formik.values, postcode: postcode, country: country, city: city, state: state, street: street.trim(), building: building })
+    //formik.setValues({ ...formik.values, postcode: postcode, country: country, city: city, state: state, street: street.trim(), building: building })
   }
 
   const handleOnlyAplha = (event) => {
@@ -237,7 +246,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                         }
                       )}
                       value={formik.values.street}
-                      onChange={formik.handleChange}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </div>

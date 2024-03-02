@@ -176,9 +176,9 @@ const Addnewrecipient = () => {
             values.bank_name = "other"
           }
           console.log("values",values)
-          
-          formik.setValues({ ...values })
-         // formik.setFieldValue('mobile',values.mobile)
+        
+          recipientSchema._nodes.map(field=>formik.setFieldValue(field,values[field]))
+         
         }
         setLoading(false)
       }).catch((error) => {
@@ -212,12 +212,13 @@ const Addnewrecipient = () => {
 
   const handleChange = (e) => {
     if (e.target.name === 'country') {
+      console.log("country change")
      
       const selected = countryList.filter((country) => {
         return country.name === e.target.value
       })
    
-      formik.setValues({ ...formik.values, country: e.target.value, country_code: selected[0].code, street: "", state: "", city: "", postcode: "", building: "" })
+      formik.setValues({ ...formik.values, mobile:"", country: e.target.value, country_code: selected[0].code, street: "", state: "", city: "", postcode: "", building: "" })
       formik.setFieldTouched(e.target.name, true)
     } else {
       formik.setFieldValue(`${e.target.name}`, e.target.value)
@@ -651,7 +652,7 @@ const Addnewrecipient = () => {
                   className="form-button"
                   onClick={() => { formik.handleSubmit() }}
                 >
-                  Create Recipient
+                  {id?"Update":"Create" } Recipient
                   {loading ? <>
                     <div className="loader-overly">
                       <div className="loader" >

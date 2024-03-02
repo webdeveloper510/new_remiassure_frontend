@@ -55,7 +55,7 @@ const Profile = () => {
     Middle_name:Yup.string().trim().notOneOf([" "]),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(9).max(10).required(),
-    flat: Yup.string().min(1).max(30).trim().notOneOf([" "]),
+    //flat: Yup.string().min(1).max(30).trim().notOneOf([" "]),
     building: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().max(900).required().trim(),
     city: Yup.string().min(1).max(35).required().trim().notOneOf(["none"]),
@@ -77,6 +77,11 @@ const Profile = () => {
     initialValues,
     validationSchema: profileSchema,
     onSubmit: async (values) => {
+      if (values.country === "Australia") {
+        values.country_code = "AU"
+      } else {
+        values.country_code = "NZ"
+      }
       // console.log(values)
       setOpenModal(true)
     }
@@ -107,8 +112,9 @@ const Profile = () => {
         } else {
           v_a = res.data.value_per_annum
         }
+        console.log("data",res.data)
         // setData({ ...data, ...res.data, mobile: phone, country: countryValue, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
-        formik.setValues({ ...res.data, mobile: phone, postcode: res.data.postcode, occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
+        formik.setValues({ ...res.data, mobile: phone, postcode: res.data.postcode, state:res?.data?.state !== null ? res?.data?.state : "" ,city:res?.data?.city !== null ? res?.data?.city : "",occupation: res?.data?.occupation?.toLowerCase() !== "none" ? res?.data?.occupation : "", payment_per_annum: p_a, value_per_annum: v_a })
         setUserData(res.data)
         setIsUpdate({ email: res.data.email, mobile: p })
       }
@@ -253,7 +259,7 @@ const Profile = () => {
     if (formik.values.Middle_name === "" || formik.values.Middle_name === undefined || formik.values.Middle_name === " ") {
       delete d['Middle_name'];
     }
-    if (formik.values.flat === "" || formik.values.flat === undefined || formik.values.flat === " ") {
+    if (formik.values.flat === "" || formik.values.flat === null || formik.values.flat === undefined || formik.values.flat === " ") {
       delete d['flat'];
     }
     if (is_update.email === d.email) {

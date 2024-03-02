@@ -178,7 +178,7 @@ const Dashboard = () => {
                                 ) : (isVerified == 'submitted' ) && !loading ? (
                                     <div>
                                         <Alert className="verify-alert" >
-                                            <b><img src={important} height={40} width={40} />To Transfer money, Please wait for kyc approval</b>
+                                            <b><img src={important} height={40} width={40} />To Transfer money, Please wait for KYC approval</b>
                                             {/* <ol>
                                                 <li><span className="fw-bold" onClick={() => start()}>Verify your Account</span>.</li>
                                             </ol> */}
