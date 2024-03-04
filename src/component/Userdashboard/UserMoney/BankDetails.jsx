@@ -29,6 +29,7 @@ const BankDetails = ({ handleStep, step }) => {
   const [loading, setLoading] = useState(false)
   const [isAfrican, setIsAfrican] = useState(true)
   const [display_confirm, setDisplayConfirm] = useState({ toggle: false, data: null })
+  const [countryCode, setCountryCode] = useState("AU")
 
   const serverUrl = process.env.REACT_APP_API_URL
 
@@ -36,27 +37,27 @@ const BankDetails = ({ handleStep, step }) => {
     bank: null, other_name: "",
     acc_no: "",
     f_name: "", l_name: "", m_name: "",
-    mobile: "", flat: "",
+    mobile: "+61", flat: "",
     build_no: "", street: "", city: "",
     post_code: "", state: "", country: "Australia", country_code: "AU"
   })
 
   const countryList = [
-    { name: "Australia", code: "AU" },
-    { name: "Ghana", code: "GH" },
-    { name: "Kenya", code: "KE" },
-    { name: "New Zealand", code: "NZ" },
-    { name: "Nigeria", code: "NG" },
-    { name: "Philippines", code: "PH" },
-    { name: "Thailand", code: "TH" },
-    { name: "Vietnam", code: "VN" },
+    { name: "Australia", code: "AU", dialCode: "61"},
+    { name: "Ghana", code: "GH" , dialCode: "233" },
+    { name: "Kenya", code: "KE", dialCode: "254" },
+    { name: "New Zealand", code: "NZ", dialCode: "64" },
+    { name: "Nigeria", code: "NG", dialCode: "234" },
+    { name: "Philippines", code: "PH", dialCode: "63" },
+    { name: "Thailand", code: "TH", dialCode: "66" },
+    { name: "Vietnam", code: "VN", dialCode: "84" },
   ]
 
   const initialValues = {
     bank: null, other_name: "", 
     acc_no: "",
     f_name: "", l_name: "", m_name: "",
-    mobile: "", flat: "",
+    mobile: "+61", flat: "",
     build_no: "", street: "", city: "",
     post_code: "", state: "", country: "Australia", country_code: "AU"
   }
@@ -120,7 +121,7 @@ const BankDetails = ({ handleStep, step }) => {
         postcode: values.post_code,
         city: values.city,
         state: values.state,
-        country_code: data.country_code,
+       // country_code: data.country_code,
         country: values.country
       }
       if (d.flat === "" || d.flat === undefined || d.flat === " ") {
@@ -133,8 +134,10 @@ const BankDetails = ({ handleStep, step }) => {
         let mno;
         if (phone_code.toString().length > 2) mno = d.mobile.substring(3)
         else mno = d.mobile.substring(2)
-        d.mobile = phone_code + parseInt(mno, 10)
+       // d.mobile = phone_code + parseInt(mno, 10)
+        d.mobile = phone_code + mno
       }
+      d.country_code = countryCode
 
       axios.post(`${serverUrl}/payment/recipient-create/`, d, {
         headers: {
@@ -170,11 +173,37 @@ const BankDetails = ({ handleStep, step }) => {
 
   const handleChange = (e) => {
     if (e.target.name === 'country') {
+
+
+      const previousSelected = countryList.filter((country) => {
+        return country.code.toLowerCase() === countryCode.toLowerCase()
+      })
+    
       const selected = countryList.filter((country) => {
         return country.name === e.target.value
       })
-      formik.setValues({ ...formik.values, mobile:"", country: e.target.value, country_code: selected[0].code, street: "", state: "", city: "", post_code: "", build_no: "" })
-      formik.setFieldTouched(e.target.name, true)
+
+      let mobileValue = "+"+selected[0].dialCode + formik.values.mobile.replace("+","").substring(previousSelected[0].code.length)
+     
+        formik.setFieldValue('mobile',  mobileValue);
+        formik.setFieldTouched('mobile', true);
+        formik.setFieldValue('country', selected[0].name)
+    
+    
+         setCountryCode(selected[0].code.toLowerCase())
+         //setPhone_code(selected[0].dialCode)
+  
+         
+          //formik.setFieldValue('country_code', coun.countryCode)
+          formik.setFieldValue("street","")
+          formik.setFieldValue("state","")
+          formik.setFieldValue("city","")
+          formik.setFieldValue("postcode","")
+          formik.setFieldValue("building","")
+          formik.setFieldValue("flat","")
+      
+      
+    
     } else {
       formik.setFieldValue(`${e.target.name}`, e.target.value)
       formik.setFieldTouched(`${e.target.name}`, true)
@@ -182,13 +211,33 @@ const BankDetails = ({ handleStep, step }) => {
   }
 
   const handlePhone = (e, coun) => {
-    formik.setFieldValue('mobile', e);
-    formik.setFieldTouched('mobile', true);
-    formik.setFieldValue('country', coun.name)
-    setPhoneCode(coun.dialCode)
-    // console.log(coun.dialCode)
-    // setData({ ...data, country: coun.name, mobile: e })
-  }
+    console.log("mobile value",e)
+     formik.setFieldValue('mobile', e);
+     formik.setFieldTouched('mobile', true);
+     formik.setFieldValue('country', coun.name)
+     console.log("country name", coun.name)
+    
+    
+     setCountryCode(coun.countryCode)
+     console.log("dialcode",coun.dialCode)
+     //setPhone_code(coun.dialCode)
+     console.log(countryCode,coun.countryCode)
+    // Set Address fields to empty
+    if(countryCode.toLowerCase()!=coun.countryCode.toLowerCase()){
+     console.log("country code changed")
+     //formik.setFieldValue('country_code', coun.countryCode)
+     formik.setFieldValue("street","")
+     formik.setFieldValue("state","")
+     formik.setFieldValue("city","")
+     formik.setFieldValue("postcode","")
+     formik.setFieldValue("building","")
+     formik.setFieldValue("flat","")
+   
+    }
+     
+ 
+     
+   }
 
   const handleKeyDown = (e, max) => {
     if (e.key === 'Backspace' || e.key === 'Enter' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'ArrowLeft' || e.key === "ArrowRight" || e.key === "Escape" || e.key === "Delete" || e.key === " ") {
@@ -272,6 +321,7 @@ const BankDetails = ({ handleStep, step }) => {
     formik.resetForm({
       values: { ...initialValues, bank: formik.values.bank }
     })
+    setCountryCode("AU")
     setActive(!isActive)
   }
 
@@ -703,7 +753,7 @@ const BankDetails = ({ handleStep, step }) => {
                     name="street"
                     options={{
                       types: [],
-                      componentRestrictions: { country: formik.values.country_code?.toLowerCase() },
+                      componentRestrictions: { country: countryCode.toLowerCase() },
                     }}
                     className={clsx(
                       'form-control bg-transparent',

@@ -26,16 +26,17 @@ const Addnewrecipient = () => {
   const [isAfrican, setIsAfrican] = useState(true)
   const state = useLocation()?.state;
   const id = state?.id || false;
+  const [countryCode, setCountryCode] = useState("AU")
 
   const countryList = [
-    { name: "Australia", code: "AU" },
-    { name: "Ghana", code: "GH" },
-    { name: "Kenya", code: "KE" },
-    { name: "New Zealand", code: "NZ" },
-    { name: "Nigeria", code: "NG" },
-    { name: "Philippines", code: "PH" },
-    { name: "Thailand", code: "TH" },
-    { name: "Vietnam", code: "VN" },
+    { name: "Australia", code: "AU", dialCode: "61"},
+    { name: "Ghana", code: "GH" , dialCode: "233" },
+    { name: "Kenya", code: "KE", dialCode: "254" },
+    { name: "New Zealand", code: "NZ", dialCode: "64" },
+    { name: "Nigeria", code: "NG", dialCode: "234" },
+    { name: "Philippines", code: "PH", dialCode: "63" },
+    { name: "Thailand", code: "TH", dialCode: "66" },
+    { name: "Vietnam", code: "VN", dialCode: "84" },
   ]
 
 
@@ -91,6 +92,7 @@ const Addnewrecipient = () => {
     initialValues,
     validationSchema: recipientSchema,
     onSubmit: async (values) => {
+      console.log("submiteed data",values)
       setLoading(true)
       let d = values
       if (values.bank_name === "other") {
@@ -114,11 +116,12 @@ const Addnewrecipient = () => {
         let mno;
         if (phone_code.toString().length > 2) mno = d.mobile.substring(3);
         else mno = d.mobile.substring(2);
-        const mobileNumber = parseInt(mno, 10);
+       // const mobileNumber = parseInt(mno, 10);(Remove Zeros from beginning)
      
 
-        d.mobile = phone_code + mobileNumber
+        d.mobile = phone_code + mno
       }
+      d.country_code = countryCode
     console.log("alldata",d)
    
       if (id) {
@@ -178,6 +181,8 @@ const Addnewrecipient = () => {
           console.log("values",values)
         
           recipientSchema._nodes.map(field=>formik.setFieldValue(field,values[field]))
+          setCountryCode(values.country_code)
+         // formik.setFieldValue("country_code",values.country_code)
          
         }
         setLoading(false)
@@ -188,22 +193,32 @@ const Addnewrecipient = () => {
   }, [id])
 
   const handlePhone = (e, coun) => {
-    formik.setFieldValue('mobile', e);
+    let mobileWithoutDialCode = e.substring(coun.dialCode.length).replace(/[^0-9]/, "")
+    //.replace(/^0+/,'');
+    console.log("mobileWithoutDialCode",mobileWithoutDialCode)
+    console.log("mobileWithDialCode",coun.dialCode+mobileWithoutDialCode)
+
+    formik.setFieldValue('mobile', coun.dialCode+mobileWithoutDialCode);
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
+    console.log("country name", coun.name)
    
    
-   formik.setFieldValue('country_code', coun.countryCode)
-   setPhone_code(coun.dialCode)
+    setCountryCode(coun.countryCode)
+   
+    setPhone_code(coun.dialCode)
 
    // Set Address fields to empty
-   if(formik.values.country_code!=coun.countryCode){
+   if(countryCode.toLowerCase()!=coun.countryCode.toLowerCase()){
+    console.log("country code changed")
+    //formik.setFieldValue('country_code', coun.countryCode)
     formik.setFieldValue("street","")
     formik.setFieldValue("state","")
     formik.setFieldValue("city","")
     formik.setFieldValue("postcode","")
     formik.setFieldValue("building","")
     formik.setFieldValue("flat","")
+  
    }
     
 
@@ -212,14 +227,37 @@ const Addnewrecipient = () => {
 
   const handleChange = (e) => {
     if (e.target.name === 'country') {
-      console.log("country change")
-     
+
+
+      const previousSelected = countryList.filter((country) => {
+        return country.code.toLowerCase() === countryCode.toLowerCase()
+      })
+    
       const selected = countryList.filter((country) => {
         return country.name === e.target.value
       })
-   
-      formik.setValues({ ...formik.values, mobile:"", country: e.target.value, country_code: selected[0].code, street: "", state: "", city: "", postcode: "", building: "" })
-      formik.setFieldTouched(e.target.name, true)
+
+      let mobileValue = selected[0].dialCode + formik.values.mobile.replace("+","").substring(previousSelected[0].code.length)
+     
+        formik.setFieldValue('mobile',  mobileValue);
+        formik.setFieldTouched('mobile', true);
+        formik.setFieldValue('country', selected[0].name)
+    
+    
+         setCountryCode(selected[0].code.toLowerCase())
+         setPhone_code(selected[0].dialCode)
+  
+         
+          //formik.setFieldValue('country_code', coun.countryCode)
+          formik.setFieldValue("street","")
+          formik.setFieldValue("state","")
+          formik.setFieldValue("city","")
+          formik.setFieldValue("postcode","")
+          formik.setFieldValue("building","")
+          formik.setFieldValue("flat","")
+      
+      
+    
     } else {
       formik.setFieldValue(`${e.target.name}`, e.target.value)
       formik.setFieldTouched(`${e.target.name}`, true)
@@ -522,7 +560,7 @@ const Addnewrecipient = () => {
                     name="street"
                     options={{
                       types: [],
-                      componentRestrictions: { country: formik.values.country_code?.toLowerCase() },
+                      componentRestrictions: { country: countryCode?.toLowerCase() },
                     }}
                     className={clsx(
                       'form-control bg-transparent',

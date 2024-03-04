@@ -211,6 +211,13 @@ const Profile = () => {
     formik.setFieldValue(event.target.name, result)
    // formik.handleChange(event)
   }
+  const handleNumericOnlyMobile = (event) => {
+    const result = event.target.value.replace(/[^0-9]/, "")
+    //.replace(/^0+/,'');
+    // setData({ ...data, [event.target.name]: result })
+    formik.setFieldValue(event.target.name, result)
+   // formik.handleChange(event)
+  }
 
   const handleChange = (e) => {
     if (e.target.name === "country") {
@@ -526,7 +533,7 @@ const Profile = () => {
                           value={formik.values.mobile}
                           id="mobile"
                           maxLength="10"
-                          onChange={(e) => handleNumericOnly(e)}
+                          onChange={(e) => handleNumericOnlyMobile(e)}
                           className={clsx(
                             'form-control bg-transparent',
                             { 'is-invalid': formik.touched.mobile && formik.errors.mobile },

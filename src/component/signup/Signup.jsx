@@ -86,7 +86,9 @@ const Signup = () => {
                 left: 0,
                 behavior: "smooth"
             })
-            let mno = parseInt(values.mobile, 10)
+           // let mno = parseInt(values.mobile, 10) // Remove zero from front
+            let mno = values.mobile
+            
             let data = { ...values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + mno }
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
@@ -175,7 +177,8 @@ const Signup = () => {
         let length = otp.toString()
         if (length.length == 6) {
             setLoading(true)
-            let mno = parseInt(formik.values.mobile, 10)
+            //let mno = parseInt(formik.values.mobile, 10) // Remove zero from front
+            let mno = formik.values.mobile
             let data = { ...formik.values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + mno, otp: otp }
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
@@ -239,7 +242,10 @@ const Signup = () => {
     }
 
     const handleNumericOnly = (event) => {
-        const result = event.target.value.replace(/[^0-9]/, "");
+        const result = event.target.value.replace(/[^0-9]/, "")
+        //.replace(/^0+/,'');
+        
+        
         formik.setFieldValue(event.target.name, result)
     }
 
