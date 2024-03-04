@@ -78,7 +78,7 @@ const Addnewrecipient = () => {
     building: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(500).required().trim(),
     city: Yup.string().min(1).max(35).required().trim(),
-    postcode: Yup.string().length(7).notRequired(),
+    postcode: Yup.string().max(7).notRequired(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required()
   })
