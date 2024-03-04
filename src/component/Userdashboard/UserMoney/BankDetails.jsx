@@ -59,7 +59,7 @@ const BankDetails = ({ handleStep, step }) => {
     f_name: "", l_name: "", m_name: "",
     mobile: "+61", flat: "",
     build_no: "", street: "", city: "",
-    post_code: "", state: "", country: "Australia", country_code: "AU"
+    postcode: "", state: "", country: "Australia", country_code: "AU"
   }
 
   const [phone_code, setPhoneCode] = useState("")
@@ -89,12 +89,13 @@ const BankDetails = ({ handleStep, step }) => {
     acc_no: Yup.string().min(5).max(18).required(),
     f_name: Yup.string().min(2).max(25).required().trim(),
     l_name: Yup.string().min(2).max(25).required().trim(),
+    m_name: Yup.string().min(1).max(25).notRequired().trim(),
     mobile: Yup.string().min(11).max(18).required(),
     flat: Yup.string().min(1).max(30).notRequired(),
     build_no: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(900).required().trim(),
     city: Yup.string().min(1).max(35).required().trim(),
-    post_code: Yup.string().max(5).notRequired(),
+    postcode: Yup.string().max(5).notRequired(),
     state: Yup.string().min(2).max(35).required(),
     country: Yup.string().min(2).max(30).required()
   })
@@ -822,9 +823,9 @@ const BankDetails = ({ handleStep, step }) => {
                   <input
                     type="text"
                     name="post_code"
-                    value={formik.values.post_code}
+                    value={formik.values.postcode}
                     onKeyDown={(e) => handlePostCode(e, 4)}
-                    {...formik.getFieldProps("post_code")}
+                    {...formik.getFieldProps("postcode")}
                     className={clsx(
                       'form-control bg-transparent'
                     )}

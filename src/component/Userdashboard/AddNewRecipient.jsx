@@ -72,12 +72,13 @@ const Addnewrecipient = () => {
     account_number: Yup.string().min(5).max(18).required(),
     first_name: Yup.string().min(1).max(25).required().trim(),
     last_name: Yup.string().min(1).max(25).required().trim(),
+    middle_name: Yup.string().min(1).max(25).notRequired().trim(),
     mobile: Yup.string().min(11).max(18).required(),
     flat: Yup.string().min(1).max(30).notRequired(),
     building: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(800).required().trim(),
     city: Yup.string().min(1).max(35).required().trim(),
-    post_code: Yup.string().length(5).notRequired(),
+    postcode: Yup.string().length(5).notRequired(),
     state: Yup.string().min(1).max(35).required(),
     country: Yup.string().min(2).max(30).required()
   })
@@ -103,6 +104,7 @@ const Addnewrecipient = () => {
         delete d["flat"]
       }
       if (d.postcode === "" || d.postcode === undefined || d.postcode === " ") {
+        
         delete d['postcode'];
       }
       if (d.middle_name === "" || d.middle_name === undefined || d.middle_name === " ") {
@@ -179,10 +181,12 @@ const Addnewrecipient = () => {
             values.bank_name = "other"
           }
           console.log("values",values)
+          //console.log("recipientSchema._nodes",recipientSchema._nodes)
         
           recipientSchema._nodes.map(field=>formik.setFieldValue(field,values[field]))
           setCountryCode(values.country_code)
-         // formik.setFieldValue("country_code",values.country_code)
+          //formik.setFieldValue('postcode')
+         //// formik.setFieldValue("country_code",values.country_code)
          
         }
         setLoading(false)
