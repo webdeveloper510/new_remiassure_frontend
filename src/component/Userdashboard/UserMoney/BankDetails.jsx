@@ -89,14 +89,14 @@ const BankDetails = ({ handleStep, step }) => {
     acc_no: Yup.string().min(5).max(18).required(),
     f_name: Yup.string().min(2).max(25).required().trim(),
     l_name: Yup.string().min(2).max(25).required().trim(),
-    m_name: Yup.string().min(1).max(25).notRequired().trim(),
+    m_name: Yup.string().max(25).notRequired().trim(),
     mobile: Yup.string().min(11).max(18).required(),
     flat: Yup.string().min(1).max(30).notRequired(),
     build_no: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(500).required().trim(),
     city: Yup.string().min(1).max(35).required().trim(),
     postcode: Yup.string().max(7).notRequired(),
-    state: Yup.string().min(2).max(35).required(),
+    state: Yup.string().min(1).max(35).required().trim(),
     country: Yup.string().min(2).max(30).required()
   })
 
@@ -135,8 +135,9 @@ const BankDetails = ({ handleStep, step }) => {
         let mno;
         if (phone_code.toString().length > 2) mno = d.mobile.substring(3)
         else mno = d.mobile.substring(2)
-       // d.mobile = phone_code + parseInt(mno, 10)
-        d.mobile = phone_code + mno
+        d.mobile = phone_code + parseInt(mno, 10)
+       // console.log("mobile",d.mobile)
+       // d.mobile = phone_code + mno
       }
       d.country_code = countryCode
 

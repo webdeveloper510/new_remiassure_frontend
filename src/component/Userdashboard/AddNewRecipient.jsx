@@ -72,14 +72,14 @@ const Addnewrecipient = () => {
     account_number: Yup.string().min(5).max(18).required(),
     first_name: Yup.string().min(1).max(25).required().trim(),
     last_name: Yup.string().min(1).max(25).required().trim(),
-    middle_name: Yup.string().min(1).max(25).notRequired().trim(),
+    middle_name: Yup.string().max(25).notRequired().trim(),
     mobile: Yup.string().min(11).max(18).required(),
     flat: Yup.string().min(1).max(30).notRequired(),
     building: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(500).required().trim(),
     city: Yup.string().min(1).max(35).required().trim(),
     postcode: Yup.string().max(7).notRequired(),
-    state: Yup.string().min(1).max(35).required(),
+    state: Yup.string().min(1).max(35).required().trim(),
     country: Yup.string().min(2).max(30).required()
   })
 
@@ -118,10 +118,10 @@ const Addnewrecipient = () => {
         let mno;
         if (phone_code.toString().length > 2) mno = d.mobile.substring(3);
         else mno = d.mobile.substring(2);
-       // const mobileNumber = parseInt(mno, 10);(Remove Zeros from beginning)
+        const mobileNumber = parseInt(mno, 10); //(Remove Zeros from beginning)
      
 
-        d.mobile = phone_code + mno
+        d.mobile = phone_code + mobileNumber
       }
       d.country_code = countryCode
     console.log("alldata",d)
@@ -199,13 +199,13 @@ const Addnewrecipient = () => {
   const handlePhone = (e, coun) => {
     let mobileWithoutDialCode = e.substring(coun.dialCode.length).replace(/[^0-9]/, "")
     //.replace(/^0+/,'');
-    console.log("mobileWithoutDialCode",mobileWithoutDialCode)
-    console.log("mobileWithDialCode",coun.dialCode+mobileWithoutDialCode)
+    // console.log("mobileWithoutDialCode",mobileWithoutDialCode)
+    // console.log("mobileWithDialCode",coun.dialCode+mobileWithoutDialCode)
 
     formik.setFieldValue('mobile', coun.dialCode+mobileWithoutDialCode);
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
-    console.log("country name", coun.name)
+    // console.log("country name", coun.name)
    
    
     setCountryCode(coun.countryCode)
@@ -214,7 +214,7 @@ const Addnewrecipient = () => {
 
    // Set Address fields to empty
    if(countryCode.toLowerCase()!=coun.countryCode.toLowerCase()){
-    console.log("country code changed")
+    // console.log("country code changed")
     //formik.setFieldValue('country_code', coun.countryCode)
     formik.setFieldValue("street","")
     formik.setFieldValue("state","")

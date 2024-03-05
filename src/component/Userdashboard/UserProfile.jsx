@@ -60,7 +60,7 @@ const Profile = () => {
     street: Yup.string().max(900).required().trim(),
     city: Yup.string().min(1).max(35).required().trim().notOneOf(["none"]),
     postcode: Yup.string().length(4).required(),
-    state: Yup.string().min(2).max(35).required().notOneOf(["none"]),
+    state: Yup.string().min(2).max(35).required().trim().notOneOf(["none"]),
     country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
     Date_of_birth: Yup.date().min(new Date(Date.now() - 3721248000000), "Must be atleast 18 year old").max(new Date(Date.now() - 567648000000), "Must be atleast 18 year old").required("DOB is required"),
     occupation: Yup.string().min(1).max(50).required().trim(),
@@ -258,7 +258,7 @@ const Profile = () => {
 
   const handleSubmit = () => {
     let d = formik.values
-    d.mobile = "+" + selected_area_code + formik.values.mobile
+    d.mobile = "+" + selected_area_code + parseInt(formik.values.mobile,10)
     d.country_code = formik.values.country_code
     d.location = formik.values.country
     d.Gender = "NA"

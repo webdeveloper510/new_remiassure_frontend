@@ -86,8 +86,8 @@ const Signup = () => {
                 left: 0,
                 behavior: "smooth"
             })
-           // let mno = parseInt(values.mobile, 10) // Remove zero from front
-            let mno = values.mobile
+            let mno = parseInt(values.mobile, 10) // Remove zero from front
+            //let mno = values.mobile
             
             let data = { ...values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + mno }
             if (data.referral_code === "" || isOn === false) {
@@ -177,8 +177,8 @@ const Signup = () => {
         let length = otp.toString()
         if (length.length == 6) {
             setLoading(true)
-            //let mno = parseInt(formik.values.mobile, 10) // Remove zero from front
-            let mno = formik.values.mobile
+            let mno = parseInt(formik.values.mobile, 10) // Remove zero from front
+            //let mno = formik.values.mobile
             let data = { ...formik.values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + mno, otp: otp }
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
