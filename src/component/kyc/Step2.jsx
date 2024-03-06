@@ -1,8 +1,7 @@
-// Step1.js
-import React, { useState, useEffect } from "react";
+// Step2.js
+import React, { useEffect } from "react";
 import Form from 'react-bootstrap/Form';
 import "react-phone-input-2/lib/bootstrap.css";
-import countryList from '../../utils/AuNz.json';
 import clsx from "clsx";
 import Autocomplete from "react-google-autocomplete";
 import { useFormik } from "formik";
@@ -11,18 +10,18 @@ import { userProfile } from "../../utils/Api";
 import { toast } from "react-toastify";
 import { FormSelect } from "react-bootstrap";
 
-const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode, nextStep, updateData }) => {
+const Step2 = ({ prevStep, skipHandler, nextStep, updateData }) => {
 
   const secondSchema = Yup.object().shape({
     payment_per_annum: Yup.string().required(),
     value_per_annum: Yup.string().required(),
     country: Yup.string().min(2).max(30).required().notOneOf(["none"]),
-    state: Yup.string().min(2).max(35).required().trim().notOneOf([""," "]),
-    city: Yup.string().min(1).max(35).required().trim().notOneOf([""," "]),
+    state: Yup.string().min(2).max(35).required().trim().notOneOf(["", " "]),
+    city: Yup.string().min(1).max(35).required().trim().notOneOf(["", " "]),
     postcode: Yup.string().length(4).required(),
-    street: Yup.string().required().trim().notOneOf([""," "]),
-    flat: Yup.string().max(30).notRequired().notOneOf([""," "]),
-    building: Yup.string().min(1).max(30).required().trim().notOneOf([""," "]),
+    street: Yup.string().required().trim().notOneOf(["", " "]),
+    flat: Yup.string().max(30).notRequired(),
+    building: Yup.string().min(1).max(30).required().trim().notOneOf(["", " "]),
   })
 
   const formik = useFormik({
@@ -137,7 +136,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
     formik.setFieldValue("state", state)
     formik.setFieldValue("postcode", postcode)
     formik.setFieldValue("city", city)
-    formik.setFieldValue("street", street)
+    formik.setFieldValue("street", street.trim())
     formik.setFieldValue("building", building)
   }
 
@@ -242,7 +241,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                         }
                       )}
                       value={formik.values.street}
-                      onChange={formik.handleChange}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </div>
@@ -321,9 +320,9 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                       {...formik.getFieldProps("flat")}
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.flat && formik.errors.flat },
+                        { 'is-invalid': formik.touched.flat && formik.errors.flat && formik.values.flat !== "" && null },
                         {
-                          'is-valid': formik.touched.flat && !formik.errors.flat,
+                          'is-valid': formik.touched.flat && !formik.errors.flat && formik.values.flat !== "" && null,
                         }
                       )}
                       onBlur={formik.handleBlur}
@@ -360,9 +359,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
           </div>
         </form>
       </section>
-
     </>
-
   )
 }
 

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -18,7 +17,6 @@ import OtpInput from "react18-input-otp";
 import { senderAreaList as areaList } from "../../utils/ArealList";
 const Signup = () => {
     const [isOn, setOn] = useState(false);
-
     const handleToggle = () => {
         setOn(!isOn);
     };
@@ -86,7 +84,7 @@ const Signup = () => {
                 left: 0,
                 behavior: "smooth"
             })
-            let mno = parseInt(values.mobile, 10)
+            let mno = parseInt(values.mobile, 10) 
             let data = { ...values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + mno }
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
@@ -166,16 +164,14 @@ const Signup = () => {
         if (sessionStorage.getItem("token") && sessionStorage.getItem("remi-user-dt")) {
             navigate("/dashboard")
         }
-
     }, [show_alert])
-
 
     const handleEmailVerification = (event) => {
         event.preventDefault();
         let length = otp.toString()
         if (length.length == 6) {
             setLoading(true)
-            let mno = parseInt(formik.values.mobile, 10)
+            let mno = parseInt(formik.values.mobile, 10) 
             let data = { ...formik.values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + mno, otp: otp }
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
@@ -239,12 +235,11 @@ const Signup = () => {
     }
 
     const handleNumericOnly = (event) => {
-        const result = event.target.value.replace(/[^0-9]/, "");
+        const result = event.target.value.replace(/[^0-9]/, "")
         formik.setFieldValue(event.target.name, result)
     }
 
     useEffect(() => {
-
         countryList.map((item) => {
             if (item.phone_code === selected_area_code) {
                 setCountryCode(item.iso2)
@@ -346,7 +341,6 @@ const Signup = () => {
                                                     <p className="money-form">Where are you sending money from?</p>
                                                     <div className="form_signup">
                                                         <form onSubmit={formik.handleSubmit} autoComplete="on">
-
                                                             <Form.Group className="mb-2 form_label">
                                                                 <Form.Label>Location<span style={{ color: '#FD6063' }} >*</span> </Form.Label>
                                                                 <Form.Select
@@ -503,9 +497,7 @@ const Signup = () => {
                                                                         )}
                                                                     </Form.Group>
                                                                 </div>
-
                                                             </div>
-
                                                             <Form.Group className="mb-2 form_on-off">
                                                                 Referred by a friend? Use the referral code below.
                                                                 <label className={`toggle-container ${isOn ? 'on' : 'off'}`}>

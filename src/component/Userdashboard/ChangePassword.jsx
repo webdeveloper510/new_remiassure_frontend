@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
-import Sidebar from './Sidebar';
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import clsx from "clsx";
 import { changePassword } from "../../utils/Api";
-import authDashHelper from "../../utils/AuthDashHelper";
 import { Modal } from "react-bootstrap";
 import PopVerify from "../verification/PopVerify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -77,7 +74,6 @@ const Profile = () => {
     }
   }, [is_otp_verified])
 
-  const navigate = useNavigate();
 
   return (
     <>

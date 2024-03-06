@@ -85,7 +85,6 @@ const Step3 = ({ nextStep, setVeriffStatus }) => {
         lastName: 'Last name',
         vendorData: 'Unique id/Document id'
       },
-
       submitBtnText: 'Verify Your ID',
       loadingText: 'Processing...'
     })

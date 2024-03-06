@@ -17,6 +17,7 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
   const user_data = JSON.parse(sessionStorage.getItem("remi-user-dt"))
 
   const [selected_area_code, setSelectedAreaCode] = useState("61")
+  const [initial, setInitial] = useState({ mobile: "", email: "" })
 
   const firstSchema = Yup.object().shape({
     First_name: Yup.string().min(1).max(25).required().trim(),
@@ -43,8 +44,16 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
     },
     validationSchema: firstSchema,
     onSubmit: async (values) => {
-      // console.log(values)
       let payload = values;
+      let mobile = parseInt(values.mobile, 10)
+      if (initial.mobile !== "+" + selected_area_code + mobile) {
+        payload.mobile = "+" + selected_area_code + mobile
+      } else {
+        delete payload["mobile"]
+      }
+      if (initial.email === values.email) {
+        delete payload["email"]
+      }
       if (/^\s*$/.test(payload.Middle_name)) {
         delete payload['Middle_name']
       }
@@ -134,6 +143,10 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
           Date_of_birth: res.data.Date_of_birth || "",
           occupation: res.data.occupation || "",
         })
+        setInitial({
+          mobile: res.data.mobile,
+          email: res.data.email
+        })
       }
     }).catch((error) => {
       if (error.response.data.code == "400") {
@@ -212,9 +225,11 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
                       style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
                       onKeyDown={(e) => { handleEmail(e, 50) }}
                       {...formik.getFieldProps("email")}
-                      className={clsx('form-control bg-transparent',)}
-                      readOnly
-                      disabled
+                      className={clsx('form-control bg-transparent',
+                        { 'is-invalid': formik.touched.email && formik.errors.email },
+                        {
+                          'is-valid': formik.touched.email && !formik.errors.email,
+                        })}
                     />
                   </div>
                 </div>
@@ -227,7 +242,6 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
                           className="form-control form-select bg-transparent"
                           value={selected_area_code}
                           onChange={(e) => setSelectedAreaCode(e.target.value)}
-                          disabled
                         >
                           {
                             areaList?.map((area, index) => {
@@ -248,9 +262,11 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
                           onChange={(e) => handleNumericOnly(e)}
                           className={clsx(
                             'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                            {
+                              'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                            }
                           )}
-                          disabled
-                          readOnly
                         />
                       </div>
                     </div>
@@ -297,7 +313,7 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
                         'form-control form-select bg-transparent',
                         { 'is-invalid': formik.touched.Country_of_birth && formik.errors.Country_of_birth },
                         {
-                          'is-valid':  formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
+                          'is-valid': formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
                         }
                       )}
                       onBlur={formik.handleBlur}

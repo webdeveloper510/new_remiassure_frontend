@@ -1,29 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
-// import Button from 'react-bootstrap/Button';
 import nodata from '../../assets/img/userdashboard/nodata.avif';
-// import Modal from 'react-bootstrap/Modal';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-// import axios from "axios";
-import authDashHelper from "../../utils/AuthDashHelper";
-import { commaSeperator, generateRandomKey } from "../../utils/hook";
+import { NavLink, useNavigate } from 'react-router-dom';
+import { commaSeperator } from "../../utils/hook";
 
 
 const serverUrl = process.env.REACT_APP_API_URL
 const AllTranfer = ({ status, data }) => {
 
-  // const token = sessionStorage.getItem("token");
-
-  // const Total_amount = sessionStorage.getItem("Total_amount");
-
-  // const TransactionHistoryStatus = sessionStorage.getItem("TransactionHistoryStatus");
-
   const [transactionData, setTransactionData] = useState([]);
 
-  // const [summeryData, setSummeryData] = useState([]);
-
   const navigate = useNavigate();
-  // const paymetTransactionId = sessionStorage.getItem("paymetTransactionId");
 
   useEffect(() => {
 
@@ -48,27 +35,7 @@ const AllTranfer = ({ status, data }) => {
         setTransactionData(data)
       }
     }
-    // summrySingleData();
   }, [data])
-
-
-  // const summrySingleData = () => {
-  //   axios.post(serverUrl + '/payment/summary/', {
-  //     transaction_id: paymetTransactionId
-  //   }, {
-  //     headers: {
-  //       "Authorization": `Bearer ${token}`,
-  //     },
-  //   })
-  //     .then(function (response) {
-  //       setSummeryData(response.data.data);
-  //     })
-  //     .catch(function (error) {
-  //     })
-  // }
-
-  // const [show, setShow] = useState(false);
-  // const handleClose = () => setShow(false);
 
   const modified_date = (date) => {
     let d = date.split("-")
@@ -149,99 +116,6 @@ const AllTranfer = ({ status, data }) => {
               )
               }
             </span>
-
-            {/* <Modal show={show} onHide={handleClose}
-              centered
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>Summary</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <div className="card-text">
-                  <div className="d-flex justify-content-between">
-                    <div className="d-flex">
-                      <div className="trsnsfer-process">
-                        <h4 className="text-capitalize">Recipient Name-{summeryData?.recipient_name}</h4>
-                        <span>SENT- {summeryData?.date}</span>
-                      </div>
-                    </div>
-                    <div className="my-auto transac-text">
-                      <span className="text-white fs-6 pb-2">Transaction ID -{paymetTransactionId}</span>
-                      <span className="fs-6 pt-1 statuspopup">Status - <span className="badge bg-success"> {TransactionHistoryStatus}</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-12">
-                  <hr></hr>
-                </div>
-                <div className="col-md-12">
-                  <div className="justify-content-between recipent-detailpopup">
-                    <h6>Recipient Detail</h6>
-                    <hr></hr>
-                    <ul>
-                      <li>
-                        <label>Recipient Name</label>
-                        <p>{summeryData?.recipient_name}</p>
-                      </li>
-                      <li>
-                        <label>Recipient Phone</label>
-                        <p>{summeryData?.recipient_mobile}</p>
-                      </li>
-                      <li>
-                        <label>Reason For Sending</label>
-                        <p>{summeryData?.reason}</p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="col-md-12">
-                  <div className="justify-content-between recipent-detailpopup">
-                    <h6>Amount & Delivery</h6>
-                    <hr></hr>
-                    <ul>
-                      <li>
-                        <label>Amount</label>
-                        <p>{summeryData?.send_amount} <span>{summeryData?.send_currency}</span></p>
-                      </li>
-                      <li>
-                        <label>They Receive</label>
-                        <p>{Total_amount}<span>{summeryData?.receive_currency}</span></p>
-                      </li>
-                      <li>
-                        <label>Sent on</label>
-                        <p>{summeryData?.date}</p>
-                      </li>
-                      <li>
-                        <label>Received Method</label>
-                        <p>{summeryData?.send_method}</p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="col-md-12">
-                  <div className="justify-content-between recipent-detailpopup">
-                    <h6>Payment Details</h6>
-                    <hr></hr>
-                    <ul>
-                      <li>
-                        <label>Payment type</label>
-                        <p>{summeryData?.send_method}</p>
-                      </li>
-                      <li>
-                        <label>Name on your account</label>
-                        <p>{summeryData?.account_name}</p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>ok</Button>
-              </Modal.Footer>
-            </Modal> */}
           </div>
         </div>
       </div>

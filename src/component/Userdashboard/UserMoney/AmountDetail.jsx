@@ -132,16 +132,18 @@ const AmountDetail = ({ handleStep, step }) => {
                     let data = commaSeperator(response.amount)
                     if (direction === "From") {
                         formik.setFieldValue("exchange_amt", data)
+                        formik.setFieldTouched("exchange_amt", true)
+                        formik.setFieldError("exchange_amt", false)
                         formik.setFieldValue("send_amt", event.target.value.includes(".") ? event.target.value : event.target.value + ".00")
                         setAmtDetail({ ...amt_detail, exchange_amt: data, send_amt: event.target.value.includes(".") ? event.target.value : event.target.value + ".00" })
                         setDefaultExchange(response?.default_exchange)
-                        
+
                     } else {
                         formik.setFieldValue("send_amt", data.includes(".") ? data : data + ".00")
                         setAmtDetail({ ...amt_detail, send_amt: data.includes(".") ? data : data + ".00" })
+                        formik.setFieldTouched("send_amt", true)
+                        formik.setFieldError("send_amt", "")
                     }
-                    formik.setFieldTouched("exchange_amt", true)
-                    formik.setFieldTouched("send_amt", true)
                     setLoader(false)
                     setExchRate(response.rate)
                     setBlurOff(true)
@@ -150,6 +152,7 @@ const AmountDetail = ({ handleStep, step }) => {
                     setLoader(false)
                     setBlurOff(true)
                 })
+            formik.setErrors({ ...formik.errors, exchange_amt: false, send_amt: false })
         } else {
             formik.setFieldValue("exchange_amt", "")
             setAmtDetail({ ...amt_detail, exchange_amt: "" })
@@ -319,6 +322,16 @@ const AmountDetail = ({ handleStep, step }) => {
     const Placeholder = (props) => {
         return <components.Placeholder {...props} />;
     };
+
+    useEffect(() => {
+        if (formik.values.send_amt && formik.values.exchange_amt) {
+            if (Number(commaRemover(formik.values.send_amt)) >= 100) {
+                formik.setErrors({ ...formik.errors, exchange_amt: undefined, send_amt: undefined })
+            } else {
+                formik.setFieldError("send_amt", "Minimum $100 is required.")
+            }
+        }
+    }, [formik.values])
 
     return (
         <section>

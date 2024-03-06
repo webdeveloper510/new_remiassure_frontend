@@ -102,8 +102,6 @@ const MultiStepForm = ({ is_model, handleModel }) => {
   const updateData = (values) => {
     let d = {}
     d = values
-    // console.log(d)
-    // console.log(values)
     d.location = values.country
     d.Gender = "NA"
     if (values.First_name === "" || values.First_name === undefined || values.First_name === " " || values.First_name === null) {
@@ -141,9 +139,6 @@ const MultiStepForm = ({ is_model, handleModel }) => {
     } if (values.value_per_annum === "" || values.value_per_annum === undefined || values.value_per_annum === null) {
       delete d['value_per_annum'];
     }
-
-    delete d["email"];
-    delete d["mobile"];
     delete d["customer_id"];
     delete d["stripe_customer_id"];
     delete d["referred_by"];

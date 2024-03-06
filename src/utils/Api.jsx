@@ -577,8 +577,8 @@ export const checkExistence = async () => {
 }
 
 
-export const getCouponList = () => {
-  const response = Axios.get("/payment/referrals-list/", {
+export const getCouponList = (currency) => {
+  const response = Axios.get(`/payment/referrals-list/${currency}/`, {
     headers: {
       "Authorization": `Bearer ${sessionStorage.getItem("token")}`
     }

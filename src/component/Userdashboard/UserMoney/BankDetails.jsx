@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import clsx from 'clsx';
 import { useState } from 'react';
-import countryList from '../../../utils/recipientCountries.json';
+//import countryList from '../../../utils/recipientCountries.json';
 import { useNavigate } from 'react-router';
 import { BsChevronDoubleRight } from 'react-icons/bs';
 import { BsFillPersonPlusFill } from 'react-icons/bs';
@@ -23,12 +23,13 @@ import Autocomplete from "react-google-autocomplete";
 
 const BankDetails = ({ handleStep, step }) => {
   const [isActive, setActive] = useState("false");
-  const [city_list, setCityList] = useState([])
-  const [state_list, setStateList] = useState([])
+  // const [city_list, setCityList] = useState([])
+  // const [state_list, setStateList] = useState([])
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(false)
   const [isAfrican, setIsAfrican] = useState(true)
   const [display_confirm, setDisplayConfirm] = useState({ toggle: false, data: null })
+  const [countryCode, setCountryCode] = useState("AU")
 
   const serverUrl = process.env.REACT_APP_API_URL
 
@@ -36,18 +37,29 @@ const BankDetails = ({ handleStep, step }) => {
     bank: null, other_name: "",
     acc_no: "",
     f_name: "", l_name: "", m_name: "",
-    mobile: "", flat: "",
+    mobile: "+61", flat: "",
     build_no: "", street: "", city: "",
-    post_code: "", state: "", country: "Australia", country_code: "AU"
+    postcode: "", state: "", country: "Australia", country_code: "AU"
   })
+
+  const countryList = [
+    { name: "Australia", code: "AU", dialCode: "61"},
+    { name: "Ghana", code: "GH" , dialCode: "233" },
+    { name: "Kenya", code: "KE", dialCode: "254" },
+    { name: "New Zealand", code: "NZ", dialCode: "64" },
+    { name: "Nigeria", code: "NG", dialCode: "234" },
+    { name: "Philippines", code: "PH", dialCode: "63" },
+    { name: "Thailand", code: "TH", dialCode: "66" },
+    { name: "Vietnam", code: "VN", dialCode: "84" },
+  ]
 
   const initialValues = {
     bank: null, other_name: "", 
     acc_no: "",
     f_name: "", l_name: "", m_name: "",
-    mobile: "", flat: "",
+    mobile: "+61", flat: "",
     build_no: "", street: "", city: "",
-    post_code: "", state: "", country: "Australia", country_code: "AU"
+    postcode: "", state: "", country: "Australia", country_code: "AU"
   }
 
   const [phone_code, setPhoneCode] = useState("")
@@ -75,16 +87,17 @@ const BankDetails = ({ handleStep, step }) => {
       }
     }).trim(),
     acc_no: Yup.string().min(5).max(18).required(),
-    f_name: Yup.string().min(2).max(25).required().trim().notOneOf([" "]),
-    l_name: Yup.string().min(2).max(25).required().trim().notOneOf([" "]),
+    f_name: Yup.string().min(2).max(25).required().trim(),
+    l_name: Yup.string().min(2).max(25).required().trim(),
+    m_name: Yup.string().max(25).notRequired().trim(),
     mobile: Yup.string().min(11).max(18).required(),
-    flat: Yup.string().min(1).max(30).notRequired().trim().notOneOf([" "]),
-    build_no: Yup.string().min(1).max(30).required().trim().notOneOf([" "]),
-    street: Yup.string().min(1).max(900).required().trim().notOneOf([" "]),
-    city: Yup.string().min(1).max(35).required().trim().notOneOf([" "]),
-    post_code: Yup.string().max(7).notRequired().trim().notOneOf([" "]),
-    state: Yup.string().min(2).max(35).required().trim().notOneOf([" "]),
-    country: Yup.string().min(2).max(30).required().trim().notOneOf([" "])
+    flat: Yup.string().min(1).max(30).notRequired(),
+    build_no: Yup.string().min(1).max(30).required().trim(),
+    street: Yup.string().min(1).max(900).required().trim(),
+    city: Yup.string().min(1).max(35).required().trim(),
+    postcode: Yup.string().max(5).notRequired(),
+    state: Yup.string().min(2).max(35).required(),
+    country: Yup.string().min(2).max(30).required()
   })
 
   const formik = useFormik({
@@ -106,10 +119,10 @@ const BankDetails = ({ handleStep, step }) => {
         flat: values.flat,
         building: values.build_no,
         street: values.street,
-        postcode: values.post_code,
+        postcode: values.postcode,
         city: values.city,
         state: values.state,
-        country_code: data.country_code,
+       // country_code: data.country_code,
         country: values.country
       }
       if (d.flat === "" || d.flat === undefined || d.flat === " ") {
@@ -123,7 +136,10 @@ const BankDetails = ({ handleStep, step }) => {
         if (phone_code.toString().length > 2) mno = d.mobile.substring(3)
         else mno = d.mobile.substring(2)
         d.mobile = phone_code + parseInt(mno, 10)
+       // console.log("mobile",d.mobile)
+       // d.mobile = phone_code + mno
       }
+      d.country_code = countryCode
 
       axios.post(`${serverUrl}/payment/recipient-create/`, d, {
         headers: {
@@ -159,11 +175,37 @@ const BankDetails = ({ handleStep, step }) => {
 
   const handleChange = (e) => {
     if (e.target.name === 'country') {
+
+
+      const previousSelected = countryList.filter((country) => {
+        return country.code.toLowerCase() === countryCode.toLowerCase()
+      })
+    
       const selected = countryList.filter((country) => {
         return country.name === e.target.value
       })
-      formik.setValues({ ...formik.values, country: e.target.value, country_code: selected[0].code, street: "", state: "", city: "", post_code: "", build_no: "" })
-      formik.setFieldTouched(e.target.name, true)
+
+      let mobileValue = "+"+selected[0].dialCode + formik.values.mobile.replace("+","").substring(previousSelected[0].code.length)
+     
+        formik.setFieldValue('mobile',  mobileValue);
+        formik.setFieldTouched('mobile', true);
+        formik.setFieldValue('country', selected[0].name)
+    
+    
+         setCountryCode(selected[0].code.toLowerCase())
+         //setPhone_code(selected[0].dialCode)
+  
+         
+          //formik.setFieldValue('country_code', coun.countryCode)
+          formik.setFieldValue("street","")
+          formik.setFieldValue("state","")
+          formik.setFieldValue("city","")
+          formik.setFieldValue("postcode","")
+          formik.setFieldValue("building","")
+          formik.setFieldValue("flat","")
+      
+      
+    
     } else {
       formik.setFieldValue(`${e.target.name}`, e.target.value)
       formik.setFieldTouched(`${e.target.name}`, true)
@@ -174,14 +216,9 @@ const BankDetails = ({ handleStep, step }) => {
     formik.setFieldValue('mobile', e);
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
-    formik.setFieldValue("country_code",coun.countryCode.toUpperCase());
-    if(phone_code!==coun.dialCode){
-      formik.setFieldValue("state","");
-      formik.setFieldValue("city","");
-      formik.setFieldValue("street","");
-      formik.setFieldValue("post_code","");
-    }
     setPhoneCode(coun.dialCode)
+    // console.log(coun.dialCode)
+    // setData({ ...data, country: coun.name, mobile: e })
   }
 
   const handleKeyDown = (e, max) => {
@@ -266,6 +303,7 @@ const BankDetails = ({ handleStep, step }) => {
     formik.resetForm({
       values: { ...initialValues, bank: formik.values.bank }
     })
+    setCountryCode("AU")
     setActive(!isActive)
   }
 
@@ -411,10 +449,10 @@ const BankDetails = ({ handleStep, step }) => {
       }
     })
     formik.setFieldValue("country", country)
-    formik.setFieldValue("post_code", postcode)
+    formik.setFieldValue("postcode", postcode)
     formik.setFieldValue("city", city)
     formik.setFieldValue("state", state)
-    formik.setFieldValue("street", street)
+    formik.setFieldValue("street", street.trim())
     formik.setFieldValue("build_no", building)
   }
 
@@ -651,7 +689,7 @@ const BankDetails = ({ handleStep, step }) => {
                           <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                           <PhoneInput
                             onlyCountries={["au", "gh", "ke", "ng", "nz", "ph", "th", "vn"]}
-                            country={"au"}
+                            country={formik.values.country_code?.toLowerCase()}
                             name="mobile"
                             value={formik.values.mobile}
                             inputStyle={{ border: "none", margin: "none" }}
@@ -703,7 +741,7 @@ const BankDetails = ({ handleStep, step }) => {
                     name="street"
                     options={{
                       types: [],
-                      componentRestrictions: { country: formik.values.country_code?.toLowerCase() },
+                      componentRestrictions: { country: countryCode.toLowerCase() },
                     }}
                     className={clsx(
                       'form-control bg-transparent',
@@ -771,10 +809,10 @@ const BankDetails = ({ handleStep, step }) => {
                   </p>
                   <input
                     type="text"
-                    name="post_code"
-                    value={formik.values.post_code}
-                    onKeyDown={(e) => handlePostCode(e, 4)}
-                    {...formik.getFieldProps("post_code")}
+                    name="postcode"
+                    value={formik.values.postcode}
+                    onKeyDown={(e) => handlePostCode(e, 6)}
+                    {...formik.getFieldProps("postcode")}
                     className={clsx(
                       'form-control bg-transparent'
                     )}

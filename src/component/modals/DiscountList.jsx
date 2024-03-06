@@ -8,8 +8,9 @@ export const DiscountList = ({ show, handler, handleSelected, selected }) => {
   const [couponList, setCouponList] = useState([{ id: 1 }]);
 
   useEffect(() => {
-    getCouponList().then(res => {
-      console.log(res)
+    let transfer_data = JSON.parse(sessionStorage.getItem("transfer_data"));
+
+    getCouponList(transfer_data.amount.from_type).then(res => {
       if (res.code === "200") {
         setCouponList(res.data)
       }
