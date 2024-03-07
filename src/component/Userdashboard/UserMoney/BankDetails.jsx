@@ -95,7 +95,7 @@ const BankDetails = ({ handleStep, step }) => {
     build_no: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(900).required().trim(),
     city: Yup.string().min(1).max(35).required().trim(),
-    postcode: Yup.string().max(5).notRequired(),
+    postcode: Yup.string().max(7).notRequired(),
     state: Yup.string().min(2).max(35).required(),
     country: Yup.string().min(2).max(30).required()
   })
@@ -217,6 +217,7 @@ const BankDetails = ({ handleStep, step }) => {
     formik.setFieldTouched('mobile', true);
     formik.setFieldValue('country', coun.name)
     setPhoneCode(coun.dialCode)
+    setCountryCode(coun.countryCode)
     // console.log(coun.dialCode)
     // setData({ ...data, country: coun.name, mobile: e })
   }

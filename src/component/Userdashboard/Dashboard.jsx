@@ -145,7 +145,7 @@ const Dashboard = () => {
                         <h2 class="text-black font-w600 mb-0"><b>Welcome, <span style={{ "color": "#6414e9" }}>{firstName}</span></b></h2>
                     </div>
                     {
-                        is_profile === false && (isVerified === "declined" || isVerified === "pending" ||isVerified === "resubmission_requested") && !loading ? (
+                        is_profile === false && (isVerified === "declined" || isVerified === "pending" || isVerified === "resubmission_requested") && !loading ? (
                             < div >
                                 <Alert className="verify-alert" >
                                     <b><img src={important} height={40} width={40} />To transfer Money, Please complete the below steps:</b>
@@ -166,7 +166,7 @@ const Dashboard = () => {
                                     </Alert>
                                 </div>
                             )
-                                : (isVerified === "declined" || isVerified === "pending"|| isVerified === "resubmission_requested") && !loading ? (
+                                : (isVerified === "declined" || isVerified === "pending" || isVerified === "resubmission_requested") && !loading ? (
                                     <div>
                                         <Alert className="verify-alert" >
                                             <b><img src={important} height={40} width={40} />To transfer Money, Please complete the below steps:</b>
@@ -175,7 +175,7 @@ const Dashboard = () => {
                                             </ol>
                                         </Alert>
                                     </div>
-                                ) : (isVerified == 'submitted' ) && !loading ? (
+                                ) : (isVerified == 'submitted') && !loading ? (
                                     <div>
                                         <Alert className="verify-alert" >
                                             <b><img src={important} height={40} width={40} />To Transfer money, Please wait for KYC approval</b>
@@ -184,7 +184,7 @@ const Dashboard = () => {
                                             </ol> */}
                                         </Alert>
                                     </div>
-                                ) : ( 
+                                ) : (
                                     <></>
                                 )
                     }

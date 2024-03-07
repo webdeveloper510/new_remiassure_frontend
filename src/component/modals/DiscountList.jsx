@@ -3,19 +3,17 @@ import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap'
 import { getCouponList } from '../../utils/Api';
 
-export const DiscountList = ({ show, handler, handleSelected, selected }) => {
+export const DiscountList = ({ show, handler, handleSelected, selected , currency}) => {
 
-  const [couponList, setCouponList] = useState([{ id: 1 }]);
+  const [couponList, setCouponList] = useState([]);
 
   useEffect(() => {
-    let transfer_data = JSON.parse(sessionStorage.getItem("transfer_data"));
-
-    getCouponList(transfer_data.amount.from_type).then(res => {
+    getCouponList(currency).then(res => {
       if (res.code === "200") {
         setCouponList(res.data)
       }
     })
-  }, [])
+  }, [currency])
 
   const applyCoupon = (coupon) => {
     handleSelected(coupon)
@@ -37,7 +35,7 @@ export const DiscountList = ({ show, handler, handleSelected, selected }) => {
                 <div className='cupons-info'>
                   <div className='cuposn-name'>
                     <h2>{item?.name}</h2>
-                    <p>{item.description}</p>
+                    <p>{item?.description}</p>
                   </div>
                   <div>
                     <Button className='apply-button' onClick={() => { applyCoupon(item) }} disabled={selected?.id === item?.referral_meta_id}>{selected?.id === item?.referral_meta_id ? "Applied" : "Apply"}</Button>
