@@ -9,7 +9,7 @@ import "react-phone-input-2/lib/bootstrap.css";
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import clsx from "clsx";
-import { createRecipient, getUserRecipient, updateUserRecipient } from "../../utils/Api";
+import { checkExistingAccount, createRecipient, getUserRecipient, updateUserRecipient } from "../../utils/Api";
 import Bank_list from "../../utils/Bank_list";
 import Select, { components } from "react-select";
 import Autocomplete from "react-google-autocomplete";
@@ -21,6 +21,8 @@ const Addnewrecipient = () => {
   const state = useLocation()?.state;
   const id = state?.id || false;
   const [countryCode, setCountryCode] = useState("AU")
+  const [is_account_existing, setAccountExisting] = useState(false)
+  const [initial_account, setInitialAccount] = useState("")
 
   const countryList = [
     { name: "Australia", code: "AU", dialCode: "61" },
@@ -119,7 +121,7 @@ const Addnewrecipient = () => {
         updateUserRecipient(id, d).then((response) => {
           if (response.code == "200") {
             toast.success("Successfully updated", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-              navigate("/user-recipients")
+            navigate("/user-recipients")
           } else if (response.code === "400") {
             toast.error(response.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
           }
@@ -134,7 +136,7 @@ const Addnewrecipient = () => {
         createRecipient({ ...d }).then((res) => {
           if (res.code === "200") {
             toast.success("Successfuly added new recipient", { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
-              navigate("/user-recipients")
+            navigate("/user-recipients")
           } else if (res.code === "400") {
             toast.error(res.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
           }
@@ -166,6 +168,7 @@ const Addnewrecipient = () => {
             values.bank_name = "other"
           }
 
+          setInitialAccount(values.account_number)
           recipientSchema._nodes.map(field => formik.setFieldValue(field, values[field]))
           setCountryCode(values.country_code)
         }
@@ -340,6 +343,19 @@ const Addnewrecipient = () => {
     formik.setFieldValue("building", building)
   }
 
+  const validateAccount = (e) => {
+    if(initial_account!==""&&initial_account!==e.target.value){
+      checkExistingAccount({ account_number: e.target.value }).then(res => {
+        if (res.code === "400" && res.message === "Recipient with this account number already exists!") {
+          setAccountExisting(true)
+        } else {
+          setAccountExisting(false)
+        }
+      })
+    }
+    formik.handleBlur(e)
+  }
+
   return (
     <section className="showrecepient">
       <div class="form-head mb-4">
@@ -369,7 +385,7 @@ const Addnewrecipient = () => {
                     name='bank_name'
                     styles={customStyles}
                     components={{ Placeholder }}
-                    placeholder="Select a bank...."
+                    placeholder=""
                   />
                 </div>
               </div>
@@ -404,15 +420,21 @@ const Addnewrecipient = () => {
                     name="account_number"
                     value={formik.values?.account_number}
                     onKeyDown={(e) => { handlePostCode(e, 17) }}
-                    {...formik.getFieldProps("account_number")}
+                    onChange={formik.handleChange}
+                    onBlur={(e) => validateAccount(e)}
                     className={clsx(
                       'form-control bg-transparent',
-                      { 'is-invalid': formik.touched.account_number && formik.errors.account_number },
+                      { 'is-invalid': (formik.touched.account_number && formik.errors.account_number) || is_account_existing },
                       {
                         'is-valid': formik.touched.account_number && !formik.errors.account_number,
                       }
                     )}
                   />
+                  {
+                    is_account_existing && (
+                      <p className="text-danger fs-6 mt-1 ms-2">Account number already exists</p>
+                    )
+                  }
                 </div>
               </div>
             </div>
@@ -672,6 +694,8 @@ const Addnewrecipient = () => {
                   type="button"
                   className="form-button"
                   onClick={() => { formik.handleSubmit() }}
+                  style={is_account_existing?{cursor:"not-allowed"}:{}} 
+                  disabled={is_account_existing}
                 >
                   {id ? "Update" : "Create"} Recipient
                   {loading ? <>

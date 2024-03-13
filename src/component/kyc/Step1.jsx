@@ -155,6 +155,23 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
     })
   }, [])
 
+  const onSkip = () => {
+    let values = formik.values;
+    let mobile = parseInt(values.mobile, 10)
+    if (initial.mobile !== "+" + selected_area_code + mobile) {
+      values.mobile = "+" + selected_area_code + mobile
+    } else {
+      delete values["mobile"]
+    }
+    if (initial.email === values.email) {
+      delete values["email"]
+    }
+    if (/^\s*$/.test(values.Middle_name)) {
+      delete values['Middle_name']
+    }
+    skipHandler(values)
+  }
+
 
   return (
     <>
@@ -356,7 +373,7 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
           </div>
           <div className="next-step">
             <button type="submit" className="login_button">Next <b>Step</b>  <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
-            <button type="button" onClick={() => skipHandler(formik.values)} className="SKip">Skip</button>
+            <button type="button" onClick={() => onSkip()} className="SKip">Skip</button>
           </div>
         </form>
       </section>

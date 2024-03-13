@@ -459,7 +459,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                 </div>
                                 <div className="col-md-12">
                                     <label className="container-new">
-                                        <span className="radio-tick">Mobile Wallet</span>
+                                        <span className="radio-tick">Mobile Wallet <span className='small text-muted'>(coming soon)</span></span>
                                         <input
                                             className="form-check-input"
                                             type="radio"
@@ -483,7 +483,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         name='part_type'
                                         styles={customStyles}
                                         components={{ Placeholder }}
-                                        placeholder="Select a bank...."
+                                        placeholder=""
                                         onBlur={formik.handleBlur}
                                         className='payout_part'
                                     />
@@ -528,7 +528,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                 </div>
                                 <div className="col-md-12">
                                     <label className="container-new">
-                                        <span className="radio-tick">Services</span>
+                                        <span className="radio-tick">Services <span className='small text-muted'>(coming soon)</span></span>
                                         <input
                                             className="form-check-input"
                                             type="radio"

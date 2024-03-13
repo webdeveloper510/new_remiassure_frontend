@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import axios from "axios"
 import { toast } from 'react-toastify';
 import PhoneInput from 'react-phone-input-2';
-import { createTransaction, getDiscountedPrice } from '../../../utils/Api';
+import { checkExistingAccount, createTransaction, getDiscountedPrice } from '../../../utils/Api';
 import { Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import TransactionConfirm from '../../modals/TransactionConfirm';
 import Bank_list from '../../../utils/Bank_list';
@@ -29,7 +29,8 @@ const BankDetails = ({ handleStep, step }) => {
   const [loading, setLoading] = useState(false)
   const [isAfrican, setIsAfrican] = useState(true)
   const [display_confirm, setDisplayConfirm] = useState({ toggle: false, data: null })
-  const [countryCode, setCountryCode] = useState("AU")
+  const [countryCode, setCountryCode] = useState("AU");
+  const [is_account_existing, setAccountExisting] = useState(false)
 
   const serverUrl = process.env.REACT_APP_API_URL
 
@@ -43,8 +44,8 @@ const BankDetails = ({ handleStep, step }) => {
   })
 
   const countryList = [
-    { name: "Australia", code: "AU", dialCode: "61"},
-    { name: "Ghana", code: "GH" , dialCode: "233" },
+    { name: "Australia", code: "AU", dialCode: "61" },
+    { name: "Ghana", code: "GH", dialCode: "233" },
     { name: "Kenya", code: "KE", dialCode: "254" },
     { name: "New Zealand", code: "NZ", dialCode: "64" },
     { name: "Nigeria", code: "NG", dialCode: "234" },
@@ -54,7 +55,7 @@ const BankDetails = ({ handleStep, step }) => {
   ]
 
   const initialValues = {
-    bank: null, other_name: "", 
+    bank: null, other_name: "",
     acc_no: "",
     f_name: "", l_name: "", m_name: "",
     mobile: "+61", flat: "",
@@ -122,7 +123,7 @@ const BankDetails = ({ handleStep, step }) => {
         postcode: values.postcode,
         city: values.city,
         state: values.state,
-       // country_code: data.country_code,
+        // country_code: data.country_code,
         country: values.country
       }
       if (d.flat === "" || d.flat === undefined || d.flat === " ") {
@@ -136,8 +137,8 @@ const BankDetails = ({ handleStep, step }) => {
         if (phone_code.toString().length > 2) mno = d.mobile.substring(3)
         else mno = d.mobile.substring(2)
         d.mobile = phone_code + parseInt(mno, 10)
-       // console.log("mobile",d.mobile)
-       // d.mobile = phone_code + mno
+        // console.log("mobile",d.mobile)
+        // d.mobile = phone_code + mno
       }
       d.country_code = countryCode
 
@@ -180,32 +181,32 @@ const BankDetails = ({ handleStep, step }) => {
       const previousSelected = countryList.filter((country) => {
         return country.code.toLowerCase() === countryCode.toLowerCase()
       })
-    
+
       const selected = countryList.filter((country) => {
         return country.name === e.target.value
       })
 
-      let mobileValue = "+"+selected[0].dialCode + formik.values.mobile.replace("+","").substring(previousSelected[0].code.length)
-     
-        formik.setFieldValue('mobile',  mobileValue);
-        formik.setFieldTouched('mobile', true);
-        formik.setFieldValue('country', selected[0].name)
-    
-    
-         setCountryCode(selected[0].code.toLowerCase())
-         //setPhone_code(selected[0].dialCode)
-  
-         
-          //formik.setFieldValue('country_code', coun.countryCode)
-          formik.setFieldValue("street","")
-          formik.setFieldValue("state","")
-          formik.setFieldValue("city","")
-          formik.setFieldValue("postcode","")
-          formik.setFieldValue("building","")
-          formik.setFieldValue("flat","")
-      
-      
-    
+      let mobileValue = "+" + selected[0].dialCode + formik.values.mobile.replace("+", "").substring(previousSelected[0].code.length)
+
+      formik.setFieldValue('mobile', mobileValue);
+      formik.setFieldTouched('mobile', true);
+      formik.setFieldValue('country', selected[0].name)
+
+
+      setCountryCode(selected[0].code.toLowerCase())
+      //setPhone_code(selected[0].dialCode)
+
+
+      //formik.setFieldValue('country_code', coun.countryCode)
+      formik.setFieldValue("street", "")
+      formik.setFieldValue("state", "")
+      formik.setFieldValue("city", "")
+      formik.setFieldValue("postcode", "")
+      formik.setFieldValue("building", "")
+      formik.setFieldValue("flat", "")
+
+
+
     } else {
       formik.setFieldValue(`${e.target.name}`, e.target.value)
       formik.setFieldTouched(`${e.target.name}`, true)
@@ -457,6 +458,17 @@ const BankDetails = ({ handleStep, step }) => {
     formik.setFieldValue("build_no", building)
   }
 
+  const validateAccount = (e) => {
+    checkExistingAccount({ account_number: e.target.value }).then(res => {
+      if (res.code === "400" && res.message === "Recipient with this account number already exists!") {
+        setAccountExisting(true)
+      } else {
+        setAccountExisting(false)
+      }
+    })
+    formik.handleBlur(e)
+  }
+
   return (
     <section>
       {
@@ -473,8 +485,8 @@ const BankDetails = ({ handleStep, step }) => {
                   <div class="form-head d-flex mb-4">
                     <h2 class="text-black font-w600 mb-0 align-self-center"><b>Select a recipient to send money</b>
                     </h2>
-                  <button type="button" className="form-button ms-auto m-0" onClick={() => handleToggle()} style={{float:"right"}}><BsFillPersonPlusFill /> Add Recipient
-                  </button>
+                    <button type="button" className="form-button ms-auto m-0" onClick={() => handleToggle()} style={{ float: "right" }}><BsFillPersonPlusFill /> Add Recipient
+                    </button>
                   </div>
                   <div className="card">
                     <div className="card-body">
@@ -532,7 +544,7 @@ const BankDetails = ({ handleStep, step }) => {
                             name='bank'
                             styles={customStyles}
                             components={{ Placeholder }}
-                            placeholder="Select a bank...."
+                            placeholder=""
                           />
                         </div>
                       </div>
@@ -588,15 +600,21 @@ const BankDetails = ({ handleStep, step }) => {
                             name="acc_no"
                             value={formik.values?.acc_no}
                             onKeyDown={(e) => { handlePostCode(e, 17) }}
-                            {...formik.getFieldProps("acc_no")}
+                            onChange={formik.handleChange}
+                            onBlur={(e) => validateAccount(e)}
                             className={clsx(
                               'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.acc_no && formik.errors.acc_no },
+                              { 'is-invalid': (formik.touched.acc_no && formik.errors.acc_no) || is_account_existing },
                               {
                                 'is-valid': formik.touched.acc_no && !formik.errors.acc_no,
                               }
                             )}
                           />
+                          {
+                            is_account_existing && (
+                              <p className="text-danger fs-6 mt-1 ms-2">Account number already exists</p>
+                            )
+                          }
                         </div>
                       </div>
                     </div>
@@ -630,9 +648,9 @@ const BankDetails = ({ handleStep, step }) => {
                             name="m_name"
                             className={clsx(
                               'form-control bg-transparent',
-                              { 'is-invalid': formik.touched.m_name && formik.errors.m_name && formik.values.m_name !=="" },
+                              { 'is-invalid': formik.touched.m_name && formik.errors.m_name && formik.values.m_name !== "" },
                               {
-                                'is-valid': formik.touched.m_name && !formik.errors.m_name && formik.values.m_name !=="",
+                                'is-valid': formik.touched.m_name && !formik.errors.m_name && formik.values.m_name !== "",
                               }
                             )}
                             value={formik.values.m_name}
@@ -711,164 +729,164 @@ const BankDetails = ({ handleStep, step }) => {
                       </div>
                     </div>
                     <div className="row each-row">
-              <h5>Address</h5>
-              <div className="col-md-12 mb-3" id="country">
-                <Form.Group className="form_label" >
-                  <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
-                  <select
-                    value={formik.values.country}
-                    name="country"
-                    onChange={(e) => handleChange(e)}
-                    className='form-control form-select bg-transparent'
-                  >
-                    {
-                      countryList.map((country) => {
-                        return (
-                          <option key={country.code} value={country.name}>{country.name}</option>
-                        )
-                      })
-                    }
-                  </select>
-                </Form.Group>
-              </div>
-              <div className="col-md-12 mb-3" id="street">
-                <Form.Group className="form_label" controlId="street">
-                  <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
-                  <Autocomplete
-                    apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
-                    onPlaceSelected={getSelectedStreet}
-                    placeholder="Street Address, Company or P.O. box.. "
-                    id="street"
-                    name="street"
-                    options={{
-                      types: [],
-                      componentRestrictions: { country: countryCode.toLowerCase() },
-                    }}
-                    className={clsx(
-                      'form-control bg-transparent',
-                      { 'is-invalid': formik.touched.street && formik.errors.street },
-                      {
-                        'is-valid': formik.touched.street && !formik.errors.street,
-                      }
-                    )}
-                    value={formik.values.street}
-                    onChange={formik.handleChange}
-                  />
-                </Form.Group>
-              </div>
-            </div>
-            <div className="row each-row">
-              <div className="col-md-4 mb-3" id="state">
-                <Form.Group className="form_label" >
-                  <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
-                  <input
-                    type="text"
-                    name="state"
-                    value={formik.values.state}
-                    onKeyDown={(e) => { handleKeyDown(e, 30) }}
-                    {...formik.getFieldProps("state")}
-                    className={clsx(
-                      'form-control bg-transparent',
-                      { 'is-invalid': formik.touched.state && formik.errors.state },
-                      {
-                        'is-valid': formik.touched.state && !formik.errors.state,
-                      }
-                    )}
-                  />
-                </Form.Group>
-              </div>
-              <div className="col-md-4 mb-3" id="city">
-                <Form.Group className="form_label" >
-                  <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
-                  <input
-                    type="text"
-                    name="city"
-                    value={formik.values.city}
-                    onKeyDown={(e) => { handleKeyDown(e, 35) }}
-                    {...formik.getFieldProps("city")}
-                    className={clsx(
-                      'form-control bg-transparent',
-                      { 'is-invalid': formik.touched.city && formik.errors.city },
-                      {
-                        'is-valid': formik.touched.city && !formik.errors.city,
-                      }
-                    )}
-                  />
-                </Form.Group>
-              </div>
-              <div className="col-md-4 mb-3" id="zip">
-                <Form.Group className="form_label" >
-                  <p className="get-text">
-                    Zip/Postal Code
-                    {
-                      isAfrican === true ? (
-                        <></>
-                      ) : (
-                        <span style={{ color: 'red' }} >*</span>
-                      )
-                    }
-                  </p>
-                  <input
-                    type="text"
-                    name="postcode"
-                    value={formik.values.postcode}
-                    onKeyDown={(e) => handlePostCode(e, 6)}
-                    {...formik.getFieldProps("postcode")}
-                    className={clsx(
-                      'form-control bg-transparent'
-                    )}
-                  />
+                      <h5>Address</h5>
+                      <div className="col-md-12 mb-3" id="country">
+                        <Form.Group className="form_label" >
+                          <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
+                          <select
+                            value={formik.values.country}
+                            name="country"
+                            onChange={(e) => handleChange(e)}
+                            className='form-control form-select bg-transparent'
+                          >
+                            {
+                              countryList.map((country) => {
+                                return (
+                                  <option key={country.code} value={country.name}>{country.name}</option>
+                                )
+                              })
+                            }
+                          </select>
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-12 mb-3" id="street">
+                        <Form.Group className="form_label" controlId="street">
+                          <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
+                          <Autocomplete
+                            apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+                            onPlaceSelected={getSelectedStreet}
+                            placeholder="Street Address, Company or P.O. box.. "
+                            id="street"
+                            name="street"
+                            options={{
+                              types: [],
+                              componentRestrictions: { country: countryCode.toLowerCase() },
+                            }}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.street && formik.errors.street },
+                              {
+                                'is-valid': formik.touched.street && !formik.errors.street,
+                              }
+                            )}
+                            value={formik.values.street}
+                            onChange={formik.handleChange}
+                          />
+                        </Form.Group>
+                      </div>
+                    </div>
+                    <div className="row each-row">
+                      <div className="col-md-4 mb-3" id="state">
+                        <Form.Group className="form_label" >
+                          <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
+                          <input
+                            type="text"
+                            name="state"
+                            value={formik.values.state}
+                            onKeyDown={(e) => { handleKeyDown(e, 30) }}
+                            {...formik.getFieldProps("state")}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.state && formik.errors.state },
+                              {
+                                'is-valid': formik.touched.state && !formik.errors.state,
+                              }
+                            )}
+                          />
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-4 mb-3" id="city">
+                        <Form.Group className="form_label" >
+                          <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
+                          <input
+                            type="text"
+                            name="city"
+                            value={formik.values.city}
+                            onKeyDown={(e) => { handleKeyDown(e, 35) }}
+                            {...formik.getFieldProps("city")}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.city && formik.errors.city },
+                              {
+                                'is-valid': formik.touched.city && !formik.errors.city,
+                              }
+                            )}
+                          />
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-4 mb-3" id="zip">
+                        <Form.Group className="form_label" >
+                          <p className="get-text">
+                            Zip/Postal Code
+                            {
+                              isAfrican === true ? (
+                                <></>
+                              ) : (
+                                <span style={{ color: 'red' }} >*</span>
+                              )
+                            }
+                          </p>
+                          <input
+                            type="text"
+                            name="postcode"
+                            value={formik.values.postcode}
+                            onKeyDown={(e) => handlePostCode(e, 6)}
+                            {...formik.getFieldProps("postcode")}
+                            className={clsx(
+                              'form-control bg-transparent'
+                            )}
+                          />
 
-                </Form.Group>
-              </div>
-            </div>
-            <div className="row each-row">
-              <div className="col-md-4 mb-3" id="build">
-                <Form.Group className="form_label" controlId="build">
-                  <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
-                  <input
-                    type="text"
-                    name="build_no"
-                    value={formik.values.build_no}
-                    onKeyDown={(e) => { handleEmail(e, 30) }}
-                    {...formik.getFieldProps("build_no")}
-                    className={clsx(
-                      'form-control bg-transparent',
-                      { 'is-invalid': formik.touched.build_no && formik.errors.build_no },
-                      {
-                        'is-valid': formik.touched.build_no && !formik.errors.build_no,
-                      }
-                    )}
-                  />
-                </Form.Group>
-              </div>
-              <div className="col-md-4 mb-3" id="flat">
-                <Form.Group className="form_label" controlId="flat">
-                  <p className="get-text">Flat/Unit No.</p>
-                  <input
-                    type="text"
-                    name="flat"
-                    value={formik.values.flat}
-                    onKeyDown={(e) => { handleEmail(e, 15) }}
-                    {...formik.getFieldProps("flat")}
-                    className={clsx(
-                      'form-control bg-transparent',
-                      { 'is-invalid': formik.touched.flat && formik.errors.flat && formik.values.flat !=="" },
-                      {
-                        'is-valid': formik.touched.flat && !formik.errors.flat && formik.values.flat !=="",
-                      }
-                    )}
-                  />
-                </Form.Group>
-              </div>
-            </div>
+                        </Form.Group>
+                      </div>
+                    </div>
+                    <div className="row each-row">
+                      <div className="col-md-4 mb-3" id="build">
+                        <Form.Group className="form_label" controlId="build">
+                          <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
+                          <input
+                            type="text"
+                            name="build_no"
+                            value={formik.values.build_no}
+                            onKeyDown={(e) => { handleEmail(e, 30) }}
+                            {...formik.getFieldProps("build_no")}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.build_no && formik.errors.build_no },
+                              {
+                                'is-valid': formik.touched.build_no && !formik.errors.build_no,
+                              }
+                            )}
+                          />
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-4 mb-3" id="flat">
+                        <Form.Group className="form_label" controlId="flat">
+                          <p className="get-text">Flat/Unit No.</p>
+                          <input
+                            type="text"
+                            name="flat"
+                            value={formik.values.flat}
+                            onKeyDown={(e) => { handleEmail(e, 15) }}
+                            {...formik.getFieldProps("flat")}
+                            className={clsx(
+                              'form-control bg-transparent',
+                              { 'is-invalid': formik.touched.flat && formik.errors.flat && formik.values.flat !== "" },
+                              {
+                                'is-valid': formik.touched.flat && !formik.errors.flat && formik.values.flat !== "",
+                              }
+                            )}
+                          />
+                        </Form.Group>
+                      </div>
+                    </div>
 
                     <div className="row">
                       <div className="col-md-4">
                         <button type="button" className="start-form-button full-col" onClick={() => handleCancel()}>Back</button>
                       </div>
                       <div className="col-md-8 full-col">
-                        <button type="submit" className="form-button">Continue  {loading ? <>
+                        <button type="submit" className="form-button" style={is_account_existing?{cursor:"not-allowed"}:{}} disabled={is_account_existing}>Save & Continue  {loading ? <>
                           <div className="loader-overly">
                             <div className="loader" >
                             </div>
