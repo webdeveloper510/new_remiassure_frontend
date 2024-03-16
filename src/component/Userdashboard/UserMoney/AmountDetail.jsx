@@ -483,7 +483,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         name='part_type'
                                         styles={customStyles}
                                         components={{ Placeholder }}
-                                        placeholder=""
+                                        placeholder="Select a Bank (start typing your bank name for options)"
                                         onBlur={formik.handleBlur}
                                         className='payout_part'
                                     />

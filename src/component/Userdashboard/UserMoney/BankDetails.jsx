@@ -703,7 +703,7 @@ const BankDetails = ({ handleStep, step }) => {
                           />
                         </div>
                       </div> */}
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <div className="input_field">
                           <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                           <PhoneInput
@@ -730,7 +730,7 @@ const BankDetails = ({ handleStep, step }) => {
                     </div>
                     <div className="row each-row">
                       <h5>Address</h5>
-                      <div className="col-md-12 mb-3" id="country">
+                      <div className="col-md-4 mb-3" id="country">
                         <Form.Group className="form_label" >
                           <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                           <select

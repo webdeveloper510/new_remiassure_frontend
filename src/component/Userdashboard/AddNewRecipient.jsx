@@ -525,7 +525,7 @@ const Addnewrecipient = () => {
             </div>
             <div className="row each-row">
               <h5>Address</h5>
-              <div className="col-md-12 mb-3" id="country">
+              <div className="col-md-4 mb-3" id="country">
                 <Form.Group className="form_label" >
                   <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                   <select

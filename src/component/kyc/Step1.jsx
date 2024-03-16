@@ -250,7 +250,7 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
                     />
                   </div>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-6">
                   <div className="input_field">
                     <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                     <div className="row kustom_mobile">
@@ -263,7 +263,7 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
                           {
                             areaList?.map((area, index) => {
                               return (
-                                <option key={index} value={area?.code}>+{area?.code}&nbsp;{area?.name}</option>
+                                <option key={index} value={area?.code}>+{area?.code}&nbsp;({area?.name})</option>
                               )
                             })
                           }
