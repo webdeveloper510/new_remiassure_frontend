@@ -373,7 +373,7 @@ const Signup = () => {
                                                                                     {
                                                                                         areaList?.map((area, index) => {
                                                                                             return (
-                                                                                                <option key={index} value={area?.code}>+{area?.code}&nbsp;{area?.name}</option>
+                                                                                                <option key={index} value={area?.code}>+{area?.code}&nbsp;({area?.name})</option>
                                                                                             )
                                                                                         })
                                                                                     }

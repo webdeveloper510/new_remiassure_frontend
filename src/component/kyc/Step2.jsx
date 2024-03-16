@@ -199,7 +199,7 @@ const Step2 = ({ prevStep, skipHandler, nextStep, updateData }) => {
               </div>
               <div className="row each-row">
                 <h5>Your Address</h5>
-                <div className="col-md-12 mb-3">
+                <div className="col-md-6 mb-3">
                   <Form.Group className="form_label" controlId="country">
                     <p className="get-text">Country<span style={{ color: 'red' }} >*</span></p>
                     <FormSelect
