@@ -344,9 +344,9 @@ const Addnewrecipient = () => {
   }
 
   const validateAccount = (e) => {
-    if (initial_account !== "" && initial_account !== e.target.value) {
+    if (e.target.value !== "" && initial_account !== e.target.value) {
       checkExistingAccount({ account_number: e.target.value }).then(res => {
-        if (res.code === "400" && res.message === "Recipient with this account number already exists!") {
+        if (res.code === "400") {
           setAccountExisting(true)
         } else {
           setAccountExisting(false)
@@ -432,7 +432,7 @@ const Addnewrecipient = () => {
                   />
                   {
                     is_account_existing && (
-                      <p className="text-danger fs-6 mt-1 ms-2">Account number already exists</p>
+                      <p className="text-danger fs-6 mt-1 ms-2">Recipient with this account number already exists!</p>
                     )
                   }
                 </div>

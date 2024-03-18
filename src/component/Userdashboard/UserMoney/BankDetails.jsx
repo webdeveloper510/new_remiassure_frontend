@@ -39,7 +39,7 @@ const BankDetails = ({ handleStep, step }) => {
     acc_no: "",
     f_name: "", l_name: "", m_name: "",
     mobile: "+61", flat: "",
-    build_no: "", street: "", city: "",
+    building: "", street: "", city: "",
     postcode: "", state: "", country: "Australia", country_code: "AU"
   })
 
@@ -59,7 +59,7 @@ const BankDetails = ({ handleStep, step }) => {
     acc_no: "",
     f_name: "", l_name: "", m_name: "",
     mobile: "+61", flat: "",
-    build_no: "", street: "", city: "",
+    building: "", street: "", city: "",
     postcode: "", state: "", country: "Australia", country_code: "AU"
   }
 
@@ -93,7 +93,7 @@ const BankDetails = ({ handleStep, step }) => {
     m_name: Yup.string().max(25).notRequired().trim(),
     mobile: Yup.string().min(11).max(18).required(),
     flat: Yup.string().min(1).max(30).notRequired(),
-    build_no: Yup.string().min(1).max(30).required().trim(),
+    building: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().min(1).max(50).required().trim(),
     city: Yup.string().min(1).max(35).required().trim(),
     postcode: Yup.string().max(7).notRequired(),
@@ -118,7 +118,7 @@ const BankDetails = ({ handleStep, step }) => {
         last_name: values.l_name,
         mobile: values.mobile,
         flat: values.flat,
-        building: values.build_no,
+        building: values.building,
         street: values.street,
         postcode: values.postcode,
         city: values.city,
@@ -455,19 +455,22 @@ const BankDetails = ({ handleStep, step }) => {
     formik.setFieldValue("city", city)
     formik.setFieldValue("state", state)
     formik.setFieldValue("street", street.trim())
-    formik.setFieldValue("build_no", building)
+    formik.setFieldValue("building", building)
   }
 
   const validateAccount = (e) => {
-    checkExistingAccount({ account_number: e.target.value }).then(res => {
-      if (res.code === "400" && res.message === "Recipient with this account number already exists!") {
-        setAccountExisting(true)
-      } else {
-        setAccountExisting(false)
-      }
-    })
-    formik.handleBlur(e)
+    if (e.target.value !== "") {
+      checkExistingAccount({ account_number: e.target.value }).then(res => {
+        if (res.code === "400") {
+          setAccountExisting(true)
+        } else {
+          setAccountExisting(false)
+        }
+      })
+      formik.handleBlur(e)
+    }
   }
+
 
   return (
     <section>
