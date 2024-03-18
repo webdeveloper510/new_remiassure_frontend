@@ -72,7 +72,7 @@ const Addnewrecipient = () => {
     mobile: Yup.string().min(11).max(18).required(),
     flat: Yup.string().min(1).max(30).notRequired(),
     building: Yup.string().min(1).max(30).required().trim(),
-    street: Yup.string().min(1).max(500).required().trim(),
+    street: Yup.string().min(1).max(50).required().trim(),
     city: Yup.string().min(1).max(35).required().trim(),
     postcode: Yup.string().max(7),
     state: Yup.string().min(1).max(35).required().trim(),
@@ -344,7 +344,7 @@ const Addnewrecipient = () => {
   }
 
   const validateAccount = (e) => {
-    if(initial_account!==""&&initial_account!==e.target.value){
+    if (initial_account !== "" && initial_account !== e.target.value) {
       checkExistingAccount({ account_number: e.target.value }).then(res => {
         if (res.code === "400" && res.message === "Recipient with this account number already exists!") {
           setAccountExisting(true)
@@ -544,19 +544,72 @@ const Addnewrecipient = () => {
                   </select>
                 </Form.Group>
               </div>
-              <div className="col-md-12 mb-3" id="street">
-                <Form.Group className="form_label" controlId="street">
-                  <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
+              <div className="col-md-12 mb-3" id="Address">
+                <Form.Group className="form_label" controlId="Address">
+                  <p className="get-text">Address</p>
                   <Autocomplete
                     apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                     onPlaceSelected={getSelectedStreet}
                     placeholder="Street Address, Company or P.O. box.. "
-                    id="street"
-                    name="street"
+                    id="address"
+                    name="address"
+                    className="form-control"
                     options={{
                       types: [],
                       componentRestrictions: { country: countryCode?.toLowerCase() },
                     }}
+                  />
+                </Form.Group>
+              </div>
+            </div>
+            <div className="row each-row">
+              <div className="col-md-4 mb-3" id="flat">
+                <Form.Group className="form_label" controlId="flat">
+                  <p className="get-text">Unit/Apt No.</p>
+                  <input
+                    type="text"
+                    name="flat"
+                    value={formik.values.flat}
+                    onKeyDown={(e) => { handleEmail(e, 15) }}
+                    {...formik.getFieldProps("flat")}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.flat && formik.errors.flat && formik.values.flat !== "" },
+                      {
+                        'is-valid': formik.touched.flat && !formik.errors.flat && formik.values.flat !== "",
+                      }
+                    )}
+                  />
+                </Form.Group>
+              </div>
+              <div className="col-md-4 mb-3" id="build">
+                <Form.Group className="form_label" controlId="build">
+                  <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
+                  <input
+                    type="text"
+                    name="building"
+                    value={formik.values.building}
+                    onKeyDown={(e) => { handleEmail(e, 30) }}
+                    {...formik.getFieldProps("building")}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      { 'is-invalid': formik.touched.building && formik.errors.building },
+                      {
+                        'is-valid': formik.touched.building && !formik.errors.building,
+                      }
+                    )}
+                  />
+                </Form.Group>
+              </div>
+              <div className="col-md-4 mb-3" id="street">
+                <Form.Group className="form_label" controlId="street">
+                  <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
+                  <input
+                    type="text"
+                    name="street"
+                    value={formik.values.street}
+                    onKeyDown={(e) => { handleEmail(e, 50) }}
+                    {...formik.getFieldProps("street")}
                     className={clsx(
                       'form-control bg-transparent',
                       { 'is-invalid': formik.touched.street && formik.errors.street },
@@ -564,32 +617,12 @@ const Addnewrecipient = () => {
                         'is-valid': formik.touched.street && !formik.errors.street,
                       }
                     )}
-                    value={formik.values.street}
-                    onChange={formik.handleChange}
                   />
                 </Form.Group>
               </div>
             </div>
             <div className="row each-row">
-              <div className="col-md-4 mb-3" id="state">
-                <Form.Group className="form_label" >
-                  <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
-                  <input
-                    type="text"
-                    name="state"
-                    value={formik.values.state}
-                    onKeyDown={(e) => { handleKeyDown(e, 30) }}
-                    {...formik.getFieldProps("state")}
-                    className={clsx(
-                      'form-control bg-transparent',
-                      { 'is-invalid': formik.touched.state && formik.errors.state },
-                      {
-                        'is-valid': formik.touched.state && !formik.errors.state,
-                      }
-                    )}
-                  />
-                </Form.Group>
-              </div>
+
               <div className="col-md-4 mb-3" id="city">
                 <Form.Group className="form_label" >
                   <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
@@ -638,41 +671,20 @@ const Addnewrecipient = () => {
 
                 </Form.Group>
               </div>
-            </div>
-            <div className="row each-row">
-              <div className="col-md-4 mb-3" id="build">
-                <Form.Group className="form_label" controlId="build">
-                  <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
+              <div className="col-md-4 mb-3" id="state">
+                <Form.Group className="form_label" >
+                  <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
                   <input
                     type="text"
-                    name="building"
-                    value={formik.values.building}
-                    onKeyDown={(e) => { handleEmail(e, 30) }}
-                    {...formik.getFieldProps("building")}
+                    name="state"
+                    value={formik.values.state}
+                    onKeyDown={(e) => { handleKeyDown(e, 30) }}
+                    {...formik.getFieldProps("state")}
                     className={clsx(
                       'form-control bg-transparent',
-                      { 'is-invalid': formik.touched.building && formik.errors.building },
+                      { 'is-invalid': formik.touched.state && formik.errors.state },
                       {
-                        'is-valid': formik.touched.building && !formik.errors.building,
-                      }
-                    )}
-                  />
-                </Form.Group>
-              </div>
-              <div className="col-md-4 mb-3" id="flat">
-                <Form.Group className="form_label" controlId="flat">
-                  <p className="get-text">Flat/Unit No.</p>
-                  <input
-                    type="text"
-                    name="flat"
-                    value={formik.values.flat}
-                    onKeyDown={(e) => { handleEmail(e, 15) }}
-                    {...formik.getFieldProps("flat")}
-                    className={clsx(
-                      'form-control bg-transparent',
-                      { 'is-invalid': formik.touched.flat && formik.errors.flat && formik.values.flat !== "" },
-                      {
-                        'is-valid': formik.touched.flat && !formik.errors.flat && formik.values.flat !== "",
+                        'is-valid': formik.touched.state && !formik.errors.state,
                       }
                     )}
                   />
@@ -694,7 +706,7 @@ const Addnewrecipient = () => {
                   type="button"
                   className="form-button"
                   onClick={() => { formik.handleSubmit() }}
-                  style={is_account_existing?{cursor:"not-allowed"}:{}} 
+                  style={is_account_existing ? { cursor: "not-allowed" } : {}}
                   disabled={is_account_existing}
                 >
                   {id ? "Update" : "Create"} Recipient

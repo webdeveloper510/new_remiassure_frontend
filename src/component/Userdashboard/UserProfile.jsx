@@ -49,7 +49,7 @@ const Profile = () => {
     mobile: Yup.string().min(9).max(10).required(),
     flat: Yup.string().max(30).trim().notRequired(),
     building: Yup.string().min(1).max(30).required().trim(),
-    street: Yup.string().max(900).required().trim(),
+    street: Yup.string().max(50).required().trim(),
     city: Yup.string().min(1).max(35).required().trim().notOneOf(["none"]),
     postcode: Yup.string().length(4).required(),
     state: Yup.string().min(2).max(35).required().trim().notOneOf(["none"]),
@@ -620,19 +620,76 @@ const Profile = () => {
                     </FormSelect>
                   </Form.Group>
                 </div>
+              </div>
+              <div className="row each-row">
                 <div className="col-md-12 mb-3">
-                  <Form.Group className="form_label" controlId="street">
-                    <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
+                  <Form.Group className="form_label" controlId="address">
+                    <p className="get-text">Address</p>
                     <Autocomplete
                       apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                       onPlaceSelected={getSelectedStreet}
                       placeholder="Street Address, Company or P.O. box.. "
-                      id="street"
-                      name="street"
+                      id="address"
+                      name="address"
+                      className="form-control"
                       options={{
                         types: [],
                         componentRestrictions: { country: formik.values.country === "New Zealand" ? "nz" : "au" },
                       }}
+                    />
+                  </Form.Group>
+                </div>
+              </div>
+              <div className="row each-row">
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label" controlId="flat">
+                    <p className="get-text">Unit/Apt No.</p>
+                    <input
+                      type="text"
+                      name="flat"
+                      value={formik.values.flat}
+                      onKeyDown={(e) => { handleEmail(e, 15) }}
+                      {...formik.getFieldProps("flat")}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.flat && formik.errors.flat && formik.values.flat !== "" && null },
+                        {
+                          'is-valid': formik.touched.flat && !formik.errors.flat && formik.values.flat !== "" && null,
+                        }
+                      )}
+                      onBlur={formik.handleBlur}
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label" controlId="building">
+                    <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="building"
+                      value={formik.values.building}
+                      onKeyDown={(e) => { handleEmail(e, 30) }}
+                      {...formik.getFieldProps("building")}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        { 'is-invalid': formik.touched.building && formik.errors.building },
+                        {
+                          'is-valid': formik.touched.building && !formik.errors.building,
+                        }
+                      )}
+                      onBlur={formik.handleBlur}
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-4 mb-3">
+                  <Form.Group className="form_label" controlId="street_name">
+                    <p className="get-text">Street Name<span style={{ color: 'red' }} >*</span></p>
+                    <input
+                      type="text"
+                      name="street"
+                      value={formik.values.street}
+                      onKeyDown={(e) => { handleEmail(e, 50) }}
+                      {...formik.getFieldProps("street")}
                       className={clsx(
                         'form-control bg-transparent',
                         { 'is-invalid': formik.touched.street && formik.errors.street },
@@ -640,32 +697,12 @@ const Profile = () => {
                           'is-valid': formik.touched.street && !formik.errors.street,
                         }
                       )}
-                      value={formik.values.street}
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
-                </div>
-                <div className="col-md-4 mb-3">
-                  <Form.Group className="form_label statess" controlId="state">
-                    <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
-                    <input
-                      type="text"
-                      name="state"
-                      value={formik.values.state}
-                      maxLength="30"
-                      onChange={handleOnlyAplha}
-                      className={clsx(
-                        'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.state && formik.errors.state },
-                        {
-                          'is-valid': formik.touched.state && !formik.errors.state,
-                        }
-                      )}
-                      placeholder="state or province .."
                       onBlur={formik.handleBlur}
                     />
                   </Form.Group>
                 </div>
+              </div>
+              <div className="row each-row">
                 <div className="col-md-4 mb-3">
                   <Form.Group className="form_label" controlId="city">
                     <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
@@ -707,44 +744,23 @@ const Profile = () => {
                     />
                   </Form.Group>
                 </div>
-              </div>
-              <div className="row each-row">
                 <div className="col-md-4 mb-3">
-                  <Form.Group className="form_label" controlId="flat">
-                    <p className="get-text">Flat/Unit No.</p>
+                  <Form.Group className="form_label statess" controlId="state">
+                    <p className="get-text">State<span style={{ color: 'red' }} >*</span></p>
                     <input
                       type="text"
-                      name="flat"
-                      value={formik.values.flat}
-                      onKeyDown={(e) => { handleEmail(e, 15) }}
-                      {...formik.getFieldProps("flat")}
+                      name="state"
+                      value={formik.values.state}
+                      maxLength="30"
+                      onChange={handleOnlyAplha}
                       className={clsx(
                         'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.flat && formik.errors.flat && formik.values.flat !== "" && null },
+                        { 'is-invalid': formik.touched.state && formik.errors.state },
                         {
-                          'is-valid': formik.touched.flat && !formik.errors.flat && formik.values.flat !== "" && null,
+                          'is-valid': formik.touched.state && !formik.errors.state,
                         }
                       )}
-                      onBlur={formik.handleBlur}
-                    />
-                  </Form.Group>
-                </div>
-                <div className="col-md-4 mb-3">
-                  <Form.Group className="form_label" controlId="building">
-                    <p className="get-text">Building No.<span style={{ color: 'red' }} >*</span></p>
-                    <input
-                      type="text"
-                      name="building"
-                      value={formik.values.building}
-                      onKeyDown={(e) => { handleEmail(e, 30) }}
-                      {...formik.getFieldProps("building")}
-                      className={clsx(
-                        'form-control bg-transparent',
-                        { 'is-invalid': formik.touched.building && formik.errors.building },
-                        {
-                          'is-valid': formik.touched.building && !formik.errors.building,
-                        }
-                      )}
+                      placeholder="state or province .."
                       onBlur={formik.handleBlur}
                     />
                   </Form.Group>
