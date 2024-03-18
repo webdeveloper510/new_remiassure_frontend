@@ -448,7 +448,7 @@ const BankDetails = ({ handleBankDetail, handleStep, step }) => {
                     name='bank'
                     styles={customStyles}
                     components={{ Placeholder }}
-                    placeholder="Select a bank...."
+                    placeholder=""
                   />
                 </div>
               </div>

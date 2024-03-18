@@ -168,7 +168,7 @@ const ReviewYourTransfer = ({ data, isConfirmation, handleCancel, handleContinue
                     </div>
                 </div>
             </div>
-            <DiscountList show={coupon_selector} handler={() => handleCouponSelector()} handleSelected={(value) => handleCouponSelection(value)} selected={applied} />
+            <DiscountList show={coupon_selector} handler={() => handleCouponSelector()} handleSelected={(value) => handleCouponSelection(value)} selected={applied} currency={data?.data?.amount?.from_type} />
         </>
     )
 }

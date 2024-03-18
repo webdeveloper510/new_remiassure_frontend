@@ -6841,7 +6841,7 @@ table.profile-table tr td {
 }
 
 section.edit_recipient_section {
-  width: 85%;
+  width: 91%;
   margin-right: auto;
 }
 
@@ -8395,12 +8395,17 @@ div#about .circle-image img {
 }
 
 .verified_text {
-  border: 1px solid #00ab41;
+  border: 2px solid #00ab41;
   border-radius: 10px
 }
 
+.pending_verified_text {
+  border-radius: 10px;
+  border: 2px solid #f0ad4e;
+}
+
 .unverified_text {
-  border: 1px solid red;
+  border: 2px solid red;
   border-radius: 10px
 }
 

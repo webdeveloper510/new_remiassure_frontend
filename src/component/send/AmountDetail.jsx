@@ -433,7 +433,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                     </div>
                     <div className="col-md-12">
                         <label className="container-new">
-                            <span className="radio-tick">Mobile Wallet</span>
+                            <span className="radio-tick">Mobile Wallet <span className='small'>(coming soon)</span></span>
                             <input
                                 className="form-check-input"
                                 type="radio"
@@ -451,7 +451,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                     <h5>Payout Partners</h5>
                     <div className="col-md-12">
                         <label className="container-new">
-                            <span className="radio-tick">Services</span>
+                            <span className="radio-tick">Services <span className='small'>(coming soon)</span></span>
                             <input
                                 className="form-check-input"
                                 type="radio"
@@ -472,7 +472,7 @@ const AmountDetail = ({ handleStep, step, handleAmtDetail }) => {
                             styles={customStyles}
                             className='payout_part'
                             components={{ Placeholder }}
-                            placeholder="Select a bank...."
+                            placeholder=""
                         />
                     </div>
                     <div className='col-md-12 '>

@@ -132,16 +132,18 @@ const AmountDetail = ({ handleStep, step }) => {
                     let data = commaSeperator(response.amount)
                     if (direction === "From") {
                         formik.setFieldValue("exchange_amt", data)
+                        formik.setFieldTouched("exchange_amt", true)
+                        formik.setFieldError("exchange_amt", false)
                         formik.setFieldValue("send_amt", event.target.value.includes(".") ? event.target.value : event.target.value + ".00")
                         setAmtDetail({ ...amt_detail, exchange_amt: data, send_amt: event.target.value.includes(".") ? event.target.value : event.target.value + ".00" })
                         setDefaultExchange(response?.default_exchange)
-                        
+
                     } else {
                         formik.setFieldValue("send_amt", data.includes(".") ? data : data + ".00")
                         setAmtDetail({ ...amt_detail, send_amt: data.includes(".") ? data : data + ".00" })
+                        formik.setFieldTouched("send_amt", true)
+                        formik.setFieldError("send_amt", "")
                     }
-                    formik.setFieldTouched("exchange_amt", true)
-                    formik.setFieldTouched("send_amt", true)
                     setLoader(false)
                     setExchRate(response.rate)
                     setBlurOff(true)
@@ -150,6 +152,7 @@ const AmountDetail = ({ handleStep, step }) => {
                     setLoader(false)
                     setBlurOff(true)
                 })
+            formik.setErrors({ ...formik.errors, exchange_amt: false, send_amt: false })
         } else {
             formik.setFieldValue("exchange_amt", "")
             setAmtDetail({ ...amt_detail, exchange_amt: "" })
@@ -320,6 +323,16 @@ const AmountDetail = ({ handleStep, step }) => {
         return <components.Placeholder {...props} />;
     };
 
+    useEffect(() => {
+        if (formik.values.send_amt && formik.values.exchange_amt) {
+            if (Number(commaRemover(formik.values.send_amt)) >= 100) {
+                formik.setErrors({ ...formik.errors, exchange_amt: undefined, send_amt: undefined })
+            } else {
+                formik.setFieldError("send_amt", "Minimum $100 is required.")
+            }
+        }
+    }, [formik.values])
+
     return (
         <section>
             <div class="form-head mb-4">
@@ -446,7 +459,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                 </div>
                                 <div className="col-md-12">
                                     <label className="container-new">
-                                        <span className="radio-tick">Mobile Wallet</span>
+                                        <span className="radio-tick">Mobile Wallet <span className='small text-muted'>(coming soon)</span></span>
                                         <input
                                             className="form-check-input"
                                             type="radio"
@@ -470,7 +483,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                         name='part_type'
                                         styles={customStyles}
                                         components={{ Placeholder }}
-                                        placeholder="Select a bank...."
+                                        placeholder="Select a Bank (start typing your bank name for options)"
                                         onBlur={formik.handleBlur}
                                         className='payout_part'
                                     />
@@ -515,7 +528,7 @@ const AmountDetail = ({ handleStep, step }) => {
                                 </div>
                                 <div className="col-md-12">
                                     <label className="container-new">
-                                        <span className="radio-tick">Services</span>
+                                        <span className="radio-tick">Services <span className='small text-muted'>(coming soon)</span></span>
                                         <input
                                             className="form-check-input"
                                             type="radio"

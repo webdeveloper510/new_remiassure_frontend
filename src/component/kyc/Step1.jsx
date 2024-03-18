@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo } from "react";
+// Step1.js
+import React, { useEffect, useMemo, useState } from "react";
 import "react-phone-input-2/lib/bootstrap.css";
 import birthCountryList from 'react-select-country-list';
 import clsx from "clsx";
@@ -8,12 +9,15 @@ import * as Yup from "yup";
 import { userProfile } from "../../utils/Api";
 import { toast } from "react-toastify";
 
-const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelectedAreaCode }) => {
+const Step1 = ({ skipHandler, nextStep, updateData }) => {
 
   /* ------------------------------------------- State declaration --------------------------------------------- */
 
   const countryOptions = useMemo(() => birthCountryList().getData(), [])
   const user_data = JSON.parse(sessionStorage.getItem("remi-user-dt"))
+
+  const [selected_area_code, setSelectedAreaCode] = useState("61")
+  const [initial, setInitial] = useState({ mobile: "", email: "" })
 
   const firstSchema = Yup.object().shape({
     First_name: Yup.string().min(1).max(25).required().trim(),
@@ -21,7 +25,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
     Last_name: Yup.string().min(1).max(25).required().trim(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50),
     mobile: Yup.string().min(9).max(10),
-    Date_of_birth: Yup.date().min(new Date(Date.now() - 3721248000000)).max(new Date(Date.now() - 567648000000), "You must be at least 18 years").required(),
+    Date_of_birth: Yup.date().min(new Date(Date.now() - 3721248000000), "Must be atleast 18 year old").max(new Date(Date.now() - 567648000000), "Must be atleast 18 year old").required("DOB is required"),
     occupation: Yup.string().min(1).max(50).required().trim(),
     Country_of_birth: Yup.string().required().notOneOf(["none"]),
   })
@@ -40,11 +44,19 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
     },
     validationSchema: firstSchema,
     onSubmit: async (values) => {
-      // console.log(values)
-    let payload = values ;
-    if(/^\s*$/.test(payload.Middle_name)){
-      delete payload['Middle_name'] 
-    }
+      let payload = values;
+      let mobile = parseInt(values.mobile, 10)
+      if (initial.mobile !== "+" + selected_area_code + mobile) {
+        payload.mobile = "+" + selected_area_code + mobile
+      } else {
+        delete payload["mobile"]
+      }
+      if (initial.email === values.email) {
+        delete payload["email"]
+      }
+      if (/^\s*$/.test(payload.Middle_name)) {
+        delete payload['Middle_name']
+      }
       nextStep()
       updateData(payload)
     }
@@ -55,7 +67,12 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
   useEffect(() => {
     var dtToday = new Date();
     var month = dtToday.getMonth() + 1;
-    var day = dtToday.getDate();
+    var day;
+    if (month === 2 && dtToday.getDate() === 29) {
+      day = dtToday.getDate() - 1
+    } else {
+      day = dtToday.getDate();
+    }
     var year = dtToday.getFullYear() - 18;
     if (month < 10)
       month = '0' + month.toString();
@@ -75,6 +92,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
   const handleChange = (e) => {
     formik.setFieldValue(`${[e.target.name]}`, e.target.value)
     formik.setFieldTouched(`${[e.target.name]}`, true)
+    formik.handleChange(e)
   }
 
   const handleEmail = (e, max) => {
@@ -114,6 +132,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
       if (res.code == "200") {
         let p = res.data.mobile
         let phone = p.substring(3);
+        setSelectedAreaCode(p.substring(1, 3))
         formik.setValues({
           First_name: res.data.First_name || "",
           Last_name: res.data.Last_name || "",
@@ -124,6 +143,10 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
           Date_of_birth: res.data.Date_of_birth || "",
           occupation: res.data.occupation || "",
         })
+        setInitial({
+          mobile: res.data.mobile,
+          email: res.data.email
+        })
       }
     }).catch((error) => {
       if (error.response.data.code == "400") {
@@ -131,6 +154,23 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
       }
     })
   }, [])
+
+  const onSkip = () => {
+    let values = formik.values;
+    let mobile = parseInt(values.mobile, 10)
+    if (initial.mobile !== "+" + selected_area_code + mobile) {
+      values.mobile = "+" + selected_area_code + mobile
+    } else {
+      delete values["mobile"]
+    }
+    if (initial.email === values.email) {
+      delete values["email"]
+    }
+    if (/^\s*$/.test(values.Middle_name)) {
+      delete values['Middle_name']
+    }
+    skipHandler(values)
+  }
 
 
   return (
@@ -169,7 +209,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
                       className='form-control'
                       maxLength="25"
                       onChange={handleOnlyAplha}
-                      {...formik.getFieldProps("Middle_name")}
+                      value={formik.values.Middle_name}
                     />
                   </div>
                 </div>
@@ -202,13 +242,15 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
                       style={{ backgroundColor: "rgba(252, 253, 255, 0.81)" }}
                       onKeyDown={(e) => { handleEmail(e, 50) }}
                       {...formik.getFieldProps("email")}
-                      className={clsx('form-control bg-transparent',)}
-                      readOnly
-                      disabled
+                      className={clsx('form-control bg-transparent',
+                        { 'is-invalid': formik.touched.email && formik.errors.email },
+                        {
+                          'is-valid': formik.touched.email && !formik.errors.email,
+                        })}
                     />
                   </div>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-6">
                   <div className="input_field">
                     <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                     <div className="row kustom_mobile">
@@ -217,12 +259,11 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
                           className="form-control form-select bg-transparent"
                           value={selected_area_code}
                           onChange={(e) => setSelectedAreaCode(e.target.value)}
-                          disabled
                         >
                           {
                             areaList?.map((area, index) => {
                               return (
-                                <option key={index} value={area?.code}>+{area?.code}&nbsp;{area?.name}</option>
+                                <option key={index} value={area?.code}>+{area?.code}&nbsp;({area?.name})</option>
                               )
                             })
                           }
@@ -238,9 +279,11 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
                           onChange={(e) => handleNumericOnly(e)}
                           className={clsx(
                             'form-control bg-transparent',
+                            { 'is-invalid': formik.touched.mobile && formik.errors.mobile },
+                            {
+                              'is-valid': formik.touched.mobile && !formik.errors.mobile,
+                            }
                           )}
-                          disabled
-                          readOnly
                         />
                       </div>
                     </div>
@@ -267,6 +310,13 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
                       )}
                       onBlur={formik.handleBlur}
                     />
+                    {formik.touched.Date_of_birth && formik.errors.Date_of_birth && (
+                      <div className='fv-plugins-message-container mt-1'>
+                        <div className='fv-help-block'>
+                          <span role='alert' className="text-danger">{formik.errors.Date_of_birth}</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="col-md-4 country-h">
@@ -276,13 +326,11 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
                       value={formik.values.Country_of_birth}
                       name="Country_of_birth"
                       onChange={(e) => handleChange(e)}
-                      readOnly={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
-                      disabled={user_data?.is_digital_Id_verified?.toString().toLowerCase() === "true"}
                       className={clsx(
                         'form-control form-select bg-transparent',
                         { 'is-invalid': formik.touched.Country_of_birth && formik.errors.Country_of_birth },
                         {
-                          'is-valid':  formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
+                          'is-valid': formik.touched.Country_of_birth && !formik.errors.Country_of_birth,
                         }
                       )}
                       onBlur={formik.handleBlur}
@@ -325,7 +373,7 @@ const Step1 = ({ skipHandler, nextStep, updateData, selected_area_code, setSelec
           </div>
           <div className="next-step">
             <button type="submit" className="login_button">Next <b>Step</b>  <img src="assets/img/home/Union.png" className="vission_image" alt="alt_image" /></button>
-            <button type="button" onClick={() => skipHandler(formik.values)} className="SKip">Skip</button>
+            <button type="button" onClick={() => onSkip()} className="SKip">Skip</button>
           </div>
         </form>
       </section>

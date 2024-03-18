@@ -97,7 +97,7 @@ const routes = [
       { path: '/user-recipients', element: <Layout>  <RouteWithBodyClass element={<UserRecipient />} bodyClass="footer-space bg-colored" />  </Layout> },
       { path: '/change-password', element: <Layout> <RouteWithBodyClass element={<ChangePassword />} bodyClass="footer-space bg-colored" /> </Layout> },
       { path: '/dashboard', element: <Layout><RouteWithBodyClass element={<Dashboard />} bodyClass="footer-space bg-colored" /></Layout> },
-      { path: '/edit-recipient-user', element: <Layout><Editrecipientuser /></Layout> },
+      { path: '/edit-recipient-user', element: <Layout><AddNewRecipient /></Layout> },
       { path: "/payment-detail/agreement-detail", element: <Layout>  <RouteWithBodyClass element={<PayToDetail />} bodyClass="footer-space bg-colored" /> </Layout> },
       { path: "/payment-detail/pay-id-detail", element: <Layout><PayIdDetail /></Layout> },
       // { path: '/profile-single-data/:id', element: <SingleRecipientProfile /></Layout> },

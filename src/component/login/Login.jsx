@@ -138,7 +138,7 @@ const Login = () => {
                         }
                     } else {
                         const user = res?.data
-                        user.is_digital_Id_verified = "false"
+                        user.is_digital_Id_verified = "Pending"
                         sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
                         navigate('/dashboard')
                     }
@@ -376,14 +376,14 @@ const Login = () => {
                                                                     </div>
                                                                     <div className="row">
                                                                         <div className="col-lg-6">
-                                                                            <Form.Group className="mb-3">
+                                                                            {/* <Form.Group className="mb-3">
                                                                                 <Form.Check
                                                                                     type="checkbox"
                                                                                     value={promo_marketing}
                                                                                     onChange={handlePromo_marketing}
                                                                                     checked={promo_marketing.Active} // <-- set the checked prop of input    
-                                                                                    label="Remember me " />
-                                                                            </Form.Group>
+                                                                                    label=" " />
+                                                                            </Form.Group> */}
                                                                         </div>
                                                                         <div className="col-lg-6">
                                                                             <NavLink className="forgot_pass" to="/forgot-password"> Forgot password?</NavLink>

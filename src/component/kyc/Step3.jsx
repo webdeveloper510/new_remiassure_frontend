@@ -6,7 +6,7 @@ import { getVeriffStatus } from '../../utils/Api';
 import { toast } from 'react-toastify';
 import { Alert } from 'react-bootstrap';
 
-const Step3 = ({ prevStep, nextStep, values }) => {
+const Step3 = ({ nextStep, setVeriffStatus }) => {
 
   const [loading, setLoading] = useState(false)
   const [re_verify, setReverify] = useState(false)
@@ -31,31 +31,43 @@ const Step3 = ({ prevStep, nextStep, values }) => {
                 break;
               case MESSAGES.FINISHED:
                 setReverify(false)
+                let intervalCleared = false;
                 const interval = setInterval(() => {
                   getVeriffStatus({ session_id: response.verification.id }).then(res => {
                     if (res.code === "200") {
-                      if (res?.data?.verification?.status === "approved") {
-                        setLoading(false)
-                        clearInterval(interval)
-                        let user = JSON.parse(sessionStorage.getItem("remi-user-dt"));
-                        user.is_digital_Id_verified = "true"
-                        nextStep()
-                        sessionStorage.setItem("remi-user-dt", JSON.stringify(user))
-                      } else if (res?.data?.verification?.status === "declined") {
-                        setLoading(false)
-                        clearInterval(interval)
-                        setReverify("Verification failed. Please try verifying your ID once more")
-                        // toast.error(res?.message, { position: "bottom-right", hideProgressBar: true })
+                      if (res?.data?.verification?.status?.toLowerCase() === "approved") {
+                        clearIntervalAndExecute("approved");
+                      } else if (res?.data?.verification?.status?.toLowerCase() === "declined") {
+                        clearIntervalAndExecute("declined", "Verification failed. Please try verifying your ID once more.");
+                      } else if (res?.data?.verification?.status?.toLowerCase() === "resubmission_requested") {
+                        clearIntervalAndExecute("resubmission_requested", "Something went wrong. Please re-submit the verification.");
                       }
-
                     }
                   })
                 }, 5000)
+                setTimeout(() => {
+                  if (!intervalCleared) {
+                    setLoading(false);
+                    clearInterval(interval);
+                    setVeriffStatus("submitted")
+                    nextStep()
+                  }
+                }, 15 * 1000)
+                function clearIntervalAndExecute(status, message = "") {
+                  intervalCleared = true;
+                  setLoading(false);
+                  clearInterval(interval);
+                  if (message) {
+                    setReverify(message);
+                  } else if (status === "approved") {
+                    nextStep()
+                  }
+                }
                 break;
             }
           }
         });
-        if(err){
+        if (err) {
           toast.error(err?.message, { position: "bottom-right", autoClose: 2000, hideProgressBar: true })
         }
       }
@@ -73,7 +85,6 @@ const Step3 = ({ prevStep, nextStep, values }) => {
         lastName: 'Last name',
         vendorData: 'Unique id/Document id'
       },
-
       submitBtnText: 'Verify Your ID',
       loadingText: 'Processing...'
     })
@@ -84,7 +95,7 @@ const Step3 = ({ prevStep, nextStep, values }) => {
       {
         loading && (
           <>
-            <div className="loader-overly" style={{background:"rgb(0 0 0 / 85%)"}}>
+            <div className="loader-overly" style={{ background: "rgb(0 0 0 / 85%)" }}>
               <div className="loader">
               </div>
               <div className="loader-text">

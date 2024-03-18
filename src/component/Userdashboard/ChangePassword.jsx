@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
-import Sidebar from './Sidebar';
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import clsx from "clsx";
 import { changePassword } from "../../utils/Api";
-import authDashHelper from "../../utils/AuthDashHelper";
 import { Modal } from "react-bootstrap";
 import PopVerify from "../verification/PopVerify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -23,7 +20,7 @@ const Profile = () => {
 
   const updateSchema = Yup.object().shape({
     old_password: Yup.string().required("Current password is required"),
-    new_password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
+    new_password: Yup.string().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,30}$/, 'Password must contain uppercase, lowercase, symbols, digits, minimum 6 characters').required("Password is required"),
     confirmPassword: Yup.string().oneOf([Yup.ref("new_password")], "Passwords did not match").required("Password confirmation is required")
   })
 
@@ -77,7 +74,6 @@ const Profile = () => {
     }
   }, [is_otp_verified])
 
-  const navigate = useNavigate();
 
   return (
     <>

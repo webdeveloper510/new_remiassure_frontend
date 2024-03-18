@@ -577,8 +577,8 @@ export const checkExistence = async () => {
 }
 
 
-export const getCouponList = () => {
-  const response = Axios.get("/payment/referrals-list/", {
+export const getCouponList = (currency) => {
+  const response = Axios.get(`/payment/referrals-list/${currency}/`, {
     headers: {
       "Authorization": `Bearer ${sessionStorage.getItem("token")}`
     }
@@ -610,4 +610,17 @@ export const hitNewsletter = (data) => {
     return err.response.data
   })
   return response
- }
+}
+
+export const checkExistingAccount = (data) => {
+  const response = Axios.post("/payment/account-number-validation/", data, {
+    headers: {
+      "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+    }
+  }).then(res => {
+    return res.data
+  }).catch(err => {
+    return err.response.data
+  })
+  return response
+}
