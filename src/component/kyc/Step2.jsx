@@ -340,7 +340,7 @@ const Step2 = ({ prevStep, skipHandler, selected_area_code, setSelectedAreaCode,
                   </Form.Group>
                 </div>
                 <div className="col-md-4 mb-3">
-                  <Form.Group className="form_label" controlId="city">
+                  <Form.Group className="form_label statess" controlId="city">
                     <p className="get-text">City/Suburb<span style={{ color: 'red' }} >*</span></p>
                     {
                       city_list && city_list.length > 0 ? (

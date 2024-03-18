@@ -41,11 +41,11 @@ const IdleTimeOutHandler = (props) => {
     useEffect(() => {
         if (showModal) {
             setTimeout(() => {
-                setShowModal(false)
-                props.onLogout()
+             setShowModal(false)
+               props.onLogout()
             }, 2 * 60 * 1000)
-        }
-    }, [showModal])
+     }
+ }, [showModal])
 
 
 
@@ -142,23 +142,24 @@ const IdleTimeOutModal = ({ showModal, handleContinue, handleLogout, remainingTi
     }, [seconds, showModal]);
 
     return (
-        <Modal show={showModal} onHide={handleContinue} backdrop="static" centered>
+        <Modal show={showModal} onHide={handleContinue} backdrop="static" centered className="custom-design">
             <Modal.Header closeButton>
-                <Modal.Title>You Have Been Idle!</Modal.Title>
+               
             </Modal.Header>
+            <Modal.Title>You Have Been Idle!</Modal.Title>
             <Modal.Body className="session_modal">
-                <p>You will get automatically <b style={{ color: "#6414E9" }}>logged out</b> in:</p>
-                <p className='image_idle_time  py-5' style={{ backgroundImage: `url(${timeOut})` }}>
-                    <span className="display-3 fw-semibold text-danger">{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</span>
+                <p class="text-log">You will get automatically logged out in:</p>
+                <p className='image_idle_time  py-4' >
+                    <span className="display-3 fw-semibold ">{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</span>
                 </p>
-                <p>Click on <b style={{ color: "#6414E9" }}>Continue Session</b> to stay.</p>
+                
             </Modal.Body>
             <Modal.Footer>
                 <Button className='session_logOut' onClick={() => handleLogout()}>
                     Logout
                 </Button>
                 <Button className='session_cont' onClick={() => handleContinue()}>
-                    Continue Session
+                    Continue <b>Session</b> <img src="assets/img/home/Union.png" class="vission_image" alt="alt_image"></img>
                 </Button>
             </Modal.Footer>
         </Modal>
