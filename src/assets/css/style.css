@@ -9577,14 +9577,14 @@ button.SKip.back-btn {
 }
 .pac-container.pac-logo
 {z-index: 9999999;}
-.statess select {
+.statess select,.country-h select{
   padding-right: 40px !important;
  
 }
 
 
 
-  .statess select.form-control.form-select.bg-transparent.is-valid
+  .statess select.form-control.form-select.bg-transparent.is-valid,.country-h select.form-control.form-select.bg-transparent.is-valid
 {
   background-size: 18px !important;
   background-image:url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 8 8%27%3e%3cpath fill=%27%23198754%27 d=%27M2.3 6.73.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z%27/%3e%3c/svg%3e') !important;
@@ -9602,4 +9602,86 @@ button.SKip.back-btn {
     float: left;
     width: 100%;
     margin-top: 10px;
+}
+.custom-design .modal-content {
+    border: 1px solid #AFA7D0;
+    border-radius: 21px !important;
+}
+.custom-design .modal-title.h4 {
+  font-size: 41px;
+  margin-top: 20px;
+  font-weight: 600;
+}
+.custom-design  .modal-header {
+  padding-top: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border: none;
+}
+.custom-design button.btn-close{
+  background: url(../img/home/close-pop.png);
+
+ padding:1px;
+    background-repeat: no-repeat;
+    background-size: contain;
+ 
+}
+
+p.text-log {
+  font-size: 17px;
+  color: #190079 !important;
+}
+.custom-design .modal-footer {
+  background: no-repeat;
+  justify-content: center;
+  border: none;
+  padding: 0;
+  padding-bottom: 20px;
+}
+.custom-design button.session_cont.btn.btn-primary
+{
+padding: 14px 44px !important;
+    border-bottom-left-radius: 53px !important;
+    border-top-left-radius: 53px !important;
+    font-size: 17px !important;
+    font-family: var(--font-SubHeding) !important;
+    width: 50%;
+    background: #6414E9;
+    color: #fff !important;
+  
+    display: inline-block;
+    position: relative;
+    padding-left: 35px !important;
+    width: auto;
+    height: 57px;
+    text-transform: uppercase;
+}
+
+.custom-design button.session_cont.btn.btn-primary::before{
+  position: absolute;
+  content: '';
+  display: inline-block;
+  width: 33px;
+  height: 33px;
+  border-radius: 100px;
+  background-color: #ffffff;
+  right: -9px;
+  top: 12px;
+}
+
+.custom-design  button.session_logOut.btn.btn-primary {
+  border-radius: 0px 45px 45px 0px;
+  border: 1px solid #00000033 !important;
+  font-size: 17px !important;
+  height: 57px;
+  width: max-content;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-transform: uppercase;
+  color: #6414E9;
+}
+
+.custom-design button.btn-close:hover
+{
+  box-shadow: none !important;
 }

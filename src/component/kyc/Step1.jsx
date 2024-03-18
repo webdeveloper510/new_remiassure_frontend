@@ -319,11 +319,11 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
                     )}
                   </div>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-4 country-h">
                   <div className="input_field">
                     <p className="get-text">Country of Birth<span style={{ color: 'red' }} >*</span></p>
                     <select
-                      value={formik?.values.Country_of_birth}
+                      value={formik.values.Country_of_birth}
                       name="Country_of_birth"
                       onChange={(e) => handleChange(e)}
                       className={clsx(
@@ -335,7 +335,7 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
                       )}
                       onBlur={formik.handleBlur}
                     >
-                      <option>Select a country</option>
+                     <option value={"none"} key={"none"}>Select a country</option>
                       {
                         countryOptions && countryOptions.length > 0 ?
                           countryOptions?.map((opt) => {
