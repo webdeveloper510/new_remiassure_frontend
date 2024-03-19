@@ -233,7 +233,7 @@ const Step1 = ({ skipHandler, nextStep, updateData }) => {
                 </div>
               </div>
               <div className="row each-row">
-                <div className="col-md-4">
+                <div className="col-md-6">
                   <div className="input_field">
                     <p className="get-text">Email<span style={{ color: 'red' }} >*</span></p>
                     <input

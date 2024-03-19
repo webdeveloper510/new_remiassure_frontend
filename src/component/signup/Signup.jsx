@@ -364,7 +364,7 @@ const Signup = () => {
                                                                 <div className="col-md-6 phone-row">
                                                                     <Form.Group className="mb-2 form_label" >
                                                                         <Form.Label>Your Phone<span style={{ color: 'red' }} >*</span> </Form.Label>
-                                                                        <div className="row kustom_mobile_signup">
+                                                                        <div className="row kustom_mobile_signup margin0">
                                                                             <div className="col-md-5 px-0">
                                                                                 <select
                                                                                     className="form-control form-select bg-transparent"
