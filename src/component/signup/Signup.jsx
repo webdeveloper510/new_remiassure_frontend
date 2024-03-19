@@ -15,6 +15,7 @@ import countryList from "../../utils/senderCountries.json"
 import { Alert, Modal, Button, ModalBody } from "react-bootstrap";
 import OtpInput from "react18-input-otp";
 import { senderAreaList as areaList } from "../../utils/ArealList";
+import moment from "moment";
 const Signup = () => {
     const [isOn, setOn] = useState(false);
     const handleToggle = () => {
@@ -84,7 +85,7 @@ const Signup = () => {
                 left: 0,
                 behavior: "smooth"
             })
-            let mno = parseInt(values.mobile, 10) 
+            let mno = parseInt(values.mobile, 10)
             let data = { ...values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + mno }
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
@@ -171,7 +172,7 @@ const Signup = () => {
         let length = otp.toString()
         if (length.length == 6) {
             setLoading(true)
-            let mno = parseInt(formik.values.mobile, 10) 
+            let mno = parseInt(formik.values.mobile, 10)
             let data = { ...formik.values, promo_marketing: promo_marketing, country_code: country_code, mobile: "+" + selected_area_code + mno, otp: otp }
             if (data.referral_code === "" || isOn === false) {
                 delete data["referral_code"]
@@ -184,6 +185,7 @@ const Signup = () => {
                     d.setDate(d.getDate() + 1);
                     sessionStorage.setItem('token', res.access_token)
                     setLoading(false)
+                    sessionStorage.setItem('lastIteractionTime', moment())
                     const user = res?.data
                     user.is_digital_Id_verified = "Pending"
                     sessionStorage.setItem("remi-user-dt", JSON.stringify(user))

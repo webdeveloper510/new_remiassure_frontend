@@ -10,6 +10,7 @@ import OtpInput from "react18-input-otp";
 import { Alert, Button, Modal, ModalBody } from "react-bootstrap";
 import * as Yup from "yup"
 import * as CountryData from "country-codes-list";
+import moment from "moment";
 
 
 const Login = () => {
@@ -127,6 +128,8 @@ const Login = () => {
                     sessionStorage.setItem('tkn-exp', d)
                     sessionStorage.setItem('token', res.access_token)
                     setLoading(false)
+                    sessionStorage.setItem('lastIteractionTime', moment())
+
                     if (obj.page !== "register") {
                         const user = res?.data
                         user.is_digital_Id_verified = `${res?.data?.is_digital_Id_verified}`
