@@ -420,11 +420,11 @@ const Profile = () => {
                     />
                   </div>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-4 ">
                   <div className="input_field">
                     <p className="get-text">Mobile<span style={{ color: 'red' }} >*</span></p>
                     <div className="row kustom_mobile">
-                      <div className="col-md-5 px-0">
+                      <div className="col-md-5 px-0 select-padding">
                         <select
                           className="form-control form-select bg-transparent"
                           value={selected_area_code}
