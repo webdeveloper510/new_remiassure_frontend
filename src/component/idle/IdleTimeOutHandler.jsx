@@ -13,6 +13,7 @@ const IdleTimeOutHandler = (props) => {
 
     let timer = undefined;
     const events = ['click', 'load', 'keydown']
+    
     const eventHandler = (eventType) => {
 
         if (!isLogout) {
