@@ -1632,8 +1632,9 @@ p.space-div {
     border: 1px solid rgba(0, 0, 0, 0.2);
    
 }
-.col-md-4.paddingg-l {
+.col-md-3.paddingg-l {
     padding: 10px 30px;
+    display: flex;
 }
 .col-md-12.padding-dd.mobiletext input{
     padding-left:  30px;
@@ -1663,7 +1664,7 @@ p.space-div {
     height: auto !IMPORTANT;
     border: none !important;
     width: 100%;
-    background-position: center;
+   
 }
 @media only screen and (max-width: 1980px) and (min-width: 992px)  {
     .sign-image-sec {

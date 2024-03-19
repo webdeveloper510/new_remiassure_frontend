@@ -314,7 +314,7 @@ const Login = () => {
                                                                             <div className="row">
                                                                                 {
                                                                                     isMobile ? (
-                                                                                        <div className="col-md-4 paddingg-l">
+                                                                                        <div className="col-md-3 paddingg-l">
                                                                                             <Form.Select className="login-code-select form-select" value={countryCode} onChange={(e) => setCountryCode(e.target.value)}>
                                                                                                 <option value="+61">+61 (AU)</option>
                                                                                                 <option value="+64">+64 (NZ)</option>
@@ -322,7 +322,7 @@ const Login = () => {
                                                                                         </div>
                                                                                     ) : ""
                                                                                 }
-                                                                                <div className={`${isMobile ? "col-md-8" : "col-md-12 padding-dd"}  mobiletext`}>
+                                                                                <div className={`${isMobile ? "col-md-9" : "col-md-12 padding-dd"}  mobiletext`}>
                                                                                     <Form.Control
                                                                                         type={'text'}
                                                                                         autoComplete="off"
