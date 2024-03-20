@@ -42,7 +42,7 @@ const Addnewrecipient = () => {
     first_name: "", last_name: "", middle_name: "",
     mobile: "", flat: "",
     building: "", street: "", city: "",
-    postcode: "", state: "", country: "Australia", country_code: "AU"
+    postcode: "", state: "", country: "Australia", country_code: "AU", address: "",
   }
 
   const [phone_code, setPhone_code] = useState("")
@@ -66,6 +66,7 @@ const Addnewrecipient = () => {
       }
     }).trim(),
     account_number: Yup.string().min(5).max(18).required(),
+    address: Yup.string().trim(),
     first_name: Yup.string().min(1).max(25).required().trim(),
     last_name: Yup.string().min(1).max(25).required().trim(),
     middle_name: Yup.string().max(25).notRequired().trim(),
@@ -107,7 +108,9 @@ const Addnewrecipient = () => {
       if (d.email === "" || d.email === undefined || d.email === " ") {
         delete d['email'];
       }
-
+      if (d.address === "" || d.address === undefined || d.address === " ") {
+        delete d['address'];
+      }
       if (phone_code !== "") {
         let mno;
         if (phone_code.toString().length > 2) mno = d.mobile.substring(3);
@@ -192,6 +195,7 @@ const Addnewrecipient = () => {
       formik.setFieldValue("postcode", "")
       formik.setFieldValue("building", "")
       formik.setFieldValue("flat", "")
+      formik.setFieldValue("address", "")
       setCountryCode(coun.countryCode.toLowerCase())
     }
   }
@@ -218,15 +222,13 @@ const Addnewrecipient = () => {
       setCountryCode(selected[0].code.toLowerCase())
       setPhone_code(selected[0].dialCode)
 
-
-      //formik.setFieldValue('country_code', coun.countryCode)
       formik.setFieldValue("street", "")
       formik.setFieldValue("state", "")
       formik.setFieldValue("city", "")
       formik.setFieldValue("postcode", "")
       formik.setFieldValue("building", "")
       formik.setFieldValue("flat", "")
-
+      formik.setFieldValue("address", "")
 
 
     } else {
@@ -308,7 +310,7 @@ const Addnewrecipient = () => {
   const customStyles = {
     control: (base, state) => ({
       ...base,
-      borderColor: formik.errors.bank_name && formik.touched.bank_name ? 'red' : base.borderColor, // Change the border color when it's invalid
+      borderColor: formik.errors.bank_name && formik.touched.bank_name ? 'red' : base.borderColor,
     }),
   };
 
@@ -331,7 +333,7 @@ const Addnewrecipient = () => {
         state = component?.long_name;
       } else if (component?.types?.includes('country')) {
         country = component?.long_name;
-      } else if (component?.types?.includes('building_name') || component?.types?.includes('building') || component?.types?.includes('building_number')) {
+      } else if (component?.types?.includes('subpremise') || component?.types?.includes('building') || component?.types?.includes('building_number')) {
         building = component?.long_name;
       }
     })
@@ -341,6 +343,7 @@ const Addnewrecipient = () => {
     formik.setFieldValue("state", state)
     formik.setFieldValue("street", street.trim())
     formik.setFieldValue("building", building)
+    formik.setFieldValue("address", place?.formatted_address)
   }
 
   const validateAccount = (e) => {
@@ -558,6 +561,8 @@ const Addnewrecipient = () => {
                       types: [],
                       componentRestrictions: { country: countryCode?.toLowerCase() },
                     }}
+                    onChange={formik.handleChange}
+                    value={formik.values.address}
                   />
                 </Form.Group>
               </div>

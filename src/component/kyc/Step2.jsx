@@ -22,6 +22,7 @@ const Step2 = ({ prevStep, skipHandler, nextStep, updateData }) => {
     street: Yup.string().max(50).required().trim().notOneOf(["", " "]),
     flat: Yup.string().max(30).notRequired(),
     building: Yup.string().min(1).max(30).required().trim().notOneOf(["", " "]),
+    address: Yup.string(),
   })
 
   const formik = useFormik({
@@ -37,13 +38,18 @@ const Step2 = ({ prevStep, skipHandler, nextStep, updateData }) => {
       flat: "",
       building: "",
       country_code: "AU",
-      country: "Australia"
+      country: "Australia",
+      address: "",
     },
     validationSchema: secondSchema,
     onSubmit: async (values) => {
       let payload = values
+      console.log(values)
       if (/^\s*$/.test(payload.flat)) {
         delete payload['flat']
+      }
+      if (payload.address === "" || payload.address === undefined || payload.address === " ") {
+        delete payload['address'];
       }
       if (values.country === "Australia") {
         payload.country_code = "AU"
@@ -71,7 +77,8 @@ const Step2 = ({ prevStep, skipHandler, nextStep, updateData }) => {
           flat: res?.data?.flat || "",
           building: res?.data?.building || "",
           country_code: res?.data?.country_code || "AU",
-          country: countryValue
+          country: countryValue,
+          address: res?.data?.address || "",
         })
       }
     }).catch((error) => {
@@ -127,7 +134,7 @@ const Step2 = ({ prevStep, skipHandler, nextStep, updateData }) => {
         state = component?.long_name;
       } else if (component?.types?.includes('country')) {
         country = component?.long_name;
-      } else if (component?.types?.includes('building_name') || component?.types?.includes('building') || component?.types?.includes('building_number')) {
+      } else if (component?.types?.includes('subpremise') || component?.types?.includes('building') || component?.types?.includes('building_number')) {
         building = component?.long_name;
       }
     })
@@ -138,6 +145,7 @@ const Step2 = ({ prevStep, skipHandler, nextStep, updateData }) => {
     formik.setFieldValue("city", city)
     formik.setFieldValue("street", street.trim())
     formik.setFieldValue("building", building)
+    formik.setFieldValue("address", place?.formatted_address)
   }
 
   const handleOnlyAplha = (event) => {
@@ -236,6 +244,8 @@ const Step2 = ({ prevStep, skipHandler, nextStep, updateData }) => {
                         types: [],
                         componentRestrictions: { country: formik.values.country === "New Zealand" ? "nz" : "au" },
                       }}
+                      onChange={formik.handleChange}
+                      value={formik.values.address}
                     />
                   </Form.Group>
                 </div>

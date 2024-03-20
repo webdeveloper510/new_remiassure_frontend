@@ -23,8 +23,6 @@ import Autocomplete from "react-google-autocomplete";
 
 const BankDetails = ({ handleStep, step }) => {
   const [isActive, setActive] = useState("false");
-  // const [city_list, setCityList] = useState([])
-  // const [state_list, setStateList] = useState([])
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(false)
   const [isAfrican, setIsAfrican] = useState(true)
@@ -60,7 +58,7 @@ const BankDetails = ({ handleStep, step }) => {
     f_name: "", l_name: "", m_name: "",
     mobile: "+61", flat: "",
     building: "", street: "", city: "",
-    postcode: "", state: "", country: "Australia", country_code: "AU"
+    postcode: "", state: "", country: "Australia", country_code: "AU", address:""
   }
 
   const [phone_code, setPhoneCode] = useState("")
@@ -88,6 +86,7 @@ const BankDetails = ({ handleStep, step }) => {
       }
     }).trim(),
     acc_no: Yup.string().min(5).max(18).required(),
+    address: Yup.string().trim(),
     f_name: Yup.string().min(2).max(25).required().trim(),
     l_name: Yup.string().min(2).max(25).required().trim(),
     m_name: Yup.string().max(25).notRequired().trim(),
@@ -132,6 +131,9 @@ const BankDetails = ({ handleStep, step }) => {
       if (d.postcode === "" || d.postcode === undefined || d.postcode === " ") {
         delete d['postcode'];
       }
+      if (d.address === "" || d.address === undefined || d.address === " ") {
+        delete d['address'];
+      }
       if (phone_code !== "") {
         let mno;
         if (phone_code.toString().length > 2) mno = d.mobile.substring(3)
@@ -167,7 +169,6 @@ const BankDetails = ({ handleStep, step }) => {
   useEffect(() => {
     let storage = JSON.parse(sessionStorage.getItem("transfer_data"))
     if (storage?.amount) {
-      // setData({ ...data, bank: storage?.amount?.part_type, other_name: storage?.amount?.payout_part })
       formik.setValues({ ...formik.values, bank: storage?.amount?.part_type, other_name: storage?.amount?.payout_part })
     }
 
@@ -194,16 +195,13 @@ const BankDetails = ({ handleStep, step }) => {
 
 
       setCountryCode(selected[0].code.toLowerCase())
-      //setPhone_code(selected[0].dialCode)
-
-
-      //formik.setFieldValue('country_code', coun.countryCode)
       formik.setFieldValue("street", "")
       formik.setFieldValue("state", "")
       formik.setFieldValue("city", "")
       formik.setFieldValue("postcode", "")
       formik.setFieldValue("building", "")
       formik.setFieldValue("flat", "")
+      formik.setFieldValue("address", "")
 
 
 
@@ -446,7 +444,7 @@ const BankDetails = ({ handleStep, step }) => {
         state = component?.long_name;
       } else if (component?.types?.includes('country')) {
         country = component?.long_name;
-      } else if (component?.types?.includes('building_name') || component?.types?.includes('building') || component?.types?.includes('building_number')) {
+      } else if (component?.types?.includes('subpremise') || component?.types?.includes('building') || component?.types?.includes('building_number')) {
         building = component?.long_name;
       }
     })
@@ -456,6 +454,7 @@ const BankDetails = ({ handleStep, step }) => {
     formik.setFieldValue("state", state)
     formik.setFieldValue("street", street.trim())
     formik.setFieldValue("building", building)
+    formik.setFieldValue("address", place?.formatted_address)
   }
 
   const validateAccount = (e) => {
@@ -766,6 +765,8 @@ const BankDetails = ({ handleStep, step }) => {
                               types: [],
                               componentRestrictions: { country: countryCode?.toLowerCase() },
                             }}
+                            onChange={formik.handleChange}
+                            value={formik.values.address}
                           />
                         </Form.Group>
                       </div>

@@ -37,7 +37,7 @@ const Profile = () => {
     Gender: "Male", Country_of_birth: "",
     Date_of_birth: "", flat: "", building: "",
     street: "", city: "none", country: "none", country_code: "AU",
-    postcode: "", state: "none", email: "", mobile: "", occupation: "",
+    postcode: "", state: "none", email: "", mobile: "", occupation: "",address:"",
     customer_id: "", payment_per_annum: "Tier 1 - Less than 5 times", value_per_annum: "Tier 1 - Less than $30,000"
   }
 
@@ -47,6 +47,7 @@ const Profile = () => {
     Middle_name: Yup.string().trim().notRequired(),
     email: Yup.string().matches(/^[\w-+\.]+@([\w-]+\.)+[\w-]{2,5}$/, "Invalid email format").max(50).required(),
     mobile: Yup.string().min(9).max(10).required(),
+    address: Yup.string(),
     flat: Yup.string().max(30).trim().notRequired(),
     building: Yup.string().min(1).max(30).required().trim(),
     street: Yup.string().max(50).required().trim(),
@@ -193,6 +194,9 @@ const Profile = () => {
     if (is_update.mobile === d.mobile) {
       delete d['mobile']
     }
+    if (d.address === "" || d.address === undefined || d.address === " ") {
+      delete d['address'];
+    }
     delete d["customer_id"];
     delete d["stripe_customer_id"];
     delete d["referred_by"];
@@ -203,6 +207,7 @@ const Profile = () => {
     delete d["destination_currency"];
     delete d["created_at"];
     delete d["profile_completed"];
+
 
     setLoading(true)
     updateProfile(d).then(res => {
@@ -258,7 +263,6 @@ const Profile = () => {
 
   const getSelectedStreet = async (place) => {
     let country = "", state = "", city = "", postcode = "", street = "", building = "";
-
     await place?.address_components?.forEach((component) => {
       if (component?.types?.includes("street_number")) {
         street = component?.long_name + " " + street;
@@ -272,7 +276,7 @@ const Profile = () => {
         state = component?.long_name;
       } else if (component?.types?.includes('country')) {
         country = component?.long_name;
-      } else if (component?.types?.includes('building_name') || component?.types?.includes('building') || component?.types?.includes('building_number')) {
+      } else if (component?.types?.includes('subpremise') || component?.types?.includes('building') || component?.types?.includes('building_number')) {
         building = component?.long_name;
       }
     })
@@ -282,6 +286,7 @@ const Profile = () => {
     formik.setFieldValue("city", city)
     formik.setFieldValue("street", street.trim())
     formik.setFieldValue("building", building)
+    formik.setFieldValue("address", place?.formatted_address);
   }
 
   console.log(formik.values.flat)
@@ -636,6 +641,8 @@ const Profile = () => {
                         types: [],
                         componentRestrictions: { country: formik.values.country === "New Zealand" ? "nz" : "au" },
                       }}
+                      onChange={formik.handleChange}
+                      value={formik.values.address}
                     />
                   </Form.Group>
                 </div>
