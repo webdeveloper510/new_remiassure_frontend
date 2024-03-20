@@ -122,6 +122,7 @@ const BankDetails = ({ handleStep, step }) => {
         postcode: values.postcode,
         city: values.city,
         state: values.state,
+        address:values.address,
         // country_code: data.country_code,
         country: values.country
       }
