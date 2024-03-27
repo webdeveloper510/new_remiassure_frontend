@@ -1504,7 +1504,7 @@ p.icon-acc {
         border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 67.27px;
         height: 50px;
-        padding: 10px 30px;
+        padding: 10px 15px;
     }
     section.sigupsec row {
         align-items: center;
@@ -1569,7 +1569,7 @@ label.form-check-label {
     border: 1px solid #EAEAEA;
     border-radius: 67.27px;
     height: 50px;
-    padding: 10px 30px;
+    padding: 10px 15px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
@@ -1577,7 +1577,7 @@ label.form-check-label {
     border: 1px solid rgba(36, 12, 12, 0.2);
     border-radius: 67.27px;
     height: 50px;
-    padding: 10px 30px;
+    padding: 10px 15px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
 }

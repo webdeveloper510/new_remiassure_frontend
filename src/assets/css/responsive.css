@@ -636,8 +636,19 @@ height: auto !important;
 }
 
 @media screen and (max-width: 767px) {
+    .row.kustom_mobile_signup.margin0 select.form-control.form-select.bg-transparent {
+        margin-bottom: 10px;
+    }
     .col-md-8.full-col button.profile-form-button {
     margin-top: 10px !important;
+}
+.kustom_mobile_signup input {
+    border-radius: 67.27px !important;
+    height: 50px;
+    padding: 10px 30px;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    text-transform: capitalize;
 }
     .row.each-row.remove_mb {
         margin-top: 0px;
@@ -919,3 +930,16 @@ height: auto !important;
 p.send-text span {
     margin-left: 4px;
 }
+
+
+
+@media only screen and (min-width: 992px) and (max-width: 1150px)  {
+    
+    .col-md-6.email-row {
+        width: 100%;
+    }
+    
+    .col-md-6.phone-row {
+        width: 100%;
+    }
+    }
